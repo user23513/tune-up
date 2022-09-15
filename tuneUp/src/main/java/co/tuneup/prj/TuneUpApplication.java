@@ -20,6 +20,11 @@ public class TuneUpApplication {
 		return "main/main";
 	}
 	
-	
+
+	@GetMapping("/login")
+	public String loginForm() {
+		return "login/loginForm";
+	}
+
 
 }

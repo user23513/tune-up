@@ -19,5 +19,7 @@ public class TuneUpApplication {
 	public String main() {
 		return "main/main";
 	}
+	
+	
 
 }

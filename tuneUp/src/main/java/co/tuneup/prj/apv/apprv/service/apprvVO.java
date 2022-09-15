@@ -1,6 +1,6 @@
 package co.tuneup.prj.apv.apprv.service;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +13,8 @@ public class apprvVO { //전자결재
 	String wrtr; //작성자
 	String empNo; //사번
 	String ttl; //제목
-	Date dttm; //작성일시
-	Date modDttm; //수정일시
+	Timestamp dttm; //작성일시
+	Timestamp modDttm; //수정일시
 	String cntn; //결재내용
 	String atchNo; //첨부파일번호
 }

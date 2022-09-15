@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ <main layout:fragment="content">
+	<table border="1">
+		<thead>
+			<tr>
+				<th>사번</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="emp : ${empList}">
+				<td th:text="${emp.empNo}"></td>
+			</tr>
+		</tbody>
+	</table>
+	</main>
+</body>
+</html>

@@ -3,8 +3,8 @@ package co.tuneup.prj.com.emailreceiver.service;
 import java.sql.Timestamp;
 
 public class EmailReceiverVO {
-	public String receiverEmail;
-	public Timestamp dttm;
-	public int sendNo;
-	public String senderEmail;
+	 String receiverEmail;	//받는사람 이메일
+	 Timestamp dttm;	//수신일시
+	 int sendNo;	//발송번호
+	 String senderEmail;	//보낸사람 이메일
 }

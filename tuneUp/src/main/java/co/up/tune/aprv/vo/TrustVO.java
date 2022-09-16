@@ -1,4 +1,4 @@
-package co.up.tune.apv.vo;
+package co.up.tune.aprv.vo;
 
 import java.sql.Date;
 

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>전자결재 - 관리 기능</title>
+</head>
+<body>
+	<!-- ======= Main ======= -->
+	<main id="main" class="main" layout:fragment="content">
+
+		<div class="pagetitle">
+			<h1>전자결재</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="aprvList">나의 신청</a></li>
+					<li class="breadcrumb-item"><a href="aprvr">나의 승인</a></li>
+					<li class="breadcrumb-item active">관리 기능</li>
+				</ol>
+			</nav>
+		</div>
+		<!-- End Page Title -->
+
+		<section class="section">
+
+			<div class="card">
+				<div class="card-body">
+					<br>
+
+					<!-- Bordered Tabs -->
+					<ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab"
+						role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="list-tab"
+								data-bs-toggle="tab" data-bs-target="#bordered-list"
+								type="button" role="tab" aria-controls="list"
+								aria-selected="true">전체결제목록</button>
+						</li>
+
+					</ul>
+					<div class="tab-content pt-2" id="borderedTabContent">
+						<div class="tab-pane fade show active" id="bordered-list"
+							role="tabpanel" aria-labelledby="list-tab">
+							<!-- List Tabs -->
+
+							<!-- Default Card -->
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">전체 결제 목록</h5>
+									<p class="card-text">
+										전자결재 목록입니다.<br> 전체 문서를 조회할 수 있습니다
+									</p>
+
+
+									<div class="search-bar">
+										<form class="search-form d-flex align-items-center"
+											method="POST" action="#">
+											<input type="text" name="query" placeholder="Search"
+												title="Enter search keyword">
+											<button type="button" title="Search" class="btn btn-primary"
+												data-bs-toggle="modal" data-bs-target="#scrollingModal">
+												<i class="bi bi-search"></i>
+											</button>
+										</form>
+									</div>
+									<!-- End Search Bar -->
+								</div>
+							</div>
+							<!-- End Default Card -->
+
+							<ul class="nav nav-tabs" id="myTab1" role="tablist">
+								<li class="nav-item" role="presentation">
+									<button class="nav-link active" id="ing-tab"
+										data-bs-toggle="tab" data-bs-target="#ing" type="button"
+										role="tab" aria-controls="ing" aria-selected="true">진행</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="all-tab" data-bs-toggle="tab"
+										data-bs-target="#all" type="button" role="tab"
+										aria-controls="all" aria-selected="false">전체</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="fin-tab" data-bs-toggle="tab"
+										data-bs-target="#fin" type="button" role="tab"
+										aria-controls="fin" aria-selected="false">완료</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="reject-tab" data-bs-toggle="tab"
+										data-bs-target="#reject" type="button" role="tab"
+										aria-controls="reject" aria-selected="false">반려</button>
+								</li>
+							</ul>
+							<div class="tab-content pt-2" id="myTab1Content">
+								<div class="tab-pane fade show active" id="ing" role="tabpanel"
+									aria-labelledby="ing-tab">
+									ing
+
+									<!-- Table with hoverable rows -->
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Position</th>
+												<th scope="col">Age</th>
+												<th scope="col">Start Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td>Brandon Jacob</td>
+												<td>Designer</td>
+												<td>28</td>
+												<td>2016-05-25</td>
+											</tr>
+											<tr>
+												<th scope="row">2</th>
+												<td>Bridie Kessler</td>
+												<td>Developer</td>
+												<td>35</td>
+												<td>2014-12-05</td>
+											</tr>
+											<tr>
+												<th scope="row">3</th>
+												<td>Ashleigh Langosh</td>
+												<td>Finance</td>
+												<td>45</td>
+												<td>2011-08-12</td>
+											</tr>
+											<tr>
+												<th scope="row">4</th>
+												<td>Angus Grady</td>
+												<td>HR</td>
+												<td>34</td>
+												<td>2012-06-11</td>
+											</tr>
+											<tr>
+												<th scope="row">5</th>
+												<td>Raheem Lehner</td>
+												<td>Dynamic Division Officer</td>
+												<td>47</td>
+												<td>2011-04-19</td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- End Table with hoverable rows -->
+									<!-- Pagination with icons -->
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item"><a class="page-link" href="#"
+												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+											</a></li>
+											<li class="page-item"><a class="page-link" href="#">1</a></li>
+											<li class="page-item"><a class="page-link" href="#">2</a></li>
+											<li class="page-item"><a class="page-link" href="#">3</a></li>
+											<li class="page-item"><a class="page-link" href="#"
+												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+											</a></li>
+										</ul>
+									</nav>
+									<!-- End Pagination with icons -->
+
+
+								</div>
+								<div class="tab-pane fade" id="all" role="tabpanel"
+									aria-labelledby="all-tab">
+									all
+									<!-- Table with hoverable rows -->
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Position</th>
+												<th scope="col">Age</th>
+												<th scope="col">Start Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td>Brandon Jacob</td>
+												<td>Designer</td>
+												<td>28</td>
+												<td>2016-05-25</td>
+											</tr>
+											<tr>
+												<th scope="row">2</th>
+												<td>Bridie Kessler</td>
+												<td>Developer</td>
+												<td>35</td>
+												<td>2014-12-05</td>
+											</tr>
+											<tr>
+												<th scope="row">3</th>
+												<td>Ashleigh Langosh</td>
+												<td>Finance</td>
+												<td>45</td>
+												<td>2011-08-12</td>
+											</tr>
+											<tr>
+												<th scope="row">4</th>
+												<td>Angus Grady</td>
+												<td>HR</td>
+												<td>34</td>
+												<td>2012-06-11</td>
+											</tr>
+											<tr>
+												<th scope="row">5</th>
+												<td>Raheem Lehner</td>
+												<td>Dynamic Division Officer</td>
+												<td>47</td>
+												<td>2011-04-19</td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- End Table with hoverable rows -->
+
+									<!-- Pagination with icons -->
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item"><a class="page-link" href="#"
+												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+											</a></li>
+											<li class="page-item"><a class="page-link" href="#">1</a></li>
+											<li class="page-item"><a class="page-link" href="#">2</a></li>
+											<li class="page-item"><a class="page-link" href="#">3</a></li>
+											<li class="page-item"><a class="page-link" href="#"
+												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+											</a></li>
+										</ul>
+									</nav>
+									<!-- End Pagination with icons -->
+
+								</div>
+								<div class="tab-pane fade" id="fin" role="tabpanel"
+									aria-labelledby="fin-tab">
+									fin
+
+									<!-- Table with hoverable rows -->
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Position</th>
+												<th scope="col">Age</th>
+												<th scope="col">Start Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td>Brandon Jacob</td>
+												<td>Designer</td>
+												<td>28</td>
+												<td>2016-05-25</td>
+											</tr>
+											<tr>
+												<th scope="row">2</th>
+												<td>Bridie Kessler</td>
+												<td>Developer</td>
+												<td>35</td>
+												<td>2014-12-05</td>
+											</tr>
+											<tr>
+												<th scope="row">3</th>
+												<td>Ashleigh Langosh</td>
+												<td>Finance</td>
+												<td>45</td>
+												<td>2011-08-12</td>
+											</tr>
+											<tr>
+												<th scope="row">4</th>
+												<td>Angus Grady</td>
+												<td>HR</td>
+												<td>34</td>
+												<td>2012-06-11</td>
+											</tr>
+											<tr>
+												<th scope="row">5</th>
+												<td>Raheem Lehner</td>
+												<td>Dynamic Division Officer</td>
+												<td>47</td>
+												<td>2011-04-19</td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- End Table with hoverable rows -->
+
+									<!-- Pagination with icons -->
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item"><a class="page-link" href="#"
+												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+											</a></li>
+											<li class="page-item"><a class="page-link" href="#">1</a></li>
+											<li class="page-item"><a class="page-link" href="#">2</a></li>
+											<li class="page-item"><a class="page-link" href="#">3</a></li>
+											<li class="page-item"><a class="page-link" href="#"
+												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+											</a></li>
+										</ul>
+									</nav>
+									<!-- End Pagination with icons -->
+
+								</div>
+								<div class="tab-pane fade" id="reject" role="tabpanel"
+									aria-labelledby="reject-tab">
+									reject
+
+									<!-- Table with hoverable rows -->
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Position</th>
+												<th scope="col">Age</th>
+												<th scope="col">Start Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td>Brandon Jacob</td>
+												<td>Designer</td>
+												<td>28</td>
+												<td>2016-05-25</td>
+											</tr>
+											<tr>
+												<th scope="row">2</th>
+												<td>Bridie Kessler</td>
+												<td>Developer</td>
+												<td>35</td>
+												<td>2014-12-05</td>
+											</tr>
+											<tr>
+												<th scope="row">3</th>
+												<td>Ashleigh Langosh</td>
+												<td>Finance</td>
+												<td>45</td>
+												<td>2011-08-12</td>
+											</tr>
+											<tr>
+												<th scope="row">4</th>
+												<td>Angus Grady</td>
+												<td>HR</td>
+												<td>34</td>
+												<td>2012-06-11</td>
+											</tr>
+											<tr>
+												<th scope="row">5</th>
+												<td>Raheem Lehner</td>
+												<td>Dynamic Division Officer</td>
+												<td>47</td>
+												<td>2011-04-19</td>
+											</tr>
+										</tbody>
+									</table>
+									<!-- End Table with hoverable rows -->
+
+									<!-- Pagination with icons -->
+									<nav aria-label="Page navigation example">
+										<ul class="pagination">
+											<li class="page-item"><a class="page-link" href="#"
+												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+											</a></li>
+											<li class="page-item"><a class="page-link" href="#">1</a></li>
+											<li class="page-item"><a class="page-link" href="#">2</a></li>
+											<li class="page-item"><a class="page-link" href="#">3</a></li>
+											<li class="page-item"><a class="page-link" href="#"
+												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+											</a></li>
+										</ul>
+									</nav>
+									<!-- End Pagination with icons -->
+
+								</div>
+							</div>
+
+
+							<!-- End List Tabs -->
+						</div>
+					</div>
+					<!-- End Bordered Tabs -->
+
+				</div>
+			</div>
+
+
+
+
+
+
+
+		</section>
+
+
+		<!-- Scrolling Modal -->
+
+		<div class="modal fade" id="scrollingModal" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Scrolling Modal</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body" style="min-height: 750px;">Non omnis
+						incidunt qui sed occaecati magni asperiores est mollitia.</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- End Scrolling Modal-->
+
+
+
+
+
+
+	</main>
+	<!-- End #main -->
+</body>
+</html>

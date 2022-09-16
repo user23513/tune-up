@@ -7,7 +7,7 @@
 		<version>2.7.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>co.tuneup.prj</groupId>
+	<groupId>co.up.tune</groupId>
 	<artifactId>tuneUp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tuneUp</name>

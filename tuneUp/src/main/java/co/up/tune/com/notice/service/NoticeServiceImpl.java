@@ -11,8 +11,12 @@ import co.up.tune.com.vo.CommunityVO;
 @Service
 public class NoticeServiceImpl implements NoticeService {
 
-	@Autowired
-	NoticeMapper map;
+	
+	
+	 @Autowired 
+	 NoticeMapper map;
+	
+	 
 	
 	@Override
 	public List<CommunityVO> noticeList() {
@@ -29,7 +33,7 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public int noticeInsert(CommunityVO vo) {
 		// 공지사항 입력
-		return map.noticeInsert(vo);
+		return 0;
 	}
 
 	@Override

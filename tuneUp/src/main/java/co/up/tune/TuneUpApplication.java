@@ -27,7 +27,7 @@ public class TuneUpApplication {
 	
 	@GetMapping("/prjPost")
 	public String testPrj() {
-		return "prj/prjPost";
+		return "prj/post/prjPost";
 	}
 	
 

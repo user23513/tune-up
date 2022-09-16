@@ -3,9 +3,9 @@ package co.tuneup.prj.prj.todolist.service;
 import java.sql.Date;
 
 public class TodolistVO {
-	private int todoNo;
-	private String cntn;
-	private String cmpltYn;
-	private Date edt;
-	private int postNo;
+	 int todoNo;	//상세목록 번호
+	 String cntn;	//내용
+	 String cmpltYn;	//완료여부
+	 Date edt;		//종료일
+	 int postNo;	//게시글 번호
 }

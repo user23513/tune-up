@@ -1,11 +1,12 @@
 package co.tuneup.prj.prj.todo.service;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class TodoVO {
-	private int postNo;
-	private String empNo;
-	private String ttl;
-	private Date dttm;
-	private int prjNo;
+	 int postNo;	//게시글번호
+	 String empNo;	//사번
+	 String ttl;	//제목
+	 String wrtr;	//작성자
+	 Timestamp dttm; 	//작성일시	
+	 int prjNo;		//프로젝트번호
 }

@@ -20,15 +20,6 @@ public class TuneUpApplication {
 		return "main/main";
 	}
 	
-	@GetMapping("/myProject")
-	public String myProject() {
-		return "prj/myProject";
-	}
-	
-	@GetMapping("/prjPost")
-	public String testPrj() {
-		return "prj/prjPost";
-	}
-	
+
 
 }

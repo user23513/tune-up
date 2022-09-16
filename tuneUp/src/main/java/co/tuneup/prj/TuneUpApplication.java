@@ -23,7 +23,12 @@ public class TuneUpApplication {
 
 	@GetMapping("/login")
 	public String loginForm() {
-		return "login/loginForm";
+		return "member/loginForm";
+	}
+	
+	@GetMapping("/signup")
+	public String signUpForm() {
+		return "member/signUpForm";
 	}
 
 

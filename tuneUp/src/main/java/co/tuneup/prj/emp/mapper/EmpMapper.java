@@ -2,7 +2,7 @@ package co.tuneup.prj.emp.mapper;
 
 import java.util.List;
 
-import co.tuneup.prj.emp.service.EmpVO;
+import co.tuneup.prj.emp.emp.service.EmpVO;
 
 
 public interface EmpMapper {

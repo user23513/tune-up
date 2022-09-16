@@ -41,5 +41,20 @@ public class TuneUpApplication {
 		return "prj/prjPost";
 	}
 	
+	@GetMapping("/aprvList")
+	public String aprvList() {
+		return "aprv/aprvList";
+	}
+	
+	@GetMapping("/aprvr")
+	public String aprvr() {
+		return "aprv/aprvr";
+	}
+	
+	@GetMapping("/aprvAdmin")
+	public String aprvAdmin() {
+		return "aprv/aprvAdmin";
+	}
+	
 
 }

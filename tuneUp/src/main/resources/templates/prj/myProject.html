@@ -48,10 +48,10 @@
 
 		<div class="pagetitle">
 
-			<h1>내프로젝트</h1>
+			<h1>내 프로젝트</h1>
 			<nav>
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+					<li class="breadcrumb-item"><a href="/">Home</a></li>
 					<li class="breadcrumb-item">내 프로젝트</li>
 				</ol>
 			</nav>
@@ -60,11 +60,54 @@
 
 		<section class="section">
 			<div class="row align-items-top">
-				<div class="col-lg-6">
+				<div class="col-lg-5">
 
+						
+						<!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="ongoing-tab" data-bs-toggle="tab" data-bs-target="#bordered-ongoing" type="button" role="tab" aria-controls="ongoing" aria-selected="true">진행중</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="finished-tab" data-bs-toggle="tab" data-bs-target="#bordered-finished" type="button" role="tab" aria-controls="finished" aria-selected="false">완료</button>
+                </li>
+               
+              </ul>
+              
+              <div class="tab-content pt-2" id="borderedTabContent" >
+                <div class="tab-pane fade show active" id="bordered-ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
+					<div class="card">
+            <div class="card-header">어쩌구 저쩌구 프로젝트</div>
+            <div class="card-body">
+              <h5 class="card-title">대충 진행중인 프로젝트 설명하는 본문 </h5>
+            
+            </div>
+            <div class="card-footer">
+              <i class="bi bi-people-fill"> 5 </i>
+            </div>
+          </div><!-- End Card with header and footer -->
+                </div>
+                <div class="tab-pane fade" id="bordered-finished" role="tabpanel" aria-labelledby="finished-tab">
+				<div class="card">
+            <div class="card-header">암튼 종료됐음</div>
+            <div class="card-body">
+              <h5 class="card-title">이미 끝난 프로젝트임</h5>
+            </div>
+            <div class="card-footer">
+            <i class="bi bi-people-fill"> 17 </i>
+              
+            </div>
+          </div><!-- End Card with header and footer -->
+                </div>
+                
+              </div><!-- End Bordered Tabs -->
 
-					<!-- Bordered Tabs -->
-					<ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab"
+            </div>
+          </div>
+						
+
+					<!-- <!-- Bordered Tabs -->
+					<!-- <ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab"
 						role="tablist">
 						<li class="nav-item" role="presentation">
 							<button class="nav-link active" id="ongoing-tab"
@@ -89,7 +132,9 @@
 							<div class="col-lg-8">
 								<div class="card" id="ongoing" role="tabpanel"
 									aria-labelledby="profile-tab">
-									<div class="card-header" onclick="location.href='prjPost'">어쩌구 저쩌구 프로젝트</div>
+									<div class="card-header">
+										어쩌구 저쩌구 프로젝트
+									</div>
 									<div class="card-body" >
 										<h5 class="card-title">
 											대충 프로젝트 설명하는 본문임<br>
@@ -106,10 +151,16 @@
 								</div>
 							</div>
 
-						</div>
+						</div> 
+						
+						
+			
+          
+						
+						
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</section>
 
 

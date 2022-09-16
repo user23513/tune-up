@@ -40,21 +40,12 @@
 <body>
 <main id="main" class="main" layout:fragment="content">
 
-    <div class="pagetitle">
-      <h1>프로젝트 - 글</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item">내 프로젝트</li>
-          <li class="breadcrumb-item active">글</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+    
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#fullscreenModal">
 				글쓰기
               </button>
-
-              <div class="modal fade" id="fullscreenModal" tabindex="-1">
+		
+              <!-- <div class="modal fade" id="fullscreenModal" tabindex="-1">
                 <div class="modal-dialog modal-fullscreen">
                   <div class="modal-content">
                     <div class="modal-header">
@@ -64,6 +55,7 @@
                     <div class="modal-body">
 						<input type="text" placeholder="제목을 입력하세요"></input>
 						<hr>
+						
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -71,7 +63,41 @@
                     </div>
                   </div>
                 </div>
+                </div> -->
+                
+                
+                <div class="modal fade" id="fullscreenModal" tabindex="-1">
+                <div class="modal-dialog modal-fullscreen">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title"><label>게시물 작성</label></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    
+                    
+                    <div class="modal-body">
+						<table>
+							<tr>
+							<div>
+								
+								<input type="text">
+								
+								</div>
+								</tr> 
+								<br>
+						</table>
+                    </div>
+                    
+                    
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                      <button type="submit" class="btn btn-primary">등록</button>
+                    </div>
+                  </div>
                 </div>
+                </div>
+                
+                
                 </main>
 </body>
 </html>

@@ -31,20 +31,14 @@ public class TuneUpApplication {
 		return "member/signUpForm";
 	}
 	
-	
-	@GetMapping("/aprvList")
-	public String aprvList() {
-		return "aprv/aprvList";
+	@GetMapping("/myProject")
+	public String myProject() {
+		return "prj/myProject";
 	}
 	
-	@GetMapping("/aprvr")
-	public String aprvr() {
-		return "aprv/aprvr";
-	}
-	
-	@GetMapping("/aprvAdmin")
-	public String aprvAdmin() {
-		return "aprv/aprvAdmin";
+	@GetMapping("/prjPost")
+	public String testPrj() {
+		return "prj/prjPost";
 	}
 	
 

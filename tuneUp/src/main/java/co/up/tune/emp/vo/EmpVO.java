@@ -28,4 +28,5 @@ public class EmpVO {
 	String st;  //상태
 	String mng;  //관리자
     Date fDate;  //퇴사일
+    String zip; //우편번호
 }

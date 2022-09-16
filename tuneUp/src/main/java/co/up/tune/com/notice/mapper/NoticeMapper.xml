@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.com.notice.mapper.NoticeMapper">
+
+	<select id="noticeList" resultType="CommunityVO">
+		SELECT * 
+		FROM COMMUNITY
+		WHERE TYP=101
+		ORDER BY POST_NO
+	</select>
+	
+	<select id="noticeSelect" resultType="CommunityVO">
+		SELECT *
+		FROM COMMUNITY
+		WHERE POST_NO=#{postNo}
+	</select>
+	
+	<insert id="noticeInsert" parameterType="CommunityVO">
+		INSERT INTO COMMUNITY
+		VALUES (PNO_SEQ.NEXTVAL, '제목', '관리자', #{cntn}, SYSDATE, '파일이름', '파일위치', 0, '긴급공지', '101', '사번')
+	</insert>
+
+</mapper>

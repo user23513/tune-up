@@ -30,6 +30,16 @@ public class TuneUpApplication {
 	public String signUpForm() {
 		return "member/signUpForm";
 	}
-
+	
+	@GetMapping("/myProject")
+	public String myProject() {
+		return "prj/myProject";
+	}
+	
+	@GetMapping("/prjPost")
+	public String testPrj() {
+		return "prj/prjPost";
+	}
+	
 
 }

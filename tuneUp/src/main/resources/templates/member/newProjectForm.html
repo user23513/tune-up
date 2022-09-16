@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>최종프로젝트</title>
+</head>
+<body>
+	<main layout:fragment="content" id="main" class="main">
+		  <div class="pagetitle">
+      <h1>Create a New Project</h1>
+    </div><!-- End Page Title -->
+    
+     <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">project</h5>
+              
+              <form>
+               <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Project Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="nm" name="nm">
+                  </div>
+                </div>
+                <!--상태 버튼-->
+                <div>
+                	<button type="button" class="btn btn-outline-primary">요청</button>
+                	<button type="button" class="btn btn-outline-primary">진행</button>
+                	<button type="button" class="btn btn-outline-primary">완료</button>
+                </div>
+                
+                <!--프로젝트 팀원 추가-->
+                <div>
+                 어떤식으로 해야되지 ..?
+                 사람 추가를 우쨰..??
+                </div>
+                
+                 <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">시작일</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="sdt" name="sdt">
+                  </div>
+                </div>
+                
+                 <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">종료일</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="edt" name="edt">
+                  </div>
+                </div>
+                
+                <div class="row mb-3">
+                  <label for="inputPassword" class="col-sm-2 col-form-label">내용</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" style="height: 100px"></textarea>
+                  </div>
+                </div>
+                
+                <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">프로젝트 생성</button>
+                    </div>
+              
+              </form>
+            
+                 
+                 
+			</div>
+          </div>
+       </div>
+      </div>
+    </section>
+	</main>
+</body>
+</html>

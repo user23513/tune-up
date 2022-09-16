@@ -20,17 +20,6 @@ public class TuneUpApplication {
 		return "main/main";
 	}
 	
-
-	@GetMapping("/login")
-	public String loginForm() {
-		return "member/loginForm";
-	}
-	
-	@GetMapping("/signup")
-	public String signUpForm() {
-		return "member/signUpForm";
-	}
-	
 	@GetMapping("/myProject")
 	public String myProject() {
 		return "prj/myProject";

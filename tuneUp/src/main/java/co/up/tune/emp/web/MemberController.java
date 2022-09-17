@@ -36,13 +36,4 @@ public class MemberController {
 		return "member/findPassword";
 	}
 	
-	@GetMapping("newproject")
-	public String newProjectForm() {
-		return "member/newProjectForm";
-	}
-	
-	@GetMapping("projectform")
-	public String ProjectForm() {
-		return "prj/businessForm";
-	}
 }

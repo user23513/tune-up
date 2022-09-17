@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ProjectController {
 	
-	@GetMapping("/prjPost")
-	public String prjPost() {
-		return "prj/post/prjPost";
+	//내 프로젝트 목록
+	@GetMapping("/myProject")
+	public String myProject() {
+		return "prj/myProject";
 	}
 	
 

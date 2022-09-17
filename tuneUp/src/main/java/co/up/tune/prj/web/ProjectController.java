@@ -11,4 +11,15 @@ public class ProjectController {
 	public String prjPost() {
 		return "prj/post/prjPost";
 	}
+	
+
+	@GetMapping("newproject")
+	public String newProjectForm() {
+		return "member/newProjectForm";
+	}
+	
+	@GetMapping("projectform")
+	public String ProjectForm() {
+		return "prj/businessForm";
+	}
 }

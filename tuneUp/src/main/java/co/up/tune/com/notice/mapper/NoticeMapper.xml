@@ -4,9 +4,13 @@
 
 	<select id="noticeList" resultType="co.up.tune.com.vo.CommunityVO">
 		SELECT * 
-		FROM COMMUNITY
-		WHERE TYP=101
-		ORDER BY POST_NO
+		FROM (
+    		SELECT * 
+    		FROM COMMUNITY
+    		WHERE TYP=101
+    		ORDER BY POST_NO 
+    		)
+		ORDER BY EMERG DESC
 	</select>
 	
 	<select id="noticeSelect" resultType="co.up.tune.com.vo.CommunityVO" parameterType="co.up.tune.com.vo.CommunityVO">
@@ -15,9 +19,33 @@
 		WHERE POST_NO=#{postNo}
 	</select>
 	
+	<insert id="noticeHitUpdate" parameterType="co.up.tune.com.vo.CommunityVO">
+		UPDATE COMMUNITY 
+		SET HIT = HIT+1 
+		WHERE POST_NO = #{postNo}
+		AND TYP=101
+	</insert>
+	
 	<insert id="noticeInsert" parameterType="co.up.tune.com.vo.CommunityVO">
 		INSERT INTO COMMUNITY
-		VALUES (PNO_SEQ.NEXTVAL, '제목', '관리자', #{cntn}, SYSDATE, '파일이름', '파일위치', 0, '긴급공지', '101', '사번')
+		VALUES (PNO_SEQ.NEXTVAL, #{ttl}, '관리자', #{cntn}, SYSDATE, #{fNm}, #{fPath}, 0, #{emerg}, '101', '사번')
 	</insert>
+	
+	<update id="noticeUpdate" parameterType="co.up.tune.com.vo.CommunityVO">
+		UPDATE COMMUNITY
+		<set>
+			<if test="ttl != null">TTL=#{ttl},</if>
+			<if test="cntn != null">CNTN=#{cntn},</if>
+			<if test="fNm != null">F_NM=#{fNm},</if>
+			<if test="fPath != null">F_PATH=#{fPath},</if>
+			<if test="emerg != null">EMERG=#{emerg}</if>
+		</set>
+		WHERE POST_NO=#{postNo}
+	</update>
+	
+	<delete id="noticeDelete" parameterType="co.up.tune.com.vo.CommunityVO">
+		DELETE FROM COMMUNITY
+		WHERE POST_NO = #{postNo}
+	</delete>
 
 </mapper>

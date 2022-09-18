@@ -10,13 +10,9 @@ import co.up.tune.com.vo.CommunityVO;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
-
 	
-	
-	 @Autowired 
-	 NoticeMapper map;
-	
-	 
+	@Autowired 
+	NoticeMapper map;
 	
 	@Override
 	public List<CommunityVO> noticeList() {
@@ -27,37 +23,38 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public CommunityVO noticeSelect(CommunityVO vo) {
 		// 공지사항 상세조회
-		return null;
+		return map.noticeSelect(vo);
 	}
 
 	@Override
 	public int noticeInsert(CommunityVO vo) {
 		// 공지사항 입력
-		return 0;
+		return map.noticeInsert(vo);
 	}
 
 	@Override
 	public int noticeUpdate(CommunityVO vo) {
 		// 공지사항 수정
-		return 0;
+		System.out.println("no:"+vo.getPostNo());
+		return map.noticeUpdate(vo);
 	}
 
 	@Override
 	public int noticeDelete(CommunityVO vo) {
 		// 공지사항 삭제
-		return 0;
+		return map.noticeDelete(vo);
 	}
 
 	@Override
 	public List<CommunityVO> noticeSearch(String key, String val) {
 		// 공지사항 검색
-		return null;
+		return noticeSearch(key, val);
 	}
 
 	@Override
 	public int noticeHitUpdate(CommunityVO vo) {
 		// 공지사항 조회수 업데이트
-		return 0;
+		return map.noticeHitUpdate(vo);
 	}
 
 	

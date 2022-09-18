@@ -81,42 +81,81 @@ $(function(){
     });
 
 
-    $("#save").on("click", function(){
+    //게시글 수정
+    $("#update").on("click", function(){
+    	//게시글 내용
         let content = tinymce.activeEditor.getContent();
-        console.log(content);
+        $("#cntn").val(content);
+        
         $("#frm").submit();
     });
     
 });
 </script>
+<style>
+	.center{
+		text-align: center;
+	}
+	
+	.checkLo{
+		position: relative;
+        left: 50px;
+        top: 5px;
+        
+	}
+	
+	.right{
+		position: relative;
+		left: 89%;
+	}
+</style>
 </head>
 <body>
 	<main layout:fragment="content">
+		<div class="pagetitle">
+	      <h1>공지사항 수정</h1>
+	    </div><br>
+	    <!-- End Page Title -->
+	    
 		<div>
-			<table class="table">
-				<tr>
-					<th>제목</th>
-					<td colspan="4">
-						<input type="text" id="ttl" name="ttl" style="width: 80%">
-					</td>
-					<td>
-						<input type="checkbox" ><span style="padding-left: 10px">긴급공지</span>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="6">
-						<form id="frm" method="post" action="noticeInsert">
-							<textarea id="cntn" name="cntn"></textarea>
-							<button type="button" id="save">게시글 저장</button>
-						</form>
-					</td>
-				</tr>
-			</table>
+			<form id="frm" method="post" action="freeUpdate" enctype="multipart/form-data">
+				<table class="table">
+					<tr>
+						<td colspan="4">
+							<div class="row mb-3">
+			                  <label for="ttl" class="col-sm-2 col-form-label center"><b>제목</b></label>
+			                  <div class="col-sm-10">
+			                    <input type="text" class="form-control" id="ttl" name="ttl" th:value="${f.ttl}">
+			                  </div>
+			                </div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="5">
+							<textarea id="cntn" name="cntn" th:utext="${f.cntn}"></textarea>
+						</td>
+					</tr>
+					<tr>	
+						<td colspan="5">
+							<input type="file" id="file" name="file">
+						</td>
+					</tr>
+				</table>
+				
+				<div>
+					<span>
+						<a href="freeList" class="btn btn-primary">목록</a>
+					</span>
+					<span class="right">
+						<button type="button" id="update" class="btn btn-primary">수정</button>
+					</span>
+				</div>
+				
+				<div>
+					<input type="hidden" id="postNo" name="postNo" th:value="${f.postNo}">
+				</div>
+			</form>
 		</div>
-	
-	
-	
-	
 	</main>
 </body>
 </html>

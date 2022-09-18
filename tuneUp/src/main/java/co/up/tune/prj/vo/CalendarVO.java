@@ -2,6 +2,11 @@ package co.up.tune.prj.vo;
 
 import java.sql.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class CalendarVO {
 	 int calNo;		//캘린더 번호
 	 String empNo;	//사번

@@ -14,27 +14,27 @@ public class PropostServiceImpl implements PropostService {
 	PropostMapper map;
 
 	@Override
-	public List<PostVO> postList() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostVO> prjPostList() {
+		// 프로젝트 - 글 셀렉트 리스트
+		return map.prjPostList();
 	}
 
 	@Override
-	public int postInsert(PostVO vo) {
-		// TODO Auto-generated method stub
+	public int prjPostInsert(PostVO vo) {
+		// 프로젝트 - 글 등록
+		return map.prjPostInsert(vo);
+	}
+
+	@Override
+	public int prjPostUpdate(PostVO vo) {
+		// 프로젝트 - 글 수정
 		return 0;
 	}
 
 	@Override
-	public int postUpdate(PostVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int postDelete(PostVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int prjPostDelete(PostVO vo) {
+		// 프로젝트 - 글 삭제
+		return map.prjPostDelete(vo);
 	}
 	
 	

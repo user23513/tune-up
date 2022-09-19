@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import co.up.tune.emp.hr.service.HrService;
@@ -26,11 +25,12 @@ public class HrController {
 		return "emp/hr/empManage";
 	}
 	
-	@PostMapping("/empProfile")
-	public String empProfile(EmpVO vo, Model model) {
+	@RequestMapping("/empProfile")
+	public String empSelect(EmpVO vo, Model model) {
 		dao.empSelectList(vo);
-		model.addAttribute("empProfile", dao.empSelectList(vo));
+		model.addAttribute("e", dao.empSelectList(vo));
 		return "emp/hr/empProfile";
 	}
+	
 	
 }

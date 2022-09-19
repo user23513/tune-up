@@ -30,6 +30,7 @@ public class PropostController {
 //	}
 	
 	
+	
 	// 내 프로젝트 - 글 리스트
 	@GetMapping("/prjPostList")
 	public String prjPostList(Model model) {

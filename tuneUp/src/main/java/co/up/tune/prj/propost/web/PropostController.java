@@ -107,6 +107,11 @@ public class PropostController {
 			return "prj/post/prjMng";
 		}
 	
+	@GetMapping("aaa")
+	public String aaa() {
+		return"prj/post/test";
+	}
+	
 	
 	}
 

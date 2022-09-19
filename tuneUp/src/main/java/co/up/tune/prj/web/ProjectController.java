@@ -16,10 +16,10 @@ public class ProjectController {
 	public String newProjectForm() {
 		return "member/newProjectForm";
 	}
-
-	@GetMapping("projectform")
-	public String ProjectForm() {
-		return "prj/businessForm";
+	
+	@GetMapping("file")
+	public String attechmentFile() {
+		return "file/file";
 	}
 	
 

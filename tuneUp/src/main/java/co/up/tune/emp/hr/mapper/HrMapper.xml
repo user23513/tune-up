@@ -5,4 +5,19 @@
 		select * from emp
 		<!-- order by (dept||empNo) -->
 	</select>
+	<select id="empSearch" resultType="co.up.tune.emp.vo.EmpVO">
+		select * from emp
+		
+	</select>
+	<select id="empSelectList" resultType="co.up.tune.emp.vo.EmpVO">
+		select * from emp
+		where emp_no = #{empNo}	
+	</select>
+	<select id="managerList" resultType="co.up.tune.emp.vo.EmpVO">
+		select * from emp
+		<where>
+			<if test="mng !=null" />,
+			<if test="auth = 관리자"/>			
+		</where>
+	</select>
 </mapper>

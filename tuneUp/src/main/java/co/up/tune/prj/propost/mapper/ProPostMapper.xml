@@ -6,8 +6,6 @@
 	SELECT *
 	FROM POST 
 	ORDER BY POST_NO DESC
-	
-	
 	</select>
 	
 	<insert id="prjPostInsert" parameterType="co.up.tune.prj.vo.PostVO">
@@ -18,8 +16,19 @@
 		VALUES (PNO_SEQ.NEXTVAL,#{empNo},#{wrtr},#{ttl},#{cntn},sysdate,#{atchNo},#{prjNo}) 
 	</insert>
 	
-	<delete id="prjPostDelete">
+	<update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">
+		UPDATE POST
+		<set>
+			<if test="ttl != null">TTL=#{ttl},</if>
+			<if test="cntn != null">CNTN=#{cntn},</if>
+		</set>
+		WHERE POST_NO=26
+	</update>
+	
+	<delete id="prjPostDelete" parameterType="co.up.tune.prj.vo.PostVO">
 	DELETE FROM POST WHERE POST_NO = #{postNo}
 	</delete>
+	
+	
 	
 </mapper>

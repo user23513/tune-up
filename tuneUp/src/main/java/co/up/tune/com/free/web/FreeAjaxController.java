@@ -16,7 +16,9 @@ public class FreeAjaxController {
 	//댓글 등록
 	@PostMapping("/replyInsert")
 	public ReplyVO replyInsert(ReplyVO vo) {
-		return dao.replyInsert(vo);
+		dao.replyInsert(vo);
+		vo = dao.replySelect(vo);
+		return vo;
 	}
 
 }

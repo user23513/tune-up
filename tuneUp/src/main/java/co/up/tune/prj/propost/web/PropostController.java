@@ -30,6 +30,7 @@ public class PropostController {
 //	}
 	
 	
+	
 	// 내 프로젝트 - 글 리스트
 	@GetMapping("/prjPostList")
 	public String prjPostList(Model model) {
@@ -49,8 +50,8 @@ public class PropostController {
 	public String prjPostInsertForm() {
 		return "prj/post/postInsertForm";
 	}
-
 	
+	// 내프로젝트 - 글 작성
 	  @PostMapping("/prjPostInsert") 
 	  public String prjPostInsert(PostVO vo) {
 	  dao.prjPostInsert(vo); 
@@ -64,6 +65,23 @@ public class PropostController {
 		return "redirect:/prjPostList";
 		  
 	  }
+	  
+	//내 프로젝트 - 글 수정 폼
+	  @RequestMapping("/postUpdateForm")
+		public String prjPostUpdateForm() {
+			return "prj/post/postUpdateForm";
+		}
+	  
+	  //내 프로젝트 - 글 수정
+	  @RequestMapping("/prjPostUpdate")
+		public String prjPostUpdate(PostVO vo) {
+			vo.setWrtr("세션에서받아");
+			vo.setPostNo(11);
+			dao.prjPostUpdate(vo);
+			
+			return "redirect:/prjPostList";
+		}
+		
 	  
 //	  @RequestMapping("/prjPostDelete")
 //	  public String prjPostDelete(PostVO vo, Model model) {

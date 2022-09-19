@@ -6,10 +6,7 @@
 <meta charset="UTF-8">
 <title>내프로젝트-글</title>
 <style>
-#incd {
-	margin-left: 300px;
-	width: 900px;
-}
+
 
 .pagination {
 	margin-left: 300px;
@@ -18,6 +15,7 @@
 #ddbt {
 	color: gray;
 }
+
 </style>
 </head>
 <body>
@@ -27,11 +25,9 @@
 			<h1>
 				내 프로젝트
 				<div style="display: inline-block; margin: 0 5px; float: right;">
-					<button type="button" class="btn btn-outline-primary" onclick="location.href='postInsertForm'">글쓰기</button>
+					<button type="button" class="btn btn-outline-primary" onclick="location.href='postInsertForm'" >글쓰기</button>
 				</div>
 			</h1>
-
-
 		</div>
 
 		<section class="section">
@@ -79,7 +75,6 @@
 					</ul>
 
 					<!-- 글 목록 -->
-					<div class="col-lg-6">
 						<br>
 						<div class="tab-pane fade" id="pst" role="tabpanel"
 							aria-labelledby="pst-tab">
@@ -88,24 +83,49 @@
 								<div class="card" th:each="pj :${prjPostList}">
 									<div class="card-body">
 										<h3 class="card-title">
-											<span th:text="${pj.wrtr} + ${pj.dttm}"></span>
-											<a class="icon" href="#"
-												data-bs-toggle="dropdown"><i class="bi bi-three-dots"
-												id="ddbt" style="float: right"></i></a>
+											<span th:text="${pj.wrtr}	"></span>
+											<span th:text="${#dates.format(pj.dttm, 'yyyy-MM-dd')}"></span>
+										<!-- 드롭다운 아이콘 -->
+											<div class="filter" style="float: right">
+												<a class="icon" href="#" data-bs-toggle="dropdown"><i
+													class="bi bi-three-dots"></i></a>
 												
-												<!-- <button id="delete" onclick="prjPostDelete()" >삭제</button> -->
-												
-												
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-												style="float: right;">
-												<li><a class="dropdown-item" href="#">수정</a></li>
-												<li><a class="dropdown-item" href="#" onclick="prjPostDelete()">삭제</a></li>
-											</ul>
+												<!-- 드롭다운 수정삭제 펼치기 -->
+												<ul
+													class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" >
+													<li class="dropdown-header text-start" > Settings
+													</li>
+													
+													<li><a class="dropdown-item" href="#" style="text-align: center" onclick="location.href='postUpdateForm'">수정</a></li>
+
+											
+												<!-- <form id="upFrm" action="prjPostUpdate" method="get" >
+													<input type="hidden" id="postNo" name="postNo"
+														th:value="${pj.postNo}">
+														   <button id="delete" class="dropdown-item" style="text-align: center">수정</button>
+													</form> -->
+
+														<!-- <form id="upFrm" action="prjPostUpdate">
+													<input type="hidden" name="postNo" th:value="${pj.postNo}">
+													<button class="btn btn-primary w-100" type="button" id="up">수정</button>
+												</form> -->
+
+
+
+												<form id="delFrm" action="prjPostDelete" method="get" >
+													<input type="hidden" id="postNo" name="postNo"
+														th:value="${pj.postNo}">
+														   <button id="delete" class="dropdown-item" style="text-align: center">삭제</button>
+													</form>
+													
+												<!-- 	<li><a class="dropdown-item" href="#">삭제</a></li> -->
+												</ul>
+											</div>
+
+											
 										</h3>
 										<span th:text="${pj.ttl}" style="font-size: large;"></span><br><br>
 										<span th:text="${pj.cntn}" style="font-size: medium;"></span><br><br>
-										
 										<div class="row mb-3">
 											<div class="col-sm-10" style="float: right;">
 												<input type="text" class="form-control" >
@@ -157,7 +177,6 @@
 									</nav>
 								</div>
 							</div>
-						</div>
 					</div>
 				</div>
 		</section>
@@ -167,16 +186,13 @@
 
 	</main>
 	<script type="text/javascript">
-	function prjPostDelete() {
-		var result = confirm("게시글을 삭제하시겠습니까?");
-		if (result) {
-			var form = document.writeFrm;
-			form.method = "post";
-			form.action = "prjPostDelete";
-			form.submit();
-		}
-	}
+	$("#delete").on("click", e=>{
+		$("#delFrm").submit();
+	})
+	
+	
 
+		
 	</script>
 </body>
 </html>

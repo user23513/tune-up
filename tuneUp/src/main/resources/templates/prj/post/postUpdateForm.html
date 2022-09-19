@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>프로젝트-글</title>
+<style>
+	#cntn {
+	height: 300px;
+	clear: both;
+	}
+	
+	#smb {
+	clear: both;
+	}
+	
+	#flb {
+	clear: both;
+	}
+	
+	
+</style>
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="col-lg-6">
+
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">글 수정</h5>
+
+					
+					
+					
+				
+						<!-- 글 -->
+                   <form id="pstfrm" action="prjPostUpdate" method="get"
+                   	enctype="multipart/form-data">
+
+					<div>
+						<label class="col-sm-2 col-form-label" style="text-align: center">작성자</label>
+						<input type="text" id="prjPostWriter" name="wrtr" style="border: 0;"
+						th:value="세션에서받아"
+									 readonly>
+							
+					</div>
+				
+               		<div class="row mb-3"> 
+               		<label class="col-sm-2 col-form-label" style="text-align: center">제목</label>
+                  		<div class="col-sm-10 padding:10px" >
+                    	<input type="text" class="form-control" name="ttl" placeholder="제목을 입력하세요." id="prjPostTitle" >
+                    	</div>
+					   </div>                 	
+                    	
+                    <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label" style="text-align: center">내용</label>
+		                  <div class="col-sm-10" id="cntn">
+		                    <textarea class="form-control" name="cntn" placeholder="내용을 입력하세요." style="resize: none" id="cntn"></textarea>
+		                  </div>
+		                </div>
+							</form>
+							 
+							 <div class="row mb-3">
+		                  <div class="col-sm-12" id="flb">
+		                    <input class="form-control" type="file" id="formFile">
+		                  </div>
+		                </div>
+		                
+		               
+			</form>
+		                    
+		                    
+		                    
+		                    
+		                    
+		                    
+		                    
+		                    
+		                    
+		                    
+		                    
+		                    
+		                    
+                	</div>
+                	
+                	
+                	
+                	</div>
+                	</div>
+						
+					<!-- End Default Tabs -->
+
+				</div>
+			</div>
+	</main>
+<script type="text/javascript">
+	$("#up").on("click", e=>{
+		$("#upFrm").submit();
+	})
+	</script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 package co.up.tune.com.free.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import co.up.tune.com.free.service.FreeService;
 import co.up.tune.com.notice.service.FileService;
 import co.up.tune.com.vo.CommunityVO;
+import co.up.tune.com.vo.ReplyVO;
 
 @Controller
 public class FreeController {
@@ -46,14 +49,21 @@ public class FreeController {
 		
 		dao.freeInsert(vo);
 		
-		return "redirect:/free/freeList";
+		return "redirect:/freeList";
 	}
 	
 	//자유게시판 상세조회
 	@PostMapping("/freeSelect")
-	public String freeSelect(CommunityVO vo, Model model) {
-		dao.freeHitUpdate(vo);
-		model.addAttribute("f", dao.freeSelect(vo));
+	public String freeSelect(CommunityVO cvo, ReplyVO rvo, Model model) {
+		dao.freeHitUpdate(cvo);
+		model.addAttribute("f", dao.freeSelect(cvo));
+		
+		//댓글
+		rvo.setPostNo(cvo.getPostNo());
+		List<ReplyVO> list = new ArrayList<ReplyVO>();
+		//list = dao.replyList(rvo);
+		model.addAttribute("replyList", dao.replyList(rvo));
+		//System.out.println("no"+list.get(0).getCntn());
 		return "com/free/freeSelect";
 	}
 	
@@ -74,14 +84,14 @@ public class FreeController {
 					
 		dao.freeUpdate(vo);
 			
-		return "redirect:/free/freeList";
+		return "redirect:/freeList";
 	}
 	
 	//자유게시판 삭제
 	@PostMapping("/freeDelete")
 	public String freeDelete(CommunityVO vo) {
 		dao.freeDelete(vo);
-		return "redirect:/free/freeList";
+		return "redirect:/freeList";
 	}
 	
 	

@@ -8,12 +8,42 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
 <script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<!-- ========= -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
 <script>
 	$(document).ready(function() {
 		noticeSelect();
 		
 		//datatables
-		$('#noticeTable').DataTable();
+		$('#noticeTable').DataTable({
+			//컬럼 갯수
+			colums: [
+				{data:"icon"},
+				{data:"title"},
+				{data:"write"},
+				{data:"wdate"},
+				{data:"hit"}
+			],
+			//컬럼 넓이
+			columnDefs: [
+				{targets:0, width:20},
+				{targets:1, width:400},
+				{targets:2, width:50},
+				{targets:3, width:50},
+				{targets:4, width:30}
+			],
+			//표시 건수 기능 숨기기
+			lengthChange: false,
+			//정렬 기능 숨기기
+			ordering: false,
+			//정보 표시 숨기기
+			info: false
+			
+		});
 		
 		//공지글 상세조회
 		function noticeSelect() {
@@ -28,29 +58,35 @@
 	} );
 </script>
 <style>
-	.emerg{
-		background-color: red;
+	  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding : 0px;
+    margin-left: 0px;
+    display: inline;
+    border: 0px;
 	}
-	
-	table#jDataTable.dataTable tbody tr:hover 
-    {
-        background-color: #808080;
-    }
+	.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+	    border: 0px;
+	}
+	table, thead>th {
+		margin-left:auto;
+		margin-right:auto;
+	}
 </style>
 </head>
 <body>
 	<main layout:fragment="content">
+		<!-- Start Page Title -->
 		<div class="pagetitle">
 	      <h1>공지사항</h1>
 	    </div>
 	    <!-- End Page Title -->
 	    
-		<div>
-			<table id="noticeTable">
+		<div >
+			<table id="noticeTable" class="display center" style="width: 100%">
 				<thead>
 					<tr>
-						<th></th>
-						<th>제목</th>
+						<th><i class="ri-alarm-warning-line"></i></th>
+						<th><center>제목</center></th>
 						<th>작성자</th>
 						<th>작성일자</th>
 						<th>조회수</th>

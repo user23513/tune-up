@@ -1,85 +1,89 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
 <title>파일함 페이</title>
 </head>
 <body>
 	<main layout:fragment="content">
-		<div class="col-12">
-              <div class="card top-selling overflow-auto">
+		<div class="card">
+			<div class="card-body">
+				<h5 class="card-title">Table with hoverable rows</h5>
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
+				<!-- Table with hoverable rows -->
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Name</th>
+							<th scope="col">Position</th>
+							<th scope="col">Age</th>
+							<th scope="col">Start Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>Brandon Jacob</td>
+							<td>Designer</td>
+							<td>28</td>
+							<td>2016-05-25</td>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<td>Bridie Kessler</td>
+							<td>Developer</td>
+							<td>35</td>
+							<td>2014-12-05</td>
+						</tr>
+						<tr>
+							<th scope="row">3</th>
+							<td>Ashleigh Langosh</td>
+							<td>Finance</td>
+							<td>45</td>
+							<td>2011-08-12</td>
+						</tr>
+						<tr>
+							<th scope="row">4</th>
+							<td>Angus Grady</td>
+							<td>HR</td>
+							<td>34</td>
+							<td>2012-06-11</td>
+						</tr>
+						<tr>
+							<th scope="row">5</th>
+							<td>Raheem Lehner</td>
+							<td>Dynamic Division Officer</td>
+							<td>47</td>
+							<td>2011-04-19</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- End Table with hoverable rows -->
+				
+				<nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
 
-                    <li><a class="dropdown-item" href="#">프로젝트</a></li>
-                    <li><a class="dropdown-item" href="#">커뮤니티</a></li>
-                    <li><a class="dropdown-item" href="#">내 결재파일</a></li>
-                  </ul>
-                </div>
+			</div>
+		</div>
 
-                <div class="card-body pb-0">
-                  <h5 class="card-title">File <span>| 파일</span></h5>
-
-                  <table class="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">파일명</th>
-                        <th scope="col">파일 위치(프로젝트인지 결재인지 구분)</th>
-                        <th scope="col">등록자</th>
-                        <th scope="col">등록일자</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>							<!-- 이미지 대신에 체크박스, 파일로고 넣을 수 있으면 넣기  -->
-                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                        <td>$64</td>
-                        <td class="fw-bold">124</td>
-                        <td>$5,828</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                        <td>$46</td>
-                        <td class="fw-bold">98</td>
-                        <td>$4,508</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                        <td>$59</td>
-                        <td class="fw-bold">74</td>
-                        <td>$4,366</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                        <td>$32</td>
-                        <td class="fw-bold">63</td>
-                        <td>$2,016</td>
-                      </tr>
-                      <tr>
-                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-                        <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                        <td>$79</td>
-                        <td class="fw-bold">41</td>
-                        <td>$3,239</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-
-              </div>
-            </div>
 	</main>
 </body>
 </html>

@@ -33,12 +33,13 @@
 		            $(".wdate").html(res.dttm);
 		            $(".rcrtn").html(res.cntn);
 		            
+                    $("<tr>").append($("<td>").html(res.cntn))
+                    .prependTo("#rTb")
+                    
 		            $("<tr>").append($("<td>").html(res.wrtr))
                     .append($("<td>").html(res.dttm))
-                    .appendTo("#rTb")
+                    .prependTo("#rTb")
                     
-                    $("<tr>").append($("<td>").html(res.cntn))
-                    .appendTo("#rTb")
                     
                     
 		         },error:function(){

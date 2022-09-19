@@ -20,15 +20,42 @@
 		UPDATE POST
 		<set>
 			<if test="ttl != null">TTL=#{ttl},</if>
-			<if test="cntn != null">CNTN=#{cntn},</if>
+			<if test="cntn != null">CNTN=#{cntn}</if>
 		</set>
-		WHERE POST_NO=26
+		WHERE POST_NO=#{postNo}
 	</update>
 	
 	<delete id="prjPostDelete" parameterType="co.up.tune.prj.vo.PostVO">
 	DELETE FROM POST WHERE POST_NO = #{postNo}
 	</delete>
 	
+	<!-- 댓 -->
 	
+
+	<select id="ppReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
+		SELECT * 
+		FROM REPLY
+		WHERE POST_NO = #{postNo}
+		ORDER BY REPLY_NO DESC
+	</select>
+	
+	
+	<insert id="ppReplyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
+		<selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
+			SELECT 
+			    CASE WHEN MAX(REPLY_NO) IS NULL THEN 1
+			    ELSE MAX(REPLY_NO)+1 
+			    END AS NO
+			FROM REPLY
+		</selectKey>
+		INSERT INTO 
+			REPLY
+				VALUES(#{replyNo}, #{postNo}, '#{empNo}', #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
+	</insert>
+	
+	
+	<delete id="ppReplyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
+	
+	</delete>
 	
 </mapper>

@@ -16,7 +16,7 @@ public class PropostServiceImpl implements PropostService {
 
 	@Override
 	public List<PostVO> prjPostList() {
-		// 프로젝트 - 글 셀렉트 리스트
+		// 프로젝트 - 글 전체 리스트
 		return map.prjPostList();
 	}
 
@@ -39,28 +39,28 @@ public class PropostServiceImpl implements PropostService {
 	}
 
 	@Override
-	public List<ReplyVO> replyList(ReplyVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyVO> ppReplyList(ReplyVO vo) {
+		// 댓글 리스트
+		return map.ppReplyList(vo);
+	}
+
+
+	@Override
+	public int ppReplyDelete(ReplyVO vo) {
+		// 댓글 삭제
+		return map.ppReplyDelete(vo);
 	}
 
 	@Override
-	public ReplyVO replyInsert(ReplyVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public int ppReplyInsert(ReplyVO vo) {
+		// 댓글 등록
+		return map.ppReplyDelete(vo);
 	}
 
-	@Override
-	public int replyUpdate(ReplyVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
+	
+	
 
-	@Override
-	public int replyDelete(ReplyVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	
 }

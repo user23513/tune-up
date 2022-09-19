@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>내프로젝트-글</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
 <style>
 
 
@@ -93,7 +94,13 @@
 													<li class="dropdown-header text-start" > Settings
 													</li>
 													
-													<li><a class="dropdown-item" href="#" style="text-align: center" onclick="location.href='postUpdateForm'">수정</a></li>
+													<form id="upFrm" action="postUpdateForm" method="get" >
+													<input type="hidden" id="postNo" name="postNo"
+														th:value="${pj.postNo}">
+														   <button id="up" class="dropdown-item" style="text-align: center">수정</button>
+													</form>
+													
+													<!-- <li><a class="dropdown-item" href="#" style="text-align: center" onclick="location.href='postUpdateForm'">수정</a></li> -->
 
 											
 												<!-- <form id="upFrm" action="prjPostUpdate" method="get" >
@@ -132,6 +139,51 @@
 									</div>
 								</div>
 								<!-- End Default Card -->
+
+
+									<!-- start reply -->
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
+					<span id="rBtn" class="input-group-text">등록</span>
+				</div><hr>
+				
+				<!-- db에 입력하면 입력한 댓글 추가 -->
+				<div id="reply" style="display: none;">
+				 	<table>
+				 		<tbody>
+				 			<tr>
+				 				<td class="writer">작성자</td>
+				 				<td class="wdate">작성일시</td>
+				 			</tr>
+				 			<tr>
+				 				<td class="rcrtn">댓글내용</td>
+				 				<td>수정아이콘</td>
+				 				<td>삭제아이콘</td>
+				 			</tr>
+				 		</tbody>
+				 	</table>				
+				</div>
+			
+				
+				<!-- reply List -->
+				<div>
+					<table th:each="r : ${replyList}">
+				 		<tbody id="rTb">
+				 			<tr>
+				 				<td th:text="${r.wrtr}">작성자</td>
+				 				<td th:text="${r.dttm}">작성일시</td>
+				 			</tr>
+				 			<tr>
+				 				<td th:text="${r.cntn}">댓글내용</td>
+				 				<td>수정아이콘</td>
+				 				<td>삭제아이콘</td>
+				 			</tr>
+				 		</tbody>
+				 	</table>	
+				<hr></div>
+			<!-- end reply -->
+
+
 
 								<!-- Default Card -->
 								<!-- <div class="card">
@@ -185,11 +237,37 @@
 	<script type="text/javascript">
 	$("#delete").on("click", e=>{
 		$("#delFrm").submit();
-	})
+	});
 	
+	//수정버튼
+	$("#up").on("click", e=>{
+		$("#upFrm").submit();
+	});
 	
-
+	//댓글
+	$("#rBtn").on("click", e=>{
+		let postNo = $("#postNo").val();
+		let cntn = $("#rCntn").val();
 		
+		$.ajax({
+	         url:'ppReplyInsert',
+	         type:'post',
+	         data:{'postNo':postNo, 'cntn':cntn},
+	         dataType:'json',
+	         success:function(res){
+	            $(".writer").html(res.wrtr);
+	            $(".rcrtn").html(res.cntn);
+	            
+                $("<tr>").append($("<td>").html(res.cntn))
+                .prependTo("#rTb")
+                
+	            $("<tr>").append($("<td>").html(res.wrtr))
+                .append($("<td>").html(res.dttm))
+                .prependTo("#rTb")
+	         
+	         } 
+	         })
+	})
 	</script>
 </body>
 </html>

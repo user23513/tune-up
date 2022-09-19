@@ -32,4 +32,9 @@ public class HrServiceImpl implements HrService {
 	public int empUpdate(EmpVO vo) {
 		return map.empUpdate(vo);
 	}
+	
+	@Override
+	public List<EmpVO> managerList() {
+		return map.managerList();
+	}
 }

@@ -22,7 +22,7 @@
 			<if test="ttl != null">TTL=#{ttl},</if>
 			<if test="cntn != null">CNTN=#{cntn},</if>
 		</set>
-		WHERE POST_NO=#{postNo}
+		WHERE POST_NO=26
 	</update>
 	
 	<delete id="prjPostDelete" parameterType="co.up.tune.prj.vo.PostVO">

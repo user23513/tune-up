@@ -71,7 +71,7 @@
 					</ul>
 
 					<!-- 글 목록 -->
-					
+
 						<br>
 						<div class="tab-pane fade" id="pst" role="tabpanel"
 							aria-labelledby="pst-tab">
@@ -80,7 +80,8 @@
 								<div class="card" th:each="pj :${prjPostList}">
 									<div class="card-body">
 										<h3 class="card-title">
-											<span th:text="${pj.wrtr} + ${pj.dttm}"></span>
+											<span th:text="${pj.wrtr}	"></span>
+											<span th:text="${#dates.format(pj.dttm, 'yyyy-MM-dd')}"></span>
 										<!-- 드롭다운 아이콘 -->
 											<div class="filter" style="float: right">
 												<a class="icon" href="#" data-bs-toggle="dropdown"><i
@@ -91,14 +92,28 @@
 													class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" >
 													<li class="dropdown-header text-start" > Settings
 													</li>
-													<li><a class="dropdown-item" href="#" style="text-align: center">수정</a></li>
-													<form id="delFrm" action="prjPostDelete" method="get" >
+													
+													<li><a class="dropdown-item" href="#" style="text-align: center" onclick="location.href='postUpdateForm'">수정</a></li>
+
+											
+												<!-- <form id="upFrm" action="prjPostUpdate" method="get" >
+													<input type="hidden" id="postNo" name="postNo"
+														th:value="${pj.postNo}">
+														   <button id="delete" class="dropdown-item" style="text-align: center">수정</button>
+													</form> -->
+
+														<!-- <form id="upFrm" action="prjPostUpdate">
+													<input type="hidden" name="postNo" th:value="${pj.postNo}">
+													<button class="btn btn-primary w-100" type="button" id="up">수정</button>
+												</form> -->
+
+
+
+												<form id="delFrm" action="prjPostDelete" method="get" >
 													<input type="hidden" id="postNo" name="postNo"
 														th:value="${pj.postNo}">
 														   <button id="delete" class="dropdown-item" style="text-align: center">삭제</button>
 													</form>
-													
-													
 													
 												<!-- 	<li><a class="dropdown-item" href="#">삭제</a></li> -->
 												</ul>
@@ -159,7 +174,6 @@
 									</nav>
 								</div>
 							</div>
-						
 					</div>
 				</div>
 		</section>
@@ -172,6 +186,8 @@
 	$("#delete").on("click", e=>{
 		$("#delFrm").submit();
 	})
+	
+	
 
 		
 	</script>

@@ -21,14 +21,26 @@
 		//댓글 등록 버튼
 		$("#rBtn").on("click", e=>{
 			let postNo = $("#postNo").val();
+			let cntn = $("#rCntn").val();
 			
 			$.ajax({
 		         url:'replyInsert',
 		         type:'post',
-		         data:{'postNo':postNo},
+		         data:{'postNo':postNo, 'cntn':cntn},
 		         dataType:'json',
 		         success:function(res){
-		            console.log(res)
+		            $(".writer").html(res.wrtr);
+		            $(".wdate").html(res.dttm);
+		            $(".rcrtn").html(res.cntn);
+		            
+		            $("<tr>").append($("<td>").html(res.wrtr))
+                    .append($("<td>").html(res.dttm))
+                    .appendTo("#rTb")
+                    
+                    $("<tr>").append($("<td>").html(res.cntn))
+                    .appendTo("#rTb")
+                    
+                    
 		         },error:function(){
 		            
 		         }
@@ -68,15 +80,50 @@
 						<td colspan="6"><a th:href="|/attach/${f.postNo}|" th:text="${f.fNm}"></a></td>
 					</tr>
 				</tbody>
-			</table><hr>
+			</table>
 			
 			<!-- start reply -->
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" name="cntn" placeholder="댓글을 입력하세요">
+					<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
 					<span id="rBtn" class="input-group-text">등록</span>
-				</div><br>
-			<!-- end reply -->
+				</div><hr>
+				
+				<!-- db에 입력하면 입력한 댓글 추가 -->
+				<div id="reply" style="display: none;">
+				 	<table>
+				 		<tbody>
+				 			<tr>
+				 				<td class="writer">작성자</td>
+				 				<td class="wdate">작성일시</td>
+				 			</tr>
+				 			<tr>
+				 				<td class="rcrtn">댓글내용</td>
+				 				<td>수정아이콘</td>
+				 				<td>삭제아이콘</td>
+				 			</tr>
+				 		</tbody>
+				 	</table>				
+				</div>
 			
+				
+				<!-- reply List -->
+				<div>
+					<table th:each="r : ${replyList}">
+				 		<tbody id="rTb">
+				 			<tr>
+				 				<td th:text="${r.wrtr}">작성자</td>
+				 				<td th:text="${r.dttm}">작성일시</td>
+				 			</tr>
+				 			<tr>
+				 				<td th:text="${r.cntn}">댓글내용</td>
+				 				<td>수정아이콘</td>
+				 				<td>삭제아이콘</td>
+				 			</tr>
+				 		</tbody>
+				 	</table>	
+				<hr></div>
+			<!-- end reply -->
+				
 			<div>
 				<span>
 					<a href="freeList" class="btn btn-primary">목록</a>

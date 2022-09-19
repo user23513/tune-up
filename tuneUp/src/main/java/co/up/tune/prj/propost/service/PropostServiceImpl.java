@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.propost.mapper.PropostMapper;
 import co.up.tune.prj.vo.PostVO;
 
@@ -35,6 +36,30 @@ public class PropostServiceImpl implements PropostService {
 	public int prjPostDelete(PostVO vo) {
 		// 프로젝트 - 글 삭제
 		return map.prjPostDelete(vo);
+	}
+
+	@Override
+	public List<ReplyVO> replyList(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ReplyVO replyInsert(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int replyUpdate(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int replyDelete(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

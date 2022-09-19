@@ -58,7 +58,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- 레이아웃  -->
 		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>

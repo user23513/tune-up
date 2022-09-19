@@ -20,7 +20,5 @@ public class TuneUpApplication {
 		return "main/main";
 	}
 	
-	
-	
 
 }

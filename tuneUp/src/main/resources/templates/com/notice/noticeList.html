@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
 <script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <!-- ========= -->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css"/>
  
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
@@ -58,7 +57,7 @@
 	} );
 </script>
 <style>
-	  .dataTables_wrapper .dataTables_paginate .paginate_button {
+	.dataTables_wrapper .dataTables_paginate .paginate_button {
     padding : 0px;
     margin-left: 0px;
     display: inline;
@@ -71,38 +70,50 @@
 		margin-left:auto;
 		margin-right:auto;
 	}
+	.location{
+		position: relative;
+		bottom: 43px;
+	}
 </style>
 </head>
 <body>
 	<main layout:fragment="content">
-		<!-- Start Page Title -->
-		<div class="pagetitle">
-	      <h1>공지사항</h1>
-	    </div>
-	    <!-- End Page Title -->
-	    
-		<div >
-			<table id="noticeTable" class="display center" style="width: 100%">
-				<thead>
-					<tr>
-						<th><i class="ri-alarm-warning-line"></i></th>
-						<th><center>제목</center></th>
-						<th>작성자</th>
-						<th>작성일자</th>
-						<th>조회수</th>
-					</tr>
-				</thead>
-				<tbody id="tb">
-					<tr th:each="n : ${noticeList}" th:classappend="${n.emerg} == '1' ? 'emerg'">
-						<td><i th:classappend="${n.emerg} == '1' ? 'ri-alarm-warning-fill' : 'ri-alarm-warning-line'"></i></td>
-						<td th:text="${n.ttl}" class="select" th:attr="data-no=${n.postNo}">공지</td>
-						<td th:text="${n.wrtr}">관리자</td>
-						<td th:text="${n.writeDt}">2022-02-10</td>
-						<td th:text="${n.hit}">0</td>
-					</tr>
-				</tbody>
-			</table>
-			<a href="noticeInsertForm">글쓰기</a>
+		<div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+             
+				<!-- Start Page Title -->
+				<div class="pagetitle">
+			      <h1>공지사항</h1>
+			    </div>
+			    <!-- End Page Title -->
+		    
+				<div>
+					<table id="noticeTable" class="display center" style="width: 100%">
+						<thead>
+							<tr>
+								<th><i class="ri-alarm-warning-line"></i></th>
+								<th><center>제목</center></th>
+								<th>작성자</th>
+								<th>작성일자</th>
+								<th>조회수</th>
+							</tr>
+						</thead>
+						<tbody id="tb">
+							<tr th:each="n : ${noticeList}" th:classappend="${n.emerg} == '1' ? 'emerg'">
+								<td><i th:classappend="${n.emerg} == '1' ? 'ri-alarm-warning-fill' : 'ri-alarm-warning-line'"></i></td>
+								<td class="select" th:attr="data-no=${n.postNo}">
+									<b><span th:if="${n.emerg}=='1'">[긴급공지]</span></b>&nbsp;[[${n.ttl}]]
+								</td>
+								<td th:text="${n.wrtr}">관리자</td>
+								<td th:text="${n.writeDt}">2022-02-10</td>
+								<td th:text="${n.hit}">0</td>
+							</tr>
+						</tbody>
+					</table>
+					<a href="noticeInsertForm" class="btn btn-primary location">글쓰기</a>
+				</div>
+			</div>
 		</div>
 		
 		<div>

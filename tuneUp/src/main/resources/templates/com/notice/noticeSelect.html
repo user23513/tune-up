@@ -26,42 +26,51 @@
 		left: 85%;
 	}
 	
+	.textSize {
+		font-size: 25px;
+	}
+	
 </style>
 </head>
 <body>
 	<main layout:fragment="content">
-		<div>
-			<table class="table">
-				<tbody>
-					<tr>
-						<td colspan="6" th:text="${n.ttl}">제목들어가는곳</td>
-					</tr>
-					<tr>
-						<th>작성자</th>
-						<td th:text="${n.wrtr}"></td>
-						<th>작성일자</th>
-						<td th:text="${n.writeDt}"></td>
-						<th>조회수</th>
-						<td th:text="${n.hit}"></td>
-					</tr>
-					<tr>
-						<td colspan="6" th:utext="${n.cntn}"> 내용들어가는곳</td>
-					</tr>
-					<tr th:if="${n.fNm != null}">
-						<td colspan="6"><a th:href="|/attach/${n.postNo}|" th:text="${n.fNm}"></a></td>
-					</tr>
-				</tbody>
-			</table>
-			<div>
-				<span>
-					<a href="noticeList" class="btn btn-primary">목록</a>
-				</span>
-				<div class="btn-group right" role="group" aria-label="Basic example">
-		        	<button type="button" class="btn btn-primary" id="uBtn">수정</button>
-		            <button type="button" class="btn btn-primary" id="dBtn">삭제</button>
-		        </div>
-	        </div>
-		</div>
+		<div class="card">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+				<div>
+					<table class="table">
+						<tbody>
+							<tr>
+								<td colspan="6" class="textSize"><b><span th:if="${n.emerg}=='1'">[긴급공지]</span>[[${n.ttl}]]</b></td>
+							</tr>
+							<tr>
+								<th>작성자</th>
+								<td th:text="${n.wrtr}"></td>
+								<th>작성일자</th>
+								<td th:text="${n.writeDt}"></td>
+								<th>조회수</th>
+								<td th:text="${n.hit}"></td>
+							</tr>
+							<tr>
+								<td colspan="6" th:utext="${n.cntn}" style="height: 500px"> 내용들어가는곳</td>
+							</tr>
+							<tr th:if="${n.fNm != null}">
+								<td colspan="6"><a th:href="|/attach/${n.postNo}|" th:text="${n.fNm}"></a></td>
+							</tr>
+						</tbody>
+					</table>
+					<div>
+						<span>
+							<a href="noticeList" class="btn btn-primary">목록</a>
+						</span>
+						<div class="btn-group right" role="group" aria-label="Basic example">
+				        	<button type="button" class="btn btn-primary" id="uBtn">수정</button>
+				            <button type="button" class="btn btn-primary" id="dBtn">삭제</button>
+				        </div>
+			        </div>
+				</div>
+		  </div>
+        </div>
 		
 		<div>
 			<form id="uFrm" action="noticeUpdateForm" method="post">

@@ -49,6 +49,7 @@
 		SELECT * 
 		FROM REPLY
 		WHERE POST_NO = #{postNo}
+		ORDER BY REPLY_NO DESC
 	</select>
 	
 	<select id="replySelect" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">

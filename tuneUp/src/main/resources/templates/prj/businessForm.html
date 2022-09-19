@@ -1,125 +1,203 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
+
 <title>최종프로젝트</title>
-<style type="text/css">
-#ccc{
-margin : 0 auto;
-}
-</style>
+	<style type="text/css">
+		#ccc{
+		margin : 0 auto;
+		}
+	</style>
 </head>
-
-
 <body>
 	<main layout:fragment="content">
-		  <div class="col-lg-6" id="ccc">
+		
+		
+		  <div class="" id="ccc">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">PROJECT</h5>
 
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">PROJECT</h5>
+					<!-- Default Tabs -->
+					<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
 
-              <!-- Default Tabs -->
-              <ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
-              	
-                <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-justified" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
-                </li>
-                <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact" aria-selected="false">글</button>
-                </li>
-                <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#text-justified" type="button" role="tab" aria-controls="contact" aria-selected="false">업무</button>
-                </li>
-                <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact" aria-selected="false">일정</button>
-                </li>
-                <li class="nav-item flex-fill" role="presentation">
-                  <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-justified" type="button" role="tab" aria-controls="contact" aria-selected="false">할일</button>
-                </li>
-              </ul>
-              
-              <div class="tab-content pt-2" id="myTabjustifiedContent">
-                <!-- Home -->
-                <div class="tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab">
-                 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-                </div>
-                
-                <!-- 글 -->
-                 <div class="tab-pane fade" id="contact-tab" role="tabpanel" aria-labelledby="contact-tab">
-                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
-                </div>
-                
-                
-                <!-- 업무 -->
-                <div class="tab-pane fade" id="text-justified" role="tabpanel" aria-labelledby="profile-tab">
-                   <form>
-               		<div class="row mb-3">
-                  		<label for="inputText" class="col-sm-2 col-form-label">Project Name</label>
-                  		<div class="col-sm-10">
-                    	<input type="text" class="form-control" id="nm" name="nm">
-                    	</div>
-                	</div>
-                	<div class="row mb-3">
-                  		<label for="inputText" class="col-sm-2 col-form-label">진행상태</label>
-                  		<div class="col-sm-10">
-                    		<button type="button" class="btn btn-outline-primary">요청</button>
-                			<button type="button" class="btn btn-outline-primary">진행</button>
-                			<button type="button" class="btn btn-outline-primary">완료</button>
-                    	</div>
-                	</div>
-               
-                
-		                 <div class="row mb-3">
-		                  <label for="inputDate" class="col-sm-2 col-form-label">시작일</label>
-		                  <div class="col-sm-10">
-		                    <input type="date" class="form-control" id="sdt" name="sdt">
-		                  </div>
-		                </div>
-		                
-		                 <div class="row mb-3">
-		                  <label for="inputDate" class="col-sm-2 col-form-label">종료일</label>
-		                  <div class="col-sm-10">
-		                    <input type="date" class="form-control" id="edt" name="edt">
-		                  </div>
-		                </div>
-		                
-		                <div class="row mb-3">
-		                  <label for="inputPassword" class="col-sm-2 col-form-label">내용</label>
-		                  <div class="col-sm-10">
-		                    <textarea class="form-control" style="height: 100px"></textarea>
-		                  </div>
-		                </div>
-		                <div class="row mb-3">
-		                  <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
-		                  <div class="col-sm-10">
-		                    <input class="form-control" type="file" id="formFile">
-		                  </div>
-		                </div>
-		                
-		                <div class="col-12">
-		                      <button class="btn btn-primary w-100" type="submit">프로젝트 생성</button>
-		                    </div>
-              
-              </form>
-            </div>
-           
-           
-           		<!-- 일정 -->
-                <div class="tab-pane fade" id="contact-justified" role="tabpanel" aria-labelledby="contact-tab">
-                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
-                </div>
-                
-                <!-- 할일 -->
-                <div class="tab-pane fade" id="contact-justified" role="tabpanel" aria-labelledby="contact-tab">
-                  Saepe animi et soluta ad odit soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus impedit molestias nostrum veniam. Qui amet ipsum iure. Dignissimos fuga tempore dolor.
-                </div>
-              </div><!-- End Default Tabs -->
+						
+						
+						<li class="nav-item flex-fill" role="presentation">
+							<button class="nav-link w-100 active" id="contact-tab"
+								data-bs-toggle="tab" data-bs-target="#contact-justified"
+								type="button" role="tab" aria-controls="contact"
+								aria-selected="false">글</button>
+						</li>
+						<li class="nav-item flex-fill" role="presentation">
+							<button class="nav-link w-100" id="contact-tab"
+								data-bs-toggle="tab" data-bs-target="#business-justified"
+								type="button" role="tab" aria-controls="contact"
+								aria-selected="false">업무</button>
+						</li>
+						<li class="nav-item flex-fill" role="presentation">
+							<button class="nav-link w-100" id="contact-tab"
+								data-bs-toggle="tab" data-bs-target="#todo-justified"
+								type="button" role="tab" aria-controls="contact"
+								aria-selected="false">일정</button>
+						</li>
+						<li class="nav-item flex-fill" role="presentation">
+							<button class="nav-link w-100" id="contact-tab"
+								data-bs-toggle="tab" data-bs-target="#contact-justified"
+								type="button" role="tab" aria-controls="contact"
+								aria-selected="false">할일</button>
+						</li>
+					</ul>
 
-            </div>
-          </div>
+					<div class="tab-content pt-2" id="myTabjustifiedContent">
+					
+						
+
+						<!-- 글 -->
+						<div class="tab-pane fade" id="contact-tab" role="tabpanel"
+							aria-labelledby="contact-tab">Saepe animi et soluta ad odit
+							soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium
+							quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus
+							impedit molestias nostrum veniam. Qui amet ipsum iure.
+							Dignissimos fuga tempore dolor.</div>
+
+
+						<!-- 업무 -->
+						<div class="tab-pane fade" id="business-justified" role="tabpanel"
+							aria-labelledby="profile-tab">
+							<form>
+								<div class="row mb-3">
+									<label for="inputText" class="col-sm-2 col-form-label">
+									 Project Name</label>
+									<div class="col-sm-10">
+										<input type="text" class="form-control" id="nm" name="nm">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputText" class="col-sm-2 col-form-label">진행상태</label>
+									<div class="col-sm-10">
+										<button type="button" class="btn btn-outline-primary">요청</button>
+										<button type="button" class="btn btn-outline-primary">진행</button>
+										<button type="button" class="btn btn-outline-primary">완료</button>
+									</div>
+								</div>
+
+
+								<div class="row mb-3">
+									<label for="inputDate" class="col-sm-2 col-form-label">시작일</label>
+									<div class="col-sm-10">
+										<input type="date" class="form-control" id="sdt" name="sdt">
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="inputDate" class="col-sm-2 col-form-label">종료일</label>
+									<div class="col-sm-10">
+										<input type="date" class="form-control" id="edt" name="edt">
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="inputPassword" class="col-sm-2 col-form-label">내용</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" style="height: 100px"></textarea>
+									</div>
+								</div>
+
+
+								<div class="row mb-3">
+									<label for="inputNumber" class="col-sm-2 col-form-label">File
+										Upload</label>
+									<div class="col-sm-10">
+										<input class="form-control" type="file" id="formFile">
+									</div>
+								</div>
+
+								<div class="col-12">
+									<button class="btn btn-primary w-100" type="submit">프로젝트
+										생성</button>
+								</div>
+
+							</form>
+						</div>
+						<!-- 업무 end -->
+
+
+						<!-- 일정 -->
+						<div class="tab-pane fade" id="todo-justified" role="tabpanel"
+							aria-labelledby="contact-tab">
+							<div class="card">
+								<div class="card-body">
+									<form action="">
+										<div class="row mb-3">
+											<label for="inputText" class="col-sm-2 col-form-label">
+											일정 제</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control" id="nm" name="nm">
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="inputDate" class="col-sm-2 col-form-label">시작일</label>
+											<div class="col-sm-10">
+												<input type="date" class="form-control" id="sdt" name="sdt">
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="inputDate" class="col-sm-2 col-form-label">종료일</label>
+											<div class="col-sm-10">
+												<input type="date" class="form-control" id="edt" name="edt">
+											</div>
+										</div>
+
+										<!--프로젝트 팀원 추가-->
+										<div>어떤식으로 해야되지 ..? 사람 추가를 우쨰..??</div>
+										<!--지도API -->
+										<div>장소입력 지도 AIP ???</div>
+
+										<div class="row mb-3">
+											<label for="inputPassword" class="col-sm-2 col-form-label">내용</label>
+											<div class="col-sm-10">
+												<textarea class="form-control" style="height: 100px"></textarea>
+											</div>
+										</div>
+
+										<div class="row mb-3">
+											<label for="inputNumber" class="col-sm-2 col-form-label">File
+												Upload</label>
+											<div class="col-sm-10">
+												<input class="form-control" type="file" id="formFile">
+											</div>
+										</div>
+
+										<div class="col-12">
+											<button class="btn btn-primary w-100" type="submit">일정
+												등록</button>
+										</div>
+
+
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<!-- 할일 -->
+						<div class="tab-pane fade" id="contact-justified" role="tabpanel"
+							aria-labelledby="contact-tab">Saepe animi et soluta ad odit
+							soluta sunt. Nihil quos omnis animi debitis cumque. Accusantium
+							quibusdam perspiciatis qui qui omnis magnam. Officiis accusamus
+							impedit molestias nostrum veniam. Qui amet ipsum iure.
+							Dignissimos fuga tempore dolor.</div>
+					</div>
+					<!-- End Default Tabs -->
+
+				</div>
+			</div>
+		</div>	
 	</main>
 </body>
 </html>

@@ -12,7 +12,7 @@ public class CommunityVO {
 	 String ttl;	//제목
 	 String wrtr;	//작성자
 	 String cntn;	//내용
-	 Date write_dt;		//작성일자
+	 Date writeDt;		//작성일자
 	 String fNm;	//파일이름
 	 String fPath;	//파일위치
 	 int hit;	//조회수

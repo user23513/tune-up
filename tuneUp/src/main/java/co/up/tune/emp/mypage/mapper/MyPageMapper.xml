@@ -5,10 +5,6 @@
 		select * from emp
 		where emp_no = #{empNo}
 	</select>
-	<select id="pwCheck" parameterType="co.up.tune.emp.vo.EmpVO" resultType="co.up.tune.emp.vo.EmpVO">
-		select * from emp
-		where pw = #{pw}
-	</select>
 	<update id="empUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
 		<set>

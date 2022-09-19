@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+		//수정버튼
+		$("#uBtn").on("click", e=>{
+			$("#uFrm").submit();
+		})
+		
+		//삭제버튼
+		$("#dBtn").on("click", e=>{
+			$("#dFrm").submit();
+		})
+		
+		//댓글 등록 버튼
+		$("#rBtn").on("click", e=>{
+			let postNo = $("#postNo").val();
+			
+			$.ajax({
+		         url:'replyInsert',
+		         type:'post',
+		         data:{'postNo':postNo},
+		         dataType:'json',
+		         success:function(res){
+		            console.log(res)
+		         },error:function(){
+		            
+		         }
+		      })
+		})
+	})
+</script>
+
+<style>
+	.right{
+		position: relative;
+		left: 85%;
+	}
+	
+</style>
+</head>
+<body>
+	<main layout:fragment="content">
+		<div>
+			<table class="table">
+				<tbody>
+					<tr>
+						<td colspan="6" th:text="${f.ttl}">제목들어가는곳</td>
+					</tr>
+					<tr>
+						<th>작성자</th>
+						<td th:text="${f.wrtr}"></td>
+						<th>작성일자</th>
+						<td th:text="${f.writeDt}"></td>
+						<th>조회수</th>
+						<td th:text="${f.hit}"></td>
+					</tr>
+					<tr>
+						<td colspan="6" th:utext="${f.cntn}"> 내용들어가는곳</td>
+					</tr>
+					<tr th:if="${f.fNm != null}">
+						<td colspan="6"><a th:href="|/attach/${f.postNo}|" th:text="${f.fNm}"></a></td>
+					</tr>
+				</tbody>
+			</table><hr>
+			
+			<!-- start reply -->
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" name="cntn" placeholder="댓글을 입력하세요">
+					<span id="rBtn" class="input-group-text">등록</span>
+				</div><br>
+			<!-- end reply -->
+			
+			<div>
+				<span>
+					<a href="freeList" class="btn btn-primary">목록</a>
+				</span>
+				<div class="btn-group right" role="group" aria-label="Basic example">
+		        	<button type="button" class="btn btn-primary" id="uBtn">수정</button>
+		            <button type="button" class="btn btn-primary" id="dBtn">삭제</button>
+		        </div>
+	        </div>
+		</div>
+		
+		<div>
+			<form id="uFrm" action="freeUpdateForm" method="post">
+				<input type="hidden" name="postNo" th:value="${f.postNo}">
+			</form>
+		</div>
+		<div>
+			<form id="dFrm" action="freeDelete" method="post">
+				<input type="hidden" id="postNo" name="postNo" th:value="${f.postNo}">
+			</form>
+		</div>
+	</main>
+</body>
+</html>

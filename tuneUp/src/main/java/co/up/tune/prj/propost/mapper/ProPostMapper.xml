@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.prj.propost.mapper.PropostMapper">
+				  
+	<select id="prjPostList" resultType="co.up.tune.prj.vo.PostVO">
+	SELECT *
+	FROM POST 
+	ORDER BY POST_NO DESC
+	
+	
+	</select>
+	
+	<insert id="prjPostInsert" parameterType="co.up.tune.prj.vo.PostVO">
+	
+		<!-- INSERT INTO POST (ttl,cntn)
+	VALUES (PNO_SEQ.NEXTVAL,#{ttl},#{cntn}) -->
+	INSERT INTO POST
+		VALUES (PNO_SEQ.NEXTVAL,#{empNo},#{wrtr},#{ttl},#{cntn},sysdate,#{atchNo},#{prjNo}) 
+	</insert>
+	
+	<delete id="prjPostDelete">
+	DELETE FROM POST WHERE POST_NO = #{postNo}
+	</delete>
+	
+</mapper>

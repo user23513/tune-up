@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
+<script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		noticeSelect();
+		
+		//datatables
+		$('#noticeTable').DataTable();
+		
+		//공지글 상세조회
+		function noticeSelect() {
+			$("#tb").on("click", ".select", e=>{
+				let no = $(e.target).data("no"); //게시글 번호
+				$("#postNo").val(no)
+				$("#frm").submit();
+			})
+		}
+		
+		
+	} );
+</script>
+<style>
+	.emerg{
+		background-color: red;
+	}
+	
+	table#jDataTable.dataTable tbody tr:hover 
+    {
+        background-color: #808080;
+    }
+</style>
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="pagetitle">
+	      <h1>공지사항</h1>
+	    </div>
+	    <!-- End Page Title -->
+	    
+		<div>
+			<table id="noticeTable">
+				<thead>
+					<tr>
+						<th></th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일자</th>
+						<th>조회수</th>
+					</tr>
+				</thead>
+				<tbody id="tb">
+					<tr th:each="n : ${noticeList}" th:classappend="${n.emerg} == '1' ? 'emerg'">
+						<td><i th:classappend="${n.emerg} == '1' ? 'ri-alarm-warning-fill' : 'ri-alarm-warning-line'"></i></td>
+						<td th:text="${n.ttl}" class="select" th:attr="data-no=${n.postNo}">공지</td>
+						<td th:text="${n.wrtr}">관리자</td>
+						<td th:text="${n.writeDt}">2022-02-10</td>
+						<td th:text="${n.hit}">0</td>
+					</tr>
+				</tbody>
+			</table>
+			<a href="noticeInsertForm">글쓰기</a>
+		</div>
+		
+		<div>
+			<form id="frm" method="post" action="noticeSelect">
+				<input type="hidden" id="postNo" name="postNo">
+			</form>
+		</div>
+	</main>
+</body>
+</html>

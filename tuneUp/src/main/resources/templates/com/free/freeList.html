@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
+<script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		noticeSelect();
+		
+		//datatables
+		$('#freeTable').DataTable();
+		
+		//자유게시판 상세조회
+		function noticeSelect() {
+			$("#tb").on("click", ".select", e=>{
+				let no = $(e.target).data("no"); //게시글 번호
+				$("#postNo").val(no)
+				$("#frm").submit();
+			})
+		}
+		
+	} );
+</script>
+<style>
+
+</style>
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="pagetitle">
+	      <h1>공지사항</h1>
+	    </div>
+	    <!-- End Page Title -->
+	    
+		<div>
+			<table id="freeTable">
+				<thead>
+					<tr>
+						<th></th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일자</th>
+						<th>조회수</th>
+					</tr>
+				</thead>
+				<tbody id="tb">
+					<tr th:each="f : ${freeList}">
+						<td></td>
+						<td th:text="${f.ttl}" class="select" th:attr="data-no=${f.postNo}">자유게시판</td>
+						<td th:text="${f.wrtr}">사원이름</td>
+						<td th:text="${f.writeDt}">2022-02-10</td>
+						<td th:text="${f.hit}">0</td>
+					</tr>
+				</tbody>
+			</table>
+			<a href="freeInsertForm">글쓰기</a>
+		</div>
+		
+		<div>
+			<form id="frm" method="post" action="freeSelect">
+				<input type="hidden" id="postNo" name="postNo">
+			</form>
+		</div>
+	</main>
+</body>
+</html>

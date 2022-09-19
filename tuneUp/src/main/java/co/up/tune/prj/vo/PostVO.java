@@ -2,6 +2,8 @@ package co.up.tune.prj.vo;
 
 import java.util.Date;
 
+import lombok.Data;
+@Data
 public class PostVO {
 	 int postNo;	//게시글 번호
 	 String empNo;	//사번

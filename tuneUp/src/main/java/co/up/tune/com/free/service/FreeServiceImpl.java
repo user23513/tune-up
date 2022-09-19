@@ -15,7 +15,7 @@ public class FreeServiceImpl implements FreeService {
 	@Autowired
 	FreeMapper map;
 
-	//게시글
+	//[자유게시판 게시글]
 	@Override
 	public List<CommunityVO> freeList() {
 		// TODO Auto-generated method stub
@@ -58,7 +58,7 @@ public class FreeServiceImpl implements FreeService {
 		return map.freeHitUpdate(vo);
 	}
 
-	//댓글
+	//[댓글]
 	@Override
 	public List<ReplyVO> replyList(ReplyVO vo) {
 		// TODO Auto-generated method stub
@@ -66,7 +66,7 @@ public class FreeServiceImpl implements FreeService {
 	}
 
 	@Override
-	public ReplyVO replyInsert(ReplyVO vo) {
+	public int replyInsert(ReplyVO vo) {
 		// TODO Auto-generated method stub
 		return map.replyInsert(vo);
 	}
@@ -81,6 +81,12 @@ public class FreeServiceImpl implements FreeService {
 	public int replyDelete(ReplyVO vo) {
 		// TODO Auto-generated method stub
 		return map.replyDelete(vo);
+	}
+
+	@Override
+	public ReplyVO replySelect(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return map.replySelect(vo);
 	}
 
 }

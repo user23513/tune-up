@@ -45,8 +45,16 @@
 	</delete>
 	
 	<!-- 댓글 -->
-	<select id="replyList" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">
-		
+	<select id="replyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
+		SELECT * 
+		FROM REPLY
+		WHERE POST_NO = #{postNo}
+	</select>
+	
+	<select id="replySelect" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">
+		SELECT * 
+		FROM REPLY
+		WHERE REPLY_NO = #{replyNo}
 	</select>
 	
 	<insert id="replyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
@@ -58,7 +66,7 @@
 			    END AS NO
 			FROM REPLY
 		</selectKey>
-		{call
+		<!-- {call
 			declare 
 			    reply_record reply%rowtype;
 			begin
@@ -70,7 +78,9 @@
 			    from reply
 			    where reply_no=#{replyNo};
 			end
-		}
+		} -->
+		INSERT INTO REPLY
+		VALUES(#{replyNo}, #{postNo}, '사원번호', '작성자', #{cntn}, SYSDATE, '커뮤니티')
 	</insert>
 	
 	<update id="replyUpdate" parameterType="co.up.tune.com.vo.ReplyVO">

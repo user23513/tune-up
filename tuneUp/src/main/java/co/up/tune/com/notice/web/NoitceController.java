@@ -64,7 +64,7 @@ public class NoitceController {
 		
 		dao.noticeInsert(vo);
 		
-		return "redirect:/notice/noticeList";
+		return "redirect:/noticeList";
 	}
 	
 	//공지사항 상세조회
@@ -128,14 +128,14 @@ public class NoitceController {
 		
 		dao.noticeUpdate(vo);
 		
-		return "redirect:/notice/noticeList";
+		return "redirect:/noticeList";
 	}
 	
 	//공지사항 삭제
 	@PostMapping("/noticeDelete")
 	public String noticeDelete(CommunityVO vo) {
 		dao.noticeDelete(vo);
-		return "redirect:/notice/noticeList";
+		return "redirect:/noticeList";
 	}
 	
 

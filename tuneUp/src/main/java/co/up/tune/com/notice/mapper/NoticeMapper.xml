@@ -8,7 +8,7 @@
     		SELECT * 
     		FROM COMMUNITY
     		WHERE TYP=101
-    		ORDER BY POST_NO 
+    		ORDER BY POST_NO DESC
     		)
 		ORDER BY EMERG DESC
 	</select>

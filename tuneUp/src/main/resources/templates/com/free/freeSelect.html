@@ -22,6 +22,7 @@
 		$("#rBtn").on("click", e=>{
 			let postNo = $("#postNo").val();
 			let cntn = $("#rCntn").val();
+			let rList = $("<div>").attr("id", "rList");
 			
 			$.ajax({
 		         url:'replyInsert',
@@ -29,24 +30,46 @@
 		         data:{'postNo':postNo, 'cntn':cntn},
 		         dataType:'json',
 		         success:function(res){
-		            $(".writer").html(res.wrtr);
-		            $(".wdate").html(res.dttm);
-		            $(".rcrtn").html(res.cntn);
-		            
-                    $("<tr>").append($("<td>").html(res.cntn))
-                    .prependTo("#rTb")
-                    
-		            $("<tr>").append($("<td>").html(res.wrtr))
-                    .append($("<td>").html(res.dttm))
-                    .prependTo("#rTb")
-                    
-                    
-                    
-		         },error:function(){
-		            
+		        	 if($("#rList").length==0){
+		        		 $("<div>").append($("<span>").html(res.cntn).append("&nbsp;&nbsp;"))
+					              .append($("<i>").addClass("ri-edit-2-line").append("&nbsp;"))
+					              .append($("<i>").addClass("ri-delete-bin-line delete"))
+					              .prependTo(rList)
+               
+	           			 $("<div>").append($("<span>").html(res.wrtr))
+			                      .append($("<span>").html(res.dttm))
+			                      .prependTo(rList)
+		        		 
+		        	 }else{
+		        		 $("<div>").append($("<span>").html(res.cntn).append("&nbsp;&nbsp;"))
+					              .append($("<i>").addClass("ri-edit-2-line").append("&nbsp;"))
+					              .append($("<i>").addClass("ri-delete-bin-line delete"))
+					              .prependTo("#rList")
+               
+	            		$("<div>").append($("<span>").html(res.wrtr))
+			                      .append($("<span>").html(res.dttm))
+			                      .prependTo("#rList")
+		        	 }
+                   
 		         }
 		      })
 		})
+		
+		//삭제 이벤트위임 (상위 div에 이벤트 걸었음)
+		$("#edit").on("click", ".delete", e=>{
+			let replyNo = $(e.target).data("no"); //댓글 번호
+			//댓글 삭제처리
+			$.ajax({
+		         url:'replyDelete',
+		         type:'post',
+		         data:{'replyNo':replyNo},
+		         dataType:'json',
+		         success:function(res){
+		         	$(e.target).parent().parent().parent().remove();
+		         }
+		      })
+		})
+		  
 	})
 </script>
 
@@ -55,85 +78,72 @@
 		position: relative;
 		left: 85%;
 	}
-	
+	.textSize {
+		font-size: 25px;
+	}
 </style>
 </head>
 <body>
 	<main layout:fragment="content">
-		<div>
-			<table class="table">
-				<tbody>
-					<tr>
-						<td colspan="6" th:text="${f.ttl}">제목들어가는곳</td>
-					</tr>
-					<tr>
-						<th>작성자</th>
-						<td th:text="${f.wrtr}"></td>
-						<th>작성일자</th>
-						<td th:text="${f.writeDt}"></td>
-						<th>조회수</th>
-						<td th:text="${f.hit}"></td>
-					</tr>
-					<tr>
-						<td colspan="6" th:utext="${f.cntn}"> 내용들어가는곳</td>
-					</tr>
-					<tr th:if="${f.fNm != null}">
-						<td colspan="6"><a th:href="|/attach/${f.postNo}|" th:text="${f.fNm}"></a></td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<!-- start reply -->
-				<div class="input-group mb-3">
-					<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
-					<span id="rBtn" class="input-group-text">등록</span>
-				</div><hr>
-				
-				<!-- db에 입력하면 입력한 댓글 추가 -->
-				<div id="reply" style="display: none;">
-				 	<table>
-				 		<tbody>
-				 			<tr>
-				 				<td class="writer">작성자</td>
-				 				<td class="wdate">작성일시</td>
-				 			</tr>
-				 			<tr>
-				 				<td class="rcrtn">댓글내용</td>
-				 				<td>수정아이콘</td>
-				 				<td>삭제아이콘</td>
-				 			</tr>
-				 		</tbody>
-				 	</table>				
-				</div>
-			
-				
-				<!-- reply List -->
+	<div class="card">
+    	<div class="card-body">
+         	<h5 class="card-title"></h5>
 				<div>
-					<table th:each="r : ${replyList}">
-				 		<tbody id="rTb">
-				 			<tr>
-				 				<td th:text="${r.wrtr}">작성자</td>
-				 				<td th:text="${r.dttm}">작성일시</td>
-				 			</tr>
-				 			<tr>
-				 				<td th:text="${r.cntn}">댓글내용</td>
-				 				<td>수정아이콘</td>
-				 				<td>삭제아이콘</td>
-				 			</tr>
-				 		</tbody>
-				 	</table>	
-				<hr></div>
-			<!-- end reply -->
-				
-			<div>
-				<span>
-					<a href="freeList" class="btn btn-primary">목록</a>
-				</span>
-				<div class="btn-group right" role="group" aria-label="Basic example">
-		        	<button type="button" class="btn btn-primary" id="uBtn">수정</button>
-		            <button type="button" class="btn btn-primary" id="dBtn">삭제</button>
-		        </div>
-	        </div>
+					<table class="table">
+						<tbody>
+							<tr>
+								<td colspan="6" class="textSize"><b>[[${f.ttl}]]</b></td>
+							</tr>
+							<tr>
+								<th>작성자</th>
+								<td th:text="${f.wrtr}"></td>
+								<th>작성일자</th>
+								<td th:text="${f.writeDt}"></td>
+								<th>조회수</th>
+								<td th:text="${f.hit}"></td>
+							</tr>
+							<tr>
+								<td colspan="6" th:utext="${f.cntn}" style="height: 500px"> 내용들어가는곳</td>
+							</tr>
+							<tr th:if="${f.fNm != null}">
+								<td colspan="6"><a th:href="|/attach/${f.postNo}|" th:text="${f.fNm}"></a></td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<!-- start reply -->
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
+							<span id="rBtn" class="input-group-text">등록</span>
+						</div><hr>
+						
+						<!-- reply List -->
+						<div id="edit">
+							<div th:each="r : ${replyList}" id="rList">
+								<div>
+									<span th:text="${r.wrtr}">작성자</span>
+									<span th:text="${r.dttm}">작성일시</span>
+								</div>
+								<div>
+									<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
+									<span><i class="ri-edit-2-line"></i></span>&nbsp; 
+									<span><i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i></span>
+								</div>
+							</div>
+						</div>
+					<!-- end reply -->
+						
+					<hr><div>
+						<span>
+							<a href="freeList" class="btn btn-primary">목록</a>
+						</span>
+						<div class="btn-group right" role="group" aria-label="Basic example">
+				        	<button type="button" class="btn btn-primary" id="uBtn">수정</button>
+				            <button type="button" class="btn btn-primary" id="dBtn">삭제</button>
+				        </div>
+			        </div>
+				</div>
+			</div>
 		</div>
 		
 		<div>

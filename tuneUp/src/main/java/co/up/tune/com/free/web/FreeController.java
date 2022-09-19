@@ -58,12 +58,9 @@ public class FreeController {
 		dao.freeHitUpdate(cvo);
 		model.addAttribute("f", dao.freeSelect(cvo));
 		
-		//댓글
+		//댓글 리스트
 		rvo.setPostNo(cvo.getPostNo());
-		List<ReplyVO> list = new ArrayList<ReplyVO>();
-		//list = dao.replyList(rvo);
 		model.addAttribute("replyList", dao.replyList(rvo));
-		//System.out.println("no"+list.get(0).getCntn());
 		return "com/free/freeSelect";
 	}
 	

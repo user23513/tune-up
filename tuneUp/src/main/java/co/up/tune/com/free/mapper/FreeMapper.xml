@@ -44,7 +44,7 @@
 		WHERE POST_NO = #{postNo}
 	</delete>
 	
-	<!-- 댓글 -->
+	<!-- ==================댓글================== -->
 	<select id="replyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
 		SELECT * 
 		FROM REPLY
@@ -89,7 +89,8 @@
 	</update>
 	
 	<delete id="replyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
-	
+		DELETE FROM REPLY
+		WHERE REPLY_NO = #{replyNo}
 	</delete>
 	
 </mapper>

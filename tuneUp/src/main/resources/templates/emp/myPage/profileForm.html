@@ -28,59 +28,105 @@
               </div>
 
               <div class="row mb-3">
-                <label for="fullName" class="col-md-4 col-lg-3 col-form-label">이름</label>
+                <label for="name" class="col-md-4 col-lg-3 col-form-label">이름</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                  <input name="name" type="text" class="form-control" id="name" value="" >
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="company" class="col-md-4 col-lg-3 col-form-label">ID</label>
+                <label for="id" class="col-md-4 col-lg-3 col-form-label">ID</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
+                  <input name="id" type="text" class="form-control" id="id" value="">
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="Job" class="col-md-4 col-lg-3 col-form-label">비밀번호</label>
+                <label for="password" class="col-md-4 col-lg-3 col-form-label">비밀번호</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
+                  <input name="password" type="text" class="form-control" id="password" value="">
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="Phone" class="col-md-4 col-lg-3 col-form-label">휴대폰</label>
+                <label for="phone" class="col-md-4 col-lg-3 col-form-label">휴대폰</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                  <input name="phone" type="text" class="form-control" id="phone" value="">
                 </div>
               </div>
 
               <div class="row mb-3">
                 <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                  <input name="email" type="text" class="form-control" id="email" value="">
                 </div>
               </div>
               
               <div class="row mb-3">
-                <label for="Email" class="col-md-4 col-lg-3 col-form-label">생년월일</label>
+                <label for="birth" class="col-md-4 col-lg-3 col-form-label">생년월일</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                  <input type="date" class="form-control">
                 </div>
               </div>
               
               <div class="row mb-3">
-                <label for="Email" class="col-md-4 col-lg-3 col-form-label">성별</label>
+                <label for="gender" class="col-md-4 col-lg-3 col-form-label">성별</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                  <label class="form-check-label" for="gridRadios1"> 남 </label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                  <label class="form-check-label" for="gridRadios2"> 여 </label>
                 </div>
               </div>
 
               <div class="row mb-3">
-                <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">결재 서명</label>
+                <label for="sign" class="col-md-4 col-lg-3 col-form-label">결재 서명</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
+                  <input name="sign" type="text" class="form-control" id="sign" value="">
                   <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
+                <div class="col-md-8 col-lg-9">
+                  <input name="dept" type="text" class="form-control" id="dept" value="" disabled>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
+                <div class="col-md-8 col-lg-9">
+                  <input name="position" type="email" class="form-control" id="position" value="" disabled>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
+                <div class="col-md-8 col-lg-9">
+                  <input name="zip" type="email" class="form-control" id="zip" value="" disabled>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
+                <div class="col-md-8 col-lg-9">
+                  <input name="addr" type="email" class="form-control" id="addr" value="" disabled>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <label for="hDate" class="col-md-4 col-lg-3 col-form-label">입사일</label>
+                <div class="col-md-8 col-lg-9">
+                  <input type="date" class="form-control" disabled>
+                </div>
+              </div>
+              
+              <div class="row mb-3">
+                <label for="fDate" class="col-md-4 col-lg-3 col-form-label">퇴사일</label>
+                <div class="col-md-8 col-lg-9">
+                  <input type="date" class="form-control" disabled>
                 </div>
               </div>
 

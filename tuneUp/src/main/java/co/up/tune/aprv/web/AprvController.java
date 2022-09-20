@@ -1,5 +1,6 @@
 package co.up.tune.aprv.web;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +14,8 @@ public class AprvController {
 	AprvListService dao;
 	
 	@GetMapping("/aprvList")
-	public String aprvList(Model model) {
-		model.addAttribute("aprvList", dao.aprvList());
+	public String aprvList(Model model, @Param("empNo") String empNo, @Param("aprvSt") String aprvSt) {
+		model.addAttribute("aprvList", dao.aprvList(empNo, aprvSt));
 		return "aprv/aprvList";
 	}
 	

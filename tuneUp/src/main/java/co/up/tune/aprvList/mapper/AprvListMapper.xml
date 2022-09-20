@@ -3,40 +3,49 @@
 <mapper namespace="co.up.tune.aprvList.mapper.AprvListMapper">
 
 
-	<!-- 개인조회로 해야함 -->
-	<select id="aprvList" resultType="co.up.tune.aprv.vo.AprvVO" parameterType="co.up.tune.aprv.vo.AprvVO">
-    	SELECT * 
-    	FROM APRV
-    	<!-- WHERE EMP_NO = #{empNo}
-    	AND APRV_ST = #{aprvSt} -->
-    	ORDER BY APRV_NO DESC
-	</select> 
-	
-	<select id="aprvSelect" resultType="co.up.tune.aprv.vo.AprvVO" parameterType="co.up.tune.aprv.vo.AprvVO">
+	<!-- 전체조회 -->
+	<select id="aprvList" resultType="co.up.tune.aprv.vo.AprvVO"
+		parameterType="co.up.tune.aprv.vo.AprvVO">
+		SELECT *
+		FROM APRV
+		WHERE EMP_NO = #{empNo}
+		AND APRV_ST = #{aprvSt}
+		ORDER BY APRV_NO DESC
+	</select>
+
+	<!-- 단건조회 -->
+	<select id="aprvSelect" resultType="co.up.tune.aprv.vo.AprvVO"
+		parameterType="co.up.tune.aprv.vo.AprvVO">
 		SELECT *
 		FROM APRV
 		WHERE APRV_NO=#{aprvNo}
 	</select>
+
+	<!-- 내용조회 -->
+	<select id="cntnList" resultType="co.up.tune.aprv.vo.ItemCntnVO"
+		parameterType="co.up.tune.aprv.vo.ItemCntnVO">
+		SELECT * 
+		FROM FORM_ITEM
+		WHERE APRV_NO = #{aprvNo}
+		UNION ALL
+		SELECT *
+		FROM APRV_CNTN
+		WHERE APRV_NO = #{aprvNo}
+	</select>
+	
 	
 	
 
-	<!-- <insert id="aprvInsert" parameterType="co.up.tune.aprv.vo.AprvVO">
-		INSERT INTO APRV
-		VALUES (PNO_SEQ.NEXTVAL, #{ttl}, '사원이름', #{cntn}, SYSDATE, #{fNm}, #{fPath}, 0, 'x', '102', '사번')
-	</insert>
-	
-	<update id="aprvUpdate" parameterType="co.up.tune.aprv.vo.AprvVO">
-		UPDATE COMMUNITY
-		<set>
-			<if test="ttl != null">TTL=#{ttl},</if>
-			<if test="cntn != null">CNTN=#{cntn},</if>
-			<if test="fNm != null">F_NM=#{fNm},</if>
-			<if test="fPath != null">F_PATH=#{fPath}</if>
-		</set>
-		WHERE POST_NO=#{postNo}
-	</update>
-	 -->
-	
+
+
+	<!-- <insert id="aprvInsert" parameterType="co.up.tune.aprv.vo.AprvVO"> 
+		INSERT INTO APRV VALUES (PNO_SEQ.NEXTVAL, #{ttl}, '사원이름', #{cntn}, SYSDATE, 
+		#{fNm}, #{fPath}, 0, 'x', '102', '사번') </insert> <update id="aprvUpdate" 
+		parameterType="co.up.tune.aprv.vo.AprvVO"> UPDATE COMMUNITY <set> <if test="ttl 
+		!= null">TTL=#{ttl},</if> <if test="cntn != null">CNTN=#{cntn},</if> <if 
+		test="fNm != null">F_NM=#{fNm},</if> <if test="fPath != null">F_PATH=#{fPath}</if> 
+		</set> WHERE POST_NO=#{postNo} </update> -->
+
 
 
 

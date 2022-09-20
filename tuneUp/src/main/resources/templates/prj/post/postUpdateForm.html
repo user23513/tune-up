@@ -35,9 +35,8 @@
 					
 				
 						<!-- 글 -->
-						<div class="tab-pane fade" id="pst" role="tabpanel" aria-labelledby="pst-tab">
-                   <form id="pstfrm" action="prjPostUpdate" method="get"
-                   	enctype="multipart/form-data">
+                   <!-- <form id="pstfrm" action="prjPostUpdate" method="post"
+                   	enctype="multipart/form-data"> -->
 
 					<div>
 						<label class="col-sm-2 col-form-label" style="text-align: center">작성자</label>
@@ -50,15 +49,15 @@
                		<div class="row mb-3"> 
                		<label class="col-sm-2 col-form-label" style="text-align: center">제목</label>
                   		<div class="col-sm-10 padding:10px" >
-                    	<input type="text" class="form-control" name="ttl"  id="prjPostTitle" th:value="${pj.ttl}" >
+                    	<input type="text" class="form-control" name="ttl"  id="prjPostTitle"  >
                     	</div>
 					   </div>                 	
                     	
                     <div class="row mb-3">
                     <label class="col-sm-2 col-form-label" style="text-align: center">내용</label>
 		                  <div class="col-sm-10" id="cntn">
-		                    <textarea class="form-control" name="cntn" style="resize: none" id="cntn" th:utext="${pj.cntn}"> </textarea>
-		                  </div>
+		                    <textarea class="form-control" name="cntn" style="resize: none" id="cntn" > </textarea>
+		                  </div>		<!--th:utext="${pj.cntn}"  -->
 		                </div>
 							
 							 
@@ -67,7 +66,8 @@
 		                    <input class="form-control" type="file" id="formFile">
 		                  </div>
 		                </div>
-		                
+		                <form id="pstfrm" action="prjPostUpdate" method="post"
+                   	enctype="multipart/form-data">
 		                <button type="submit" id="update" class="btn btn-primary">수정</button>
 		                
 		                

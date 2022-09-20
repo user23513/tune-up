@@ -7,17 +7,13 @@
 	</select>
 	<select id="empSearch" resultType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
-		
 	</select>
-	<select id="empSelectList" resultType="co.up.tune.emp.vo.EmpVO">
+	<select id="empSelect" resultType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
 		where emp_no = #{empNo}	
 	</select>
-	<select id="managerList" resultType="co.up.tune.emp.vo.EmpVO">
+	<select resultType="co.up.tune.emp.vo.EmpVO" id="managerList">
 		select * from emp
-		<where>
-			<if test="mng !=null" />,
-			<if test="auth = 관리자"/>			
-		</where>
+		where mng = '관리자'
 	</select>
 </mapper>

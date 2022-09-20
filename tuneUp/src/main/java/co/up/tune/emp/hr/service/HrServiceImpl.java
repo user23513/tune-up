@@ -24,8 +24,8 @@ public class HrServiceImpl implements HrService {
 	}
 
 	@Override
-	public EmpVO empSelectList(EmpVO vo) {
-		return map.empSelectList(vo);
+	public EmpVO empSelect(EmpVO vo) {
+		return map.empSelect(vo);
 	}
 
 	@Override

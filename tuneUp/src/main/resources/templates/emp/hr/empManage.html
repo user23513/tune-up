@@ -13,16 +13,16 @@
 		empSelect();
 		//datatables
 		$('#empList').DataTable();
+		$('#managerList').DataTable();
 		
 		function empSelect() {
- 			$("#tb").on("click", e=>{
-				let tg = $(e.target).data("no");
-				console.log(tg);
-				$("#empNo").val(tg)
+ 			$("#tb tr").on("click", e=>{
+ 				let tg = e.target.closest('tr').children[1].innerText;
+ 				console.log(tg)
+ 				$("#empNo").val(tg)
 				$("#frm").submit();
 			})
-		}
-		
+		}		
 	});
 </script>
 </head>
@@ -87,8 +87,8 @@
 											</tr>
 										</thead>
 										<tbody id="tb">
-											<tr th:each="e : ${empList}">
-												<th scope="row">1</th>
+											<tr th:each="e : ${empList}" >
+												<th scope="row"></th>
 												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}">HR100</td>
 												<td th:text="${e.nm}">김인사</td>
 												<td th:text="${e.dept}">인사</td>
@@ -100,19 +100,18 @@
 												<td th:text="${e.auth}">사원</td>
 												<td th:text="${e.st}">재직</td>
 											</tr>
-
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-									
-
-
 								</div>
+								
+								
 								<div class="tab-pane fade" id="contact" role="tabpanel"
 									aria-labelledby="contact-tab">
+									<br>
 									<!-- 관리자 목록 보이는 곳 -->
 									<!-- Table with hoverable rows -->
-									<table class="table table-hover">
+									<table class="table table-hover" id="managerList">
 										<thead>
 											<tr>
 												<th scope="col">NO</th>
@@ -128,72 +127,19 @@
 												<th scope="col">상태</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<th scope="row">1</th>
-												<td>HR100</td>
-												<td>김인사</td>
-												<td>인사</td>
-												<td>대리</td>
-												<td>1980-02-25</td>
-												<td>2010-01-01</td>
-												<td>010-0000-0000</td>
-												<td>aaa1234@gmail.com</td>
-												<td>사원</td>
-												<td>재직</td>
-											</tr>
-
-											<tr>
-												<th scope="row">2</th>
-												<td>HR100</td>
-												<td>김인사</td>
-												<td>인사</td>
-												<td>대리</td>
-												<td>1980-02-25</td>
-												<td>2010-01-01</td>
-												<td>010-0000-0000</td>
-												<td>aaa1234@gmail.com</td>
-												<td>사원</td>
-												<td>재직</td>
-											</tr>
-											<tr>
-												<th scope="row">3</th>
-												<td>HR100</td>
-												<td>김인사</td>
-												<td>인사</td>
-												<td>대리</td>
-												<td>1980-02-25</td>
-												<td>2010-01-01</td>
-												<td>010-0000-0000</td>
-												<td>aaa1234@gmail.com</td>
-												<td>사원</td>
-												<td>재직</td>
-											</tr>
-											<tr>
-												<th scope="row">4</th>
-												<td>HR100</td>
-												<td>김인사</td>
-												<td>인사</td>
-												<td>대리</td>
-												<td>1980-02-25</td>
-												<td>2010-01-01</td>
-												<td>010-0000-0000</td>
-												<td>aaa1234@gmail.com</td>
-												<td>사원</td>
-												<td>재직</td>
-											</tr>
-											<tr>
-												<th scope="row">5</th>
-												<td>HR100</td>
-												<td>김인사</td>
-												<td>인사</td>
-												<td>대리</td>
-												<td>1980-02-25</td>
-												<td>2010-01-01</td>
-												<td>010-0000-0000</td>
-												<td>aaa1234@gmail.com</td>
-												<td>사원</td>
-												<td>재직</td>
+										<tbody id='tb'>
+											<tr th:each="m : ${managerList}" th:if="m.auth">
+												<th scope="row"></th>
+												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"> </td>
+												<td th:text="${m.nm}">김인사</td>
+												<td th:text="${m.dept}">인사</td>
+												<td th:text="${m.position}">대리</td>
+												<td th:text="${m.birth}">1980-02-25</td>
+												<td th:text="${m.hDate}">2010-01-01</td>
+												<td th:text="${m.phone}">010-0000-0000</td>
+												<td th:text="${m.email}">aaa1234@gmail.com</td>
+												<td th:text="${m.auth}"> </td>
+												<td th:text="${m.st}">재직</td>
 											</tr>
 										</tbody>
 									</table>

@@ -6,6 +6,23 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+$(document).ready(function() {
+		empSelect();
+		//datatables
+		$('#empList').DataTable();
+		$('#managerList').DataTable();
+		
+		function empSelect() {
+ 			$("#btn").on("click", e=>{
+ 				let no = document.querySelector('#no').innerText;
+ 				console.log(no)
+  				$("#empNo").val(no)
+				$("#frm").submit(); 
+			})
+		}		
+	}); 
+</script>
 </head>
 <body>
 
@@ -46,6 +63,12 @@
 
                   <h5 class="card-title">사원 프로필</h5>
 
+
+				  <div class="row">
+					<div class="col-lg-3 col-md-4 label">사번</div>
+				 	<div id="no" th:text="${e.empNo}" class="col-lg-9 col-md-8"> </div>
+				  </div>
+				  
 				  <div class="row">
 					<div class="col-lg-3 col-md-4 label">성명</div>
 				 	<div th:text="${e.nm}" class="col-lg-9 col-md-8"> </div>
@@ -95,9 +118,8 @@
 				  </div>
 				  
 				  <div class="tab-content pt-2" align="center">
-					<button type="button" class="btn btn-outline-primary"onclick="location.href='empProfileForm'">수정</button>
+					<button id="btn" type="button" class="btn btn-outline-primary">수정</button>
 				  </div>
-				  
 				</div>
               </div>
 
@@ -108,6 +130,9 @@
         </div>
       </div>
 	</section>
+  	<form id="frm" method="post" action="empUpdateForm">
+			<input type="hidden" id="empNo" name="empNo">
+		</form>
   </main><!-- End #main -->
 </body>
 </html>

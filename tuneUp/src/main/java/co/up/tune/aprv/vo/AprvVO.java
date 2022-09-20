@@ -19,4 +19,5 @@ public class AprvVO { //전자결재
 	String atchNo; //첨부파일번호
 	String tempSt; //임시저장
 	String aprvSt; //결재상태
+	String aprvr; //결재자
 }

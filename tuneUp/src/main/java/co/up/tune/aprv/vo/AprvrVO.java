@@ -14,5 +14,6 @@ public class AprvrVO { //결재자
 	Timestamp appvDttm; //결재일시
 	String recaResn; //반려사유
 	int aprvSeq; //결재순서
+	String aprvSt;//결재상태
 	
 }

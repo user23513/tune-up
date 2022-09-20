@@ -8,15 +8,17 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
 	$(document).ready(function() {
-		//수정버튼
+		//게시글 수정버튼
 		$("#uBtn").on("click", e=>{
 			$("#uFrm").submit();
 		})
 		
-		//삭제버튼
+		//게시글 삭제버튼
 		$("#dBtn").on("click", e=>{
 			$("#dFrm").submit();
 		})
+		
+		//==============댓글==============
 		
 		//댓글 등록 버튼 클릭시
 		$("#rBtn").on("click", e=>{
@@ -45,7 +47,47 @@
 		      })
 		})
 		
-		//삭제 이벤트위임 (상위 div에 이벤트 걸었음)
+		//댓글 수정 아이콘 클릭했을 때 이벤트위임 (상위 div에 이벤트 걸었음)
+		$("#rList").on("click", ".update", e=>{
+			let replyNo = $(e.target).data("no"); //댓글 번호
+			
+			let cntnTag = $(e.target).parent().prev() //댓글내용있는 태그
+			let cntn = cntnTag.text();
+			cntnTag.html("");
+			//수정(up), 삭제(de) 아이콘
+			let de = $(e.target).parent().next().hide();
+			let up = $(e.target).parent().hide();
+			
+			cntnTag
+				   .append($("<input>").attr("type","text").addClass("form-control auto").val(cntn))
+				   .append($("<button>").addClass("btn btn-secondary").attr("id", "replyUp").attr("type","button").html("수정"));
+			
+			//수정할 내용 입력하고 수정 클릭했을 때 db에 수정처리
+			$("#replyUp").on("click", e=>{
+				e.stopPropagation();
+				let cntn = $(e.target).prev().val();
+				$.ajax({
+					url:'replyUpdate',
+					type:'post',
+					data:{'replyNo':replyNo, 'cntn':cntn},
+					dataType:'json',
+					success:function(res){
+						$(e.target).prev().remove();
+						$(e.target).remove();
+						cntnTag.html(cntn).appendTo(cntnTag);
+						
+						//수정, 삭제 아이콘 보이게
+						up.show();
+						de.show();
+						
+					}
+				}) 
+				
+			})
+		})
+		
+		
+		//댓글 삭제 이벤트위임 (상위 div에 이벤트 걸었음)
 		$("#rList").on("click", ".delete", e=>{
 			let replyNo = $(e.target).data("no"); //댓글 번호
 			//댓글 삭제처리
@@ -70,6 +112,13 @@
 	}
 	.textSize {
 		font-size: 25px;
+	}
+	.auto{
+		display: inline-block;
+		width: auto;
+	}
+	.w{
+		width: 200px;
 	}
 </style>
 </head>
@@ -115,7 +164,7 @@
 									<span th:text="${r.dttm}">작성일시</span>
 									<br>
 									<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-									<span><i class="ri-edit-2-line"></i></span>&nbsp; 
+									<span><i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i></span>&nbsp; <!-- 수정버튼 -->
 									<span><i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i></span> <!-- 삭제버튼 -->
 									<hr>
 								</div>

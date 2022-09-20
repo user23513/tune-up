@@ -40,8 +40,8 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((requests) -> 
 							requests
-							.antMatchers("/login").permitAll()
-							.antMatchers("/").hasAnyRole("ROLE_ADMIN","ROLE_USER")
+							.antMatchers("/**").permitAll()
+							//.antMatchers("/").hasAnyRole("ROLE_ADMIN","ROLE_USER")
 							.anyRequest().authenticated())
 				.formLogin().loginPage("/login")
 							.usernameParameter("id")
@@ -56,7 +56,7 @@ public class SecurityConfig {
 				.exceptionHandling()
 						 .accessDeniedHandler(accessDeniedHandler())
 						 .and()
-				// .csrf().disable()
+				 .csrf().disable()
 				.userDetailsService(usersService());
 
 		return http.build();

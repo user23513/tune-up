@@ -9,103 +9,94 @@
 <link href='/fullcalendar-5.11.3/lib/main.css' rel='stylesheet' />
 <script src='/fullcalendar-5.11.3/lib/main.js'></script>
 <script>
-	let schedules = [];
+	let schedules = []; //schedules가 db에 있는 모든 리스트
 	
 	document.addEventListener('DOMContentLoaded', function () {
 	  var calendarEl = document.getElementById('calendar');
+	  let empNo = 999;
 	
-	  //캘린더 리스트
-	  fetch('calendarList') // schedules가 db에 있는 모든 리스트
-	    .then(function (result) {
-	      return result.json();
-	    })
-	    .then(function (result) {
-	      result.forEach(schedule => {
-	        let event = {}
-	        event.title = schedule.title;
-	        event.start = schedule.startDate;
-	        event.end = schedule.endDate;
-	        schedules.push(event);
-	      });
-	
-	      // 원래 코드 ~ calendar.render();
-	      var calendar = new FullCalendar.Calendar(calendarEl, {
-	        headerToolbar: {
-	          left: 'prev,next today',
-	          center: 'title',
-	          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-	        },
-	        initialDate: new Date(), //'2020-09-12',
-	        navLinks: true, // can click day/week names to navigate views
-	        selectable: true,
-	        selectMirror: true,
-	        select: function (arg) {
-	          var title = prompt('이벤트를 등록하세요:');
-	          console.log(title);
-	          console.log(arg);
-	          if (title) {
-	            // DB에 입력처리
-	            fetch('calendarInsert', {
-	                method: 'post',
-	                headers: {
-	                  'Content-type': 'application/x-www-form-urlencoded'
-	                },
-	                body: `cmd=insert&title=${title}&start=${arg.startStr}&end=${arg.endStr}`
-	              })
-	              .then(result => result.json())
-	              .then(result => {
-	                console.log(result);
-	
-	                // 화면에 그려주는 부분
-	                calendar.addEvent({
-	                  title: title,
-	                  start: arg.start,
-	                  end: arg.end,
-	                  allDay: arg.allDay
-	                })
-	
-	              })
-	              .catch(err => console.error(err));
-	
-	          }
-	          calendar.unselect();
-	        },
-	        eventClick: function (arg) {
-	          if (confirm('일정을 삭제하겠습니까?')) {
-	            // 삭제
-				console.log(arg)
-	            fetch('calendarDelete', {
-	                method: 'post',
-	                headers: {
-	                  'Content-type': 'application/x-www-form-urlencoded'
-	                },
-	                body: `cmd=delete&title=${arg.event.title}`
-	              })
-	              .then(result => result.json())
-	              .then(result => {
-	            	  console.log(result);
-	            	  if(result.retCode == 'Success'){
-	                	  arg.event.remove();
-	            	  }
-	              })
-	              .catch(err => console.log(err))
-	            
-	          }
-	        },
-	        editable: true,
-	        dayMaxEvents: true, // allow "more" link when too many events
-	        events: schedules
-	      });
-	
-	      calendar.render();
-	
-	      console.log(schedules);
-	    }) // schedules => [{},{},{}]
-	
-	    .catch(function (err) {
-	      console.error(err);
-	    })
-	
+	  //캘린더 전체리스트 ajax
+	  $.ajax({
+	  	url:'calendarList',
+	  	type:'post',
+	  	data:{'empNo':empNo},
+	  	dataType:'json',
+	  	success:function(res){
+	  		$.each (res, function (idx, schedule) {
+	  			let event = {};
+	  			event.id = schedule.calNo;
+		  		event.title = schedule.cntn;
+		        event.start = schedule.sdt;
+		        event.end = schedule.edt;
+		        schedules.push(event);
+			});
+	  		
+		      // 원래 코드 ~ calendar.render();
+		      var calendar = new FullCalendar.Calendar(calendarEl, {
+		        headerToolbar: {
+		          left: 'prev,next today',
+		          center: 'title',
+		          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+		        },
+		        initialDate: new Date(), //'2020-09-12',
+		        navLinks: true, // can click day/week names to navigate views
+		        selectable: true,
+		        selectMirror: true,
+		        select: function (arg) {
+		          var title = prompt('일정을 등록하세요:');
+		          if (title) {
+		            // DB에 입력처리
+		            $.ajax({
+		            	url:'calendarInsert',
+		            	type:'post',
+		            	data:{'empNo':empNo, 'cntn':title, 'sdt':arg.startStr, 'edt':arg.endStr},
+		            	dataType:'json',
+		            	success:function(res){
+		            		//db에 insert가 되면 res에 true가 넘어오도록 설정
+		            		console.log(res)
+		            		if(res) {
+		            			// 화면에 그려주는 부분
+				                calendar.addEvent({
+				                  title: title,
+				                  start: arg.start,
+				                  end: arg.end,
+				                  allDay: arg.allDay
+				                })
+		            		}
+		            	}
+		            })
+		            
+		          }
+		          calendar.unselect();
+		        },
+		        eventClick: function (arg) {
+		          if (confirm('일정을 삭제하겠습니까?')) {
+		            // 삭제
+		            let calNo = arg.event._def.publicId; //캘린더 번호
+					$.ajax({
+						url:'calendarDelete',
+						type:'post',
+						data:{'calNo':calNo},
+						dataType:'json',
+						success:function(res){
+							//db에 삭제가 되면 res값이 true가 나오도록 함
+							if(res){
+								arg.event.remove();
+							}
+						}
+						
+					})
+		          }
+		        },
+		        editable: true,
+		        dayMaxEvents: true, // allow "more" link when too many events
+		        events: schedules
+		      });
+		
+		      calendar.render();
+		
+	  	}
+	  }) // schedules => [{},{},{}]
 	
 	}); // document.addEventListener('DOMContentLoaded', function ()
 </script>

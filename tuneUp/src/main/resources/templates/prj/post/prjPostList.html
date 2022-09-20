@@ -27,9 +27,7 @@
 				<div class="card-body">
 					<h5 class="card-title">MY PROJECT</h5>
 						<div class="pagetitle">
-							<div style="display: inline-block; margin: 0 5px; float: right;">
-								<button type="button" class="btn btn-outline-primary" onclick="location.href='postInsertForm'" >글쓰기</button>
-							</div>
+							
 							<br>
 						</div>
 
@@ -68,7 +66,9 @@
 								aria-selected="false">할일</button>
 
 						</li>
-
+							<div style="display: inline-block; margin: 0 5px; float: right;">
+								<button type="button" class="btn btn-outline-primary" onclick="location.href='postInsertForm'" >글쓰기</button>
+							</div>
 					</ul>
 
 					<!-- 글 목록 -->
@@ -94,7 +94,7 @@
 													<li class="dropdown-header text-start" > Settings
 													</li>
 													
-													<form id="upFrm" action="postUpdateForm" method="get" >
+													<form id="upFrm" action="postUpdateForm" method="post" >
 													<input type="hidden" id="postNo" name="postNo"
 														th:value="${pj.postNo}">
 														   <button id="up" class="dropdown-item" style="text-align: center">수정</button>
@@ -116,7 +116,7 @@
 
 
 
-												<form id="delFrm" action="prjPostDelete" method="get" >
+												<form id="delFrm" action="prjPostDelete" method="post" >
 													<input type="hidden" id="postNo" name="postNo"
 														th:value="${pj.postNo}">
 														   <button id="delete" class="dropdown-item" style="text-align: center">삭제</button>
@@ -129,25 +129,32 @@
 											
 										</h3>
 										<span th:text="${pj.ttl}" style="font-size: large;"></span><br><br>
-										<span th:text="${pj.cntn}" style="font-size: medium;"></span><br><br>
-										<div class="row mb-3">
+										<span th:text="${pj.cntn}" style="font-size: medium;"></span><br><br><br><br>
+										
+										<!-- <div class="row mb-3">
 											<div class="col-sm-10" style="float: right;">
 												<input type="text" class="form-control" >
 												 <button type="button" class="btn btn-primary btn-sm" style="float: right">등록</button>
 											</div>
-										</div>
+										</div> -->
+										
+										<!-- 댓글창 -->
+										<form name>
+									<div class="form-floating mb-3">
+										<textarea class="form-control"
+											placeholder="Leave a comment here" id="floatingTextarea"
+											style="height: 100px; resize: none"></textarea>
+										<label for="floatingTextarea">Comments</label>
+									</div>
+									<button type="button" class="btn btn-primary btn-sm" style="float: right">등록</button>
+										</form>
+										
 									</div>
 								</div>
 								<!-- End Default Card -->
 
 
-									<!-- start reply -->
-				<div class="input-group mb-3">
-					<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
-					<span id="rBtn" class="input-group-text">등록</span>
-				</div><hr>
 				
-				<!-- db에 입력하면 입력한 댓글 추가 -->
 				<div id="reply" style="display: none;">
 				 	<table>
 				 		<tbody>
@@ -184,31 +191,6 @@
 			<!-- end reply -->
 
 
-
-								<!-- Default Card -->
-								<!-- <div class="card">
-									<div class="card-body">
-										<h3 class="card-title">
-											박자바 2020-10-10 <a class="icon" href="#"
-												data-bs-toggle="dropdown"> <i class="bi bi-three-dots"
-												id="ddbt"></i></a>
-											<ul
-												class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-												style="float: right;">
-												<li><a class="dropdown-item" href="#">수정</a></li>
-												<li><a class="dropdown-item" href="#">삭제</a></li>
-											</ul>
-										</h3>
-										<p>
-											어쩌구 저쩌구 졸려 졸려 <br> 배고파 라면 먹고싶어 우에에엥
-										</p>
-											<div class="col-sm-10" >
-												<input type="text" class="form-control" >
-												 <button type="button" class="btn btn-primary btn-sm" style="float: right">등록</button>
-											</div>
-
-									</div></div>
- -->									<!-- End Default Card -->
 
 									<!-- 페이징 -->
 									<nav aria-label="Page navigation example">

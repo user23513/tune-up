@@ -59,21 +59,29 @@ public class PropostController {
 	  }
 	 
 	  //내 프로젝트 - 글 삭제
-	  @GetMapping("/prjPostDelete")
-	  public String prjPostDelete(PostVO vo) {
-		dao.prjPostDelete(vo);
-		return "redirect:/prjPostList";
-		  
-	  }
+//	  @GetMapping("/prjPostDelete")
+//	  public String prjPostDelete(PostVO vo) {
+//		dao.prjPostDelete(vo);
+//		return "redirect:/prjPostList";
+//		  
+//	  }
+	  
+	  
+	  @PostMapping("/prjPostDelete")
+		public String prjPostDelete(PostVO vo) {
+			dao.prjPostDelete(vo);
+			return "redirect:/prjPostList";
+		}
+	  
 	  
 	//내 프로젝트 - 글 수정 폼
-	  @RequestMapping("/postUpdateForm")
+	  @PostMapping("/postUpdateForm")
 		public String prjPostUpdateForm() {
 			return "prj/post/postUpdateForm";
 		}
 	  
 	  //내 프로젝트 - 글 수정
-	  @RequestMapping("/prjPostUpdate")
+	  @PostMapping("/prjPostUpdate")
 		public String prjPostUpdate(PostVO vo) {
 			vo.setWrtr("세션에서받아");
 			vo.setPostNo(11);

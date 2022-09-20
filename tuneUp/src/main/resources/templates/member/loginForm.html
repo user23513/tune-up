@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -39,7 +40,16 @@
 <body>
 
   <main>
+  
+        
+        
     <div class="container">
+    <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div> 
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
@@ -62,8 +72,8 @@
                     <p class="text-center small">Enter your id & password to login</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
-
+                  <form class="row g-3 needs-validation" novalidate method="post" action="login">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="col-12">
                       <label for="yourUsername" class="form-label">ID</label>
                       <div class="input-group has-validation">
@@ -75,7 +85,7 @@
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" name="pw" class="form-control" id="pw" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 

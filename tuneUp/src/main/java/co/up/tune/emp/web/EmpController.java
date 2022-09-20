@@ -11,7 +11,7 @@ import co.up.tune.TuneUpApplication;
 @SpringBootApplication
 @MapperScan(basePackages = "co.up.tune.**.mapper")
 @Controller
-public class MemberController {
+public class EmpController {
 	public static void main(String[] args) {
 		SpringApplication.run(TuneUpApplication.class, args);
 	}
@@ -31,9 +31,13 @@ public class MemberController {
 		return "member/findId";
 	}
 	
-	@GetMapping("findpassword")
+	@GetMapping("/findpassword")
 	public String findPassword() {
 		return "member/findPassword";
+	}
+	@GetMapping("/error404")
+	public String error404() {
+		return "error404";
 	}
 	
 }

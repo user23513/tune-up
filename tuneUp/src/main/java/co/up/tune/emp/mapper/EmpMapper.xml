@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.emp.mapper.EmpMapper">
+
+<select id="empSelect" parameterType="co.up.tune.emp.vo.EmpVO"
+			resultType="co.up.tune.emp.vo.EmpVO">
+		select empNo,
+				nm,
+				id,
+				pw,
+				dept,
+				position,
+		        'ROLE_' || auth as auth,
+		        st,
+		        mng		        
+		  from emp 
+		 where id = #{id}
+	</select>
+</mapper>

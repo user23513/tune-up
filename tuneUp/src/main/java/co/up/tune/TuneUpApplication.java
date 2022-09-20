@@ -15,7 +15,7 @@ public class TuneUpApplication {
 		SpringApplication.run(TuneUpApplication.class, args);
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/main")
 	public String main() {
 		return "main/main";
 	}

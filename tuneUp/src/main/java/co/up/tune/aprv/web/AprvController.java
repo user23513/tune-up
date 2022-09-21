@@ -17,17 +17,17 @@ public class AprvController {
 	@Autowired
 	CommonService cd;
 	@Autowired
-	AprvListService dao1;
-	/*
-	 * @Autowired AprvrService dao2;
-	 */
+	AprvListService ap;
+	@Autowired
+	AprvrService aprvr;
+	
 	
 	@GetMapping("/aprvList")
 	public String aprvList(Model model, HttpServletRequest request) {
 		
 		//사번으로 내 결재 조회
 		String empNo = (String)request.getSession().getAttribute("empNo");
-		model.addAttribute("aprvList", dao1.aprvList(empNo));
+		model.addAttribute("aprvList", ap.aprvList(empNo));
 		
 		//공통코드
 		model.addAttribute("cd", cd.commonList("결재상태"));

@@ -1,5 +1,8 @@
 package co.up.tune.aprv.aprvr.service;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class AprvrServiceImpl implements AprvrService {
 	
 	

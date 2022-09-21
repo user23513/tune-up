@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	  layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
@@ -108,7 +109,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<a href="noticeInsertForm" class="btn btn-primary location">글쓰기</a>
+					<a href="noticeInsertForm" class="btn btn-primary location" sec:authorize="hasRole('ADMIN')">글쓰기</a>
 				</div>
 			</div>
 		</div>

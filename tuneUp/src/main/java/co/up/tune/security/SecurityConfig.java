@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import co.up.tune.emp.service.UsersService;
 
@@ -30,6 +31,11 @@ public class SecurityConfig {
 	public CustomLoginSuccessHandler loginHandler() {
 		return new CustomLoginSuccessHandler();
 	}
+	
+	@Bean
+	public CustomLogoutSuccessHandler logoutHandler() {
+		return new CustomLogoutSuccessHandler();
+	}
 
 	@Bean
 	public AccessDeniedHandler accessDeniedHandler() {
@@ -49,9 +55,10 @@ public class SecurityConfig {
 							.successHandler(loginHandler())
 							.and()
 				.logout().logoutUrl("/logout")
-						 .logoutSuccessUrl("/login")
+						 //.logoutSuccessUrl("/login")
 						 .invalidateHttpSession(true)
 						 .deleteCookies("JSESSIONID")
+						 .logoutSuccessHandler(logoutHandler())
 						 .and()
 				.exceptionHandling()
 						 .accessDeniedHandler(accessDeniedHandler())

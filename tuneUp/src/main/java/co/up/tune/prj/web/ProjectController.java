@@ -14,7 +14,7 @@ public class ProjectController {
 
 	@GetMapping("/newproject")
 	public String newProjectForm() {
-		return "member/newProjectForm";
+		return "prj/newProjectForm";
 	}
 	
 	@GetMapping("/file")

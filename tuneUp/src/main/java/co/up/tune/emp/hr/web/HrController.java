@@ -36,9 +36,11 @@ public class HrController {
 		return "emp/hr/empProfile";
 	}
 	
-	@RequestMapping("/addr")
-	public String addr() {
-		return "emp/hr/addr";
+	@RequestMapping("/empUpdate")
+	public String empUpdate(EmpVO vo, Model model) {
+		dao.empUpdate(vo);
+		model.addAttribute("e",dao.empSelect(vo));
+		return "redirect:/empProfile";
 	}
 		
 	

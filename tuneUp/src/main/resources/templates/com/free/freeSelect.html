@@ -150,8 +150,7 @@
     	<div class="card-body">
          	<h5 class="card-title"></h5>
 				<div>
-				<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
-				권한 [[empNo]]
+				<input type="hidden" id="empNo" name="empNo" th:value="${empNo}"> <a th:text="${session.auth}"></a>
 					<table class="table">
 						<tbody>
 							<tr>

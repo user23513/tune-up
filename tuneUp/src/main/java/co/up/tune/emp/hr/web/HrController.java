@@ -1,10 +1,10 @@
 package co.up.tune.emp.hr.web;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import co.up.tune.common.service.CommonService;
@@ -28,13 +28,14 @@ public class HrController {
 		String ad1 = arr[0];
 		String ad2 = arr[1];
 		String ad3 = arr[2];
-		System.out.println(ad1 + "+"+ ad2+ "+"+ ad3);
 		emp.setAd1(ad1);
 		emp.setAd2(ad2);
 		emp.setAd3(ad3);
 		
 		model.addAttribute("e", emp);
-		
+		model.addAttribute("d", cd.commonList("부서"));
+		model.addAttribute("p", cd.commonList("직위"));
+		model.addAttribute("a", cd.commonList("권한"));
 		return "emp/hr/empUpdateForm";
 	}
 	
@@ -60,11 +61,11 @@ public class HrController {
 		String addr = ad1+ "/" + ad2+ "/" +ad3;
 		vo.setAddr(addr);
 		
+		
 		int cnt = 0;
 		if (dao.empUpdate(vo) != 0) {
 			model.addAttribute("empList",dao.empList());
 			model.addAttribute("managerList",dao.managerList());
-			
 			return "emp/hr/empManage";
 		} else {
 			return "redirect:empUpdateForm";

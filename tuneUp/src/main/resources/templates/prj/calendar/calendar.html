@@ -16,6 +16,7 @@
 	document.addEventListener('DOMContentLoaded', function () {
 	  var calendarEl = document.getElementById('calendar');
 	  let empNo = 999;
+	  //token
 	  var token = $("meta[name='_csrf']").attr("content");
 	  var header = $("meta[name='_csrf_header']").attr("content");
 	
@@ -64,6 +65,7 @@
 		            	success:function(res){
 		            		//db에 insert가 되면 res에 true가 넘어오도록 설정
 		            		console.log(res)
+		            		console.log(arg)
 		            		if(res) {
 		            			// 화면에 그려주는 부분
 				                calendar.addEvent({

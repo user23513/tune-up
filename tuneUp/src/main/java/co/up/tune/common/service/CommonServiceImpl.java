@@ -1,6 +1,8 @@
 package co.up.tune.common.service;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.up.tune.common.mapper.CommonMapper;
@@ -13,9 +15,9 @@ public class CommonServiceImpl implements CommonService {
 	CommonMapper map;
 	
 	@Override
-	public List<CommonVO> commonList(CommonVO vo) {
+	public List<CommonVO> commonList(@Param("cdCat") String cdCat) {
 		
-		return map.commonList(vo); 
+		return map.commonList(cdCat); 
 	}
 
 	

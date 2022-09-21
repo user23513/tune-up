@@ -21,7 +21,6 @@ public class AprvListServiceImpl implements AprvListService {
 	AprvListMapper map;
 	
 	
-	
 	// 나의신청리스트
 	@Override
 	public List<AprvVO> aprvList(AprvVO vo) {

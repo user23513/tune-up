@@ -22,6 +22,7 @@
 			<if test="addr != null">addr = #{addr}</if>,
 			<if test="hDate != null">h_date = #{hDate}</if>,
 			<if test="fDate != null">f_date = #{fDate}</if>
+			
 		</set>
 		where emp_no = #{empNo}	
 	</update>

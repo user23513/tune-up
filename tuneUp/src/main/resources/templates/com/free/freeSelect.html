@@ -4,10 +4,14 @@
 	  layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
 	$(document).ready(function() {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
 		//게시글 수정버튼
 		$("#uBtn").on("click", e=>{
 			$("#uFrm").submit();
@@ -29,6 +33,9 @@
 			//댓글 등록 처리
 			$.ajax({
 		         url:'replyInsert',
+		         beforeSend:function(xhr){
+		 	  		xhr.setRequestHeader(header,token);  
+		     	  },
 		         type:'post',
 		         data:{'postNo':postNo, 'cntn':cntn},
 		         dataType:'json',
@@ -58,20 +65,29 @@
 			let de = $(e.target).parent().next().hide();
 			let up = $(e.target).parent().hide();
 			
+			//댓글 수정폼 뜨게
 			cntnTag
-				   .append($("<input>").attr("type","text").addClass("form-control auto").val(cntn))
+				   .append($("<textarea>").addClass("form-control auto txtA").val(cntn))
+				   .append($("<br>"))
 				   .append($("<button>").addClass("btn btn-secondary").attr("id", "replyUp").attr("type","button").html("수정"));
 			
 			//수정할 내용 입력하고 수정 클릭했을 때 db에 수정처리
 			$("#replyUp").on("click", e=>{
 				e.stopPropagation();
-				let cntn = $(e.target).prev().val();
+				let cntn = $(e.target).prev().prev().val();
+				cntn = cntn.replaceAll(/(\n|\r\n)/g, "<br>");
 				$.ajax({
 					url:'replyUpdate',
+					beforeSend:function(xhr){
+				  		xhr.setRequestHeader(header,token);  
+			    	  },
 					type:'post',
 					data:{'replyNo':replyNo, 'cntn':cntn},
 					dataType:'json',
 					success:function(res){
+						console.log(res)
+						console.log($(e.target).parent().prev().prev())
+						$(e.target).parent().prev().prev().html(res);
 						$(e.target).prev().remove();
 						$(e.target).remove();
 						cntnTag.html(cntn).appendTo(cntnTag);
@@ -93,6 +109,9 @@
 			//댓글 삭제처리
 			$.ajax({
 		         url:'replyDelete',
+		         beforeSend:function(xhr){
+		 	  		xhr.setRequestHeader(header,token);  
+		     	  },
 		         type:'post',
 		         data:{'replyNo':replyNo},
 		         dataType:'json',
@@ -117,8 +136,8 @@
 		display: inline-block;
 		width: auto;
 	}
-	.w{
-		width: 200px;
+	.txtA{
+		resize: none; /* textarea 크기조절 삭제  */
 	}
 </style>
 </head>

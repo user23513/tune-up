@@ -17,7 +17,7 @@ public class ReplyVO {
 	private String empNo;   //사원 번호
 	private String wrtr;    //작성자
 	private String cntn;    //댓글 내용
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date dttm;      //작성일시
 	private String replyCat; //
 }

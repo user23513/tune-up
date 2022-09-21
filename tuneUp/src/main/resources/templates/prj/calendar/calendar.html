@@ -63,12 +63,12 @@
 		            	data:{'empNo':empNo, 'cntn':title, 'sdt':arg.startStr, 'edt':arg.endStr},
 		            	dataType:'json',
 		            	success:function(res){
-		            		//db에 insert가 되면 res에 true가 넘어오도록 설정
-		            		console.log(res)
-		            		console.log(arg)
+		            		//db에 insert가 되면 res에 calNo가 넘어오도록 설정
+		            		let calNo = res;
 		            		if(res) {
 		            			// 화면에 그려주는 부분
 				                calendar.addEvent({
+				                  id: calNo,
 				                  title: title,
 				                  start: arg.start,
 				                  end: arg.end,

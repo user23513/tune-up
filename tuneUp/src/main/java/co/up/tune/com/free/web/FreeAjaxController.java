@@ -21,6 +21,12 @@ public class FreeAjaxController {
 		return vo;
 	}
 	
+	//댓글 수정
+	@PostMapping("/replyUpdate")
+	public int replyUpdate(ReplyVO vo) {
+		return dao.replyUpdate(vo);
+	}
+	
 	//댓글 삭제
 	@PostMapping("/replyDelete")
 	public int replyDelete(ReplyVO vo) {

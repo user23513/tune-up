@@ -85,7 +85,9 @@
 	</insert>
 	
 	<update id="replyUpdate" parameterType="co.up.tune.com.vo.ReplyVO">
-	
+		UPDATE REPLY
+		SET CNTN = #{cntn}, DTTM = SYSDATE
+		WHERE REPLY_NO = #{replyNo}
 	</update>
 	
 	<delete id="replyDelete" parameterType="co.up.tune.com.vo.ReplyVO">

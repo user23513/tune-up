@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import co.up.tune.com.vo.CommunityVO;
+import co.up.tune.prj.vo.BusinessVO;
 
 public interface NoticeMapper {
 	
@@ -15,5 +16,8 @@ public interface NoticeMapper {
 	int noticeDelete(CommunityVO vo); //공지사항 삭제
 	List<CommunityVO> noticeSearch(@Param("key") String key, @Param("val") String val); //공지사항 검색
 	int noticeHitUpdate(CommunityVO vo); //공지사항 조회수증가
+	
+	//=========================
+	List<BusinessVO> ganttList(BusinessVO vo);
 
 }

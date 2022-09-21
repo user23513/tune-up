@@ -138,5 +138,12 @@ public class NoitceController {
 		return "redirect:/noticeList";
 	}
 	
+	//=================================
+	@GetMapping("/gantt")
+	public String gantt() {
+		return "com/notice/gantt";
+	}
+	
+	
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import co.up.tune.com.notice.mapper.NoticeMapper;
 import co.up.tune.com.vo.CommunityVO;
+import co.up.tune.prj.vo.BusinessVO;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -55,6 +56,13 @@ public class NoticeServiceImpl implements NoticeService {
 	public int noticeHitUpdate(CommunityVO vo) {
 		// 공지사항 조회수 업데이트
 		return map.noticeHitUpdate(vo);
+	}
+
+	//===========================
+	@Override
+	public List<BusinessVO> ganttList(BusinessVO vo) {
+		// TODO Auto-generated method stub
+		return map.ganttList(vo);
 	}
 
 	

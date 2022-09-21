@@ -327,11 +327,13 @@
               <i class="bi bi-circle"></i><span>나의 승인</span>
             </a>
           </li>
-          <li>
+          
+          <li th:if = "${auth == 'ADMIN'}">
             <a href="aprvAdmin">
               <i class="bi bi-circle"></i><span>관리 기능</span>
             </a>
           </li>
+        
         </ul>
       </li><!-- End Forms Nav -->
 

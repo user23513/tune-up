@@ -15,12 +15,12 @@ public interface AprvListMapper {
 	// 관리자 전체 리스트
 	List<AprvVO> aprvListAll();
 	// 나의 신청 리스트
-	List<AprvVO> aprvList(@Param("aprvNo") String aprvNo);
+	List<AprvVO> aprvList(AprvVO vo);
 
 	
 	// 문서 조회
 	AprvVO aprvSelect(AprvVO vo); // 신청단건개요
-	List<ItemCntnVO> cntnList(@Param("aprvNo") String aprvNo); // 결재내용목록
+	List<ItemCntnVO> cntnList(ItemCntnVO vo); // 결재내용목록
 	// 문서 작성 - 결재자 설정 전까지 임시저장
 	int aprvInsert(AprvVO vo); // 결재문서입력
 	int aprvCntnInsert(AprvCntnVO vo); // 문서내용입력 - 반복

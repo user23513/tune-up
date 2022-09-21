@@ -2,6 +2,7 @@ package co.up.tune.aprvList.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,8 @@ public class AprvListServiceImpl implements AprvListService {
 	
 	// 나의신청리스트
 	@Override
-	public List<AprvVO> aprvList(AprvVO vo) {
-		return map.aprvList(vo);
+	public List<AprvVO> aprvList(@Param("aprvNo") String aprvNo) {
+		return map.aprvList(aprvNo);
 	}
 	
 	

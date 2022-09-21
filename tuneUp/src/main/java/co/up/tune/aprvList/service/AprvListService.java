@@ -13,7 +13,7 @@ import co.up.tune.aprv.vo.TrustVO;
 public interface AprvListService {
 
 	// 나의 신청 리스트
-	List<AprvVO> aprvList(AprvVO vo);
+	List<AprvVO> aprvList(@Param("aprvNo") String aprvNo);
 
 	// 문서 조회
 	AprvVO aprvSelect(AprvVO vo); // 신청단건개요

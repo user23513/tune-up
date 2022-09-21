@@ -17,6 +17,6 @@ public class PostVO {
 	 int atchNo;	//첨부파일 번호
 	 int prjNo;		//프로젝트 번호
 
-
+	 
 
 }

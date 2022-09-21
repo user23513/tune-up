@@ -57,10 +57,12 @@ public class PropostServiceImpl implements PropostService {
 		return map.ppReplyDelete(vo);
 	}
 
-	
-	
-	
+	@Override
+	public ReplyVO ppReplySelect(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return map.ppReplySelect(vo);
+		
+	}
 
-	
 	
 }

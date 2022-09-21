@@ -19,11 +19,6 @@ public class HrServiceImpl implements HrService {
 	}
 
 	@Override
-	public List<EmpVO> empSearch(String key, String val) {
-		return map.empSearch(key, val);
-	}
-
-	@Override
 	public EmpVO empSelect(EmpVO vo) {
 		return map.empSelect(vo);
 	}

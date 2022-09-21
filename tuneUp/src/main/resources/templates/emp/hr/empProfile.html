@@ -8,19 +8,13 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
 $(document).ready(function() {
-		empSelect();
+		$("#btn").on("click", e=>{
+				$("#empNo").val()
+			$("#frm").submit(); 
+		})
 		//datatables
 		$('#empList').DataTable();
-		$('#managerList').DataTable();
-		
-		function empSelect() {
- 			$("#btn").on("click", e=>{
- 				let no = document.querySelector('#no').innerText;
- 				console.log(no)
-  				$("#empNo").val(no)
-				$("#frm").submit(); 
-			})
-		}		
+		$('#managerList').DataTable();	
 	}); 
 </script>
 </head>
@@ -63,12 +57,6 @@ $(document).ready(function() {
 
                   <h5 class="card-title">사원 프로필</h5>
 
-
-				  <div class="row">
-					<div class="col-lg-3 col-md-4 label">사번</div>
-				 	<div id="no" th:text="${e.empNo}" class="col-lg-9 col-md-8"> </div>
-				  </div>
-				  
 				  <div class="row">
 					<div class="col-lg-3 col-md-4 label">성명</div>
 				 	<div th:text="${e.nm}" class="col-lg-9 col-md-8"> </div>
@@ -132,7 +120,7 @@ $(document).ready(function() {
 	</section>
   	<form id="frm" method="post" action="empUpdateForm">
   	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-			<input type="hidden" id="empNo" name="empNo">
+			<input type="hidden" id="empNo" name="empNo" th:value="${e.empNo}">
 		</form>
   </main><!-- End #main -->
 </body>

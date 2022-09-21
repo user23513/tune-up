@@ -17,9 +17,9 @@ public class AprvController {
 	@Autowired
 	CommonService cd;
 	@Autowired
-	AprvListService dao1;
+	AprvListService ap;
 	@Autowired
-	AprvrService dao2;
+	AprvrService aprvr;
 	
 	
 	@GetMapping("/aprvList")
@@ -27,7 +27,7 @@ public class AprvController {
 		
 		//사번으로 내 결재 조회
 		String empNo = (String)request.getSession().getAttribute("empNo");
-		model.addAttribute("aprvList", dao1.aprvList(empNo));
+		model.addAttribute("aprvList", ap.aprvList(empNo));
 		
 		//공통코드
 		model.addAttribute("cd", cd.commonList("결재상태"));

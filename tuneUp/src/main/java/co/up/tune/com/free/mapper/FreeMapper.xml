@@ -82,7 +82,7 @@
 			end
 		} -->
 		INSERT INTO REPLY
-		VALUES(#{replyNo}, #{postNo}, '사원번호', '작성자', #{cntn}, SYSDATE, '커뮤니티')
+		VALUES(#{replyNo}, #{postNo}, #{empNo}, '작성자', #{cntn}, SYSDATE, '커뮤니티')
 	</insert>
 	
 	<update id="replyUpdate" parameterType="co.up.tune.com.vo.ReplyVO"> 

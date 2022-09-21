@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" 
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	  layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
@@ -26,9 +27,11 @@
 		
 		//댓글 등록 버튼 클릭시
 		$("#rBtn").on("click", e=>{
-			let postNo = $("#postNo").val();
-			let cntn = $("#rCntn").val();
-			let rList = $("<div>").attr("id", "rList");
+			let postNo = $("#postNo").val(); //게시글 번호
+			let cntn = $("#rCntn").val();    //댓글 내용
+			let empNo = $("#empNo").val();   //댓글 쓴 사원번호
+			console.log(empNo)
+			let rList = $("<div>").attr("id", "rList"); 
 			
 			//댓글 등록 처리
 			$.ajax({
@@ -37,7 +40,7 @@
 		 	  		xhr.setRequestHeader(header,token);  
 		     	  },
 		         type:'post',
-		         data:{'postNo':postNo, 'cntn':cntn},
+		         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo},
 		         dataType:'json',
 		         success:function(res){
 						let div = $("<div>").append($("<span>").html(res.wrtr))
@@ -147,6 +150,7 @@
     	<div class="card-body">
          	<h5 class="card-title"></h5>
 				<div>
+				<input type="hidden" id="empNo" name="empNo" th:value="${empNo}"> <a th:text="${session.auth}"></a>
 					<table class="table">
 						<tbody>
 							<tr>
@@ -183,8 +187,8 @@
 									<span th:text="${r.dttm}">작성일시</span>
 									<br>
 									<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-									<span><i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i></span>&nbsp; <!-- 수정버튼 -->
-									<span><i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i></span> <!-- 삭제버튼 -->
+									<span><i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i></span>&nbsp; <!-- 수정아이콘 -->
+									<span><i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i></span> <!-- 삭제아이콘 -->
 									<hr>
 								</div>
 							</div>

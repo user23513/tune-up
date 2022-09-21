@@ -44,12 +44,6 @@
         
         
     <div class="container">
-    <div th:if="${param.error}">
-            Invalid username and password.
-        </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div> 
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
@@ -71,7 +65,6 @@
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your id & password to login</p>
                   </div>
-
                   <form class="row g-3 needs-validation" novalidate method="post" action="login">
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="col-12">
@@ -89,17 +82,31 @@
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
                         <label class="form-check-label" for="rememberMe">Remember me</label>
                       </div>
-                    </div>
+                    </div> -->
+              		
+               			 
+                
+				    
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
+				<!-- 로그인 오류/ 로그아웃 -->
+					
+					    <div class="col-12 alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error}">
+					        <i class="bi bi-exclamation-octagon me-1"></i>    
+					            유효하지 않은 아이디 또는 패스워드입니다.
+					    </div>
+					    <div class="col-12 alert alert-success alert-dismissible fade show" role="alert" th:if="${param.logout}">
+					        <i class="bi bi-exclamation-octagon me-1"></i>    
+					            로그아웃 되었습니다.
+					    </div> 
                     <div class="col-12">
-                      <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
+                      <p class="small mb-0">Don't have account? <a href="signup">Create an account</a></p>
                     </div>
                   </form>
 

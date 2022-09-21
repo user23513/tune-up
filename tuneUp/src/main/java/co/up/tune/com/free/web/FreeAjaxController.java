@@ -1,8 +1,13 @@
 package co.up.tune.com.free.web;
 
+
+
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import co.up.tune.com.free.service.FreeService;
 import co.up.tune.com.vo.ReplyVO;
@@ -23,8 +28,10 @@ public class FreeAjaxController {
 	
 	//댓글 수정
 	@PostMapping("/replyUpdate")
-	public int replyUpdate(ReplyVO vo) {
-		return dao.replyUpdate(vo);
+	public Date replyUpdate(ReplyVO vo) {
+		dao.replyUpdate(vo);
+		
+		return vo.getDttm();
 	}
 	
 	//댓글 삭제

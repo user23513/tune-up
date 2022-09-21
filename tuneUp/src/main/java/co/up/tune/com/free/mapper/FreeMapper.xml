@@ -84,7 +84,12 @@
 		VALUES(#{replyNo}, #{postNo}, '사원번호', '작성자', #{cntn}, SYSDATE, '커뮤니티')
 	</insert>
 	
-	<update id="replyUpdate" parameterType="co.up.tune.com.vo.ReplyVO">
+	<update id="replyUpdate" parameterType="co.up.tune.com.vo.ReplyVO"> 
+		<selectKey keyColumn="dttm" keyProperty="dttm" order="AFTER" resultType="date">  
+			SELECT TO_CHAR(DTTM, 'YYYY-MM-DD HH24:MI:SS') AS DTTM 
+			FROM REPLY
+			WHERE REPLY_NO = #{replyNo}
+		</selectKey>
 		UPDATE REPLY
 		SET CNTN = #{cntn}, DTTM = SYSDATE
 		WHERE REPLY_NO = #{replyNo}

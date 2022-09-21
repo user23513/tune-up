@@ -14,7 +14,7 @@ public interface PropostService {
 	int prjPostDelete(PostVO vo); //프로젝트-글 삭제
 
 	List<ReplyVO> ppReplyList(ReplyVO vo); // 댓글 리스트
-	
+	ReplyVO ppReplySelect(ReplyVO vo); //댓글 조회
 	int ppReplyInsert(ReplyVO vo); // 댓글 등록
 	int ppReplyDelete(ReplyVO vo); // 댓글 삭제
 }

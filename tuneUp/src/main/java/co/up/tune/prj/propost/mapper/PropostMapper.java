@@ -14,4 +14,5 @@ public interface PropostMapper {
 	List<ReplyVO> ppReplyList(ReplyVO vo); //댓글 리스트
 	int ppReplyInsert(ReplyVO vo); //댓글 등록
 	int ppReplyDelete(ReplyVO vo); //댓글 삭제
+	ReplyVO ppReplySelect(ReplyVO vo); //댓글 조회
 }

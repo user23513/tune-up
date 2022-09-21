@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import co.up.tune.common.service.CommonService;
 import co.up.tune.emp.hr.service.HrService;
 import co.up.tune.emp.vo.EmpVO;
 
@@ -14,11 +15,26 @@ import co.up.tune.emp.vo.EmpVO;
 public class HrController {
 	@Autowired
 	HrService dao;
+	@Autowired
+	CommonService cd;
+	
 	
 	@RequestMapping("/empUpdateForm")
 	public String empUpdateForm(EmpVO vo, Model model) {
-		dao.empSelect(vo);
-		model.addAttribute("e", dao.empSelect(vo));
+		
+		EmpVO emp = dao.empSelect(vo);
+		String addr = emp.getAddr();
+		String arr[] = addr.split("/");
+		String ad1 = arr[0];
+		String ad2 = arr[1];
+		String ad3 = arr[2];
+		System.out.println(ad1 + "+"+ ad2+ "+"+ ad3);
+		emp.setAd1(ad1);
+		emp.setAd2(ad2);
+		emp.setAd3(ad3);
+		
+		model.addAttribute("e", emp);
+		
 		return "emp/hr/empUpdateForm";
 	}
 	
@@ -38,10 +54,20 @@ public class HrController {
 	
 	@RequestMapping("/empUpdate")
 	public String empUpdate(EmpVO vo, Model model) {
-		dao.empUpdate(vo);
-		model.addAttribute("e",dao.empSelect(vo));
-		return "redirect:/empProfile";
-	}
+		String ad1 = vo.getAd1();
+		String ad2 = vo.getAd2();
+		String ad3 = vo.getAd3();
+		String addr = ad1+ "/" + ad2+ "/" +ad3;
+		vo.setAddr(addr);
 		
-	
+		int cnt = 0;
+		if (dao.empUpdate(vo) != 0) {
+			model.addAttribute("empList",dao.empList());
+			model.addAttribute("managerList",dao.managerList());
+			
+			return "emp/hr/empManage";
+		} else {
+			return "redirect:empUpdateForm";
+		}
+	}
 }

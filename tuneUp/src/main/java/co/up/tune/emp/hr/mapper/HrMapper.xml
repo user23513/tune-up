@@ -16,11 +16,11 @@
 	<update id="empUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
 		<set>
-			<if test="dept != null">dept = #{dept}</if>,
-			<if test="position != null">position = #{position}</if>,
-			<if test="zip != null">zip = #{zip}</if>,
-			<if test="addr != null">addr = #{addr}</if>,
-			<if test="hDate != null">h_date = #{hDate}</if>,
+			<if test="dept != null">dept = #{dept},</if>
+			<if test="position != null">position = #{position},</if>
+			<if test="zip != null">zip = #{zip},</if>
+			<if test="addr != null">addr = #{addr},</if>
+			<if test="hDate != null">h_date = #{hDate},</if>
 			<if test="fDate != null">f_date = #{fDate}</if>
 			
 		</set>

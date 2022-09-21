@@ -64,45 +64,45 @@ $(document).ready(function() {
 
 				  <div class="row">
 					<div class="col-lg-3 col-md-4 label">휴대폰</div>
-					<div class="col-lg-9 col-md-8"> </div>
+					<div th:text="${e.phone}" class="col-lg-9 col-md-8"> </div>
 				  </div>
 
 				  <div class="row">
 					<div class="col-lg-3 col-md-4 label">Email</div>
-					<div class="col-lg-9 col-md-8"> </div>
+					<div th:text="${e.email}"class="col-lg-9 col-md-8"> </div>
 				  </div>
 				
 				  <div class="row">
 					<div class="col-lg-3 col-md-4 label ">부서</div>
-					<div class="col-lg-9 col-md-8"> </div>
+					<div th:text="${e.dept}" class="col-lg-9 col-md-8"> </div>
 				  </div>
 
 				  <div class="row">
 					<div class="col-lg-3 col-md-4 label">직급</div>
-					<div class="col-lg-9 col-md-8"> </div>
+					<div th:text="${e.position}" class="col-lg-9 col-md-8"> </div>
+				  </div>
+
+				  <div class="row">
+					<div class="col-lg-3 col-md-4 label">우편번호</div>
+					<div th:text="${e.zip}" class="col-lg-9 col-md-4"> </div>
+					<br>
+					<div class="col-lg-3 col-md-4"> </div>
+					<div  class="col-lg-9 col-md-4"> </div>
 				  </div>
 
 				  <div class="row">
 					<div class="col-lg-3 col-md-4 label">자택주소</div>
-					<div class="col-lg-9 col-md-4"> </div>
-					<br>
-					<div class="col-lg-3 col-md-4"></div>
-					<div class="col-lg-9 col-md-4"> </div>
-				  </div>
-
-				  <div class="row">
-					<div class="col-lg-3 col-md-4 label">상세주소</div>
-					<div class="col-lg-9 col-md-8"> </div>
+					<div th:text="${e.addr}" class="col-lg-9 col-md-8"> </div>
 				  </div>
 
 				  <div class="row">
 					<div class="col-lg-3 col-md-4 label">사내전화</div>
-					<div class="col-lg-9 col-md-8"> </div>
+					<div th:text="${e.comPhone}" class="col-lg-9 col-md-8"> </div>
 				  </div>
 
 				  <div class="row">
 					<div class="col-lg-3 col-md-2 label">입사일</div>
-					<div class="col-lg-9 col-md-8"> </div>
+					<div th:text="${e.hDate}" class="col-lg-9 col-md-8"> </div>
 				  </div>
 				  
 				  <div class="tab-content pt-2" align="center">

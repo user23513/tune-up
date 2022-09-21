@@ -18,9 +18,9 @@ public class AprvController {
 	CommonService cd;
 	@Autowired
 	AprvListService dao1;
-	@Autowired
-	AprvrService dao2;
-	
+	/*
+	 * @Autowired AprvrService dao2;
+	 */
 	
 	@GetMapping("/aprvList")
 	public String aprvList(Model model, HttpServletRequest request) {

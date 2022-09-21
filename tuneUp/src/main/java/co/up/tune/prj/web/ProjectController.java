@@ -12,12 +12,12 @@ public class ProjectController {
 		return "prj/myProject";
 	}
 
-	@GetMapping("newproject")
+	@GetMapping("/newproject")
 	public String newProjectForm() {
 		return "member/newProjectForm";
 	}
 	
-	@GetMapping("file")
+	@GetMapping("/file")
 	public String attechmentFile() {
 		return "file/file";
 	}

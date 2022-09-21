@@ -38,16 +38,6 @@
 
 
 
-	<!-- <insert id="aprvInsert" parameterType="co.up.tune.aprv.vo.AprvVO"> 
-		INSERT INTO APRV VALUES (PNO_SEQ.NEXTVAL, #{ttl}, '사원이름', #{cntn}, SYSDATE, 
-		#{fNm}, #{fPath}, 0, 'x', '102', '사번') </insert> <update id="aprvUpdate" 
-		parameterType="co.up.tune.aprv.vo.AprvVO"> UPDATE COMMUNITY <set> <if test="ttl 
-		!= null">TTL=#{ttl},</if> <if test="cntn != null">CNTN=#{cntn},</if> <if 
-		test="fNm != null">F_NM=#{fNm},</if> <if test="fPath != null">F_PATH=#{fPath}</if> 
-		</set> WHERE POST_NO=#{postNo} </update> -->
-
-
-
 
 
 

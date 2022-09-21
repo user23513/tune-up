@@ -15,7 +15,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-			String cpath = request.getContextPath();
+			
+			request.getSession().setAttribute("dept", "개발");
+			
 			response.sendRedirect("/main");	
 	}
 	

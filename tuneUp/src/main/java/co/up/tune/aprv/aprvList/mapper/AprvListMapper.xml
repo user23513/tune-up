@@ -3,7 +3,16 @@
 <mapper namespace="co.up.tune.aprvList.mapper.AprvListMapper">
 
 
-	<!-- 전체조회 -->
+	<!-- 관리자조회 -->
+	<select id="aprvListAll" resultType="co.up.tune.aprv.vo.AprvVO"
+		parameterType="co.up.tune.aprv.vo.AprvVO">
+		SELECT *
+		FROM APRV
+		ORDER BY APRV_NO DESC
+	</select>
+
+
+	<!-- 나의조회 -->
 	<select id="aprvList" resultType="co.up.tune.aprv.vo.AprvVO"
 		parameterType="co.up.tune.aprv.vo.AprvVO">
 		SELECT *

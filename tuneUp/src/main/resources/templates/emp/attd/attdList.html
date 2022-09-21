@@ -100,9 +100,17 @@
 										data-bs-target="#bad" type="button" role="tab"
 										aria-controls="bad" aria-selected="false">근태이상</button>
 								</li>
-								<div style="display: inline-block; float: right;">
-								<button type="button" class="btn btn-outline-primary" >엑셀</button>
+								<form id="excelForm" name="excelForm" method=get action="excel">
+								<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
+								<input type="text" name="fileName">
+								<div style="display: inline-block; float: right;">&nbsp;&nbsp;
+								<button type="submit" value="xls파일로 받기" class="btn btn-outline-primary" >엑셀</button>
 								</div>
+								</form>
+								
+								<!-- <div style="display: inline-block; float: right;">
+								<button type="button" class="btn btn-outline-primary" >엑셀</button>
+								</div> -->
 							</ul>
 
 							

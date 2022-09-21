@@ -46,7 +46,8 @@
 	
 	<!-- ==================댓글================== -->
 	<select id="replyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
-		SELECT * 
+		SELECT REPLY_NO, POST_NO, EMP_NO, WRTR,CNTN, 
+			   TO_CHAR(DTTM, 'YYYY-MM-DD HH24:MI:SS') AS DTTM, REPLY_CAT 
 		FROM REPLY
 		WHERE POST_NO = #{postNo}
 		ORDER BY REPLY_NO DESC

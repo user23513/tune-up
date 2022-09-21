@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.up.tune.aprv.aprvList.mapper.AprvListMapper;
+import co.up.tune.aprv.aprvr.mapper.AprvrMapper;
 import co.up.tune.aprv.vo.AprvCntnVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.AprvrVO;
@@ -19,32 +20,31 @@ import co.up.tune.aprv.vo.TrustVO;
 public class AprvListServiceImpl implements AprvListService {
 
 	@Autowired
-	AprvListMapper map;
+	AprvListMapper apList;
+	@Autowired
+	AprvrMapper aprvr;
 	
 	
 	// 관리자전체리스트
 	@Override
 	public List<AprvVO> aprvListAll(){
-		return map.aprvListAll();
+		return apList.aprvListAll();
 	}
 	// 나의신청리스트
 	@Override
-	public List<AprvVO> aprvList(@Param("aprvNo") String aprvNo) {
-		return map.aprvList(aprvNo);
+	public List<AprvVO> aprvList(AprvVO vo) {
+		return apList.aprvList(vo);
 	}
-	
-	
-	
 	
 	// 단건개요조회
 	@Override
 	public AprvVO aprvSelect(AprvVO vo) {
-		return map.aprvSelect(vo);
+		return apList.aprvSelect(vo);
 	}
-	// 단건내용조회
+	// 단건내용조회 
 	@Override
-	public List<ItemCntnVO> cntnList(String aprvNo) {
-		return map.cntnList(aprvNo);
+	public List<ItemCntnVO> cntnList(ItemCntnVO vo) {
+		return apList.cntnList(vo);
 	}
 	
 
@@ -52,7 +52,7 @@ public class AprvListServiceImpl implements AprvListService {
 	// 문서작성
 	@Override
 	public int aprvInsert(AprvVO vo) {
-		return map.aprvInsert(vo);
+		return apList.aprvInsert(vo);
 	}
 	// 내용작성
 	@Override
@@ -60,7 +60,7 @@ public class AprvListServiceImpl implements AprvListService {
 		int cnt = 0;
 		
 		for (AprvCntnVO vo : list) {
-			map.aprvCntnInsert(vo);
+			apList.aprvCntnInsert(vo);
 			cnt++;
 		}
 		
@@ -76,7 +76,7 @@ public class AprvListServiceImpl implements AprvListService {
 	// 문서수정
 		@Override
 		public int aprvUpdate(AprvVO vo) {
-			return map.aprvUpdate(vo);
+			return apList.aprvUpdate(vo);
 		}
 	//내용수정
 		@Override
@@ -84,7 +84,7 @@ public class AprvListServiceImpl implements AprvListService {
 			int cnt = 0;
 			
 			for (AprvCntnVO vo : list) {
-				map.aprvCntnUpdate(vo);
+				apList.aprvCntnUpdate(vo);
 				cnt++;
 			}
 			
@@ -100,11 +100,11 @@ public class AprvListServiceImpl implements AprvListService {
 		// 문서삭제
 		@Override
 		public int aprvDelete(AprvVO vo) {
-			return map.aprvDelete(vo);
+			return apList.aprvDelete(vo);
 		}
 		@Override
 		public int aprvCntnDelete(AprvCntnVO vo) {	
-			return map.aprvCntnDelete(vo);
+			return apList.aprvCntnDelete(vo);
 			
 		}
 
@@ -112,7 +112,7 @@ public class AprvListServiceImpl implements AprvListService {
 	//결재자 조회
 	@Override
 	public List<AprvrVO> aprvr(String aprvNo) {
-		return map.aprvr(aprvNo);
+		return apList.aprvr(aprvNo);
 	}
 	//결재자 등록
 	@Override
@@ -121,7 +121,7 @@ public class AprvListServiceImpl implements AprvListService {
 		int cnt = 0;
 		
 		for (AprvrVO vo : list) {
-			map.aprvrInsert(vo);
+			apList.aprvrInsert(vo);
 			cnt++;
 		}
 		
@@ -139,7 +139,7 @@ public class AprvListServiceImpl implements AprvListService {
 		int cnt = 0;
 		
 		for (AprvrVO vo : list) {
-			map.aprvrUpdate(vo);
+			apList.aprvrUpdate(vo);
 			cnt++;
 		}
 		
@@ -152,14 +152,14 @@ public class AprvListServiceImpl implements AprvListService {
 	//결재자 삭제
 	@Override
 	public int aprvrDelete(AprvrVO vo) {
-		return map.aprvrDelete(vo);
+		return apList.aprvrDelete(vo);
 	}
 	
 	
 	// 서식작성
 	@Override
 	public int formInsert(FormVO vo) {
-		return map.formInsert(vo);
+		return apList.formInsert(vo);
 	}
 	// 서식항목작성
 	@Override
@@ -167,7 +167,7 @@ public class AprvListServiceImpl implements AprvListService {
 		int cnt = 0;
 		
 		for (FormItemVO vo : list) {
-			map.formItemInsert(vo);
+			apList.formItemInsert(vo);
 			cnt++;
 		}
 		
@@ -183,12 +183,12 @@ public class AprvListServiceImpl implements AprvListService {
 	// 서식삭제
 	@Override
 	public int formDelete(FormVO vo) {
-		return map.formDelete(vo);
+		return apList.formDelete(vo);
 	}
 	@Override
 	public int formItemDelete(FormItemVO vo) {
 		
-		return map.formItemDelete(vo);
+		return apList.formItemDelete(vo);
 		
 	}
 	
@@ -196,14 +196,14 @@ public class AprvListServiceImpl implements AprvListService {
 	// 서식수정
 	@Override
 	public int formUpdate(FormVO vo) {
-		return map.formUpdate(vo);
+		return apList.formUpdate(vo);
 	}
 	@Override
 	public int formItemUpdate(List<FormItemVO> list) {
 		int cnt = 0;
 		
 		for (FormItemVO vo : list) {
-			map.formItemUpdate(vo);
+			apList.formItemUpdate(vo);
 			cnt++;
 		}
 		

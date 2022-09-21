@@ -63,8 +63,6 @@ $(document).ready(function() {
             }
         }).open();
     }
-    
-
 </script>
 </head>
 <body>
@@ -151,7 +149,7 @@ $(document).ready(function() {
               <div class="row mb-3">
                 <label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
                 <div class="col-md-8 col-lg-9">
-					<input type="text" id="sample6_postcode" name="zip" placeholder="우편번호">
+					<input type="text" id="sample6_postcode" name="zip" th:value="${e.zip}" placeholder="우편번호">
 					<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
                 </div>
               </div>
@@ -159,9 +157,10 @@ $(document).ready(function() {
               <div class="row mb-3">
                 <label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
                 <div class="col-md-8 col-lg-9">
-					<input type="text" id="sample6_address" name="addr" placeholder="주소"><br>
-					<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-					<input type="text" id="sample6_extraAddress" placeholder="참고항목">
+					<input type="text" id="sample6_address" name="ad1" th:value="${e.ad1}" placeholder="주소"><br>
+					<input type="text" id="sample6_detailAddress" name="ad2" th:value="${e.ad2}"placeholder="상세주소">
+					<input type="hidden" id="sample6_extraAddress" name="ad3" th:value="${e.ad3}"placeholder="참고항목">
+					
                 </div>
               </div>
               <div class="row mb-3">
@@ -170,18 +169,20 @@ $(document).ready(function() {
                   <input name="hDate" type="date" class="form-control" id="hDate" th:value="${e.hDate}">
                 </div>
               </div>
-              <div class="row mb-3">
+              
+           <!--    <div class="row mb-3">
                 <label for="fDate" class="col-md-4 col-lg-3 col-form-label">퇴사일</label>
                 <div class="col-md-8 col-lg-9">
                   <input name="fDate" type="date" class="form-control" id="fDate">
                 </div>
               </div>
+              
               <div class="row mb-3">
                 <label for="st" class="col-md-4 col-lg-3 col-form-label">상태</label>
                 <div class="col-md-8 col-lg-9">
                   <input name="st" type="text" class="form-control" id="st" th:value="${e.st}">
                 </div>
-              </div>
+              </div> -->
 
               <div class="text-center">
                 <button type="button" class="btn btn-secondary">되돌리기</button>

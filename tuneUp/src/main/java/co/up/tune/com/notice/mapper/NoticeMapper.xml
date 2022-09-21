@@ -4,13 +4,9 @@
 
 	<select id="noticeList" resultType="co.up.tune.com.vo.CommunityVO">
 		SELECT * 
-		FROM (
-    		SELECT * 
-    		FROM COMMUNITY
-    		WHERE TYP=101
-    		ORDER BY POST_NO DESC
-    		)
-		ORDER BY EMERG DESC
+    	FROM COMMUNITY
+    	WHERE TYP=101
+    	ORDER BY EMERG DESC, POST_NO DESC
 	</select>
 	
 	<select id="noticeSelect" resultType="co.up.tune.com.vo.CommunityVO" parameterType="co.up.tune.com.vo.CommunityVO">

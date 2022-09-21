@@ -22,7 +22,7 @@
 			<if test="ttl != null">TTL=#{ttl},</if>
 			<if test="cntn != null">CNTN=#{cntn}</if>
 		</set>
-		WHERE POST_NO=124
+		WHERE POST_NO=#{postNo}
 	</update> 
 	
 	 <!-- <update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">

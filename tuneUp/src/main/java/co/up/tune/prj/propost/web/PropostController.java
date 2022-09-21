@@ -4,17 +4,13 @@ package co.up.tune.prj.propost.web;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.vo.ReplyVO;
@@ -26,9 +22,7 @@ import co.up.tune.prj.vo.PostVO;
 public class PropostController {
 	@Autowired
 	PropostService dao;
-	
-	@Autowired
-	ServletContext servletContext;
+ 
 	
 //	//내 프로젝트 목록
 //	@GetMapping("/myProject")
@@ -66,18 +60,20 @@ public class PropostController {
 //	  dao.prjPostInsert(vo); 
 //	  return "redirect:/prjPostList"; 
 //	  }
-//	  
+	
+	
+	
 	  
-	  
+	  // @RequestPart(value="file",required = false), @RequestParam("file")
+	
 	  @PostMapping("/prjPostInsert")
-		public String prjPostInsert(PostVO vo, @RequestPart(value="file",required = false) MultipartFile file) throws IllegalStateException, IOException {
+		public String prjPostInsert(PostVO vo,  @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
 			
 		  dao.prjPostInsert(vo);
 			
 			return "redirect:/prjPostList";
 		}
 		
-	  //@RequestPart(value="file",required = false)
 	  
 	  
 	  
@@ -118,12 +114,12 @@ public class PropostController {
 	  
 	  // ============================
 	  
-	   //게시판 게시글 수정
-	    @RequestMapping(value = "/prjPostUpdate")
-	    public String boardUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	 
-	        return "board/boardUpdate";
-	    }
+//	   //게시판 게시글 수정
+//	    @RequestMapping(value = "/prjPostUpdate")
+//	    public String boardUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//	 
+//	        return "board/boardUpdate";
+//	    }
 	  
 	  
 		

@@ -3,7 +3,7 @@ package co.up.tune.com.vo;
 import java.sql.Timestamp;
 
 public class NoteVO {
-	 int note_no;		//쪽지번호
+	 int noteNo;		//쪽지번호
 	 String sender;		//받는사람
 	 String sEmpNo;		//받는사람 사번
 	 String receiver;	//보낸사람

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.com.note.mapper.NoteMapper">
+
+	<select id="sNoteList" resultType="co.up.tune.com.vo.NoteVO">
+		select * from note
+		where sender = ${sender}
+		order by noteNo
+	</select>
+	
+	<select id="rNoteList">
+		select * from note
+		where receiver = ${receiver}
+		order by noteNo
+	</select>
+
+</mapper>

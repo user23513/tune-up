@@ -24,8 +24,8 @@ public class AprvListServiceImpl implements AprvListService {
 	
 	// 나의신청리스트
 	@Override
-	public List<AprvVO> aprvList(String empNo, String aprvSt) {
-		return map.aprvList(empNo, aprvSt);
+	public List<AprvVO> aprvList(AprvVO vo) {
+		return map.aprvList(vo);
 	}
 	
 	

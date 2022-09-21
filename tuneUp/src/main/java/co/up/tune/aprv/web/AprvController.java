@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprvList.service.AprvListService;
 
 @Controller
@@ -14,8 +16,8 @@ public class AprvController {
 	AprvListService dao;
 	
 	@GetMapping("/aprvList")
-	public String aprvList(Model model, @Param("empNo") String empNo, @Param("aprvSt") String aprvSt) {
-		model.addAttribute("aprvList", dao.aprvList(empNo, aprvSt));
+	public String aprvList(Model model, AprvVO vo) {
+		model.addAttribute("aprvList", dao.aprvList(vo));
 	
 		return "aprv/aprvList";
 	}

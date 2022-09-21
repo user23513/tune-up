@@ -4,6 +4,8 @@
 	  layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <link href='/fullcalendar-5.11.3/lib/main.css' rel='stylesheet' />
@@ -14,10 +16,16 @@
 	document.addEventListener('DOMContentLoaded', function () {
 	  var calendarEl = document.getElementById('calendar');
 	  let empNo = 999;
+	  //token
+	  var token = $("meta[name='_csrf']").attr("content");
+	  var header = $("meta[name='_csrf_header']").attr("content");
 	
 	  //캘린더 전체리스트 ajax
 	  $.ajax({
 	  	url:'calendarList',
+	  	beforeSend:function(xhr){
+	  		xhr.setRequestHeader(header,token);  
+    	  },
 	  	type:'post',
 	  	data:{'empNo':empNo},
 	  	dataType:'json',
@@ -48,15 +56,19 @@
 		            // DB에 입력처리
 		            $.ajax({
 		            	url:'calendarInsert',
+		            	beforeSend:function(xhr){
+		        	  		xhr.setRequestHeader(header,token);  
+		            	  },
 		            	type:'post',
 		            	data:{'empNo':empNo, 'cntn':title, 'sdt':arg.startStr, 'edt':arg.endStr},
 		            	dataType:'json',
 		            	success:function(res){
-		            		//db에 insert가 되면 res에 true가 넘어오도록 설정
-		            		console.log(res)
+		            		//db에 insert가 되면 res에 calNo가 넘어오도록 설정
+		            		let calNo = res;
 		            		if(res) {
 		            			// 화면에 그려주는 부분
 				                calendar.addEvent({
+				                  id: calNo,
 				                  title: title,
 				                  start: arg.start,
 				                  end: arg.end,
@@ -75,6 +87,9 @@
 		            let calNo = arg.event._def.publicId; //캘린더 번호
 					$.ajax({
 						url:'calendarDelete',
+						beforeSend:function(xhr){
+					  		xhr.setRequestHeader(header,token);  
+				    	  },
 						type:'post',
 						data:{'calNo':calNo},
 						dataType:'json',

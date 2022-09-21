@@ -115,6 +115,7 @@
 		
 		<div>
 			<form id="frm" method="post" action="noticeSelect">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 				<input type="hidden" id="postNo" name="postNo">
 			</form>
 		</div>

@@ -5,9 +5,6 @@
 		select * from emp
 		<!-- order by (dept||empNo) -->
 	</select>
-	<select id="empSearch" resultType="co.up.tune.emp.vo.EmpVO">
-		select * from emp
-	</select>
 	<select id="empSelect" resultType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
 		where emp_no = #{empNo}	
@@ -16,4 +13,18 @@
 		select * from emp
 		where mng = '관리자'
 	</select>
+	<update id="empUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
+		update emp
+		<set>
+			<if test="dept != null">dept = #{dept}</if>,
+			<if test="position != null">position = #{position}</if>,
+			<if test="zip != null">zip = #{zip}</if>,
+			<if test="addr != null">addr = #{addr}</if>,
+			<if test="hDate != null">h_date = #{hDate}</if>,
+			<if test="fDate != null">f_date = #{fDate}</if>
+		</set>
+		where emp_no = #{empNo}	
+	</update>
+	
+
 </mapper>

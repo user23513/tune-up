@@ -11,6 +11,7 @@ import co.up.tune.aprv.vo.ItemCntnVO;
 import co.up.tune.aprv.vo.TrustVO;
 
 public interface AprvListService {
+	
 
 			// 나의 신청 리스트
 			List<AprvVO> aprvList(@Param("empNo") String empNo, @Param("aprvSt") String aprvSt);

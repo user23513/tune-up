@@ -7,7 +7,7 @@
 		select nm,
 				id,
 				pw,
-		        'ROLE_' || auth as auth	        
+		        'ROLE_' || auth as auth
 		  from emp 
 		 where id = #{id}
 	</select>

@@ -12,11 +12,16 @@
     function drawChart() {
       let prjNo=105;
       let arr=[];
+      let csrfHeaderName = "${_csfr.headerName}";
+      let csrfTokenValue = "${_csrf.token}";
       let jsonData = $.ajax({
 				    	  url:'ganttList',
 				    	  type:'post',
 				    	  data:{'prjNo':prjNo},
 				    	  dataType:'json',
+				    	  beforeSend:function(xhr){
+				    		xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);  
+				    	  },
 				    	  success:function(res){
 				    		  $.each(res,(idx,gantt)=>{
 				    			  let sdt = new Date(gantt.sdt)

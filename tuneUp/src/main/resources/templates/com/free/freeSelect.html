@@ -186,11 +186,13 @@
 		
 		<div>
 			<form id="uFrm" action="freeUpdateForm" method="post">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 				<input type="hidden" name="postNo" th:value="${f.postNo}">
 			</form>
 		</div>
 		<div>
 			<form id="dFrm" action="freeDelete" method="post">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 				<input type="hidden" id="postNo" name="postNo" th:value="${f.postNo}">
 			</form>
 		</div>

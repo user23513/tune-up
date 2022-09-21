@@ -4,15 +4,13 @@
 
 <select id="empSelect" parameterType="co.up.tune.emp.vo.EmpVO"
 			resultType="co.up.tune.emp.vo.EmpVO">
-		select empNo,
+		select 
 				nm,
 				id,
 				pw,
-				dept,
-				position,
-		        'ROLE_' || auth as auth,
-		        st,
-		        mng		        
+				
+		        'ROLE_' || auth as auth
+		        	        
 		  from emp 
 		 where id = #{id}
 	</select>

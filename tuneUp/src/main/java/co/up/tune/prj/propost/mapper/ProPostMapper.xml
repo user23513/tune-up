@@ -16,14 +16,28 @@
 		VALUES (PNO_SEQ.NEXTVAL,#{empNo},#{wrtr},#{ttl},#{cntn},sysdate,#{atchNo},#{prjNo}) 
 	</insert>
 	
-	<update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">
+	 <update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">
 		UPDATE POST
 		<set>
 			<if test="ttl != null">TTL=#{ttl},</if>
 			<if test="cntn != null">CNTN=#{cntn}</if>
 		</set>
-		WHERE POST_NO=#{postNo}
-	</update>
+		WHERE POST_NO=124
+	</update> 
+	
+	 <!-- <update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">
+	 <![CDATA[
+            UPDATE 
+                POST 
+            SET
+                ttl = #{ttl},
+                cntn = #{cntn},
+                dttm = sysdate
+            WHERE
+                post_no = 126
+        ]]>
+	</update> -->
+	
 	
 	<delete id="prjPostDelete" parameterType="co.up.tune.prj.vo.PostVO">
 	DELETE FROM POST WHERE POST_NO = #{postNo}
@@ -50,7 +64,7 @@
 		</selectKey>
 		INSERT INTO 
 			REPLY
-				VALUES(#{replyNo}, #{postNo}, '#{empNo}', #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
+				VALUES(#{replyNo}, #{postNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
 	</insert>
 	
 	

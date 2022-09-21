@@ -2,7 +2,11 @@ package co.up.tune.prj.propost.web;
 
 
 
+import java.io.IOException;
+
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
+import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.vo.PostVO;
 
@@ -33,8 +40,10 @@ public class PropostController {
 	
 	// 내 프로젝트 - 글 리스트
 	@GetMapping("/prjPostList")
-	public String prjPostList(Model model) {
+	public String prjPostList(Model model,ReplyVO rvo,PostVO pvo) {
 		model.addAttribute("prjPostList", dao.prjPostList());
+		rvo.setPostNo(pvo.getPostNo());
+		model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
 		return "prj/post/prjPostList";
 	}
 
@@ -51,44 +60,72 @@ public class PropostController {
 		return "prj/post/postInsertForm";
 	}
 	
-	// 내프로젝트 - 글 작성
-	  @PostMapping("/prjPostInsert") 
-	  public String prjPostInsert(PostVO vo) {
-	  dao.prjPostInsert(vo); 
-	  return "redirect:/prjPostList"; 
-	  }
-	 
-	  //내 프로젝트 - 글 삭제
-//	  @GetMapping("/prjPostDelete")
-//	  public String prjPostDelete(PostVO vo) {
-//		dao.prjPostDelete(vo);
-//		return "redirect:/prjPostList";
-//		  
+	// 내프로젝트 - 글 작성 post
+//	  @PostMapping("/prjPostInsert") 
+//	  public String prjPostInsert(PostVO vo) {
+//	  dao.prjPostInsert(vo); 
+//	  return "redirect:/prjPostList"; 
 //	  }
+//	  
 	  
 	  
-	  @PostMapping("/prjPostDelete")
-		public String prjPostDelete(PostVO vo) {
-			dao.prjPostDelete(vo);
+	  @PostMapping("/prjPostInsert")
+		public String prjPostInsert(PostVO vo, @RequestPart(value="file",required = false) MultipartFile file) throws IllegalStateException, IOException {
+			
+		  dao.prjPostInsert(vo);
+			
 			return "redirect:/prjPostList";
 		}
+		
+	  //@RequestPart(value="file",required = false)
 	  
 	  
-	//내 프로젝트 - 글 수정 폼
+	  
+	  
+	 
+	  //내 프로젝트 - 글 삭제 post
+	  @PostMapping("/prjPostDelete")
+  	  public String prjPostDelete(PostVO vo) {
+  		dao.prjPostDelete(vo);
+  		return "redirect:/prjPostList";
+  		  
+  	  }
+	  
+	  
+//	  @PostMapping("/prjPostDelete")
+//		public String prjPostDelete(PostVO vo) {
+//			dao.prjPostDelete(vo);
+//			return "redirect:/prjPostList";
+//		}
+	  
+	  
+	//내 프로젝트 - 글 수정 폼 post
 	  @PostMapping("/postUpdateForm")
 		public String prjPostUpdateForm() {
 			return "prj/post/postUpdateForm";
 		}
 	  
-	  //내 프로젝트 - 글 수정
+	  
+	  //내 프로젝트 - 글 수정 post
 	  @PostMapping("/prjPostUpdate")
 		public String prjPostUpdate(PostVO vo) {
-			vo.setWrtr("세션에서받아");
-			vo.setPostNo(11);
 			dao.prjPostUpdate(vo);
 			
 			return "redirect:/prjPostList";
 		}
+	  
+	  
+	  
+	  // ============================
+	  
+	   //게시판 게시글 수정
+	    @RequestMapping(value = "/prjPostUpdate")
+	    public String boardUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 
+	        return "board/boardUpdate";
+	    }
+	  
+	  
 		
 	  
 //	  @RequestMapping("/prjPostDelete")

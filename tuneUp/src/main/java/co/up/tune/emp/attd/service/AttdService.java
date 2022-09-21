@@ -1,5 +1,10 @@
 package co.up.tune.emp.attd.service;
 
-public interface AttdService {
+import java.util.List;
 
+
+public interface AttdService {
+	
+	
+	
 }

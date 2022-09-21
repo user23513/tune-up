@@ -30,7 +30,7 @@
 			let postNo = $("#postNo").val(); //게시글 번호
 			let cntn = $("#rCntn").val();    //댓글 내용
 			let empNo = $("#empNo").val();   //댓글 쓴 사원번호
-			console.log(empNo)
+			let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
 			let rList = $("<div>").attr("id", "rList"); 
 			
 			//댓글 등록 처리
@@ -40,14 +40,14 @@
 		 	  		xhr.setRequestHeader(header,token);  
 		     	  },
 		         type:'post',
-		         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo},
+		         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr},
 		         dataType:'json',
 		         success:function(res){
-						let div = $("<div>").append($("<span>").html(res.wrtr))
+						let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
 											.append($("<span>").html(res.dttm))
 											.append($("<br>"))
-											.append($("<span>").html(res.cntn))
-											.append($("<span>").append($("<i>").addClass("ri-edit-2-line")))
+											.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
+											.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
 											.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
 											.append($("<hr>"))
 						$("#rList").prepend(div);
@@ -59,11 +59,11 @@
 		
 		//댓글 수정 아이콘 클릭했을 때 이벤트위임 (상위 div에 이벤트 걸었음)
 		$("#rList").on("click", ".update", e=>{
-			let replyNo = $(e.target).data("no"); //댓글 번호
-			
 			let cntnTag = $(e.target).parent().prev() //댓글내용있는 태그
+			let replyNo = $(e.target).data("no"); //댓글 번호
 			let cntn = cntnTag.text();
 			cntnTag.html("");
+			
 			//수정(up), 삭제(de) 아이콘
 			let de = $(e.target).parent().next().hide();
 			let up = $(e.target).parent().hide();
@@ -78,7 +78,7 @@
 			$("#replyUp").on("click", e=>{
 				e.stopPropagation();
 				let cntn = $(e.target).prev().prev().val();
-				cntn = cntn.replaceAll(/(\n|\r\n)/g, "<br>");
+				cntn = cntn.replaceAll(/(\n|\r\n)/g, "<br>"); //enter키 적용
 				$.ajax({
 					url:'replyUpdate',
 					beforeSend:function(xhr){
@@ -88,8 +88,6 @@
 					data:{'replyNo':replyNo, 'cntn':cntn},
 					dataType:'json',
 					success:function(res){
-						console.log(res)
-						console.log($(e.target).parent().prev().prev())
 						$(e.target).parent().prev().prev().html(res);
 						$(e.target).prev().remove();
 						$(e.target).remove();
@@ -150,7 +148,8 @@
     	<div class="card-body">
          	<h5 class="card-title"></h5>
 				<div>
-				<input type="hidden" id="empNo" name="empNo" th:value="${empNo}"> <a th:text="${session.auth}"></a>
+				<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+				<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}"> 
 					<table class="table">
 						<tbody>
 							<tr>
@@ -179,16 +178,19 @@
 							<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
 							<span id="rBtn" class="input-group-text">등록</span>
 						</div>
-						
 						<!-- 전체 댓글 -->
 							<div id="rList">
 								<div th:each="r : ${replyList}">
-									<span th:text="${r.wrtr}">작성자</span>
-									<span th:text="${r.dttm}">작성일시</span>
+									<span th:text="${r.wrtr}">작성자</span>&nbsp;
+									<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
 									<br>
 									<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-									<span><i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i></span>&nbsp; <!-- 수정아이콘 -->
-									<span><i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i></span> <!-- 삭제아이콘 -->
+									<span>
+										<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == f.empNo}"></i>
+									</span>&nbsp; <!-- 수정아이콘 -->
+									<span>
+										<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == f.empNo}"></i>
+									</span> <!-- 삭제아이콘 -->
 									<hr>
 								</div>
 							</div>
@@ -199,8 +201,8 @@
 							<a href="freeList" class="btn btn-primary">목록</a>
 						</span>
 						<div class="btn-group right" role="group" aria-label="Basic example">
-				        	<button type="button" class="btn btn-primary" id="uBtn">수정</button>
-				            <button type="button" class="btn btn-primary" id="dBtn">삭제</button>
+				        	<button type="button" class="btn btn-primary" id="uBtn" th:if="${session.empNo == f.empNo}">수정</button>
+				            <button type="button" class="btn btn-primary" id="dBtn" th:if="${session.empNo == f.empNo}">삭제</button>
 				        </div>
 			        </div>
 				</div>

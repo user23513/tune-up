@@ -24,11 +24,11 @@ public class CalendarAjaxController {
 	}
 	
 	@PostMapping("/calendarInsert")
-	public int calendarInsert(CalendarVO vo) {
+	public CalendarVO calendarInsert(CalendarVO vo) {
 		dao.CalendarInsert(vo);
-		int calNo = vo.getCalNo();
+		vo.setCalTyp("302");
 		
-		return calNo;
+		return vo;
 	}
 	
 	@PostMapping("/calendarDelete")

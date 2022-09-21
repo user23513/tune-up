@@ -83,8 +83,7 @@ $(function(){
 
     //게시글 등록
     $("#save").on("click", function(){
-        let content = tinymce.activeEditor.getContent();
-        console.log(content);
+        let content = tinymce.activeEditor.getContent(); //textarea 내용
         $("#cntn").val(content);
         $("#frm").submit();
     });
@@ -119,6 +118,8 @@ $(function(){
 		<div>
 			<form id="frm" method="post" action="freeInsert" enctype="multipart/form-data">
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+				<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
 				<table class="table">
 					<tr>
 						<td colspan="4">

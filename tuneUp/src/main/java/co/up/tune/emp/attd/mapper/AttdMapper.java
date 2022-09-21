@@ -5,5 +5,9 @@ import java.util.List;
 import co.up.tune.emp.vo.AttdVO;
 
 public interface AttdMapper {
-	List<AttdVO> prjPostList();	//내 프로젝트 - (모든 사람)글 
+	List<AttdVO> attdList();	// 전체사원 근태리스트
+	List<AttdVO> attdGoodList();	// 전체사원 근태리스트
+	List<AttdVO> attdBadList();	// 전체사원 근태리스트
+//	AttdVO attdGood(AttdVO vo); //정상출근
+//	AttdVO attdBad(AttdVO vo); //근태이상
 }

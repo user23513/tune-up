@@ -9,6 +9,13 @@
  #c{
  	background-color: #ECEBFF;
  }
+ 
+ #cid {
+ 	text-align: center;
+ width: 250px;
+ width: 50%;
+ width: 100%;
+ }
 </style>
 </head>
 <body>
@@ -39,18 +46,31 @@
 								aria-controls="write" aria-selected="false">수정요청</button>
 						</li>
 					</ul>
+					
+					
+					
 					<div class="tab-content pt-2" id="borderedTabContent">
 						<div class="tab-pane fade show active" id="bordered-list"
 							role="tabpanel" aria-labelledby="list-tab">
 							<!-- List Tabs -->
 
-							<!-- Default Card -->
+							<!-- 버튼 -->
 							<div class="card" id="c">
 								<div class="card-body">
-									<h5 class="card-title">버튼 나오게</h5>
+									<h5 class="card-title"></h5>
 									<p class="card-text">
-										
-									</p>
+									<div id="cid">
+											<button type="button" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px;">
+												정상출근 <span class="badge bg-secondary text-light" >50</span>
+											</button>
+											<button type="button" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px;">
+												근태이상 <span class="badge bg-secondary text-light">4</span>
+											</button>
+											<button type="button" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px;">
+												수정 <span class="badge bg-secondary text-light">14</span>
+											</button>
+											</div>
+										</p>
 
 								</div>
 							</div>
@@ -80,7 +100,9 @@
 										data-bs-target="#bad" type="button" role="tab"
 										aria-controls="bad" aria-selected="false">근태이상</button>
 								</li>
-								
+								<div style="display: inline-block; float: right;">
+								<button type="button" class="btn btn-outline-primary" >엑셀</button>
+								</div>
 							</ul>
 
 							
@@ -265,11 +287,11 @@
 											</a></li>
 										</ul>
 									</nav>
-									<!-- End Pagination with icons -->
+									<!-- 근태이상 -->
 								</div>
 								<div class="tab-pane fade" id="bad" role="tabpanel"
 									aria-labelledby="bad-tab">
-									reject
+									
 
 									<!-- Table with hoverable rows -->
 									<table class="table table-hover">
@@ -348,7 +370,7 @@
 
 
 							<!-- Default Card -->
-							<div class="card">
+							<!-- <div class="card">
 								<div class="card-body">
 									<h5 class="card-title">버튼 나오게</h5>
 									<p class="card-text">
@@ -356,7 +378,7 @@
 									</p>
 
 								</div>
-							</div>
+							</div> -->
 							<!-- End Default Card -->
 
 
@@ -366,7 +388,7 @@
 								<li class="nav-item" role="presentation">
 									<button class="nav-link active" id="formAll-tab"
 										data-bs-toggle="tab" data-bs-target="#formAll" type="button"
-										role="tab" aria-controls="formAll" aria-selected="true">목록</button>
+										role="tab" aria-controls="formAll" aria-selected="true"></button>
 								
 							</ul>
 							<div class="tab-content pt-2" id="myTab2Content">
@@ -377,7 +399,7 @@
 									<table class="table table-hover">
 										<thead>
 											<tr>
-												<th scope="col">#</th>
+												<th scope="col">Today</th>
 												<th scope="col">사번</th>
 												<th scope="col">이름</th>
 												<th scope="col">사유</th>

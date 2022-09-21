@@ -16,6 +16,7 @@ public class AprvController {
 	@GetMapping("/aprvList")
 	public String aprvList(Model model, @Param("empNo") String empNo, @Param("aprvSt") String aprvSt) {
 		model.addAttribute("aprvList", dao.aprvList(empNo, aprvSt));
+	
 		return "aprv/aprvList";
 	}
 	

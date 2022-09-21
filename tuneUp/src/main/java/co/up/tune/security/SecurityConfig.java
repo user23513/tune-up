@@ -56,7 +56,7 @@ public class SecurityConfig {
 				.exceptionHandling()
 						 .accessDeniedHandler(accessDeniedHandler())
 						 .and()
-				 .csrf().disable()
+				/* .csrf().disable() */
 				.userDetailsService(usersService());
 
 		return http.build();

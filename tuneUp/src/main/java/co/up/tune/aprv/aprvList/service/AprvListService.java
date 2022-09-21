@@ -18,11 +18,11 @@ public interface AprvListService {
 	List<AprvVO> aprvListAll();
 
 	// 나의 신청 리스트
-	List<AprvVO> aprvList(@Param("aprvNo") String aprvNo);
+	List<AprvVO> aprvList(AprvVO vo);
 	
 	// 문서 단건 조회
 	AprvVO aprvSelect(AprvVO vo); // 신청단건개요
-	List<ItemCntnVO> cntnList(@Param("aprvNo") String aprvNo); // 결재내용목록
+	List<ItemCntnVO> cntnList(ItemCntnVO vo); // 결재내용목록 
 	
 	
 	/////////////////////////////////////////문서 CUD

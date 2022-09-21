@@ -6,6 +6,7 @@ import java.security.Principal;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,12 +30,13 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			EmpVO vo = new EmpVO();
 			vo.setId(username);
 			my.empSelectOne(vo);
-		
-			request.getSession().setAttribute("empNo", vo.getEmpNo());
-			request.getSession().setAttribute("nm", vo.getNm());
-			request.getSession().setAttribute("dept", vo.getDept());
-			request.getSession().setAttribute("auth", vo.getAuth());
-			request.getSession().setAttribute("mng", vo.getMng());
+			
+			HttpSession session =  request.getSession();
+			session.setAttribute("empNo", vo.getEmpNo());
+			session.setAttribute("nm", vo.getNm());
+			session.setAttribute("dept", vo.getDept());
+			session.setAttribute("auth", vo.getAuth());
+			session.setAttribute("mng", vo.getMng());
 			
 			response.sendRedirect("/main");	
 	}

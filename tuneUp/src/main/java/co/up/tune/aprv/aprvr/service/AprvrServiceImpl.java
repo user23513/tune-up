@@ -1,7 +1,18 @@
 package co.up.tune.aprv.aprvr.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import co.up.tune.aprv.aprvList.mapper.AprvListMapper;
+import co.up.tune.aprv.aprvr.mapper.AprvrMapper;
+
+@Service
 public class AprvrServiceImpl implements AprvrService {
 	
+	@Autowired
+	AprvListMapper apList;
+	@Autowired
+	AprvrMapper aprvr;
 	
 	//승인문서조회
 	//승인위임문서조회

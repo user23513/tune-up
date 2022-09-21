@@ -21,7 +21,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 		
 		request.setAttribute("logout", "logout");
 		//request.getRequestDispatcher("/login").forward(request, response);
-		response.sendRedirect("/login?logout=i");
+		response.sendRedirect("/login?logout");
 		
 		
 		

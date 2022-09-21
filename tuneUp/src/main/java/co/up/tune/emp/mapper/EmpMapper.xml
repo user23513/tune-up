@@ -4,8 +4,7 @@
 
 <select id="empSelect" parameterType="co.up.tune.emp.vo.EmpVO"
 			resultType="co.up.tune.emp.vo.EmpVO">
-		select empNo,
-				nm,
+		select nm,
 				id,
 				pw,
 		        'ROLE_' || auth as auth

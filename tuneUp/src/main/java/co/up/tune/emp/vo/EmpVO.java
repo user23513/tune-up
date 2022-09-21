@@ -21,7 +21,7 @@ public class EmpVO {
 	String position;  //직위
 	String addr;  //자택주소
 	String comPhone;  //사내전화
-	String hDate;  //입사일
+	Date hDate;  //입사일
 	String auth;  //권한
 	Date birth;  //생년월일
 	String gender;  //성별

@@ -263,10 +263,12 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <form class="dropdown-item d-flex align-items-center" action="logout" method="post">
+              
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <i class="bi bi-box-arrow-right"></i>
-                <span>로그아웃</span>
-              </a>
+                <button class="dropdown-item d-flex align-items-center" type="submit">로그아웃</button>
+              </form>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->

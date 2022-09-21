@@ -4,7 +4,7 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>내프로젝트-글</title>
+<title>내프로젝트</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
@@ -67,6 +67,10 @@
 					<h5 class="card-title">MY PROJECT</h5>
 						<div class="pagetitle">
 							
+							<div style="display: inline-block; margin: 0 5px; float: right;">
+								<button type="button" class="btn btn-outline-primary" onclick="location.href='postInsertForm'" >글쓰기</button>
+							
+							</div>
 							<br>
 							<br>
 						</div>
@@ -106,9 +110,9 @@
 								aria-selected="false">할일</button>
 
 						</li>
-							<div style="display: inline-block; margin: 0 5px; float: right;">
-								<button type="button" class="btn btn-outline-primary" onclick="location.href='postInsertForm'" >글쓰기</button>
-							</div>
+						
+					    
+					    
 					</ul>
 					
 			<div class="tab-content pt-2" id="myTabjustifiedContent">
@@ -120,8 +124,6 @@
 						</div>	
 
 					<!-- 글 목록 -->
-
-						<br>
 						<div class="tab-pane fade" id="pst" role="tabpanel"
 							aria-labelledby="pst-tab">
 							<!-- Default Card -->
@@ -132,24 +134,18 @@
 											<span th:text="${pj.wrtr}	"></span>
 											<span th:text="${#dates.format(pj.dttm, 'yyyy-MM-dd')}"></span>
 										<!-- 드롭다운 아이콘 -->
-											<div class="filter" style="float: right">
+										<div class="filter" style="float: right">
 												<a class="icon" href="#" data-bs-toggle="dropdown"><i
 													class="bi bi-three-dots"></i></a>
 												
 												<!-- 드롭다운 수정삭제 펼치기 -->
-												<ul
-													class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" >
-													<li class="dropdown-header text-start" > Settings
-													</li>
-													
+										<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" >
+													<li class="dropdown-header text-start" > Settings</li>
 													<form id="upFrm" action="postUpdateForm" method="post" >
-													<input type="hidden" id="postNo" name="postNo"
-														th:value="${pj.postNo}">
-														   <button id="up" class="dropdown-item" style="text-align: center">수정</button>
+													<input type="hidden" id="postNo" name="postNo" th:value="${pj.postNo}">
+													<button id="up" class="dropdown-item" style="text-align: center">수정</button>
 													</form>
-													
-													<!-- <li><a class="dropdown-item" href="#" style="text-align: center" onclick="location.href='postUpdateForm'">수정</a></li> -->
-
+												<!-- <li><a class="dropdown-item" href="#" style="text-align: center" onclick="location.href='postUpdateForm'">수정</a></li> -->
 											
 												<!-- <form id="upFrm" action="prjPostUpdate" method="get" >
 													<input type="hidden" id="postNo" name="postNo"
@@ -162,17 +158,14 @@
 													<button class="btn btn-primary w-100" type="button" id="up">수정</button>
 												</form> -->
 
-
-
 												<form id="delFrm" action="prjPostDelete" method="post" >
-													<input type="hidden" id="postNo" name="postNo"
-														th:value="${pj.postNo}">
-														   <button id="delete" class="dropdown-item" style="text-align: center">삭제</button>
+													<input type="hidden" id="postNo" name="postNo" th:value="${pj.postNo}">
+													<button id="delete" class="dropdown-item" style="text-align: center">삭제</button>
 												</form>
 													
 												<!-- 	<li><a class="dropdown-item" href="#">삭제</a></li> -->
-												</ul>
-											</div>
+										 </ul>
+										</div>
 
 											
 										</h3>
@@ -258,6 +251,8 @@
 							</div>
 					</div>
 				</div>
+			</div>
+			</div>
 		</section>
 
 	</main>

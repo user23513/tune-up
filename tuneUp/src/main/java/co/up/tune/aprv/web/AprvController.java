@@ -15,6 +15,7 @@ import co.up.tune.aprv.aprvList.service.AprvListService;
 import co.up.tune.aprv.aprvr.service.AprvrService;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.common.service.CommonService;
+import co.up.tune.common.vo.CommonVO;
 
 @Controller
 public class AprvController {
@@ -36,6 +37,7 @@ public class AprvController {
 		
 		AprvVO vo = new AprvVO();
 		vo.setEmpNo(empNo);
+		
 		
 	
 		List<AprvVO> list = apList.aprvList(vo);

@@ -18,7 +18,6 @@
 		SELECT *
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
-		AND APRV_ST = #{aprvSt}
 		ORDER BY APRV_NO DESC
 	</select>
 

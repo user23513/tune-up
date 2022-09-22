@@ -23,14 +23,17 @@ public class HrController {
 	public String empUpdateForm(EmpVO vo, Model model) {
 		
 		EmpVO emp = dao.empSelect(vo);
+		
 		String addr = emp.getAddr();
-		String arr[] = addr.split("/");
-		String ad1 = arr[0];
-		String ad2 = arr[1];
-		String ad3 = arr[2];
-		emp.setAd1(ad1);
-		emp.setAd2(ad2);
-		emp.setAd3(ad3);
+		if(addr != null) {
+			String arr[] = addr.split("/");
+			String ad1 = arr[0];
+			String ad2 = arr[1];
+			String ad3 = arr[2];
+			emp.setAd1(ad1);
+			emp.setAd2(ad2);
+			emp.setAd3(ad3);
+		}
 		
 		model.addAttribute("e", emp);
 		model.addAttribute("d", cd.commonList("부서"));

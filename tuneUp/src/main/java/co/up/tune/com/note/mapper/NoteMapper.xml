@@ -13,5 +13,7 @@
 		where receiver = ${receiver}
 		order by noteNo
 	</select>
-
+	<select id="kNoteList" resultType="co.up.tune.com.vo.NoteVO">
+		select * from note
+	</select>
 </mapper>

@@ -64,5 +64,17 @@ public class PropostServiceImpl implements PropostService {
 		
 	}
 
+	@Override
+	public PostVO prjPostSelect(PostVO vo) {
+		// TODO Auto-generated method stub
+		return map.prjPostSelect(vo);
+	}
+
+	@Override
+	public ReplyVO ppreplySelect(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return map.ppreplySelect(vo);
+	}
+
 	
 }

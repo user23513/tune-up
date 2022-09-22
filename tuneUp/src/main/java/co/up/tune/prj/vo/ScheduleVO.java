@@ -2,6 +2,10 @@ package co.up.tune.prj.vo;
 
 import java.sql.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class ScheduleVO {
 	 int postNo;		//게시글 번호
 	 String empNo;		//사번

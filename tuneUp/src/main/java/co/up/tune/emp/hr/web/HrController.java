@@ -1,9 +1,6 @@
 package co.up.tune.emp.hr.web;
 
-
-
 import java.sql.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import co.up.tune.common.service.CommonService;
-import co.up.tune.common.vo.CommonVO;
 import co.up.tune.emp.hr.service.HrService;
 import co.up.tune.emp.vo.EmpVO;
 
@@ -51,8 +47,6 @@ public class HrController {
 	
 	@RequestMapping("/empManage")
 	public String empManage(Model model) {
-		
-		
 		model.addAttribute("empList",dao.empList());
 		model.addAttribute("managerList",dao.managerList());
 		return "emp/hr/empManage";

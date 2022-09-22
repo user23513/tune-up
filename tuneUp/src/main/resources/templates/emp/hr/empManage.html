@@ -10,20 +10,38 @@
 <script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <script>
 	$(document).ready(function() {
-		empSelect();
 		//datatables
 		$('#empList').DataTable();
 		$('#managerList').DataTable();
-		
-		function empSelect() {
- 			$("#tb tr").on("click", e=>{
- 				let tg = e.target.closest('tr').children[1].innerText;
- 				console.log(tg)
- 				$("#empNo").val(tg)
-				$("#frm").submit();
-			})
-		}		
+	
+	
+	$("#tb").on("click", "tr", e=>{
+        let tg = e.target.closest('tr').children[1].innerText;
+        console.log(tg)
+        $("#empNo").val(tg)
+        console.log(e.target)
+        $("#frm").submit();
+    })
+ 
+    
+	$("#ok").on("click", e=>{
+	   e.stopPropagation();
+	   let auth = e.target.closest('td').previousElementSibling.innerText;
+ 	   if(auth=='GUEST'){
+		   let really = confirm("권한을 USER로 바꾸시겠습니까?");
+	      if(really){
+
+	    	  let target = e.target.closest('td').previousElementSibling.setAttribute('th:text', 'USER')
+	      }
+	   }else{
+		   alert("이미 승인되어있습니다.") 
+	   } 
+	   console.log(auth);
+	})
+	
 	});
+			
+
 </script>
 </head>
 <body>
@@ -62,6 +80,8 @@
 										aria-controls="contact" aria-selected="false">관리자</button>
 								</li>
 							</ul>
+							
+							
 							<div class="tab-content pt-2" id="myTabContent">
 								<div class="tab-pane fade show active" id="home" role="tabpanel"
 									aria-labelledby="home-tab">
@@ -83,7 +103,7 @@
 												<th scope="col">휴대폰</th>
 												<th scope="col">이메일</th>
 												<th scope="col">권한</th>
-												<th scope="col">상태</th>
+												<th scope="col">승인</th>
 											</tr>
 										</thead>
 										<tbody id="tb">
@@ -97,8 +117,10 @@
 												<td th:text="${e.hDate}">2010-01-01</td>
 												<td th:text="${e.phone}">010-0000-0000</td>
 												<td th:text="${e.email}">aaa1234@gmail.com</td>
-												<td th:text="${e.auth}">사원</td>
-												<td th:text="${e.st}">재직</td>
+												<td th:text="${e.auth}"> </td>
+												<td>
+													<button id="ok" type="button" class="btn btn-primary btn-sm">승인</button>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -124,10 +146,9 @@
 												<th scope="col">휴대폰</th>
 												<th scope="col">이메일</th>
 												<th scope="col">권한</th>
-												<th scope="col">상태</th>
 											</tr>
 										</thead>
-										<tbody id='tb'>
+										<tbody id="tbd">
 											<tr th:each="m : ${managerList}" th:if="m.auth">
 												<th scope="row"></th>
 												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"> </td>
@@ -139,7 +160,6 @@
 												<td th:text="${m.phone}">010-0000-0000</td>
 												<td th:text="${m.email}">aaa1234@gmail.com</td>
 												<td th:text="${m.auth}"> </td>
-												<td th:text="${m.st}">재직</td>
 											</tr>
 										</tbody>
 									</table>

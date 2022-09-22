@@ -32,6 +32,7 @@ public class EmpVO {
     String ad1;
     String ad2;
     String ad3;
+    String state; //재직,퇴사
     
     
 }

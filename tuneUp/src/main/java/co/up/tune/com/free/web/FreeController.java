@@ -1,8 +1,6 @@
 package co.up.tune.com.free.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,10 +24,10 @@ public class FreeController {
 	@Autowired
 	FileService fdao;
 	
-	//자유게시판 리스트
+	//자유게시판 리스트로 이동
 	@GetMapping("freeList")
 	public String freeList(Model model) {
-		model.addAttribute("freeList", dao.freeList());
+		//model.addAttribute("freeList", dao.freeList());
 		return "com/free/freeList";
 	}
 	

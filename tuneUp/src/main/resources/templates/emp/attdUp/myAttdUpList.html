@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>근태 수정 리스트</title>
+</head>
+<body>
+	<main layout:fragment="content">
+		<div class="card">
+			<div class="card-body">
+				<br>
+
+				<!-- Large Modal -->
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#largeModal" style="float: right">수정신청</button>
+
+				<div class="modal fade" id="largeModal" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">근태 수정 폼</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+
+								<!-- 수정폼 -->
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">이름</span> <input type="text"
+										class="form-control" placeholder="Name" aria-label="Username"
+										aria-describedby="basic-addon1">
+								</div>
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">사원번호</span> <input type="text"
+										class="form-control" placeholder="Emp.no"
+										aria-label="Username" aria-describedby="basic-addon1">
+								</div>
+								<div class="row mb-3">
+									<label for="inputDate" class="col-sm-2 col-form-label">출근 날짜</label>
+									<div class="col-sm-10">
+										<input type="date" class="form-control">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputTime" class="col-sm-2 col-form-label">출근 시간</label>
+									<div class="col-sm-10">
+										<input type="time" class="form-control">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<label for="inputTime" class="col-sm-2 col-form-label">퇴근 시간</label>
+									<div class="col-sm-10">
+										<input type="time" class="form-control">
+									</div>
+								</div>
+								<div class="form-floating mb-3">
+									<textarea class="form-control"
+										placeholder="Leave a comment here" id="floatingTextarea"
+										style="height: 100px; resize: none"></textarea>
+									<label for="floatingTextarea">사유</label>
+								</div>
+								<!-- 바디 끝 -->
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-primary">신청</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Large Modal-->
+			</div>
+		</div>
+
+
+	</main>
+</body>
+<script>document.getElementById('now_date').valueAsDate = new Date();</script>
+</html>

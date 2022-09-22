@@ -20,12 +20,16 @@
 			<if test="position != null">position = #{position},</if>
 			<if test="zip != null">zip = #{zip},</if>
 			<if test="addr != null">addr = #{addr},</if>
-			<if test="hDate != null">h_date = #{hDate},</if>
-			<if test="fDate != null">f_date = #{fDate}</if>
-			
+			<if test="hDate != null">h_date = #{hDate}</if>
 		</set>
 		where emp_no = #{empNo}	
 	</update>
-	
+	<update id="authUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
+		update emp 
+		<set>
+			<if test="auth = 'GUEST'">auth = #{auth}</if>
+		</set>
+		where mng = '관리자'
+	</update>
 
 </mapper>

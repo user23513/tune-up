@@ -118,9 +118,15 @@ public class AttdServiceImpl implements AttdService{
 	}
 
 	@Override
-	public List<AttdVO> myAttdList() {
-		// 나의 근태
-		return dao.myAttdList();
+	public List<AttdVO> myAttdList(AttdVO vo) {
+		// TODO Auto-generated method stub
+		return dao.myAttdList(vo);
+	}
+
+	@Override
+	public List<AttdVO> attdListSearch(String key, String val) {
+		// TODO Auto-generated method stub
+		return dao.attdListSearch(key, val);
 	}
 
 }

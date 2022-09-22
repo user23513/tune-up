@@ -5,7 +5,6 @@
 	<select id="attdList" resultType="co.up.tune.emp.vo.AttdVO">
     	SELECT * 
     	FROM ATTD
-    	
 	</select>	
 	
 	  <select id="attdGoodList" resultType="co.up.tune.emp.vo.AttdVO">
@@ -21,5 +20,15 @@
     	WHERE ST=602
     	ORDER BY ATDC_DT DESC
 	</select>
+	
+	<select id="myAttdList" resultType="co.up.tune.emp.vo.AttdVO" parameterType="co.up.tune.emp.vo.AttdUpVO">
+    	SELECT * 
+    	FROM ATTDUP
+    	WHERE EMP_NO = #{empNo}
+    	AND ST = #{ST}
+    	ORDER BY ATTD_UP DESC
+	</select>	
+	
+	
 	
 </mapper>

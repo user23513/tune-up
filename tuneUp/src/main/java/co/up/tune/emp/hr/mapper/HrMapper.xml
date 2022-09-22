@@ -24,6 +24,12 @@
 		</set>
 		where emp_no = #{empNo}	
 	</update>
-	
+	<update id="authUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
+		update emp 
+		<set>
+			<if test="auth = 'GUEST'">auth = #{auth}</if>
+		</set>
+		where mng = '관리자'
+	</update>
 
 </mapper>

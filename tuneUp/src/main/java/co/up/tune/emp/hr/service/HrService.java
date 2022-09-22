@@ -10,4 +10,5 @@ public interface HrService {
 	EmpVO empSelect(EmpVO vo); //사원 상세내역 조회
 	int empUpdate(EmpVO vo); //사원정보 수정
 	List<EmpVO> managerList(); //전체 관리자리스트
+	int authUpdate(EmpVO vo); //사원 권한 수정
 }

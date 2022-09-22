@@ -5,6 +5,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
+<script
+	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		
+		aprvSelect();
+		
+		//datatables
+		$('#attdTable').DataTable();
+		
+	} );
+</script>
+
+
+
 <style>
  #c{
  	background-color: #ECEBFF;
@@ -16,6 +34,18 @@
  width: 50%;
  width: 100%;
  }
+ 
+ .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding : 0px;
+    margin-left: 0px;
+    display: inline;
+    border: 0px;
+	}
+	.location{
+		position: relative;
+		bottom: 43px;
+	}
+ 
 </style>
 </head>
 <body>
@@ -84,12 +114,6 @@
 								</li>
 								
 								
-								
-								
-								
-								
-																
-								
 								<li class="nav-item" role="presentation">
 									<button class="nav-link" id="good-tab" data-bs-toggle="tab"
 										data-bs-target="#good" type="button" role="good-tab"
@@ -102,46 +126,36 @@
 								</li>
 								<form id="excelForm" name="excelForm" method=get action="excel">
 								<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
-								<input type="text" name="fileName">
 								<div style="display: inline-block; float: right;">&nbsp;&nbsp;
-								<button type="submit" value="xls파일로 받기" class="btn btn-outline-primary" >엑셀</button>
+								<button type="submit" value="엑셀 다운로드" class="btn btn-outline-primary" >엑셀</button>
 								</div>
 								</form>
 								
-								<!-- <div style="display: inline-block; float: right;">
-								<button type="button" class="btn btn-outline-primary" >엑셀</button>
-								</div> -->
 							</ul>
 
-							
-							
-							
-							
 		
 							<div class="tab-content pt-2" id="myTab1Content">
-								<div class="tab-pane fade show active" id="good" role="tabpanel"
+								<div class="tab-pane fade show active" id="all" role="tabpanel"
 									aria-labelledby="all-tab">
 									
-									<!-- <div>
-										<table id="aprvTable" class="table table-hover">
+										<table id="attdTable" class="table table-hover">
 											<tbody id="tb">
-												<tr th:each="a : ${aprvList}">
-													<td scope="row" th:text="${a.aprvNo}">결재번호</td>
-													<td th:text="${a.ttl}" class="select"
-														th:attr="data-no=${a.aprvNo}">제목</td>
-													<td th:text="${a.dttm}">2022-02-10</td>
-													<td th:text="${a.aprvSt}">결재완료</td>
+												<tr th:each="at : ${attdList}">
+													<td th:text="${at.atdcDt}">출근 날짜</td>
+													<td th:text="${at.empNo}">사번</td>
+													<td th:text="${at.nm}">이름</td>
+													<td th:text="${at.dept}">부서명</td>
+													<td th:text="${at.position}">직위</td>
+													<td th:text="${at.atdcDttm}">사번</td>
+													<td th:text="${at.afwkDttm}">출근 시간</td>
+													<td th:text="${at.wktm}">퇴근시간</td>
+													<td th:text="${at.atdcDt}">Total</td>
+													<td th:text="${at.ovtm}">연장 근무</td>
+													<td th:text="${at.st}">상태</td>
 												</tr>
 											</tbody>
 										</table>
-									</div>
-
-									<div>
-										<form id="frm" method="post" action="aprvSelect">
-											<input type="hidden" id="aprvNo" name="aprvNo">
-										</form>
-									</div> -->
-
+								
 									<!-- End Table with hoverable rows -->
 					
 
@@ -149,7 +163,7 @@
 									<!-- Table with hoverable rows -->
 									
 									
-									<table class="table table-hover">
+									<!--  <table class="table table-hover">
 										<thead>
 											<tr>
 												<th scope="col">출근 날짜</th>
@@ -215,22 +229,10 @@
 												<td>good</td>
 											</tr>
 										</tbody>
-									</table>
+									</table> 
 									<!-- End Table with hoverable rows -->
 									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
+									
 									<!-- End Pagination with icons -->
 								</div>
 								<div class="tab-pane fade" id="good" role="tabpanel"
@@ -281,20 +283,7 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
+									
 									<!-- 근태이상 -->
 								</div>
 								<div class="tab-pane fade" id="bad" role="tabpanel"
@@ -351,21 +340,7 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<!-- End Pagination with icons -->
+									
 								</div>
 							</div>
 
@@ -524,21 +499,7 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<!-- End Pagination with icons -->
+								
 								</div>
 								<div class="tab-pane fade" id="request" role="tabpanel"
 									aria-labelledby="request-tab">
@@ -593,21 +554,7 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<!-- End Pagination with icons -->
+									
 
 								</div>
 								<div class="tab-pane fade" id="report" role="tabpanel"
@@ -664,21 +611,7 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<!-- End Pagination with icons -->
+									
 
 								</div>
 								<div class="tab-pane fade" id="affair" role="tabpanel"
@@ -735,21 +668,7 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<!-- End Pagination with icons -->
+									
 
 								</div>
 								<div class="tab-pane fade" id="pInfo" role="tabpanel"
@@ -805,21 +724,7 @@
 											</tr>
 										</tbody>
 									</table>
-									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<!-- End Pagination with icons -->
+									
 								</div>
 							</div>
 							<!-- End Default Tabs -->
@@ -869,7 +774,7 @@
 
 		<!-- End Scrolling Modal-->
 
-
+</div>
 
 
 

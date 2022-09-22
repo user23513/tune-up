@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AlarmService {
 
-	private final SimpMessageSendingOperations messagingTemplate;
+//	private final SimpMessageSendingOperations messagingTemplate;
 	
 	public void alarmByMessage() {
 		

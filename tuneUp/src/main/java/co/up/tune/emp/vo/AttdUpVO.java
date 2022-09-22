@@ -2,6 +2,8 @@ package co.up.tune.emp.vo;
 
 import java.sql.Timestamp;
 
+import lombok.Data;
+@Data
 public class AttdUpVO {
 	int attdupNo; 	//신청번호
 	String empNo; 	//사번

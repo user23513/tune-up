@@ -5,21 +5,21 @@
 	<select id="attdList" resultType="co.up.tune.emp.vo.AttdVO">
     	SELECT * 
     	FROM ATTD
-    	ORDER BY POST_NO DESC
+    	
 	</select>	
 	
 	  <select id="attdGoodList" resultType="co.up.tune.emp.vo.AttdVO">
     	SELECT * 
     	FROM ATTD
     	WHERE ST=601
-    	ORDER BY POST_NO DESC
+    	ORDER BY ATDC_DT DESC
 	</select>
 	
 	<select id="attdBadList" resultType="co.up.tune.emp.vo.AttdVO">
     	SELECT * 
     	FROM ATTD
     	WHERE ST=602
-    	ORDER BY POST_NO DESC
+    	ORDER BY ATDC_DT DESC
 	</select>
 	
 </mapper>

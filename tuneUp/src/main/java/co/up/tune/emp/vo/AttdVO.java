@@ -2,6 +2,8 @@ package co.up.tune.emp.vo;
 
 import java.sql.Timestamp;
 
+import lombok.Data;
+@Data
 public class AttdVO {
 	Timestamp atdcDt;	//출근날짜
 	String empNo;	//사번

@@ -84,7 +84,6 @@ $(function(){
     //게시글 등록
     $("#save").on("click", function(){
         let content = tinymce.activeEditor.getContent();
-        console.log(content);
         $("#cntn").val(content);
         $("#frm").submit();
     });

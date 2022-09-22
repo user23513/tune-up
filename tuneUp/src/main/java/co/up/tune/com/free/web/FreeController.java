@@ -46,7 +46,6 @@ public class FreeController {
 		if(!file.isEmpty()) {
 			vo = fdao.fileUpload(vo, file);
 		}
-		
 		dao.freeInsert(vo);
 		
 		return "redirect:/freeList";

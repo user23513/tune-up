@@ -13,13 +13,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import co.up.tune.emp.mapper.EmpMapper;
 import co.up.tune.emp.mypage.service.MypageService;
 import co.up.tune.emp.vo.EmpVO;
 
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 
 	@Autowired
-	MypageService my;
+	EmpMapper mapper;
 	
 	//로그인 하고 세션처리 (우선)
 	@Override
@@ -29,7 +30,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			String username = authentication.getName();
 			EmpVO vo = new EmpVO();
 			vo.setId(username);
-			my.empSelectOne(vo);
+			vo = mapper.empSession(vo);
 			
 			HttpSession session =  request.getSession();
 			session.setAttribute("empNo", vo.getEmpNo());

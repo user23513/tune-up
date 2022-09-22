@@ -61,7 +61,6 @@ public class NoitceController {
 		} else {
 			vo.setEmerg("1");
 		}
-		
 		dao.noticeInsert(vo);
 		
 		return "redirect:/noticeList";

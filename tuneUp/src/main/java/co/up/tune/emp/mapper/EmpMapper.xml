@@ -2,14 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.emp.mapper.EmpMapper">
 
-<select id="empSelect" parameterType="co.up.tune.emp.vo.EmpVO"
+	<select id="empSelect" parameterType="co.up.tune.emp.vo.EmpVO"
 			resultType="co.up.tune.emp.vo.EmpVO">
-		select 
-				nm,
-				id,
-				pw,
-		        'ROLE_' || auth as auth
-		  from emp 
-		 where id = #{id}
+		SELECT  NM,
+				ID,
+				PW,
+		        'ROLE_' || AUTH AS AUTH
+		FROM EMP 
+	    WHERE ID = #{id}
+	</select>
+	
+	<select id="empSession" parameterType="co.up.tune.emp.vo.EmpVO"
+			resultType="co.up.tune.emp.vo.EmpVO">
+		SELECT *
+		FROM EMP
+		WHERE ID = #{id}
 	</select>
 </mapper>

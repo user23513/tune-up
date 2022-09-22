@@ -117,7 +117,7 @@
 												<td th:text="${e.hDate}">2010-01-01</td>
 												<td th:text="${e.phone}">010-0000-0000</td>
 												<td th:text="${e.email}">aaa1234@gmail.com</td>
-												<td th:text="${e.auth}"> </td>
+												<td th:text="${e.auth}" th:attr="data-no=${e.auth}"> </td>
 												<td>
 													<button id="ok" type="button" class="btn btn-primary btn-sm">승인</button>
 												</td>

@@ -11,12 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class TuneUpApplication {
 	
-	//웹소켓
-	/*
-	 * @Bean public ServerEndpointExporter endpointExporter() { return new
-	 * ServerEndpointExporter(); }
-	 */
-
 	public static void main(String[] args) {
 		SpringApplication.run(TuneUpApplication.class, args);
 	}

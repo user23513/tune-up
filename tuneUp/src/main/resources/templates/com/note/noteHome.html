@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>쪽지</title>
+<script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<script>
+	$(document).ready(function() {
+		//datatables
+		$('#sNoteList').DataTable();
+		$('#rNoteList').DataTable();
+		$('#kNoteList').DateTable();
+	});
+</script>
+</head>
+<body>
+<main id="main" class="main" layout:fragment="content" >
+ <div class="card">
+   <div class="card-body">
+     <h5 class="card-title">내 쪽지함</h5>
+
+     <!-- Bordered Tabs Justified -->
+     <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
+       <li class="nav-item flex-fill" role="presentation">
+         <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">받은 쪽지</button>
+       </li>
+       <li class="nav-item flex-fill" role="presentation">
+         <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">보낸 쪽지</button>
+       </li>
+       <li class="nav-item flex-fill" role="presentation">
+         <button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">보관함</button>
+       </li>
+     </ul>
+     <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+       <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+       
+       	<div class="tab-content pt-2" id="myTabContent">
+			<div class="tab-pane fade show active" id="home" role="tabpanel"
+				aria-labelledby="home-tab">
+
+				<!-- End Default Table Example -->
+				<br>
+				<!-- 받은 쪽지 보이는 곳 -->
+				<!-- Table with hoverable rows -->
+				<table class="table table-hover" id="sNoteList">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th style="display: none" scope="col">쪽지번호</th>
+							<th scope="col">보낸 사람</th>
+							<th scope="col">내용</th>
+							<th scope="col">날짜</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="s : ${sNoteLsist}" >
+							<th scope="row">
+							쪽지 체크박스
+							</th>
+							<td style="display: none" th:text="${s.noteNo}" th:attr="data-no=${s.noteNo}">쪽지번호</td>
+							<td th:text="${s.receiver}">보낸 사람</td>
+							<td th:text="${s.cntn}">쪽지 내용</td>
+							<td th:text="${s.dttm}">발송 일시</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- End Table with hoverable rows -->
+			</div>
+			</div>			
+       </div>
+       
+       <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+       
+       	<div class="tab-content pt-2" id="myTabContent">
+			<div class="tab-pane fade show active" id="home" role="tabpanel"
+				aria-labelledby="home-tab">
+
+				<!-- End Default Table Example -->
+				<br>
+				<!-- 보낸 쪽지 보이는 곳 -->
+				<!-- Table with hoverable rows -->
+				<table class="table table-hover" id="sNoteList">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th style="display: none" scope="col">쪽지번호</th>
+							<th scope="col">받는사람</th>
+							<th scope="col">내용</th>
+							<th scope="col">날짜</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="r : ${rNoteLsist}" >
+							<th scope="row">
+							쪽지 체크박스
+							</th>
+							<td style="display: none" th:text="${r.noteNo}" th:attr="data-no=${r.noteNo}">쪽지번호</td>
+							<td th:text="${r.receiver}">보낸 사람</td>
+							<td th:text="${r.cntn}">쪽지 내용</td>
+							<td th:text="${r.dttm}">발송 일시</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- End Table with hoverable rows -->
+			</div>
+			</div>			
+       </div>
+       
+       <div class="tab-pane fade" id="bordered-justified-contact" role="tabpanel" aria-labelledby="contact-tab">
+       
+       	<div class="tab-content pt-2" id="myTabContent">
+			<div class="tab-pane fade show active" id="home" role="tabpanel"
+				aria-labelledby="home-tab">
+
+				<!-- End Default Table Example -->
+				<br>
+				<!-- 쪽지보관함 보이는 곳 -->
+				<!-- Table with hoverable rows -->
+				<table class="table table-hover" id="sNoteList">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th style="display: none" scope="col">쪽지번호</th>
+							<th scope="col">보낸사람/받는사람</th>
+							<th scope="col">내용</th>
+							<th scope="col">날짜</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="k : ${kNoteLsist}" >
+							<th scope="row">
+							쪽지 체크박스
+							</th>
+							<td style="display: none" th:text="${k.noteNo}" th:attr="data-no=${k.noteNo}">쪽지번호</td>
+							<td th:text="${k.receiver}">보낸 사람</td>
+							<td th:text="${k.cntn}">쪽지 내용</td>
+							<td th:text="${k.dttm}">발송 일시</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- End Table with hoverable rows -->
+			</div>
+			</div>			
+       </div>
+       
+         
+     </div><!-- End Bordered Tabs Justified -->
+
+   </div>
+ </div>
+</main>
+</body>
+</html>

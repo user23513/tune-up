@@ -8,6 +8,8 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
 $(function(){
+	
+	//=======Start Editer=======
     var plugins = [
         "advlist", "autolink", "lists", "link", "image", "charmap", "print", "preview", "anchor",
         "searchreplace", "visualblocks", "code", "fullscreen", "insertdatetime", "media", "table",
@@ -79,13 +81,31 @@ $(function(){
         
         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
     });
-
+   	//=======End Editer=======
+	
+	//webSocket
+	var wsUri = "ws://localhost:80/websocket";
+        var websocket;
+        var output;
+        var textID
+	function send_message() {
+            var message = '자유게시판 게시글 등록했습니다.';
+            writeToScreen("Message Sent: " + message);
+            websocket.send(message);
+        }
+	function writeToScreen(message) {
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+        pre.innerHTML = message;
+        console.log(message)
+    }
 
     //게시글 등록
-    $("#save").on("click", function(){
+    $("#send").on("click", function(){
         let content = tinymce.activeEditor.getContent(); //textarea 내용
         $("#cntn").val(content);
         $("#frm").submit();
+        send_message();
     });
     
 });
@@ -110,6 +130,7 @@ $(function(){
 </head>
 <body>
 	<main layout:fragment="content">
+		<!-- Start Page Title -->
 		<div class="pagetitle">
 	      <h1>공지사항 등록</h1>
 	    </div><br>
@@ -148,7 +169,7 @@ $(function(){
 						<a href="freeList" class="btn btn-primary">목록</a>
 					</span>
 					<span class="right">
-						<button type="button" id="save" class="btn btn-primary ">등록</button>
+						<button type="button" id="send" class="btn btn-primary ">등록</button>
 					</span>
 				</div>
 			</form>

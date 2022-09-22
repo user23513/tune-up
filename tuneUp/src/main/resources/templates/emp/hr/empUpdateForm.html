@@ -8,17 +8,20 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-$(document).ready(function() {
+	$(document).ready(function() {
 		$("#btn").on("click", e=>{
-			$("#empNo").val()
-			let dept = document.querySelector("#dept");
-			console.log(dept);
+			$("#empNo").val();
+			$("#dept").val();
+			let hd = $("#hDate").val();
 			
-			console.log($("#empNo").val())
-			console.log($("#dept").val())
-		//$("#frm").submit(); 
-	})
-});
+			if(!hd){
+				console.log("입사일X");
+				alert ("입사일을 입력해주세요");
+			}else{
+				$("#frm").submit(); 
+			}
+		})
+	});
 
     function sample6_execDaumPostcode() {
         new daum.Postcode({
@@ -139,9 +142,9 @@ $(document).ready(function() {
               <div class="row mb-3">
                 <label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
                 <div class="col-md-8 col-lg-9">
-                	<select id="dept" th:value="${e.dept}" class="form-select" aria-label="Default select example">
-                      <option selected >--부서--</option>
-                      <option th:each="d : ${d}" th:value="${d?.code}" th:uText="${d?.cdNm}"> </option>
+                	<select id="dept" name="dept" th:value="${e.dept}" class="form-select" aria-label="Default select example">
+                      <option selected th:value="${e.dept}">--부서--</option>
+                      <option th:each="d : ${d}" th:value="${d?.cdNm}" th:uText="${d?.cdNm}"> </option>
                     </select>
                 </div>
               </div>
@@ -149,7 +152,10 @@ $(document).ready(function() {
               <div class="row mb-3">
                 <label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="position" type="text" class="form-control" id="position" th:value="${e.position}">
+                	<select id="position" name="position" th:value="${e.position}" class="form-select" aria-label="Default select example">
+                      <option selected th:value="${e.position}">--직위--</option>
+                      <option th:each="p : ${p}" th:value="${p.cdNm}" th:uText="${p.cdNm}"> </option>
+                    </select>
                 </div>
               </div>
 
@@ -177,7 +183,7 @@ $(document).ready(function() {
                 </div>
               </div>
               
-           <!--    <div class="row mb-3">
+<!--               <div class="row mb-3">
                 <label for="fDate" class="col-md-4 col-lg-3 col-form-label">퇴사일</label>
                 <div class="col-md-8 col-lg-9">
                   <input name="fDate" type="date" class="form-control" id="fDate">
@@ -189,7 +195,17 @@ $(document).ready(function() {
                 <div class="col-md-8 col-lg-9">
                   <input name="st" type="text" class="form-control" id="st" th:value="${e.st}">
                 </div>
-              </div> -->
+              </div> --> 
+              
+              <div class="row mb-3">
+                <label for="st" class="col-md-4 col-lg-3 col-form-label">권한</label>
+                <div class="col-md-8 col-lg-9">
+                  <select id="auth" name="auth" th:value="${e.auth}" class="form-select" aria-label="Default select example">
+                      <option selected>--권한--</option>
+                      <option th:each="a : ${a}" th:value="${a.cdNm}" th:uText="${a.cdNm}"> </option>
+                    </select>
+                </div>
+              </div>
 
               <div class="text-center">
                 <button type="button" class="btn btn-secondary">되돌리기</button>

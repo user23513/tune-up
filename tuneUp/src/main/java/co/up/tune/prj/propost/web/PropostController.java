@@ -4,7 +4,6 @@ package co.up.tune.prj.propost.web;
 
 import java.io.IOException;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,8 +35,9 @@ public class PropostController {
 	@GetMapping("/prjPostList")
 	public String prjPostList(Model model,ReplyVO rvo,PostVO pvo) {
 		model.addAttribute("prjPostList", dao.prjPostList());
-		rvo.setPostNo(pvo.getPostNo());
+		//rvo.setPostNo(pvo.getPostNo());
 		model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
+		//model.addAttribute("ppreplySelect", dao.ppreplySelect(rvo));
 		return "prj/post/prjPostList";
 	}
 
@@ -138,9 +138,14 @@ public class PropostController {
 //		 }
 //		 return "redirect:/prjPostList"; 
 //	 }
-	
-	
-	
+		
+		  @PostMapping("/ppReplyInsert") 
+		  public String ppReplyInsert(ReplyVO vo) {
+		  dao.ppReplyInsert(vo); 
+		  return "redirect:/prjPostList";
+		  
+		  }
+		 
 	
 	// 내 프로젝트 - 관리자
 	@GetMapping("/prjMng")

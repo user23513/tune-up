@@ -2,6 +2,10 @@ package co.up.tune.prj.vo;
 
 import java.sql.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class ProjectVO {
 	 int prjNo;		//프로젝트 번호
 	 String nm;		//프로젝트 이름

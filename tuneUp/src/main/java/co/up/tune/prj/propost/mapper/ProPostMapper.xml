@@ -43,11 +43,22 @@
 	DELETE FROM POST WHERE POST_NO = #{postNo}
 	</delete>
 	
+	<select id="prjPostSelect" resultType="co.up.tune.prj.vo.PostVO" parameterType="co.up.tune.prj.vo.PostVO">
+		SELECT * 
+			FROM POST
+				WHERE PRJ_NO = #{prjNo}
+	</select>
+	
 	<!-- 댓 -->
 	
 
 	<select id="ppReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
-		SELECT * 
+		SELECT REPLY_NO, 
+			   POST_NO, 
+			   EMP_NO, 
+			   WRTR,CNTN, 
+			   DTTM, 
+			   REPLY_CAT 
 		FROM REPLY
 		WHERE POST_NO = #{postNo}
 		ORDER BY REPLY_NO DESC
@@ -69,7 +80,14 @@
 	
 	
 	<delete id="ppReplyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
-	
+		DELETE FROM REPLY
+		WHERE REPLY_NO = #{replyNo}
 	</delete>
+	
+	<select id="ppreplySelect" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">
+		SELECT * 
+		FROM REPLY
+		WHERE REPLY_NO = #{replyNo}
+	</select>
 	
 </mapper>

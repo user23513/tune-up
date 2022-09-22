@@ -69,10 +69,13 @@
 					<form id="pstfrm" action="prjPostInsert" method="post"
                    	enctype="multipart/form-data"  >
                    	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+					<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+				<!-- <input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}"> -->
 					<div>
 						<label class="col-sm-2 col-form-label" style="text-align: center">작성자</label>
-						<input type="text" id="prjPostWriter" name="wrtr" style="border: 0;"
-						th:value="세션" readonly>
+						<input type="text" id="prjPostWriter" name="wrtr" style="border: 0;" th:value="${session.nm}" readonly>
+						<!-- <input type="text" id="prjPostWriter" name="wrtr" style="border: 0;"
+						th:value="세션" readonly> -->
 							
 					</div>
 				

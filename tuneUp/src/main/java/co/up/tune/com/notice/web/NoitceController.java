@@ -75,7 +75,7 @@ public class NoitceController {
 	}
 	
 	//공지사항 파일 다운로드
-	//@GetMapping("/attach/{no}")
+	@GetMapping("/attach/{no}")
 	public ResponseEntity<UrlResource> download(CommunityVO vo ,@PathVariable("no") int no) {
 		//파일 다운로드
 		vo.setPostNo(no);

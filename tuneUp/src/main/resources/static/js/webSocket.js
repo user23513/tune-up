@@ -1,12 +1,12 @@
 window.addEventListener('DOMContentLoaded', function(){
-
-const username = "kim";
+var id = [[${#authentication.principal.username}]]
+const username = id
 
         $("#disconn").on("click", (e) => {
             disconnect();
         })
         
-        $("#button-send").on("click", (e) => {
+        $("#save").on("click", (e) => {
             send();
         });
 
@@ -18,11 +18,11 @@ const username = "kim";
 
         function send(){
 
-            let msg = document.getElementById("msg");
+            let msg = '등록';
 
             console.log(username + ":" + msg.value);
             websocket.send(username + ":" + msg.value);
-            msg.value = '';
+            //msg.value = '';
         }
         
         //채팅창에서 나갔을 때

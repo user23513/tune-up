@@ -2,15 +2,16 @@ package co.up.tune.file.aprv.mapper;
 
 import java.util.List;
 
-import co.up.tune.file.vo.FileVO;
+import co.up.tune.prj.vo.FilesVO;
+
 
 public interface AprvFileMapper {
 	
-	List<FileVO> aprvFileList();
+	List<FilesVO> aprvFileList();
 	
-	int aprvFileInsert(FileVO vo);
-	int pprvFileUpdate(FileVO vo);
-	int aprvFileDelete(FileVO vo);
+	int aprvFileInsert(FilesVO vo);
+	int pprvFileUpdate(FilesVO vo);
+	int aprvFileDelete(FilesVO vo);
 	
 	
 	

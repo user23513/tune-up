@@ -1,4 +1,4 @@
-package co.up.tune.file.aprv.service;
+package co.up.tune.file.service;
 
 public interface AprvFileService {
 

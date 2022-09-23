@@ -1,4 +1,4 @@
-package co.up.tune.file.aprv.web;
+package co.up.tune.file.web;
 
 public class AprvFileController {
 

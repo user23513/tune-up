@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.free.service.FreeService;
-import co.up.tune.com.notice.service.FileService;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.file.service.FileService;
 import co.up.tune.paging.vo.Criteria;
 import co.up.tune.paging.vo.pagingVO;
 
@@ -49,7 +49,7 @@ public class FreeController {
 			throws IllegalStateException, IOException {
 		// file upload 처리
 		if (!file.isEmpty()) {
-			vo = fdao.fileUpload(vo, file);
+			//vo = fdao.fileUpload(vo, file);
 		}
 		dao.freeInsert(vo);
 
@@ -81,7 +81,7 @@ public class FreeController {
 			throws IllegalStateException, IOException {
 		// file upload 처리
 		if (!file.isEmpty()) {
-			vo = fdao.fileUpload(vo, file);
+			//vo = fdao.fileUpload(vo, file);
 		}
 
 		dao.freeUpdate(vo);

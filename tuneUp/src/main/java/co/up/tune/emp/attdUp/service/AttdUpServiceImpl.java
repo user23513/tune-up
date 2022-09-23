@@ -15,32 +15,32 @@ public class AttdUpServiceImpl implements AttdUpService{
 	
 	@Override
 	public List<AttdUpVO> attdUpList() {
-		// TODO Auto-generated method stub
-		return null;
+		// 사원 - 나의근태 수정목록
+		return dao.attdUpList();
 	}
 
 	@Override
 	public List<AttdUpVO> myAttdUpList() {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.myAttdUpList();
 	}
 
 	@Override
 	public AttdUpVO attdUpSelect(AttdUpVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.attdUpSelect(vo);
 	}
 
 	@Override
-	public int attdUpUpdate(PostVO vo) {
+	public int attdUpUpdate(AttdUpVO vo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dao.attdUpUpdate(vo);
 	}
 
 	@Override
-	public int attdUpInsert(PostVO vo) {
+	public int attdUpInsert(AttdUpVO vo) {
 		// TODO Auto-generated method stub
-		return 0;
+		return dao.attdUpInsert(vo);
 	}
 	
 	

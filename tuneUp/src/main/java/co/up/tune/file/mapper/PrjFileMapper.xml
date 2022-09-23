@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="co.up.tune.file.prj.mapper.PrjFileMapper">
+<mapper namespace="co.up.tune.file.mapper.PrjFileMapper">
 
-	<select id="prjFileList" resultType="co.up.tune.file.vo.FileVO">
+	<select id="prjFileList" resultType="co.up.tune.prj.vo.FilesVO">
 		SELECT *
 		FROM FILES
 		WHERE F_CAT=PROJECT

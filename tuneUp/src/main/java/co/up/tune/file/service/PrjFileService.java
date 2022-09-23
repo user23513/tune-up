@@ -1,4 +1,4 @@
-package co.up.tune.file.prj.service;
+package co.up.tune.file.service;
 
 public interface PrjFileService {
 

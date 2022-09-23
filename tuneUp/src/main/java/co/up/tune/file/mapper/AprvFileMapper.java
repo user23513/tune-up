@@ -1,4 +1,4 @@
-package co.up.tune.file.aprv.mapper;
+package co.up.tune.file.mapper;
 
 import java.util.List;
 

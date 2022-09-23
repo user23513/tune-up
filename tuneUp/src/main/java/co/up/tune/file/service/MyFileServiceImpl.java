@@ -1,10 +1,10 @@
-package co.up.tune.file.myfile.service;
+package co.up.tune.file.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import co.up.tune.file.myfile.mapper.MyFileMapper;
+import co.up.tune.file.mapper.MyFileMapper;
 import co.up.tune.prj.vo.FilesVO;
 
 public class MyFileServiceImpl implements MyFileService {

@@ -29,4 +29,5 @@ public class MyFileServiceImpl implements MyFileService {
 		return map.myFileDelete(vo);
 	}
 
+
 }

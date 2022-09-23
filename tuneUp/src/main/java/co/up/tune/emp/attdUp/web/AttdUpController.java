@@ -1,15 +1,17 @@
 package co.up.tune.emp.attdUp.web;
 
-import java.util.List;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import co.up.tune.emp.attdUp.service.AttdUpService;
 import co.up.tune.emp.vo.AttdUpVO;
-import co.up.tune.prj.vo.PostVO;
 
 @Controller
 public class AttdUpController {
@@ -17,6 +19,11 @@ public class AttdUpController {
 	AttdUpService dao;
 	
 	//근태 수정 신청 - 사원
+	@PostMapping("/attdUpInsert")
+	public String attdUpInsert(AttdUpVO vo) {
+		dao.attdUpInsert(vo);
+		return "redirect:/myAttdUpList";
+	}
 	
 	//근태수정 신청폼
 	@GetMapping("/attdUpForm")

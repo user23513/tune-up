@@ -1,0 +1,19 @@
+스프링부트
+jsp - 템플릿
+css/js/image - static(정적파일)
+properties - 설정파일
+
+
+HomeController
+
+@RestController
+public class HomeController{
+	@GetMapping("/")
+	public String home(){
+	return "hello";
+}
+}
+
+
+어플리케이션.프로퍼티즈 (오픈w/프로퍼티파일에디터)
+server.port=80

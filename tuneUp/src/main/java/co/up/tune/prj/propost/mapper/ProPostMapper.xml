@@ -46,7 +46,7 @@
 	<select id="prjPostSelect" resultType="co.up.tune.prj.vo.PostVO" parameterType="co.up.tune.prj.vo.PostVO">
 		SELECT * 
 			FROM POST
-				WHERE PRJ_NO = #{prjNo}
+				WHERE POST_NO = #{postNo}
 	</select>
 	
 	<!-- 댓 -->
@@ -56,7 +56,8 @@
 		SELECT REPLY_NO, 
 			   POST_NO, 
 			   EMP_NO, 
-			   WRTR,CNTN, 
+			   WRTR,
+			   CNTN, 
 			   DTTM, 
 			   REPLY_CAT 
 		FROM REPLY
@@ -66,16 +67,17 @@
 	
 	
 	<insert id="ppReplyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
-		<selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
+		 <selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
 			SELECT 
 			    CASE WHEN MAX(REPLY_NO) IS NULL THEN 1
 			    ELSE MAX(REPLY_NO)+1 
 			    END AS NO
 			FROM REPLY
-		</selectKey>
+		</selectKey> -
 		INSERT INTO 
 			REPLY
 				VALUES(#{replyNo}, #{postNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
+		WHERE POST_NO = #{postNo}
 	</insert>
 	
 	

@@ -4,7 +4,7 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>전자결재 - 관리 기능</title>
+<title>전자결재 - 나의 승인</title>
 </head>
 <body>
 	<!-- ======= Main ======= -->
@@ -15,8 +15,8 @@
 			<nav>
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="aprvReq">나의 신청</a></li>
-					<li class="breadcrumb-item"><a href="approval">나의 승인</a></li>
-					<li class="breadcrumb-item active">관리 기능</li>
+					<li class="breadcrumb-item active">나의 승인</li>
+					<li class="breadcrumb-item"><a href="aprvAdmin" th:if = "${session.auth == 'ADMIN'}">관리 기능</a></li>
 				</ol>
 			</nav>
 		</div>
@@ -35,7 +35,7 @@
 							<button class="nav-link active" id="list-tab"
 								data-bs-toggle="tab" data-bs-target="#bordered-list"
 								type="button" role="tab" aria-controls="list"
-								aria-selected="true">전자결재조회</button>
+								aria-selected="true">승인하기</button>
 						</li>
 
 					</ul>
@@ -47,24 +47,21 @@
 							<!-- Default Card -->
 							<div class="card">
 								<div class="card-body">
-									<h5 class="card-title">전체결제목록</h5>
+									<h5 class="card-title">결재 대기목록</h5>
 									<p class="card-text">
-										전자결재 목록입니다.<br> 전체 문서를 조회할 수 있습니다.
+										나에게 신청된 결재목록입니다.<br> 결재 문서를 검토하여 승인하거나 반려할 수 있습니다.
 									</p>
+									<button type="button" class="btn btn-primary"
+										data-bs-toggle="modal" data-bs-target="#disablebackdrop">
+										<i class="ri-account-pin-circle-line"> 결재 위임자 설정</i>
+									</button>
+
+									<button type="button" class="btn btn-primary"
+										data-bs-toggle="modal" data-bs-target="#disableback">
+										<i class="ri-exchange-line"> 기본 결재라인 변경</i>
+									</button>
 
 
-									<div class="search-bar">
-										<form class="search-form d-flex align-items-center"
-											method="POST" action="#">
-											<input type="text" name="query" placeholder="Search"
-												title="Enter search keyword">
-											<button type="button" title="Search" class="btn btn-primary"
-												data-bs-toggle="modal" data-bs-target="#scrollingModal">
-												<i class="bi bi-search"></i>
-											</button>
-										</form>
-									</div>
-									<!-- End Search Bar -->
 								</div>
 							</div>
 							<!-- End Default Card -->
@@ -162,7 +159,6 @@
 									</nav>
 									<!-- End Pagination with icons -->
 
-
 								</div>
 								<div class="tab-pane fade" id="all" role="tabpanel"
 									aria-labelledby="all-tab">
@@ -217,7 +213,6 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-
 									<!-- Pagination with icons -->
 									<nav aria-label="Page navigation example">
 										<ul class="pagination">
@@ -233,7 +228,6 @@
 										</ul>
 									</nav>
 									<!-- End Pagination with icons -->
-
 								</div>
 								<div class="tab-pane fade" id="fin" role="tabpanel"
 									aria-labelledby="fin-tab">
@@ -289,7 +283,6 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-
 									<!-- Pagination with icons -->
 									<nav aria-label="Page navigation example">
 										<ul class="pagination">
@@ -305,7 +298,6 @@
 										</ul>
 									</nav>
 									<!-- End Pagination with icons -->
-
 								</div>
 								<div class="tab-pane fade" id="reject" role="tabpanel"
 									aria-labelledby="reject-tab">
@@ -361,7 +353,6 @@
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
-
 									<!-- Pagination with icons -->
 									<nav aria-label="Page navigation example">
 										<ul class="pagination">
@@ -377,12 +368,12 @@
 										</ul>
 									</nav>
 									<!-- End Pagination with icons -->
-
 								</div>
 							</div>
 
 
 							<!-- End List Tabs -->
+
 						</div>
 					</div>
 					<!-- End Bordered Tabs -->
@@ -398,19 +389,22 @@
 
 		</section>
 
+		<!-- Disabled Backdrop Modal -->
 
-		<!-- Scrolling Modal -->
-
-		<div class="modal fade" id="scrollingModal" tabindex="-1">
-			<div class="modal-dialog modal-lg">
+		<div class="modal fade" id="disablebackdrop" tabindex="-1"
+			data-bs-backdrop="true">
+			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Scrolling Modal</h5>
+						<h5 class="modal-title">Disabled Backdrop</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body" style="min-height: 750px;">Non omnis
-						incidunt qui sed occaecati magni asperiores est mollitia.</div>
+					<div class="modal-body">Non omnis incidunt qui sed occaecati
+						magni asperiores est mollitia. Soluta at et reprehenderit. Placeat
+						autem numquam et fuga numquam. Tempora in facere consequatur sit
+						dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem
+						neque recusandae quo sit molestias sint dignissimos.</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">Close</button>
@@ -420,8 +414,34 @@
 				</div>
 			</div>
 		</div>
+		<!-- End Disabled Backdrop Modal-->
 
-		<!-- End Scrolling Modal-->
+		<!-- Disabled Backdrop Modal -->
+
+		<div class="modal fade" id="disableback" tabindex="-1"
+			data-bs-backdrop="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Disabled Backdrop</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">Non omnis incidunt qui sed occaecati
+						magni asperiores est mollitia. Soluta at et reprehenderit. Placeat
+						autem numquam et fuga numquam. Tempora in facere consequatur sit
+						dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem
+						neque recusandae quo sit molestias sint dignissimos.</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Disabled Backdrop Modal-->
 
 
 

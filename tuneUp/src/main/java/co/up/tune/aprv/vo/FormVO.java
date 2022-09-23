@@ -11,4 +11,5 @@ public class FormVO { //결재서식
 	String formCntn; //서식설명
 	String formCat; //서식종류
 	String empNo; //사번
+	String auth; //공개여부
 }

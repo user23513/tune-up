@@ -11,34 +11,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
 <script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <script>
- 	window.onload = function(){
- 		let arr = new Array();
- 		console.log("==========="+$("#aa").text())
- 		console.log($("#tb").rows.length);
- 		for(let i=0; i<arr.length; i++){
- 			arr[i] = $("#tb>tr:eq(0)").children('td:eq(8)').text();
- 			console.log("test");
- 			console.log("arr : " + arr[i])
- 		}
- 		
-/*  		let aaa = $(".ok").closest('td').prev().text();
-		console.log(aaa) */
-		auth = $(".eAuth").html();
-		console.log(auth)
-/* 		let test = document.getElementsById("ok").text();
-		console.log(test); */
-		
-		
-		let sss = $("#tb>tr:eq(0)").children('td:eq(8)').text();
-		console.log(sss);
-/* 		if(auth == 'GUEST'){
-			 $(".ok").attr('disabled', false);
-		}else{
-			$(".ok").attr('disabled', true);
-		} */
-	}
-
-
 	$(document).ready(function() {
 		//datatables
 		$('#empList').DataTable();
@@ -179,9 +151,10 @@
 												<td th:text="${e.hDate}">2010-01-01</td>
 												<td th:text="${e.phone}">010-0000-0000</td>
 												<td th:text="${e.email}">aaa1234@gmail.com</td>
-												<td th:attr="data-no=${e.auth}" class="eAuth" id="aa">[[${e.auth}]]</td>
+												<td th:attr="data-no=${e.auth}" class="eAuth">[[${e.auth}]]</td>
 												<td>
-													<button id="ok" name="ok" type="button" class="btn btn-primary btn-sm ok">승인</button>
+													<button id="ok" name="ok" type="button" class="btn btn-primary btn-sm ok"
+														th:disabled="${e.auth != 'GUEST'}?disabled">승인</button>
 												</td>
 											</tr>
 										</tbody>

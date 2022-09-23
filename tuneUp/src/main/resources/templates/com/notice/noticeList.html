@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
+<script src="/js/webSocket.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
 <script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <!-- ========= -->
@@ -76,6 +77,14 @@
 </head>
 <body>
 	<main layout:fragment="content">
+	<div>
+		<label><b>채팅방</b></label>
+		<div id="msgArea"></div>
+		<div>
+			<input type="text" id="msg" aria-label="Recipient's username" aria-describedby="button-addon2">
+			<button type="button" id="button-send">전송</button>
+		</div>
+	</div>
 		<div class="card">
             <div class="card-body">
               <h5 class="card-title"></h5>

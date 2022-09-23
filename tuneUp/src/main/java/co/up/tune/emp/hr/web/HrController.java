@@ -26,7 +26,9 @@ public class HrController {
 		
 		//주소
 		String addr = emp.getAddr();
-		if( !addr.equals("//") && addr !=null) {
+		if(addr == null) {
+			emp.setAddr("//");
+		}else if(!addr.equals("//") && addr !=null) {
 			String arr[] = addr.split("/");
 			String ad1 = arr[0];
 			String ad2 = arr[1];
@@ -34,8 +36,6 @@ public class HrController {
 			emp.setAd1(ad1);
 			emp.setAd2(ad2);
 			emp.setAd3(ad3);
-		}else if(addr.equals("//")) {
-			emp.setAddr(null);
 		}
 		
 		model.addAttribute("e", emp);
@@ -50,13 +50,6 @@ public class HrController {
 		model.addAttribute("empList",dao.empList());
 		model.addAttribute("managerList",dao.managerList());
 		return "emp/hr/empManage";
-	}
-	
-	@RequestMapping("/empProfile")
-	public String empSelect(EmpVO vo, Model model) {
-		dao.empSelect(vo);
-		model.addAttribute("e", dao.empSelect(vo));
-		return "emp/hr/empProfile";
 	}
 	
 	@RequestMapping("/empUpdate")
@@ -96,4 +89,6 @@ public class HrController {
 			return "redirect:empUpdateForm";
 		}
 	}
+	
+
 }

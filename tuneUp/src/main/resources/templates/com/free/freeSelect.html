@@ -9,7 +9,7 @@
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
-<script>
+<script th:inline="javascript">
 	$(document).ready(function() {
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
@@ -28,6 +28,7 @@
 		//댓글 등록 버튼 클릭시
 		$("#rBtn").on("click", e=>{
 			let postNo = $("#postNo").val(); //게시글 번호
+			let postTitlt = $("#postTitle").val(); //게시글 제목
 			let cntn = $("#rCntn").val();    //댓글 내용
 			let empNo = $("#empNo").val();   //댓글 쓴 사원번호
 			let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
@@ -53,6 +54,13 @@
 						$("#rList").prepend(div);
 						
 						$("#rCntn").val("");
+						
+						//소켓
+						if(wrtr != '[[${session.nm}]]'){
+							if(socket){
+								let socketMsg = "reply,"+wrtr+","+'[[${session.nm}]]'+","+postNo+","+postTitlt+","+bgno;
+							}
+						}
 		         }
 		      })
 		})
@@ -153,7 +161,7 @@
 					<table class="table">
 						<tbody>
 							<tr>
-								<td colspan="6" class="textSize"><b>[[${f.ttl}]]</b></td>
+								<td colspan="6" class="textSize" id="postTitle"><b>[[${f.ttl}]]</b></td>
 							</tr>
 							<tr>
 								<th>작성자</th>

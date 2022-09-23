@@ -32,7 +32,14 @@
 </head>
 
 <body>
-
+<script>
+	if(form.password.value != form.passwordConfirm.value){
+		alert('비밀번호가 일치하지 않습니다.');
+		form.passwordConfirm.fous();
+		/* return false; */
+	}
+	form.submit();
+</script>
   <main>
     <div class="container">
 
@@ -58,7 +65,7 @@
                   </div>
                   
                   
-					<form class="row g-3 needs-validation" novalidate>
+		<form class="row g-3 needs-validation" novalidate action="signup" method="POST">
                     <div class="col-12">
                       <label for="yourid" class="form-label">Your ID</label>
                       <input type="text" name="id" class="form-control" id="id" required>
@@ -70,13 +77,13 @@
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" name="pw" class="form-control" id="pw" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password check</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm" required>
                       <div class="invalid-feedback">Please enter your password check!</div>
                     </div>
 
@@ -124,7 +131,7 @@
                     <div class="col-12">
                       <p class="small mb-0">Already have an account? <a href="login">Log in</a></p>
                     </div>
-                  </form>
+           </form>
 
                 </div>
               </div>

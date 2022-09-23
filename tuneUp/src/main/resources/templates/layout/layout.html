@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -327,6 +328,7 @@ socket = ws;
 
     <ul class="sidebar-nav" id="sidebar-nav">
     	  <!-- 프로필사진  -->
+    	  <li>
     	   <section class="section profile">
               <div>
                  <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
@@ -336,6 +338,7 @@ socket = ws;
                  </div>
               </div>
           </section>
+          </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
@@ -361,17 +364,17 @@ socket = ws;
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="aprvList">
+            <a href="aprvReq">
               <i class="bi bi-circle"></i><span>나의 신청</span>
             </a>
           </li>
           <li>
-            <a href="aprvr">
+            <a href="approval">
               <i class="bi bi-circle"></i><span>나의 승인</span>
             </a>
           </li>
           
-          <li th:if = "${auth == 'ADMIN'}">
+          <li th:if = "${session.auth == 'ADMIN'}">
             <a href="aprvAdmin">
               <i class="bi bi-circle"></i><span>관리 기능</span>
             </a>

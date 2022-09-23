@@ -14,9 +14,9 @@
 			<h1>전자결재</h1>
 			<nav>
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="aprvList">나의 신청</a></li>
+					<li class="breadcrumb-item"><a href="aprvReq">나의 신청</a></li>
 					<li class="breadcrumb-item active">나의 승인</li>
-					<li class="breadcrumb-item"><a href="aprvAdmin">관리 기능</a></li>
+					<li class="breadcrumb-item"><a href="aprvAdmin" th:if = "${session.auth == 'ADMIN'}">관리 기능</a></li>
 				</ol>
 			</nav>
 		</div>

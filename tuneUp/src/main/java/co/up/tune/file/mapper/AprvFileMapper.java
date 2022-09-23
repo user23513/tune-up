@@ -10,7 +10,7 @@ public interface AprvFileMapper {
 	List<FilesVO> aprvFileList();
 	
 	int aprvFileInsert(FilesVO vo);
-	int pprvFileUpdate(FilesVO vo);
+	int aprvFileUpdate(FilesVO vo);
 	int aprvFileDelete(FilesVO vo);
 	
 	

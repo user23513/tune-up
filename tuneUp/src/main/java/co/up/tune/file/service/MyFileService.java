@@ -1,4 +1,4 @@
-package co.up.tune.file.myfile.service;
+package co.up.tune.file.service;
 
 import java.util.List;
 

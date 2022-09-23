@@ -1,4 +1,4 @@
-package co.up.tune.file.prj.mapper;
+package co.up.tune.file.mapper;
 
 import java.util.List;
 

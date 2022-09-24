@@ -3,7 +3,7 @@
 <mapper namespace="co.up.tune.common.mapper.CommonMapper">
 
 
-	<select id="commonList" parameterType="co.up.tune.common.vo.CommonVO" resultType="co.up.tune.common.vo.CommonVO">
+	<select id="commonList" resultType="co.up.tune.common.vo.CommonVO">
 		SELECT * 
 		FROM COMMON
 		WHERE CD_CAT= #{cdCat}

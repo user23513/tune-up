@@ -24,8 +24,8 @@ public class PropostController {
 	@Autowired
 	PropostService dao;
 	
-//	@Autowired
-	
+
+//	@Autowired	
 //	//내 프로젝트 목록
 //	@GetMapping("/myProject")
 //	public String myProject() {

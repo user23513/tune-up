@@ -22,7 +22,6 @@
         let tg = e.target.closest('tr').children[1].innerText;
         console.log(tg)
         $("#empNo").val(tg)
-        console.log(e.target)
         $("#frm").submit();
     })
     
@@ -31,7 +30,6 @@
         let tg = e.target.closest('tr').children[1].innerText;
         console.log(tg)
         $("#empNo").val(tg)
-        console.log(e.target)
         $("#frm").submit();
     })
     
@@ -216,10 +214,6 @@
 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 			<input type="hidden" id="empNo" name="empNo">
 		</form>
-<!-- 		<form id="authOk" method="post" action="authUpdate">
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-			<input type="hidden" id="auth" name="auth">
-		</form> -->
 	  </div>
 	</main>
 	

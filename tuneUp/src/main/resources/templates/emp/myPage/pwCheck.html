@@ -5,6 +5,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+	$(document).ready(function(){
+		
+		let empNo = '[[${session.empNo}]]';
+		console.log(empNo);
+		
+/*  		let pw = $("#pw").val().text;
+		console.log(pw); */
+		
+		
+		
+		
+	})
+</script>
 </head>
 <body>
   <main id="main" class="main" layout:fragment="content">
@@ -20,10 +35,10 @@
 				<form class="row g-3">
 				  <div class="col-12">
 					<label for="inputPassword4" class="form-label">Password</label>
-					<input type="password" class="form-control" id="inputPassword4">
+					<input type="password" class="form-control">
 				  </div>
 				  <div class="text-center">
-					<button type="submit" class="btn btn-primary">확인</button>
+					<button id="btn" type="button" class="btn btn-primary">확인</button>
 				  </div>
 			    </form>
 			    <!-- Vertical Form -->
@@ -33,6 +48,13 @@
 		</div>
 	  </div>
 	</div>
+	
+	<form id="frm" method="post" action="profile">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+		<input type="text" id="empNo" name="empNo" th:value="${session.empNo}">
+	</form>
+	
+	
   </main>
 </body>
 

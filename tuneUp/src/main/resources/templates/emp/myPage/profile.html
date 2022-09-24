@@ -26,8 +26,8 @@
         <div class="card">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <h2>Kevin Anderson</h2>
-            <h3>Web Designer</h3>
+            <h2 th:text="${session.nm}">Kevin Anderson</h2>
+            <h3 th:text="${session.posotion} +' / '+${session.dept}">Web Designer</h3>
           </div>
         </div>
 
@@ -46,7 +46,7 @@
 
                   <div class="row">
 					<div class="col-lg-3 col-md-4 label">아이디</div>
-					<div class="col-lg-9 col-md-8">admin</div>
+					<div th:text="${e.id}" class="col-lg-9 col-md-8">admin</div>
 				  </div>
 
 				  <div class="row">

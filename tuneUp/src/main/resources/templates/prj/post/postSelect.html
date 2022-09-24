@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<title>프로젝트 글 상세보기</title>
+</head>
+<body>
+	<main layout:fragment="content">
+		
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">PROJECT</h5>
+					<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+				<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}"> 
+					</div>
+					</div>
+					</main>
+					
+
+</body>
+</html>

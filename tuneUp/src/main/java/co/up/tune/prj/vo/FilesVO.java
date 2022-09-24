@@ -1,5 +1,11 @@
 package co.up.tune.prj.vo;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class FilesVO {
 	 int fileNo;	//파일번호
 	 String fNm;	//파일이름

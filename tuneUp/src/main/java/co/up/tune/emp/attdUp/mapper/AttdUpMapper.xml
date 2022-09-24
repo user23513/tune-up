@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.emp.attdUp.mapper.AttdUpMapper">
 
+<insert id="attdUpInsert" parameterType="co.up.tune.emp.vo.AttdUpVO">
+INSERT INTO ATTDUP
+	VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{nm}, #{atdcDt}, #{atdcDttm}, #{afwkDttm}, #{aContent}, '701', sysdate)
+</insert>
 	
-	
-</mapper>
+<select id="myAttdUpList" resultType="co.up.tune.emp.vo.AttdUpVO" parameterType="co.up.tune.emp.vo.AttdUpVO">
+	SELECT *
+	FROM 
+	ATTD
+	WHERE EMP_NO = #{empNo}
+</select>	
+</mapper> 

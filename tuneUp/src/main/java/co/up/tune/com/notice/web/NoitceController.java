@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import co.up.tune.com.notice.service.FileService;
 import co.up.tune.com.notice.service.NoticeService;
 import co.up.tune.com.vo.CommunityVO;
+import co.up.tune.file.service.FileService;
 
 @Controller
 public class NoitceController {
@@ -52,7 +52,7 @@ public class NoitceController {
 	public String noticeInsert(CommunityVO vo, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
 		//file upload 처리
 		if(!file.isEmpty()) {
-			vo = fdao.fileUpload(vo, file);
+			//vo = fdao.fileUpload(vo, file);
 		}
 		
 		//긴급공지 체크되었을때 "1", 안되었을때 "0"
@@ -115,7 +115,7 @@ public class NoitceController {
 	public String noticeUpdate(CommunityVO vo, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
 		//file upload 처리
 		if(!file.isEmpty()) {
-			vo = fdao.fileUpload(vo, file);
+			//vo = fdao.fileUpload(vo, file);
 		}
 				
 		//긴급공지 체크되었을때 "1", 안되었을때 "0"

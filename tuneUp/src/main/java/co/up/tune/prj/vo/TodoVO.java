@@ -2,6 +2,10 @@ package co.up.tune.prj.vo;
 
 import java.sql.Timestamp;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class TodoVO {
 	 int postNo;	//게시글번호
 	 String empNo;	//사번

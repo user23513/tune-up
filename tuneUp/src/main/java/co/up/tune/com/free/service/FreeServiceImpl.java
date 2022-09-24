@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.up.tune.com.free.mapper.FreeMapper;
+import co.up.tune.com.free.web.Paging;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
 
@@ -17,9 +18,9 @@ public class FreeServiceImpl implements FreeService {
 
 	//[자유게시판 게시글]
 	@Override
-	public List<CommunityVO> freeList() {
+	public List<CommunityVO> freeList(Paging paging) {
 		// TODO Auto-generated method stub
-		return map.freeList();
+		return map.freeList(paging);
 	}
 
 	@Override
@@ -56,6 +57,12 @@ public class FreeServiceImpl implements FreeService {
 	public int freeHitUpdate(CommunityVO vo) {
 		// TODO Auto-generated method stub
 		return map.freeHitUpdate(vo);
+	}
+	
+	@Override
+	public int getTotal() {
+		// TODO Auto-generated method stub
+		return map.getTotal();
 	}
 
 	//[댓글]

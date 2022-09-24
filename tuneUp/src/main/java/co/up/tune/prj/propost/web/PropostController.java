@@ -22,8 +22,8 @@ import co.up.tune.prj.vo.PostVO;
 public class PropostController {
 	@Autowired
 	PropostService dao;
- 
 	
+//	@Autowired	
 //	//내 프로젝트 목록
 //	@GetMapping("/myProject")
 //	public String myProject() {
@@ -36,10 +36,26 @@ public class PropostController {
 	@GetMapping("/prjPostList")
 	public String prjPostList(Model model,ReplyVO rvo,PostVO pvo) {
 		model.addAttribute("prjPostList", dao.prjPostList());
-		rvo.setPostNo(pvo.getPostNo());
-		model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
+		//rvo.setPostNo(pvo.getPostNo());
+		//model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
 		return "prj/post/prjPostList";
 	}
+	
+	
+	// 프로젝트- 글 상세조회
+		@PostMapping("/prjPostSelect")
+		public String prjPostSelect(PostVO pvo, ReplyVO rvo, Model model) {
+			//dao.freeHitUpdate(cvo);
+			
+			model.addAttribute("p", dao.prjPostSelect(pvo));
+
+			// 댓글 리스트
+			rvo.setPostNo(pvo.getPostNo());
+			model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
+			return "prj/post/prjPostSelect";
+		}
+	
+	
 
 	//모달 고민쓰 - 글리스트
 	@GetMapping("/prjPostt")
@@ -66,16 +82,27 @@ public class PropostController {
 	  
 	  // @RequestPart(value="file",required = false), @RequestParam("file")
 	
+	//내 프로젝트 - 글 작성
 	  @PostMapping("/prjPostInsert")
 		public String prjPostInsert(PostVO vo,  @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
 			
 		  dao.prjPostInsert(vo);
-			
 			return "redirect:/prjPostList";
 		}
 		
-	  
-	  
+	//  등록(파일까지)
+//	@PostMapping("/prjPostInsert")
+//	public String prjPostInsert(@RequestParam("file")) {
+//		return null;
+//		
+//	}
+	
+
+	
+	
+	
+	
+
 	  
 	  
 	 
@@ -97,7 +124,9 @@ public class PropostController {
 	  
 	//내 프로젝트 - 글 수정 폼 post
 	  @PostMapping("/postUpdateForm")
-		public String prjPostUpdateForm() {
+		public String prjPostUpdateForm(PostVO vo, Model model) {
+		  model.addAttribute("pj", dao.prjPostSelect(vo));
+		  //dao.prjPostUpdate(vo);
 			return "prj/post/postUpdateForm";
 		}
 	  
@@ -138,9 +167,14 @@ public class PropostController {
 //		 }
 //		 return "redirect:/prjPostList"; 
 //	 }
-	
-	
-	
+		
+//		  @PostMapping("/ppReplyInsert") 
+//		  public String ppReplyInsert(ReplyVO vo) {
+//		  dao.ppReplyInsert(vo); 
+//		  return "redirect:/prjPostList";
+//		  
+//		  }
+		 
 	
 	// 내 프로젝트 - 관리자
 	@GetMapping("/prjMng")

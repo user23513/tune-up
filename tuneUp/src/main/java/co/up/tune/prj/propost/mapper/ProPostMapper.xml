@@ -43,11 +43,23 @@
 	DELETE FROM POST WHERE POST_NO = #{postNo}
 	</delete>
 	
+	<select id="prjPostSelect" resultType="co.up.tune.prj.vo.PostVO" parameterType="co.up.tune.prj.vo.PostVO">
+		SELECT * 
+			FROM POST
+				WHERE POST_NO = #{postNo}
+	</select>
+	
 	<!-- 댓 -->
 	
 
 	<select id="ppReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
-		SELECT * 
+		SELECT REPLY_NO, 
+			   POST_NO, 
+			   EMP_NO, 
+			   WRTR,
+			   CNTN, 
+			   DTTM, 
+			   REPLY_CAT 
 		FROM REPLY
 		WHERE POST_NO = #{postNo}
 		ORDER BY REPLY_NO DESC
@@ -55,21 +67,29 @@
 	
 	
 	<insert id="ppReplyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
-		<selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
+		 <selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
 			SELECT 
 			    CASE WHEN MAX(REPLY_NO) IS NULL THEN 1
 			    ELSE MAX(REPLY_NO)+1 
 			    END AS NO
 			FROM REPLY
-		</selectKey>
+		</selectKey> -
 		INSERT INTO 
 			REPLY
 				VALUES(#{replyNo}, #{postNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
+		WHERE POST_NO = #{postNo}
 	</insert>
 	
 	
 	<delete id="ppReplyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
-	
+		DELETE FROM REPLY
+		WHERE REPLY_NO = #{replyNo}
 	</delete>
+	
+	<select id="ppreplySelect" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">
+		SELECT * 
+		FROM REPLY
+		WHERE REPLY_NO = #{replyNo}
+	</select>
 	
 </mapper>

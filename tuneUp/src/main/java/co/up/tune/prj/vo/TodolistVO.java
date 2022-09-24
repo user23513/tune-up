@@ -2,6 +2,10 @@ package co.up.tune.prj.vo;
 
 import java.sql.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class TodolistVO {
 	 int todoNo;	//상세목록 번호
 	 String cntn;	//내용

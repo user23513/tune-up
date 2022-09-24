@@ -1,0 +1,17 @@
+package co.up.tune.file.mapper;
+
+import java.util.List;
+
+import co.up.tune.prj.vo.FilesVO;
+
+
+public interface PrjFileMapper {
+	
+	List<FilesVO> prjFileList();
+
+	int prjFileInsert(FilesVO vo);
+	int prjFileUpdate(FilesVO vo);
+	int prjFileDelete(FilesVO vo);
+	
+	
+}

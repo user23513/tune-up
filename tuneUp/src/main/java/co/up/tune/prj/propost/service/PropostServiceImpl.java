@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.vo.ReplyVO;
-import co.up.tune.file.service.testService;
 import co.up.tune.prj.propost.mapper.PropostMapper;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
@@ -19,8 +18,6 @@ public class PropostServiceImpl implements PropostService {
 	@Autowired
 	PropostMapper map;
 
-	@Autowired
-	testService fmap;
 	@Override
 	public List<PostVO> prjPostList() {
 		// 프로젝트 - 글 전체 리스트
@@ -100,12 +97,7 @@ public class PropostServiceImpl implements PropostService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	public FilesVO fileUpload( FilesVO vo,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
-		
-		return fmap.fileUpload(file);
-		
-	}
+ 
 	//파일
 //	@Override
 //	public FilesVO filesSelect(FilesVO vo) {

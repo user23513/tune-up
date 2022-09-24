@@ -4,9 +4,10 @@ package co.up.tune.prj.propost.web;
 
 import java.io.IOException;
 
-
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.file.service.ProPostFileService;
 import co.up.tune.prj.propost.service.PropostService;
+import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
 
 
@@ -24,6 +27,18 @@ public class PropostController {
 	@Autowired
 	PropostService dao;
 	
+	@Autowired
+	ProPostFileService fdao;
+	
+//	@Autowired
+//	testService fdao;
+	
+	  @Value("${file.dir}") 
+	  private String fileDir;
+	 
+	
+	@Autowired
+	private ServletContext servletContext;
 
 //	@Autowired	
 //	//내 프로젝트 목록
@@ -38,8 +53,11 @@ public class PropostController {
 	@GetMapping("/prjPostList")
 	public String prjPostList(Model model,ReplyVO rvo,PostVO pvo) {
 		model.addAttribute("prjPostList", dao.prjPostList());
-		//rvo.setPostNo(pvo.getPostNo());
-		//model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
+		
+		//model.addAttribute("p", dao.freeSelect(cvo));
+		
+		rvo.setPostNo(pvo.getPostNo());
+		model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
 		return "prj/post/prjPostList";
 	}
 	
@@ -52,8 +70,8 @@ public class PropostController {
 			model.addAttribute("p", dao.prjPostSelect(pvo));
 
 			// 댓글 리스트
-			rvo.setPostNo(pvo.getPostNo());
-			model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
+//			rvo.setPostNo(pvo.getPostNo());
+//			model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
 			return "prj/post/prjPostSelect";
 		}
 	
@@ -72,6 +90,21 @@ public class PropostController {
 		return "prj/post/postInsertForm";
 	}
 	
+	
+	 @PostMapping("/prjPostInsert") 
+	 public String prjPostInsert(PostVO vo,@RequestParam("file") MultipartFile file) throws IllegalStateException,
+	 IOException { 
+		 FilesVO fvo = new FilesVO();
+		 dao.prjPostInsert(vo);
+		 if (!file.isEmpty()) {
+			 fdao.fileUpload(fvo, file);
+			 
+		 }
+		return "redirect:/prjPostList";
+	 
+	 }
+	
+	
 	// 내프로젝트 - 글 작성 post
 //	  @PostMapping("/prjPostInsert") 
 //	  public String prjPostInsert(PostVO vo) {
@@ -84,14 +117,69 @@ public class PropostController {
 	  
 	  // @RequestPart(value="file",required = false), @RequestParam("file")
 	
-	//내 프로젝트 - 글 작성
-	  @PostMapping("/prjPostInsert")
-		public String prjPostInsert(PostVO vo,  @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
-			
-		  dao.prjPostInsert(vo);
-			return "redirect:/prjPostList";
-		}
-		
+	//내 프로젝트 - 글 작성 백업
+	/*
+	 * @PostMapping("/prjPostInsert") public String prjPostInsert(PostVO
+	 * vo, @RequestParam("file") MultipartFile file) throws IllegalStateException,
+	 * IOException { if (!file.isEmpty()) {
+	 * 
+	 * } dao.prjPostInsert(vo); //fdao.proPostFileInsert(fvo); return
+	 * "redirect:/prjPostList"; }
+	 */
+	
+	
+	
+	
+	
+	
+	
+	
+		//파일 등록은 이거로 백업
+//	@PostMapping("/prjPostInsert")
+//	public String proPostFileInsert(PostVO vo,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
+//		FilesVO fvo = new FilesVO();
+//		String oFileName = file.getOriginalFilename();
+//		String sFileName = UUID.randomUUID().toString() + oFileName.substring(oFileName.lastIndexOf("."));
+//		String savePath = fileDir + File.separator + sFileName;
+//		if(!oFileName.isEmpty()) {
+//			fvo.setFNm(oFileName);
+//			fvo.setFPath(savePath);
+//		}
+//		dao.prjPostInsert(vo);
+//		return "redirect:/prjPostList";
+//	}
+	
+//	@PostMapping("/prjPostInsert")
+//	public String prjPostInsert(PostVO vo, @RequestParam("file") MultipartFile file) 
+//	throws IllegalStateException, IOException{
+//		FilesVO fvo = new FilesVO();
+//		String saveFolder = fileDir;
+//		File sfile = new File(saveFolder);
+//		String oFileName = file.getOriginalFilename();
+//		
+//		 
+//		if(!oFileName.isEmpty()) {
+//			String sFileName = UUID.randomUUID().toString() + oFileName.substring(oFileName.lastIndexOf("."));
+//			String savePath = saveFolder + File.separator + sFileName;
+//		file.transferTo(new File(sfile,sFileName));
+//		//vo.setAtchNo(savePath);
+//		}
+//		System.out.println();
+//		ffdao.ppfileUpload(fvo);
+//		dao.prjPostInsert(vo);
+//		System.out.println("================="+vo);
+//		System.out.println("================="+fvo);
+//		return "redirect:/prjPostList";
+//		
+//	}
+	
+	
+
+	
+	
+	
+	
+	
 	//  등록(파일까지)
 //	@PostMapping("/prjPostInsert")
 //	public String prjPostInsert(@RequestParam("file")) {
@@ -116,12 +204,6 @@ public class PropostController {
   		  
   	  }
 	  
-	  
-//	  @PostMapping("/prjPostDelete")
-//		public String prjPostDelete(PostVO vo) {
-//			dao.prjPostDelete(vo);
-//			return "redirect:/prjPostList";
-//		}
 	  
 	  
 	//내 프로젝트 - 글 수정 폼 post

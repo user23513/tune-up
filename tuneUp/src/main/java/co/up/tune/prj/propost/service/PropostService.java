@@ -19,6 +19,12 @@ public interface PropostService {
 	int ppReplyInsert(ReplyVO vo); // 댓글 등록
 	int ppReplyDelete(ReplyVO vo); // 댓글 삭제
 	ReplyVO ppreplySelect(ReplyVO vo);
+
+	FilesVO filesSelect(FilesVO fvo); //파일 단건
+	int filesInsert(FilesVO fvo); //파일등록
+	int filesDelete(FilesVO fvo); //파일삭제
 	
-	FilesVO fvo = new FilesVO();
+//	FilesVO filesSelect(FilesVO vo); //파일 단건
+//	int filesInsert(FilesVO vo); //파일등록
+//	int filesDelete(FilesVO vo); //파일삭제
 }

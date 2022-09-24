@@ -29,6 +29,25 @@
     	ORDER BY ATTD_UP DESC
 	</select>	
 	
+	<insert id="attdToday" parameterType="co.up.tune.emp.vo.AttdVO">
+		INSERT INTO ATTD
+		VALUES (sysdate,#{empNo},#{nm},#{dept},#{position},sysdate,sysdate,sysdate,sysdate,'601')
+	</insert>
+	
+	<insert id="afwkToday" parameterType="co.up.tune.emp.vo.AttdVO">
+		<selectKey keyProperty="wktm,ovtm" order="BEFORE" resultType="map">
+				<![CDATA[
+            SELECT 
+				CASE WHEN ATDC_DTTM < AFWK_DTTM 
+				THEN ATDC_DTTM-AFWK_DTTM END 
+				FROM ATTD
+       			 ]]>
+		</selectKey>
+		
+		INSERT INTO ATTD
+		VALUES (sysdate,#{empNo},#{nm},#{dept},#{position},#{wktm},sysdate,sysdate,sysdate,'601')
+	</insert>
+	
 	
 	
 </mapper>

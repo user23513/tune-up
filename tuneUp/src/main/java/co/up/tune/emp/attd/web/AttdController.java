@@ -20,7 +20,6 @@ public class AttdController {
 	@Autowired
 	AttdService dao;
 	
-	
 	// 전체사원 근태 리스트 - 관리자
 	@GetMapping("/attdList")
 	public String attdList(Model model) {
@@ -50,10 +49,16 @@ public class AttdController {
 	
 	// ===================================
 		
-	@GetMapping("myAttdList")
+	@GetMapping("/attdToday")
 	public String myAttdList(){
+		//vo.setWktm(vo.getAtdcDttm()-vo.getAfwkDttm());
 		return "emp/attd/myAttdList";
 		
+	}
+	
+	@GetMapping("/afwkToday")
+	public String afwkToday() {
+		return "emp/attd/myAttdList";
 	}
 		
 		

@@ -11,6 +11,6 @@ INSERT INTO ATTDUP
 	SELECT *
 	FROM 
 	ATTD
-	WHERE EMP_NO = #{empNo}
+	
 </select>	
 </mapper> 

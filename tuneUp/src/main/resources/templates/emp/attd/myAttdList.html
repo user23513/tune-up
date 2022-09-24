@@ -5,10 +5,160 @@
 <head>
 <meta charset="UTF-8">
 <title>나의 근태</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+ <script>
+
+        	let today = new Date();
+        	let year = today.getFullYear(); // 년도
+        	let month = today.getMonth() + 1;  // 월
+        	let date = today.getDate();  // 날짜
+        	let day = today.getDay();  // 요일
+        	let hours = today.getHours(); // 시
+        	let minutes = today.getMinutes();  // 분
+        function login(){
+            document.getElementById('login').innerHTML =year + '/' + month + '/' + date +'  '+ hours + '시' + minutes   +'분  '+ '출근시작';
+        }
+        function logout(){
+            document.getElementById('logout').innerHTML =year + '/' + month + '/' + date +'  '+ hours + '시' + minutes   +'분  '+ '퇴근완료';
+        }
+        	
+    </script>
+    <style type="text/css">
+   
+    #chart1 {
+    margin-right: 20px;
+    margin-top: 20px;
+    width : 600px;
+    }
+    
+    #chart2 {
+    margin-left: 20px;
+    margin-top: 20px;
+    width : 600px;
+    }
+    
+    #bt {
+    background-color: rgb(230,240, 255);
+    }
+    
+    </style>
 </head>
 <body>
 	<main layout:fragment="content">
-	
+	<div class="pagetitle">
+			<h1>출퇴근 현황</h1>
+		<!-- Default Card -->
+				<h5 class="card-title"></h5>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title"></h5>
+						<button type="button" id="bt" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px; height: 10px;"  onclick = "login()">
+												출근</button><br><p id = "login"></p>
+											<button type="button" id="bt" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px; height: 10px;" onclick = "logout()">
+												퇴근</button><p id = "logout"></p>
+
+              <!-- Bar Chart -->
+              <div class="col-lg-6" style="float: left " id="chart1">
+          <div class="card" >
+            <div class="card-body">
+              <h5 class="card-title">7days Chart</h5>
+              <canvas id="barChart" style="max-height: 400px;"></canvas>
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#barChart'), {
+                    type: 'bar',
+                    data: {
+                      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                      datasets: [{
+                        label: 'Attd Chart',
+                        data: [9, 9, 12, 6, 9],
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(255, 205, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(54, 162, 235, 0.2)'
+                          
+                        ],
+                        borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)',
+                          'rgb(153, 102, 255)',
+                          'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+                });
+              </script>
+              </div>
+              
+              </div>
+              </div>
+             <!-- radial -->
+              	<div class="col-lg-6" style="float: right " id="chart2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">7days Chart</h5>
+
+              <!-- Radial Bar Chart -->
+              <div id="radialBarChart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new ApexCharts(document.querySelector("#radialBarChart"), {
+                    series: [44, 55],
+                    chart: {
+                      height: 350,
+                      type: 'radialBar',
+                      toolbar: {
+                        show: true
+                      }
+                    },
+                    plotOptions: {
+                      radialBar: {
+                        dataLabels: {
+                          name: {
+                            fontSize: '22px',
+                          },
+                          value: {
+                            fontSize: '16px',
+                          },
+                          total: {
+                            show: true,
+                            label: 'Total',
+                            formatter: function(w) {
+                              // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                              return 52+'시간'
+                            }
+                          }
+                        }
+                      }
+                    },
+                    labels: ['연장근무', '남은시간'],
+                  }).render();
+                });
+              </script>
+              </div></div>
+              <!-- End Radial Bar Chart -->
+              <!-- End Doughnut CHart -->
+            </div>
+            </div>
+            </div>
+            </div>
+			
+		<!-- End Default Card -->
 	</main>
 </body>
 </html>

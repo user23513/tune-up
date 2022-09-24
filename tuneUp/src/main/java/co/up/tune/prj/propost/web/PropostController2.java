@@ -22,7 +22,6 @@ public class PropostController2 {
 	 public ReplyVO ppReplyInsert(ReplyVO vo) {
 	 dao.ppReplyInsert(vo); 
 	 vo = dao.ppreplySelect(vo); 
-	 System.out.println(vo);
 	 return vo; 
 	 }
 	 

@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', function(){
-var id = [[${#authentication.principal.username}]]
+//var id = [[${#authentication.principal.username}]]
 const username = id
 
         $("#disconn").on("click", (e) => {

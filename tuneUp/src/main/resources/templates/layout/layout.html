@@ -35,53 +35,11 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-
-  <!--현지 수정 2022-09-23 웹소켓-->
-  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-
-<script src="/js/jquery-3.6.1.min.js"></script>
-<script type="text/javascript">
-var socket = null;
-$(document).ready(function(){
-if('${login != null}'){
-connectWs();
-}
-})
-
-//소켓
-function connectWs(){
-console.log("tttttt")
-var ws = new SockJS("/alram");
-socket = ws;
-
-	ws.onopen = function() {
- console.log('open');
- 
- };
-
-	ws.onmessage = function(event) {
-		console.log("onmessage"+event.data);
-		let $socketAlert = $('div#socketAlert');
-		$socketAlert.html(event.data)
-		$socketAlert.css('display', 'block');
-		
-		setTimeout(function(){
-			$socketAlert.css('display','none');
-			
-		}, 5000);
-};
-
-	ws.onclose = function() {
-	    console.log('close');
- };
-
-};
-//소켓끝
-</script>
+  <!-- 웹소켓 현지수정 2022/9/24 -->
+  <script src="/js/jquery-3.6.1.min.js"></script>
+  <script src="/js/index.js"></script>
 </head>
-
 <body>
-
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 

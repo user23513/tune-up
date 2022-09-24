@@ -35,7 +35,7 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  
+  <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
 	//아이디 찾기 폼으로 가기
 	$(function(){
@@ -125,27 +125,6 @@
         </div>
       </section>
     </div>
-    <script>
-    var wsUri = "ws://localhost:8005/websocket";
-    var websocket;
-    var output;
-    var textID
-    function connect() {
-        if (!websocket) {
-            websocket = new WebSocket(wsUri);
-            websocket.onopen = function (evt) {
-                onOpen(evt)
-            };
-            websocket.onmessage = function (evt) {
-                onMessage(evt)
-            };
-            websocket.onerror = function (evt) {
-                onError(evt)
-            };
-        }
-        $("#frm").submit();
-    }
-    </script>
   </main><!-- End #main -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

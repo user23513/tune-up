@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -77,23 +76,6 @@ socket = ws;
 
 };
 //소켓끝
-
-<!--은지 수정 2022-09-23 마이페이지 post-->
-//마이페이지 post 시작
-function pwCk(userid){
-	    let f = document.createElement('form');
-	    
-	    let emp = $("#empNo").val();
-		console.log(emp);
-	    
-/* 	    f.appendChild(obj);
-	    f.setAttribute('method', 'post');
-	    f.setAttribute('action', 'view.do');
-	    document.body.appendChild(f);
-	    f.submit(); */
-	}
-	//마이페이지 post 끝
-
 </script>
 </head>
 
@@ -286,9 +268,8 @@ function pwCk(userid){
 		  <!-- 마이페이지 프로필 아이콘 눌렀을때-->
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6 th:text="${session.nm}">Kevin Anderson</h6>
-              <span th:text="${session.posotion} +' / '+${session.dept}">Web Designer</span>
-              <input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+              <h6>Kevin Anderson</h6>
+              <span>Web Designer</span>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -305,7 +286,7 @@ function pwCk(userid){
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="pwCheck">
                 <i class="bi bi-gear"></i>
                 <span>개인정보</span>
               </a>
@@ -346,7 +327,6 @@ function pwCk(userid){
 
     <ul class="sidebar-nav" id="sidebar-nav">
     	  <!-- 프로필사진  -->
-    	  <li>
     	   <section class="section profile">
               <div>
                  <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
@@ -356,7 +336,6 @@ function pwCk(userid){
                  </div>
               </div>
           </section>
-          </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
@@ -382,17 +361,17 @@ function pwCk(userid){
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="aprvReq">
+            <a href="aprvList">
               <i class="bi bi-circle"></i><span>나의 신청</span>
             </a>
           </li>
           <li>
-            <a href="approval">
+            <a href="aprvr">
               <i class="bi bi-circle"></i><span>나의 승인</span>
             </a>
           </li>
           
-          <li th:if = "${session.auth == 'ADMIN'}">
+          <li th:if = "${auth == 'ADMIN'}">
             <a href="aprvAdmin">
               <i class="bi bi-circle"></i><span>관리 기능</span>
             </a>

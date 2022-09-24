@@ -5,9 +5,9 @@
 		select * from emp
 		<!-- order by (dept||empNo) -->
 	</select>
-	<select id="empSelect" resultType="co.up.tune.emp.vo.EmpVO">
+	<select id="empSelect" resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
-		where emp_no = #{empNo}	
+		where emp_no = #{empNo}
 	</select>
 	<select resultType="co.up.tune.emp.vo.EmpVO" id="managerList">
 		select * from emp
@@ -23,14 +23,14 @@
 			<if test="hDate != null">h_date = #{hDate},</if>
 			<if test="auth != null">auth = #{auth}</if>
 		</set>
-		where emp_no = #{empNo}	
+		where emp_no = #{empNo}
 	</update>
 	<update id="authUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
-		update emp 
+		update emp
 		<set>
 			<if test="auth != null">auth = 'USER'</if>
 		</set>
-		where emp_no = #{empNo}	
+		where emp_no = #{empNo}
 	</update>
 
 </mapper>

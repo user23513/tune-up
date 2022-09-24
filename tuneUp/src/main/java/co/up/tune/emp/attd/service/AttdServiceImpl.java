@@ -129,4 +129,16 @@ public class AttdServiceImpl implements AttdService{
 		return dao.attdListSearch(key, val);
 	}
 
+	@Override
+	public int attdToday(AttdVO vo) {
+		// TODO Auto-generated method stub
+		return dao.attdToday(vo);
+	}
+
+	@Override
+	public int afwkToday(AttdVO vo) {
+		// TODO Auto-generated method stub
+		return dao.afwkToday(vo);
+	}
+
 }

@@ -3,6 +3,7 @@ package co.up.tune.prj.propost.mapper;
 import java.util.List;
 
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
 
 public interface PropostMapper {
@@ -17,6 +18,9 @@ public interface PropostMapper {
 	int ppReplyDelete(ReplyVO vo); //댓글 삭제
 	ReplyVO ppReplySelect(ReplyVO vo); //댓글 조회
 	ReplyVO ppreplySelect(ReplyVO vo);
-
+	
+//	FilesVO filesSelect(FilesVO fvo); //파일 단건
+//	int filesInsert(FilesVO fvo); //파일등록
+//	int filesDelete(FilesVO fvo); //파일삭제
 	
 }

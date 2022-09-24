@@ -19,7 +19,8 @@ public interface AttdService {
 	List<AttdVO> attdBadList();	// 전체사원 이상리스트
 	
 	List<AttdVO> myAttdList(AttdVO vo);	//내가 신청한 근태 수정리스트
-	
+	int attdToday(AttdVO vo);
+	int afwkToday(AttdVO vo);
 	//엑셀
 	void excel(AttdVO attdVO, HttpServletResponse res) throws Exception;
 	

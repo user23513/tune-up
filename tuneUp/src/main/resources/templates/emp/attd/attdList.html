@@ -198,25 +198,13 @@ $(document).ready( function () {
 											</tbody>
 										</table>
 										
-										<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<!-- End Pagination with icons -->
+										 
 								
 									<!-- End Table with hoverable rows -->
 									
 								</div>
+								
+								<!-- 정상출근 -->
 								<div class="tab-pane fade" id="good" role="tabpanel" 
 									aria-labelledby="good-tab">
 							
@@ -246,6 +234,9 @@ $(document).ready( function () {
 													<td><span th:text="${#dates.format(ag.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
 													<td><span th:text="${#dates.format(ag.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
 													<td><span th:text="${#dates.format(ag.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													
+													
+													
 													<td><span th:text="${#dates.format(ag.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
 													<td><span th:if="${ag.st} == '601'" th:text="'정상'"></span></td>
 													
@@ -255,21 +246,7 @@ $(document).ready( function () {
 										</table>
 									<!-- End Table with hoverable rows -->
 									
-									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
-									<!-- End Pagination with icons -->
+								 
 									
 									<!-- 근태이상 -->
 								</div>
@@ -400,19 +377,7 @@ $(document).ready( function () {
 									</table>
 									<!-- End Table with hoverable rows -->
 									<!-- Pagination with icons -->
-									<nav aria-label="Page navigation example">
-										<ul class="pagination">
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a></li>
-											<li class="page-item"><a class="page-link" href="#">1</a></li>
-											<li class="page-item"><a class="page-link" href="#">2</a></li>
-											<li class="page-item"><a class="page-link" href="#">3</a></li>
-											<li class="page-item"><a class="page-link" href="#"
-												aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a></li>
-										</ul>
-									</nav>
+									 
 									<!-- End Pagination with icons -->
 
 								</div>

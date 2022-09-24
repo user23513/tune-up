@@ -38,6 +38,26 @@
   <!-- 웹소켓 현지수정 2022/9/24 -->
   <script src="/js/jquery-3.6.1.min.js"></script>
   <script src="/js/index.js"></script>
+
+<script type="text/javascript">
+
+ //<!--은지 수정 2022-09-23 마이페이지 post-->
+//마이페이지 post 시작
+function pwCk(userid){
+	    let f = document.createElement('form');
+	    
+	    let emp = $("#empNo").val();
+		console.log(emp);
+	    
+/* 	    f.appendChild(obj);
+	    f.setAttribute('method', 'post');
+	    f.setAttribute('action', 'view.do');
+	    document.body.appendChild(f);
+	    f.submit(); */
+	}
+	//마이페이지 post 끝
+
+</script>
 </head>
 <body>
   <!-- ======= Header ======= -->
@@ -227,8 +247,9 @@
 		  <!-- 마이페이지 프로필 아이콘 눌렀을때-->
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+              <h6 th:text="${session.nm}">Kevin Anderson</h6>
+              <span th:text="${session.posotion} +' / '+${session.dept}">Web Designer</span>
+              <input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -245,7 +266,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="pwCheck">
+              <a class="dropdown-item d-flex align-items-center" href="#">
                 <i class="bi bi-gear"></i>
                 <span>개인정보</span>
               </a>

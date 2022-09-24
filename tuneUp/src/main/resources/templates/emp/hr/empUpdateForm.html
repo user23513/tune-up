@@ -17,11 +17,12 @@
 			if(!hd){
 				console.log("입사일X");
 				alert ("입사일을 입력해주세요");
-			}
-			
+			}else{
 				$("#frm").submit(); 
+			}
 		})
 		
+		//관리자 체크박스
 		$('#mngCk').change(function() {
 			if ($(this).is(':checked')) {
 	            $("#auth").val("MANAGER");
@@ -33,14 +34,10 @@
 	        	$("#view").css("display", "none")
 	        	 console.log($("#auth").val())
 	        }
-			
-			 });
-		
+		});
 	});
 	
-	
-	
-
+	//주소 API
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {

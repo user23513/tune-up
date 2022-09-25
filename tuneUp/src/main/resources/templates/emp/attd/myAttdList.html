@@ -52,11 +52,93 @@
 				<div class="card">
 					<div class="card-body">
 						<h5 class="card-title"></h5>
+						
+						
+						<!-- Large Modal -->
+				<form id="pstfrm" action="attdUpInsert" method="post">
+                   	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#largeModal" style="float: right">수정신청</button>
+				
+				<div class="modal fade" id="largeModal" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">근태 수정 폼</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+
+								<!-- 수정폼 -->
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">사원번호</span> <input type="text"
+										class="form-control" name="empNo"
+										aria-label="Username" aria-describedby="basic-addon1" th:value="${session.empNo}" >
+								</div>
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">이름</span> <input type="text"
+										class="form-control" name="nm" aria-label="Username1"
+										aria-describedby="basic-addon1" th:value="${session.nm}" >
+								</div>
+								<div class="row mb-3">
+									<label for="inputDate" class="col-sm-2 col-form-label">출근 날짜</label>
+									<div class="col-sm-10">
+										<!-- <input type="date" class="form-control"> -->
+										<input type="timestamp" class="form-control" name="atdcDt" step="1">
+									</div>
+								</div>
+								<!-- <div class="row mb-3">
+									<label for="inputTime" class="col-sm-2 col-form-label">출근 시간</label>
+									<div class="col-sm-10">
+										<input type="time" class="form-control">
+										<input type="datetime-local" class="form-control" name="atdcDttm" step="1">
+									</div>
+								</div> -->
+								<div class="row mb-3">
+									<label for="inputTime" class="col-sm-2 col-form-label">퇴근 시간</label>
+									<div class="col-sm-10">
+										<!-- <input type="time" class="form-control"> -->
+										<input type="timestamp" class="form-control" name="afwkDttm" step="1">
+									</div>
+								</div>
+								<div class="form-floating mb-3">
+									<textarea class="form-control"
+										placeholder="Leave a comment here" id="floatingTextarea"
+										style="height: 100px; resize: none" name="aContent"></textarea>
+									<label for="floatingTextarea">사유</label>
+									<!-- <input type="hidden" id="st" name="st" th:value="${701}"> -->
+								</div>
+								<!-- 바디 끝 -->
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">취소</button>
+									
+								<button type="submit" class="btn btn-primary">신청</button>
+								</form>
+								
+							</div>
+								
+						</div>
+					</div>
+				</div>
+				<!-- End Large Modal-->
+						
+						
 						<button type="button" id="bt" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px; height: 10px;"  onclick = "login()">
 												출근</button><br><p id = "login"></p>
 											<button type="button" id="bt" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px; height: 10px;" onclick = "logout()">
 												퇴근</button><p id = "logout"></p>
-
+			<!--  -->
+			
+              
+              
+              
               <!-- Bar Chart -->
               <div class="col-lg-6" style="float: left " id="chart1">
           <div class="card" >

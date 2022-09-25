@@ -14,4 +14,7 @@ public class AttdUpVO {
 	String aContent; 	//사유
 	String st;	//상태
 	Timestamp aDate;  	//신청일자
+	
+	
+	
 }

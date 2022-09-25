@@ -7,10 +7,16 @@ INSERT INTO ATTDUP
 	VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{nm}, #{atdcDt}, #{atdcDttm}, #{afwkDttm}, #{aContent}, '701', sysdate)
 </insert>
 	
-<select id="myAttdUpList" resultType="co.up.tune.emp.vo.AttdUpVO" parameterType="co.up.tune.emp.vo.AttdUpVO">
+<select id="attdUpList" resultType="co.up.tune.emp.vo.AttdUpVO">
 	SELECT *
 	FROM 
-	ATTD
-	
+	ATTDUP
+	ORDER BY ATDC_DT DESC
+</select>
+
+<select id="attdUpSelect" resultType="co.up.tune.emp.vo.AttdUpVO">
+	SELECT ATTDUP_NO, EMP_NO, NM, ATDC_DT, AFWK_DTTM, A_CONTENT, A_DATE
+	FROM ATTDUP
+	WHERE ATTDUP_NO = #{attdupNo}
 </select>	
 </mapper> 

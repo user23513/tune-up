@@ -4,16 +4,25 @@
 
 
 	<!-- 나의조회 -->
-	<select id="aprvList" parameterType="co.up.tune.aprv.vo.AprvVO" resultType="co.up.tune.aprv.vo.AprvVO">
+	<select id="aprvReqList"
+		parameterType="co.up.tune.aprv.vo.AprvVO"
+		resultType="co.up.tune.aprv.vo.AprvVO">
 		SELECT *
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
-		<if test = "reqSt != null">AND REQ_ST = #{reqSt}</if>
+		<if test="reqSt != null">AND REQ_ST = #{reqSt}</if>
 		ORDER BY APRV_NO DESC
 	</select>
 
+	<select id="formList" parameterType="co.up.tune.aprv.vo.FormVO" resultType="co.up.tune.aprv.vo.FormVO">
+		SELECT *
+		FROM FORM
+		WHERE EMP_NO = #{empNo}
+		OR FORM_AUTH = '공개'
+		ORDER BY
+		FORM_NO DESC
+	</select>
 
-	
 
 
 

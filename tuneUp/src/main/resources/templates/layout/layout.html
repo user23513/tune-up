@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <title>TuneUp - Home</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -361,17 +362,17 @@ socket = ws;
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="aprvList">
+            <a href="aprvReq">
               <i class="bi bi-circle"></i><span>나의 신청</span>
             </a>
           </li>
           <li>
-            <a href="aprvr">
+            <a href="approval">
               <i class="bi bi-circle"></i><span>나의 승인</span>
             </a>
           </li>
           
-          <li th:if = "${auth == 'ADMIN'}">
+          <li th:if = "${session.auth == 'ADMIN'}">
             <a href="aprvAdmin">
               <i class="bi bi-circle"></i><span>관리 기능</span>
             </a>

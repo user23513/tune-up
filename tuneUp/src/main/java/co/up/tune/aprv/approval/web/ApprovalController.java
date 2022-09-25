@@ -19,8 +19,9 @@ public class ApprovalController {
 	public String approval(Model model, HttpServletRequest request) {
 		
 		
-		
-		return "aprv/approval";
+		// 공통코드
+		model.addAttribute("cd", cd.commonList("승인상태"));
+		return "aprv/approval/approval";
 	}
 
 	

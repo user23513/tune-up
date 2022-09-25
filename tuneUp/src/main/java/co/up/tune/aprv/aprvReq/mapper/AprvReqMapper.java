@@ -1,16 +1,39 @@
 package co.up.tune.aprv.aprvReq.mapper;
 
 import java.util.List;
-
 import co.up.tune.aprv.vo.AprvVO;
+import co.up.tune.aprv.vo.FormVO;
 
 public interface AprvReqMapper {
 	
-	//나의 신청 리스트 (신청상태, 사번) 
-	List<AprvVO> aprvList(AprvVO vo);
-	//나의 신청 상세 조회
-	//나의 신청 수정 (전송, 반려 상태 활성화, 반려 재전송)
-	//나의 신청 삭제 (전송 상태 활성화)
+	// 나의 신청 리스트
+	List<AprvVO> aprvReqList(AprvVO vo);
+
+	// 단건 조회
+	AprvVO aprvReqSelect(AprvVO vo); 
+	
+	// 새문서 작성
+	int aprvReqIn(AprvVO vo); 
+	// 문서 수정
+	int aprvReqUp(AprvVO vo);
+	// 문서 삭제
+	int aprvReqDel(AprvVO vo);
+	
+	
+	// 서식 리스트
+	List<FormVO> formList(FormVO vo);
+	// 서식 단건
+	FormVO formSelect(FormVO vo);
+	// 기존서식으로 작성, 기존서식 수정
+	int formUp(FormVO vo);
+	// 서식으로 저장하기 
+	int formIn(FormVO vo);
+	// 서식 삭제
+	int formDel(FormVO vo);
+	
+	
+	
+
 	
 	
 	

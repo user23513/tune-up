@@ -315,79 +315,154 @@ $(document).ready( function () {
 
 
 							<!-- Default Tabs -->
+							
 							<ul class="nav nav-tabs" id="myTab2" role="tablist">
 								<li class="nav-item" role="presentation">
-									<button class="nav-link active" id="formAll-tab"
+								<!-- 	<button class="nav-link active" id="formAll-tab"
 										data-bs-toggle="tab" data-bs-target="#formAll" type="button"
-										role="tab" aria-controls="formAll" aria-selected="true"></button>
+										role="tab" aria-controls="formAll" aria-selected="true"></button> -->
 								
 							</ul>
-							<div class="tab-content pt-2" id="myTab2Content">
-								<div class="tab-pane fade show active" id="formAll"
-									role="tabpanel" aria-labelledby="formAll-tab">
+							<div class="tab-content pt-2" id="myTab2Content" data-bs-toggle="modal"
+					data-bs-target="#largeModal2">
+					
+					<!-- Large Modal 수정폼 상세보기 -->
+				<div class="modal fade" id="largeModal2" tabindex="-1">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">근태 수정 신청	</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+							
+							
+							
+
+								<!-- 수정폼 -->
+								<div th:each="ups : ${attdUpSelect}">
+								
+								<div class="input-group mb-3"  >
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">신청번호</span> <span type="text"
+										class="form-control" name="attdupNo"
+										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.attdupNo}" ></span>
+								</div>
+								
+								
+								<div class="input-group mb-3"  >
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">사원번호</span> <span type="text"
+										class="form-control" name="empNo"
+										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.empNo}" ></span>
+								</div>
+								
+								
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">이름</span> <span type="text"
+										class="form-control" name="nm" aria-label="Username1"
+										aria-describedby="basic-addon1" th:text="${ups.nm}" ></span>
+								</div>
+								
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">출근 시간</span> <span type="timestamp"
+										class="form-control" name="atdcDt" aria-label="Username1"
+										aria-describedby="basic-addon1" th:text="${ups.atdcDt}"></span>
+								</div>
+								
+								
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">퇴근 시간</span> <span type="timestamp"
+										class="form-control" name="afwkDttm" aria-label="Username1"
+										aria-describedby="basic-addon1" th:text="${ups.afwkDttm}"></span>
+								</div>
+								
+								<div class="form-floating mb-3">
+									<span class="form-control"
+										placeholder="Leave a comment here" id="floatingTextarea"
+										style="height: 100px; resize: none" name="aContent" th:text="${ups.aContent}"></span>
+									<label for="floatingTextarea">사유</label>
+									<!-- <input type="hidden" id="st" name="st" th:value="${701}"> -->
+								</div>
+								
+								<div class="input-group mb-3"  >
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">신청날짜</span> <span type="text"
+										class="form-control" name="aDate"
+										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.aDate}" 
+										
+										
+										
+										></span>
+								</div>
+								
+								<!-- 바디 끝 -->
+										
+							</div>
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">취소</button>
+									
+								<button type="submit" class="btn btn-primary">신청</button>
+								</form>
+							</div>
+								
+						</div>
+					</div>
+				</div>
+				</
+				<!-- End Large Modal-->
+							
+				
+							
+							
+								<!-- <div class="tab-pane fade show active" id="formAll"
+									role="tabpanel" aria-labelledby="formAll-tab"> -->
 									
 									<!-- Table with hoverable rows -->
-									<table class="table table-hover">
+									<table class="table table-hover" style="text-align: center;">
 										<thead>
 											<tr>
-												<th scope="col">Today</th>
-												<th scope="col">사번</th>
-												<th scope="col">이름</th>
-												<th scope="col">사유</th>
-												<th scope="col">신청일자</th>
+												<th>신청번호</th>
+												<th>사번</th>
+												<th>이름</th>
+												<th>사유</th>
+												<th>상태</th>
+												<th>신청일자</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>2022-09-20</td>
-												<td>54654</td>
-												<td>Lee Java</td>
-												<td></td>
-												<td>2016-05-25</td>
-											</tr>
-											<tr>
-												<th scope="row">2</th>
-												<td>Bridie Kessler</td>
-												<td>Developer</td>
-												<td>35</td>
-												<td>2014-12-05</td>
-											</tr>
-											<tr>
-												<th scope="row">3</th>
-												<td>Ashleigh Langosh</td>
-												<td>Finance</td>
-												<td>45</td>
-												<td>2011-08-12</td>
-											</tr>
-											<tr>
-												<th scope="row">4</th>
-												<td>Angus Grady</td>
-												<td>HR</td>
-												<td>34</td>
-												<td>2012-06-11</td>
-											</tr>
-											<tr>
-												<th scope="row">5</th>
-												<td>Raheem Lehner</td>
-												<td>Dynamic Division Officer</td>
-												<td>47</td>
-												<td>2011-04-19</td>
-											</tr>
-										</tbody>
+												<tr th:each="aup : ${attdUpList}">
+													<td class="dt-body-center"><span th:text="${aup.attdupNo}"></span></td>
+													<td class="dt-body-center"><span th:text="${aup.empNo}"></span></td>
+													<td class="dt-body-center"><span th:text="${aup.nm}"></span></td>
+													<td class="dt-body-center"><span th:text="${aup.aContent}"></span></td>
+													<td class="dt-body-center"><span th:if="${aup.st} == '701'" th:text="'대기중'"></span>
+													<span th:unless="${aup.st} == '701'" th:text="'완료'"></span></td>
+													<td class="dt-body-center"><span th:text="${#dates.format(aup.aDate, 'yyyy-MM-dd')}"></span></td>
+													
+													
+												</tr>
+											</tbody>
+										
 									</table>
-									<!-- End Table with hoverable rows -->
-									<!-- Pagination with icons -->
-									 
-									<!-- End Pagination with icons -->
+									
+									
+									
+									
+									
 
 								</div>
 
 
 
-							<!-- End Write Tabs -->
 						</div>
 					</div>
-					<!-- End Bordered Tabs -->
 
 				</div>
 			</div>

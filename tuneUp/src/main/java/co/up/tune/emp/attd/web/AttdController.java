@@ -14,18 +14,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.up.tune.emp.attd.service.AttdService;
+import co.up.tune.emp.attdUp.service.AttdUpService;
+import co.up.tune.emp.vo.AttdUpVO;
 import co.up.tune.emp.vo.AttdVO;
 @Controller
 public class AttdController {
 	@Autowired
 	AttdService dao;
 	
+	@Autowired
+	AttdUpService udao;
+	
 	// 전체사원 근태 리스트 - 관리자
 	@GetMapping("/attdList")
 	public String attdList(Model model) {
+		AttdUpVO vo = new AttdUpVO();
 		model.addAttribute("attdList",dao.attdList());
 		model.addAttribute("attdGoodList",dao.attdGoodList());
 		model.addAttribute("attdBadList",dao.attdBadList());
+		model.addAttribute("attdUpList", udao.attdUpList());
+		model.addAttribute("attdUpSelect", udao.attdUpSelect(vo));
 		return "emp/attd/attdList";
 	}
 	

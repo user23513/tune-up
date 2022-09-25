@@ -22,7 +22,7 @@ public class AttdUpController {
 	@PostMapping("/attdUpInsert")
 	public String attdUpInsert(AttdUpVO vo) {
 		dao.attdUpInsert(vo);
-		return "redirect:/myAttdUpList";
+		return "redirect:/attdToday";
 	}
 	
 	//근태수정 신청폼
@@ -32,20 +32,26 @@ public class AttdUpController {
 	}
 	
 	//근태 수정 신청 리스트 - 사원
-	@GetMapping("/myAttdUpList")
-	public String myAttdUpList(Model model) {
-		model.addAttribute("myAttdUpList",dao.myAttdUpList());
-		return "emp/attdUp/myAttdUpList";
-	}
+	/*
+	 * @GetMapping("/myAttdUpList") public String myAttdUpList(Model model) {
+	 * model.addAttribute("myAttdUpList",dao.myAttdUpList()); return
+	 * "emp/attdUp/myAttdUpList"; }
+	 */
 	
 	// 근태 수청 요청 리스트 - 관리자
 	@GetMapping("/attdUpList")
-	public String attdUpList() {
-		return "emp/attdUp/attdUpList";
+	public String attdUpList(Model model) {
+		model.addAttribute("attdUpList", dao.attdUpList());
+		return "emp/attdUp/attdList";
 	}
 	
 	// 수정 상세조회 ( 폼띄워서 보기 )
-	
+	// 수정 상세조회 ( 폼띄워서 보기 )
+	@PostMapping("/attdUpSelect")
+	public String attdUpSelect(AttdUpVO vo,Model model) {
+		model.addAttribute("attdUpSelect", dao.attdUpSelect(vo));
+		return "emp/attdUp/attdUpSelect";
+	}
 	// 근태 업데이트 - 관리자
 	
 	

@@ -5,6 +5,47 @@
 <head>
 <meta charset="UTF-8">
 <title>근태 수정 리스트</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<script>
+$(document).ready( function () {
+	$('#attdTable').DataTable({
+		//컬럼 갯수
+		colums: [
+			{data:"atdcDt"},
+			{data:"empNo"},
+			{data:"nm"},
+			{data:"dept"},
+			{data:"position"},
+			{data:"atdcDttm"},
+			{data:"afwkDttm"},
+			{data:"wktm"},
+			{data:"ovtm"},
+			{data:"st"}
+		],
+		//컬럼 넓이
+		columnDefs: [
+			{targets:0, width:50},
+			{targets:1, width:50},
+			{targets:2, width:50},
+			{targets:3, width:50},
+			{targets:4, width:50},
+			{targets:5, width:50},
+			{targets:6, width:50},
+			{targets:7, width:50},
+			{targets:8, width:50},
+			{targets:9, width:50}
+		],
+		//표시 건수 기능 숨기기
+		lengthChange: false,
+		//정렬 기능 숨기기
+		ordering: false,
+		//정보 표시 숨기기
+		info: false
+	});
+})	
+</script>
 </head>
 <body>
 	<main layout:fragment="content">
@@ -79,7 +120,9 @@
 									
 								<button type="submit" class="btn btn-primary">신청</button>
 								</form>
+								
 							</div>
+								
 						</div>
 					</div>
 				</div>

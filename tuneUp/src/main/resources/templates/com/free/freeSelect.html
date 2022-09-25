@@ -160,6 +160,7 @@
 				<div>
 				<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
 				<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}"> 
+				<input type="hidden" id="receiverNo" name="receiverNo" th:value="${f.empNo}">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -167,7 +168,7 @@
 							</tr>
 							<tr>
 								<th>작성자</th>
-								<td th:text="${f.wrtr}"></td>
+								<td id="receiverNm" th:text="${f.wrtr}"></td>
 								<th>작성일자</th>
 								<td th:text="${f.writeDt}"></td>
 								<th>조회수</th>

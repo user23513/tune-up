@@ -36,26 +36,48 @@
   ======================================================== -->
   <!-- 웹소켓 현지수정 2022/9/24 -->
   <script src="/js/jquery-3.6.1.min.js"></script>
+  <!-- sockJS -->
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
   <script src="/js/index.js"></script>
-
-<script type="text/javascript">
-
- //<!--은지 수정 2022-09-23 마이페이지 post-->
-//마이페이지 post 시작
-function pwCk(userid){
-	    let f = document.createElement('form');
-	    
-	    let emp = $("#empNo").val();
-		console.log(emp);
-	    
-/* 	    f.appendChild(obj);
-	    f.setAttribute('method', 'post');
-	    f.setAttribute('action', 'view.do');
-	    document.body.appendChild(f);
-	    f.submit(); */
+<style>
+	.noticeAlert{
+		margin: 0;
+		position: relative;
+		top: 7px;
+		left: 70px;
+		width: 45%;
+		min-width: 500px;
 	}
+</style>
+<script>
+$(document).ready(function(){
+	//은지 수정 2022-09-23 마이페이지 post
+	//마이페이지 post 시작
+	function pwCk(userid){
+		    let f = document.createElement('form');
+		    
+		    let emp = $("#empNo").val();
+			console.log(emp);
+		    
+	/* 	    f.appendChild(obj);
+		    f.setAttribute('method', 'post');
+		    f.setAttribute('action', 'view.do');
+		    document.body.appendChild(f);
+		    f.submit(); */
+		}
 	//마이페이지 post 끝
 
+	//현지 수정 알림갯수
+	$.ajax({
+		url: 'bellCount',
+		dataType: 'json',
+		success: function(res){
+			console.log(res)
+			$("#bell").html(res);
+		}
+	});
+})
+	
 </script>
 </head>
 <body>
@@ -70,14 +92,20 @@ function pwCk(userid){
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
     
+    
+    <!-- 현지 수정 웹소켓 toast 2022/09/25 -->
+    <div id="msgStack"></div>
 
-    <div class="search-bar">
+   <!--  <div class="search-bar">
       <form class="search-form d-flex align-items-center" method="POST" action="#">
         <input type="text" name="query" placeholder="Search" title="Enter search keyword">
         <button type="submit" title="Search"><i class="bi bi-search"></i></button>
       </form>
-    </div><!-- End Search Bar -->
-
+    </div> --><!-- End Search Bar -->
+    
+    <!-- 웹소켓 긴급공지 알림 -->
+	<div id="alertNotice" class="noticeAlert"></div>
+	
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
@@ -96,77 +124,11 @@ function pwCk(userid){
 
         <li class="nav-item dropdown">
 		  <!-- 알림 아이콘 -->
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <a class="nav-link nav-icon" href="bellList">
             <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
-          </a><!-- End Notification Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-
-          </ul><!-- End Notification Dropdown Items -->
-
+            <span id="bell" class="badge bg-primary badge-number"></span>
+          </a>
+          <!-- End Notification Icon -->
         </li><!-- End Notification Nav -->
 
         <li class="nav-item dropdown">

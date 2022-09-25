@@ -19,7 +19,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 
-		registry.addHandler(handler, "ws/alarm").setAllowedOrigins("*")
-				.addInterceptors(new HttpSessionHandshakeInterceptor());
+		registry.addHandler(handler, "/ws/alarm")
+		        .setAllowedOriginPatterns("http://*:80\", \"http://*.*.*.*:80")
+				.addInterceptors(new HttpSessionHandshakeInterceptor())
+				.withSockJS()
+				.setClientLibraryUrl("https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.js");
 	}
 }

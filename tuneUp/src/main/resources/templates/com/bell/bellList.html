@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<title>알람 목록</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+	$(document).ready(function(){
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		$("#bellDelBtn").on("click", e=>{
+			let bellNo = $("#bellNo").val();
+			$.ajax({
+				url: 'bellDelete',
+				beforeSend:function(xhr){
+		 	  		xhr.setRequestHeader(header,token);  
+		     	},
+		     	type: 'post',
+		     	data: {'bellNo':bellNo},
+		     	dataType: 'json',
+		     	success: function(res){
+		     	}
+			});
+		})
+	});
+</script>
+</head>
+<body>
+	<main layout:fragment="content">
+		<input type="hidden" id="empNo" th:value="${session.empNo}">
+		<div>
+			<div class="pagetitle">
+				<h1>내 알림</h1>
+				<nav>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+						<li class="breadcrumb-item">내 알림</li>
+					</ol>
+				</nav>
+			</div>
+			<div id="bellList">
+				<div class="alert alert-primary alert-dismissible fade show" role="alert" 
+							style="height: 100px" th:each="bell:${bellList}">
+				  <strong>Holy guacamole!</strong>[[${bell.cntn}]]
+				  <button id="bellDelBtn" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				  <input type="hidden" id="bellNo" name="bellNo" th:value="${bell.bellNo}">
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>

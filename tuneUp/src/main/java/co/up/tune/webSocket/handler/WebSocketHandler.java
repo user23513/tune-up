@@ -28,29 +28,21 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	//String senderId = (String) session.getAttributes().get("sessionId");
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		log.info("소켓 연결");
 		sessions.add(session);
-		log.info("getIdseesion: "+getId(session) ); //현재 접속한 사람 empNo
-		String senderId = getId(session);
+		String senderId = getId(session); //현재 접속한 사람 empNo
 		userSessionsMap.put(senderId, session);
-		System.out.println("senderID:" + senderId);
-		System.out.println("=============="+userSessionsMap.get(senderId));
 	}
 
 	/* 소켓에 메세지를 보냈을 때 */
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		//protocol : cmd , 댓글작성자, 게시글 작성자 , seq (reply , user2 , user1 , 12)
-		log.info("ssesion: "+getId(session));
 		String senderId = getId(session);
 		//자바스크립트에서 넘어온 msg
 		String msg = message.getPayload(); 
-		log.info("msg="+msg);
 		//메세지가 비어있지 않을 때
 		if(!StringUtils.isEmpty(msg)) {
-			log.info("if문 들어옴?");
 			String[] strs = msg.split(",");
-			log.info(strs[0]);
 			
 			if(strs != null && strs.length == 5) {
 				String cmd = strs[0]; //댓글인지 게시글인지
@@ -59,19 +51,20 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				String receiverId = strs[3]; //메세지 받는 사람 아이디
 				String seq = strs[4];
 				
-				System.out.println(receiver);
-				
 				//작성자가 로그인 해서 있다면
-				log.info("userempNo= "+userSessionsMap.get(receiver));
-				WebSocketSession boardWriterSession = userSessionsMap.get(receiver);
-				log.info("boardWirterSession========"+boardWriterSession);
+				WebSocketSession boardWriterSession = userSessionsMap.get(receiverId); //메세지를 받을 세션 조회
 				
 				//댓글 (cmd == reply)
 				if ("reply".equals(cmd) && boardWriterSession != null) {
-					log.info("onmessage되나?");
 					TextMessage tmpMsg = new TextMessage(caller + "님이 "
 							+ "<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+seq+"&pg=1'>" + seq + "</a> 번 게시글에 댓글을 남겼습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
+				}
+			}else if(strs != null && strs.length == 1) {
+				//모든 유저에게 보낸다 - 브로드 캐스팅
+				String cmd = strs[0];
+				for (WebSocketSession sess : sessions) {
+					sess.sendMessage(new TextMessage("게시글 관리자님이 <a type='external' href='/noticeList class='link-danger'>공지게시글</a>에 긴급공지를 등록했습니다."));
 				}
 			}
 		}
@@ -80,7 +73,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	/* Client가 접속 해제 시 호출되는 메서드, 연결 해제될 때 */
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		log.info("Socket 끊음");
 		sessions.remove(session);
 		userSessionsMap.remove(getId(session));
 	}

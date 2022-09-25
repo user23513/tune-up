@@ -9,6 +9,7 @@
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
+<script src="/js/message.js"></script>
 <script th:inline="javascript">
 	$(document).ready(function() {
 		var token = $("meta[name='_csrf']").attr("content");
@@ -56,11 +57,12 @@
 						$("#rCntn").val("");
 						
 						//소켓
-						if(wrtr != '[[${session.nm}]]'){
+						
+						/* if(wrtr != '[[${session.nm}]]'){
 							if(socket){
 								let socketMsg = "reply,"+wrtr+","+'[[${session.nm}]]'+","+postNo+","+postTitlt+","+bgno;
 							}
-						}
+						} */
 		         }
 		      })
 		})
@@ -158,6 +160,7 @@
 				<div>
 				<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
 				<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}"> 
+				<input type="hidden" id="receiverNo" name="receiverNo" th:value="${f.empNo}">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -165,7 +168,7 @@
 							</tr>
 							<tr>
 								<th>작성자</th>
-								<td th:text="${f.wrtr}"></td>
+								<td id="receiverNm" th:text="${f.wrtr}"></td>
 								<th>작성일자</th>
 								<td th:text="${f.writeDt}"></td>
 								<th>조회수</th>

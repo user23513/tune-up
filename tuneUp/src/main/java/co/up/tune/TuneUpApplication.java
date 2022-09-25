@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @SpringBootApplication
 @MapperScan(basePackages = "co.up.tune.**.mapper")
 @Controller
-public class TuneUpApplication {
+public class TuneUpApplication {  
 	
 	public static void main(String[] args) {
 		SpringApplication.run(TuneUpApplication.class, args);
@@ -20,8 +20,4 @@ public class TuneUpApplication {
 		return "main/main";
 	}
 	
-	@GetMapping("/test")
-	public void test() {}
-	
-
 }

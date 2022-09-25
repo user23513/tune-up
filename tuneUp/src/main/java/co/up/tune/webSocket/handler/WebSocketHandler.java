@@ -24,70 +24,71 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	//1:1로 할 경우
 	private Map<String, WebSocketSession> userSessionsMap = new HashedMap<String, WebSocketSession>();
 	
-	 /* Client가 접속 시 호출되는 메서드 */
+	/* Client가 접속 시 호출되는 메서드, 서버에 접속이 성공 했을 때 */
+	//String senderId = (String) session.getAttributes().get("sessionId");
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		log.info("소켓 연결");
 		sessions.add(session);
-		log.info(currentUserName(session)); //현재 접속한 사람
-		String senderId = currentUserName(session);
+		String senderId = getId(session); //현재 접속한 사람 empNo
 		userSessionsMap.put(senderId, session);
 	}
 
+	/* 소켓에 메세지를 보냈을 때 */
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		log.info("ssesion"+currentUserName(session));
-		String msg = message.getPayload(); //자바스크립트에서 넘어온 msg
-		log.info("msg="+msg);
-		
+		//protocol : cmd , 댓글작성자, 게시글 작성자 , seq (reply , user2 , user1 , 12)
+		String senderId = getId(session);
+		//자바스크립트에서 넘어온 msg
+		String msg = message.getPayload(); 
+		//메세지가 비어있지 않을 때
 		if(!StringUtils.isEmpty(msg)) {
-			log.info("if문 들어옴?");
 			String[] strs = msg.split(",");
-			if(strs != null && strs.length == 6) {
-				String cmd = strs[0];
-				String replyWriter = strs[1];
-				String boardWriter = strs[2];
-				String bno = strs[3];
-				String title = strs[4];
-				String bgno = strs[5];
-				log.info("length성공?"+cmd);
+			
+			if(strs != null && strs.length == 5) {
+				String cmd = strs[0]; //댓글인지 게시글인지
+				String caller = strs[1]; //메세지 남긴 사람
+				String receiver = strs[2]; //메세지 받는 사람
+				String receiverId = strs[3]; //메세지 받는 사람 아이디
+				String seq = strs[4];
 				
-				WebSocketSession replyWriterSession = userSessionsMap.get(replyWriter);
-				WebSocketSession boardWriterSession = userSessionsMap.get(boardWriter);
-				log.info("boardWriterSession="+userSessionsMap.get(boardWriter));
-				log.info("boardWirterSession"+boardWriterSession);
+				//작성자가 로그인 해서 있다면
+				WebSocketSession boardWriterSession = userSessionsMap.get(receiverId); //메세지를 받을 세션 조회
 				
-				//댓글
+				//댓글 (cmd == reply)
 				if ("reply".equals(cmd) && boardWriterSession != null) {
-					log.info("onmessage되나?");
-					TextMessage tmpMsg = new TextMessage(replyWriter + "님이 "
-							+ "<a href='/board/readView?bno="+ bno +"&bgno="+bgno+"'  style=\"color: black\">"
-							+ title+" 에 댓글을 달았습니다!</a>");
+					TextMessage tmpMsg = new TextMessage(caller + "님이 "
+							+ "<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+seq+"&pg=1'>" + seq + "</a> 번 게시글에 댓글을 남겼습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
+				}
+			}else if(strs != null && strs.length == 1) {
+				//모든 유저에게 보낸다 - 브로드 캐스팅
+				String cmd = strs[0];
+				for (WebSocketSession sess : sessions) {
+					sess.sendMessage(new TextMessage("게시글 관리자님이 <a type='external' href='/noticeList class='link-danger'>공지게시글</a>에 긴급공지를 등록했습니다."));
 				}
 			}
 		}
 	}
 
-	/* Client가 접속 해제 시 호출되는 메서드드 */
+	/* Client가 접속 해제 시 호출되는 메서드, 연결 해제될 때 */
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		log.info("Socket 끊음");
 		sessions.remove(session);
-		userSessionsMap.remove(currentUserName(session),session);
+		userSessionsMap.remove(getId(session));
 	}
 	
-	private String currentUserName(WebSocketSession session) {
-		Map<String, Object> httpSession = session.getAttributes();
-		EmpVO loginUser = (EmpVO) httpSession.get("login");
-		
-		if(loginUser == null) {
-			String mid = session.getId();
-			return mid;
+	//웹소켓 ID 가져오기
+	private String getId(WebSocketSession session) {
+		//String senderId = (String) session.getAttributes().get("sessionId");
+		String httpSession = (String) session.getAttributes().get("empNo");
+		//EmpVO loginUser = (EmpVO)httpSession.get("id");
+//		log.info(loginUser);
+//		
+		if(httpSession == null) {
+			return session.getId();
+		}else {
+			return httpSession;
 		}
-		
-		String mid = loginUser.getId();
-		return mid;
 	}
 	
 	

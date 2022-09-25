@@ -74,6 +74,14 @@ public class NoitceController {
 		return "com/notice/noticeSelect";
 	}
 	
+	@GetMapping("/noticeSelect")
+	public String noticeSelect(@RequestParam("postNo")int postNo, Model model) {
+		CommunityVO vo = new CommunityVO();
+		vo.setPostNo(postNo);
+		model.addAttribute("n", dao.noticeSelect(vo));
+		return "com/notice/noticeSelect";
+	}
+	
 	//공지사항 파일 다운로드
 	@GetMapping("/attach/{no}")
 	public ResponseEntity<UrlResource> download(CommunityVO vo ,@PathVariable("no") int no) {

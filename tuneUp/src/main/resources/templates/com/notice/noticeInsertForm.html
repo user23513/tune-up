@@ -85,7 +85,12 @@ $(function(){
     $("#save").on("click", function(){
         let content = tinymce.activeEditor.getContent();
         $("#cntn").val(content);
+        
         $("#frm").submit();
+        
+        if($('#emerg').is(':checked')){
+        	socket.send('notice');
+        }
     });
     
 });

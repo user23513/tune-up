@@ -5,6 +5,49 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+$(document).ready(function() {
+/* 	   let pic = '${e.pic}'.val();
+	   console.log(pic);
+	   if(pic == null){
+		   pic = 'assets/img/default_profile.png'
+		   console.log(pic)
+		   
+	   } */
+	   
+	   
+	//프로필 사진 삭제 이벤트
+	$("#deletePic").on("click",e=>{
+	   let pic = '[[${e.pic}]]';
+ 		   if(pic !='assets/img/default_profile.png'){
+	    	  	//토큰
+ 				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				
+				//프로필 이미지
+				let tg = e.target.closest('tr').children[1].innerText;
+		        $("#auth").val(tg)
+		        
+				$.ajax({
+					url : "picUpdate",
+					beforeSend:function(xhr){
+			 	  		xhr.setRequestHeader(header,token);  
+			     	  },
+					type : "post",
+					data: {"auth" : "USER", "empNo" : tg},
+					
+					success:function(res){
+						console.log(res)
+						e.target.closest('td').previousElementSibling.innerText = res;
+					}
+				}) */
+	   		}else{
+	   			alert("등록된 이미지가 없습니다.")
+	   		}
+	})
+	
+})
+</script>
 </head>
 <body>
   <main id="main" class="main" layout:fragment="content" >
@@ -19,10 +62,11 @@
               <div class="row mb-3">
                 <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사진</label>
                 <div class="col-md-8 col-lg-9">
-                  <img src="assets/img/profile-img.jpg" alt="Profile">
+                  <img th:src="${e.pic}" style="width:120px;" alt="Profile">
                   <div class="pt-2">
-                    <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                  	<input type="file" id="pic" name="pic">
+                    <a href="javascript:void(0);" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                    <a id="deletePic" name="deletePic" href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                   </div>
                 </div>
               </div>
@@ -30,49 +74,50 @@
               <div class="row mb-3">
                 <label for="name" class="col-md-4 col-lg-3 col-form-label">이름</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="name" type="text" class="form-control" id="name" value="" >
+                  <input type="text" id="name" name="name" class="form-control" th:value="${e.nm}" disabled>
                 </div>
               </div>
 
               <div class="row mb-3">
                 <label for="id" class="col-md-4 col-lg-3 col-form-label">ID</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="id" type="text" class="form-control" id="id" value="">
+                  <input type="text" id="id" name="id" class="form-control" th:value="${e.id}">
                 </div>
               </div>
 
               <div class="row mb-3">
                 <label for="password" class="col-md-4 col-lg-3 col-form-label">비밀번호</label>
+                <!-- 비밀번호 버튼 클릭시 새 창으로 비밀번호 수정 폼 -->
                 <div class="col-md-8 col-lg-9">
-                  <input name="password" type="text" class="form-control" id="password" value="">
+                  <input type="text" id="pw" name="pw" class="form-control" value="">
                 </div>
               </div>
 
               <div class="row mb-3">
                 <label for="phone" class="col-md-4 col-lg-3 col-form-label">휴대폰</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="phone" type="text" class="form-control" id="phone" value="">
+                  <input type="text" id="phone" name="phone" class="form-control" th:value="${e.phone}">
                 </div>
               </div>
 
               <div class="row mb-3">
                 <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="email" type="text" class="form-control" id="email" value="">
+                  <input type="email" id="email" name="email" class="form-control" th:value="${e.email}">
                 </div>
               </div>
               
               <div class="row mb-3">
                 <label for="birth" class="col-md-4 col-lg-3 col-form-label">생년월일</label>
                 <div class="col-md-8 col-lg-9">
-                  <input type="date" class="form-control">
+                  <input type="date" id="birth" name="birth" class="form-control" th:value="${e.birth}">
                 </div>
               </div>
               
               <div class="row mb-3">
                 <label for="gender" class="col-md-4 col-lg-3 col-form-label">성별</label>
                 <div class="col-md-8 col-lg-9">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" >
                   <label class="form-check-label" for="gridRadios1"> 남 </label>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
@@ -83,56 +128,48 @@
               <div class="row mb-3">
                 <label for="sign" class="col-md-4 col-lg-3 col-form-label">결재 서명</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="sign" type="text" class="form-control" id="sign" value="">
-                  <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                  <input name="sign" type="file" class="form-control" id="sign" value="">
                 </div>
               </div>
               <br> <hr> <br>
               <div class="row mb-3">
                 <label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="dept" type="text" class="form-control" id="dept" value="" disabled>
+                  <input name="dept" type="text" class="form-control" id="dept" th:value="${e.dept}" disabled>
                 </div>
               </div>
               
               <div class="row mb-3">
                 <label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="position" type="email" class="form-control" id="position" value="" disabled>
+                  <input name="position" type="email" class="form-control" id="position" th:value="${e.position}"disabled>
                 </div>
               </div>
               
               <div class="row mb-3">
                 <label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="zip" type="email" class="form-control" id="zip" value="" disabled>
+                  <input name="zip" type="email" class="form-control" id="zip" th:value="${e.zip}" disabled>
                 </div>
               </div>
               
               <div class="row mb-3">
                 <label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="addr" type="email" class="form-control" id="addr" value="" disabled>
+                  <input name="addr" type="email" class="form-control" id="addr" th:value="${e.addr}" disabled>
                 </div>
               </div>
               
               <div class="row mb-3">
                 <label for="hDate" class="col-md-4 col-lg-3 col-form-label">입사일</label>
                 <div class="col-md-8 col-lg-9">
-                  <input type="date" class="form-control" disabled>
-                </div>
-              </div>
-              
-              <div class="row mb-3">
-                <label for="fDate" class="col-md-4 col-lg-3 col-form-label">퇴사일</label>
-                <div class="col-md-8 col-lg-9">
-                  <input type="date" class="form-control" disabled>
+                  <input type="date" id="hDate" name="hDate" class="form-control" th:value="${e.hDate}" disabled>
                 </div>
               </div>
 
               <div class="text-center">
-                <button type="submit" class="btn btn-secondary">되돌리기</button>
-                <button type="submit" class="btn btn-primary">저장</button>
+                <button id="reset" name="reset" type="reset" class="btn btn-secondary">되돌리기</button>
+                <button id="save" name="save" type="button" class="btn btn-primary">저장</button>
               </div>
             </form><!-- End Profile Edit Form -->
 	     </div>

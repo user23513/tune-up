@@ -12,7 +12,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import co.up.tune.emp.vo.EmpVO;
 import lombok.extern.log4j.Log4j2;
 
 @Component
@@ -46,13 +45,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			
 			if(strs != null && strs.length == 5) {
 				String cmd = strs[0]; //댓글인지 게시글인지
-				String caller = strs[1]; //메세지 남긴 사람
-				String receiver = strs[2]; //메세지 받는 사람
-				String receiverId = strs[3]; //메세지 받는 사람 아이디
-				String seq = strs[4];
+				String caller = strs[1]; //메세지 남긴 사람 이름
+				String receiver = strs[2]; //메세지 받는 사람 이름
+				String receiverNo = strs[3]; //메세지 받는 사람 사원번호
+				String seq = strs[4]; //url
 				
 				//작성자가 로그인 해서 있다면
-				WebSocketSession boardWriterSession = userSessionsMap.get(receiverId); //메세지를 받을 세션 조회
+				WebSocketSession boardWriterSession = userSessionsMap.get(receiverNo); //메세지를 받을 세션 조회
 				
 				//댓글 (cmd == reply)
 				if ("reply".equals(cmd) && boardWriterSession != null) {

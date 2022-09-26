@@ -10,8 +10,7 @@ $(document).ready(function(){
 	
 	//서버가 끊겼을 때 호출
 	socket.onclose = function(){
-		console.log('connect close!');
-		//setTimeout(function(){connectWs();}, 1000);
+		setTimeout(function(){connectWs();}, 500);
 	}
 })
 
@@ -21,7 +20,6 @@ function connectWs(){
 	
 	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)
 	sock.onopen = function(){}
-	console.log('info: connection opened!');
 };
 
 //toast생성 및 추가

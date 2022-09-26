@@ -12,27 +12,31 @@ $(document).ready(function(){
 		let rList = $("<div>").attr("id", "rList");
 			
         //전송한 정보를 db에 저장
-        $.ajax({
-			url: 'bellInsert',
-			beforeSend:function(xhr){
-		 	  	xhr.setRequestHeader(header,token);  
-		    },
-			type: 'post',
-			data: {
-				'sender': wrtr,
-				'receiver': receiverNm,
-				'cntn': cntn,
-				'empNo': empNo
-			},
-			dataType: 'text',
-			success: function(res){ //db전송 성공시 실시간 알림 전송
-				//소켓에 전달되는 메세지
-				//handler에서 ,(comma)를 이용해서 분리시킨다
-				console.log(res)
-				socket.send('reply,'+wrtr+','+receiverNm+','+receiverNo+',seq');
-			}
-		})
-        //modal.find('.modal-body textarea').val('');	// textarea 초기화
+		//내가 등록한 댓글은 db에 저장되지 않고
+		//내 게시글에 댓글 달 경우는 나에게 알림이 가지 않도록
+		if(receiverNo != empNo) {
+			$.ajax({
+				url: 'bellInsert',
+				beforeSend:function(xhr){
+					   xhr.setRequestHeader(header,token);  
+				},
+				type: 'post',
+				data: {
+					'sender': wrtr,
+					'receiver': receiverNm,
+					'cntn': cntn,
+					'empNo': receiverNo
+				},
+				dataType: 'text',
+				success: function(res){ //db전송 성공시 실시간 알림 전송
+					//소켓에 전달되는 메세지
+					//handler에서 ,(comma)를 이용해서 분리시킨다
+					console.log(res)
+					socket.send('reply,'+wrtr+','+receiverNm+','+receiverNo+',seq');
+				}
+			})
+			//modal.find('.modal-body textarea').val('');	// textarea 초기화
+		}
 	})
 })
         

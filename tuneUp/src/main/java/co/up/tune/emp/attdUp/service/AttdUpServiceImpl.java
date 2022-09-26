@@ -42,6 +42,18 @@ public class AttdUpServiceImpl implements AttdUpService{
 		// TODO Auto-generated method stub
 		return dao.attdUpInsert(vo);
 	}
+
+	@Override
+	public int attdUpDel(AttdUpVO vo) {
+		// TODO Auto-generated method stub
+		return dao.attdUpDel(vo);
+	}
+
+	@Override
+	public int attdUpOk(AttdUpVO vo) {
+		// TODO Auto-generated method stub
+		return dao.attdUpOk(vo);
+	}
 	
 	
 }

@@ -12,8 +12,8 @@ public interface AttdUpMapper {
 	
 	List<AttdUpVO> myAttdUpList(); //나의 근태 수정리스트
 	int attdUpInsert(AttdUpVO vo); // 근태 수정 신청 - 사원
-	
-	
+	int attdUpDel(AttdUpVO vo);
+	int attdUpOk(AttdUpVO vo);
 	// 수정리스트 - 대기
 	// 수정리스트 - 완료
 	

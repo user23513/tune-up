@@ -3,6 +3,34 @@
 <mapper namespace="co.up.tune.aprv.approval.mapper.ApprovalMapper">
 
 
+<select id="approvalList" resultType="co.up.tune.aprv.vo.AprvVO">
+SELECT * 
+FROM APRV
+WHERE APRV_NO = (SELECT APRV_NO 
+				FROM APPROVAL 
+				WHERE APRVR = #{aprvr} 
+				OR APRVR = (SELECT EMP_NO 
+							FROM TRUST
+							WHERE RPTT = #{aprvr}
+							AND SYSDATE 
+							BETWEEN SDT AND EDT) )
+OR APRV_NO = (SELECT APRV_NO 
+				FROM REFER 
+				WHERE EMP_NO = #{aprvr})
+
+
+</select>
+
+
+
+<select id="aprvalSelect" resultType="co.up.tune.aprv.vo.AprvVO">
+
+
+
+</select>
+
+
+
 
 
 

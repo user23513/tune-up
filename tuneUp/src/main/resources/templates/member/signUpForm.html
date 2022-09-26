@@ -7,6 +7,9 @@
   <title>Pages / Register - NiceAdmin Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+  
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -27,18 +30,59 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <script src="/js/jquery-3.6.1.min.js"></script>
 
   
 </head>
 
 <body>
 <script>
-	if(form.password.value != form.passwordConfirm.value){
-		alert('비밀번호가 일치하지 않습니다.');
-		form.passwordConfirm.fous();
-		/* return false; */
-	}
-	form.submit();
+$(document).ready(function(){
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	$("#checkId").on("click", e=>{
+		let userId = $("#userId").val();
+		
+		$.ajax({
+			url: "idCheck",
+			beforeSend:function(xhr){
+	 	  		xhr.setRequestHeader(header,token);  
+	     	},
+			type: "POST",
+			dataType: "JSON",
+			data: {"id" : userId},
+			success: function(data){
+				if(data == 1){
+					alert("중복된 ID입니다.")
+				}else if(data == 0){
+					$("#aa").attr("value", "Y");
+					alert("사용가능한 ID입니다.")
+				}
+			}
+		})
+	});
+});
+
+/*  $(document).ready(function(){
+	$("input").change(function(){
+		if($("#password").val() != $("#passwordConfirm").val(){
+			alert("비밀번호가 일치하지 않습니다.");
+	});
+		
+	});
+});
+ */
+ 
+ function pwCheck(){
+		if ($("#password").val() != $("#passwordConfirm").val()) {
+			alert("비밀번호가 일치하지 않습니다.");
+			}
+		
+		if($("#password").val() == $("#passwordConfirm").val()){
+			alert("비밀번호가 일치합니다.");
+		}
+ }
 </script>
   <main>
     <div class="container">
@@ -65,19 +109,19 @@
                   </div>
                   
                   
-		<form class="row g-3 needs-validation" novalidate action="signup" method="POST">
+		<form class="row g-3 needs-validation" novalidate name="signup" action="signup" method="POST">
                     <div class="col-12">
                       <label for="yourid" class="form-label">Your ID</label>
-                      <input type="text" name="id" class="form-control" id="id" required>
+                      <input type="text" name="id" class="form-control" id="userId" value="" required>
                       <div class="invalid-feedback">Please, enter your ID!</div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary" type="submit">중복확인</button>
+                      <button class="btn btn-primary" id="checkId" type="button" value="N">중복확인</button>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="pw" class="form-control" id="pw" required>
+                      <input type="password" name="pw" class="form-control" id="password" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -85,6 +129,10 @@
                       <label for="yourPassword" class="form-label">Password check</label>
                       <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm" required>
                       <div class="invalid-feedback">Please enter your password check!</div>
+                    </div>
+                    
+                    <div class="col-12">
+                      <button class="btn btn-primary" id="checkPassword" type="button" onclick="pwCheck()">비밀번호 확인</button>
                     </div>
 
                     
@@ -96,7 +144,7 @@
 
                       <div class="col-12">
                         <label for="yourPhone" class="form-label">Your Phone number</label>
-                        <input type="number" name="phone" class="form-control" id="phone" required>
+                        <input type="tel" name="phone" class="form-control" id="phone" required>
                         <div class="invalid-feedback">Please enter your Phone number!</div>
                       </div>
 

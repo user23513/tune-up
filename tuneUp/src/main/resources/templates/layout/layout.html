@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>	
 
-  <title>Dashboard - NiceAdmin Bootstrap Template</title>
+  <title>TuneUp - Home</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -51,61 +54,64 @@
 </style>
 <script>
 $(document).ready(function(){
-	//은지 수정 2022-09-23 마이페이지 post
-	//마이페이지 post 시작
-	function pwCk(userid){
-		    let f = document.createElement('form');
-		    
-		    let emp = $("#empNo").val();
-			console.log(emp);
-		    
-	/* 	    f.appendChild(obj);
-		    f.setAttribute('method', 'post');
-		    f.setAttribute('action', 'view.do');
-		    document.body.appendChild(f);
-		    f.submit(); */
-		}
-	//마이페이지 post 끝
-
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	let empNo = $("#empNo").val();
+	
 	//현지 수정 알림갯수
 	$.ajax({
 		url: 'bellCount',
+		beforeSend:function(xhr){
+ 	  		xhr.setRequestHeader(header,token);  
+     	},
+     	type: 'post',
+     	data: {'empNo':empNo},
 		dataType: 'json',
 		success: function(res){
-			console.log(res)
+			if($("#bell").text() == null){
+				$("#bell").text('0');
+			}
 			$("#bell").html(res);
 		}
 	});
+	//은지 개인정보 empNo 값
+	$("#pwCheck").on("click", e=>{
+	    $("#empNo").val()
+	    $("#pwFrm").submit();
+	})
 })
+
+function freeTitle() {
+	let postNo = $("#freeTitle").data("no");
+	console.log(postNo)
+	$("#alarmPostNo").val(postNo);
+	$("#bellFrm").submit();
+};
 	
 </script>
 </head>
 <body>
+  <form id="bellFrm" method="post" action="freeSelect">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+		<input type="hidden" id="alarmPostNo" name="postNo" value="">
+  </form>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
+	<!-- Start Logo -->
     <div class="d-flex align-items-center justify-content-between">
       <a href="/main" class="logo d-flex align-items-center">
         <img src="/assets/img/로고.png" alt="">
         <span class="d-none d-lg-block">Tune-Up</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
-    
-    
-    <!-- 현지 수정 웹소켓 toast 2022/09/25 -->
-    <div id="msgStack"></div>
-
-   <!--  <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div> --><!-- End Search Bar -->
+    </div>
+    <!-- End Logo -->
     
     <!-- 웹소켓 긴급공지 알림 -->
 	<div id="alertNotice" class="noticeAlert"></div>
 	
+	<!-- 헤더 오른쪽 아이콘들 -->
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
@@ -133,7 +139,7 @@ $(document).ready(function(){
 
         <li class="nav-item dropdown">
 		  
-		  <!-- 메일 아이콘  -->
+		  <!-- ===== 메일 아이콘 =====  -->
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-envelope"></i>
             <span class="badge bg-success badge-number">3</span>
@@ -226,10 +232,15 @@ $(document).ready(function(){
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="pwCheck">
-                <i class="bi bi-gear"></i>
-                <span>개인정보</span>
-              </a>
+              <form id="pwFrm" method="post" action="pwCheck">
+               <a id="pwCheck" name="pwCheck" class="dropdown-item d-flex align-items-center" 
+                  href="javascript:void(0);" onClick="pwCheck()">
+                 <i class="bi bi-gear"></i>
+                 <span>개인정보</span>
+                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+              <input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">   
+               </a>
+              </form>
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -247,7 +258,6 @@ $(document).ready(function(){
 
             <li>
               <form class="dropdown-item d-flex align-items-center" action="logout" method="post">
-              
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <i class="bi bi-box-arrow-right"></i>
                 <button class="dropdown-item d-flex align-items-center" type="submit">로그아웃</button>
@@ -301,17 +311,17 @@ $(document).ready(function(){
         </a>
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="aprvList">
+            <a href="aprvReq">
               <i class="bi bi-circle"></i><span>나의 신청</span>
             </a>
           </li>
           <li>
-            <a href="aprvr">
+            <a href="approval">
               <i class="bi bi-circle"></i><span>나의 승인</span>
             </a>
           </li>
           
-          <li th:if = "${auth == 'ADMIN'}">
+          <li th:if = "${session.auth == 'ADMIN'}">
             <a href="aprvAdmin">
               <i class="bi bi-circle"></i><span>관리 기능</span>
             </a>
@@ -364,14 +374,17 @@ $(document).ready(function(){
     </ul>
 
   </aside><!-- End Sidebar-->
-
-  <!-- ======= Main ======= -->
-  <main id="main" class="main" layout:fragment="content">
-
-  </main><!-- End #main -->
   
-   
 
+  <div id="aa">
+  
+  </div>
+  <!-- ======= Main ======= -->
+  <main id="main" class="main" layout:fragment="content" style="min-height: 83vh;">
+  	
+  </main><!-- End #main -->
+
+  
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
@@ -400,7 +413,6 @@ $(document).ready(function(){
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
-
 </body>
 
 </html>

@@ -1,12 +1,9 @@
 package co.up.tune.aprv.aprvAdmin.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import co.up.tune.aprv.aprvAdmin.mapper.AprvAdminMapper;
-import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.ReferVO;

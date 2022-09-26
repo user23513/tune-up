@@ -30,8 +30,8 @@ public class BellAjaxController {
 		return dao.bellDelete(vo);
 	}
 	
-	@GetMapping("/bellCount")
-	public int bellCount() {
-		return dao.bellCount();
+	@PostMapping("/bellCount")
+	public int bellCount(BellVO vo) {
+		return dao.bellCount(vo);
 	}
 }

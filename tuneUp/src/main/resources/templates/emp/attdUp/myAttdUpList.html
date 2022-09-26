@@ -5,6 +5,47 @@
 <head>
 <meta charset="UTF-8">
 <title>근태 수정 리스트</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<script>
+$(document).ready( function () {
+	$('#attdTable').DataTable({
+		//컬럼 갯수
+		colums: [
+			{data:"atdcDt"},
+			{data:"empNo"},
+			{data:"nm"},
+			{data:"dept"},
+			{data:"position"},
+			{data:"atdcDttm"},
+			{data:"afwkDttm"},
+			{data:"wktm"},
+			{data:"ovtm"},
+			{data:"st"}
+		],
+		//컬럼 넓이
+		columnDefs: [
+			{targets:0, width:50},
+			{targets:1, width:50},
+			{targets:2, width:50},
+			{targets:3, width:50},
+			{targets:4, width:50},
+			{targets:5, width:50},
+			{targets:6, width:50},
+			{targets:7, width:50},
+			{targets:8, width:50},
+			{targets:9, width:50}
+		],
+		//표시 건수 기능 숨기기
+		lengthChange: false,
+		//정렬 기능 숨기기
+		ordering: false,
+		//정보 표시 숨기기
+		info: false
+	});
+})	
+</script>
 </head>
 <body>
 	<main layout:fragment="content">
@@ -13,9 +54,11 @@
 				<br>
 
 				<!-- Large Modal -->
+				<form id="pstfrm" action="attdUpInsert" method="post">
+                   	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#largeModal" style="float: right">수정신청</button>
-
+				
 				<div class="modal fade" id="largeModal" tabindex="-1">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
@@ -29,39 +72,43 @@
 								<!-- 수정폼 -->
 								<div class="input-group mb-3">
 									<span class="input-group-text" id="basic-addon1"
-										style="width: 90px;">이름</span> <input type="text"
-										class="form-control" placeholder="Name" aria-label="Username"
-										aria-describedby="basic-addon1">
+										style="width: 90px;">사원번호</span> <input type="text"
+										class="form-control" name="empNo"
+										aria-label="Username" aria-describedby="basic-addon1" th:value="${session.empNo}" >
 								</div>
 								<div class="input-group mb-3">
 									<span class="input-group-text" id="basic-addon1"
-										style="width: 90px;">사원번호</span> <input type="text"
-										class="form-control" placeholder="Emp.no"
-										aria-label="Username" aria-describedby="basic-addon1">
+										style="width: 90px;">이름</span> <input type="text"
+										class="form-control" name="nm" aria-label="Username1"
+										aria-describedby="basic-addon1" th:value="${session.nm}" >
 								</div>
 								<div class="row mb-3">
 									<label for="inputDate" class="col-sm-2 col-form-label">출근 날짜</label>
 									<div class="col-sm-10">
-										<input type="date" class="form-control">
+										<!-- <input type="date" class="form-control"> -->
+										<input type="timestamp" class="form-control" name="atdcDt" step="1">
 									</div>
 								</div>
-								<div class="row mb-3">
+								<!-- <div class="row mb-3">
 									<label for="inputTime" class="col-sm-2 col-form-label">출근 시간</label>
 									<div class="col-sm-10">
 										<input type="time" class="form-control">
+										<input type="datetime-local" class="form-control" name="atdcDttm" step="1">
 									</div>
-								</div>
+								</div> -->
 								<div class="row mb-3">
 									<label for="inputTime" class="col-sm-2 col-form-label">퇴근 시간</label>
 									<div class="col-sm-10">
-										<input type="time" class="form-control">
+										<!-- <input type="time" class="form-control"> -->
+										<input type="timestamp" class="form-control" name="afwkDttm" step="1">
 									</div>
 								</div>
 								<div class="form-floating mb-3">
 									<textarea class="form-control"
 										placeholder="Leave a comment here" id="floatingTextarea"
-										style="height: 100px; resize: none"></textarea>
+										style="height: 100px; resize: none" name="aContent"></textarea>
 									<label for="floatingTextarea">사유</label>
+									<!-- <input type="hidden" id="st" name="st" th:value="${701}"> -->
 								</div>
 								<!-- 바디 끝 -->
 
@@ -70,8 +117,12 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal">취소</button>
-								<button type="button" class="btn btn-primary">신청</button>
+									
+								<button type="submit" class="btn btn-primary">신청</button>
+								</form>
+								
 							</div>
+								
 						</div>
 					</div>
 				</div>

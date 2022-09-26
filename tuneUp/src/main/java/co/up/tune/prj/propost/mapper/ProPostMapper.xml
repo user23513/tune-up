@@ -73,11 +73,10 @@
 			    ELSE MAX(REPLY_NO)+1 
 			    END AS NO
 			FROM REPLY
-		</selectKey> -
+		</selectKey> 
 		INSERT INTO 
 			REPLY
-				VALUES(#{replyNo}, #{postNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
-		WHERE POST_NO = #{postNo}
+				VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
 	</insert>
 	
 	
@@ -91,5 +90,12 @@
 		FROM REPLY
 		WHERE REPLY_NO = #{replyNo}
 	</select>
+	
+	<!-- 파일  -->
+	<!-- <select id="filesInsert" parameterType="co.up.tune.prj.vo.FilesVO" >
+	INSERT INTO FILES
+	VALUES (PNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, 'PROJECT', #{pNm})
+	
+	</select>  -->
 	
 </mapper>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- Large Modal 수정폼 상세보기 -->
+				<div >
+					<div >
+						<div >
+							<div class="modal-header">
+								<h5 >근태 수정 신청	</h5>
+								
+							</div>
+							<div>
+							
+							
+							
+
+								<!-- 수정폼 -->
+								<div th:each="ups : ${attdUpSelect}" >
+								 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+								<div class="input-group mb-3"  >
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">신청번호</span> <span type="text"
+										class="form-control" name="attdupNo"
+										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.attdupNo}" ></span>
+								</div>
+								
+								
+								<div class="input-group mb-3"  >
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">사원번호</span> <span type="text"
+										class="form-control" name="empNo"
+										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.empNo}" ></span>
+								</div>
+								
+								
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">이름</span> <span type="text"
+										class="form-control" name="nm" aria-label="Username1"
+										aria-describedby="basic-addon1" th:text="${ups.nm}" ></span>
+								</div>
+								
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">출근 시간</span> <span type="timestamp"
+										class="form-control" name="atdcDt" aria-label="Username1"
+										aria-describedby="basic-addon1" th:text="${ups.atdcDt}"></span>
+								</div>
+								
+								
+								<div class="input-group mb-3">
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">퇴근 시간</span> <span type="timestamp"
+										class="form-control" name="afwkDttm" aria-label="Username1"
+										aria-describedby="basic-addon1" th:text="${ups.afwkDttm}"></span>
+								</div>
+								
+								<div class="form-floating mb-3">
+									<span class="form-control"
+										placeholder="Leave a comment here" id="floatingTextarea"
+										style="height: 100px; resize: none" name="aContent" th:text="${ups.aContent}"></span>
+									<label for="floatingTextarea">사유</label>
+									<!-- <input type="hidden" id="st" name="st" th:value="${701}"> -->
+								</div>
+								
+								<div class="input-group mb-3"  >
+									<span class="input-group-text" id="basic-addon1"
+										style="width: 90px;">신청날짜</span> <span type="text"
+										class="form-control" name="aDate"
+										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.aDate}" 
+										
+										
+										
+										></span>
+								</div>
+								
+								<!-- 바디 끝 -->
+										
+							</div>
+								</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">취소</button>
+									
+								<button type="submit" class="btn btn-primary">신청</button>
+								</form>
+							</div>
+
+</body>
+</html>

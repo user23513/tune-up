@@ -12,7 +12,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import co.up.tune.emp.vo.EmpVO;
 import lombok.extern.log4j.Log4j2;
 
 @Component
@@ -44,20 +43,22 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		if(!StringUtils.isEmpty(msg)) {
 			String[] strs = msg.split(",");
 			
-			if(strs != null && strs.length == 5) {
-				String cmd = strs[0]; //댓글인지 게시글인지
-				String caller = strs[1]; //메세지 남긴 사람
-				String receiver = strs[2]; //메세지 받는 사람
-				String receiverId = strs[3]; //메세지 받는 사람 아이디
-				String seq = strs[4];
+			if(strs != null && strs.length == 6) {
+				String cmd = strs[0]; //댓글인지 게시글인지	
+				String caller = strs[1]; //메세지 남긴 사람 이름
+				String receiver = strs[2]; //메세지 받는 사람 이름
+				String receiverNo = strs[3]; //메세지 받는 사람 사원번호
+				String postNo = strs[4]; //게시글 번호
+				String postTitle = strs[5]; //게시글 제목
 				
 				//작성자가 로그인 해서 있다면
-				WebSocketSession boardWriterSession = userSessionsMap.get(receiverId); //메세지를 받을 세션 조회
+				WebSocketSession boardWriterSession = userSessionsMap.get(receiverNo); //메세지를 받을 세션 조회
 				
 				//댓글 (cmd == reply)
 				if ("reply".equals(cmd) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(caller + "님이 "
-							+ "<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+seq+"&pg=1'>" + seq + "</a> 번 게시글에 댓글을 남겼습니다.");
+					TextMessage tmpMsg = new TextMessage(caller + 
+							"님이 <a id=freeTitle data-no="+postNo+" href=javascript:void(0); onClick=freeTitle()>["+postTitle+"]</a>게시글에 댓글을 남겼습니다.");
+					//"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+seq+"&pg=1'>" + seq + "</a> 번 게시글에 댓글을 남겼습니다."
 					boardWriterSession.sendMessage(tmpMsg);
 				}
 			}else if(strs != null && strs.length == 1) {

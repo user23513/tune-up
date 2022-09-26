@@ -18,7 +18,7 @@ public class EmpVO {
 	String pic;  //프로필사진
 	String sign;  //결재서명
 	String dept;  //부서명
-	String position;  //직위
+	String position;  //직급
 	String addr;  //자택주소
 	String comPhone;  //사내전화
 	Date hDate;  //입사일

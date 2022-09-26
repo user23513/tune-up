@@ -48,6 +48,58 @@
     }
     }
   </script>
+  <script th:inline="javascript">
+	$(document).ready(function() {
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		
+		//==============댓글==============
+		
+		//댓글 등록 버튼 클릭시
+		$("#rBtn").on("click", e=>{
+			let postNo = $("#postNo").val(); //게시글 번호
+			let postTitle = $("#postTitle").val(); //게시글 제목
+			let cntn = $("#rCntn").val();    //댓글 내용
+			let empNo = $("#empNo").val();   //댓글 쓴 사원번호
+			let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
+			let rList = $("<div>").attr("id", "rList"); 
+			
+			//댓글 등록 처리
+			$.ajax({
+		         url:'ppReplyInsert',
+		         beforeSend:function(xhr){
+		 	  		xhr.setRequestHeader(header,token);  
+		     	  },
+		         type:'post',
+		         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr},
+		         dataType:'json',
+		         success:function(res){
+						let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
+											.append($("<span>").html(res.dttm))
+											.append($("<br>"))
+											.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
+											.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
+											.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
+											.append($("<hr>"))
+						$("#rList").prepend(div);
+						
+						$("#rCntn").val("");
+						
+				 
+		         }
+		      })
+		})
+		
+		
+		
+		
+	
+		  
+	})
+</script>
+  
+  
 <style>
 
 
@@ -131,6 +183,8 @@
 							aria-labelledby="pst-tab">
 							<!-- Default Card -->
 							<div id="incd">
+							<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+				<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
 								<div class="card" th:each="pj :${prjPostList}">
 									<div class="card-body">
 										<h3 class="card-title">
@@ -138,7 +192,7 @@
 											<span th:text="${#dates.format(pj.dttm, 'yyyy-MM-dd')}"></span>
 										<!-- 드롭다운 아이콘 -->
 										<div class="filter" style="float: right" >
-												<a class="icon" href="#" data-bs-toggle="dropdown" ><i
+												<a class="icon" href="#" data-bs-toggle="dropdown"  ><i
 													class="bi bi-three-dots" ></i></a>
 												
 												<!-- 드롭다운 수정삭제 펼치기 -->
@@ -186,7 +240,7 @@
 										
 										<!-- 댓글창 -->
 										<!-- 댓리스트 -->
-														<div class="card" th:each="p :${ppReplyList}">
+														<!-- <div class="card" th:each="p :${ppReplyList}">
 														<div class="card-body">
 										<h3 class="card-title">
 											<span th:text="${p.wrtr}	"></span>
@@ -195,19 +249,57 @@
 											</h3></div>
 														
 														
-														</div>
+														</div> -->
 																	<!--대  -->
+									 	
 										
-									<div class="form-floating mb-3">
+										
+										<!-- 전체 댓글 -->
+							<!-- <div class="input-group mb-3">
+							<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
+							<span id="rBtn" class="input-group-text">등록</span>
+						</div>	 -->		
+									 
+										
+									
+							<div id="rList">
+								<div th:each="r : ${ppReplyList}">
+									<span th:text="${r.wrtr}">작성자</span>&nbsp;
+									<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
+								<!-- 	<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span> -->
+									<br>
+									<span>
+										<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == pj.empNo}"></i>
+									</span>&nbsp; <!-- 수정아이콘 -->
+									<span>
+										<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == pj.empNo}"></i>
+									</span> <!-- 삭제아이콘 -->
+									<hr>
+								</div>
+							</div>
+							<div class="form-floating mb-3">
 										<textarea class="form-control"
-											placeholder="Leave a comment here" id="floatingTextarea"
+											placeholder="Leave a comment here" id="rCntn"
 											style="height: 100px; resize: none"></textarea>
 										<label for="floatingTextarea">Comments</label>
 									</div>
 										<form id="rupFrm" action="ppReplyInsert" method="post">
 									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-									<button id="rBtn" class="btn btn-primary btn-sm" style="float: right" type="submit">등록</button>
-										</form>		
+									<button id="rBtn" class="btn btn-primary btn-sm" style="float: right" type="button">등록</button>
+										</form>	
+					<!-- end 댓글 -->
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+											
 									</div>
 								</div>
 								<!-- End Default Card -->
@@ -258,7 +350,7 @@
 
 	})
     } */
-    $(document).ready(function() {
+ /*    $(document).ready(function() {
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
     $("#rBtn").on("click", e=>{
@@ -291,7 +383,7 @@
 	         }
 	      })
     })
-    })
+    }) */
     
     
 	</script>

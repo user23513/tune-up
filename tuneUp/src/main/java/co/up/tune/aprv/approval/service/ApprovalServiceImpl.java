@@ -1,35 +1,67 @@
 package co.up.tune.aprv.approval.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import co.up.tune.aprv.approval.mapper.ApprovalMapper;
-import co.up.tune.aprv.aprvReq.mapper.AprvReqMapper;
+import co.up.tune.aprv.vo.ApprovalVO;
+import co.up.tune.aprv.vo.AprvVO;
+import co.up.tune.aprv.vo.TrustVO;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
-	
+
 	@Autowired
-	AprvReqMapper apList;
-	@Autowired
-	ApprovalMapper aprvr;
+	ApprovalMapper map;
 	
-	//승인문서조회
-	//승인위임문서조회
 	
-	//상세보기는 aprvList 사용
+	@Override
+	public List<AprvVO> approvalList(String aprvr) {
 	
-	//기본결재라인조회 - 부서별 멤버
-	//기본결재라인등록
-	//기본결재라인수정
-	//기본결재라인삭제
-	//기본결재라인으로 결재자 생성
+		return map.approvalList(aprvr);
+	}
+
 	
-	//결재상태조회
-	//결재 승인
-	//결재 반려
+
+	@Override
+	public AprvVO approvalSelect(AprvVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int approvalSign(ApprovalVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int aprvStUp(AprvVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int trustIn(TrustVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int trustUp(TrustVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int trustDel(TrustVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
-	//위임자 등록
-	//위임자 수정
-	//위임자 삭제
+	
+
 
 }

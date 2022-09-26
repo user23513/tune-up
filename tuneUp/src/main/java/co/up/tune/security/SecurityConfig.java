@@ -1,6 +1,7 @@
 package co.up.tune.security;
 
 import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -74,5 +75,5 @@ public class SecurityConfig {
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return (web) -> web.ignoring().antMatchers("/assets/**", "/fileUpload/**", "/forms/**", "/fullcalendar-5.11.3/**", "/js/**");
 	}
-
+	
 }

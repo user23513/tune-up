@@ -10,18 +10,16 @@ $(document).ready(function(){
 	
 	//서버가 끊겼을 때 호출
 	socket.onclose = function(){
-		console.log('connect close!');
-		//setTimeout(function(){connectWs();}, 1000);
+		setTimeout(function(){connectWs();}, 500);
 	}
 })
 
 function connectWs(){
-	sock = new SockJS("http://localhost:80/ws/alarm");
+	sock = new SockJS("http://192.168.0.19:80/ws/alarm");
 	socket = sock;
 	
 	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)
 	sock.onopen = function(){}
-	console.log('info: connection opened!');
 };
 
 //toast생성 및 추가
@@ -41,20 +39,23 @@ function onMessage(msg){
 	
 	if(data.includes("긴급공지")) {
 		//alert
-		let alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert' aria-live='assertive' aria-atomic='true'>";
+		let alert = "<div style='z-index: -1;' class='alert alert-danger alert-dismissible fade show' role='alert' aria-live='assertive' aria-atomic='true'>";
 	    alert += "<i class='ri-alarm-warning-fill'></i><strong class='mr-auto'>"+data+"</strong>";
 	    alert += "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
 	    $("#alertNotice").append(alert);   
 	}else{
 		//toast
-		let toast = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
-	    toast += "<div class='toast-header'><i class='fas fa-bell mr-2'></i><strong class='mr-auto'>알림</strong>";
-	    toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
-	    toast += "<span aria-hidden='true'>&times;</span></button>";
-	    toast += "</div> <div class='toast-body'>" + data + "</div></div>";
-	    $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
-	    $(".toast").toast({"animation": true, "autohide": false});
-	    $('.toast').toast('show');
+		let toast = "<div aria-live='polite' aria-atomic='true' class='position-relative'>";
+		toast += "<div class='toast-container position-absolute top-0 end-0 p-3'>";
+		toast += "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
+	    toast += "<div class='toast-header'><strong class='mr-auto'>알림</strong>";
+	    toast += "<button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>";
+	    toast += "</div><div class='toast-body'>" + data + "</div></div></div></div>";
+	    $("#aa").append(toast);   // msgStack div에 생성한 toast 추가
+		$(".toast").toast({"animation": true, "autohide": false});
+        $('.toast').toast('show');
+	    
+	
 	}
 	
 }

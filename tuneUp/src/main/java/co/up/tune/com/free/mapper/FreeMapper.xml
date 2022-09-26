@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.com.free.mapper.FreeMapper">
 
-	<!-- 게시글 -->
+	<!-- ====== 게시글 ====== -->
+	
 	<select id="freeList" resultType="co.up.tune.com.vo.CommunityVO" parameterType="co.up.tune.com.free.web.Paging">
     	SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
          	 SELECT * FROM COMMUNITY WHERE TYP='102' ORDER BY POST_NO DESC
@@ -49,13 +50,14 @@
 		WHERE TYP='102'
 	</select>
 	
-	<!-- ==================댓글================== -->
+	<!-- ====== 댓글 ====== -->
 	
 	<select id="replyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
 		SELECT REPLY_NO, 
 			   POST_NO, 
 			   EMP_NO, 
-			   WRTR,CNTN, 
+			   WRTR,
+			   CNTN, 
 			   DTTM, 
 			   REPLY_CAT 
 		FROM REPLY
@@ -78,19 +80,6 @@
 			    END AS NO
 			FROM REPLY
 		</selectKey>
-		<!-- {call
-			declare 
-			    reply_record reply%rowtype;
-			begin
-			    INSERT INTO REPLY
-			    VALUES(#{replyNo}, #{postNo}, '사원번호', '작성자', #{cntn}, SYSDATE, '커뮤니티');
-			    
-			    select *
-			    into reply_record
-			    from reply
-			    where reply_no=#{replyNo};
-			end
-		} -->
 		INSERT INTO REPLY
 		VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE, '커뮤니티')
 	</insert>

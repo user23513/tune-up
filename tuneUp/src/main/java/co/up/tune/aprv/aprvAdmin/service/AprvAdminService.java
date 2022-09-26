@@ -2,7 +2,6 @@ package co.up.tune.aprv.aprvAdmin.service;
 
 import java.util.List;
 import co.up.tune.aprv.vo.AprvVO;
-import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.ReferVO;
 
@@ -43,7 +42,7 @@ public interface AprvAdminService { // 전자결재 관리자
 	// 관리자 서식 삭제
 	int formAdminDel(AprvVO vo);
 
-	// 관리자 서식 공개여부+카테고리+내용 수정 
+	// 관리자 서식 수정 
 	int formAdminUp(AprvVO vo);
 	//관리자 서식 공개여부 수정
 	//int formAdminAuthUp(AprvVO vo);

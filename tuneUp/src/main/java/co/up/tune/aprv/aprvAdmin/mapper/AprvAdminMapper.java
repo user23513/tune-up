@@ -1,8 +1,6 @@
 package co.up.tune.aprv.aprvAdmin.mapper;
 
 import java.util.List;
-
-import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.ReferVO;

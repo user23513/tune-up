@@ -2,15 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.emp.attdUp.mapper.AttdUpMapper">
 
-<insert id="attdUpInsert" parameterType="co.up.tune.emp.vo.AttdUpVO">
-INSERT INTO ATTDUP
-	VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{nm}, #{atdcDt}, #{atdcDttm}, #{afwkDttm}, #{aContent}, '701', sysdate)
-</insert>
+	<insert id="attdUpInsert"
+		parameterType="co.up.tune.emp.vo.AttdUpVO">
+		INSERT INTO ATTDUP
+		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{nm}, #{atdcDt}, #{atdcDttm},
+		#{afwkDttm}, #{aContent}, '701', sysdate)
+	</insert>
+
+	<select id="attdUpList" resultType="co.up.tune.emp.vo.AttdUpVO">
+		SELECT *
+		FROM
+		ATTDUP
+		ORDER BY ATDC_DT DESC
+	</select>
+
+	<select id="attdUpSelect"
+		resultType="co.up.tune.emp.vo.AttdUpVO">
+		SELECT ATTDUP_NO, EMP_NO, NM, ATDC_DT, AFWK_DTTM, A_CONTENT, A_DATE
+		FROM ATTDUP
+		WHERE ATTDUP_NO = #{attdupNo}
+	</select>
+
+
+	<update id="attdUpDel"
+		parameterType="co.up.tune.emp.vo.AttdUpVO">
+		UPDATE ATTDUP
+		SET ST = '반려'
+		WHERE ATTDUP_NO = #{attdupNo}
+	</update>
+
+
+	 <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
+		UPDATE ATTD 
+		<set>
+			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
+			<if test="afwkDttm != null">AFWK_DTTM = #{afwkDttm}, </if>
+			<if test="st != null">ST = '601' </if>
+		</set>
+		WHERE EMP_NO = #{empNo} 
+		AND  
+		ATDC_DT = #{atdcDt} 
+		
+		<!-- <![CDATA[   
+		UPDATE ATTD A
+	SET (A.ATDC_DTTM, A.AFWK_DTTM) = (
+	SELECT B.ATDC_DTTM, B.AFWK_DTTM FROM ATTDUP B WHERE A.EMP_NO = B.EMP_NO AND A.ATDC_DT = B.ATDC_DT)
+	WHERE EXISTS (
+	SELECT 0 FROM ATTDUP B WHERE A.EMP_NO = ? AND A.ATDC_DT = ? )
+		    ]]>  -->
+	</update>  
+
 	
-<select id="myAttdUpList" resultType="co.up.tune.emp.vo.AttdUpVO" parameterType="co.up.tune.emp.vo.AttdUpVO">
-	SELECT *
-	FROM 
-	ATTD
-	WHERE EMP_NO = #{empNo}
-</select>	
+	
+	
 </mapper> 

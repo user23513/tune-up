@@ -43,7 +43,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
   <script src="/js/index.js"></script>
 <style>
-	.noticeAlert{
+	/* 긴급공지 헤더에 띄우는 css */
+	.noticeAlert{ 
 		margin: 0;
 		position: relative;
 		top: 7px;
@@ -54,8 +55,6 @@
 </style>
 <script>
 $(document).ready(function(){
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
 	let empNo = $("#empNo").val();
 	
 	//현지 수정 알림갯수
@@ -375,16 +374,16 @@ function freeTitle() {
 
   </aside><!-- End Sidebar-->
   
-
-  <div id="aa">
+  <!-- 알림 toast 창 뜨는 곳 -->
+  <div id="bellArea" class="toast-container position-absolute bottom-0 end-0" style="z-index: 1">
   
   </div>
+  
   <!-- ======= Main ======= -->
   <main id="main" class="main" layout:fragment="content" style="min-height: 83vh;">
   	
   </main><!-- End #main -->
 
-  
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">

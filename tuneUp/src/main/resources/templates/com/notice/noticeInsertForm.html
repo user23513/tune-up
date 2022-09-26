@@ -79,20 +79,6 @@ $(function(){
         
         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
     });
-
-
-    //게시글 등록
-    $("#save").on("click", function(){
-        let content = tinymce.activeEditor.getContent();
-        $("#cntn").val(content);
-        
-        $("#frm").submit();
-        
-        if($('#emerg').is(':checked')){
-        	socket.send('notice');
-        }
-    });
-    
 });
 </script>
 <style>
@@ -157,7 +143,7 @@ $(function(){
 						<a href="noticeList" class="btn btn-primary">목록</a>
 					</span>
 					<span class="right">
-						<button type="button" id="save" class="btn btn-primary ">등록</button>
+						<button type="button" id="noticeBtn" class="btn btn-primary ">등록</button>
 					</span>
 				</div>
 			</form>

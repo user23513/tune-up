@@ -26,9 +26,10 @@
 		WHERE BELL_NO = #{bellNo}
 	</delete>
 	
-	<select id="bellCount" resultType="int">
+	<select id="bellCount" resultType="int" parameterType="co.up.tune.com.vo.BellVO">
 		SELECT COUNT(*)
 		FROM BELL
+		WHERE EMP_NO = #{empNo}
 	</select>
 	
 </mapper>

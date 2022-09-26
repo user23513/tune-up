@@ -271,7 +271,8 @@ $(document).ready( function () {
 											</tr>
 										</thead>
 											<tbody>
-												<tr th:each="ab : ${attdBadList}">
+												<tr th:each="ab : ${attdBadList}" data-bs-toggle="modal"
+					data-bs-target="#largeModal2">
 													<td><span th:text="${#dates.format(ab.atdcDt, 'yyyy-MM-dd')}"></span></td>
 													<td><span th:text="${ab.empNo}"></span></td>
 													<td><span th:text="${ab.nm}"></span></td>
@@ -295,9 +296,11 @@ $(document).ready( function () {
 
 							<!-- End List Tabs -->
 						</div>
+						
+						<!--수정요청 탭 -->
 						<div class="tab-pane fade" id="bordered-write" role="tabpanel"
 							aria-labelledby="write-tab">
-							<!-- Write Tabs -->
+							
 
 
 							<!-- Default Card -->
@@ -314,7 +317,7 @@ $(document).ready( function () {
 
 
 
-							<!-- Default Tabs -->
+							<!-- Default Tabs  -->
 							
 							<ul class="nav nav-tabs" id="myTab2" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -323,8 +326,7 @@ $(document).ready( function () {
 										role="tab" aria-controls="formAll" aria-selected="true"></button> -->
 								
 							</ul>
-							<div class="tab-content pt-2" id="myTab2Content" data-bs-toggle="modal"
-					data-bs-target="#largeModal2">
+							<div class="tab-content pt-2" id="myTab2Content" >
 					
 					<!-- Large Modal 수정폼 상세보기 -->
 				<div class="modal fade" id="largeModal2" tabindex="-1">

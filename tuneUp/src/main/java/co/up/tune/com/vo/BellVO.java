@@ -15,5 +15,4 @@ public class BellVO {
 	 String cntn;	//내용
 	 String readYn;		//확인여부
 	 int empNo; //사원번호
-	 
-}
+	

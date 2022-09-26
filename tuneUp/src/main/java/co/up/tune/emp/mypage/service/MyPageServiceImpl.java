@@ -17,8 +17,17 @@ public class MyPageServiceImpl implements MypageService {
 	}
 
 	@Override
-	public int empUpdate(EmpVO vo) {
-		return map.empUpdate(vo);
+	public int profileUpdate(EmpVO vo) {
+		return map.profileUpdate(vo);
 	}
 
+	@Override
+	public int picUpdate(EmpVO vo) {
+		return map.picUpdate(vo);
+	}
+
+	@Override
+	public int signUpdate(EmpVO vo) {
+		return map.signUpdate(vo);
+	}
 }

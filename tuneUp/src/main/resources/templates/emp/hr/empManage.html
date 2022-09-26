@@ -21,7 +21,7 @@
 	$("#tb").on("click", "tr", e=>{
         let tg = e.target.closest('tr').children[1].innerText;
         console.log(tg)
-        $("#empNo").val(tg)
+        $("#empNo").val(tg);
         $("#frm").submit();
     })
     

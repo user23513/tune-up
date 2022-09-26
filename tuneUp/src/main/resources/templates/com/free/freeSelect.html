@@ -29,7 +29,8 @@
 		//댓글 등록 버튼 클릭시
 		$("#rBtn").on("click", e=>{
 			let postNo = $("#postNo").val(); //게시글 번호
-			let postTitlt = $("#postTitle").val(); //게시글 제목
+			let postTitle = $("#postTitle").text(); //게시글 제목
+			console.log(postTitle)
 			let cntn = $("#rCntn").val();    //댓글 내용
 			let empNo = $("#empNo").val();   //댓글 쓴 사원번호
 			let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름

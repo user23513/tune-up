@@ -106,7 +106,7 @@
               <div class="row mb-3">
                 <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">프로필 사진</label>
                 <div class="col-md-8 col-lg-9">
-                  <img src="assets/img/profile-img.jpg" alt="Profile">
+                  <img th:src="${e.pic}" alt="Profile" style="width:120px;">
                 </div>
               </div>
 
@@ -186,7 +186,7 @@
                 <label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
                 <div class="col-md-8 col-lg-9">
 					<input type="text" id="sample6_address" name="ad1" th:value="${e.ad1}" placeholder="주소"><br>
-					<input type="text" id="sample6_detailAddress" name="ad2" th:value="${e.ad2}"placeholder="상세주소">
+					<input type="text" id="sample6_detailAddress" name="ad2" th:value="${e.ad2}" placeholder="상세주소">
 					<input type="hidden" id="sample6_extraAddress" name="ad3" th:value="${e.ad3}"placeholder="참고항목">
 					
                 </div>

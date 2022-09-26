@@ -9,5 +9,5 @@ public interface BellMapper {
 	List<BellVO> bellList(BellVO vo); //알림 리스트
 	int bellInsert(BellVO vo); //알림 등록
 	int bellDelete(BellVO vo); //알림 삭제
-	int bellCount(); //알림 갯수
+	int bellCount(BellVO vo); //알림 갯수
 }

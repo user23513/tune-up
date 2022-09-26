@@ -8,12 +8,21 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
 	$(document).ready(function(){
-		
+		//확인 버튼 클릭 이벤트
+		$("#btn").on("click", e=>{
+			
+ 			let pw = $("#pw").val();
+			$("#pw").val();
+			console.log(pw);
+			$("#frm").submit();
+		})
 	})
+	
 </script>
 </head>
 <body>
   <main id="main" class="main" layout:fragment="content">
+   <form id="frm" method="post" action="profile">
 	<div class="container">
 	  <div class="row justify-content-center">
 		<div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
@@ -26,7 +35,7 @@
 				<form class="row g-3">
 				  <div class="col-12">
 					<label for="inputPassword4" class="form-label">Password</label>
-					<input type="password" class="form-control">
+					<input id="pw" name="pw" type="password" class="form-control">
 				  </div>
 				  <div class="text-center">
 					<button id="btn" type="button" class="btn btn-primary">확인</button>
@@ -37,15 +46,12 @@
 			</div>
 		  </div>
 		</div>
+	  		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+			<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+			<input name="tPw" id="tPw" type="hidden" th:value="${e.pw}">
 	  </div>
 	</div>
-	
-	<form id="frm" method="post" action="profile">
-		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-		<input type="text" id="empNo" name="empNo" th:value="${session.empNo}">
 	</form>
-	
-	
   </main>
 </body>
 

@@ -9,11 +9,8 @@
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
-<script src="/js/message.js"></script>
 <script th:inline="javascript">
 	$(document).ready(function() {
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
 		//게시글 수정버튼
 		$("#uBtn").on("click", e=>{
 			$("#uFrm").submit();
@@ -25,7 +22,6 @@
 		})
 		
 		//==============댓글==============
-		
 		//댓글 등록 버튼 클릭시
 		$("#rBtn").on("click", e=>{
 			let postNo = $("#postNo").val(); //게시글 번호
@@ -56,14 +52,6 @@
 						$("#rList").prepend(div);
 						
 						$("#rCntn").val("");
-						
-						//소켓
-						
-						/* if(wrtr != '[[${session.nm}]]'){
-							if(socket){
-								let socketMsg = "reply,"+wrtr+","+'[[${session.nm}]]'+","+postNo+","+postTitlt+","+bgno;
-							}
-						} */
 		         }
 		      })
 		})
@@ -107,7 +95,6 @@
 						//수정, 삭제 아이콘 보이게
 						up.show();
 						de.show();
-						
 					}
 				}) 
 				
@@ -159,7 +146,6 @@
     	<div class="card-body">
          	<h5 class="card-title"></h5>
 				<div>
-				<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
 				<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}"> 
 				<input type="hidden" id="receiverNo" name="receiverNo" th:value="${f.empNo}">
 					<table class="table">
@@ -207,7 +193,8 @@
 								</div>
 							</div>
 					<!-- end 댓글 -->
-						
+					
+					<!-- 게시글 버튼 -->
 					<hr><div>
 						<span>
 							<a href="freeList" class="btn btn-primary">목록</a>

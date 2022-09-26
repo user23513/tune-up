@@ -58,7 +58,7 @@
 			   EMP_NO, 
 			   WRTR,
 			   CNTN, 
-			   DTTM, 
+			   TO_CHAR(DTTM, 'YYYY-MM-DD HH24:MI:SS') DTTM, 
 			   REPLY_CAT 
 		FROM REPLY
 		WHERE POST_NO = #{postNo}

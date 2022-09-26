@@ -28,8 +28,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		sessions.add(session);
-		String senderId = getId(session); //현재 접속한 사람 empNo
-		userSessionsMap.put(senderId, session);
+		String senderNo = getId(session); //현재 접속한 사람 empNo
+		userSessionsMap.put(senderNo, session);
 	}
 
 	/* 소켓에 메세지를 보냈을 때 */
@@ -58,14 +58,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				if ("reply".equals(cmd) && boardWriterSession != null) {
 					TextMessage tmpMsg = new TextMessage(caller + 
 							"님이 <a id=freeTitle data-no="+postNo+" href=javascript:void(0); onClick=freeTitle()>["+postTitle+"]</a>게시글에 댓글을 남겼습니다.");
-					//"<a type='external' href='/mentor/menteeboard/menteeboardView?seq="+seq+"&pg=1'>" + seq + "</a> 번 게시글에 댓글을 남겼습니다."
 					boardWriterSession.sendMessage(tmpMsg);
 				}
-			}else if(strs != null && strs.length == 1) {
+			}else if(strs != null && strs.length == 2) {
 				//모든 유저에게 보낸다 - 브로드 캐스팅
 				String cmd = strs[0];
+				String Noticetitle = strs[1];
 				for (WebSocketSession sess : sessions) {
-					sess.sendMessage(new TextMessage("게시글 관리자님이 <a type='external' href='/noticeList class='link-danger'>공지게시글</a>에 긴급공지를 등록했습니다."));
+					sess.sendMessage(new TextMessage("게시글 관리자님이 <a type='external' href='/noticeList' class='link-danger'>"+Noticetitle+"</a>에 공지를 등록했습니다."));
 				}
 			}
 		}
@@ -78,13 +78,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		userSessionsMap.remove(getId(session));
 	}
 	
-	//웹소켓 ID 가져오기
+	//웹소켓 empNo 가져오기
 	private String getId(WebSocketSession session) {
-		//String senderId = (String) session.getAttributes().get("sessionId");
 		String httpSession = (String) session.getAttributes().get("empNo");
-		//EmpVO loginUser = (EmpVO)httpSession.get("id");
-//		log.info(loginUser);
-//		
+		
 		if(httpSession == null) {
 			return session.getId();
 		}else {

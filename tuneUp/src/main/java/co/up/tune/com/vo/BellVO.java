@@ -14,5 +14,5 @@ public class BellVO {
 	 String receiver;	//받는사람
 	 String cntn;	//내용
 	 String readYn;		//확인여부
-	 int empNo; //받는사람 사원번호
-}
+	 int empNo; //사원번호
+	

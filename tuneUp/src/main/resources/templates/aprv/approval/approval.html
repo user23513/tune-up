@@ -5,30 +5,38 @@
 <head>
 <meta charset="UTF-8">
 <title>전자결재 - 나의 승인</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+	function goPage(p) {
+		location.href = '/approval?pageNum=' + p;
+	}
+</script>
 </head>
+
 <body>
 	<!-- ======= Main ======= -->
 	<main id="main" class="main" layout:fragment="content">
 
-		<div class="pagetitle">
-			<h1>전자결재</h1>
-			<nav>
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="aprvReq">나의 신청</a></li>
-					<li class="breadcrumb-item active">나의 승인</li>
-					<li class="breadcrumb-item"><a href="aprvAdmin"
-						th:if="${session.auth == 'ADMIN'}">관리 기능</a></li>
-				</ol>
-			</nav>
-		</div>
-		<!-- End Page Title -->
+
 
 		<section class="section">
 
 			<div class="card">
 				<div class="card-body">
 					<br>
-
+					<!--Page Title -->
+					<div class="pagetitle">
+						<h1>전자결재</h1>
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="aprvReq">나의 신청</a></li>
+								<li class="breadcrumb-item active">나의 승인</li>
+								<li class="breadcrumb-item"><a href="aprvAdmin"
+									th:if="${session.auth == 'ADMIN'}">관리 기능</a></li>
+							</ol>
+						</nav>
+					</div>
+					<!-- End Page Title -->
 					<!-- Bordered Tabs -->
 					<ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab"
 						role="tablist">
@@ -58,10 +66,8 @@
 										<div class="card-body">
 											<br>
 											<h5 class="card-title">결재대기목록</h5>
-											<p class="card-text">
-												나에게 참조 또는 상신된 결재목록입니다.<br> 문서를 검토하여 승인하거나 반려할 수 있습니다.
-												일정 기간 동안 결재를 위임할 수 있습니다.
-											</p>
+											<p class="card-text">나에게 참조 또는 상신된 결재목록입니다. 문서를 검토하여
+												승인하거나 반려할 수 있습니다. 일정 기간 동안 결재를 위임을 설정할 수 있습니다.</p>
 											<button type="button" class="btn btn-primary"
 												data-bs-toggle="modal" data-bs-target="#disablebackdrop">
 												<i class="ri-account-pin-circle-line"> 결재 위임자 설정</i>
@@ -83,12 +89,86 @@
 											<div class="btn-group" role="group"
 												aria-label="Aprv Request List" style="width: 100%;">
 												<button type="button" th:each="c:${cd}"
-													class="btn btn-outline-primary" th:id="|aprv${c.code}btn|"
-													th:text="${c.cdNm}" onclick="approval()">전체</button>
+													class="btn btn-outline-secondary"
+													th:id="|aprv${c.code}btn|" th:text="${c.cdNm}"
+													onclick="approval()">전체</button>
 											</div>
 										</div>
 									</div>
-									<br> 승인목록
+									<br>
+
+
+									<table id="aprvTable" class="table table-hover"
+										style="width: 100%">
+										<tbody id="tb" class="list-group">
+											<tr>
+											<td th:if="${#lists.size(pageInfo.list)} == 0">왜안뜨다가 이제떠</td>
+											</tr>
+											
+											
+											
+											<tr th:each="p : ${pageInfo.list}" data-bs-toggle="modal"
+												data-bs-target="#aprvView" th:data-no="${p.aprvNo}">
+
+												<td
+													class="list-group-item d-flex justify-content-between align-items-start">
+													<div class="ms-2 me-auto">
+														<div class="fw-bold" th:text="${p.ttl}"></div>
+														2022-08-09 14:23 작성일자
+													</div> <th:block th:switch="${p.reqSt}">
+														<span th:case="전송" class="badge bg-primary"><i
+															class="bi bi-info-circle me-1"></i>전송</span>
+														<span th:case="검토" class="badge bg-secondary"><i
+															class="bi bi-check-circle me-1"></i>검토</span>
+														<span th:case="반려" class="badge bg-primary"><i
+															class="bi bi-exclamation-triangle me-1"></i>반려</span>
+														<span th:case="완료" class="badge bg-secondary"><i
+															class="bi bi-star me-1"></i>완료</span>
+													</th:block>
+												</td>
+
+											</tr>
+										</tbody>
+									</table>
+
+
+
+									<!-- Pagination with icons -->
+
+
+									<nav aria-label="Page navigation example">
+										<ul class="pagination pagination-info  justify-content-center">
+											<li class="page-item disabled"
+												th:if="${pageInfo.isIsFirstPage()}"><span
+												class="page-link">«</span></li>
+											<li class="page-item"
+												th:if="${!pageInfo.isIsFirstPage() && pageInfo.getList().size() > 0}"><a
+												class="page-link"
+												th:href="|javascript:pageGo([[${pageInfo.getPrePage()}]])|"
+												rel="prev">«</a></li>
+											<li
+												th:class="|page-item ${(pageInfo.pageNum eq page) ? 'active': ''} |"
+												th:each="page:${pageInfo.navigatepageNums}"><span
+												class="page-link" th:if="${pageInfo.pageNum eq page}"
+												th:text="${page}"></span> <a class="page-link"
+												th:unless="${pageInfo.pageNum eq page}"
+												th:href="|javascript:pageGo(${page})|" th:text="${page}">{{$page
+													}}</a></li>
+											<li class="page-item" th:if="${pageInfo.hasNextPage}"><a
+												class="page-link"
+												th:href="|javascript:pageGo([[${pageInfo.getNextPage()}]])|"
+												rel="next">»</a></li>
+											<li class="page-item disabled"
+												th:unless="${pageInfo.hasNextPage}"><span
+												class="page-link">»</span></li>
+										</ul>
+									</nav>
+
+									<!-- End Pagination with icons -->
+
+
+
+
 								</div>
 							</div>
 

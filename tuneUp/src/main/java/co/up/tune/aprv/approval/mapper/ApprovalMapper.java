@@ -10,14 +10,9 @@ import co.up.tune.aprv.vo.TrustVO;
 
 public interface ApprovalMapper {
 
-	// 승인문서 조회
+	// 문서 조회
 	List<AprvVO> approvalList(@Param("aprvr") String aprvr);
 
-	// 참조문서 조회
-	List<AprvVO> referApprovalList(@Param("empNo") String empNo);
-
-	// 위임문서 조회
-	List<AprvVO> trustApprovalList(@Param("rptt") String rptt);
 
 	// 단건조회
 	AprvVO approvalSelect(AprvVO vo);

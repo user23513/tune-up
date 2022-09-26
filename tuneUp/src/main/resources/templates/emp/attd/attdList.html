@@ -7,73 +7,112 @@
 <title>Insert title here</title>
 
 <script src="/js/jquery-3.6.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
+<script type="text/javascript"
+	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <script>
-$(document).ready( function () {
-	$('#attdTable').DataTable({
-		//컬럼 갯수
-		colums: [
-			{data:"atdcDt"},
-			{data:"empNo"},
-			{data:"nm"},
-			{data:"dept"},
-			{data:"position"},
-			{data:"atdcDttm"},
-			{data:"afwkDttm"},
-			{data:"wktm"},
-			{data:"ovtm"},
-			{data:"st"}
-		],
-		//컬럼 넓이
-		columnDefs: [
-			{targets:0, width:50},
-			{targets:1, width:50},
-			{targets:2, width:50},
-			{targets:3, width:50},
-			{targets:4, width:50},
-			{targets:5, width:50},
-			{targets:6, width:50},
-			{targets:7, width:50},
-			{targets:8, width:50},
-			{targets:9, width:50}
-		],
-		//표시 건수 기능 숨기기
-		lengthChange: false,
-		//정렬 기능 숨기기
-		ordering: false,
-		//정보 표시 숨기기
-		info: false
-	});
-})	
+	$(document).ready(function() {
+		$('#attdTable').DataTable({
+			//컬럼 갯수
+			colums : [ {
+				data : "atdcDt"
+			}, {
+				data : "empNo"
+			}, {
+				data : "nm"
+			}, {
+				data : "dept"
+			}, {
+				data : "position"
+			}, {
+				data : "atdcDttm"
+			}, {
+				data : "afwkDttm"
+			}, {
+				data : "wktm"
+			}, {
+				data : "ovtm"
+			}, {
+				data : "st"
+			} ],
+			//컬럼 넓이
+			columnDefs : [ {
+				targets : 0,
+				width : 50
+			}, {
+				targets : 1,
+				width : 50
+			}, {
+				targets : 2,
+				width : 50
+			}, {
+				targets : 3,
+				width : 50
+			}, {
+				targets : 4,
+				width : 50
+			}, {
+				targets : 5,
+				width : 50
+			}, {
+				targets : 6,
+				width : 50
+			}, {
+				targets : 7,
+				width : 50
+			}, {
+				targets : 8,
+				width : 50
+			}, {
+				targets : 9,
+				width : 50
+			} ],
+			//표시 건수 기능 숨기기
+			lengthChange : false,
+			//정렬 기능 숨기기
+			ordering : false,
+			//정보 표시 숨기기
+			info : false
+		});
+	})
 </script>
-
-
-
+ 
+ <script type="text/javascript">
+ $(document).ready(function() {
+		$("#upTable").on("click", ".update", e=> {
+			console.log($(e.target))
+			$(e.target).parent().parent().remove();
+			});
+})
+ 
+ 
+ 
+ 
+ </script>
 <style>
- #c{
- 	background-color: #ECEBFF;
- }
- 
- #cid {
- 	text-align: center;
- width: 250px;
- width: 50%;
- width: 100%;
- }
- 
- .dataTables_wrapper .dataTables_paginate .paginate_button {
-    padding : 0px;
-    margin-left: 0px;
-    display: inline;
-    border: 0px;
-	}
-	.location{
-		position: relative;
-		bottom: 43px;
-	}
-	
- 
+#c {
+	background-color: #ECEBFF;
+}
+
+#cid {
+	text-align: center;
+	width: 250px;
+	width: 50%;
+	width: 100%;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding: 0px;
+	margin-left: 0px;
+	display: inline;
+	border: 0px;
+}
+
+.location {
+	position: relative;
+	bottom: 43px;
+}
 </style>
 </head>
 <body>
@@ -84,227 +123,245 @@ $(document).ready( function () {
 
 			<!--  -->
 			<!-- ======= Sectionn ======= -->
-		<section class="section">
+			<section class="section">
 
-			<div class="card">
-				<div class="card-body">
-					<br>
-					<!-- Bordered Tabs -->
-					<ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab"
-						role="tablist">
-						<li class="nav-item" role="presentation">
-							<button class="nav-link active" id="list-tab"
-								data-bs-toggle="tab" data-bs-target="#bordered-list"
-								type="button" role="tab" aria-controls="list"
-								aria-selected="true">출퇴근 현황</button>
-						</li>
-						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="write-tab" data-bs-toggle="tab"
-								data-bs-target="#bordered-write" type="button" role="tab"
-								aria-controls="write" aria-selected="false">수정요청</button>
-						</li>
-					</ul>
-					
-					
-					
-					<div class="tab-content pt-2" id="borderedTabContent">
-						<div class="tab-pane fade show active" id="bordered-list"
-							role="tabpanel" aria-labelledby="list-tab">
-							<!-- List Tabs -->
+				<div class="card">
+					<div class="card-body">
+						<br>
+						<!-- 근태관리 탭 -->
+						<ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab"
+							role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="list-tab"
+									data-bs-toggle="tab" data-bs-target="#bordered-list"
+									type="button" role="tab" aria-controls="list"
+									aria-selected="true">출퇴근 현황</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="write-tab" data-bs-toggle="tab"
+									data-bs-target="#bordered-write" type="button" role="tab"
+									aria-controls="write" aria-selected="false">수정요청</button>
+							</li>
+						</ul>
 
-							<!-- 버튼 -->
-							<div class="card" id="c">
-								<div class="card-body">
-									<h5 class="card-title"></h5>
-									<p class="card-text">
-									<div id="cid">
-											<button type="button" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px;">
-												정상출근 <span class="badge bg-secondary text-light" >50 </span>
+
+
+						<div class="tab-content pt-2" id="borderedTabContent">
+							<div class="tab-pane fade show active" id="bordered-list"
+								role="tabpanel" aria-labelledby="list-tab">
+								<!-- List Tabs -->
+
+								<!-- 상단 버튼 -->
+								<div class="card" id="c">
+									<div class="card-body">
+										<h5 class="card-title"></h5>
+										<p class="card-text">
+										<div id="cid">
+											<button type="button" class="btn btn-light mb-2"
+												style="width: 30%; padding: 55px 10px; margin: 4px 12px;">
+												정상출근 <span class="badge bg-secondary text-light">50
+												</span>
 											</button>
-											<button type="button" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px;">
+											<button type="button" class="btn btn-light mb-2"
+												style="width: 30%; padding: 55px 10px; margin: 4px 12px;">
 												근태이상 <span class="badge bg-secondary text-light">4</span>
 											</button>
-											<button type="button" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px;">
+											<button type="button" class="btn btn-light mb-2"
+												style="width: 30%; padding: 55px 10px; margin: 4px 12px;">
 												수정 <span class="badge bg-secondary text-light">14</span>
 											</button>
-											</div>
+										</div>
+									</div>
 								</div>
-							</div>
-							<!-- End Default Card -->
 
-							<ul class="nav nav-tabs" id="myTab1" role="tablist">
-								<li class="nav-item" role="presentation">
-									<button class="nav-link active" id="all-tab"
-										data-bs-toggle="tab" data-bs-target="#all" type="button"
-										role="tab" aria-controls="all" aria-selected="true">전체</button>
-								</li>
-								
-								
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="good-tab" data-bs-toggle="tab"
-										data-bs-target="#good" type="button" role="good-tab"
-										aria-controls="good" aria-selected="false">정상출근</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="bad-tab" data-bs-toggle="tab"
-										data-bs-target="#bad" type="button" role="tab"
-										aria-controls="bad" aria-selected="false">근태이상</button>
-								</li>
-								<form id="excelForm" name="excelForm" method=get action="excel">
-								<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
-								<div style="display: inline-block; float: right;">&nbsp;&nbsp;
-								<button type="submit" value="엑셀 다운로드" class="btn btn-outline-primary" ><i class="ri-file-excel-2-line"></i></button>
-								</div>
-								</form>
-								
-							</ul>
+								<!-- 출퇴근 현황 하단탭 + 엑셀버튼 -->
+								<ul class="nav nav-tabs" id="myTab1" role="tablist">
+									<li class="nav-item" role="presentation">
+										<button class="nav-link active" id="all-tab"
+											data-bs-toggle="tab" data-bs-target="#all" type="button"
+											role="tab" aria-controls="all" aria-selected="true">전체</button>
+									</li>
 
-		
-							<div class="tab-content pt-2" id="myTab1Content">
-								<div class="tab-pane fade show active" id="all" role="tabpanel"
-									aria-labelledby="all-tab">
-									
-										<table id="attdTable" class="table table-hover" style="text-align: center;">
-										<thead>
-											<tr>
-												<th class="dt-head-center" data-priority="1">출근 날짜</th>
-												<th class="dt-head-center" data-priority="2">사번</th>
-												<th class="dt-head-center" data-priority="3">이름</th>
-												<th class="dt-head-center" data-priority="4">부서명</th>
-												<th class="dt-head-center" data-priority="5">직위</th>
-												<th class="dt-head-center" data-priority="6">출근시간</th>
-												<th class="dt-head-center" data-priority="7">퇴근시간</th>
-												<th class="dt-head-center" data-priority="8">근무시간</th>
-												<th class="dt-head-center" data-priority="9">연장시간</th>
-												<th class="dt-head-center" data-priority="10">상태</th>
-											</tr>
-										</thead>
+
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="good-tab" data-bs-toggle="tab"
+											data-bs-target="#good" type="button" role="good-tab"
+											aria-controls="good" aria-selected="false">정상출근</button>
+									</li>
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="bad-tab" data-bs-toggle="tab"
+											data-bs-target="#bad" type="button" role="tab"
+											aria-controls="bad" aria-selected="false">근태이상</button>
+									</li>
+									<form id="excelForm" name="excelForm" method=get action="excel">
+										<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
+										<div style="display: inline-block; float: right;">
+											&nbsp;&nbsp;
+											<button type="submit" value="엑셀 다운로드"
+												class="btn btn-outline-primary">
+												<i class="ri-file-excel-2-line"></i>
+											</button>
+										</div>
+									</form>
+
+								</ul>
+
+
+								<!-- 전체 출근 리스트 -->
+								<div class="tab-content pt-2" id="myTab1Content">
+									<div class="tab-pane fade show active" id="all" role="tabpanel"
+										aria-labelledby="all-tab">
+
+										<table id="attdTable" class="table table-hover"
+											style="text-align: center;">
+											<thead>
+												<tr>
+													<th class="dt-head-center" data-priority="1">출근 날짜</th>
+													<th class="dt-head-center" data-priority="2">사번</th>
+													<th class="dt-head-center" data-priority="3">이름</th>
+													<th class="dt-head-center" data-priority="4">부서명</th>
+													<th class="dt-head-center" data-priority="5">직위</th>
+													<th class="dt-head-center" data-priority="6">출근시간</th>
+													<th class="dt-head-center" data-priority="7">퇴근시간</th>
+													<th class="dt-head-center" data-priority="8">근무시간</th>
+													<th class="dt-head-center" data-priority="9">연장시간</th>
+													<th class="dt-head-center" data-priority="10">상태</th>
+												</tr>
+											</thead>
 											<tbody>
 												<tr th:each="at : ${attdList}">
-													<td class="dt-body-center"><span th:text="${#dates.format(at.atdcDt, 'yyyy-MM-dd')}"></span></td>
+													<td class="dt-body-center"><span
+														th:text="${#dates.format(at.atdcDt, 'yyyy-MM-dd')}"></span></td>
 													<td class="dt-body-center"><span th:text="${at.empNo}"></span></td>
 													<td class="dt-body-center"><span th:text="${at.nm}"></span></td>
 													<td class="dt-body-center"><span th:text="${at.dept}"></span></td>
-													<td class="dt-body-center"><span th:text="${at.position}"></span></td>
-													<td class="dt-body-center"><span th:text="${#dates.format(at.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td class="dt-body-center"><span th:text="${#dates.format(at.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td class="dt-body-center"><span th:text="${#dates.format(at.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td class="dt-body-center"><span th:text="${#dates.format(at.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td class="dt-body-center"><span th:if="${at.st} == '601'" th:text="'정상'"></span>
-													<span th:unless="${at.st} == '601'" th:text="'근태이상'"></span></td>
-													
+													<td class="dt-body-center"><span
+														th:text="${at.position}"></span></td>
+													<td class="dt-body-center"><span
+														th:text="${#dates.format(at.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td class="dt-body-center"><span
+														th:text="${#dates.format(at.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td class="dt-body-center"><span
+														th:text="${#dates.format(at.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td class="dt-body-center"><span
+														th:text="${#dates.format(at.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td class="dt-body-center"><span
+														th:if="${at.st} == '601'" th:text="'정상'"></span> <span
+														th:unless="${at.st} == '601'" th:text="'근태이상'"></span></td>
+
 													<!-- <td><span th:text="${at.st}"></span></td> -->
 												</tr>
 											</tbody>
 										</table>
-										
-										 
-								
-									<!-- End Table with hoverable rows -->
-									
-								</div>
-								
-								<!-- 정상출근 -->
-								<div class="tab-pane fade" id="good" role="tabpanel" 
-									aria-labelledby="good-tab">
-							
-									<!-- Table with hoverable rows -->
-									<table id="attdTable" class="table table-hover" style="text-align: center;">
-										<thead>
-											<tr>
-												<th>출근 날짜</th>
-												<th>사번</th>
-												<th>이름</th>
-												<th>부서명</th>
-												<th>직위</th>
-												<th>출근시간</th>
-												<th>퇴근시간</th>
-												<th>근무시간</th>
-												<th>연장시간</th>
-												<th>상태</th>
-											</tr>
-										</thead>
+
+
+
+										<!-- End Table with hoverable rows -->
+
+									</div>
+
+									<!-- 정상출근 리스트 -->
+									<div class="tab-pane fade" id="good" role="tabpanel"
+										aria-labelledby="good-tab">
+
+										<!-- Table with hoverable rows -->
+										<table id="attdTable" class="table table-hover"
+											style="text-align: center;">
+											<thead>
+												<tr>
+													<th>출근 날짜</th>
+													<th>사번</th>
+													<th>이름</th>
+													<th>부서명</th>
+													<th>직위</th>
+													<th>출근시간</th>
+													<th>퇴근시간</th>
+													<th>근무시간</th>
+													<th>연장시간</th>
+													<th>상태</th>
+												</tr>
+											</thead>
 											<tbody>
 												<tr th:each="ag : ${attdGoodList}">
-													<td><span th:text="${#dates.format(ag.atdcDt, 'yyyy-MM-dd')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ag.atdcDt, 'yyyy-MM-dd')}"></span></td>
 													<td><span th:text="${ag.empNo}"></span></td>
 													<td><span th:text="${ag.nm}"></span></td>
 													<td><span th:text="${ag.dept}"></span></td>
 													<td><span th:text="${ag.position}"></span></td>
-													<td><span th:text="${#dates.format(ag.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td><span th:text="${#dates.format(ag.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td><span th:text="${#dates.format(ag.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													
-													
-													
-													<td><span th:text="${#dates.format(ag.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ag.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ag.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ag.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ag.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
 													<td><span th:if="${ag.st} == '601'" th:text="'정상'"></span></td>
-													
-													<!-- <td><span th:text="${at.st}"></span></td> -->
 												</tr>
 											</tbody>
 										</table>
-									<!-- End Table with hoverable rows -->
-									
-								 
-									
-									<!-- 근태이상 -->
-								</div>
-								<div class="tab-pane fade" id="bad" role="tabpanel"
-									aria-labelledby="bad-tab">
-									
 
-									<!-- Table with hoverable rows -->
-									<table id="attdTable" class="table table-hover" style="text-align: center;">
-										<thead>
-											<tr>
-												<th>출근 날짜</th>
-												<th>사번</th>
-												<th>이름</th>
-												<th>부서명</th>
-												<th>직위</th>
-												<th>출근시간</th>
-												<th>퇴근시간</th>
-												<th>근무시간</th>
-												<th>연장시간</th>
-												<th>상태</th>
-											</tr>
-										</thead>
+
+
+										<!-- 근태이상 리스트 -->
+									</div>
+									<div class="tab-pane fade" id="bad" role="tabpanel"
+										aria-labelledby="bad-tab">
+
+										<table id="attdTable" class="table table-hover"
+											style="text-align: center;">
+											<thead>
+												<tr>
+													<th>출근 날짜</th>
+													<th>사번</th>
+													<th>이름</th>
+													<th>부서명</th>
+													<th>직위</th>
+													<th>출근시간</th>
+													<th>퇴근시간</th>
+													<th>근무시간</th>
+													<th>연장시간</th>
+													<th>상태</th>
+												</tr>
+											</thead>
 											<tbody>
-												<tr th:each="ab : ${attdBadList}" data-bs-toggle="modal"
-					data-bs-target="#largeModal2">
-													<td><span th:text="${#dates.format(ab.atdcDt, 'yyyy-MM-dd')}"></span></td>
+												<tr th:each="ab : ${attdBadList}">
+													<td><span
+														th:text="${#dates.format(ab.atdcDt, 'yyyy-MM-dd')}"></span></td>
 													<td><span th:text="${ab.empNo}"></span></td>
 													<td><span th:text="${ab.nm}"></span></td>
 													<td><span th:text="${ab.dept}"></span></td>
 													<td><span th:text="${ab.position}"></span></td>
-													<td><span th:text="${#dates.format(ab.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td><span th:text="${#dates.format(ab.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td><span th:text="${#dates.format(ab.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td><span th:text="${#dates.format(ab.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ab.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ab.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ab.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													<td><span
+														th:text="${#dates.format(ab.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
 													<td><span th:if="${ab.st} == '602'" th:text="'근태이상'"></span></td>
-													
+
 													<!-- <td><span th:text="${at.st}"></span></td> -->
 												</tr>
 											</tbody>
 										</table>
-									<!-- End Table with hoverable rows -->
-									
+									</div>
 								</div>
+								<!-- End List Tabs -->
 							</div>
 
 
-							<!-- End List Tabs -->
-						</div>
-						
-						<!--수정요청 탭 -->
-						<div class="tab-pane fade" id="bordered-write" role="tabpanel"
-							aria-labelledby="write-tab">
-							
+
+							<!--수정요청 탭 -->
+							<div class="tab-pane fade" id="bordered-write" role="tabpanel"
+								aria-labelledby="write-tab">
 
 
-							<!-- Default Card -->
-							<!-- <div class="card">
+
+								<!-- Default Card -->
+								<!-- <div class="card">
 								<div class="card-body">
 									<h5 class="card-title">버튼 나오게</h5>
 									<p class="card-text">
@@ -313,167 +370,189 @@ $(document).ready( function () {
 
 								</div>
 							</div> -->
-							<!-- End Default Card -->
+								<!-- End Default Card -->
 
 
 
-							<!-- Default Tabs  -->
-							
-							<ul class="nav nav-tabs" id="myTab2" role="tablist">
-								<li class="nav-item" role="presentation">
-								<!-- 	<button class="nav-link active" id="formAll-tab"
+								<!-- Default Tabs  -->
+
+								<ul class="nav nav-tabs" id="myTab2" role="tablist">
+									<li class="nav-item" role="presentation">
+										<!-- 	<button class="nav-link active" id="formAll-tab"
 										data-bs-toggle="tab" data-bs-target="#formAll" type="button"
 										role="tab" aria-controls="formAll" aria-selected="true"></button> -->
-								
-							</ul>
-							<div class="tab-content pt-2" id="myTab2Content" >
-					
-					<!-- Large Modal 수정폼 상세보기 -->
-				<div class="modal fade" id="largeModal2" tabindex="-1">
-					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">근태 수정 신청	</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-							
-							
-							
+								</ul>
+								<div class="tab-content pt-2" id="myTab2Content">
 
-								<!-- 수정폼 -->
-								<div th:each="ups : ${attdUpSelect}">
-								
-								<div class="input-group mb-3"  >
-									<span class="input-group-text" id="basic-addon1"
-										style="width: 90px;">신청번호</span> <span type="text"
-										class="form-control" name="attdupNo"
-										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.attdupNo}" ></span>
-								</div>
-								
-								
-								<div class="input-group mb-3"  >
-									<span class="input-group-text" id="basic-addon1"
-										style="width: 90px;">사원번호</span> <span type="text"
-										class="form-control" name="empNo"
-										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.empNo}" ></span>
-								</div>
-								
-								
-								<div class="input-group mb-3">
-									<span class="input-group-text" id="basic-addon1"
-										style="width: 90px;">이름</span> <span type="text"
-										class="form-control" name="nm" aria-label="Username1"
-										aria-describedby="basic-addon1" th:text="${ups.nm}" ></span>
-								</div>
-								
-								<div class="input-group mb-3">
-									<span class="input-group-text" id="basic-addon1"
-										style="width: 90px;">출근 시간</span> <span type="timestamp"
-										class="form-control" name="atdcDt" aria-label="Username1"
-										aria-describedby="basic-addon1" th:text="${ups.atdcDt}"></span>
-								</div>
-								
-								
-								<div class="input-group mb-3">
-									<span class="input-group-text" id="basic-addon1"
-										style="width: 90px;">퇴근 시간</span> <span type="timestamp"
-										class="form-control" name="afwkDttm" aria-label="Username1"
-										aria-describedby="basic-addon1" th:text="${ups.afwkDttm}"></span>
-								</div>
-								
-								<div class="form-floating mb-3">
-									<span class="form-control"
-										placeholder="Leave a comment here" id="floatingTextarea"
-										style="height: 100px; resize: none" name="aContent" th:text="${ups.aContent}"></span>
-									<label for="floatingTextarea">사유</label>
-									<!-- <input type="hidden" id="st" name="st" th:value="${701}"> -->
-								</div>
-								
-								<div class="input-group mb-3"  >
-									<span class="input-group-text" id="basic-addon1"
-										style="width: 90px;">신청날짜</span> <span type="text"
-										class="form-control" name="aDate"
-										aria-label="Username" aria-describedby="basic-addon1" th:text="${ups.aDate}" 
-										
-										
-										
-										></span>
-								</div>
-								
-								<!-- 바디 끝 -->
-										
-							</div>
-								</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">취소</button>
-									
-								<button type="submit" class="btn btn-primary">신청</button>
-								</form>
-							</div>
-								
-						</div>
-					</div>
-				</div>
-				</
-				<!-- End Large Modal-->
-							
-				
-							
-							
-								<!-- <div class="tab-pane fade show active" id="formAll"
+
+
+
+
+
+									<!-- <div class="tab-pane fade show active" id="formAll"
 									role="tabpanel" aria-labelledby="formAll-tab"> -->
-									
-									<!-- Table with hoverable rows -->
-									<table class="table table-hover" style="text-align: center;">
+
+									<!-- 수정요청 리스트 -->
+									<table id="upTable" class="table table-hover" style="text-align: center;">
 										<thead>
 											<tr>
 												<th>신청번호</th>
 												<th>사번</th>
 												<th>이름</th>
+												<th>출근날짜</th>
 												<th>사유</th>
 												<th>상태</th>
 												<th>신청일자</th>
+												<th>승인</th>
+												<th>반려</th>
 											</tr>
 										</thead>
 										<tbody>
+											<!-- <tr th:each="aup : ${attdUpList}" data-bs-toggle="modal"
+												data-bs-target="#largeModal2"> -->
 												<tr th:each="aup : ${attdUpList}">
-													<td class="dt-body-center"><span th:text="${aup.attdupNo}"></span></td>
-													<td class="dt-body-center"><span th:text="${aup.empNo}"></span></td>
-													<td class="dt-body-center"><span th:text="${aup.nm}"></span></td>
-													<td class="dt-body-center"><span th:text="${aup.aContent}"></span></td>
-													<td class="dt-body-center"><span th:if="${aup.st} == '701'" th:text="'대기중'"></span>
-													<span th:unless="${aup.st} == '701'" th:text="'완료'"></span></td>
-													<td class="dt-body-center"><span th:text="${#dates.format(aup.aDate, 'yyyy-MM-dd')}"></span></td>
-													
-													
-												</tr>
-											</tbody>
-										
+												<td class="dt-body-center"><span
+													th:text="${aup.attdupNo}"></span></td>
+												<td class="dt-body-center"><span th:text="${aup.empNo}"></span></td>
+												<td class="dt-body-center"><span th:text="${aup.nm}"></span></td>
+												<td class="dt-body-center"><span th:text="${aup.atdcDt}"></span></td>
+												<td class="dt-body-center"><span
+													th:text="${aup.aContent}"></span></td>
+												<td class="dt-body-center"><span
+													th:if="${aup.st} == '701'" th:text="'대기중'"></span> <span
+													th:unless="${aup.st} == '701'" th:text="'완료'"></span></td>
+												<td class="dt-body-center"><span
+													th:text="${#dates.format(aup.aDate, 'yyyy-MM-dd')}"></span></td>
+												<form id="okFrm" action="attdUpOk" method="get">
+												<!--  <input type="hidden" id="attdupNo" name="attdupNo" th:value="${aup.attdupNo}">
+												<input type="hidden" id="atdcDt" name="atdcDt" th:value="${aup.atdcDt}"> -->
+												<input type="hidden" id="st" name="st" th:value="${aup.st}">
+												
+												<input type="hidden" id="atdcDttm" name="atdcDttm" th:value="${aup.atdcDttm}">
+												<input type="hidden" id="afwkDttm" name="afwkDttm" th:value="${aup.afwkDttm}"> 
+												<input type="hidden" id="empNo" name="empNo" th:value="${aup.empNo}">
+												<input type="hidden" id="atdcDt" name="atdcDt" th:value="${aup.atdcDt}">
+												<td><button type="button" id="" class="update btn btn-primary">승인</button></td>
+												</form>
+												
+												<form id="delFrm" action="attdUpDel" method="get" >
+												<!-- <td><input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
+													<input type="hidden" id="attdupNo" name="attdupNo" th:value="${aup.attdupNo}">
+													<input type="hidden" id="atdcDt" name="atdcDt" th:value="${aup.atdcDt}">
+													<td><button type="button "  style="text-align: center" class="reject btn btn-primary">반려</button></td></form>
+												</form>
+											</tr>
+										</tbody>
 									</table>
-									
-									
-									
-									
-									
+
+									<!-- Large Modal 수정폼 상세보기 -->
+									<div class="modal fade" id="largeModal2" tabindex="-1">
+										<div class="modal-dialog modal-lg">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title">근태 수정 신청</h5>
+													<button type="button" class="btn-close"
+														data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+
+
+
+
+													<!-- 수정폼 내부 -->
+													<div th:each="ups : ${attdUpSelect}">
+														<!-- <input type="hidden" th:name="${_csrf.parameterName}"
+															th:value="${_csrf.token}"> -->
+														<div class="input-group mb-3">
+															<span class="input-group-text" id="basic-addon1"
+																style="width: 90px;">신청번호</span> <span type="text"
+																class="form-control" name="attdupNo"
+																aria-label="Username" aria-describedby="basic-addon1"
+																th:text="${ups.attdupNo}"></span>
+														</div>
+
+
+														<div class="input-group mb-3">
+															<span class="input-group-text" id="basic-addon1"
+																style="width: 90px;">사원번호</span> <span type="text"
+																class="form-control" name="empNo" aria-label="Username"
+																aria-describedby="basic-addon1" th:text="${ups.empNo}"></span>
+														</div>
+
+
+														<div class="input-group mb-3">
+															<span class="input-group-text" id="basic-addon1"
+																style="width: 90px;">이름</span> <span type="text"
+																class="form-control" name="nm" aria-label="Username1"
+																aria-describedby="basic-addon1" th:text="${ups.nm}"></span>
+														</div>
+
+														<div class="input-group mb-3">
+															<span class="input-group-text" id="basic-addon1"
+																style="width: 90px;">출근 시간</span> <span type="timestamp"
+																class="form-control" name="atdcDt"
+																aria-label="Username1" aria-describedby="basic-addon1"
+																th:text="${ups.atdcDt}"></span>
+														</div>
+
+
+														<div class="input-group mb-3">
+															<span class="input-group-text" id="basic-addon1"
+																style="width: 90px;">퇴근 시간</span> <span type="timestamp"
+																class="form-control" name="afwkDttm"
+																aria-label="Username1" aria-describedby="basic-addon1"
+																th:text="${ups.afwkDttm}"></span>
+														</div>
+
+														<div class="form-floating mb-3">
+															<span class="form-control"
+																placeholder="Leave a comment here" id="floatingTextarea"
+																style="height: 100px; resize: none" name="aContent"
+																th:text="${ups.aContent}"></span> <label
+																for="floatingTextarea">사유</label>
+															<!-- <input type="hidden" id="st" name="st" th:value="${701}"> -->
+														</div>
+
+														<div class="input-group mb-3">
+															<span class="input-group-text" id="basic-addon1"
+																style="width: 90px;">신청날짜</span> <span type="text"
+																class="form-control" name="aDate" aria-label="Username"
+																aria-describedby="basic-addon1" th:text="${ups.aDate}"></span>
+														</div>
+
+														<!-- 바디 끝 -->
+
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">취소</button>
+
+													<button type="submit" class="btn btn-primary">신청</button>
+													</form>
+												</div>
+
+											</div>
+										</div>
+									</div>
+									</
+									<!-- End Large Modal-->
+
+
+
+
+
 
 								</div>
 
 
 
+							</div>
 						</div>
+
 					</div>
-
 				</div>
-			</div>
-
-
-
-
-
-</div>
+		</div>
 
 		</section>
 
@@ -481,7 +560,7 @@ $(document).ready( function () {
 		<!-- Scrolling Modal -->
 
 
-</div>
+		</div>
 
 
 

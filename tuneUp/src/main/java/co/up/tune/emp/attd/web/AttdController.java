@@ -34,9 +34,9 @@ public class AttdController {
 		model.addAttribute("attdBadList",dao.attdBadList());
 		model.addAttribute("attdUpList", udao.attdUpList());
 		model.addAttribute("attdUpSelect", udao.attdUpSelect(vo));
+		model.addAttribute("attdUpDel", udao.attdUpDel(vo));
 		return "emp/attd/attdList";
 	}
-	
 	
 	
 	// 전체사원 근태 정상 리스트 - 관리자

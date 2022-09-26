@@ -4,7 +4,8 @@
 
 
 <select id="approvalList" resultType="co.up.tune.aprv.vo.AprvVO">
-SELECT * 
+SELECT APRV_NO, EMP_NO, TTL, DTTM, MOD_DTTM, ATCH_NO, 
+		REQ_ST, APRV_AUTH, DEAD_LINE, IMPTS
 FROM APRV
 WHERE APRV_NO = (SELECT APRV_NO 
 				FROM APPROVAL 
@@ -17,17 +18,22 @@ WHERE APRV_NO = (SELECT APRV_NO
 OR APRV_NO = (SELECT APRV_NO 
 				FROM REFER 
 				WHERE EMP_NO = #{aprvr})
-
-
 </select>
 
 
 
-<select id="aprvalSelect" resultType="co.up.tune.aprv.vo.AprvVO">
-
-
-
+<select id="aprvalSelect" parameterType="co.up.tune.aprv.vo.AprvVO" resultType="co.up.tune.aprv.vo.AprvVO">
+SELECT EMP_NO, TTL, DTTM, MOD_DTTM, CNTN, ATCH_NO, 
+		REQ_ST, APRV_AUTH, DEAD_LINE, IMPTS, REJECT
+FROM APRV 
+WHERE APRV_NO = #{aprvNo}
 </select>
+
+<insert id="approvalSign" parameterType="co.up.tune.aprv.vo.ApprovalVO">
+insert into approval 
+(aprvr, aprv_no, aprv_dttm, sign)
+
+</insert>
 
 
 

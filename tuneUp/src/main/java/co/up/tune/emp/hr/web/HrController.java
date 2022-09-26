@@ -18,12 +18,12 @@ public class HrController {
 	@Autowired
 	CommonService cd;
 	
-	
 	@RequestMapping("/empUpdateForm")
 	public String empUpdateForm(EmpVO vo, Model model) {
 		
 		EmpVO emp = dao.empSelect(vo);
 		System.out.println("test");
+		System.out.println(vo.getEmpNo());
 		String no = emp.getEmpNo();
 		System.out.println("no : "+no);
 		//주소

@@ -20,8 +20,9 @@
 	//사원 테이블 tr태그 클릭 이벤트
 	$("#tb").on("click", "tr", e=>{
         let tg = e.target.closest('tr').children[1].innerText;
-        console.log(tg)
+        console.log(tg);
         $("#empNo").val(tg);
+        console.log($("#empNo").val());
         $("#frm").submit();
     })
     
@@ -29,7 +30,7 @@
 	$("#tbd").on("click", "tr", e=>{
         let tg = e.target.closest('tr').children[1].innerText;
         console.log(tg)
-        $("#empNo").val(tg)
+        $("#empNo").val(tg);
         $("#frm").submit();
     })
     
@@ -212,7 +213,7 @@
 	  <div>
 		<form id="frm" method="post" action="empUpdateForm">
 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-			<input type="hidden" id="empNo" name="empNo">
+			<input type="text" id="empNo" name="empNo">
 		</form>
 	  </div>
 	</main>

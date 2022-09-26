@@ -12,6 +12,8 @@
 		$('#sNoteList').DataTable();
 		$('#rNoteList').DataTable();
 		$('#kNoteList').DateTable();
+		
+		
 	});
 </script>
 </head>
@@ -19,7 +21,12 @@
 <main id="main" class="main" layout:fragment="content" >
  <div class="card">
    <div class="card-body">
+   	<div class="row">
+   	<div class=" col-lg-3 col-md-4">
      <h5 class="card-title">내 쪽지함</h5>
+     </div>
+     </div>
+     <button id="btn" name="btn" type="button" class="btn btn-outline-primary sm">글쓰기</button>
 
      <!-- Bordered Tabs Justified -->
      <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">

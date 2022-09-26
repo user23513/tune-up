@@ -74,11 +74,11 @@ $(document).ready(function(){
 			$("#bell").html(res);
 		}
 	});
-	   //은지 개인정보 empNo 값
-	   $("#pwCheck").on("click", e=>{
-	       $("#empNo").val()
-	       $("#pwFrm").submit();
-	   })
+	//은지 개인정보 empNo 값
+	$("#pwCheck").on("click", e=>{
+	    $("#empNo").val()
+	    $("#pwFrm").submit();
+	})
 })
 
 function freeTitle() {
@@ -87,7 +87,6 @@ function freeTitle() {
 	$("#alarmPostNo").val(postNo);
 	$("#bellFrm").submit();
 };
-
 	
 </script>
 </head>
@@ -99,28 +98,20 @@ function freeTitle() {
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
+	<!-- Start Logo -->
     <div class="d-flex align-items-center justify-content-between">
       <a href="/main" class="logo d-flex align-items-center">
         <img src="/assets/img/로고.png" alt="">
         <span class="d-none d-lg-block">Tune-Up</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
-    
-    
-    <!-- 현지 수정 웹소켓 toast 2022/09/25 -->
-    <div id="msgStack"></div>
-
-   <!--  <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div> --><!-- End Search Bar -->
+    </div>
+    <!-- End Logo -->
     
     <!-- 웹소켓 긴급공지 알림 -->
 	<div id="alertNotice" class="noticeAlert"></div>
 	
+	<!-- 헤더 오른쪽 아이콘들 -->
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
@@ -385,11 +376,14 @@ function freeTitle() {
   </aside><!-- End Sidebar-->
   
 
+  <div id="aa">
+  
+  </div>
   <!-- ======= Main ======= -->
-  <main id="main" class="main" layout:fragment="content">
+  <main id="main" class="main" layout:fragment="content" style="min-height: 83vh;">
   	
   </main><!-- End #main -->
-  
+
   
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
@@ -419,7 +413,6 @@ function freeTitle() {
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
-
 </body>
 
 </html>

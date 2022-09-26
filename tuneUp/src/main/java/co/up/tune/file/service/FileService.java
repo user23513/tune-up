@@ -21,6 +21,7 @@ public class FileService {
 	
 	public List<FilesVO> fileUpload( @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
 		List<FilesVO> list = new ArrayList<FilesVO>();
+		
 		for(MultipartFile file:files) {
 			FilesVO vo = new FilesVO();
 			//원래 파일 이름 추출
@@ -46,7 +47,6 @@ public class FileService {
 			//실제 로컬에 uuid를 파일명으로 저장
 			file.transferTo(new File(savePath));
 		}
-		
 		
 		return list;
 	}

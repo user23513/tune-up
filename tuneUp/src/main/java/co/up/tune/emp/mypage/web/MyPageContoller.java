@@ -16,8 +16,11 @@ public class MyPageContoller {
 	// 비밀번호 인증
 	@RequestMapping("/pwCheck")
 	public String pwCheck(EmpVO vo, Model model) {
+		EmpVO emp = new EmpVO();
+		
+		String no= emp.getEmpNo();
+		System.out.println(no);
 		model.addAttribute("e", dao.empSelectOne(vo));
-
 		return "emp/myPage/pwCheck";
 	}
 
@@ -62,8 +65,8 @@ public class MyPageContoller {
 	public String profileUpdate(EmpVO vo, Model model) {
 		EmpVO emp = dao.empSelectOne(vo);
 		String proPic = emp.getPic();
-		if (proPic == null) {
-			emp.setPic("assets/img/default_profile.png");
+		if (proPic != "assets/img/default_profile.png") {
+			
 		}
 
 		return "";

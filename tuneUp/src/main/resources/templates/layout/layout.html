@@ -52,22 +52,6 @@
 </style>
 <script>
 $(document).ready(function(){
-	//은지 수정 2022-09-23 마이페이지 post
-	//마이페이지 post 시작
-	function pwCk(userid){
-		    let f = document.createElement('form');
-		    
-		    let emp = $("#empNo").val();
-			console.log(emp);
-		    
-	/* 	    f.appendChild(obj);
-		    f.setAttribute('method', 'post');
-		    f.setAttribute('action', 'view.do');
-		    document.body.appendChild(f);
-		    f.submit(); */
-		}
-	//마이페이지 post 끝
-
 	//현지 수정 알림갯수
 	$.ajax({
 		url: 'bellCount',
@@ -77,6 +61,14 @@ $(document).ready(function(){
 			$("#bell").html(res);
 		}
 	});
+	
+	   //은지 개인정보 empNo 값
+	   $("#pwCheck").on("click", e=>{
+	       $("#empNo").val()
+	       $("#pwFrm").submit();
+	   })
+
+	
 })
 	
 </script>
@@ -227,10 +219,15 @@ $(document).ready(function(){
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="pwCheck">
-                <i class="bi bi-gear"></i>
-                <span>개인정보</span>
-              </a>
+              <form id="pwFrm" method="post" action="pwCheck">
+               <a id="pwCheck" name="pwCheck" class="dropdown-item d-flex align-items-center" 
+                  href="javascript:void(0);" onClick="pwCheck()">
+                 <i class="bi bi-gear"></i>
+                 <span>개인정보</span>
+                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+              <input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">   
+               </a>
+              </form>
             </li>
             <li>
               <hr class="dropdown-divider">

@@ -23,7 +23,9 @@ public class HrController {
 	public String empUpdateForm(EmpVO vo, Model model) {
 		
 		EmpVO emp = dao.empSelect(vo);
-		
+		System.out.println("test");
+		String no = emp.getEmpNo();
+		System.out.println("no : "+no);
 		//주소
 		String addr = emp.getAddr();
 		if(addr == null) {

@@ -4,41 +4,55 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
+
 <title>전자결재 - 나의 신청</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
 	$(document).ready(function() {
 		
+	
 		aprvSelect();
-		aprvCar
-		
 		//상세조회
-		function aprvSelect() {
-			$("#tb").on("click", ".select", e=>{
-				let no = $(e.target).data("no"); 
-				$("#aprvNo").val(no)
-				$("#frm").submit();
-			})
+			
+		function aprvSelect(){
+			$("#aprvTable").on("click", "tr", e=>{
+				let number = $(e.target).data("no"); 
+				console.log("번호지렁:" + number);
+				
+			            $.ajax("/aprvView", {
+			                method: "post",
+			                dataType: "json",
+			                contentType:"appliction/json",
+			                data: { "empNo" : number },
+			                success:function(data){
+			                
+			                	console.log(data);
+			                	
+			                	
+			                }
+			                
+			           
+
+			         
+				
+			            })
+				
+				
+		    });
 		}
-		
-		//신청카테고리
-		function aprvCat(){
-			
-			
-			
-		}
+	
+    
 		
 		
-		//서식카테고리
-		function formCat(){
-			
-			
+		
+		function goPage(p) {
+			location.href = '/aprvReq?pageNum=' + p;
 		}
 
 		
 		
 		
-	} );
+	});
 </script>
 
 
@@ -47,27 +61,30 @@
 	<!-- ======= Main ======= -->
 	<main id="main" class="main" layout:fragment="content">
 
-		<!-- Page Title -->
-		<div class="pagetitle">
-			<h1>전자결재</h1>
-			<nav>
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item active">나의 신청</li>
-					<li class="breadcrumb-item"><a href="approval">나의 승인</a></li>
-					<li class="breadcrumb-item" th:if="${session.auth == 'ADMIN'}"><a
-						href="aprvAdmin">관리 기능</a></li>
-				</ol>
-			</nav>
-		</div>
-		<!-- End Page Title -->
+
 
 		<!-- ======= Section ======= -->
 		<section class="section">
 
 			<div class="card">
 				<div class="card-body">
-
 					<br>
+					<!-- Page Title -->
+					<div class="pagetitle">
+						<h1>전자결재</h1>
+
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item active">나의 신청</li>
+								<li class="breadcrumb-item"><a href="approval">나의 승인</a></li>
+								<li class="breadcrumb-item" th:if="${session.auth == 'ADMIN'}"><a
+									href="aprvAdmin">관리 기능</a></li>
+							</ol>
+						</nav>
+					</div>
+					<!-- End Page Title -->
+
+
 					<!-- Bordered Tabs -->
 					<!-- navList -->
 					<ul class="nav nav-tabs nav-tabs-bordered" id="bodyTab"
@@ -75,13 +92,9 @@
 						<li class="nav-item" role="presentation">
 							<button class="nav-link active" id="aprv-tab"
 								data-bs-toggle="tab" data-bs-target="#aprv-list" type="button"
-								role="tab" aria-controls="aprv" aria-selected="true">결재상태목록</button>
+								role="tab" aria-controls="aprv" aria-selected="true">상태보기</button>
 						</li>
-						<li class="nav-item" role="presentation">
-							<button class="nav-link" id="form-tab" data-bs-toggle="tab"
-								data-bs-target="#form-list" type="button" role="tab"
-								aria-controls="form" aria-selected="false">문서작성하기</button>
-						</li>
+
 
 					</ul>
 					<!-- End navList -->
@@ -105,13 +118,15 @@
 										<div class="card-body">
 											<br>
 											<h5 class="card-title">결재신청목록</h5>
-											<p class="card-text">
-												내가 신청한 결재목록입니다. 진행 상태 및 반려 사유를 확인할 수 있습니다. <br> 문서를
-												선택하여 상세 조회 화면에서 검토 전 단계의 문서를 수정 또는 전송 취소할 수 있습니다.
-											</p>
+											<p class="card-text">내가 신청한 결재목록입니다. 진행 상태 및 반려 사유를 확인할 수
+												있습니다. 상세 조회 화면에서 검토 전 단계의 문서를 수정 또는 전송 취소할 수 있습니다.</p>
 											<button type="button" class="btn btn-primary"
 												data-bs-toggle="modal" data-bs-target="#disableback">
 												<i class="ri-exchange-line"> 기본 결재라인 변경</i>
+											</button>
+											<button type="button" class="btn btn-primary"
+												onclick="location.href='/aprvForm'">
+												<i class="bi bi-star me-1">새로운 서식으로 작성</i>
 											</button>
 										</div>
 									</div>
@@ -127,126 +142,97 @@
 											<div class="btn-group" role="group"
 												aria-label="Aprv Request List" style="width: 100%;">
 												<button type="button" th:each="c:${cd}"
-													class="btn btn-outline-primary" th:id="|aprv${c.code}btn|"
-													th:text="${c.cdNm}" onclick="aprvCat()">전체</button>
+													class="btn btn-outline-secondary"
+													th:id="|aprv${c.code}btn|" th:text="${c.cdNm}"
+													onclick="aprvCat()">전체</button>
 											</div>
 										</div>
 									</div>
-
-
 									<br>
+
+
 
 									<table id="aprvTable" class="table table-hover"
 										style="width: 100%">
 										<tbody id="tb" class="list-group">
-											<tr th:each="a : ${aprvList}">
+											<tr th:each="p : ${pageInfo.list}" data-bs-toggle="modal"
+												data-bs-target="#aprvView" th:data-no="${p.aprvNo}">
+
 												<td
 													class="list-group-item d-flex justify-content-between align-items-start">
 													<div class="ms-2 me-auto">
-														<div class="fw-bold" th:text="${a.ttl}"></div>
+														<div class="fw-bold" th:text="${p.ttl}"></div>
 														2022-08-09 14:23 작성일자
-													</div> <span class="badge bg-primary rounded-pill"
-													th:text="${a.reqSt}">상태</span>
+													</div> <th:block th:switch="${p.reqSt}">
+														<span th:case="전송" class="badge bg-primary"><i
+															class="bi bi-info-circle me-1"></i>전송</span>
+														<span th:case="검토" class="badge bg-secondary"><i
+															class="bi bi-check-circle me-1"></i>검토</span>
+														<span th:case="반려" class="badge bg-primary"><i
+															class="bi bi-exclamation-triangle me-1"></i>반려</span>
+														<span th:case="완료" class="badge bg-secondary"><i
+															class="bi bi-star me-1"></i>완료</span>
+													</th:block>
 												</td>
 											</tr>
 										</tbody>
 									</table>
 
 
+									<!-- <div>
+										<form id="frm" method="post" action="aprvSelect">
+											<input type="hidden" th:name="${_csrf.parameterName}"
+												th:value="${_csrf.token}"> <input type="hidden"
+												id="aprvNo" name="aprvNo">
+										</form>
+									</div> -->
 
 
 
 
+									<!-- Pagination with icons -->
 
+
+									<nav aria-label="Page navigation example">
+										<ul class="pagination pagination-info  justify-content-center">
+											<li class="page-item disabled"
+												th:if="${pageInfo.isIsFirstPage()}"><span
+												class="page-link">«</span></li>
+											<li class="page-item"
+												th:if="${!pageInfo.isIsFirstPage() && pageInfo.getList().size() > 0}"><a
+												class="page-link"
+												th:href="|javascript:pageGo([[${pageInfo.getPrePage()}]])|"
+												rel="prev">«</a></li>
+											<li
+												th:class="|page-item ${(pageInfo.pageNum eq page) ? 'active': ''} |"
+												th:each="page:${pageInfo.navigatepageNums}"><span
+												class="page-link" th:if="${pageInfo.pageNum eq page}"
+												th:text="${page}"></span> <a class="page-link"
+												th:unless="${pageInfo.pageNum eq page}"
+												th:href="|javascript:pageGo(${page})|" th:text="${page}">{{$page
+													}}</a></li>
+											<li class="page-item" th:if="${pageInfo.hasNextPage}"><a
+												class="page-link"
+												th:href="|javascript:pageGo([[${pageInfo.getNextPage()}]])|"
+												rel="next">»</a></li>
+											<li class="page-item disabled"
+												th:unless="${pageInfo.hasNextPage}"><span
+												class="page-link">»</span></li>
+										</ul>
+									</nav>
+
+									<!-- End Pagination with icons -->
 
 
 								</div>
 							</div>
 
-							<div>
-								<form id="frm" method="post" action="aprvSelect">
-									<input type="hidden" th:name="${_csrf.parameterName}"
-										th:value="${_csrf.token}"> <input type="hidden"
-										id="aprvNo" name="aprvNo">
-								</form>
-							</div>
 
 
 						</div>
 
-						<!-- Tabs Gap -->
-						<div class="tab-pane fade" id="form-list" role="tabpanel"
-							aria-labelledby="form-tab">
 
 
-
-							<br>
-							<!-- Card with an image on left -->
-							<div class="card mb-3">
-								<div class="row g-0">
-									<div class="col-md-4">
-										<img src="assets/img/aprvReq.jpg"
-											class="img-fluid rounded-start" alt="..."
-											style="width: 350px;">
-									</div>
-									<div class="col-md-8">
-										<div class="card-body">
-											<br>
-											<h5 class="card-title">기본서식목록</h5>
-											<p class="card-text">
-												결재 서식목록입니다.<br> 서식을 클릭하시면 해당 양식으로 간편하게 결재문서를 작성할 수
-												있습니다.
-											</p>
-											<button type="button" class="btn btn-primary">
-												<i class="bi bi-star me-1" data-bs-toggle="modal"
-													data-bs-target="#scrollingModal">새로운 서식으로 작성</i>
-											</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!-- End Card with an image on left -->
-
-
-
-							<div class="card">
-								<div class="card-body">
-									<br>
-									<div class="row">
-										<div class="col text-center">
-											<div class="btn-group" role="group"
-												aria-label="Aprv Form List" style="width: 100%">
-												<button type="button" th:each="t:${cat}"
-													class="btn btn-outline-primary" th:id="|form${t.code}btn|"
-													th:text="${t.cdNm}" onclick="formCat()">전체</button>
-
-											</div>
-										</div>
-									</div>
-									<br> 
-									<table id="formTable" class="table table-hover"
-										style="width: 100%">
-										<tbody id="tb" class="list-group">
-											<tr th:each="f : ${formList}">
-												<td
-													class="list-group-item d-flex justify-content-between align-items-start">
-													<div class="ms-2 me-auto">
-														<div class="fw-bold" th:text="${f.formNm}"></div>
-														작성자 이름 부서 등등..
-													</div> <span class="badge bg-primary rounded-pill"
-													th:text="${f.formCat}">상태</span>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-									
-									
-									
-									
-								</div>
-							</div>
-
-						</div>
 
 
 					</div>
@@ -262,26 +248,64 @@
 
 		<!-- Scrolling Modal -->
 
-		<div class="modal fade" id="scrollingModal" tabindex="-1"
+		<div class="modal fade" id="aprvView" tabindex="-1"
 			data-bs-backdrop="false">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Scrolling Modal</h5>
+						<h5 class="modal-title">전자결재 - 문서상세</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body" style="min-height: 750px;">Non omnis
-						incidunt qui sed occaecati magni asperiores est mollitia.</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save
-							changes</button>
+					<div class="modal-body" style="min-height: 750px;">
+
+						<div id="pdf_canvas">
+
+
+
+
+							<table class="table">
+								<tbody>
+									<tr>
+										<td colspan="6" class="textSize" id="title"></td>
+									</tr>
+
+									<tr>
+										<td colspan="6" class=".txtA" style="height: 500px">내용</td>
+									</tr>
+
+								</tbody>
+							</table>
+
+
+
+
+						</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-primary">수정</button>
 				</div>
 			</div>
 		</div>
+
 
 		<!-- End Scrolling Modal-->
 

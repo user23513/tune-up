@@ -34,8 +34,8 @@ public class BellServiceImpl implements BellService {
 
 	//알림 갯수
 	@Override
-	public int bellCount() {
-		return map.bellCount();
+	public int bellCount(BellVO vo) {
+		return map.bellCount(vo);
 	}
 	
 }

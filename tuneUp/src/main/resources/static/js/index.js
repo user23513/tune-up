@@ -15,7 +15,7 @@ $(document).ready(function(){
 })
 
 function connectWs(){
-	sock = new SockJS("http://localhost:80/ws/alarm");
+	sock = new SockJS("http://192.168.0.19:80/ws/alarm");
 	socket = sock;
 	
 	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)
@@ -50,7 +50,7 @@ function onMessage(msg){
 	    toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
 	    toast += "<span aria-hidden='true'>&times;</span></button>";
 	    toast += "</div> <div class='toast-body'>" + data + "</div></div>";
-	    $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+	    $("#main").append(toast);   // msgStack div에 생성한 toast 추가
 	    $(".toast").toast({"animation": true, "autohide": false});
 	    $('.toast').toast('show');
 	}

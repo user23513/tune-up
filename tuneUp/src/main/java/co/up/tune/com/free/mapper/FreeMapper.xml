@@ -56,7 +56,8 @@
 		SELECT REPLY_NO, 
 			   POST_NO, 
 			   EMP_NO, 
-			   WRTR,CNTN, 
+			   WRTR,
+			   CNTN, 
 			   DTTM, 
 			   REPLY_CAT 
 		FROM REPLY
@@ -79,19 +80,6 @@
 			    END AS NO
 			FROM REPLY
 		</selectKey>
-		<!-- {call
-			declare 
-			    reply_record reply%rowtype;
-			begin
-			    INSERT INTO REPLY
-			    VALUES(#{replyNo}, #{postNo}, '사원번호', '작성자', #{cntn}, SYSDATE, '커뮤니티');
-			    
-			    select *
-			    into reply_record
-			    from reply
-			    where reply_no=#{replyNo};
-			end
-		} -->
 		INSERT INTO REPLY
 		VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE, '커뮤니티')
 	</insert>

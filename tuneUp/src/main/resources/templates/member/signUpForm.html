@@ -63,6 +63,26 @@ $(document).ready(function(){
 		})
 	});
 });
+
+/*  $(document).ready(function(){
+	$("input").change(function(){
+		if($("#password").val() != $("#passwordConfirm").val(){
+			alert("비밀번호가 일치하지 않습니다.");
+	});
+		
+	});
+});
+ */
+ 
+ function pwCheck(){
+		if ($("#password").val() != $("#passwordConfirm").val()) {
+			alert("비밀번호가 일치하지 않습니다.");
+			}
+		
+		if($("#password").val() == $("#passwordConfirm").val()){
+			alert("비밀번호가 일치합니다.");
+		}
+ }
 </script>
   <main>
     <div class="container">
@@ -101,7 +121,7 @@ $(document).ready(function(){
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="pw" class="form-control" id="pw" required>
+                      <input type="password" name="pw" class="form-control" id="password" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
@@ -109,6 +129,10 @@ $(document).ready(function(){
                       <label for="yourPassword" class="form-label">Password check</label>
                       <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm" required>
                       <div class="invalid-feedback">Please enter your password check!</div>
+                    </div>
+                    
+                    <div class="col-12">
+                      <button class="btn btn-primary" id="checkPassword" type="button" onclick="pwCheck()">비밀번호 확인</button>
                     </div>
 
                     
@@ -120,7 +144,7 @@ $(document).ready(function(){
 
                       <div class="col-12">
                         <label for="yourPhone" class="form-label">Your Phone number</label>
-                        <input type="number" name="phone" class="form-control" id="phone" required>
+                        <input type="tel" name="phone" class="form-control" id="phone" required>
                         <div class="invalid-feedback">Please enter your Phone number!</div>
                       </div>
 

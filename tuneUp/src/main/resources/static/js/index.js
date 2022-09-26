@@ -10,18 +10,16 @@ $(document).ready(function(){
 	
 	//서버가 끊겼을 때 호출
 	socket.onclose = function(){
-		console.log('connect close!');
-		//setTimeout(function(){connectWs();}, 1000);
+		setTimeout(function(){connectWs();}, 500);
 	}
 })
 
 function connectWs(){
-	sock = new SockJS("http://localhost:80/ws/alarm");
+	sock = new SockJS("http://192.168.0.19:80/ws/alarm");
 	socket = sock;
 	
 	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)
 	sock.onopen = function(){}
-	console.log('info: connection opened!');
 };
 
 //toast생성 및 추가
@@ -52,7 +50,7 @@ function onMessage(msg){
 	    toast += "<small class='text-muted'>just now</small><button type='button' class='ml-2 mb-1 close' data-dismiss='toast' aria-label='Close'>";
 	    toast += "<span aria-hidden='true'>&times;</span></button>";
 	    toast += "</div> <div class='toast-body'>" + data + "</div></div>";
-	    $("#msgStack").append(toast);   // msgStack div에 생성한 toast 추가
+	    $("#main").append(toast);   // msgStack div에 생성한 toast 추가
 	    $(".toast").toast({"animation": true, "autohide": false});
 	    $('.toast').toast('show');
 	}

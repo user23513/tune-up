@@ -4,6 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>	
 
   <title>TuneUp - Home</title>
   <meta content="" name="description">
@@ -52,26 +54,48 @@
 </style>
 <script>
 $(document).ready(function(){
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	let empNo = $("#empNo").val();
+	
 	//현지 수정 알림갯수
 	$.ajax({
 		url: 'bellCount',
+		beforeSend:function(xhr){
+ 	  		xhr.setRequestHeader(header,token);  
+     	},
+     	type: 'post',
+     	data: {'empNo':empNo},
 		dataType: 'json',
 		success: function(res){
-			console.log(res)
+			if($("#bell").text() == null){
+				$("#bell").text('0');
+			}
 			$("#bell").html(res);
 		}
 	});
-	
 	   //은지 개인정보 empNo 값
 	   $("#pwCheck").on("click", e=>{
 	       $("#empNo").val()
 	       $("#pwFrm").submit();
 	   })
 })
+
+function freeTitle() {
+	let postNo = $("#freeTitle").data("no");
+	console.log(postNo)
+	$("#alarmPostNo").val(postNo);
+	$("#bellFrm").submit();
+};
+
 	
 </script>
 </head>
 <body>
+  <form id="bellFrm" method="post" action="freeSelect">
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+		<input type="hidden" id="alarmPostNo" name="postNo" value="">
+  </form>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -124,7 +148,7 @@ $(document).ready(function(){
 
         <li class="nav-item dropdown">
 		  
-		  <!-- 메일 아이콘  -->
+		  <!-- ===== 메일 아이콘 =====  -->
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-envelope"></i>
             <span class="badge bg-success badge-number">3</span>
@@ -243,7 +267,6 @@ $(document).ready(function(){
 
             <li>
               <form class="dropdown-item d-flex align-items-center" action="logout" method="post">
-              
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <i class="bi bi-box-arrow-right"></i>
                 <button class="dropdown-item d-flex align-items-center" type="submit">로그아웃</button>
@@ -360,14 +383,14 @@ $(document).ready(function(){
     </ul>
 
   </aside><!-- End Sidebar-->
+  
 
   <!-- ======= Main ======= -->
   <main id="main" class="main" layout:fragment="content">
-
+  	
   </main><!-- End #main -->
   
-   
-
+  
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">

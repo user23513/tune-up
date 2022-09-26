@@ -12,8 +12,9 @@
 	$(document).ready(function(){
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
-		$("#bellDelBtn").on("click", e=>{
-			let bellNo = $("#bellNo").val();
+		
+		$("#bellList").on("click", 'button', e=>{
+			let bellNo = $(e.target).next().val();
 			$.ajax({
 				url: 'bellDelete',
 				beforeSend:function(xhr){
@@ -23,10 +24,19 @@
 		     	data: {'bellNo':bellNo},
 		     	dataType: 'json',
 		     	success: function(res){
+		     		$(e.target).parent().remove();
+		     		let bellCount = $("#bell").text();
+		     		$("#bell").text(bellCount-1);
 		     	}
-			});
+			}); 
 		})
 	});
+	
+	function freeTitle() {
+		let postNo = $("#freeTitle").data("no");
+		$("#postNo").val(postNo);
+		$("#bellFrm").submit();
+	};
 </script>
 </head>
 <body>
@@ -45,8 +55,13 @@
 			<div id="bellList">
 				<div class="alert alert-primary alert-dismissible fade show" role="alert" 
 							style="height: 100px" th:each="bell:${bellList}">
-				  <strong>Holy guacamole!</strong>[[${bell.cntn}]]
-				  <button id="bellDelBtn" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				  <!-- 알림에서 게시글 제목 클릭시 해당 게시글로 이동 -->
+				  <form id="bellFrm" method="post" action="freeSelect">
+				    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				    <input type="hidden" id="postNo" name="postNo" value="">
+				  	<strong th:utext="${bell.cntn}"></strong>
+				  </form>
+				  <button id="bellDelBtn" type="button" class="btn-close"></button>
 				  <input type="hidden" id="bellNo" name="bellNo" th:value="${bell.bellNo}">
 				</div>
 			</div>

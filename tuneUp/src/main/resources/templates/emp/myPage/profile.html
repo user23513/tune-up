@@ -118,7 +118,7 @@
 				  
 			  		<form id="frm" method="post" action="profileForm">
 						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-						<input type="text" id="empNo" name="empNo" th:value="${e.empNo}">
+						<input type="hidden" id="empNo" name="empNo" th:value="${e.empNo}">
 					</form>
 				</div>
               </div>

@@ -2,30 +2,125 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.aprv.aprvReq.mapper.AprvReqMapper">
 
-
-	<!-- 나의조회 -->
 	<select id="aprvReqList"
 		parameterType="co.up.tune.aprv.vo.AprvVO"
 		resultType="co.up.tune.aprv.vo.AprvVO">
-		SELECT *
+		SELECT APRV_NO, EMP_NO, TTL, DTTM, MOD_YN, ATCH_NO, REQ_ST,
+		APRV_AUTH,
+		DEADLINE, IMPTS
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
+				AND NOT REQ_ST = '임시저장' 
 		<if test="reqSt != null">AND REQ_ST = #{reqSt}</if>
 		ORDER BY APRV_NO DESC
 	</select>
 
-	<select id="formList" parameterType="co.up.tune.aprv.vo.FormVO" resultType="co.up.tune.aprv.vo.FormVO">
+	<select id="aprvReqSelect"
+		parameterType="co.up.tune.aprv.vo.AprvVO"
+		resultType="co.up.tune.aprv.vo.AprvVO">
 		SELECT *
-		FROM FORM
-		WHERE EMP_NO = #{empNo}
-		OR FORM_AUTH = '공개'
-		ORDER BY
-		FORM_NO DESC
+		FROM APRV
+		WHERE APRV_NO = #{aprvNo}
 	</select>
 
 
+	<insert id="aprvReqIn" parameterType="co.up.tune.aprv.vo.AprvVO">
+		<selectKey keyProperty="aprvNo" order="BEFORE"
+			resultType="int">
+			SELECT
+			CASE WHEN MAX(APRV_NO) IS NULL THEN 1
+			ELSE
+			MAX(APRV_NO) + 1 END AS NO
+			FROM APRV
+		</selectKey>
+		INSERT INTO APRV
+				(APRV_NO, EMP_NO, TTL, DTTM, CNTN, ATCH_NO, REQ_ST,
+					APRV_AUTH, APRV_ETC, DEADLINE, IMPTS)
+		VALUES
+				(#{aprvNo}, #{empNo},
+				#{ttl}, TIMESTAMP, #{cntn}, #{atchNo}, #{reqSt}, #{aprvAuth},
+				#{aprvEtc}, #{deadline}, #{impts} )
+	</insert>
 
 
+	<update id="aprvReqUp" parameterType="co.up.tune.aprv.vo.AprvVO">
+		UPDATE APRV
+		<set>
+			MOD_YN = 'Y',
+			DTTM = SYSTIMESTAMP
+			<if test="ttl != null">TTL=#{ttl},</if>
+			<if test="cntn != null">CNTN=#{cntn},</if>
+			<if test="atchNo != null">ATCH_NO=#{atchNo},</if>
+			<if test="aprvAuth != null">APRV_AUTH=#{aprvAuth},</if>
+			<if test="aprvEtc != null">APRV_ETC=#{aprvEtc},</if>
+			<if test="deadline != null">DEADLINE=#{deadline},</if>
+			<if test="impts != null">IMPTS=#{impts},</if>
+			<if test="reject != null">REJECT=#{reject},</if>
+		</set>
+		WHERE APRV_NO = #{aprvNo}
+		AND REQ_ST = '전송' OR '반려'
+	</update>
+
+	<delete id="aprvReqDel"
+		parameterType="co.up.tune.aprv.vo.AprvVO">
+		DELETE FROM APRV
+		WHERE APRV_NO = #{aprvNo}
+		AND REQ_ST = '전송' or '반려'
+	</delete>
+
+	<select id="formList" parameterType="co.up.tune.aprv.vo.FormVO"
+		resultType="co.up.tune.aprv.vo.FormVO">
+		SELECT FORM_NO, FORM_NM, FORM_CAT, EMP_NO, FORM_AUTH
+		FROM FORM
+		WHERE EMP_NO = #{empNo}
+				OR FORM_AUTH = '공개'
+		<if test="formCat != null">AND FORM_CAT = #{formCat}</if>
+		ORDER BY
+		DECODE(FORM_AUTH, '개인', 1), FORM_NO DESC
+	</select>
+
+	<select id="formSelect"
+		parameterType="co.up.tune.aprv.vo.FormVO"
+		resultType="co.up.tune.aprv.vo.FormVO">
+		SELECT *
+		FROM FORM
+		WHERE FORM_NO = #{formNo}
+	</select>
+
+	<update id="formUp" parameterType="co.up.tune.aprv.vo.FormVO">
+		UPDATE FORM
+		<set>
+			<if test="formNm != null">FORM_NM=#{formNm},</if>
+			<if test="formCntn != null">FORM_CNTN=#{formCntn},</if>
+			<if test="formCat != null">FORM_CAT=#{formCat},</if>
+			<if test="formAuth != null">FORM_AUTH=#{formAuth},</if>
+		</set>
+		WHERE FORM_NO = #{formNo}
+		
+	</update>
+
+
+	<insert id="formIn" parameterType="co.up.tune.aprv.vo.FormVO">
+		<selectKey keyProperty="aprvNo" order="BEFORE"
+			resultType="int">
+			SELECT
+			CASE WHEN MAX(FORM_NO) IS NULL THEN 1
+			ELSE
+			MAX(FORM_NO) + 1 END AS NO
+			FROM FORM
+		</selectKey>
+		INSERT INTO FORM
+				(FORM_NO, FORM_NM, FORM_CNTN, FORM_CAT, EMP_NO, FORM_AUTH)
+		VALUES
+				(#{formNo}, #{formNm}, #{formCntn}, #{formCat}, #{empNo}, #{formAuth})
+
+	</insert>
+
+	<delete id="formDel" parameterType="co.up.tune.aprv.vo.FormVO">
+		DELETE FROM FORM
+		WHERE FORM_NO = #{formNo}
+		AND FORM_AUTH = '개인'
+	</delete>
 
 
 

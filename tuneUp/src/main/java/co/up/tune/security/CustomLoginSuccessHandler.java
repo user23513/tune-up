@@ -33,6 +33,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			vo = mapper.empSession(vo);
 			
 			HttpSession session =  request.getSession();
+			session.setMaxInactiveInterval(7200000);
+			
 			session.setAttribute("empNo", vo.getEmpNo());
 			session.setAttribute("nm", vo.getNm());
 			session.setAttribute("dept", vo.getDept());

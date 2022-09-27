@@ -82,14 +82,15 @@ public class SecurityConfig {
 	/*
 	 * PasswordEncoder를 Bean으로 등록
 	 */
-//	 @Bean
-//	  public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//	    return new BCryptPasswordEncoder();
-//	  }
-//	 
-//	 //비밀번호를 암호화 (맞는지 모르겠..)
-//	 public SecurityConfig hashPassword(PasswordEncoder passwordEncoder) {
-//		    this.password = passwordEncoder.encode((CharSequence) this.password);
-//		    return this;
-//		  }
+<
+	/*
+	 * @Bean public BCryptPasswordEncoder bCryptPasswordEncoder() { return new
+	 * BCryptPasswordEncoder(); }
+	 */
+		/*
+		 * //비밀번호를 암호화 (맞는지 모르겠..) public SecurityConfig hashPassword(PasswordEncoder
+		 * passwordEncoder) { this.password = passwordEncoder.encode((CharSequence)
+		 * this.password); return this; }
+		 */
+
 }

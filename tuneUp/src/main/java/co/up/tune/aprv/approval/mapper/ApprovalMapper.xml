@@ -138,10 +138,49 @@
 			  				OR #{aprvr} 
 	</update>
 
+	<select id="trustList" parameterType="co.up.tune.aprv.vo.TrustVO" resultType="co.up.tune.aprv.vo.TrustVO">
+		SELECT * 
+		FROM TRUST
+		WHERE EMP_NO = #{empNo}
+		ORDER BY EDT DESC
+	</select>
 	
-
-
-
+	<select id="trustCheck" parameterType="co.up.tune.aprv.vo.TrustVO" resultType="co.up.tune.aprv.vo.TrustVO">
+		SELECT * 
+		FROM TRUST
+		WHERE EMP_NO = #{empNo}
+		ORDER BY EDT DESC
+	</select>
+	
+	
+	<insert id="trustIn" parameterType="co.up.tune.aprv.vo.TrustVO">
+		<selectKey keyProperty="trustNo" order="BEFORE" resultType="int">
+			SELECT
+			CASE WHEN MAX(TRUST_NO) IS NULL THEN 1
+			ELSE
+			MAX(TRUST_NO) + 1 END AS NO
+			FROM TRUST
+		</selectKey>
+		INSERT INTO TRUST
+				(TRUST_NO, APRVR, RPTT, SDT, EDT)
+		VALUES
+				(#{trustNo}, #{aprvr}, #{rptt}, #{sdt}, #{edt} )
+	</insert>
+	
+	<update id="trustUp" parameterType="co.up.tune.aprv.vo.TrustVO">
+		UPDATE TRUST
+		<set>
+			<if test="rptt != null">RPTT = #{rptt}</if>
+			<if test="sdt != null">SDT = #{sdt}</if>
+			<if test="edt != null">EDT = #{edt}</if>
+		</set>
+		WHERE TRUST_NO = #{trustNo}
+	</update>
+	
+	<delete id="trustDel" parameterType="co.up.tune.aprv.vo.TrustVO">
+		DELETE FROM TRUST
+		WHERE TRUST_NO = #{trustNo}
+	</delete>
 
 
 

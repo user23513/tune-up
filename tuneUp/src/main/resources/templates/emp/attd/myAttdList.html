@@ -145,9 +145,9 @@
 						
 						
 						<button type="button" id="bt" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px; height: 10px;"  onclick = "login()">
-												출근</button><br><p id = "login"></p>
-											<button type="button" id="bt" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px; height: 10px;" onclick = "logout()">
-												퇴근</button><p id = "logout"></p>
+						출근</button><br><p id = "login"></p>
+						<button type="button" id="bt" class="btn btn-light mb-2" style="width: 30%;   padding: 55px 10px; margin: 4px 12px; height: 10px;" onclick = "logout()">
+						퇴근</button><p id = "logout"></p>
 			<!--  -->
 			
               
@@ -164,10 +164,10 @@
                   new Chart(document.querySelector('#barChart'), {
                     type: 'bar',
                     data: {
-                      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-                      datasets: [{
-                        label: 'Attd Chart',
-                        data: [9, 9, 12, 6, 9],
+                      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],		//x축
+                      datasets: [{		//데이터
+                        label: 'Attd Chart',	//차트 제목
+                        data: [9, 9, 12, 6, 9],		//x축에 대응하는 값
                         backgroundColor: [
                           'rgba(255, 99, 132, 0.2)',
                           'rgba(255, 159, 64, 0.2)',

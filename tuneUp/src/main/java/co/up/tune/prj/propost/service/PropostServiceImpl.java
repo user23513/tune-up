@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.prj.propost.mapper.PropostMapper;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
@@ -97,7 +98,8 @@ public class PropostServiceImpl implements PropostService {
 		// TODO Auto-generated method stub
 		return 0;
 	}
- 
+	
+	 
 	//파일
 //	@Override
 //	public FilesVO filesSelect(FilesVO vo) {

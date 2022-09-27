@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="co.up.tune.file.prj.mapper.ProPostFileMapper">
-
-	<insert id="fileUpload" parameterType="co.up.tune.prj.vo.FilesVO">
-	INSERT INTO FILES
-	VALUES(PNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, #{fCat}, #{pNm})
-	</insert>
-</mapper>

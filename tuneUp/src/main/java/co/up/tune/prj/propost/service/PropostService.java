@@ -3,6 +3,7 @@ package co.up.tune.prj.propost.service;
 import java.util.List;
 
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
 
@@ -23,6 +24,8 @@ public interface PropostService {
 	FilesVO filesSelect(FilesVO fvo); //파일 단건
 	int filesInsert(FilesVO fvo); //파일등록
 	int filesDelete(FilesVO fvo); //파일삭제
+	
+ 
 	
 //	FilesVO filesSelect(FilesVO vo); //파일 단건
 //	int filesInsert(FilesVO vo); //파일등록

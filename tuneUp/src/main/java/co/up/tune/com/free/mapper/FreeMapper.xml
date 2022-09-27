@@ -25,7 +25,7 @@
 
 	<insert id="freeInsert" parameterType="co.up.tune.com.vo.CommunityVO">
 		INSERT INTO COMMUNITY
-		VALUES (PNO_SEQ.NEXTVAL, #{ttl}, #{wrtr}, #{cntn}, SYSDATE, #{fNm}, #{fPath}, 0, 'x', '102', #{empNo})
+		VALUES (PNO_SEQ.NEXTVAL, #{ttl}, #{wrtr}, SYSDATE, #{fNm}, #{fPath}, 0, 'x', '102', #{empNo}, #{cntn})
 	</insert>
 	
 	<update id="freeUpdate" parameterType="co.up.tune.com.vo.CommunityVO">

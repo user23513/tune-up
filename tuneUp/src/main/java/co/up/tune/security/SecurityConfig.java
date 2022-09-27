@@ -82,6 +82,7 @@ public class SecurityConfig {
 	/*
 	 * PasswordEncoder를 Bean으로 등록
 	 */
+<
 	/*
 	 * @Bean public BCryptPasswordEncoder bCryptPasswordEncoder() { return new
 	 * BCryptPasswordEncoder(); }
@@ -91,4 +92,5 @@ public class SecurityConfig {
 		 * passwordEncoder) { this.password = passwordEncoder.encode((CharSequence)
 		 * this.password); return this; }
 		 */
+
 }

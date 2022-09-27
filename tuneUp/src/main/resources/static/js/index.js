@@ -12,7 +12,7 @@ $(document).ready(function(){
 	
 	//서버가 끊겼을 때 호출
 	socket.onclose = function(){
-		setTimeout(function(){connectWs();}, 500);
+		//setTimeout(function(){connectWs();}, 500);
 	}
 	
 	//게시글 등록 버튼 눌렀을 때 소켓에 메세지 보내는 함수
@@ -28,7 +28,7 @@ $(document).ready(function(){
     });
     
 	//댓글 등록 버튼 클릭 시
-	$("#rBtn").on("click", e => {
+	$(".socket").on("click", e => {
 		let postNo = $("#postNo").val(); //게시글 번호
 		let receiverNm = $("#receiverNm").text(); //게시글 쓴 사원이름
 		let receiverNo = $("#receiverNo").val(); //게시글 쓴 사원번호
@@ -69,15 +69,16 @@ $(document).ready(function(){
 	})
 })
 
+//웹소켓 연결 함수
 function connectWs(){
-	sock = new SockJS("http://192.168.219.181:80/ws/alarm");
+	sock = new SockJS("http://192.168.0.19:80/ws/alarm"); //다른곳에서도 사용하려고 내 ip주소 적어놓음
 	socket = sock;
 	
 	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)
-	sock.onopen = function(){}
+	sock.onopen = function(){console.log("connect!")}
 };
 
-//toast생성 및 추가
+//toast생성 및 추가 (웹소켓으로 보낸 메세지 받는 함수)
 function onMessage(msg){
 	var data = msg.data;
 	

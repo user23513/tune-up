@@ -18,6 +18,7 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	public List<AprvVO> aprvListAll() {
 		return ad.aprvListAll();
 	}
+	
 
 	@Override
 	public AprvVO aprvSelect(AprvVO vo) {
@@ -34,21 +35,8 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 		return ad.aprvAdminUp(vo);
 	}
 
-	@Override  /////참조 수정 반복
-	public int aprvAdminReferUp(List<ReferVO> list) {
-		int cnt = 0;
-		for (ReferVO vo : list) {
-			ad.aprvAdminReferUp(vo);
-			cnt++;
-		};
 	
-		if(cnt == list.size()) {
-			return cnt;
-		} else {
-			return 0;
-		}
-		
-	}
+	
 
 	@Override
 	public List<FormVO> aprvFormAll() {

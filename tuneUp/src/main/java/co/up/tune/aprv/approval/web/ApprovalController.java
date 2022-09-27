@@ -35,7 +35,7 @@ public class ApprovalController {
 		
 	
 		PageHelper.startPage(pageNum, pageSize);
-		model.addAttribute("pageInfo", PageInfo.of(ap.approvalList(empNo)));
+		model.addAttribute("pageInfo", PageInfo.of(ap.approvalList(empNo, "전체")));
 		
 		
 		// 공통코드

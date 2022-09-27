@@ -2,6 +2,7 @@ package co.up.tune.aprv.approval.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 	
 	
 	@Override
-	public List<AprvVO> approvalList(String aprvr) {
+	public List<AprvVO> approvalList(String aprvr, String aprvSt) {
 	
-		return map.approvalList(aprvr);
+		return map.approvalList(aprvr, aprvSt);
 	}
 
 	
@@ -38,11 +39,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public int aprvStUp(AprvVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	public TrustVO trustCheck(TrustVO vo) {
+		return vo;
+	};
+	
+	
 	@Override
 	public int trustIn(TrustVO vo) {
 		// TODO Auto-generated method stub

@@ -19,7 +19,7 @@ public class FileService {
 	@Value("${file.dir}")
 	private String fileDir;
 	
-	public List<FilesVO> fileUpload( @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
+	public List<FilesVO> fileUpload( @RequestParam("file") MultipartFile[] files, String folder) throws IllegalStateException, IOException {
 		List<FilesVO> list = new ArrayList<FilesVO>();
 		
 		for(MultipartFile file:files) {
@@ -34,7 +34,7 @@ public class FileService {
 			String extension = origName.substring(origName.lastIndexOf("."));
 			
 			//uuid와 확장자 결함
-			String saveName = uuid + extension;
+			String saveName = folder + File.separator + uuid + extension;
 			
 			//파일을 불러올 때 사용할 파일 경로
 			String savePath = fileDir + File.separator + saveName;
@@ -42,7 +42,7 @@ public class FileService {
 			//파일 vo
 			list.add(vo);
 			vo.setFNm(origName);
-			vo.setFPath(savePath);
+			vo.setFPath(saveName);
 			
 			//실제 로컬에 uuid를 파일명으로 저장
 			file.transferTo(new File(savePath));

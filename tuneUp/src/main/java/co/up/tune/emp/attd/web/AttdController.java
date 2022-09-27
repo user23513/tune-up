@@ -2,6 +2,8 @@ package co.up.tune.emp.attd.web;
 
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import co.up.tune.emp.attd.service.AttdService;
 import co.up.tune.emp.attdUp.service.AttdUpService;
@@ -70,8 +74,32 @@ public class AttdController {
 		return "emp/attd/myAttdList";
 	}
 	
+	
+	/* public String workChart() {
+		List<AttdVO> logList = 
+
+		Gson gson = new Gson();
+		JsonArray jArray = new JsonArray();
+				
+		Iterator<LogVO> it = logNameList.iterator();
+		while(it.hasNext()) {
+			LogVO curVO = it.next();
+			JsonObject object = new JsonObject();
+			String userid = curVO.getLog_userid();
+			int cnt = curVO.getCnt();
+			
+		    object.addProperty("ID", userid);
+			object.addProperty("Count", cnt);
+			jArray.add(object);
+		}
+				
+		String json = gson.toJson(jArray);
+		model.addAttribute("json", json);
 		
+		return null;
 		
+	} */
+	
 	// ===================================
 	
 	

@@ -142,4 +142,10 @@ public class AttdServiceImpl implements AttdService{
 		return 0;
 	}
 
+	@Override
+	public List<AttdVO> wktmChart(AttdVO vo) {
+		// TODO Auto-generated method stub
+		return dao.wktmChart(vo);
+	}
+
 }

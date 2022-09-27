@@ -25,7 +25,7 @@ $(document).ready(function() {
 	$("#deletePic").on("click",e=>{
 	   let pic = '[[${e.pic}]]';
  		   if(pic !='assets/img/default_profile.png'){
-	    	  	//토큰
+/* 	    	  	//토큰
  				var token = $("meta[name='_csrf']").attr("content");
 				var header = $("meta[name='_csrf_header']").attr("content");
 				
@@ -45,7 +45,7 @@ $(document).ready(function() {
 						console.log(res)
 						e.target.closest('td').previousElementSibling.innerText = res;
 					}
-				})
+				}) */
 	   		}else{
 	   			alert("등록된 이미지가 없습니다.")
 	   		}
@@ -61,10 +61,10 @@ $(document).ready(function() {
 	  <div class="card">
 	   <div class="card-body pt-3" >
 	     <div class="tab-content pt-2">
+	     <div class="tab-pane fade show active profile-overview" id="profile-overview">
 	     
 <!-- Profile Edit Form -->
             <form id="frm" action="profileUpdate" method="post">
-              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
               <div class="row mb-3">
                 <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사진</label>
                 <div class="col-md-8 col-lg-9">
@@ -87,16 +87,14 @@ $(document).ready(function() {
               </div>
 
               <div class="row mb-3">
-                <label for="id" class="col-md-4 col-lg-3 col-form-label">ID</label>
-                <div class="col-md-8 col-lg-9">
+                <div class="col-lg-3 col-md-4 label">ID</div>
+                <div class="col-md-4 col-lg-3">
                   <input type="text" id="id" name="id" class="form-control" th:value="${e.id}">
                 </div>
-              </div>
 
-              <div class="row mb-3">
                 <label for="password" class="col-md-4 col-lg-3 col-form-label">비밀번호</label>
                 <!-- 비밀번호 버튼 클릭시 새 창으로 비밀번호 수정 폼 -->
-                <div class="col-md-8 col-lg-9">
+                <div class="col-md-4 col-lg-3">
                   <input type="text" id="pw" name="pw" class="form-control" value="">
                 </div>
               </div>
@@ -142,14 +140,12 @@ $(document).ready(function() {
               <br> <hr> <br>
               <div class="row mb-3">
                 <label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
-                <div class="col-md-8 col-lg-9">
+                <div class="col-md-4 col-lg-3">
                   <input name="dept" type="text" class="form-control" id="dept" th:value="${e.dept}" disabled>
                 </div>
-              </div>
-              
-              <div class="row mb-3">
+
                 <label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
-                <div class="col-md-8 col-lg-9">
+                <div class="col-md-4 col-lg-3">
                   <input name="position" type="email" class="form-control" id="position" th:value="${e.position}"disabled>
                 </div>
               </div>
@@ -180,6 +176,7 @@ $(document).ready(function() {
                 <button id="save" name="save" type="button" class="btn btn-primary">저장</button>
               </div>
             </form><!-- End Profile Edit Form -->
+	     </div>
 	     </div>
 	   </div>
 	 </div>

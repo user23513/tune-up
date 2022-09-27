@@ -1,5 +1,9 @@
 package co.up.tune.emp.mypage.web;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.Authentication;
@@ -9,15 +13,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.up.tune.emp.mypage.service.MypageService;
 import co.up.tune.emp.vo.EmpVO;
+import co.up.tune.file.service.FileService;
+import co.up.tune.prj.vo.FilesVO;
 
 @Controller
 public class MyPageContoller {
 	@Autowired
 	MypageService dao;
+	
+	@Autowired
+	FileService fdao;
 
 	// 비밀번호 인증
 	@RequestMapping("/pwCheck")
@@ -30,7 +40,7 @@ public class MyPageContoller {
 		return "emp/myPage/pwCheck";
 	}
 	
-	// 내 프로필
+	// 내 프로필 클릭 시
     @RequestMapping("/profile")
     public String profile(Authentication auth, @RequestParam("pw") String pw, RedirectAttributes rttr,
     		EmpVO vo, Model model) {
@@ -77,14 +87,21 @@ public class MyPageContoller {
 	// 프로필 수정 폼 이동
 	@RequestMapping("/profileForm")
 	public String profileForm(EmpVO vo, Model model) {
-		EmpVO emp = dao.empSelectOne(vo);
 		model.addAttribute("e", dao.empSelectOne(vo));
 		return "emp/myPage/profileForm";
 	}
 
 	// 프로필 업데이트
 	@RequestMapping("/profileUpdate")
-	public String profileUpdate(EmpVO vo, Model model) {
+	public String profileUpdate(EmpVO vo, Model model,@RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
+		//profile 사진
+		List<FilesVO> list = new ArrayList<>();
+		String folder = "profile";
+		if(files.length != 0) {
+			list = fdao.fileUpload(files, folder);
+			vo.setPic(list.get(0).getFPath());
+		}
+		
 		EmpVO emp = dao.empSelectOne(vo);
 		int cnt = 0;
 		if (dao.profileUpdate(vo) != 0) {

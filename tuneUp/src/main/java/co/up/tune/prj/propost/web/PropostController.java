@@ -37,8 +37,6 @@ public class PropostController {
 	  private String fileDir;
 	 
 	
-	@Autowired
-	private ServletContext servletContext;
 
 //	@Autowired	
 //	//내 프로젝트 목록

@@ -23,6 +23,7 @@ public interface AttdService {
 	int startAttd(AttdVO vo);	//오늘 출근 시작
 	int endAttd(AttdVO vo);	//오늘 퇴근
 	
+	List<AttdVO> wktmChart(AttdVO vo);	// 워크타임 차트
 	
 	//엑셀
 	void excel(AttdVO attdVO, HttpServletResponse res) throws Exception;

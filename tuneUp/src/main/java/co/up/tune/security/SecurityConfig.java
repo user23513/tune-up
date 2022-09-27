@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,6 +18,8 @@ import co.up.tune.emp.service.UsersService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+	private Object password;
 
 	@Bean
 	public UsersService usersService() {
@@ -76,4 +79,17 @@ public class SecurityConfig {
 		return (web) -> web.ignoring().antMatchers("/assets/**", "/fileUpload/**", "/forms/**", "/fullcalendar-5.11.3/**", "/js/**");
 	}
 	
+	/*
+	 * PasswordEncoder를 Bean으로 등록
+	 */
+	 @Bean
+	  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+	    return new BCryptPasswordEncoder();
+	  }
+	 
+	 //비밀번호를 암호화 (맞는지 모르겠..)
+	 public SecurityConfig hashPassword(PasswordEncoder passwordEncoder) {
+		    this.password = passwordEncoder.encode((CharSequence) this.password);
+		    return this;
+		  }
 }

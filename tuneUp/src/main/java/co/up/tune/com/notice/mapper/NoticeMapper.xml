@@ -24,7 +24,7 @@
 	
 	<insert id="noticeInsert" parameterType="co.up.tune.com.vo.CommunityVO">
 		INSERT INTO COMMUNITY
-		VALUES (PNO_SEQ.NEXTVAL, #{ttl}, '관리자', #{cntn}, SYSDATE, #{fNm}, #{fPath}, 0, #{emerg}, '101', '사번')
+		VALUES (PNO_SEQ.NEXTVAL, #{ttl}, #{wrtr}, SYSDATE, #{fNm}, #{fPath}, 0, #{emerg}, '101', #{empNo}, #{cntn})
 	</insert>
 	
 	<update id="noticeUpdate" parameterType="co.up.tune.com.vo.CommunityVO">

@@ -15,18 +15,6 @@ $(document).ready(function(){
 		//setTimeout(function(){connectWs();}, 500);
 	}
 	
-	//게시글 등록 버튼 눌렀을 때 소켓에 메세지 보내는 함수
-	$("#noticeBtn").on("click", function(){
-        let content = tinymce.activeEditor.getContent();
-        let title = $("#ttl").val();
-        $("#cntn").val(content);
-        $("#frm").submit();
-        
-        if($('#emerg').is(':checked')){
-        	socket.send('notice,'+title);
-        }
-    });
-    
 	//댓글 등록 버튼 클릭 시
 	$(".socket").on("click", e => {
 		let postNo = $("#postNo").val(); //게시글 번호
@@ -71,7 +59,7 @@ $(document).ready(function(){
 
 //웹소켓 연결 함수
 function connectWs(){
-	sock = new SockJS("http://192.168.0.19:80/ws/alarm"); //다른곳에서도 사용하려고 내 ip주소 적어놓음
+	sock = new SockJS("http://localhost:80/ws/alarm"); //다른곳에서도 사용하려고 내 ip주소 적어놓음
 	socket = sock;
 	
 	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)

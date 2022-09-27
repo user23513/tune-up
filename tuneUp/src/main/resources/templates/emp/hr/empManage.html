@@ -21,7 +21,7 @@
 	$("#tb").on("click", "tr", e=>{
         let tg = e.target.closest('tr').children[1].innerText;
         console.log(tg);
-        $("#no").val(tg);
+        $("#empNo").val(tg);
         console.log($("#empNo").val());
         $("#frm").submit();
     })
@@ -213,7 +213,7 @@
 	  <div>
 		<form id="frm" method="post" action="empUpdateForm">
 			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-			<input type="text" id="no" name="empNo">
+			<input type="text" id="empNo" name="empNo">
 		</form>
 	  </div>
 	</main>

@@ -34,25 +34,6 @@ public class NoticeAjaxController {
 		return dao.ganttList(vo);
 	}
 	
-	@Value("${file.dir}")
-	String dir;
-	
-	//a태그이면 파일 다운로드, img태그이면 파일보여주기
-	@GetMapping("/attach")
-	public ResponseEntity<Object> download(@RequestParam("path")String path) {
-		try {
-			Path filePath = Paths.get(dir,path);
-			Resource resource = new InputStreamResource(Files.newInputStream(filePath)); // 파일 resource 얻기
-			
-			File file = new File(dir,path);
-			
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
-			
-			return new ResponseEntity<Object>(resource ,headers, HttpStatus.OK);
-		} catch(Exception e) {
-			return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
-		}
-	}
+
 
 }

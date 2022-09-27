@@ -68,7 +68,7 @@ public class NoitceController {
 		}
 		
 		//긴급공지 체크되었을때 "1", 안되었을때 "0"
-		if(vo.getEmerg()==null) {
+		if(vo.getEmerg() == null) {
 			vo.setEmerg("0");
 		} else {
 			vo.setEmerg("1");

@@ -5,7 +5,7 @@
 	<select id="noticeList" resultType="co.up.tune.com.vo.CommunityVO">
 		SELECT * 
     	FROM COMMUNITY
-    	WHERE TYP=101
+    	WHERE TYP='101'
     	ORDER BY EMERG DESC, POST_NO DESC
 	</select>
 	

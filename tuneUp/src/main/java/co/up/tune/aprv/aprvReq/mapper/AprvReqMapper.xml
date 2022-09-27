@@ -101,7 +101,7 @@
 
 
 	<insert id="formIn" parameterType="co.up.tune.aprv.vo.FormVO">
-		<selectKey keyProperty="aprvNo" order="BEFORE"
+		<selectKey keyProperty="formNo" order="BEFORE"
 			resultType="int">
 			SELECT
 			CASE WHEN MAX(FORM_NO) IS NULL THEN 1

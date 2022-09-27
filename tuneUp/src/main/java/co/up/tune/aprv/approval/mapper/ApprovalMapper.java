@@ -13,7 +13,6 @@ public interface ApprovalMapper {
 	// 문서 조회
 	List<AprvVO> approvalList(@Param("aprvr") String aprvr);
 
-
 	// 단건조회
 	AprvVO approvalSelect(AprvVO vo);
 

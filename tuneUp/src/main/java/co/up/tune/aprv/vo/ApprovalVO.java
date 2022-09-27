@@ -11,7 +11,7 @@ public class ApprovalVO { //결재자
 	
 	String aprvr;//결재자 사번
 	int aprvNo; //결재번호
-	Timestamp appvDttm; //결재일시
+	Timestamp aprvDttm; //결재일시
 	String sign; //서명파일
 	String checked;//확인여부
 	int aprvSeq; //결재순서

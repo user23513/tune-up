@@ -15,9 +15,7 @@ public class AprvVO { //전자결재
 	Timestamp modDttm; //수정일시
 	String cntn; //결재내용
 	String atchNo; //첨부파일번호
-	String temp; //임시저장
 	String reqSt; //신청상태
-	int formNo; //서식번호
 	String aprvAuth; //공개여부
 	String aprvEtc; //상신의견
 	Timestamp deadline; //마감일

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-	@SpringBootApplication
+@SpringBootApplication
 @MapperScan(basePackages = "co.up.tune.**.mapper")
 @Controller
 public class TuneUpApplication {  

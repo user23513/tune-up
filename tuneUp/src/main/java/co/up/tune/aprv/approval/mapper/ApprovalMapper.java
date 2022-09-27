@@ -20,7 +20,10 @@ public interface ApprovalMapper {
 	// 결재 승인
 	int approvalSign(ApprovalVO vo);
 
-	// 위임자 조회
+	// 위임자 목록
+	List<TrustVO> trustList(TrustVO vo);
+	
+	// 위임자 단건
 	TrustVO trustCheck(TrustVO vo);
 	
 	// 위임자 등록

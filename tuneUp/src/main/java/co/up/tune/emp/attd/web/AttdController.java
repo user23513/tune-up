@@ -2,7 +2,6 @@ package co.up.tune.emp.attd.web;
 
 
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,12 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 
 import co.up.tune.emp.attd.service.AttdService;
 import co.up.tune.emp.attdUp.service.AttdUpService;
+import co.up.tune.emp.hr.service.HrService;
 import co.up.tune.emp.vo.AttdUpVO;
 import co.up.tune.emp.vo.AttdVO;
+import co.up.tune.emp.vo.EmpVO;
 @Controller
 public class AttdController {
 	@Autowired
@@ -30,18 +30,40 @@ public class AttdController {
 	@Autowired
 	AttdUpService udao;
 	
+	@Autowired
+	HrService sdao;
+	
 	// 전체사원 근태 리스트 - 관리자
 	@GetMapping("/attdList")
 	public String attdList(Model model) {
 		AttdUpVO vo = new AttdUpVO();
+		AttdVO dvo = new AttdVO();
 		model.addAttribute("attdList",dao.attdList());
 		model.addAttribute("attdGoodList",dao.attdGoodList());
 		model.addAttribute("attdBadList",dao.attdBadList());
 		model.addAttribute("attdUpList", udao.attdUpList());
 		model.addAttribute("attdUpSelect", udao.attdUpSelect(vo));
 		model.addAttribute("attdUpDel", udao.attdUpDel(vo));
+		model.addAttribute("checkGood", dao.checkGood(dvo));
+		model.addAttribute("checkBad", dao.checkBad(dvo));
+		model.addAttribute("checkModi", udao.checkModi(vo));
 		return "emp/attd/attdList";
 	}
+	
+	@PostMapping("/checkGood")
+	public String checkGood(AttdVO vo, Model model) throws Exception {
+		int count = dao.checkGood(vo);
+		model.addAttribute("checkGood", count);
+		return "emp/attd/attdList";
+	}
+	
+	@PostMapping("/checkBad")
+	public String checkBad(AttdVO vo, Model model) throws Exception {
+		int count = dao.checkBad(vo);
+		model.addAttribute("checkBad", count);
+		return "emp/attd/attdList";
+	}
+	
 	
 	
 	// 전체사원 근태 정상 리스트 - 관리자
@@ -62,16 +84,26 @@ public class AttdController {
 	
 	// ===================================
 		
-	@GetMapping("/attdToday")
+	@RequestMapping("/attdToday")
 	public String myAttdList(){
 		//vo.setWktm(vo.getAtdcDttm()-vo.getAfwkDttm());
 		return "emp/attd/myAttdList";
 		
 	}
 	
-	@GetMapping("/afwkToday")
-	public String afwkToday() {
-		return "emp/attd/myAttdList";
+	@PostMapping("/startAttd")
+	public String startAttd(AttdVO vo) {
+
+		dao.startAttd(vo);
+		System.out.println(vo);
+		return "redirect:/attdToday";
+		
+	}
+	
+	@PostMapping("/endAttd")
+	public String endAttd(AttdVO vo) {
+		dao.endAttd(vo);
+		return "redirect:/attdToday";
 	}
 	
 	
@@ -110,6 +142,4 @@ public class AttdController {
 	public void excel(@ModelAttribute AttdVO a,HttpServletResponse res, HttpServletRequest req) throws Exception{
 		dao.excel(a, res);
 	}
-	
-	
 }

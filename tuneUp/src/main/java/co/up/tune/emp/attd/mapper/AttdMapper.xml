@@ -5,7 +5,25 @@
 	<select id="attdList" resultType="co.up.tune.emp.vo.AttdVO">
     	SELECT * 
     	FROM ATTD
+    	ORDER BY ATDC_DT DESC
 	</select>	
+	
+	<select id="checkGood" resultType="Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM ATTD
+		WHERE ST= '601' AND ATDC_DT <= SYSDATE
+		 ]]>
+	</select>
+	
+	<select id="checkBad" resultType="Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM ATTD
+		WHERE ST= '602' AND ATDC_DT <= SYSDATE
+		 ]]>
+	</select>
+	
 	
 	  <select id="attdGoodList" resultType="co.up.tune.emp.vo.AttdVO">
     	SELECT * 
@@ -29,25 +47,22 @@
     	ORDER BY ATTD_UP DESC
 	</select>	
 	
-	<insert id="attdToday" parameterType="co.up.tune.emp.vo.AttdVO">
-		INSERT INTO ATTD
-		VALUES (sysdate,#{empNo},#{nm},#{dept},#{position},sysdate,sysdate,sysdate,sysdate,'601')
+	<insert id="startAttd" parameterType="co.up.tune.emp.vo.AttdVO">
+		INSERT INTO ATTD (atdc_dt,emp_no, nm, dept, position,atdc_dttm)
+		VALUES (sysdate, #{empNo}, #{nm}, #{dept}, #{position},systimestamp)
 	</insert>
 	
-	<insert id="afwkToday" parameterType="co.up.tune.emp.vo.AttdVO">
-		<selectKey keyProperty="wktm,ovtm" order="BEFORE" resultType="map">
-				<![CDATA[
-            SELECT 
-				CASE WHEN ATDC_DTTM < AFWK_DTTM 
-				THEN ATDC_DTTM-AFWK_DTTM END 
-				FROM ATTD
-       			 ]]>
-		</selectKey>
+	<!-- <update id="endAttd" parameterType="co.up.tune.emp.vo.AttdVO">
+		update ATTD
+		<set>
 		
-		INSERT INTO ATTD
-		VALUES (sysdate,#{empNo},#{nm},#{dept},#{position},#{wktm},sysdate,sysdate,sysdate,'601')
-	</insert>
+		</set>
+		WHERE EMP_NO = #{empNo}
+	</update> -->
 	
-	
-	
+	<!-- <update id="endAttd" parameterType="co.up.tune.emp.vo.AttdVO">
+	<![CDATA[
+		UPDATE ATTD SET () 
+		 ]]>
+	</update> -->	 
 </mapper>

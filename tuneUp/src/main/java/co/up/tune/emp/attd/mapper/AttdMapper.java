@@ -8,18 +8,19 @@ import co.up.tune.emp.vo.AttdVO;
 
 
 public interface AttdMapper {
-	List<AttdVO> attdList();	// 전체사원 근태리스트
 	List<AttdVO> attdListSearch(@Param("key") String key, @Param("val") String val); // 출근날짜 검색
 	
-	List<AttdVO> attdGoodList();	// 전체사원 근태리스트
-	List<AttdVO> attdBadList();	// 전체사원 근태리스트
+	List<AttdVO> attdList();	// 전체사원 근태리스트
+	List<AttdVO> attdGoodList();	// 전체사원 정상 근태리스트
+	List<AttdVO> attdBadList();	// 전체사원 이상 근태리스트
 	List<AttdVO> myAttdList(AttdVO vo);	//나의 근태
 	
 	int startAttd(AttdVO vo);	//오늘 출근 시작
 	int endAttd(AttdVO vo);	//오늘 퇴근
 	
 	List<AttdVO> wktmChart(AttdVO vo);	// 워크타임 차트
+
+	int checkGood(AttdVO vo);	//정상출근 몇명
+	int checkBad(AttdVO vo); 	//이상출근 몇명
 	
-//	AttdVO attdGood(AttdVO vo); //정상출근
-//	AttdVO attdBad(AttdVO vo); //근태이상
 }

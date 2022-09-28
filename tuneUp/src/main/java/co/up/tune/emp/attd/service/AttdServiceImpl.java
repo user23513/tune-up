@@ -132,20 +132,32 @@ public class AttdServiceImpl implements AttdService{
 
 	@Override
 	public int startAttd(AttdVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		// 출근 시간 저장
+		return dao.startAttd(vo);
 	}
 
 	@Override
 	public int endAttd(AttdVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		// 퇴근 시간 저장
+		return dao.endAttd(vo);
 	}
 
 	@Override
 	public List<AttdVO> wktmChart(AttdVO vo) {
-		// TODO Auto-generated method stub
+		// 워크타임 차트
 		return dao.wktmChart(vo);
+	}
+
+	@Override
+	public int checkGood(AttdVO vo) {
+		// 정상출근 몇명
+		return dao.checkGood(vo);
+	}
+
+	@Override
+	public int checkBad(AttdVO vo) {
+		// 이상출근 몇명
+		return dao.checkBad(vo);
 	}
 
 }

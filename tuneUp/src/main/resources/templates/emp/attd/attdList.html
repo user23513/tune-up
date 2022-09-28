@@ -375,6 +375,7 @@
 										<thead>
 											<tr>
 												<th>신청번호</th>
+												<th>출근 날짜</th>
 												<th>사번</th>
 												<th>이름</th>
 												<th>출근 시간</th>
@@ -390,6 +391,7 @@
 												<tr th:each="aup : ${attdUpList}">
 												<td class="dt-body-center"><span
 													th:text="${aup.attdupNo}"></span></td>
+												<td class="dt-body-center"><span th:text="${aup.atdcDt}"></span></td>
 												<td class="dt-body-center"><span th:text="${aup.empNo}"></span></td>
 												<td class="dt-body-center"><span th:text="${aup.nm}"></span></td>
 												<td class="dt-body-center"><span th:text="${#dates.format(aup.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
@@ -404,7 +406,7 @@
 													 
 												<form id="okFrm" action="attdUpOk" method="post">
 												<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-												<input type="hidden" id="attdupNo" name="attdupNo" th:value="${aup.attdupNo}"> 
+												<!-- <input type="hidden" id="attdupNo" name="attdupNo" th:value="${aup.attdupNo}">  -->
 												<input type="hidden" id="st" name="st" th:value="${aup.st}">
 												<input type="hidden" id="atdcDttm" name="atdcDttm" th:value="|${#dates.format(aup.atdcDttm, 'yyyy-MM-dd')}T${#dates.format(aup.atdcDttm, 'hh:mm:ss')}|">
 												<input type="hidden" id="afwkDttm" name="afwkDttm" th:value="|${#dates.format(aup.afwkDttm, 'yyyy-MM-dd')}T${#dates.format(aup.afwkDttm, 'hh:mm:ss')}|"> 

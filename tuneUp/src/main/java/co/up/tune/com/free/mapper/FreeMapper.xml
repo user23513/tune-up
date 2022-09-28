@@ -4,10 +4,11 @@
 
 	<!-- ====== 게시글 ====== -->
 	
-	<select id="freeList" resultType="co.up.tune.com.vo.CommunityVO" parameterType="co.up.tune.com.free.web.Paging">
-    	SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
-         	 SELECT * FROM COMMUNITY WHERE TYP='102' ORDER BY POST_NO DESC
-		) A ) WHERE RN BETWEEN #{startNum} AND #{endNum} ORDER BY RN
+	<select id="freeList" resultType="co.up.tune.com.vo.CommunityVO">
+		SELECT *
+		FROM COMMUNITY
+		WHERE TYP='102'
+		ORDER BY POST_NO DESC
 	</select>
 	
 	<select id="freeSelect" resultType="co.up.tune.com.vo.CommunityVO" parameterType="co.up.tune.com.vo.CommunityVO">

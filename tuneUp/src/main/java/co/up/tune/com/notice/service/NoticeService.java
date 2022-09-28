@@ -2,12 +2,14 @@ package co.up.tune.com.notice.service;
 
 import java.util.List;
 
+import com.github.pagehelper.Page;
+
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.prj.vo.BusinessVO;
 
 public interface NoticeService {
 	
-	List<CommunityVO> noticeList(); //공지사항 전체조회
+	Page<CommunityVO> noticeList(int pageNo); //공지사항 전체조회
 	CommunityVO noticeSelect(CommunityVO vo); //공지사항 상세조회
 	int noticeInsert(CommunityVO vo); //공지사항 입력
 	int noticeUpdate(CommunityVO vo); //공지사항 수정

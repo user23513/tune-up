@@ -49,7 +49,6 @@ $(function(){
 <style>
 body {
 	color: #566787;
-	background: #f5f5f5;
 	font-family: 'Varela Round', sans-serif;
 	font-size: 15px;
 }
@@ -186,7 +185,7 @@ table.table .avatar {
 							</tr>
 						</thead>
 						<tbody id="tb">
-							<tr th:each="f:${freeList}" th:attr="data-no=${f.postNo}">
+							<tr th:each="f:${fList.getList()}" th:attr="data-no=${f.postNo}">
 								<td><i class="ri-file-text-line"></i></td>
 								<td>[[${f.ttl}]]</td>
 								<td>[[${f.wrtr}]]</td>
@@ -196,22 +195,27 @@ table.table .avatar {
 						</tbody>
 					</table>
 					<a id="write" class="btn" href="freeInsertForm">글쓰기</a>
-					
-					<!-- Disabled and active states -->
-		            <nav id="pagenationNav">
-		                <ul class="pagination" style="float: none;"> 
-		                  <li class="page-item">
-		                    <a class="page-link" href="freeList" tabindex="-1" aria-disabled="true">Previous</a>
-		                  </li>
-		                  <li id="li" class="page-item" th:each="num : ${#numbers.sequence(page.startPage,page.realEnd)}">
-		                  	<a id="pageNum" class="page-link" href="#" th:text="${num}"></a>
-		                  </li>
-		                  <li class="page-item">
-		                    <a class="page-link" href="#">Next</a>
-		                  </li>
-		                </ul>
-		            </nav>
-		            <!-- End Disabled and active states -->
+					<!-- Start 페이징 -->
+					<nav id="pagenationNav">
+					    <ul class="pagination" style="float: none;">
+					        <!-- getPrePage : 이전 페이지 -->
+					        <li class="page-item" th:classappend="${fList.getPrePage() == 0} ? 'disabled'">
+					            <!-- href: /page?pageNum=이전페이지&keyword=검색분류&search=검색어 -->
+					            <a class="page-link" th:href=@{/freeList(pageNum=${fList.getPrePage()})}>Previous</a>
+					        </li>
+					        <!-- getNavigateFirstPage() : 페이징의 처음 숫자 getNavigateLastPage : 페이징의 마지막 숫자를 이용해 페이징 숫자 출력 -->
+					        <!-- href : /page?pageNum=선택한 페이지&keyword=검색분류&search=검색어 -->
+					        <li class="page-item" th:each="page: ${#numbers.sequence(fList.getNavigateFirstPage(), fList.getNavigateLastPage())}" th:classappend="${page == fList.getPageNum()} ? 'active'">
+					            <a class="page-link" th:text="${page}" th:href=@{/freeList(pageNum=${page})}></a>
+					        </li>
+					        <!-- getPrePage : 다음 페이지 -->
+					        <li class="page-item" th:classappend="${fList.getNextPage() == 0} ? 'disabled'">
+					           <!--  href: /page?pageNum=다음페이지&keyword=검색분류&search=검색어 -->
+					            <a class="page-link" th:href=@{/freeList(pageNum=${fList.getNextPage()})}>Next</a>
+					        </li>
+					    </ul>
+					</nav>
+					<!-- End 페이징 -->
 				</div>
 			</div>
 		</div>

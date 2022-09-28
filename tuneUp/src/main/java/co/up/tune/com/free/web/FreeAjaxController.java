@@ -32,13 +32,12 @@ public class FreeAjaxController {
 	Paging paging; 
 	
 	//자유게시판 게시글 전체 리스트
-	@PostMapping("freeAjaxList")
-	public List<CommunityVO> freeList(Paging paging, Model model) { // 페이징 처리
-		if(paging.getPageNum() == null) {paging.setPageNum(1);}
-		paging = new Paging(paging.getPageNum());
-		List<CommunityVO> freeList = dao.freeList(paging);
-		return freeList;
-	}
+	/*
+	 * @PostMapping("freeAjaxList") public List<CommunityVO> freeList(Paging paging,
+	 * Model model) { // 페이징 처리 if(paging.getPageNum() == null)
+	 * {paging.setPageNum(1);} paging = new Paging(paging.getPageNum());
+	 * List<CommunityVO> freeList = dao.freeList(paging); return freeList; }
+	 */
 	
 	//=======댓글==========
 	//댓글 등록

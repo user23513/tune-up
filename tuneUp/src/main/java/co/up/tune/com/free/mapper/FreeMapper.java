@@ -4,16 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import co.up.tune.com.free.web.Paging;
+import com.github.pagehelper.Page;
+
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
-import co.up.tune.paging.vo.Criteria;
-import co.up.tune.paging.vo.pagingVO;
 
 public interface FreeMapper {
 	
 	//게시글
-	List<CommunityVO> freeList(Paging paging); //자유게시판 전체조회
+	Page<CommunityVO> freeList(); //자유게시판 전체조회
 	CommunityVO freeSelect(CommunityVO vo); //자유게시판 상세조회
 	int freeInsert(CommunityVO vo); //자유게시판 입력
 	int freeUpdate(CommunityVO vo); //자유게시판 수정

@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
 import co.up.tune.com.free.mapper.FreeMapper;
-import co.up.tune.com.free.web.Paging;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
 
@@ -18,9 +20,10 @@ public class FreeServiceImpl implements FreeService {
 
 	//[자유게시판 게시글]
 	@Override
-	public List<CommunityVO> freeList(Paging paging) {
-		// TODO Auto-generated method stub
-		return map.freeList(paging);
+	public Page<CommunityVO> freeList(int pageNo) {
+		//자유게시판 전체조회
+		PageHelper.startPage(pageNo, 10);
+		return map.freeList();
 	}
 
 	@Override

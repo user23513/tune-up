@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/signup")
 public class AccountController {
 	@Autowired
 	private RegisterMail rm;
@@ -19,7 +18,7 @@ public class AccountController {
 	public String mailConfirm(@RequestParam("email") String email) throws Exception {
 		String code = "";
 		try {
-	  code = rm.sendSimpleMessage(email);
+			code = rm.sendSimpleMessage(email);
 		}catch (Exception e ){
 			e.printStackTrace();
 		}

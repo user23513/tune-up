@@ -31,14 +31,13 @@
 		<set>
 			MOD_YN = 'Y',
 			DTTM = SYSTIMESTAMP
-			<if test="ttl != null">TTL=#{ttl},</if>
-			<if test="cntn != null">CNTN=#{cntn},</if>
-			<if test="atchNo != null">ATCH_NO=#{atchNo},</if>
-			<if test="aprvAuth != null">APRV_AUTH=#{aprvAuth},</if>
-			<if test="aprvEtc != null">APRV_ETC=#{aprvEtc},</if>
-			<if test="deadline != null">DEADLINE=#{deadline},</if>
-			<if test="impts != null">IMPTS=#{impts},</if>
-			<if test="reject != null">REJECT=#{reject},</if>
+			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
+			<if test="cntn != null and cntn != '' ">CNTN=#{cntn},</if>
+			<if test="atchNo != null and atchNo != '' ">ATCH_NO=#{atchNo},</if>
+			<if test="aprvAuth != null and aprvAuth != '' ">APRV_AUTH=#{aprvAuth},</if>
+			<if test="aprvEtc != null and aprvEtc != ''">APRV_ETC=#{aprvEtc},</if>
+			<if test="deadline != null and deadline != ''">DEADLINE=#{deadline},</if>
+			<if test="impts != null and impts != ''">IMPTS=#{impts}</if>
 		</set>
 		WHERE APRV_NO = #{aprvNo}
 	</update>
@@ -71,10 +70,10 @@
 		parameterType="co.up.tune.aprv.vo.FormVO">
 		UPDATE FORM
 		<set>
-			<if test="formNm != null">FORM_NM=#{formNm},</if>
-			<if test="formCntn != null">FORM_CNTN=#{formCntn},</if>
-			<if test="formCat != null">FORM_CAT=#{formCat},</if>
-			<if test="formAuth != null">FORM_AUTH=#{formAuth},</if>
+			<if test="formNm != null and formNm != ''">FORM_NM=#{formNm},</if>
+			<if test="formCntn != null and formCntn != ''">FORM_CNTN=#{formCntn},</if>
+			<if test="formCat != null and formCat != ''">FORM_CAT=#{formCat},</if>
+			<if test="formAuth != null and formAuth != ''">FORM_AUTH=#{formAuth}</if>
 		</set>
 		WHERE FORM_NO = #{formNo}
 	</update>

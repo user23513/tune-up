@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
 import co.up.tune.com.notice.mapper.NoticeMapper;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.prj.vo.BusinessVO;
@@ -16,8 +19,9 @@ public class NoticeServiceImpl implements NoticeService {
 	NoticeMapper map;
 	
 	@Override
-	public List<CommunityVO> noticeList() {
+	public Page<CommunityVO> noticeList(int pageNo) {
 		// 공지사항 전체조회
+		PageHelper.startPage(pageNo, 10);
 		return map.noticeList();
 	}
 	

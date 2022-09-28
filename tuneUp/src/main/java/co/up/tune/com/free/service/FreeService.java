@@ -2,14 +2,15 @@ package co.up.tune.com.free.service;
 
 import java.util.List;
 
-import co.up.tune.com.free.web.Paging;
+import com.github.pagehelper.Page;
+
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
 
 public interface FreeService {
 	
 	//게시글
-	List<CommunityVO> freeList(Paging pasing); //자유게시판 전체조회
+	Page<CommunityVO> freeList(int pageNo); //자유게시판 전체조회
 	CommunityVO freeSelect(CommunityVO vo); //자유게시판 상세조회
 	int freeInsert(CommunityVO vo); //자유게시판 입력
 	int freeUpdate(CommunityVO vo); //자유게시판 수정

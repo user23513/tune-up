@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageInfo;
+
 import co.up.tune.com.free.service.FreeService;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
@@ -27,11 +29,9 @@ public class FreeController {
 	
 	// 자유게시판 리스트로 이동
 	@GetMapping("freeList")
-	public String freeList(Paging paging, Model model) { // 페이징 처리
-		if(paging.getPageNum() == null) {paging.setPageNum(1);}
-		paging = new Paging(paging.getPageNum());
-		model.addAttribute("freeList", dao.freeList(paging));
-		model.addAttribute("page", new pagingVO(dao.getTotal(), paging));
+	public String freeList(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, Model model) { // 페이징 처리
+		PageInfo<CommunityVO> p = new PageInfo<>(dao.freeList(pageNum),10);
+		model.addAttribute("fList", p);
 		return "com/free/freeList";
 	}
 

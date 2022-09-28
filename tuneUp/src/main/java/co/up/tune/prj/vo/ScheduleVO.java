@@ -16,4 +16,6 @@ public class ScheduleVO {
 	 String cntn;	//일정내용
 	 int atchNo;	//첨부파일번호
 	 int prjNo;		//프로젝트번호
+	 String latitude; //지도 위도
+	 String longitude; //지도 경도
 }

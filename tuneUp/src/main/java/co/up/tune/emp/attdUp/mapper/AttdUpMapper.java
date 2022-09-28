@@ -3,6 +3,7 @@ package co.up.tune.emp.attdUp.mapper;
 import java.util.List;
 
 import co.up.tune.emp.vo.AttdUpVO;
+import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.prj.vo.PostVO;
 
 public interface AttdUpMapper {
@@ -14,6 +15,9 @@ public interface AttdUpMapper {
 	int attdUpInsert(AttdUpVO vo); // 근태 수정 신청 - 사원
 	int attdUpDel(AttdUpVO vo);
 	int attdUpOk(AttdUpVO vo);
+	
+	int checkModi(AttdUpVO vo);	//수정요청 몇명
+	
 	// 수정리스트 - 대기
 	// 수정리스트 - 완료
 	

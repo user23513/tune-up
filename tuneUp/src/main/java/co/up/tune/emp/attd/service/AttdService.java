@@ -25,6 +25,11 @@ public interface AttdService {
 	
 	List<AttdVO> wktmChart(AttdVO vo);	// 워크타임 차트
 	
+	
+	int checkGood(AttdVO vo);	//정상출근 몇명
+	int checkBad(AttdVO vo); 	//이상출근 몇명
+	
+	
 	//엑셀
 	void excel(AttdVO attdVO, HttpServletResponse res) throws Exception;
 	

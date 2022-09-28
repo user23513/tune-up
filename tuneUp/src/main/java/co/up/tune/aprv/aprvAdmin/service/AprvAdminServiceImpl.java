@@ -6,56 +6,52 @@ import org.springframework.stereotype.Service;
 import co.up.tune.aprv.aprvAdmin.mapper.AprvAdminMapper;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
-import co.up.tune.aprv.vo.ReferVO;
 
 @Service
 public class AprvAdminServiceImpl implements AprvAdminService {
 
 	@Autowired
-	AprvAdminMapper ad;
+	AprvAdminMapper map;
 
 	@Override
 	public List<AprvVO> aprvListAll() {
-		return ad.aprvListAll();
+		return map.aprvListAll();
 	}
 	
 
 	@Override
 	public AprvVO aprvSelect(AprvVO vo) {
-		return ad.aprvSelect(vo);
+		return map.aprvSelect(vo);
 	}
 
 	@Override
 	public int aprvAdminDel(AprvVO vo) {
-		return ad.aprvAdminDel(vo);
+		return map.aprvAdminDel(vo);
 	}
 
 	@Override
 	public int aprvAdminUp(AprvVO vo) {
-		return ad.aprvAdminUp(vo);
+		return map.aprvAdminUp(vo);
 	}
-
-	
-	
 
 	@Override
 	public List<FormVO> aprvFormAll() {
-		return ad.aprvFormAll();
+		return map.aprvFormAll();
 	}
 
 	@Override
 	public FormVO formSelect(FormVO vo) {
-		return ad.formSelect(vo);
+		return map.formSelect(vo);
 	}
 
 	@Override
 	public int formAdminDel(AprvVO vo) {
-		return ad.formAdminDel(vo);
+		return map.formAdminDel(vo);
 	}
 
 	@Override
 	public int formAdminUp(AprvVO vo) {
-		return ad.formAdminUp(vo);
+		return map.formAdminUp(vo);
 	}
 	
 	

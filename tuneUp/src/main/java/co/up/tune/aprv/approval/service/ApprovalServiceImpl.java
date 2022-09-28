@@ -25,44 +25,49 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	public AprvVO approvalSelect(AprvVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return map.approvalSelect(vo);
 	}
 
 	@Override
 	public int approvalSign(ApprovalVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return map.approvalSign(vo);
 	}
 
 	@Override
-	public List<TrustVO> trustList(TrustVO vo){
-		return null;
-	}
-	
-	
-	@Override
-	public TrustVO trustCheck(TrustVO vo) {
-		return vo;
+	public int aprvNext(ApprovalVO vo) {
+		return map.aprvNext(vo);
 	};
 	
 	
 	@Override
+	public List<TrustVO> trustList(TrustVO vo){
+		return map.trustList(vo);
+	}
+	
+	
+	@Override
+	public TrustVO trustSelect(TrustVO vo) {
+		return map.trustSelect(vo);
+	};
+	
+	
+	
+	
+	@Override
 	public int trustIn(TrustVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.trustIn(vo);
 	}
 
 	@Override
 	public int trustUp(TrustVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return map.trustUp(vo);
 	}
 
 	@Override
 	public int trustDel(TrustVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.trustDel(vo);
 	}
 	
 	

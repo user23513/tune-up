@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,11 +41,10 @@ public class MyPageContoller {
 		return "emp/myPage/pwCheck";
 	}
 	
-	// 내 프로필 클릭 시
-    @RequestMapping("/profile")
-    public String profile(Authentication auth, @RequestParam("pw") String pw, RedirectAttributes rttr,
-    		EmpVO vo, Model model) {
-    	EmpVO emp = dao.empSelectOne(vo);
+	//비밀번호 확인
+	@RequestMapping("/pwConfirm")
+	public String checkPw(Authentication auth, @RequestParam("pw") String pw, RedirectAttributes rttr, EmpVO vo, Model model) {
+		EmpVO emp = dao.empSelectOne(vo);
     	String DBpw = emp.getPw(); //DB의 비밀번호
     	
     	//비밀번호 암호화
@@ -53,36 +53,46 @@ public class MyPageContoller {
     	//비밀번호 일치 시
         if(ps.matches(pw, DBpw)) {
             System.out.println("일치");
-            
-         // 주소
-    		String addr = emp.getAddr();
-    		if (addr == null) {
-    			emp.setAddr("//");
-    		} else if (!addr.equals("//") && addr != null) {
-    			String arr[] = addr.split("/");
-    			String ad1 = arr[0];
-    			String ad2 = arr[1];
-    			String ad3 = arr[2];
-    			emp.setAd1(ad1);
-    			emp.setAd2(ad2);
-    			emp.setAd3(ad3);
-    		}
-    		
-    		model.addAttribute("e", emp);
     		return "emp/myPage/profile";
         }
         //불일치 시
         else {
             return "emp/myPage/alert";
-
         }
-    }
-    
+	}
+	
 	// 비밀번호 인증 실패
 	@RequestMapping("/alert")
 	public String alert(EmpVO vo, Model model) {
-		return "emp/myPage/pwCheck";
+		return "emp/myPage/pwConfirm";
 	}
+	
+	
+	//비밀번호 인증 성공, 내 프로필
+    @RequestMapping("/profile")
+    public String profile( EmpVO vo, Model model) {
+    	EmpVO emp = dao.empSelectOne(vo);
+        // 주소
+    	System.out.println("test");
+		String addr = emp.getAddr();
+		System.out.println("주소 : " +addr);
+		if (addr == null) {
+			emp.setAddr("//");
+		} else if (!addr.equals("//") && addr != null) {
+			String arr[] = addr.split("/");
+			String ad1 = arr[0];
+			String ad2 = arr[1];
+			String ad3 = arr[2];
+			emp.setAd1(ad1);
+			emp.setAd2(ad2);
+			emp.setAd3(ad3);
+		}
+		
+		model.addAttribute("e", emp);
+		return "emp/myPage/profile";
+    }
+    
+
 	    
 	// 프로필 수정 폼 이동
 	@RequestMapping("/profileForm")
@@ -91,22 +101,24 @@ public class MyPageContoller {
 		return "emp/myPage/profileForm";
 	}
 
-	// 프로필 업데이트
+	// 프로필 업데이트+사진
 	@RequestMapping("/profileUpdate")
-	public String profileUpdate(EmpVO vo, Model model,@RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
-		//profile 사진
+	public String profileUpdate(EmpVO vo, Model model, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException{
+		EmpVO emp = dao.empSelectOne(vo);
+		//profile 사진 upload
 		List<FilesVO> list = new ArrayList<>();
-		String folder = "profile";
+		System.out.println("vo.getPic : " +vo.getPic());
+		System.out.println("emp : " + emp.getPic());
+		System.out.println("files : " + files);
 		if(files.length != 0) {
+			String folder = "profile";
 			list = fdao.fileUpload(files, folder);
 			vo.setPic(list.get(0).getFPath());
 		}
 		
-		EmpVO emp = dao.empSelectOne(vo);
-		int cnt = 0;
 		if (dao.profileUpdate(vo) != 0) {
 			model.addAttribute("e", dao.empSelectOne(vo));
-			return "redirect:profileForm";
+			return "emp/myPage/profile";
 		}else {
 			return "redirect:profileForm";
 		}

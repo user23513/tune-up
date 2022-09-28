@@ -54,6 +54,12 @@ public class AttdUpServiceImpl implements AttdUpService{
 		// TODO Auto-generated method stub
 		return dao.attdUpOk(vo);
 	}
+
+	@Override
+	public int checkModi(AttdUpVO vo) {
+		// 수정요청 몇명
+		return dao.checkModi(vo);
+	}
 	
 	
 }

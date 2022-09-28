@@ -36,8 +36,8 @@ public class AprvReqController {
 		
 		//사번으로 신청문서
 		vo.setEmpNo(empNo);
-//		List<AprvVO> list = ap.aprvReqList(vo);
-//		model.addAttribute("aprvList", list);
+		List<AprvVO> list = ap.aprvReqList(vo);
+		model.addAttribute("aprvList", list);
 
 		//사번으로 서식양식
 		frm.setEmpNo(empNo);

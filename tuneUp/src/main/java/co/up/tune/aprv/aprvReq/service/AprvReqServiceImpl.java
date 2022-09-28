@@ -11,64 +11,56 @@ import co.up.tune.aprv.vo.FormVO;
 public class AprvReqServiceImpl implements AprvReqService {
 
 	@Autowired
-	AprvReqMapper req;
+	AprvReqMapper map;
 
 	@Override
 	public List<AprvVO> aprvReqList(AprvVO vo) {
-		return req.aprvReqList(vo);
+		return map.aprvReqList(vo);
 	}
 
 	@Override
 	public AprvVO aprvReqSelect(AprvVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return map.aprvReqSelect(vo);
 	}
 
 	@Override
 	public int aprvReqIn(AprvVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.aprvReqIn(vo);
 	}
 
 	@Override
 	public int aprvReqUp(AprvVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.aprvReqUp(vo);
 	}
 
 	@Override
 	public int aprvReqDel(AprvVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.aprvReqDel(vo);
 	}
 
 	@Override
 	public List<FormVO> formList(FormVO vo) {
-		return req.formList(vo);
+		return map.formList(vo);
 	}
 
 	@Override
 	public FormVO formSelect(FormVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return map.formSelect(vo);
 	}
 
 	@Override
 	public int formUp(FormVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.formUp(vo);
 	}
 
 	@Override
 	public int formIn(FormVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.formIn(vo);
 	}
 
 	@Override
 	public int formDel(FormVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return map.formDel(vo);
 	}
 
 	

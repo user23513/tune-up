@@ -22,20 +22,47 @@
 			}
 		})
 		
+		        //선택된 mng
+ 		const query = 'input[name="mng"]:checked';
+		const selectedEls = document.querySelectorAll(query);
+		console.log("selectedEls = "+selectedEls);
+		console.log("query="+query);
+		
+		 // 선택된 목록에서 value 찾기
+		 let result = '';
+		 selectedEls.forEach((el) => {
+		 	result += el.value + ' ';
+		  });
+		 
+		 console.log(result)
+		 
+		 //DB에 mng 값 넣기
+		 $("#mng").val(result);
+		
+		
+		
+		
+		
+		
 		//관리자 체크박스
 		$('#mngCk').change(function() {
 			if ($(this).is(':checked')) {
-	            $("#auth").val("MANAGER");
 	            $("#view").css("display", "block")
-	            console.log($("#auth").val())
+    			$("#auth").val("MANAGER");
 	        }
 	        else {
-	        	$("#auth").val("USER");
 	        	$("#view").css("display", "none")
-	        	 console.log($("#auth").val())
+	        	$("#auth").val("USER");
+	        	$("#mng").val("");
 	        }
 		});
+		
+		/* if($("#hrCk").is(':checked') || $("#attdCk").is(':checked') || $("#boardCk").is(':checked')){
+        	$("#auth").val("MANAGER");
+        } */
+
 	});
+	
 	
 	//주소 API
     function sample6_execDaumPostcode() {
@@ -106,7 +133,7 @@
               <div class="row mb-3">
                 <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">프로필 사진</label>
                 <div class="col-md-8 col-lg-9">
-                  <img th:src="${e.pic}" alt="Profile" style="width:120px;">
+                  <img th:src=@{/attach(path=${e.pic})} alt="Profile" style="width:120px;">
                 </div>
               </div>
 
@@ -222,18 +249,21 @@
                       </label>
                     </div>
                     
-            		<div th:style="${e.auth != 'MANAGER'}?'display:none'" id="view">
-                      <input class="form-check-input" type="checkbox" id="">
+            		<div th:style="${e.auth == 'USER'} or ${e.auth == 'GUEST'}?'display:none'" id="view">
+                      <input th:checked="${e.mng=='hr'}?checked" class="form-check-input" 
+                      		type="radio" name="mng" value="hr" id="hrCk">
                       <label class="form-check-label" for="gridCheck1">
                        인사 관리자
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <input class="form-check-input" type="checkbox" id="">
+                      <input th:checked="${e.mng=='attd'}?checked" class="form-check-input"
+                      		 type="radio" name="mng" value="attd" id="attdCk">
                       <label class="form-check-label" for="gridCheck1">
                        근태 관리자
                       </label>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <input class="form-check-input" type="checkbox" id="">
+                      <input th:checked="${e.mng=='board'}?checked" class="form-check-input"
+                      		type="radio" name="mng" value="board" id="boardCk"> 
                       <label class="form-check-label" for="gridCheck1">
                        게시판 관리자
                       </label>

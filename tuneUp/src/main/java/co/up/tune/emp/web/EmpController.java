@@ -20,10 +20,10 @@ import co.up.tune.emp.vo.EmpVO;
 @MapperScan(basePackages = "co.up.tune.**.mapper")
 @Controller
 public class EmpController {
-	private static final String SignUpServiceImpl = null;
-	public static void main(String[] args) {
-		SpringApplication.run(TuneUpApplication.class, args);
-	}
+	
+	@Autowired
+	private SignUpService ss;
+
 	
 	//로그인
 	@GetMapping("/login")
@@ -35,11 +35,8 @@ public class EmpController {
 	public String signUpForm(EmpVO vo) {
 		return "member/signUpForm";
 	}
-	//회원가입하면 로그인폼으로 
-	@PostMapping("/signupform")
-	public String signUp() {
-		return "member/loginForm";
-	}
+	
+	
 	//아이디 찾기
 	@GetMapping("/findid")
 	public String findId() throws Exception{
@@ -56,12 +53,7 @@ public class EmpController {
 		return "error404";
 	}
 	
-	@Autowired
-	private SignUpService ss;
-	//join page
-	@RequestMapping(value="/signup", method=RequestMethod.GET)
-	public void registerGET() throws Exception{
-	}
+	
 	//아이디 중복체크
 	@ResponseBody
 	@PostMapping("/idCheck")
@@ -70,20 +62,12 @@ public class EmpController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String registerPOST(EmpVO vo,String id) throws Exception{
-		int idResult = ss.idCheck(id);
-		try {
-			if(idResult == 1) {
-				return "/signup";
-			}else if(idResult == 0) {
-				ss.empInsert(vo);
-				return "redirect:/login";
-			}
-		}catch(Exception e) {
-			throw new RuntimeException();
-		}
-		return "redirect:/";
+	@PostMapping(value = "/signup")
+	public String signup(EmpVO vo) {
+	
+		ss.empInsert(vo);
+		return "redirect:/login";
+		
 	}
 }
 	

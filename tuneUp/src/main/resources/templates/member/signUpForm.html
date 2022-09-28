@@ -59,17 +59,18 @@ $(document).ready(function(){
 			}
 		})
 	});
-
- function pwCheck(){
-		if ($("#password").val() != $("#passwordConfirm").val()) {
+ 
+	//비번체크
+	 $("#checkPassword").on('click',e=> {
+		 if ($("#password").val() != $("#passwordConfirm").val()) {
 			alert("비밀번호가 일치하지 않습니다.");
 			}
 		
 		if($("#password").val() == $("#passwordConfirm").val()){
 			alert("비밀번호가 일치합니다.");
 		}
- }
- 
+	 })
+	 
 	//로그인 폼으로 가기
 	$(function(){
 		$("#login").click(function(){
@@ -141,6 +142,8 @@ $(document).ready(function(){
                   
                   
 		<form class="row g-3 needs-validation" novalidate name="signup" action="signup" method="POST">
+                   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                   
                     <div class="col-12">
                       <label for="yourid" class="form-label">Your ID</label>
                       <input type="text" name="id" class="form-control" id="userId" value="" required>
@@ -163,7 +166,7 @@ $(document).ready(function(){
                     </div>
                     
                     <div class="col-12">
-                      <button class="btn btn-primary" id="checkPassword" type="button" onclick="pwCheck()">비밀번호 확인</button>
+                      <button class="btn btn-primary" id="checkPassword" type="button">비밀번호 확인</button>
                     </div>
 
                     

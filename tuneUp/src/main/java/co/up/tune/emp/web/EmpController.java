@@ -20,7 +20,7 @@ import co.up.tune.emp.vo.EmpVO;
 @MapperScan(basePackages = "co.up.tune.**.mapper")
 @Controller
 public class EmpController {
-	//private static final String SignUpServiceImpl = null;
+	private static final String SignUpServiceImpl = null;
 	public static void main(String[] args) {
 		SpringApplication.run(TuneUpApplication.class, args);
 	}

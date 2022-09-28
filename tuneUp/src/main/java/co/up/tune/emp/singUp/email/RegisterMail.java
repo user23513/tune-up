@@ -29,7 +29,7 @@ public class RegisterMail implements MailServiceInter {
 		MimeMessage message = emailSender.createMimeMessage();
 
 		message.addRecipients(RecipientType.TO, to);// 보내는 대상
-		message.setSubject("GoodJob 회원가입 이메일 인증");// 제목
+		message.setSubject("TuneUp 회원가입 이메일 인증");// 제목
 
 		String msgg = "";
 		msgg += "<div style='margin:100px;'>";
@@ -48,7 +48,7 @@ public class RegisterMail implements MailServiceInter {
 		msgg += "</div>";
 		message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
 		// 보내는 사람의 이메일 주소, 보내는 사람 이름
-		message.setFrom(new InternetAddress("goodjobproject@naver.com", "GoodJob_Admin"));// 보내는 사람
+		message.setFrom(new InternetAddress("tuneup1234@naver.com", "TuneUp_Admin"));// 보내는 사람
 
 		return message;
 	}

@@ -161,7 +161,7 @@
 					APRV A
             WHERE P.APRV_NO = V_APRV_NO
 				AND A.APRV_NO = P.APRV_NO
-				AND P.APRV_SEQ = V_APRV_SEQ ;
+				AND P.APRV_SEQ = V_APRV_SEQ;
                 
 
 		IF V_CNT = V_APRV_SEQ AND V_APRV_ST = '완료' THEN

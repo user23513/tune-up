@@ -5,26 +5,22 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.annotation.RequestScope;
 
 import co.up.tune.TuneUpApplication;
 import co.up.tune.emp.singUp.service.SignUpService;
-import co.up.tune.emp.singUp.service.SignUpServiceImpl;
 import co.up.tune.emp.vo.EmpVO;
 
 @SpringBootApplication
 @MapperScan(basePackages = "co.up.tune.**.mapper")
 @Controller
 public class EmpController {
-	private static final String SignUpServiceImpl = null;
+	//private static final String SignUpServiceImpl = null;
 	public static void main(String[] args) {
 		SpringApplication.run(TuneUpApplication.class, args);
 	}

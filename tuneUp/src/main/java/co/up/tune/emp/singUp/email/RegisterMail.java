@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class RegisterMail implements MailServiceInter {
 
 	@Autowired
-	JavaMailSender emailsender; // Bean 등록해둔 MailConfig 를 emailsender 라는 이름으로 autowired
+	JavaMailSender emailSender; // Bean 등록해둔 MailConfig 를 emailsender 라는 이름으로 autowired
 
 	private String ePw; // 인증번호
 
@@ -26,7 +26,7 @@ public class RegisterMail implements MailServiceInter {
 //		System.out.println("보내는 대상 : " + to);
 //		System.out.println("인증 번호 : " + ePw);
 		
-		MimeMessage message = emailsender.createMimeMessage();
+		MimeMessage message = emailSender.createMimeMessage();
 
 		message.addRecipients(RecipientType.TO, to);// 보내는 대상
 		message.setSubject("GoodJob 회원가입 이메일 인증");// 제목
@@ -92,7 +92,7 @@ public class RegisterMail implements MailServiceInter {
 
 		MimeMessage message = createMessage(to); // 메일 발송
 		try {// 예외처리
-			emailsender.send(message);
+			emailSender.send(message);
 		} catch (MailException es) {
 			es.printStackTrace();
 			throw new IllegalArgumentException();

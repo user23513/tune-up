@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class ScheduleVO {
 	 int postNo;		//게시글 번호
+	 String ttl;        //게시글 제목
 	 String empNo;		//사번
 	 String wrtr;		//작성자
 	 Date sdt;		//시작일

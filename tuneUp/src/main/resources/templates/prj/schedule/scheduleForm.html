@@ -67,8 +67,8 @@ button{
 				<!-- End 페이지 제목 -->
 			
 				<input type="text" class="form-control" id="" name="" value="" placeholder="제목을 입력하세요.">
-				<input type="date" class="form-control editor-container" id="" name="">
-					~ <input type="date" class="form-control editor-container" id="" name="">
+				<input type="date" class="form-control editor-container" id="" name="sdt">
+					~ <input type="date" class="form-control editor-container" id="" name="edt">
 				<br>
 				<input type="text" class="form-control" id="keyword" name="" value="" placeholder="장소를 입력하세요.">
 			
@@ -82,14 +82,16 @@ button{
 				        <div id="pagination"></div>
 				    </div>
 				</div>
-				<p id="result"></p>
+				<input type="hidden" id="result" name="place" value="">
 				<input type="hidden" id="lat" name="latitude" value="">
 				<input type="hidden" id="lon" name="longitude" value="">
 				<!-- End 카카오 지도 -->
 				<div>
-					<textarea rows="" cols=""></textarea>
+					<textarea rows="" cols="" name=""></textarea>
 				</div>
-				<input type="text" name="wrtr"  value="kim">
+				<input type="text" name="wrtr" value="kim">
+				<input type="hidden" name="empNo" th:value="${session.empNo}">
+				
 			</div>
 		</div>
 <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8979f5b92eaf5997a6ea3ade6a7e65f1&libraries=services"></script>
@@ -303,7 +305,7 @@ $("#keyword").on("keyup", e=>{  
 	    infowindow.open(map, marker);
 	    
 	    $(".placeSelect").on("click", e=>{
-			$("#result").text(title); //지도에서 선택한 곳 이름
+			$("#result").val(title); //지도에서 선택한 곳 이름
 			$("#lat").val(latitude);
 			$("#lon").val(longitude);
 		})

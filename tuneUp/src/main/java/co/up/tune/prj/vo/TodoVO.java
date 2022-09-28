@@ -11,6 +11,6 @@ public class TodoVO {
 	 String empNo;	//사번
 	 String ttl;	//제목
 	 String wrtr;	//작성자
-	 Timestamp dttm; 	//작성일시	
+	 Timestamp dttm; 	//작성일시
 	 int prjNo;		//프로젝트번호
 }

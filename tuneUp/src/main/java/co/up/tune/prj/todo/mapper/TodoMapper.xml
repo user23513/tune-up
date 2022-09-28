@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.prj.todo.mapper.TodoMapper">
+	
+	<!-- ======할일======= -->
+	<select id="todoList" resultType="co.up.tune.prj.vo.TodoVO">
+		select * from todo
+		where prj_no = #{prjNo}
+		order by post_no desc
+	</select>
+	
+	<select id="todoSelect" resultType="co.up.tune.prj.vo.TodoVO">
+		select * from todo
+		where post_no = #{postNo}
+	</select>
+	
+	<insert id="todoInsert" parameterType="co.up.tune.prj.vo.TodoVO">
+		insert into todo
+		value = (PNO_SEQ.NEXTVAL, #{empNO}, #{ttl}, #{nm}, sysdate, #{prjNo})
+	</insert>
+	
+	<update id="todoUpdate" parameterType="co.up.tune.prj.vo.TodoVO">
+		update todo
+		<set>
+			<if test="ttl != null">ttl = #{ttl},</if>
+			<if test="dttm != sysdate">dttm = sysdate</if>
+		</set>
+		where post_no = #{postNo}
+	</update>
+	
+	<delete id="todoDelete" parameterType="co.up.tune.prj.vo.TodoVO">
+		delete from todo
+		where post_no = #{postNo}
+	</delete>
+	
+	<!-- ======댓글====== -->
+	<select id="replyList" resultType="co.up.tune.com.vo.ReplyVO"> 
+		select * from reply
+		where post_no = #{postNo}
+		order by reply_no desc
+	</select>
+	
+	<select id="replySelect" parameterType="co.up.tune.com.vo.ReplyVO">
+		select * from reply
+		where reply_no = #{replyNo}
+	</select>
+	
+	<insert id="replyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
+		 <selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
+			select 
+			    case when max(reply_no) is null then 1
+			    else max(reply_no)+1 
+			    end as no
+			from reply
+		</selectKey> 
+		insert into reply
+		values(#{replyno}, #{postno}, #{empno}, #{wrtr}, #{cntn}, sysdate,'프로젝트할일')
+	</insert>
+	
+	<update id="replyUpdate" parameterType="co.up.tune.com.vo.ReplyVO"> 
+		<selectKey keyColumn="dttm" keyProperty="dttm" order="AFTER" resultType="date">  
+			select dttm 
+			from reply
+			where reply_no = #{replyno}
+		</selectKey>
+		update reply
+		set cntn = #{cntn}, dttm = sysdate
+		where reply_no = #{replyno}
+	</update>
+
+	<delete id="replyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
+		delete from reply
+		where reply_no = #{replyno}
+	</delete>
+</mapper>

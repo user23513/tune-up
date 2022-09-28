@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.prj.todo.mapper.TodoDetailMapper">
+	<select id="detailList" resultType="co.up.tune.prj.vo.TodoDetailVO">
+		select * from todoDetail
+		where post_no = #{postNo}
+		order by todo_no
+	</select>
+	
+	<insert id="detailInsert" parameterType="co.up.tune.prj.vo.TodoDetailVO">
+		insert into todoDetail
+		value = (todoNo_seq.nextval, #{cntn}, #{cmpltYn}, #{edt}, #{postNo})
+	</insert>
+	
+	<update id="detailUpdate" parameterType="co.up.tune.prj.vo.TodoDetailVO">
+		update todoDetail
+		<set>
+			<if test="cntn != null">cntn = #{cntn},</if>
+			<if test="cmpltYn != null" >cmpltYn = #{cmpltYn},</if>
+			<if test="edt != sysdate">edt = sysdate</if>
+		</set>
+		where todo_no = #{todoNo}
+	</update>
+	
+	<delete id="detailDelete" parameterType="co.up.tune.prj.vo.TodoDetailVO">
+		delete from todoDetail
+		where todo_no = #{todoNo}
+	</delete>
+	
+	<update id="cmpltYnUpdate" parameterType="co.up.tune.prj.vo.TodoDetailVO">
+		update todoDetail
+		set cmpltYn = #{cmpltYn}
+		where todo_no = #{todoNo}
+	</update>
+	
+</mapper>

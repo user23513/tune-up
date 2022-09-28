@@ -104,9 +104,10 @@ $(document).ready(function(){
 })
 
 	// 이메일 인증번호 체크 함수
-	function chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt){
-		$memailconfirm.on("click", function(){
-			if (data != $memailconfirm.val()) { //
+	
+	function chkEmailConfirm(data, $memailconfirm){
+		$("#memailconfirm").on("click", function(){
+			if (data != ("$memailconfirm").val()) { //
 				emconfirmchk = false;
 				alert("인증번호가 일치하지 않습니다")
 			

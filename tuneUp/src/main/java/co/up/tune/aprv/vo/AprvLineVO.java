@@ -7,9 +7,10 @@ import lombok.Setter;
 @Setter
 public class AprvLineVO { //결재라인
 	int lineNo; //라인번호
-	String aprvr; //결재자
-	int aprvSeq; //결재순서
 	String dept; //부서명
 	String defYn; //기본설정여부
-	String empNo; //소유자
+	String empNo; //작성자
+	String ap1; // 결재1
+	String ap2;// 결재2
+	String ap3;//결재3
 }

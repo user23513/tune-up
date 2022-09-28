@@ -11,7 +11,7 @@
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
 				AND NOT REQ_ST = '임시저장' 
-		<if test="reqSt != null">AND REQ_ST = #{reqSt}</if>
+		<if test="reqSt != null and reqSt != ''">AND REQ_ST = #{reqSt}</if>
 		ORDER BY APRV_NO DESC
 	</select>
 
@@ -38,7 +38,7 @@
 					APRV_AUTH, APRV_ETC, DEADLINE, IMPTS)
 		VALUES
 				(#{aprvNo}, #{empNo},
-				#{ttl}, TIMESTAMP, #{cntn}, #{atchNo}, #{reqSt}, #{aprvAuth},
+				#{ttl}, TIMESTAMP, #{cntn}, #{atchNo}, '전송', #{aprvAuth},
 				#{aprvEtc}, #{deadline}, #{impts} )
 	</insert>
 
@@ -48,14 +48,13 @@
 		<set>
 			MOD_YN = 'Y',
 			DTTM = SYSTIMESTAMP
-			<if test="ttl != null">TTL=#{ttl},</if>
-			<if test="cntn != null">CNTN=#{cntn},</if>
-			<if test="atchNo != null">ATCH_NO=#{atchNo},</if>
-			<if test="aprvAuth != null">APRV_AUTH=#{aprvAuth},</if>
-			<if test="aprvEtc != null">APRV_ETC=#{aprvEtc},</if>
-			<if test="deadline != null">DEADLINE=#{deadline},</if>
-			<if test="impts != null">IMPTS=#{impts},</if>
-			<if test="reject != null">REJECT=#{reject},</if>
+			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
+			<if test="cntn != null and cntn != ''">CNTN=#{cntn},</if>
+			<if test="atchNo != null and atchNo != ''">ATCH_NO=#{atchNo},</if>
+			<if test="aprvAuth != null and aprvAuth != ''">APRV_AUTH=#{aprvAuth},</if>
+			<if test="aprvEtc != null and aprvEtc != ''">APRV_ETC=#{aprvEtc},</if>
+			<if test="deadline != null and deadline != ''">DEADLINE=#{deadline},</if>
+			<if test="impts != null and impts != ''">IMPTS=#{impts}</if>
 		</set>
 		WHERE APRV_NO = #{aprvNo}
 		AND REQ_ST = '전송' OR '반려'
@@ -74,7 +73,7 @@
 		FROM FORM
 		WHERE EMP_NO = #{empNo}
 				OR FORM_AUTH = '공개'
-		<if test="formCat != null">AND FORM_CAT = #{formCat}</if>
+		<if test="formCat != null and formCat != ''">AND FORM_CAT = #{formCat}</if>
 		ORDER BY
 		DECODE(FORM_AUTH, '개인', 1), FORM_NO DESC
 	</select>
@@ -90,10 +89,10 @@
 	<update id="formUp" parameterType="co.up.tune.aprv.vo.FormVO">
 		UPDATE FORM
 		<set>
-			<if test="formNm != null">FORM_NM=#{formNm},</if>
-			<if test="formCntn != null">FORM_CNTN=#{formCntn},</if>
-			<if test="formCat != null">FORM_CAT=#{formCat},</if>
-			<if test="formAuth != null">FORM_AUTH=#{formAuth},</if>
+			<if test="formNm != null and formNm != ''">FORM_NM=#{formNm},</if>
+			<if test="formCntn != null and formCntn != ''">FORM_CNTN=#{formCntn},</if>
+			<if test="formCat != null and formCat != '' ">FORM_CAT=#{formCat},</if>
+			<if test="formAuth != null and formAuth != ''">FORM_AUTH=#{formAuth}</if>
 		</set>
 		WHERE FORM_NO = #{formNo}
 		

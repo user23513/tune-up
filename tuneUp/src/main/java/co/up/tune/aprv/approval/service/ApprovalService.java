@@ -8,7 +8,6 @@ import co.up.tune.aprv.vo.TrustVO;
 
 public interface ApprovalService {
 
-	// 서명 canvas
 	
 	// 승인문서 조회
 	List<AprvVO> approvalList(@Param("aprvr") String aprvr, @Param("aprvSt") String aprvSt);
@@ -18,11 +17,15 @@ public interface ApprovalService {
 
 	// 결재 승인
 	int approvalSign(ApprovalVO vo);
+	
+	// 다음 결재자
+	int aprvNext(ApprovalVO vo);
+	
 	// 위임자 목록
 	List<TrustVO> trustList(TrustVO vo);
 		
 	// 위임자 단건
-	TrustVO trustCheck(TrustVO vo);
+	TrustVO trustSelect(TrustVO vo);
 	
 	// 위임자 등록
 	int trustIn(TrustVO vo);

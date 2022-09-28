@@ -8,5 +8,6 @@ public interface SignUpService {
 	
 	int empInsert(EmpVO vo);
 	int idCheck(@Param("id") String id);
+	
 
 }

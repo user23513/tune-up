@@ -87,7 +87,7 @@ $(document).ready(function(){
       },
       success : function(data){
          alert("해당 이메일로 인증번호 발송이 완료되었습니다. \n 확인부탁드립니다.")
-         console.log("data : "+data);
+         console.log("data : "+ data);
          chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt);
       }
    })
@@ -95,7 +95,7 @@ $(document).ready(function(){
 
 	// 이메일 인증번호 체크 함수
 	function chkEmailConfirm(data, $memailconfirm, $memailconfirmTxt){
-		$memailconfirm.on("keyup", function(){
+		$memailconfirm.on("click", function(){
 			if (data != $memailconfirm.val()) { //
 				emconfirmchk = false;
 				alert("인증번호가 일치하지 않습니다")
@@ -179,13 +179,13 @@ $(document).ready(function(){
                       <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                     </div>
                     <div class="col-12">
-                      <button class="btn btn-primary" type="button" id="checkCode" onclick="checkCode">인증확인</button>
+                      <button class="btn btn-primary" type="button" id="checkCode" >인증코드</button>
                     </div>
 
                     
                       <div class="col-12">
-                        <label for="yourCode" class="form-label">Authentication Code</label>
-                        <input type="text" name="code" class="form-control" id="code" required>
+                        <label for="memailconfirm" class="form-label" id="memailconfirmTxt">Authentication Code</label>
+                        <input type="text" name="code" class="form-control" id="memailconfirm" required>
                         <div class="invalid-feedback">Please enter verification code!</div>
                       </div>
                       <div class="col-12">

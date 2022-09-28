@@ -40,7 +40,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			session.setAttribute("dept", vo.getDept());
 			session.setAttribute("auth", vo.getAuth());
 			session.setAttribute("mng", vo.getMng());
-			
+			session.setAttribute("position", vo.getPosition());
 			response.sendRedirect("/main");	
 	}
 	

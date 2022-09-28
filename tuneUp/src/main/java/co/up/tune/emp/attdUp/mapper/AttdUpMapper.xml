@@ -13,7 +13,16 @@
 		SELECT *
 		FROM
 		ATTDUP
+		WHERE ST = '701'
 		ORDER BY ATDC_DT DESC
+	</select>
+	
+	<select id="checkModi" resultType="Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM ATTDUP
+		WHERE ST= '701'
+		 ]]>
 	</select>
 
 	<select id="attdUpSelect"

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +55,7 @@ public class MyPageContoller {
         if(ps.matches(pw, DBpw)) {
             System.out.println("일치");
             
-         // 주소
+            // 주소
     		String addr = emp.getAddr();
     		if (addr == null) {
     			emp.setAddr("//");
@@ -91,24 +92,63 @@ public class MyPageContoller {
 		return "emp/myPage/profileForm";
 	}
 
-	// 프로필 업데이트
+	// 프로필 업데이트+사진
 	@RequestMapping("/profileUpdate")
-	public String profileUpdate(EmpVO vo, Model model,@RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
-		//profile 사진
-		List<FilesVO> list = new ArrayList<>();
-		String folder = "profile";
-		if(files.length != 0) {
-			list = fdao.fileUpload(files, folder);
-			vo.setPic(list.get(0).getFPath());
+	public String profileUpdate(EmpVO vo, Model model, @RequestParam("pic") MultipartFile pics) {
+		System.out.println("test");
+		EmpVO emp = new EmpVO();
+		String test = emp.getPic();
+		if(test == null) {
+			System.out.println("null 이다.");
+		}else if(test.equals("assets/img/default_profile.png")) {
+			System.out.println("기본 프로필");
+		}else {
+			System.out.println(emp.getPic());
+		}
+		String pic = vo.getPic();
+		if(pic == null) {
+			System.out.println("null 이다.");
+		}else if(pic.equals("assets/img/default_profile.png")) {
+			System.out.println("기본 프로필");
+		}else {
+			System.out.println(vo.getPic());
 		}
 		
-		EmpVO emp = dao.empSelectOne(vo);
-		int cnt = 0;
-		if (dao.profileUpdate(vo) != 0) {
-			model.addAttribute("e", dao.empSelectOne(vo));
-			return "redirect:profileForm";
+		MultipartFile test2 = pics;
+		if(pics == null) {
+			System.out.println("null 이다.");
 		}else {
-			return "redirect:profileForm";
+			System.out.println(pics);
 		}
+		
+		//profile 사진
+//		List<FilesVO> list = new ArrayList<>();
+//		String folder = "profile";
+//		System.out.println(vo.getPic());
+//		if(pics.length != 0) {
+//			list = fdao.fileUpload(pics, folder);
+//			vo.setPic(list.get(0).getFPath());
+//		}
+		
+		//서명 파일
+//		List<FilesVO> list1 = new ArrayList<>();
+//		String folder1 = "sign";
+//		System.out.println(vo.getSign());
+//		if(pics.length != 0) {
+//			list1 = fdao.fileUpload(signs, folder1);
+//			vo.setSign(list.get(0).getFPath());
+//		}
+		
+		
+//		EmpVO emp = dao.empSelectOne(vo);
+//		int cnt = 0;
+//		if (dao.profileUpdate(vo) != 0) {
+//			model.addAttribute("e", dao.empSelectOne(vo));
+//			return "emp/myPage/profileForm";
+//		}else {
+//			return "redirect:profileForm";
+//		}
+		
+		return "";
 	}
 }

@@ -12,6 +12,7 @@
 		<set>
 			<if test="phone != null">phone = #{phone},</if>
 			<if test="email != null">email = #{email},</if>
+			<if test="birth != null">birth = #{birth},</if>
 			<if test="sign != null">sign = #{sign},</if>
 			<if test="pic != 'assets/img/default_profile.png'"> pic = #{pic}</if>
 		</set>

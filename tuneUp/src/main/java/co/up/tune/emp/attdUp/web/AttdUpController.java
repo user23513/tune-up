@@ -1,8 +1,9 @@
 package co.up.tune.emp.attdUp.web;
 
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
+
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import co.up.tune.emp.attdUp.service.AttdUpService;
 import co.up.tune.emp.vo.AttdUpVO;
-import co.up.tune.prj.vo.PostVO;
 
 @Controller
 public class AttdUpController {
@@ -57,14 +57,13 @@ public class AttdUpController {
 	  @GetMapping("/attdUpDel")
   	  public String attdUpDel(AttdUpVO vo,Model model) {
   		model.addAttribute("attdUpDel",dao.attdUpDel(vo));
-		 // dao.attdUpDel(vo);
   		return "redirect:/attdList";
   	  }
 	  
 	  @GetMapping("/attdUpOk")
 	  public String attdUpOk(AttdUpVO vo,Model model) {
 		  model.addAttribute("attdUpOk",dao.attdUpOk(vo));
-		return "redirect:/attdList";
+		  return "redirect:/attdList";
 	  }
 	  
 	  

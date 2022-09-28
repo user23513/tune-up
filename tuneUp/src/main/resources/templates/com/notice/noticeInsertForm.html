@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/js/jquery-3.6.1.min.js"></script>
 <script>
 $(function(){
     var plugins = [
@@ -31,44 +30,22 @@ $(function(){
         
         /*** image upload ***/
         image_title: true,
-        /* enable automatic uploads of images represented by blob or data URIs*/
         automatic_uploads: true,
-        /*
-            URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
-            images_upload_url: 'postAcceptor.php',
-            here we add custom filepicker only to Image dialog
-        */
         file_picker_types: 'image',
-        /* and here's our custom image picker*/
         file_picker_callback: function (cb, value, meta) {
             var input = document.createElement('input');
             input.setAttribute('type', 'file');
             input.setAttribute('accept', 'image/*');
-
-            /*
-            Note: In modern browsers input[type="file"] is functional without
-            even adding it to the DOM, but that might not be the case in some older
-            or quirky browsers like IE, so you might want to add it to the DOM
-            just in case, and visually hide it. And do not forget do remove it
-            once you do not need it anymore.
-            */
             input.onchange = function () {
                 var file = this.files[0];
-
                 var reader = new FileReader();
                 reader.onload = function () {
-                    /*
-                    Note: Now we need to register the blob in TinyMCEs image blob
-                    registry. In the next release this part hopefully won't be
-                    necessary, as we are looking to handle it internally.
-                    */
                     var id = 'blobid' + (new Date()).getTime();
                     var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
                     var base64 = reader.result.split(',')[1];
                     var blobInfo = blobCache.create(id, file, base64);
                     blobCache.add(blobInfo);
 
-                    /* call the callback and populate the Title field with the file name */
                     cb(blobInfo.blobUri(), { title: file.name });
                 };
                 reader.readAsDataURL(file);
@@ -76,8 +53,27 @@ $(function(){
             input.click();
         },
         /*** image upload ***/
-        
         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+    });
+    
+    //게시글 등록 버튼 눌렀을 때 submit도 하고 소켓에 메세지 보내는 함수
+	$("#noticeBtn").on("click", function(){
+        let content = tinymce.activeEditor.getContent();
+        let title = $("#ttl").val();
+        $("#cntn").val(content);
+        
+        if($("#ttl").val().length==0){
+        	alert("제목을 입력해주세요");
+        	return;
+        }else if($("#cntn").val().length==0){
+        	alert("내용을 입력해주세요");
+        	return;
+        }
+        $("#noticeFrm").submit();
+        
+        if($('#emerg').is(':checked')){
+        	socket.send('notice,'+title);
+        }
     });
 });
 </script>
@@ -94,7 +90,7 @@ $(function(){
 		position: relative;
 		left: 89%;
 	}
-	.line{
+	.textAreaLine{
 		background-color: transparent;
 		border: none;
 		resize: none;
@@ -109,8 +105,10 @@ $(function(){
 	    <!-- End Page Title -->
 	    
 		<div>
-			<form id="frm" method="post" action="noticeInsert" enctype="multipart/form-data">
+			<form id="noticeFrm" method="post" action="noticeInsert" enctype="multipart/form-data">
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				<input type="hidden" name="empNo" th:value="${session.empNo}">
+				<input type="hidden" name="wrtr" th:value="${session.nm}">
 				<table class="table">
 					<tr>
 						<td colspan="5">
@@ -128,7 +126,7 @@ $(function(){
 					</tr>
 					<tr>
 						<td colspan="6">
-							<textarea id="cntn" name="cntn" class="line"></textarea>
+							<textarea id="cntn" name="cntn" class="textAreaLine"></textarea>
 						</td>
 					</tr>
 					<tr>	
@@ -143,7 +141,7 @@ $(function(){
 						<a href="noticeList" class="btn btn-primary">목록</a>
 					</span>
 					<span class="right">
-						<button type="button" id="noticeBtn" class="btn btn-primary ">등록</button>
+						<button type="button" id="noticeBtn" class="btn btn-primary">등록</button>
 					</span>
 				</div>
 			</form>

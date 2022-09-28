@@ -19,9 +19,14 @@ public interface AttdService {
 	List<AttdVO> attdBadList();	// 전체사원 이상리스트
 	
 	List<AttdVO> myAttdList(AttdVO vo);	//내가 신청한 근태 수정리스트
-	int attdToday(AttdVO vo);
-	int afwkToday(AttdVO vo);
+	
+	int startAttd(AttdVO vo);	//오늘 출근 시작
+	int endAttd(AttdVO vo);	//오늘 퇴근
+	
+	List<AttdVO> wktmChart(AttdVO vo);	// 워크타임 차트
+	
 	//엑셀
 	void excel(AttdVO attdVO, HttpServletResponse res) throws Exception;
 	
+	 
 }

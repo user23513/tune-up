@@ -1,7 +1,6 @@
 package co.up.tune.com.free.web;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,6 @@ import co.up.tune.com.free.service.FreeService;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.file.service.FileService;
-import co.up.tune.paging.vo.Criteria;
 import co.up.tune.paging.vo.pagingVO;
 
 @Controller
@@ -43,14 +41,9 @@ public class FreeController {
 		return "com/free/freeInsertForm";
 	}
 
-	// 자유게시판 등록(파일까지)
+	// 자유게시판 등록
 	@PostMapping("/freeInsert")
-	public String freeInsert(CommunityVO vo, @RequestParam("file") MultipartFile file)
-			throws IllegalStateException, IOException {
-		// file upload 처리
-		if (!file.isEmpty()) {
-			//vo = fdao.fileUpload(vo, file);
-		}
+	public String freeInsert(CommunityVO vo){
 		dao.freeInsert(vo);
 
 		return "redirect:/freeList";

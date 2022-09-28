@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.emp.vo.AttdVO;
 
 
@@ -16,8 +15,11 @@ public interface AttdMapper {
 	List<AttdVO> attdBadList();	// 전체사원 근태리스트
 	List<AttdVO> myAttdList(AttdVO vo);	//나의 근태
 	
-	int attdToday(AttdVO vo);
-	int afwkToday(AttdVO vo);
+	int startAttd(AttdVO vo);	//오늘 출근 시작
+	int endAttd(AttdVO vo);	//오늘 퇴근
+	
+	List<AttdVO> wktmChart(AttdVO vo);	// 워크타임 차트
+	
 //	AttdVO attdGood(AttdVO vo); //정상출근
 //	AttdVO attdBad(AttdVO vo); //근태이상
 }

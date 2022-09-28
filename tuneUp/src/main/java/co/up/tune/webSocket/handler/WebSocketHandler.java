@@ -24,7 +24,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	private Map<String, WebSocketSession> userSessionsMap = new HashedMap<String, WebSocketSession>();
 	
 	/* Client가 접속 시 호출되는 메서드, 서버에 접속이 성공 했을 때 */
-	//String senderId = (String) session.getAttributes().get("sessionId");
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		sessions.add(session);
@@ -64,6 +63,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				//모든 유저에게 보낸다 - 브로드 캐스팅
 				String cmd = strs[0];
 				String Noticetitle = strs[1];
+				//본인에게는 알림을 안보내기 위해서
+				sessions.remove(session);
 				for (WebSocketSession sess : sessions) {
 					sess.sendMessage(new TextMessage("게시글 관리자님이 <a type='external' href='/noticeList' class='link-danger'>"+Noticetitle+"</a>에 공지를 등록했습니다."));
 				}

@@ -18,14 +18,13 @@ public class HrController {
 	@Autowired
 	CommonService cd;
 	
+	//사원 수정 폼
 	@RequestMapping("/empUpdateForm")
 	public String empUpdateForm(EmpVO vo, Model model) {
 		
 		EmpVO emp = dao.empSelect(vo);
-		System.out.println("test");
 		System.out.println(vo.getEmpNo());
 		String no = emp.getEmpNo();
-		System.out.println("no : "+no);
 		//주소
 		String addr = emp.getAddr();
 		if(addr == null) {
@@ -47,6 +46,7 @@ public class HrController {
 		return "emp/hr/empUpdateForm";
 	}
 	
+	//사원관리 폼
 	@RequestMapping("/empManage")
 	public String empManage(Model model) {
 		model.addAttribute("empList",dao.empList());
@@ -54,6 +54,7 @@ public class HrController {
 		return "emp/hr/empManage";
 	}
 	
+	//사원정보 업데이트
 	@RequestMapping("/empUpdate")
 	public String empUpdate(EmpVO vo, Model model) {
 		//주소

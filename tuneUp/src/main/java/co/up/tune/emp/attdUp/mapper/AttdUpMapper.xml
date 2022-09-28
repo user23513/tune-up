@@ -24,12 +24,22 @@
 	</select>
 
 
-	<update id="attdUpDel"
-		parameterType="co.up.tune.emp.vo.AttdUpVO">
+	<update id="attdUpDel" parameterType="co.up.tune.emp.vo.AttdUpVO">
 		UPDATE ATTDUP
-		SET ST = '반려'
+		SET ST = '702'
 		WHERE ATTDUP_NO = #{attdupNo}
 	</update>
+	
+ 
+	
+	
+	<!-- <delete id="attdUpDel"
+		parameterType="co.up.tune.emp.vo.AttdUpVO">
+		DELETE FROM ATTDUP
+		WHERE ATTDUP_NO = #{attdupNo}
+	</delete> -->
+	
+	
 
 
 	 <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
@@ -40,8 +50,9 @@
 			<if test="st != null">ST = '601' </if>
 		</set>
 		WHERE EMP_NO = #{empNo} 
-		AND  
-		ATDC_DT = #{atdcDt} 
+		AND  ATDC_DT = #{atdcDt} 
+		</update>  
+		
 		
 		<!-- <![CDATA[   
 		UPDATE ATTD A
@@ -50,7 +61,7 @@
 	WHERE EXISTS (
 	SELECT 0 FROM ATTDUP B WHERE A.EMP_NO = ? AND A.ATDC_DT = ? )
 		    ]]>  -->
-	</update>  
+	
 
 	
 	

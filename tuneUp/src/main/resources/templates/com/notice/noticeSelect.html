@@ -55,7 +55,8 @@
 								<td colspan="6" th:utext="${n.cntn}" style="height: 500px"> 내용들어가는곳</td>
 							</tr>
 							<tr th:if="${n.fNm != null}">
-								<td colspan="6"><a th:href="|/attach/${n.postNo}|" th:text="${n.fNm}"></a></td>
+								<td colspan="6"><a th:href=@{/attach(path=${n.fPath})} th:text="${n.fNm}"></a></td>
+								<!-- <img src="/attach" th:text="${n.fNm}"/> -->
 							</tr>
 						</tbody>
 					</table>

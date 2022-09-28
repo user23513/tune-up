@@ -33,11 +33,10 @@
 	</select>
 
 
-	<update id="attdUpDel" parameterType="co.up.tune.emp.vo.AttdUpVO">
-		UPDATE ATTDUP
-		SET ST = '702'
+	<delete id="attdUpDel" parameterType="co.up.tune.emp.vo.AttdUpVO">
+		DELETE ATTDUP
 		WHERE ATTDUP_NO = #{attdupNo}
-	</update>
+	</delete>
 	
  
 	
@@ -51,15 +50,26 @@
 	
 
 
-	 <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
+	<!--  <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
 		UPDATE ATTD 
 		<set>
 			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
 			<if test="afwkDttm != null">AFWK_DTTM = #{afwkDttm}, </if>
 			<if test="st != null">ST = '601' </if>
 		</set>
+		
 		WHERE EMP_NO = #{empNo} 
 		AND  ATDC_DT = #{atdcDt} 
+		</update>   -->
+		
+		<update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
+		UPDATE ATTD 
+		<set>
+			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
+			<if test="afwkDttm != null">AFWK_DTTM = #{afwkDttm}, </if>
+			<if test="st != null">ST = '601' </if>
+		</set>
+		WHERE EMP_NO = #{empNo} AND ATDC_DT = #{atdcDt}
 		</update>  
 		
 		

@@ -11,7 +11,7 @@
 	</select>
 	<select resultType="co.up.tune.emp.vo.EmpVO" id="managerList">
 		select * from emp
-		where mng = '관리자'
+		where auth = 'ADMIN' or auth = 'MANAGER'
 	</select>
 	<update id="empUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
@@ -21,7 +21,8 @@
 			<if test="zip != null">zip = #{zip},</if>
 			<if test="addr != null">addr = #{addr},</if>
 			<if test="hDate != null">h_date = #{hDate},</if>
-			<if test="auth != null">auth = #{auth}</if>
+			<if test="auth != null">auth = #{auth},</if>
+			<if test="mng != null">mng = #{mng}</if>
 		</set>
 		where emp_no = #{empNo}
 	</update>

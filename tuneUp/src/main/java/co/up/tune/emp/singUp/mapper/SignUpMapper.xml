@@ -5,9 +5,9 @@
 	<insert id="empInsert" parameterType="co.up.tune.emp.vo.EmpVO">
 		<selectKey keyProperty="empNo" order="BEFORE" resultType="String">
 			SELECT
-			CASE WHEN MAX(EMP_NO) IS NULL THEN 1
+			CASE WHEN MAX(to_number(EMP_NO)) IS NULL THEN 1
 			ELSE
-			MAX(EMP_NO) + 1 END AS NO
+			MAX(to_number(EMP_NO)) + 1 END AS NO
 			FROM EMP
 		</selectKey>
 		INSERT INTO EMP (EMP_NO,NM,ID,PW,EMAIL,AUTH)

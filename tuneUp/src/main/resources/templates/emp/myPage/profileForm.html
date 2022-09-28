@@ -10,13 +10,18 @@ $(document).ready(function() {
 	//저장 버튼 클릭 시 이벤트
 	$("#save").on("click", e=>{
 		let birth = $("#birth").val();
-		
-		if(!birth){
-			console.log("생일입력")
+		let pic = $("#pic").val()
+		let sign = $("#sign").val();
+		$("#proFrm").submit();
+/* 		if(!birth){
+			//console.log("생일입력")
 			alert("생년월일을 입력해주세요.")
+			//console.log(pic);
+			//console.log(sign);
 		}else{
-			$("#frm").submit();
-		}
+			console.log(pic);
+			$("#proFrm").submit();
+		} */
 	})
 	
 	//profile img change event
@@ -56,6 +61,12 @@ $(document).ready(function() {
 </head>
 <body>
   <main id="main" class="main" layout:fragment="content" >
+<script>
+	function changePic(){
+		let myPic = document.getElementById("pic");
+		myPic.click();
+	}
+</script>
   <div class="row justify-content-center">
 	<div class="col-xl-8">
 	  <div class="card">
@@ -64,14 +75,17 @@ $(document).ready(function() {
 	     <div class="tab-pane fade show active profile-overview" id="profile-overview">
 	     
 <!-- Profile Edit Form -->
-            <form id="frm" action="profileUpdate" method="post">
+            <form id="proFrm" action="profileUpdate" method="post" enctype="multipart/form-data">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
               <div class="row mb-3">
                 <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">사진</label>
                 <div class="col-md-8 col-lg-9">
                   <img th:src="${e.pic}" style="width:120px;" alt="Profile">
                   <div class="pt-2">
                   <div class="col-md-8 col-lg-9">
-                  	<input type="file" id="pic" name="pic" class="form-control" style="float: left">
+                  	<input type="button" id="picBtn" name="picBtn" class="btn btn-primary" value="사진변경"
+                  		onclick="changePic();">
+                  	<input type="file" id="pic" name="pic" class="form-control" style="display: none">
                   </div>
                   &nbsp;&nbsp;&nbsp;
                     <a id="deletePic" name="deletePic" href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
@@ -134,7 +148,7 @@ $(document).ready(function() {
               <div class="row mb-3">
                 <label for="sign" class="col-md-4 col-lg-3 col-form-label">결재 서명</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="sign" type="file" class="form-control" id="sign" value="">
+                  <input type="file" id="sign" name="sign"  class="form-control" >
                 </div>
               </div>
               <br> <hr> <br>
@@ -153,14 +167,14 @@ $(document).ready(function() {
               <div class="row mb-3">
                 <label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="zip" type="email" class="form-control" id="zip" th:value="${e.zip}" disabled>
+                  <input name="zip" type="text" class="form-control" id="zip" th:value="${e.zip}" disabled>
                 </div>
               </div>
               
               <div class="row mb-3">
                 <label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
                 <div class="col-md-8 col-lg-9">
-                  <input name="addr" type="email" class="form-control" id="addr" th:value="${e.addr}" disabled>
+                  <input name="addr" type="text" class="form-control" id="addr" th:value="${e.addr}" disabled>
                 </div>
               </div>
               

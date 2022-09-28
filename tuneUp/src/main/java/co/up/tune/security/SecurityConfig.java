@@ -83,11 +83,10 @@ public class SecurityConfig {
 	 * PasswordEncoder를 Bean으로 등록
 	 */
 
-	
-	@Bean public BCryptPasswordEncoder bCryptPasswordEncoder() { 
-		return new BCryptPasswordEncoder(); 
-	}
-
+	/*
+	 * @Bean public BCryptPasswordEncoder bCryptPasswordEncoder() { return new
+	 * BCryptPasswordEncoder(); }
+	 */
 
 
 }

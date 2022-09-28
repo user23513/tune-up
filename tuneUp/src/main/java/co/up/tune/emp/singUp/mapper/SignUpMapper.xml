@@ -3,8 +3,15 @@
 <mapper namespace="co.up.tune.emp.singUp.mapper.SignUpMapper">
 
 	<insert id="empInsert" parameterType="co.up.tune.emp.vo.EmpVO">
-		insert into emp (empNO,nm,id,pw,email,auth)
-		 values(EMPNO_SEQ.nextval,#{nm},#{id},#{pw},#{email},USER)
+		<selectKey keyProperty="empNo" order="BEFORE" resultType="String">
+			SELECT
+			CASE WHEN MAX(EMP_NO) IS NULL THEN 1
+			ELSE
+			MAX(EMP_NO) + 1 END AS NO
+			FROM EMP
+		</selectKey>
+		INSERT INTO EMP (EMP_NO,NM,ID,PW,EMAIL,AUTH)
+		 VALUES(#{empNo},#{nm},#{id},#{pw},#{email},USER)
 	</insert>
 	
 	<select id="idCheck" parameterType="co.up.tune.emp.vo.EmpVO" resultType="int">

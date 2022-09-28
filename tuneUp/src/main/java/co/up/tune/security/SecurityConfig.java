@@ -78,15 +78,6 @@ public class SecurityConfig {
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return (web) -> web.ignoring().antMatchers("/assets/**", "/fileUpload/**", "/forms/**", "/fullcalendar-5.11.3/**", "/js/**");
 	}
-	
-	/*
-	 * PasswordEncoder를 Bean으로 등록
-	 */
-
-	/*
-	 * @Bean public BCryptPasswordEncoder bCryptPasswordEncoder() { return new
-	 * BCryptPasswordEncoder(); }
-	 */
 
 
 }

@@ -1,6 +1,8 @@
 package co.up.tune.emp.web;
 
 
+import java.security.Principal;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -61,7 +63,7 @@ public class EmpController {
 		int result = ss.idCheck(id);
 		return result;
 	}
-	
+	//회원가입 성공하면 로그인폼으로 
 	@PostMapping(value = "/signup")
 	public String signup(EmpVO vo) {
 	

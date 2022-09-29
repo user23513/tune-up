@@ -23,27 +23,26 @@ public class AprvReqController {
 	AprvReqService ap;
 
 	@GetMapping("/aprvReq")
-	public String aprvReq(AprvVO vo, FormVO frm, Model model, HttpServletRequest request, @RequestParam(required = false, defaultValue = "전체")String formCat, @RequestParam(required = false, defaultValue = "전체")String reqSt, @RequestParam(required = false, defaultValue = "1")int aprvPage, @RequestParam(required = false, defaultValue = "1")int formPage,@RequestParam(required = false, defaultValue = "10")int pageSize) {
+	public String aprvReq(Model model, HttpServletRequest request, @RequestParam(required = false, defaultValue = "전체")String reqSt, @RequestParam(required = false, defaultValue = "전체")String formCat) {
 		
 		//세션 사번
 		HttpSession session = request.getSession();
 		String empNo = (String) session.getAttribute("empNo");
 		
-		
 		//신청문서
+		AprvVO vo = new AprvVO();
 		vo.setEmpNo(empNo);
 		vo.setReqSt(reqSt);
-		PageHelper.startPage(aprvPage, pageSize);
-		model.addAttribute("pageInfo", PageInfo.of(ap.aprvReqList(vo)));
+		model.addAttribute("aprv", ap.aprvReqList(vo));
 
 		//서식양식
+		FormVO frm = new FormVO();
 		frm.setEmpNo(empNo);
 		frm.setFormCat(formCat);
-		PageHelper.startPage(formPage, pageSize);
-		model.addAttribute("Info", PageInfo.of(ap.formList(frm)));
+		model.addAttribute("form", ap.formList(frm));
 		
 		// 공통코드
-		model.addAttribute("cd", cd.commonList("신청상태"));
+		model.addAttribute("st", cd.commonList("신청상태"));
 		model.addAttribute("cat", cd.commonList("서식종류"));
 
 		return "aprv/aprvReq/aprvReq";

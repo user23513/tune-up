@@ -14,10 +14,9 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	AprvAdminMapper map;
 
 	@Override
-	public List<AprvVO> aprvListAll() {
-		return map.aprvListAll();
+	public List<AprvVO> aprvListAll(String reqSt) {
+		return map.aprvListAll(reqSt);
 	}
-	
 
 	@Override
 	public AprvVO aprvSelect(AprvVO vo) {
@@ -35,8 +34,8 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	}
 
 	@Override
-	public List<FormVO> aprvFormAll() {
-		return map.aprvFormAll();
+	public List<FormVO> aprvFormAll(String formCat) {
+		return map.aprvFormAll(formCat);
 	}
 
 	@Override

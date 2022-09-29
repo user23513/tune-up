@@ -11,9 +11,9 @@
 
 <insert id="approvalIn" parameterType="co.up.tune.aprv.vo.ApprovalVO">
 	INSERT INTO APPROVAL
-	(APRV_NO, APRVR, APRV_SEQ, APRV_ST)
+		(APRV_NO, APRVR, APRV_SEQ, APRV_ST)
 	VALUES
-	(#{aprvNo}, #{aprvr}, #{aprvSeq} ,
+		(#{aprvNo}, #{aprvr}, #{aprvSeq},
 	<if test="aprvSeq == 1 ">'진행'</if>
 	<if test="aprvSeq != 1 " >'대기'</if>)
 </insert>
@@ -90,17 +90,17 @@
 		</if>
 	</set>
 	WHERE APRV_NO = #{aprvNo}
-	AND REFER_NO = #{referNo}
+		AND REFER_NO = #{referNo}
 </update>
 
 <delete id="referDel" parameterType="co.up.tune.aprv.vo.ReferVO">
 	DELETE FROM REFER
 	WHERE APRV_NO = #{APRVNO}
 	<if test="empNo != null and empNo != ''">
-	AND EMP_NO = #{empNo}
+		AND EMP_NO = #{empNo}
 	</if>
 	<if test="referAprv != null and referAprv != ''">
-	AND REFER_APRV = #{referAprv}
+		AND REFER_APRV = #{referAprv}
 	</if>
 </delete>
 
@@ -112,7 +112,7 @@
 	WHERE dept = #{dept}
 	</if>
 	<if test="empNo != null and empNo != ''">
-	and EMP_NO = #{empNo}
+		AND EMP_NO = #{empNo}
 	</if>
 </select>
 
@@ -137,19 +137,19 @@
 		EMP_NO = #{empNo},
 		</if>
 		<if test="dept != null and dept != ''">
-		dept = #{dept}
+		DEPT = #{dept}
 		</if>
 		<if test="defYn != null and defYn != ''">
-		defYn = #{defYn}
+		DEFYN = #{defYn}
 		</if>
 		<if test="ap1 != null and ap1 != ''">
-		ap1 = #{ap1},
+		AP1 = #{ap1},
 		</if>
 		<if test="ap2 != null and ap2 != ''">
-		ap2 = #{ap2},
+		AP2 = #{ap2},
 		</if>
 		<if test="ap3 != null and ap3 != ''">
-		ap3 = #{ap3},
+		AP3 = #{ap3},
 		</if>
 		</set>
 	WHERE LINE_NO = #{line_no}

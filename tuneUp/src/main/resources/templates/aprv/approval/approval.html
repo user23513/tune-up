@@ -5,20 +5,93 @@
 <head>
 <meta charset="UTF-8">
 <title>전자결재 - 나의 승인</title>
-<script src="/js/jquery-3.6.1.min.js"></script>
-<script>
-	function goPage(p) {
-		location.href = '/approval?pageNum=' + p;
-	}
-</script>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+
+<style>
+table * {
+	border-radius: 5px 5px 5px 5px;
+}
+
+.form-control {
+	justify-content: end;
+}
+
+*:focus {
+	outline: 0;
+}
+</style>
 </head>
 
 <body>
 	<!-- ======= Main ======= -->
 	<main id="main" class="main" layout:fragment="content">
 
+		<script>
+		
+		loadin(); // 로딩화면 
+		function loadin(load) {
+ 			LoadingWithMask("/assets/img/load.gif"); //동작
+  			setTimeout("closeLoadingWithMask()", 300); //300밀리초 후 종료
+		} 
+		function LoadingWithMask(gif) {
+			var maskHeight = $(document).height();
+			var maskWidth  = window.document.body.clientWidth;
+  			
+			let mask = "<div id='mask' class='row' style='position:absolute; z-index:9000; background-color:#ffffff; text-align:center; display:none; left:0; top:0;'></div>";
+  			
+			let loadingImg = '';
+  			loadingImg += "<div id='loadingImg' class='col align-self-center'>";    
+ 			loadingImg += " <img src='"+ gif + "' style='position: relative; display: block; margin: 0px auto;'/>";
+ 			loadingImg += "</div>";
+ 		
+ 			$('#main').append(mask);
+ 			$('#mask').css({'width' : maskWidth +20 , 'height': maskHeight +60});
+  			$('#mask').append(loadingImg);
+  			$('#mask').show();
+		}
+		function closeLoadingWithMask() {    
+			$('#mask').remove();
+			$('#mask').empty();
+		}	
+	$(document).ready(function() {
+	
+		//데이터테이블
+		$('#approvalTable').DataTable({
+			"dom":'lftip',
+			"language": {
+		    "search": ""
+		  	},
+			lengthChange: false,
+			ordering: false,
+			info: false
+		
+		});
+		
+		//상태카테고리변경
+		$("#approvalBtns").on("click", "button", e=>{
+				let aprvSt = $(e.target).data("st"); 	
+				location.href=`/approval?aprvSt=${aprvSt}`;
+		});
+			
+	
+	/* 	approvalSelect();//상세조회
+		function aprvSelect() {
+			$("#approvaltb").on("click", ".select", e=>{
+				let no = $(e.target).data("no"); //글번호
+				$("#aprvNo").val(no)
+				$("#aprvfrm").submit();
+			})
+		} */
+	
+	});
+	</script>
 
-
+		<!--section -->
 		<section class="section">
 
 			<div class="card">
@@ -37,22 +110,24 @@
 						</nav>
 					</div>
 					<!-- End Page Title -->
-					<!-- Bordered Tabs -->
-					<ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab"
+					
+					<!-- Tabs nav -->
+					<ul class="nav nav-tabs nav-tabs-bordered" id="aprvTab"
 						role="tablist">
 						<li class="nav-item" role="presentation">
-							<button class="nav-link active" id="list-tab"
-								data-bs-toggle="tab" data-bs-target="#bordered-list"
+							<button class="nav-link active" id="aprv-tab"
+								data-bs-toggle="tab" data-bs-target="#aprv-list"
 								type="button" role="tab" aria-controls="list"
 								aria-selected="true">승인하기</button>
 						</li>
 					</ul>
+					<!-- End nav -->
 
-					<div class="tab-content pt-2" id="borderedTabContent">
-						<div class="tab-pane fade show active" id="bordered-list"
-							role="tabpanel" aria-labelledby="list-tab">
-							<!-- List Tabs -->
-
+					<!-- Tabs -->
+					<div class="tab-content pt-2" id="aprvTabContent">
+						<div class="tab-pane fade show active" id="aprv-list"
+							role="tabpanel" aria-labelledby="aprv-tab">
+						
 							<br>
 							<!-- Card with an image on left -->
 							<div class="card mb-3">
@@ -86,109 +161,69 @@
 
 							<div class="card">
 								<div class="card-body">
+								<!-- btns -->
 									<div class="row">
 										<div class="col text-center">
 											<br>
-											<div class="btn-group" role="group"
-												aria-label="Aprv Request List" style="width: 100%;">
-												<button type="button" th:each="c:${cd}"
-													class="btn btn-outline-primary" th:id="|aprv${c.code}btn|"
-													th:text="${c.cdNm}" onclick="approval()">전체</button>
+											<div class="btn-group" role="group" id = "approvalBtns"
+												aria-label="Approval List" style="width: 100%;">
+												<button type="button" th:each="s:${st}"
+													class="btn btn-outline-primary"
+													th:text="${s.cdNm}" th:data-st="${s.cdNm}">전체</button>
 											</div>
 										</div>
 									</div>
+								<!-- end btns -->
+								
 									<br>
-
-
-
-
-
-									<!-- List group with Advanced Contents -->
-									<div class="list-group">
-										<a href="#" class="list-group-item list-group-item-action"
-											aria-current="true" th:each="p : ${pageInfo.list}">
+								
+								<table id="approvalTable" class="display center"
+										style="width: 100%">
+										<thead hidden="hidden">
+											<tr>
+												<th>내용</th>
+											</tr>
+										</thead>
+										<tbody id="aprvtb">
+											<tr class="list-group" id="aprvListDiv" th:each="p : ${approval}">
+												<td>
+													<div class="list-group-item list-group-item-action"
+											aria-current="true" th:data-no="${p.aprvNo}">
 											<div class="d-flex w-100 justify-content-between">
 												<p class="mb-1 fw-bold" th:text="${p.ttl}">Some
 													placeholder content in a paragraph.</p>
 
-												<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료'  }"
+												<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료' }"
 													th:text="진행" class="badge bg-primary rounded-pill"
-													style="height: 25px">수정가능</span> <span
+													style="height: 25px">진행</span> <span
 													th:if="${p.reqSt == '반려' or p.reqSt =='완료'  }"
 													th:text="${p.reqSt}"
 													class="badge bg-secondary rounded-pill"
-													style="height: 25px">수정불가</span>
-
-
+													style="height: 25px">완료</span>
 											</div> <small>And some small print.</small>
-										</a> <div class="list-group-item list-group-item-action"
-											aria-current="true"
-											th:if="${#lists.size(pageInfo.List)} == 0">
-											<div class="d-flex w-100">
-												<p class="mb-1 text-center" style="float:none; margin:0 auto;" >결재할 문서가 존재하지 않습니다.</p>
-											</div>
 										</div>
+												</td>
+											</tr>
 
-									</div>
-									<!-- End List group Advanced Content -->
-
-
-
-
-									<!-- Pagination with icons -->
-
-
-									<nav aria-label="Page navigation" th:if="${#lists.size(pageInfo.List)} != 0">
-										<ul class="pagination pagination-info  justify-content-center">
-											<li class="page-item disabled"
-												th:if="${pageInfo.isIsFirstPage()}"><span
-												class="page-link">«</span></li>
-											<li class="page-item"
-												th:if="${!pageInfo.isIsFirstPage() && pageInfo.getList().size() > 0}"><a
-												class="page-link"
-												th:href="|javascript:pageGo([[${pageInfo.getPrePage()}]])|"
-												rel="prev">«</a></li>
-											<li
-												th:class="|page-item ${(pageInfo.pageNum eq page) ? 'active': ''} |"
-												th:each="page:${pageInfo.navigatepageNums}"><span
-												class="page-link" th:if="${pageInfo.pageNum eq page}"
-												th:text="${page}"></span> <a class="page-link"
-												th:unless="${pageInfo.pageNum eq page}"
-												th:href="|javascript:pageGo(${page})|" th:text="${page}">{{$page
-													}}</a></li>
-											<li class="page-item" th:if="${pageInfo.hasNextPage}"><a
-												class="page-link"
-												th:href="|javascript:pageGo([[${pageInfo.getNextPage()}]])|"
-												rel="next">»</a></li>
-											<li class="page-item disabled"
-												th:unless="${pageInfo.hasNextPage}"><span
-												class="page-link">»</span></li>
-										</ul>
-									</nav>
-
-									<!-- End Pagination with icons -->
-
-
-
+										</tbody>
+									</table>
+								
+								
+									
 
 								</div>
 							</div>
 
 						</div>
 					</div>
-					<!-- End Bordered Tabs -->
+					<!-- End Tabs -->
 				</div>
 			</div>
 
-
-
-
-
-
-
 		</section>
+		<!-- End section -->
 
-		<!-- Disabled Backdrop Modal -->
+		<!-- Modal -->
 
 		<div class="modal fade" id="disablebackdrop" tabindex="-1"
 			data-bs-backdrop="true">
@@ -213,12 +248,12 @@
 				</div>
 			</div>
 		</div>
-		<!-- End Disabled Backdrop Modal-->
+		<!-- End Modal-->
 
 
 
 
 	</main>
-	<!-- End #main -->
+	<!-- End main -->
 </body>
 </html>

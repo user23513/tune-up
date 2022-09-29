@@ -150,13 +150,13 @@ public class AttdServiceImpl implements AttdService{
 
 	@Override
 	public int checkGood(AttdVO vo) {
-		// 정상출근 몇명
+		// 오늘 출근시작 몇명
 		return dao.checkGood(vo);
 	}
 
 	@Override
 	public int checkBad(AttdVO vo) {
-		// 이상출근 몇명
+		// 어제 이상 출근 몇명
 		return dao.checkBad(vo);
 	}
 

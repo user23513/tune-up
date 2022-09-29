@@ -20,7 +20,7 @@ public interface AttdMapper {
 	
 	List<AttdVO> wktmChart(AttdVO vo);	// 워크타임 차트
 
-	int checkGood(AttdVO vo);	//정상출근 몇명
-	int checkBad(AttdVO vo); 	//이상출근 몇명
+	int checkGood(AttdVO vo);	//오늘 출근 시작 몇명
+	int checkBad(AttdVO vo); 	//어제 이상 출근 몇명
 	
 }

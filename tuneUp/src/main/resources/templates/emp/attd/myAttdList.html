@@ -40,23 +40,7 @@
 			
 			$("#attdFrm").submit();
 		}) */
-	
-	
-		
-		let today = new Date();
-    	let year = today.getFullYear(); // 년도
-    	let month = today.getMonth() + 1;  // 월
-    	let date = today.getDate();  // 날짜
-    	let day = today.getDay();  // 요일
-    	let hours = today.getHours(); // 시
-    	let minutes = today.getMinutes();  // 분
-    function login(){
-        document.getElementById('login').innerHTML =year + '/' + month + '/' + date +'  '+ hours + '시' + minutes   +'분  '+ '출근시작';
-    }
-    function logout(){
-        document.getElementById('logout').innerHTML =year + '/' + month + '/' + date +'  '+ hours + '시' + minutes   +'분  '+ '퇴근완료';
-    }
-	
+
 function converDate(){
 	document.pstfrm.atdcDttm.value=atdcDttm2.value.replace('T',' ')
 	document.pstfrm.afwkDttm.value=afwkDttm2.value.replace('T',' ')
@@ -174,21 +158,23 @@ function converDate(){
 					<!-- 출퇴근 버튼  -->
 					<form action="startAttd" method="post" id="attdFrm">
 						<input type="hidden" th:name="${_csrf.parameterName}"
-							th:value="${_csrf.token}"> 
-							<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}"> 
-							<input type="hidden" id="nm" name="nm" th:value="${session.nm}"> 
-							<input type="hidden" id="dept" name="dept" th:value="${session.dept}">
-						<input type="hidden" id="position" name="position" th:value="${session.position}">
+							th:value="${_csrf.token}"> <input type="hidden"
+							id="empNo" name="empNo" th:value="${session.empNo}"> <input
+							type="hidden" id="nm" name="nm" th:value="${session.nm}">
+						<input type="hidden" id="dept" name="dept"
+							th:value="${session.dept}"> <input type="hidden"
+							id="position" name="position" th:value="${session.position}">
 						<button type="submit" id="startBt" class="btn btn-light mb-2"
 							style="width: 30%; padding: 55px 10px; margin: 4px 12px; height: 10px;">출근</button>
 					</form>
 					<br>
-					
+
 					<form action="endAttd" method="post" id="afwkFrm">
-						<input type="hidden" th:name="${_csrf.parameterName}">
-						<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
-					<button type="submit" id="bt2" class="btn btn-light mb-2"
-						style="width: 30%; padding: 55px 10px; margin: 4px 12px; height: 10px;">퇴근</button>
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}"> <input type="hidden"
+							id="empNo" name="empNo" th:value="${session.empNo}">
+						<button type="submit" id="bt2" class="btn btn-light mb-2"
+							style="width: 30%; padding: 55px 10px; margin: 4px 12px; height: 10px;">퇴근</button>
 					</form>
 
 					<!-- Bar Chart -->

@@ -3,6 +3,7 @@ package co.up.tune.emp.attd.web;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +22,6 @@ import co.up.tune.emp.attdUp.service.AttdUpService;
 import co.up.tune.emp.hr.service.HrService;
 import co.up.tune.emp.vo.AttdUpVO;
 import co.up.tune.emp.vo.AttdVO;
-import co.up.tune.emp.vo.EmpVO;
 @Controller
 public class AttdController {
 	@Autowired
@@ -93,9 +93,7 @@ public class AttdController {
 	
 	@PostMapping("/startAttd")
 	public String startAttd(AttdVO vo) {
-
 		dao.startAttd(vo);
-		System.out.println(vo);
 		return "redirect:/attdToday";
 		
 	}
@@ -103,6 +101,7 @@ public class AttdController {
 	@PostMapping("/endAttd")
 	public String endAttd(AttdVO vo) {
 		dao.endAttd(vo);
+		
 		return "redirect:/attdToday";
 	}
 	

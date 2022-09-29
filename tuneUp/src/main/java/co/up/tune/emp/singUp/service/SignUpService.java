@@ -11,6 +11,8 @@ public interface SignUpService {
 	int idCheck(@Param("id") String id);
 	//아이디찾기
 	String findId(EmpVO vo);
-	
+	//비밀번호 찾기  
+	String findPassword(EmpVO vo);
+
 
 }

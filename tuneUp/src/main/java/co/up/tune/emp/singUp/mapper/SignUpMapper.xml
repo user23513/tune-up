@@ -25,5 +25,12 @@
 		from emp
 		where nm=#{nm} and email=#{email}
 	</select>
+	
+	<update id="findPassword" parameterType="co.up.tune.emp.vo.EmpVO">
+		update emp
+		set pw = #{pw}
+		where id = #{id}
+		<!--디비에 넣어보고 수정해야 함 -->
+	</update>
 
 </mapper>

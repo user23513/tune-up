@@ -68,6 +68,14 @@ public class EmpController {
 		System.out.println(ss.findId(vo));
 		return ss.findId(vo);
 	}
+	
+	//비밀번호 찾기 
+	@ResponseBody
+	@PostMapping("findpw")
+	public String findPw(EmpVO vo) {
+		return ss.findPassword(vo);
+	}
+	
 }
 	
 

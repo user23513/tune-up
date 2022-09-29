@@ -34,6 +34,11 @@ public class SignUpServiceImpl implements SignUpService{
 		return map.findId(vo);
 	}
 
+	@Override
+	public String findPassword(EmpVO vo) {
+		return map.findPassword(vo);
+	}
+
 	
 	
 	

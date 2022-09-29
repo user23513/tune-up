@@ -3,9 +3,11 @@ package co.up.tune.prj.todo.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.up.tune.prj.vo.TodoDetailVO;
 
+@Service
 public class TodoDetailServiceImpl implements TodoDetailService{
 	@Autowired
 	TodoDetailService map;
@@ -33,6 +35,11 @@ public class TodoDetailServiceImpl implements TodoDetailService{
 	@Override
 	public int cmpltYnUpdate(TodoDetailVO vo) {
 		return map.cmpltYnUpdate(vo);
+	}
+
+	@Override
+	public TodoDetailVO detailSelect(TodoDetailVO vo) {
+		return map.detailSelect(vo);
 	}
 
 }

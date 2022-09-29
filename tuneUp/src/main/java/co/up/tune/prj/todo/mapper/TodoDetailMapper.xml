@@ -7,17 +7,29 @@
 		order by todo_no
 	</select>
 	
+	<select id="detailSelect" parameterType="co.up.tune.prj.vo.TodoDetailVO">
+		select * from todoDetail
+		where todo_no = #{todoNo}
+	</select>
+	
 	<insert id="detailInsert" parameterType="co.up.tune.prj.vo.TodoDetailVO">
-		insert into todoDetail
-		value = (todoNo_seq.nextval, #{cntn}, #{cmpltYn}, #{edt}, #{postNo})
+		<selectKey keyProperty="todoNo" order="BEFORE" resultType="int">
+			select
+			    case when max(todo_no) is null then 1
+			    else max(todo_no)+1
+			    end as no
+			from todoDetail
+		</selectKey>
+		insert into todoDetail (todo_no, cntn, cmplt_yn, post_no)
+		value = (#{todoNo}, #{cntn}, #{cmpltYn}, #{postNo})
 	</insert>
 	
 	<update id="detailUpdate" parameterType="co.up.tune.prj.vo.TodoDetailVO">
 		update todoDetail
 		<set>
 			<if test="cntn != null">cntn = #{cntn},</if>
-			<if test="cmpltYn != null" >cmpltYn = #{cmpltYn},</if>
-			<if test="edt != sysdate">edt = sysdate</if>
+			<if test="cmpltYn != null" >cmplt_yn = #{cmpltYn},</if>
+			<if test="edt != null">edt = #{edt}</if>
 		</set>
 		where todo_no = #{todoNo}
 	</update>
@@ -29,7 +41,7 @@
 	
 	<update id="cmpltYnUpdate" parameterType="co.up.tune.prj.vo.TodoDetailVO">
 		update todoDetail
-		set cmpltYn = #{cmpltYn}
+		set cmplt_yn = #{cmpltYn}
 		where todo_no = #{todoNo}
 	</update>
 	

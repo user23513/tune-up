@@ -7,5 +7,9 @@
 		FROM EMP
 		WHERE DEPT = #{dept}
 	</select>
+	
+	<insert id="scheduleInsert" parameterType="co.up.tune.emp.vo.EmpVO">
+		INSERT INTO SCHDULE
+	</insert>
 
 </mapper>

@@ -4,13 +4,16 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Pages / Login - NiceAdmin Bootstrap Template</title>
+  <title>아이디 찾기 페이지</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+  
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/로고.png" rel="icon">
+  <link href="assets/img/로고.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -20,19 +23,72 @@
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
+  <script src="/js/jquery-3.6.1.min.js"></script>
   
 </head>
 
-<body>
 
+
+<body>
+<script>
+		
+  $(document).ready(function(){
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    //아이디 찾고 나오는 비밀번호 찾기 버튼
+    $("#showId").on("click", ".hi2", e=>{
+    	location.href='findpassword';
+    })
+    //아이디 찾고 나오는 로그인버튼
+    $("#showId").on("click", ".hi", e=>{
+    	location.href='login';
+    })
+    //계정없을 떄 나오는 회원가입 버튼
+    $("#showId").on("click", ".hi3", e=>{
+    	location.href='signupform';
+    })
+    //아이디 보여주는 
+    $("#findId").on('click', e=> {
+      let userName = $("#checkName").val();
+      let userEmail = $("#checkEmail").val();
+
+       $.ajax({
+        url:"findid",
+        beforeSend:function(xhr){
+	 	  		xhr.setRequestHeader(header,token);  
+	     	},
+        type : "post",
+        dataType:"text",
+        data: {"nm" : userName, "email" : userEmail},
+        success: function(data){
+        	if(data.length == 0) {
+        		//alert("가입된 계정이 없습니다.")
+			     let str ="<br>"
+        		str += "<div class='col-12 alert alert-primary alert-dismissible fade show' style='padding-right: 16px;'>";
+        		str += "<p class='card-title text-center pb-0 fs-6'>가입된 계정이 없습니다.</p>";
+        		str += "<div class='d-grid gap-2 mt-3'><button type='button' class='btn btn-outline-primary hi3' id='ccc'>회원가입</button></div>";
+        		$("#showId").append(str)
+        	}else {
+        		$(e.target).attr("disabled", true);
+        		let str ="<br>"
+        		str += "<div class='col-12 alert alert-primary alert-dismissible fade show' style='padding-right: 16px;'>";
+        		str += "<p class='card-title text-center pb-0 fs-6'>아이디는 ' " + data + " '입니다.</p>";
+        		str += "<div class='d-grid gap-2 mt-3'><button type='button' class='btn btn-outline-primary hi2' id='bbb'>비밀번호 찾기</button></div>";
+        		str += "<div class='d-grid gap-2 mt-3'><button type='button' class='btn btn-outline-primary hi' id='aaa'>로그인</button></div>";
+        		$("#showId").append(str)
+        		
+                			
+        	}
+        }
+       
+       })
+    })
+  })
+</script>
   <main>
     <div class="container">
 
@@ -57,38 +113,36 @@
                     <p class="text-center small">Enter your name & email</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
-
+                  <form class="row g-3 needs-validation" novalidate action="findid" method="POST">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="col-12">
                       <label for="yourName" class="form-label">Name</label>
                       <div class="input-group has-validation">                
-                        <input type="text" name="nm" class="form-control" id="nm" required>
+                        <input type="text" name="nm" class="form-control" id="checkName" required>
                         <div class="invalid-feedback">Please enter your Name.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourEmail" class="form-label">Email</label>
-                      <input type="email" name="password" class="form-control" id="email" required>
+                      <input type="email" name="email" class="form-control" id="checkEmail" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     
                     
                    <div class="col-12">
-                      <button class="btn btn-primary w-100" type="submit">Check</button>
+                      <button class="btn btn-primary w-100" type="button" id="findId">확인</button>
                     </div>
                   </form>
                   
                   <br>
                   <br>
 					
-                    <!-- th:if="어쩌구 "걸어서 버튼 누르면 띄워지게 ? ***처리도 해야함 -->
-                   <div>
-                    <div class="col-12 alert alert-primary alert-dismissible fade show" th:if="어쩌구">
-                    	<p class="card-title text-center pb-0 fs-6">***'s ID is abcd****</p>               
-                    </div>
-                   </div>
+                	<!-- 아이디 보이는 곳 -->
+                 <div id="showId">
+                    
+                 </div>
 
                 </div>
               </div>

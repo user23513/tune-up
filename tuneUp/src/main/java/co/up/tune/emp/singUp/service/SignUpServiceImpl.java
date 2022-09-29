@@ -28,6 +28,13 @@ public class SignUpServiceImpl implements SignUpService{
 	public int idCheck(@Param("id") String id) {
 		return map.idCheck(id);
 	}
+
+	@Override
+	public String findId(EmpVO vo) {
+		return map.findId(vo);
+	}
+
+	
 	
 	
 	

@@ -98,4 +98,10 @@
 	
 	</select>  -->
 	
+	<!-- 현지 수정 -->
+	<select id="empList" resultType="co.up.tune.emp.vo.EmpVO">
+		SELECT *
+		FROM EMP
+	</select>
+	
 </mapper>

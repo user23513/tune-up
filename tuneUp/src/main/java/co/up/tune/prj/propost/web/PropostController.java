@@ -84,7 +84,8 @@ public class PropostController {
 	
 	// 내 프로젝트 - 글 작성 폼 
 	@GetMapping("/postInsertForm")
-	public String prjPostInsertForm() {
+	public String prjPostInsertForm(Model model) {
+		model.addAttribute("empList", dao.empList());
 		return "prj/post/postInsertForm";
 	}
 	

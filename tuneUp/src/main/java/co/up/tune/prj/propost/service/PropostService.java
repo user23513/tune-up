@@ -4,6 +4,7 @@ import java.util.List;
 
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.emp.vo.AttdVO;
+import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
 
@@ -24,6 +25,9 @@ public interface PropostService {
 	FilesVO filesSelect(FilesVO fvo); //파일 단건
 	int filesInsert(FilesVO fvo); //파일등록
 	int filesDelete(FilesVO fvo); //파일삭제
+	
+	/* 현지 수정 */
+	List<EmpVO> empList(); //모든 사원정보
 	
  
 	

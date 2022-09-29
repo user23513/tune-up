@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.emp.vo.AttdVO;
+import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.propost.mapper.PropostMapper;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
@@ -97,6 +98,13 @@ public class PropostServiceImpl implements PropostService {
 	public int filesDelete(FilesVO fvo) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	//모든 사원정보
+	@Override
+	public List<EmpVO> empList() {
+		
+		return map.empList();
 	}
 	
 	 

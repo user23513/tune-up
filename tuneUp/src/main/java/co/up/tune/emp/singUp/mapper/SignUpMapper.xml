@@ -10,14 +10,20 @@
 			MAX(to_number(EMP_NO)) + 1 END AS NO
 			FROM EMP
 		</selectKey>
-		INSERT INTO EMP (EMP_NO,NM,ID,PW,EMAIL,AUTH)
-		 VALUES(#{empNo},#{nm},#{id},#{pw},#{email},USER)
+		INSERT INTO EMP (EMP_NO,NM,ID,PW,EMAIL,AUTH,PHONE)
+		 VALUES(#{empNo},#{nm},#{id},#{pw},#{email},USER,#{phone})
 	</insert>
 	
 	<select id="idCheck" parameterType="co.up.tune.emp.vo.EmpVO" resultType="int">
 		select count(*)
 		from emp
 		where id=#{id}
+	</select>
+	
+	<select id="findId" parameterType="co.up.tune.emp.vo.EmpVO" resultType="string">
+		select max(id) id
+		from emp
+		where nm=#{nm} and email=#{email}
 	</select>
 
 </mapper>

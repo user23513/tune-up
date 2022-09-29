@@ -1,25 +1,16 @@
 package co.up.tune.emp.web;
 
 
-import java.security.Principal;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import co.up.tune.TuneUpApplication;
 import co.up.tune.emp.singUp.service.SignUpService;
 import co.up.tune.emp.vo.EmpVO;
 
-@SpringBootApplication
-@MapperScan(basePackages = "co.up.tune.**.mapper")
 @Controller
 public class EmpController {
 	
@@ -40,8 +31,8 @@ public class EmpController {
 	
 	
 	//아이디 찾기
-	@GetMapping("/findid")
-	public String findId() throws Exception{
+	@GetMapping("/findidform")
+	public String findIdForm() throws Exception{
 		return "member/findId";
 	}
 	//비밀번호 찾기
@@ -66,10 +57,16 @@ public class EmpController {
 	//회원가입 성공하면 로그인폼으로 
 	@PostMapping(value = "/signup")
 	public String signup(EmpVO vo) {
-	
 		ss.empInsert(vo);
 		return "redirect:/login";
 		
+	}
+	//아아디 찾기(해당하는 계정이 있는지)
+	@ResponseBody
+	@PostMapping("/findid")
+	public String findId(EmpVO vo){
+		System.out.println(ss.findId(vo));
+		return ss.findId(vo);
 	}
 }
 	

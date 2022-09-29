@@ -15,8 +15,11 @@
 	</select>
 	
 	<insert id="todoInsert" parameterType="co.up.tune.prj.vo.TodoVO">
-		insert into todo
-		value = (PNO_SEQ.NEXTVAL, #{empNO}, #{ttl}, #{nm}, sysdate, #{prjNo})
+		<selectKey keyProperty="postNo" resultType="Integer" order="AFTER">
+		SELECT POST_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+		INSERT INTO TODO
+		VALUE = (POST_SEQ.NEXTVAL, #{empNO}, #{ttl}, #{nm}, sysdate, #{prjNo})
 	</insert>
 	
 	<update id="todoUpdate" parameterType="co.up.tune.prj.vo.TodoVO">

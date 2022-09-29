@@ -6,50 +6,10 @@
 <meta charset="UTF-8">
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
 <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-<title>내프로젝트</title>
+<title>todo</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-/*     google.charts.load('current', {'packages':['gantt']});
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-	
-      var data = new google.visualization.DataTable();//아작스 디비 받아와서 
-      data.addColumn('string', 'Task ID');
-      data.addColumn('string', 'Task Name');
-      data.addColumn('string', 'Resource');
-      data.addColumn('date', 'Start Date');
-      data.addColumn('date', 'End Date');
-      data.addColumn('number', 'Duration');
-      data.addColumn('number', 'Percent Complete');
-      data.addColumn('string', 'Dependencies');
-		
-      function drawChart(){
-    		var jsonData = $.ajax({
-    			url:"/chart/chart02_money",
-    			dataType:"json",
-    			async:false
-    		}).responseText;
-    		
-     var data = data.addRows(jsonData);
-     var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
-
-      var options = {
-        height: 400,
-        gantt: {
-          trackHeight: 30
-        }
-      };
-		//그려주는 부분 div안에 넣어줌
-      var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
-
-      chart.draw(data, options);
-    }
-    } */
-  </script>
-  <script th:inline="javascript">
-	/* $(document).ready(function() {
+	 $(document).ready(function() {
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		
@@ -85,24 +45,12 @@
 						$("#rList").prepend(div);
 						
 						$("#rCntn").val("");
-						
-				 
 		         }
 		      })
 		})
-		
-		
-		
-		
-	
-		  
-	}) */
+	}) 
 </script>
-  
-  
 <style>
-
-
 .pagination {
 	margin-left: 300px;
 }
@@ -121,58 +69,31 @@
 				<div class="card-body">
 					<h5 class="card-title">MY PROJECT</h5>
 						<div class="pagetitle">
-							
 							<div style="display: inline-block; margin: 0 5px; float: right;">
-								<button type="button" class="btn btn-outline-primary" onclick="location.href='postInsertForm'" >글쓰기</button>
-							
-							</div>
-							<br>
-							<br>
+								<button type="button" class="btn btn-outline-primary" onclick="location.href='todoInsertForm'" >글쓰기</button>
+							</div> <br> <br>
 						</div>
 
 					<!-- 메인 -->
 					<!-- Default Tabs -->
-
 					<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
 						<li class="nav-item flex-fill" role="presentation">
 						
 							<button class="nav-link w-100 active" id="home-tab"
 								data-bs-toggle="tab" data-bs-target="#home-justified"
 								type="button" role="tab" aria-controls="home"
-								aria-selected="false">Home</button>
-						</li>
-						<li class="nav-item flex-fill" role="presentation">
-							<button class="nav-link w-100" id="pst-tab" data-bs-toggle="tab"
-								data-bs-target="#pst" type="button" role="tab"
-								aria-controls="pst" aria-selected="true">글</button>
-						</li>
-						<li class="nav-item flex-fill" role="presentation">
-							<button class="nav-link w-100" id="contact-tab"
-								data-bs-toggle="tab" data-bs-target="#contact-justified"
-								type="button" role="tab" aria-controls="contact"
-								aria-selected="false">업무</button>
-						</li>
-						<li class="nav-item flex-fill" role="presentation">
-							<button class="nav-link w-100" id="contact-tab"
-								data-bs-toggle="tab" data-bs-target="#contact-justified"
-								type="button" role="tab" aria-controls="contact"
-								aria-selected="false">일정</button>
+								aria-selected="true">Home</button>
 						</li>
 						<li class="nav-item flex-fill" role="presentation">
 							<button class="nav-link w-100" id="contact-tab"
 								data-bs-toggle="tab" data-bs-target="#contact-justified"
 								type="button" role="tab" aria-controls="contact"
 								aria-selected="false">할 일</button>
-
 						</li>
-						
-					    
-					    
 					</ul>
 					
 			<div class="tab-content pt-2" id="myTabjustifiedContent">
 				
-				<div class="tab-content pt-2" id="myTabjustifiedContent">
 						<div class="tab-pane fade show active" id="home-justified"
 							role="tabpanel" aria-labelledby="home-tab">
 							<div id="chart_div"></div>	
@@ -329,14 +250,12 @@
 					</div>
 				</div>
 			</div>
-			</div>
 		</section>
 
 	</main>
 	<script type="text/javascript">
 	/* $(document).ready(function() {
 	$("#delete").on("click", e=>{
-		$("#delFrm").submit();
 	});
 	
 	//수정버튼
@@ -350,42 +269,6 @@
 
 	})
     } */
- /*    $(document).ready(function() {
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-    $("#rBtn").on("click", e=>{
-		let postNo = $("#postNo").val(); //게시글 번호
-		let cntn = $("#rCntn").val();    //댓글 내용
-		let empNo = $("#empNo").val();   //댓글 쓴 사원번호
-		let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
-		let rList = $("<div>").attr("id", "rList"); 
-		
-		//댓글 등록 처리
-		$.ajax({
-	         url:'ppReplyInsert',
-	         beforeSend:function(xhr){
-	 	  		xhr.setRequestHeader(header,token);  
-	     	  },
-	         type:'post',
-	         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr},
-	         dataType:'json',
-	         success:function(res){
-					let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
-										.append($("<span>").html(res.dttm))
-										.append($("<br>"))
-										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
-										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
-										.append($("<hr>"))
-					$("#rList").prepend(div);
-					
-					$("#rCntn").val("");
-	         }
-	      })
-    })
-    }) */
-    
-    
 	</script>
 </body>
 

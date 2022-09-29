@@ -2,6 +2,7 @@ package co.up.tune.prj.todo.service;
 
 import java.util.List;
 
+import co.up.tune.prj.vo.DemoTodoVO;
 import co.up.tune.prj.vo.TodoDetailVO;
 
 public interface TodoDetailService {
@@ -12,4 +13,9 @@ public interface TodoDetailService {
 	int detailUpdate(TodoDetailVO vo); //할일 상세 수정
 	int detailDelete(TodoDetailVO vo); //할일 상세 삭제
 	int cmpltYnUpdate(TodoDetailVO vo); //할일 체크
+	
+	List<DemoTodoVO> demoList(); //데모 리스트
+	DemoTodoVO demoSelect(DemoTodoVO vo); //데모 한건 조회
+	int demoInsert(DemoTodoVO vo); //데모 추가
+	int demoDelete(DemoTodoVO vo); //데모 삭제
 }

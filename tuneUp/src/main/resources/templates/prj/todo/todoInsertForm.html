@@ -36,12 +36,12 @@ $(document).ready(function() {
 	$("#addTodo").on("click", e=>{
 		let cntn = $("#todoAdd").val(); //할일
 		
-		console.log("우엥" +cntn);
+		console.log(cntn);
 		let tdList = $("<div>").attr("id", "tdList"); 
 		
 		//할일 추가 처리
 		$.ajax({
-	         url:'detailInsert',
+	         url:'demoInsert',
 	         beforeSend:function(xhr){
 	 	  		xhr.setRequestHeader(header,token);  
 	     	  },
@@ -50,8 +50,8 @@ $(document).ready(function() {
 	         dataType:'json',
 	         success:function(res){
 	        	 console.log(res);
-	        	let str = "<tr><td style='display: none' >"+res.todoNo+"</td> <td>"+res.cntn+"</td>";
-	     		str += "<td><a id='remove' name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
+	        	let str = "<tr><td>"+res.no+"</td>";
+	     		str += "<td >"+res.cntn+"</td><td><a id='remove' name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
 	     		str += "<i class='bi bi-x-lg'></i></a> </td> </tr>";
 	        	 $("#tbd").append(str);
 	         }

@@ -45,4 +45,23 @@
 		where todo_no = #{todoNo}
 	</update>
 	
+	<select id="demoList" resultType="co.up.tune.prj.vo.DemoTodoVO">
+		select * from demoTodo
+	</select>
+	
+	<select id="demoSelect" parameterType="co.up.tune.prj.vo.DemoTodoVO">
+		select * from demoTodo
+		where no = #{no}
+	</select>
+	
+	<insert id="demoInsert" parameterType="co.up.tune.prj.vo.DemoTodoVO">
+		insert into demoTodo (cntn)
+		value = (#{cntn})
+	</insert>
+	
+	<delete id="demoDelete" parameterType="co.up.tune.prj.vo.DemoTodoVO">
+		delete from demoTodo
+		where no = #{no}
+	</delete>
+	
 </mapper>

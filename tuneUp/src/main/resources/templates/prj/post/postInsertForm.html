@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  xmlns="http://www.w3.org/1999/xhtml"
+	  
 	  layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
@@ -215,7 +215,7 @@ $(document).ready(function(){
 								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 								<input type="hidden" name="empNo" th:value="${session.empNo}">
 								<input type="hidden" name="wrtr" th:value=${session.nm}>
-								<input type="hidden" name="prjNo" value="181">
+								<input type="hidden" name="prjNo" value="${prjNo}">
 								<div class="row mb-3">
 									<div class="col-sm-10" style="width: 80%">
 										<input type="text" class="form-control none" style="border-bottom:1px solid blue;" name="ttl" placeholder="제목을 입력하세요.">
@@ -303,9 +303,9 @@ $(document).ready(function(){
 								        <div id="pagination"></div>
 								    </div>
 								</div>
-								<input type="hidden" id="result" name="place" value="">
-								<input type="hidden" id="lat" name="latitude" value="">
-								<input type="hidden" id="lon" name="longitude" value="">
+								<input type="text" id="result" name="place" value="">
+								<input type="text" id="lat" name="latitude" value="">
+								<input type="text" id="lon" name="longitude" value="">
 								<!-- End 카카오 지도 -->
 								
 								<br><div class="col-sm-10">
@@ -543,7 +543,7 @@ $(document).ready(function(){
 		function displayInfowindow(marker, title) {
 			let latitude = marker.getPosition().getLat();
 			let longitude = marker.getPosition().getLng();
-		    var content = `<div style='padding:5px;'>${title}<br><a href='https://map.kakao.com/link/to/${title},${latitude},${longitude}' style='color:blue' target='_blank'>길찾기</a>  <button class='placeSelect' style='color:blue'>선택</button></div>`;
+		    var content = `<div style='padding:5px;'>${title}<br><a href='https://map.kakao.com/link/to/${title},${latitude},${longitude}' style='color:blue' target='_blank'>길찾기</a>  <button type='button' class='placeSelect' style='color:blue'>선택</button></div>`;
 		    	
 		    infowindow.setContent(content);
 		    infowindow.open(map, marker);
@@ -591,6 +591,13 @@ $(document).ready(function(){
 			$(e.target).prev().html("");
 			
 		})
+		
+		//input창 enter키 누르면 submit되는거 방지
+		$('input[type="text"]').keydown(function() {
+		    if (event.keyCode === 13) {
+		        event.preventDefault();
+		    }
+		});
 	</script>
 </main>
 </body>

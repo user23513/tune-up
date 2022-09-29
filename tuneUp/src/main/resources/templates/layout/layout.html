@@ -398,7 +398,6 @@
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
     	  <!-- 프로필사진  -->
     	   <section class="section profile">
@@ -422,7 +421,7 @@
             </a>
           </li>
           <li>
-            <a href="myProject">
+            <a id="myPrjBtn">
               <i class="bi bi-circle"></i><span>내 프로젝트</span>
             </a>
           </li>
@@ -494,7 +493,6 @@
           </li>
         </ul>
       </li><!-- End Tables Nav -->
-
     </ul>
 
   </aside><!-- End Sidebar-->
@@ -525,6 +523,16 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+  <!-- 내 프로젝트 form  -->
+  <form id="myPrjFrm" action="myProject" method="post">
+  	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+  	<input type="hidden" name="empNo" th:value="${session.empNo}">
+  </form>
+  
+  <script>
+  	$("#myPrjBtn").on("click", e=>{$("#myPrjFrm").submit();})
+  </script>
+  
   <!-- Vendor JS Files -->
   <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -86,24 +86,27 @@ public class AttdController {
 		
 	@RequestMapping("/attdToday")
 	public String myAttdList(){
-		//vo.setWktm(vo.getAtdcDttm()-vo.getAfwkDttm());
 		return "emp/attd/myAttdList";
 		
 	}
 	
-	@PostMapping("/startAttd")
-	public String startAttd(AttdVO vo) {
-		dao.startAttd(vo);
-		return "redirect:/attdToday";
-		
-	}
-	
-	@PostMapping("/endAttd")
-	public String endAttd(AttdVO vo) {
-		dao.endAttd(vo);
-		
-		return "redirect:/attdToday";
-	}
+	  //출근기록 저장
+	  
+		/*
+		 * @PostMapping("/startAttd") public String startAttd(AttdVO vo) {
+		 * 
+		 * dao.startAttd(vo); return "redirect:/main";
+		 * 
+		 * }
+		 */
+	  
+	/* //퇴근기록 저장
+	 * 
+	 * @PostMapping("/endAttd") public String endAttd(AttdVO vo,Model model) {
+	 * dao.endAttd(vo);
+	 * 
+	 * return "redirect:/attdToday"; }
+	 */
 	
 	
 	/* public String workChart() {

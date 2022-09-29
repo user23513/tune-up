@@ -39,18 +39,28 @@
 	</delete>
 	
  
+	 <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
+		UPDATE ATTD 
+		<set>
+			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
+			<if test="afwkDttm != null">AFWK_DTTM = #{afwkDttm}, </if>
+			<if test="st != null">ST = '601' </if>
+		</set>
+		WHERE EMP_NO = #{empNo} AND ATDC_DT = #{atdcDt}
+		</update> 
 	
 	
-	<!-- <delete id="attdUpDel"
-		parameterType="co.up.tune.emp.vo.AttdUpVO">
-		DELETE FROM ATTDUP
-		WHERE ATTDUP_NO = #{attdupNo}
-	</delete> -->
 	
+	<!-- <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
+		<![CDATA[
+		UPDATE ATTD
+		SET(ATDC_DTTM,AFWK_DTTM,ST) = (?,?,'601')
+		WHERE EMP_NO = ? AND ATDC_DT >= ?
+		 ]]>
+		</update>   -->
 	
 
-
-	<!--  <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
+<!-- 	<update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
 		UPDATE ATTD 
 		<set>
 			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
@@ -61,16 +71,6 @@
 		WHERE EMP_NO = #{empNo} 
 		AND  ATDC_DT = #{atdcDt} 
 		</update>   -->
-		
-		<update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
-		UPDATE ATTD 
-		<set>
-			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
-			<if test="afwkDttm != null">AFWK_DTTM = #{afwkDttm}, </if>
-			<if test="st != null">ST = '601' </if>
-		</set>
-		WHERE EMP_NO = #{empNo} AND ATDC_DT = #{atdcDt}
-		</update>  
 		
 		
 		<!-- <![CDATA[   

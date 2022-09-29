@@ -22,6 +22,7 @@ public class AttdUpController {
 	//근태 수정 신청 - 사원
 	@PostMapping("/attdUpInsert")
 	public String attdUpInsert(AttdUpVO vo) {
+		
 		dao.attdUpInsert(vo);
 		return "redirect:/attdToday";
 	}
@@ -32,9 +33,6 @@ public class AttdUpController {
 		model.addAttribute("checkModi", count);
 		return "emp/attd/attdList";
 	}
-	
-	
-	
 	
 	//근태수정 신청폼
 	@GetMapping("/attdUpForm")
@@ -63,7 +61,7 @@ public class AttdUpController {
 		return "emp/attdUp/attdUpSelect";
 	}
 	
-	//근태 수정요청 리스트 삭제
+	//근태 수정요청 리스트 삭제(반려)
 	  @PostMapping("/attdUpDel")
   	  public String attdUpDel(AttdUpVO vo,Model model) {
   		model.addAttribute("attdUpDel",dao.attdUpDel(vo));

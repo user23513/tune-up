@@ -81,8 +81,6 @@
 	
 	
 	
-	
-	
 </script>
  
  
@@ -156,17 +154,17 @@
 										<div id="cid">
 											<button type="button" class="btn btn-light mb-2"
 												style="width: 30%; padding: 55px 10px; margin: 4px 12px;">
-												정상출근 <span class="badge bg-secondary text-light"><span th:text="${checkGood}"></span>
+												오늘 출근 인원 <span class="badge bg-secondary text-light"><span th:text="${checkGood}"></span>
 												</span> 
 											</button>
 											<button type="button" class="btn btn-light mb-2"
 												style="width: 30%; padding: 55px 10px; margin: 4px 12px;">
-												근태이상 <span class="badge bg-secondary text-light"><span th:text="${checkBad}"></span>
+												근태 이상 인원 <span class="badge bg-secondary text-light"><span th:text="${checkBad}"></span>
 												</span>
 											</button>
 											<button type="button" class="btn btn-light mb-2"
 												style="width: 30%; padding: 55px 10px; margin: 4px 12px;">
-												수정 <span class="badge bg-secondary text-light"><span th:text="${checkModi}"></span></span>
+												수정 요청 <span class="badge bg-secondary text-light"><span th:text="${checkModi}"></span></span>
 											</button>
 										</div>
 									</div>
@@ -228,8 +226,9 @@
 											</thead>
 											<tbody>
 												<tr th:each="at : ${attdList}">
-													<td class="dt-body-center"><span
-														th:text="${#dates.format(at.atdcDt, 'yyyy-MM-dd')}"></span></td>
+													<!-- <td class="dt-body-center"><span
+														th:text="${#dates.format(at.atdcDt, 'yyyy-MM-dd')}"></span></td> -->														<td class="dt-body-center"><span th:text="${at.atdcDt}"></span></td>
+
 													<td class="dt-body-center"><span th:text="${at.empNo}"></span></td>
 													<td class="dt-body-center"><span th:text="${at.nm}"></span></td>
 													<td class="dt-body-center"><span th:text="${at.dept}"></span></td>
@@ -248,7 +247,9 @@
 														th:text="${#dates.format(at.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
 													<td class="dt-body-center"><span
 														th:if="${at.st} == '601'" th:text="'정상'"></span> <span
-														th:unless="${at.st} == '601'" th:text="'근태이상'"></span></td>
+														th:if="${at.st} == '602'" th:text="'근태이상'"></span>
+														<span
+														th:if="${at.st} == ' '" th:text="' '"></span></td>
 
 													<!-- <td><span th:text="${at.st}"></span></td> -->
 												</tr>

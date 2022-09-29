@@ -68,9 +68,12 @@
 											<h5 class="card-title">결재대기목록</h5>
 											<p class="card-text">나에게 참조 또는 상신된 결재목록입니다. 문서를 검토하여
 												승인하거나 반려할 수 있습니다. 일정 기간 동안 결재를 위임을 설정할 수 있습니다.</p>
+											<button type="button" class="btn btn-primary">
+												<i class="ri-pencil-fill"> 나의 서명 관리</i>
+											</button>
 											<button type="button" class="btn btn-primary"
 												data-bs-toggle="modal" data-bs-target="#disablebackdrop">
-												<i class="ri-account-pin-circle-line"> 결재 위임자 설정</i>
+												<i class="ri-account-pin-circle-fill"> 결재 위임자 설정</i>
 											</button>
 
 
@@ -89,54 +92,53 @@
 											<div class="btn-group" role="group"
 												aria-label="Aprv Request List" style="width: 100%;">
 												<button type="button" th:each="c:${cd}"
-													class="btn btn-outline-secondary"
-													th:id="|aprv${c.code}btn|" th:text="${c.cdNm}"
-													onclick="approval()">전체</button>
+													class="btn btn-outline-primary" th:id="|aprv${c.code}btn|"
+													th:text="${c.cdNm}" onclick="approval()">전체</button>
 											</div>
 										</div>
 									</div>
 									<br>
 
 
-									<table id="aprvTable" class="table table-hover"
-										style="width: 100%">
-										<tbody id="tb" class="list-group">
-											<tr>
-											<td th:if="${#lists.size(pageInfo.list)} == 0">왜안뜨다가 이제떠</td>
-											</tr>
-											
-											
-											
-											<tr th:each="p : ${pageInfo.list}" data-bs-toggle="modal"
-												data-bs-target="#aprvView" th:data-no="${p.aprvNo}">
 
-												<td
-													class="list-group-item d-flex justify-content-between align-items-start">
-													<div class="ms-2 me-auto">
-														<div class="fw-bold" th:text="${p.ttl}"></div>
-														2022-08-09 14:23 작성일자
-													</div> <th:block th:switch="${p.reqSt}">
-														<span th:case="전송" class="badge bg-primary"><i
-															class="bi bi-info-circle me-1"></i>전송</span>
-														<span th:case="검토" class="badge bg-secondary"><i
-															class="bi bi-check-circle me-1"></i>검토</span>
-														<span th:case="반려" class="badge bg-primary"><i
-															class="bi bi-exclamation-triangle me-1"></i>반려</span>
-														<span th:case="완료" class="badge bg-secondary"><i
-															class="bi bi-star me-1"></i>완료</span>
-													</th:block>
-												</td>
 
-											</tr>
-										</tbody>
-									</table>
+
+									<!-- List group with Advanced Contents -->
+									<div class="list-group">
+										<a href="#" class="list-group-item list-group-item-action"
+											aria-current="true" th:each="p : ${pageInfo.list}">
+											<div class="d-flex w-100 justify-content-between">
+												<p class="mb-1 fw-bold" th:text="${p.ttl}">Some
+													placeholder content in a paragraph.</p>
+
+												<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료'  }"
+													th:text="진행" class="badge bg-primary rounded-pill"
+													style="height: 25px">수정가능</span> <span
+													th:if="${p.reqSt == '반려' or p.reqSt =='완료'  }"
+													th:text="${p.reqSt}"
+													class="badge bg-secondary rounded-pill"
+													style="height: 25px">수정불가</span>
+
+
+											</div> <small>And some small print.</small>
+										</a> <div class="list-group-item list-group-item-action"
+											aria-current="true"
+											th:if="${#lists.size(pageInfo.List)} == 0">
+											<div class="d-flex w-100">
+												<p class="mb-1 text-center" style="float:none; margin:0 auto;" >결재할 문서가 존재하지 않습니다.</p>
+											</div>
+										</div>
+
+									</div>
+									<!-- End List group Advanced Content -->
+
 
 
 
 									<!-- Pagination with icons -->
 
 
-									<nav aria-label="Page navigation example">
+									<nav aria-label="Page navigation" th:if="${#lists.size(pageInfo.List)} != 0">
 										<ul class="pagination pagination-info  justify-content-center">
 											<li class="page-item disabled"
 												th:if="${pageInfo.isIsFirstPage()}"><span

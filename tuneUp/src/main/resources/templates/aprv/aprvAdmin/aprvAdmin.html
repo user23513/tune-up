@@ -9,14 +9,7 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script
 	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
-<script
-	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
-<!-- ========= -->
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
-
+<link rel="stylesheet" href="/assets/css/datable.css">
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript"
@@ -26,30 +19,16 @@
 		aprvSelect();
 		formSelect();
 		
-		//datatables
 		$('#aprvTable').DataTable({
-			//컬럼 갯수
-			colums: [
-				
-				{data:"ttl"},
-				{data:"empNo"},
-				{data:"dttm"},
-				{data:"reqSt"},
-				{data:"aprvAuth"}
+			colums: [	
+				{data:"ttl"}		
 			],
-			//컬럼 넓이
+
 			columnDefs: [
-				{targets:0, width:400},
-				{targets:1, width:50},
-				{targets:2, width:50},
-				{targets:3, width:50},
-				{targets:4, width:50}
-			],
-			//표시 건수 기능 숨기기
+				{targets:0, width:400}
+			],	
 			lengthChange: false,
-			//정렬 기능 숨기기
 			ordering: false,
-			//정보 표시 숨기기
 			info: false
 			
 		});
@@ -106,15 +85,6 @@
 	margin-left: 0px;
 	display: inline;
 	border: 0px;
-}
-
-table, thead>th {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.location {
-	position: relative;
 }
 </style>
 </head>
@@ -174,7 +144,7 @@ table, thead>th {
 							<div class="card mb-3">
 								<div class="row g-0">
 									<div class="col-md-4">
-										<img src="assets/img/adminAprv.jpg"
+										<img src="assets/img/aprvAdmin.jpg"
 											class="img-fluid rounded-start" alt="..."
 											style="width: 350px;">
 									</div>
@@ -196,26 +166,37 @@ table, thead>th {
 									<br>
 									<table id="aprvTable" class="display center"
 										style="width: 100%">
-										<thead>
+										<thead hidden="hidden">
 											<tr>
 
-												<th>제목</th>
-												<th>작성자</th>
-												<th>작성일자</th>
-												<th>결재상태</th>
-												<th>공개상태</th>
+												<th>내용</th>
+												
 											</tr>
 										</thead>
 										<tbody id="aprvtb">
-											<tr th:each="a : ${aprvList}">
+										
+											<tr class="list-group" id="aprvListDiv" th:each="p : ${aprvList}">
 
-												<td th:text="${a.ttl}" class="select"
-													th:attr="data-no=${a.aprvNo}"></td>
-												<td th:text="${a.empNo}"></td>
-												<td th:text="${a.dttm}"></td>
-												<td th:text="${a.reqSt}"></td>
-												<td th:text="${a.aprvAuth}"></td>
+												<td>
+													<div class="list-group-item list-group-item-action aprvGroup" aria-current="true"
+														th:data-no="${p.aprvNo}" id="aprvDiv">
+														<div class="d-flex w-100 justify-content-between">
+															<p class="mb-1 fw-bold" th:text="${p.ttl}">Some
+																placeholder content in a paragraph.</p>
+															<span th:if="${p.reqSt == '전송' or p.reqSt =='반려'  }"
+																th:text="${p.reqSt}"
+																class="badge bg-primary rounded-pill"
+																style="height: 25px">수정가능</span> <span
+																th:unless="${p.reqSt == '전송' or p.reqSt =='반려'  }"
+																th:text="${p.reqSt}"
+																class="badge bg-secondary rounded-pill"
+																style="height: 25px">수정불가</span>
+														</div>
+														<small>And some small print.</small>
+													</div>
+												</td>
 											</tr>
+											
 										</tbody>
 									</table>
 
@@ -245,7 +226,7 @@ table, thead>th {
 							<div class="card mb-3">
 								<div class="row g-0">
 									<div class="col-md-4">
-										<img src="assets/img/aprvAdmin.jpg"
+										<img src="assets/img/aprvAdminForm.jpg"
 											class="img-fluid rounded-start" alt="..."
 											style="width: 350px;">
 									</div>

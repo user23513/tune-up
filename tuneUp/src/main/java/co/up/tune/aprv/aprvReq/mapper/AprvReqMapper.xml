@@ -10,8 +10,8 @@
 		DEADLINE, IMPTS
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
-				AND NOT REQ_ST = '임시저장' 
-		<if test="reqSt != null and reqSt != ''">AND REQ_ST = #{reqSt}</if>
+			AND NOT REQ_ST = '임시저장'
+		<if test="reqSt != null and reqSt != '' and reqSt != '전체'">AND REQ_ST = #{reqSt}</if>
 		ORDER BY APRV_NO DESC
 	</select>
 
@@ -71,11 +71,20 @@
 		resultType="co.up.tune.aprv.vo.FormVO">
 		SELECT FORM_NO, FORM_NM, FORM_CAT, EMP_NO, FORM_AUTH
 		FROM FORM
-		WHERE EMP_NO = #{empNo}
-				OR FORM_AUTH = '공개'
-		<if test="formCat != null and formCat != ''">AND FORM_CAT = #{formCat}</if>
+		WHERE 
+		<if test="formCat =='전체'">
+				FORM_AUTH = '공개'
+				OR EMP_NO = #{empNo} 
+		</if>
+		<if test="formCat != null and formCat != '' and formCat != '전체'">
+				FORM_AUTH = '공개'
+                AND FORM_CAT = #{formCat}
+                OR EMP_NO= #{empNo}
+                AND FORM_CAT = #{formCat}
+        </if>
+		
 		ORDER BY
-		DECODE(FORM_AUTH, '개인', 1), FORM_NO DESC
+		FORM_NO DESC
 	</select>
 
 	<select id="formSelect"

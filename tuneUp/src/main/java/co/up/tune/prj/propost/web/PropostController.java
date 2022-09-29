@@ -45,7 +45,12 @@ public class PropostController {
 //		return "prj/post/myProject";
 //	}
 	
-	
+	//내프로젝트에서 클리하면 나오는 해당 프로젝트 '현지수정'
+	@PostMapping("/prjPostList")
+	public String prjPostList(@RequestParam("prjNo")int prjNo, Model model) {
+		model.addAttribute("prjNo", prjNo);
+		return "prj/post/prjPostList";
+	}
 	
 	// 내 프로젝트 - 글 리스트
 	@GetMapping("/prjPostList")
@@ -83,9 +88,10 @@ public class PropostController {
 	
 	
 	// 내 프로젝트 - 글 작성 폼 
-	@GetMapping("/postInsertForm")
-	public String prjPostInsertForm(Model model) {
+	@PostMapping("/postInsertForm")
+	public String prjPostInsertForm(@RequestParam("prjNo")int prjNo, Model model) {
 		model.addAttribute("empList", dao.empList());
+		model.addAttribute("prjNo", prjNo);
 		return "prj/post/postInsertForm";
 	}
 	

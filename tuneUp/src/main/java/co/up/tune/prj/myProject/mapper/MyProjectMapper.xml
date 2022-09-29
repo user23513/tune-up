@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.prj.myProject.mapper.MyProjectMapper">
+
+	<select id="myPrjList" resultType="co.up.tune.prj.vo.ProjectVO" parameterType="int">
+		select * 
+		from project 
+		where prj_no in (
+    		select prj_no 
+    		from team 
+    		where emp_no=#{empNo}
+    	)
+    	order by prj_no
+	</select>
+
+</mapper>

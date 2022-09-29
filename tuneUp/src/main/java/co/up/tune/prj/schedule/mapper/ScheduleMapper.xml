@@ -2,14 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.prj.schedule.mapper.ScheduleMapper">
 
+	<!-- 부서별 주소록 리스트 -->
 	<select id="deptList" resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
 		SELECT EMP_NO, NM
 		FROM EMP
 		WHERE DEPT = #{dept}
 	</select>
 	
-	<insert id="scheduleInsert" parameterType="co.up.tune.emp.vo.EmpVO">
-		INSERT INTO SCHDULE
+	<!-- 프로젝트 일정 디비에 등록 -->
+	<insert id="scheduleInsert" parameterType="co.up.tune.prj.vo.ScheduleVO">
+		<selectKey keyProperty="postNo" order="BEFORE" resultType="int">
+			select pno_seq.nextval from dual
+		</selectKey>
+		begin
+			insert into schedule
+				values(${postNo}, #{ttl}, #{empNo}, #{wrtr}, #{sdt}, #{edt},
+					   #{place}, #{cntn}, 1, #{prjNo}, #{latitude}, #{longitude});
+			
+			<foreach collection="teamEmpNo" item="no">
+				insert into member(emp_no, post_no)
+				values(#{no}, #{postNo});
+			</foreach>
+		end;
 	</insert>
+	
+	<!-- 프로젝트 일정 리스트 -->
+	<select id="scheduleList" resultType="co.up.tune.prj.vo.ScheduleVO">
+		SELECT *
+		FROM SCHEDULE
+		WHERE PRJ_NO = #{prjNo}
+		ORDER BY POST_NO
+	</select>
 
 </mapper>

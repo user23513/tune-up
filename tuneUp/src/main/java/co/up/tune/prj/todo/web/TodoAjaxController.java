@@ -15,10 +15,19 @@ public class TodoAjaxController {
 	DemoTodoService dao;
 	
 	@PostMapping("/demoInsert")
-	public String demoInsert(DemoTodoVO vo) {
+	public DemoTodoVO demoInsert(DemoTodoVO vo) {
 		dao.demoInsert(vo);
 		String cntn = vo.getCntn();
 		System.out.println(cntn);
-		return cntn;
+		int no = vo.getNo();
+		System.out.println(no);
+		return vo;
+	}
+	
+	@PostMapping("/demoDelete")
+	public int demoDelete(DemoTodoVO vo) {
+		dao.demoDelete(vo);
+		int no = vo.getNo();
+		return no;
 	}
 }

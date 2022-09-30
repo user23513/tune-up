@@ -12,12 +12,23 @@
 	</select>
 	
 	<insert id="demoInsert" parameterType="co.up.tune.prj.vo.DemoTodoVO">
-		insert into demoTodo (cntn)
-		values (#{cntn})
+		<selectKey keyProperty="no" order="BEFORE" resultType="int">
+			select
+			    case when max(no) is null then 1
+			    else max(no)+1
+			    end as no
+			from demotodo
+		</selectKey>
+		insert into demoTodo (no,cntn)
+		values (#{no}, #{cntn})
 	</insert>
 	
 	<delete id="demoDelete" parameterType="co.up.tune.prj.vo.DemoTodoVO">
 		delete from demoTodo
+		where no = #{no}
 	</delete>
-
+	
+	<delete id="demoDeleteAll" parameterType="co.up.tune.prj.vo.DemoTodoVO">
+		delete from demoTodo
+	</delete>
 </mapper>

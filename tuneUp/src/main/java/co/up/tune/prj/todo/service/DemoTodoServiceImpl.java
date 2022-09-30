@@ -32,4 +32,7 @@ public class DemoTodoServiceImpl implements DemoTodoService{
 	public int demoDelete(DemoTodoVO vo) {
 		return map.demoDelete(vo);
 	}
+
+	public void demoDeleteAll(DemoTodoVO vo) {
+	}
 }

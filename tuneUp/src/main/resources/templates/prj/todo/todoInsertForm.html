@@ -38,35 +38,73 @@ $(document).ready(function() {
 		let cntn = $("#todoAdd").val(); //할일
 		console.log(cntn);
 		i++
-		
-		//할일 추가 처리
-		$.ajax({
-	         url: "demoInsert",
-	         beforeSend:function(xhr){
-	 	  		xhr.setRequestHeader(header,token);  
-	     	  },
-	     	 type : "post",
-	         data:{"cntn" : cntn },
-	         success:function(res){
-	        	 console.log(res);
-	        	let str = "<tr><td id='no'>"+ i +"</td>";
-	     		str += "<td >"+res+"</td><td><a id='remove' name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
-	     		str += "<i class='bi bi-x-lg'></i></a> </td> </tr>";
-	        	
-	     		$("#tbd").append(str);
-	         }
-	      })
+		if(cntn == ""){
+			alert("할 일을 입력해주세요")
+		}else{
+			//todo 추가
+			$.ajax({
+		         url: "demoInsert",
+		         beforeSend:function(xhr){
+		 	  		xhr.setRequestHeader(header,token);  
+		     	  },
+		     	 type : "post",
+		         data:{"cntn" : cntn },
+		         success:function(res){
+		        	 console.log(res);
+		        	let str = "<tr><td name='no' class='no' style='display: none'>"+ res.no +"</td>";
+		     		str += "<td>"+res.cntn+"</td><td><button name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
+		     		str += "<i class='bi bi-x-lg'></i></button> </td> </tr>";
+		        	
+		     		$("#tbd").append(str);
+		         }
+			})
+		}
 	})
 	
-	
-	
+	//todo 삭제버튼 클릭 시 
+	$("#tbd").on("click","[name='remove']", e=>{
+		console.log("test")
+		let no = e.target.closest('tr').firstChild.innerText;
+		console.log(no);
+		
+		//todo 삭제
+		$.ajax({
+			url: "demoDelete",
+			beforeSend:function(xhr){
+				xhr.setRequestHeader(header,token);  
+			},
+			type : "post",
+			data:{"no" : no },
+			success:function(res){
+				console.log(res);
+				e.target.closest('tr').remove();
+			}
+		})
+	})
+
 	//할일 저장
 	$("#btn").on("click",e=>{
+		let todo = document.querySelector("tr");
+		console.log(todo);
+		let no = document.querySelector("td").
+		if(todo == null){
+			console.log("할일 목록 없음")
+			alert("할 일을 등록해주세요")
+		}else{
+			console.log("할일 있음")
+		}
 		$("#todoFrm").submit();
 		$("#detailFrm").submit();
-		
 	})
 });
+
+function save(){
+	let todo = document.querySelector("tr");
+	console.log(todo);
+	let no = document.querySelector("td")[].innerHtml
+	
+}
+
 </script>
 </head>
 <body>
@@ -117,22 +155,6 @@ $(document).ready(function() {
 								<div>
 									<table class="table table-borderless">
 										<tbody id="tbd">
-											<tr>
-												<td style="display: none">todo_no 히든</td>
-												<td >내용 - 끝내주게 숨쉬기</td>
-												<td><a id="remove" name="remove" type="button" class="btn btn-outline-danger btn-sm" 
-													href="javascript:void(0);" style="right: auto;">
-													<i class="bi bi-x-lg"></i></a>
-												</td>
-											</tr>
-											<tr>
-												<td style="display: none">todo_no 히든</td>
-												<td >내용 - 끝내주게 숨쉬기</td>
-												<td><a id="remove" name="remove" type="button" class="btn btn-outline-danger btn-sm" 
-													href="javascript:void(0);" style="right: auto;">
-													<i class="bi bi-x-lg"></i></a>
-												</td>
-											</tr>
 										</tbody>
 									</table>
 								</div>

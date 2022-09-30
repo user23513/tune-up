@@ -68,6 +68,23 @@ public class EmpController {
 		System.out.println(ss.findId(vo));
 		return ss.findId(vo);
 	}
+<<<<<<< HEAD
+	//비밃번호 성공하면 
+	@PostMapping(value = "/pwUpdate")
+	public String empUpdate(EmpVO vo) {
+		ss.empUpdate(vo);
+		return "redirect:/login";
+	}
+=======
+	
+	//비밀번호 찾기 
+	@ResponseBody
+	@PostMapping("findpw")
+	public String findPw(EmpVO vo) {
+		return ss.findPassword(vo);
+	}
+	
+>>>>>>> branch 'kimgayun' of https://github.com/user23513/tune-up.git
 }
 	
 

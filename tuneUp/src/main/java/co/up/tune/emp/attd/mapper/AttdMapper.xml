@@ -16,6 +16,12 @@
 		 ]]>
 	</select> -->
 	
+	<select id="checkTime" resultType="co.up.tune.emp.vo.AttdVO">
+		SELECT ATDC_DTTM
+		FROM ATTD
+		WHERE EMP_NO= '999'
+	</select>
+	
 	<select id="checkGood" resultType="Integer">
 		<![CDATA[
 		SELECT COUNT(*)

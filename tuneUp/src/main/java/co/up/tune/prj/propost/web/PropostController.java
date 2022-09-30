@@ -82,12 +82,6 @@ public class PropostController {
 	
 	
 
-	//모달 고민쓰 - 글리스트
-	@GetMapping("/prjPostt")
-	public String prjPost2() {
-		return "prj/prjPostm";
-	}
-	
 	
 	// 내 프로젝트 - 게시글 작성 폼 
 	@PostMapping("/postInsertForm")

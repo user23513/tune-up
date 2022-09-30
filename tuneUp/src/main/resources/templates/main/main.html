@@ -10,23 +10,7 @@
 	th:content="${_csrf.headerName}" />
 <title>HOME</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
-<script>
-	$(document).ready(function(){
-		//확인 버튼 클릭 이벤트
-		$("#stBtn").on("click", e=>{
-			$("#aFrm").submit();
-			$(this).attr("disabled",true);
-			
-		});
-		
-		$("#edBtn").on("click", e=>{
-			$("#enddFrm").submit();
-			
-		})
-		
-		
-	})
-</script>
+
 <style>
 .attdBt {
 	text-align: center;
@@ -43,14 +27,31 @@
 </head>
 <body>
 	<main layout:fragment="content">
-
+		<script>
+	$(document).ready(function(){
+		//확인 버튼 클릭 이벤트
+		$("#attdBtn").on("click", e=>{
+			$("#stFrm").submit();
+		/* 	$(this).attr("disabled",true); */
+			
+		});
+		
+		$("#edBtn").on("click", e=>{
+			$("#endFrm").submit();
+			
+		})
+		
+		
+	})
+</script>
 		<section class="section profile">
 			<div class="row">
 				<div class="col-xl-9">
 
 					<div class="card">
 						<div
-							class="card-body profile-card pt-4 d-flex flex-column align-items-center" style="height: 3000px;">
+							class="card-body profile-card pt-4 d-flex flex-column align-items-center"
+							style="height: 3000px;">
 							<h5 sec:authentication="name">님 환영합니다!!</h5>
 
 							달력 어쩌구 높이 스타일 수정해야함
@@ -62,11 +63,47 @@
 				<div class="col-xl-3">
 
 					<div class="card">
-						<div class="card-body pt-3" style="height: 3000px;">근태 어쩌구 높이 스타일 수정해야함</div>
-					</div>
+						<div class="card-body pt-3" style="height: 3000px;">
 
+							<div class="attdBt row align-items-center">
+								<div class="row justify-content-start"
+									style="text-align: center; float: left; width: 100px; padding-left: 2px;">
+									<form id="stFrm" method="post" action="startAttd">
+										<input type="hidden" th:name="${_csrf.parameterName}"
+											th:value="${_csrf.token}"> <input type="hidden"
+											name="empNo" th:value="${session.empNo}"> <input
+											type="hidden" name="nm" th:value="${session.nm}"> <input
+											type="hidden" name="dept" th:value="${session.dept}">
+										<input type="hidden" name="position"
+											th:value="${session.position}">
+										<button id="attdBtn" type="button" class="btn btn-primary"
+											style="width: 130px">출근</button>
+									</form>
+								</div>
+								<div class="row justify-content-center"
+									style="text-align: center; float: left; width: 100px; padding-left: 65px;">
+									<form id="endFrm" method="post" action="endAttd">
+										<input type="hidden" th:name="${_csrf.parameterName}"
+											th:value="${_csrf.token}"> <input type="hidden"
+											th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+										<input type="hidden" name="empNo" th:value="${session.empNo}">
+										<button id="edBtn" type="button" class="btn btn-primary"
+											style="width: 130px;">퇴근</button>
+									</form>
+								</div>
+								<br> <br>
+
+								<button type="button" class="btn btn-primary"
+									style="width: 300;" onclick="location.href='attdToday'">근태관리</button>
+
+							</div>
+						</div>
+
+					</div>
 				</div>
+
 			</div>
+
 		</section>
 
 

@@ -67,19 +67,25 @@
         success: function(data){
         	if(data.length == 0) {
         		//alert("가입된 계정이 없습니다.")
-			     let str ="<br>"
-        		str += "<div class='col-12 alert alert-primary alert-dismissible fade show' style='padding-right: 16px;'>";
+			     $("#showId").text("")
+        		let str =""
+        		str += "<br><div class='col-12 alert alert-primary alert-dismissible fade show' style='padding-right: 16px;'>";
         		str += "<p class='card-title text-center pb-0 fs-6'>가입된 계정이 없습니다.</p>";
         		str += "<div class='d-grid gap-2 mt-3'><button type='button' class='btn btn-outline-primary hi3' id='ccc'>회원가입</button></div>";
-        		$("#showId").append(str)
+        		$("#showId").append(str);
+        		
+        		
         	}else {
         		$(e.target).attr("disabled", true);
+        		$("#showId").text("")
         		let str ="<br>"
         		str += "<div class='col-12 alert alert-primary alert-dismissible fade show' style='padding-right: 16px;'>";
         		str += "<p class='card-title text-center pb-0 fs-6'>아이디는 ' " + data + " '입니다.</p>";
         		str += "<div class='d-grid gap-2 mt-3'><button type='button' class='btn btn-outline-primary hi2' id='bbb'>비밀번호 찾기</button></div>";
         		str += "<div class='d-grid gap-2 mt-3'><button type='button' class='btn btn-outline-primary hi' id='aaa'>로그인</button></div>";
-        		$("#showId").append(str)
+        		$("#showId").append(str);
+        		
+        		
         		
                 			
         	}

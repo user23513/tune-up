@@ -66,7 +66,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="f: ${fileList">
+						<tr th:each="f: ${myFileSelect}">
 							<th scope="row">1</th>
 							<td th:text="${f.pNm}" th:attr="data-no${f.fileNo}">Brandon Jacob</td>
 							<td th:text="${f.fNm}">Designer</td>
@@ -208,7 +208,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="m : ${myFileList}">
+						<tr th:each="m : ${myFileSelect}">
 							<th scope="row">1</th>
 							<td th:text="${m.fNm}">Designer</td>
 							<td th:text="${m.fCat}">Designer</td>

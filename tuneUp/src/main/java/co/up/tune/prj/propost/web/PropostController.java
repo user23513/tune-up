@@ -50,6 +50,7 @@ public class PropostController {
 	public String prjPostList(@RequestParam("prjNo")int prjNo, Model model) {
 		model.addAttribute("prjNo", prjNo);
 		model.addAttribute("scheduleList", dao.scheduleList(prjNo));
+		model.addAttribute("scheduleMember", dao.scheduleMemberList(prjNo));
 		return "prj/post/prjPostList";
 	}
 	

@@ -159,10 +159,10 @@ $(document).ready(function() {
 				
 				<!-- Start 일정 목록 -->
 				<div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
-					<div class="card" th:each="s:${scheduleList}">
+					<div class="card" style="width: 80%; position: relative; left: 150px; margin-top: 50px;" th:each="s,idx : ${scheduleList}">
 						<div class="card-body">
 							<div class="card-title">
-								<span>[[${wrtr}]]</span>
+								<span>[[${s.wrtr}]]</span>
 								<!-- 드롭다운 아이콘 -->
 								<div class="filter" style="float: right" >
 									<a class="icon" href="#" data-bs-toggle="dropdown">
@@ -177,16 +177,19 @@ $(document).ready(function() {
 									</ul>
 								</div>
 							</div>
-							<span style="font-size: large;">[[${ttl}]]</span><br><br>
-							<span>[[${sdt}]] - [[${edt}]]</span>
-							<div style="font-size: medium;">
-								참석자
-								참석 불참 미정 숫자
-								지도
-								참석 불참 미정 버튼
-							</div><br><br>
-							첨부파일:<span style="font-size: large;"> </span><br><br>
-								
+							<span style="font-size: large;">[[${s.ttl}]]</span><br>
+							<span>[[${s.sdt}]] - [[${s.edt}]]</span><hr style="color: gray;">
+							<div>
+								<span th:each="m : ${scheduleMember}" th:if="${s.postNo}==${m.postNo}">[[${m.nm}]]&nbsp;</span><br>
+								<span th:id="${idx.count}"></span>
+								<div class="map" style="width:700px; height:300px;"></div><br>
+							</div>
+							<div>
+								<button type="button">참석</button>
+								<button type="button">불참</button>
+								<button type="button">미정</button>
+							</div>
+							<br>
 							<div class="form-floating mb-3">
 								<textarea class="form-control" placeholder="Leave a comment here"
 										  style="height: 100px; resize: none"></textarea>
@@ -207,7 +210,7 @@ $(document).ready(function() {
 						<div class="card" th:each="pj :${prjPostList}">
 							<div class="card-body">
 								<h3 class="card-title">
-								<span th:text="${pj.wrtr}	"></span>
+								<span th:text="${pj.wrtr}"></span>
 								<span th:text="${#dates.format(pj.dttm, 'yyyy-MM-dd')}"></span>
 								<!-- 드롭다운 아이콘 -->
 								<div class="filter" style="float: right" >
@@ -319,6 +322,71 @@ $(document).ready(function() {
 		</div>
 		</div>
 	</section>
+	
+	<!-- 지도 -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8979f5b92eaf5997a6ea3ade6a7e65f1&libraries=services"></script>
+	<script th:inline="javascript">
+	$("#schedule-tab").on("click", e=>{
+		var mapContainers = document.getElementsByClassName('map'), //지도를 표시할 div 배열
+		    mapOption = { 
+		        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		        level: 4 // 지도의 확대 레벨
+		    };
+		
+		$.each([[${scheduleList}]], (idx, s)=>{ 
+			// 지도를 생성합니다  
+			var map = new kakao.maps.Map(mapContainers[idx], mapOption);
+			
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+			
+			
+			getAddr(s.latitude, s.longitude, idx);
+			console.log("ee")
+
+			// 마커가 표시될 위치입니다 
+			var markerPosition  = new kakao.maps.LatLng(s.latitude, s.longitude); 
+			
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+			    position: markerPosition
+			});
+			
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+			
+			var iwContent = '<div style="padding:5px;">여기로 와주세요!!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			    iwPosition = new kakao.maps.LatLng(s.latitude, s.longitude); //인포윈도우 표시 위치입니다
+			
+			// 인포윈도우를 생성합니다
+			var infowindow = new kakao.maps.InfoWindow({
+			    position : iwPosition, 
+			    content : iwContent 
+			});
+			  
+			// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+			infowindow.open(map, marker);
+		})
+	})
+	
+	function getAddr(lat, lng, idx){
+	    let geocoder = new kakao.maps.services.Geocoder();
+
+	    let coord = new kakao.maps.LatLng(lat, lng);
+	    let callback = function callback(result, status) {
+	        if (status === kakao.maps.services.Status.OK) {
+	        	console.log(result)
+	           	let addressName = result[0].road_address.address_name; //도로명 주소
+	            $(`#${idx+1}`).append(addressName); //주소 넣을 span
+	            $(`#${idx+1}`).append('&nbsp;&nbsp;<a href="https://map.kakao.com/link/map/'+addressName+','+lat+','+lng+'" style="color:blue" target="_blank">지도보기</a>');
+	        }
+	    };
+	    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+	}
+	
+	</script>
+	<!-- 지도 -->
+	
 	<script>
 	/* 일정 리스트 */
 	/* $("#schedule-tab").on("click", e=>{

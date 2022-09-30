@@ -42,25 +42,4 @@ public class TodoDetailServiceImpl implements TodoDetailService{
 	public TodoDetailVO detailSelect(TodoDetailVO vo) {
 		return map.detailSelect(vo);
 	}
-
-	@Override
-	public List<DemoTodoVO> demoList() {
-		return map.demoList();
-	}
-
-	@Override
-	public DemoTodoVO demoSelect(DemoTodoVO vo) {
-		return map.demoSelect(vo);
-	}
-
-	@Override
-	public int demoInsert(DemoTodoVO vo) {
-		return map.demoInsert(vo);
-	}
-
-	@Override
-	public int demoDelete(DemoTodoVO vo) {
-		return map.demoDelete(vo);
-	}
-
 }

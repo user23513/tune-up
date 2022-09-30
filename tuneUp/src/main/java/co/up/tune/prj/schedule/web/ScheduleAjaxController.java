@@ -24,11 +24,10 @@ public class ScheduleAjaxController {
 	}
 	
 	//일정 리스트
-	@PostMapping("/scheduleList")
-	public List<ScheduleVO> scheduleList(@RequestParam("prjNo")int prjNo) {
-		//테스트
-		prjNo = 181;
-		return dao.scheduleList(prjNo);
-	}
+	/*
+	 * @PostMapping("/scheduleList") public List<ScheduleVO>
+	 * scheduleList(@RequestParam("prjNo")int prjNo) { return
+	 * dao.scheduleList(prjNo); }
+	 */
 
 }

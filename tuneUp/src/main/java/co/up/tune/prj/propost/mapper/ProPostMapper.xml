@@ -104,4 +104,25 @@
 		FROM EMP
 	</select>
 	
+	<!-- 프로젝트 일정 리스트 -->
+	<select id="scheduleList" resultType="co.up.tune.prj.vo.ScheduleVO">
+		SELECT *
+		FROM SCHEDULE
+		WHERE PRJ_NO = #{prjNo}
+		ORDER BY POST_NO
+	</select>
+	
+	<!-- 프로젝트 일정 => 멤버 리스트 -->
+	<select id="scheduleMemberList" resultType="co.up.tune.prj.vo.MemberVO">
+		SELECT E.EMP_NO, E.NM, E.ID, E.DEPT, M.POST_NO
+		FROM EMP E, (SELECT * 
+		             FROM MEMBER 
+		             WHERE POST_NO IN (
+		             	SELECT POST_NO FROM SCHEDULE WHERE PRJ_NO=#{prjNo}
+		             	)
+		             )M
+		WHERE E.EMP_NO = M.EMP_NO
+		ORDER BY POST_NO
+	</select>
+	
 </mapper>

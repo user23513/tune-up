@@ -13,7 +13,9 @@ import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.propost.mapper.PropostMapper;
 import co.up.tune.prj.vo.FilesVO;
+import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
+import co.up.tune.prj.vo.ScheduleVO;
 
 @Service
 public class PropostServiceImpl implements PropostService {
@@ -103,8 +105,19 @@ public class PropostServiceImpl implements PropostService {
 	//모든 사원정보
 	@Override
 	public List<EmpVO> empList() {
-		
 		return map.empList();
+	}
+
+	//프로젝트 일정 리스트
+	@Override
+	public List<ScheduleVO> scheduleList(int prjNo) {
+		return map.scheduleList(prjNo);
+	}
+
+	//프로젝트 일정 => 멤버 리스트
+	@Override
+	public List<MemberVO> scheduleMemberList(int prjNo) {
+		return map.scheduleMemberList(prjNo);
 	}
 	
 	 

@@ -110,15 +110,14 @@ table * {
 						</nav>
 					</div>
 					<!-- End Page Title -->
-					
+
 					<!-- Tabs nav -->
 					<ul class="nav nav-tabs nav-tabs-bordered" id="aprvTab"
 						role="tablist">
 						<li class="nav-item" role="presentation">
 							<button class="nav-link active" id="aprv-tab"
-								data-bs-toggle="tab" data-bs-target="#aprv-list"
-								type="button" role="tab" aria-controls="list"
-								aria-selected="true">승인하기</button>
+								data-bs-toggle="tab" data-bs-target="#aprv-list" type="button"
+								role="tab" aria-controls="list" aria-selected="true">승인하기</button>
 						</li>
 					</ul>
 					<!-- End nav -->
@@ -127,7 +126,7 @@ table * {
 					<div class="tab-content pt-2" id="aprvTabContent">
 						<div class="tab-pane fade show active" id="aprv-list"
 							role="tabpanel" aria-labelledby="aprv-tab">
-						
+
 							<br>
 							<!-- Card with an image on left -->
 							<div class="card mb-3">
@@ -143,11 +142,12 @@ table * {
 											<h5 class="card-title">결재대기목록</h5>
 											<p class="card-text">나에게 참조 또는 상신된 결재목록입니다. 문서를 검토하여
 												승인하거나 반려할 수 있습니다. 일정 기간 동안 결재를 위임을 설정할 수 있습니다.</p>
-											<button type="button" class="btn btn-primary">
+											<button type="button" class="btn btn-primary"
+												data-bs-toggle="modal" data-bs-target="#signModal">
 												<i class="ri-pencil-fill"> 나의 서명 관리</i>
 											</button>
 											<button type="button" class="btn btn-primary"
-												data-bs-toggle="modal" data-bs-target="#disablebackdrop">
+												data-bs-toggle="modal" data-bs-target="#trustModal">
 												<i class="ri-account-pin-circle-fill"> 결재 위임자 설정</i>
 											</button>
 
@@ -161,23 +161,23 @@ table * {
 
 							<div class="card">
 								<div class="card-body">
-								<!-- btns -->
+									<!-- btns -->
 									<div class="row">
 										<div class="col text-center">
 											<br>
-											<div class="btn-group" role="group" id = "approvalBtns"
+											<div class="btn-group" role="group" id="approvalBtns"
 												aria-label="Approval List" style="width: 100%;">
 												<button type="button" th:each="s:${st}"
-													class="btn btn-outline-primary"
-													th:text="${s.cdNm}" th:data-st="${s.cdNm}">전체</button>
+													class="btn btn-outline-primary" th:text="${s.cdNm}"
+													th:data-st="${s.cdNm}">전체</button>
 											</div>
 										</div>
 									</div>
-								<!-- end btns -->
-								
+									<!-- end btns -->
+
 									<br>
-								
-								<table id="approvalTable" class="display center"
+
+									<table id="approvalTable" class="display center"
 										style="width: 100%">
 										<thead hidden="hidden">
 											<tr>
@@ -185,32 +185,26 @@ table * {
 											</tr>
 										</thead>
 										<tbody id="aprvtb">
-											<tr class="list-group" id="aprvListDiv" th:each="p : ${approval}">
-												<td>
-													<div class="list-group-item list-group-item-action"
-											aria-current="true" th:data-no="${p.aprvNo}">
-											<div class="d-flex w-100 justify-content-between">
-												<p class="mb-1 fw-bold" th:text="${p.ttl}">Some
-													placeholder content in a paragraph.</p>
-
-												<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료' }"
-													th:text="진행" class="badge bg-primary rounded-pill"
-													style="height: 25px">진행</span> <span
-													th:if="${p.reqSt == '반려' or p.reqSt =='완료'  }"
-													th:text="${p.reqSt}"
-													class="badge bg-secondary rounded-pill"
-													style="height: 25px">완료</span>
-											</div> <small>And some small print.</small>
-										</div>
+											<tr class="list-group" th:each="p : ${approval}">
+												<td class="list-group-item" th:data-no="${p.aprvNo}">
+													<div
+														class="d-flex justify-content-between align-items-center">
+														<p class="mb-1 fw-bold" th:text="${p.ttl}">
+															><input class="form-check-input me-1" type="checkbox"
+																th:value="${p.aprvNo}" aria-label="...">제목
+														</p>
+														<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료' }"
+															th:text="진행" class="badge bg-primary rounded-pill"
+															style="height: 25px">진행</span> <span
+															th:if="${p.reqSt == '반려' or p.reqSt =='완료'  }"
+															th:text="${p.reqSt}"
+															class="badge bg-secondary rounded-pill"
+															style="height: 25px">완료</span>
+													</div> <small>And some small print.</small>
 												</td>
 											</tr>
-
 										</tbody>
 									</table>
-								
-								
-									
-
 								</div>
 							</div>
 
@@ -225,30 +219,63 @@ table * {
 
 		<!-- Modal -->
 
-		<div class="modal fade" id="disablebackdrop" tabindex="-1"
+		<div class="modal fade" id="signModal" tabindex="-1"
 			data-bs-backdrop="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Disabled Backdrop</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body">Non omnis incidunt qui sed occaecati
-						magni asperiores est mollitia. Soluta at et reprehenderit. Placeat
-						autem numquam et fuga numquam. Tempora in facere consequatur sit
-						dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem
-						neque recusandae quo sit molestias sint dignissimos.</div>
+					<div class="modal-body" id="sCntn">내용</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save
-							changes</button>
+							data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary">저장</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="trustModal" tabindex="-1"
+			data-bs-backdrop="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="tCntn">내용</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary">저장</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- End Modal-->
+
+		<!-- Scrolling Modal -->
+		<div class="modal fade" id="viewModal" tabindex="-1"
+			data-bs-backdrop="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="VCntn" style="min-height: 750px;">
+						내용</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary">수정</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Scrolling Modal-->
 
 
 

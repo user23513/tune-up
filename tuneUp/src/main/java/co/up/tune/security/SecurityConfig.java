@@ -70,7 +70,9 @@ public class SecurityConfig {
 						 .and()
 				 //.csrf().disable()
 				.userDetailsService(usersService());
-
+						
+		http.headers().frameOptions().disable();
+		
 		return http.build();
 	}
 	

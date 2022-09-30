@@ -5,17 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>전자결재 - 관리 기능</title>
-<!-- <link rel="stylesheet"
-	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
-<script
-	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script> -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-
 <style>
 table * {
 	border-radius: 5px 5px 5px 5px;
@@ -60,7 +55,7 @@ table * {
 				$('#mask').empty();
 			}	
 
-			
+			//로딩후
 			$(document).ready(function() {
 					
 				//데이터테이블
@@ -114,45 +109,145 @@ table * {
 					location.href=`/aprvAdmin?formCat=${formCat}`;
 			});
 			
+			//에디터
+			var plugins = [ "advlist", "autolink", "lists", "link", "image",
+				"charmap", "print", "preview", "anchor", "searchreplace",
+				"visualblocks", "code", "fullscreen", "insertdatetime",
+				"media", "table", "paste", "code", "help", "wordcount", "save" ];
+			var edit_toolbar = 'formatselect fontselect fontsizeselect |'
+				+ ' forecolor backcolor |'
+				+ ' bold italic underline strikethrough |'
+				+ ' alignjustify alignleft aligncenter alignright |'
+				+ ' bullist numlist |' + ' table tabledelete |' + ' link image';
+
+			tinymce.init({
+					language : "ko_KR", //한글판으로 변경
+					selector : '#cntn',
+					height : 500,
+					menubar : false,
+					plugins : plugins,
+					toolbar : edit_toolbar,
+
+					/*** image upload ***/
+					image_title : true,
+					/* enable automatic uploads of images represented by blob or data URIs*/
+					automatic_uploads : true,
+					/*
+					    URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
+					    images_upload_url: 'postAcceptor.php',
+					    here we add custom filepicker only to Image dialog
+					 */
+					file_picker_types : 'image',
+					/* and here's our custom image picker*/
+					file_picker_callback : function(cb, value, meta) {
+						var input = document.createElement('input');
+						input.setAttribute('type', 'file');
+						input.setAttribute('accept', 'image/*');
+
+						/*
+						Note: In modern browsers input[type="file"] is functional without
+						even adding it to the DOM, but that might not be the case in some older
+						or quirky browsers like IE, so you might want to add it to the DOM
+						just in case, and visually hide it. And do not forget do remove it
+						once you do not need it anymore.
+						 */
+						input.onchange = function() {
+							var file = this.files[0];
+
+							var reader = new FileReader();
+							reader.onload = function() {
+								/*
+								Note: Now we need to register the blob in TinyMCEs image blob
+								registry. In the next release this part hopefully won't be
+								necessary, as we are looking to handle it internally.
+								 */
+								var id = 'blobid' + (new Date()).getTime();
+								var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+								var base64 = reader.result.split(',')[1];
+								var blobInfo = blobCache.create(id, file,
+										base64);
+								blobCache.add(blobInfo);
+
+								/* call the callback and populate the Title field with the file name */
+								cb(blobInfo.blobUri(), {
+									title : file.name
+								});
+							};
+							reader.readAsDataURL(file);
+						};
+						input.click();
+					},
+					/*** image upload ***/
+
+					content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+				});
+			
 			aprvSelect();
 			formSelect();
-			//상세조회
-			function aprvSelect() {
-				$("#aprvtb").on("click", ".aprvGroup", e=>{
-					let no = $(e.target).data("no"); //글번호
-					/* $("#aprvNo").val(no)
-					$("#aprvfrm").submit(); */
-					
-					
-					
-					
-					
-					
-					
-					
-				})
-			}
-		
-			function formSelect() {
-				$("#formtb").on("click", ".formGroup", e=>{
-					let no = $(e.target).data("no"); //글번호
-					/* $("#formNo").val(no)
-					$("#formfrm").submit(); */
-					
-					
-					
-					
-				})
-			} 
-			
-			
-			
-			
-			
-			
-			
 			
 			});
+			
+			function aprvSelect(){
+				
+				
+				$("#aprvtb").on("click", "tr", e=>{
+					let aprvNo = $(e.target).data("no"); //글번호
+					
+					$.ajax({
+						url:'aprvView',
+						beforeSend:function(xhr){
+					 		xhr.setRequestHeader(header,token);  
+					    },
+					    type:"post",
+					    data:{'aprvNo':aprvNo},
+					    dataType:'json',
+					    success:function(obj){
+					    	console.log(obj);
+					    	
+					        $("#vttl").html(obj.ttl);
+							$("#tnv").html(obj.cntn);
+							$("#viewModal").modal('show');
+
+					        }
+					    }) 
+					
+					
+					
+					
+					})
+					
+				}
+				
+				function formSelect(){
+					
+					
+					$("#formtb").on("click", "tr", e=>{
+						let formNo = $(e.target).data("no"); 
+						
+						$.ajax({
+							url:'formView',
+							beforeSend:function(xhr){
+						 		xhr.setRequestHeader(header,token);  
+						    },
+						    type:"post",
+						    data:{'formNo':formNo},
+						    dataType:'json',
+						    success:function(obj){
+						    	console.log(obj);
+						    	
+						        $("#vttl").html(obj.ttl);
+								$("#tnv").html(obj.cntn);
+								$("#viewModal").modal('show');
+
+						        }
+						    }) 
+						
+						
+						
+						
+						})
+						
+					}
 	</script>
 
 		<!-- ======= Section ======= -->
@@ -246,12 +341,9 @@ table * {
 												<th>내용</th>
 											</tr>
 										</thead>
-										<tbody id="aprvtb">
-											<tr class="list-group" id="aprvListDiv" th:each="p : ${aprv}">
+										<tbody id="aprvtb" class="list-group">
+											<tr th:each="p : ${aprv}" class="list-group-item list-group-item-action aprvGroup" th:data-no="${p.aprvNo}">
 												<td>
-													<div
-														class="list-group-item list-group-item-action aprvGroup"
-														aria-current="true" th:data-no="${p.aprvNo}">
 														<div class="d-flex w-100 justify-content-between">
 															<p class="mb-1 fw-bold" th:text="${p.ttl}">Some
 																placeholder content in a paragraph.</p>
@@ -265,8 +357,6 @@ table * {
 																style="height: 25px">수정불가</span>
 														</div>
 														<small>And some small print.</small>
-													</div>
-											
 												</td>
 											</tr>
 
@@ -337,14 +427,11 @@ table * {
 												<th>전체</th>
 											</tr>
 										</thead>
-										<tbody id="formtb">
-											<tr class="list-group" id="formListDiv" th:each="f : ${form}">
+										<tbody id="formtb" class="list-group">
+											<tr th:each="f : ${form}" class="list-group-item list-group-item-action formGroup" th:data-no="${f.formNo}">
 												<td>
-													<div
-														class="list-group-item list-group-item-action formGroup"
-														aria-current="true" th:data-no="${f.formNo}">
 														<div class="d-flex w-100 justify-content-between">
-															<p class="mb-1 fw-bold" th:text="${f.formNm}">Some
+															<p class="mb-1 fw-bold" th:text="${f.ttl}">Some
 																placeholder content in a paragraph.</p>
 															<span th:if="${f.formCat == '개인'}" th:text="${f.formCat}"
 																class="badge bg-primary rounded-pill"
@@ -354,7 +441,6 @@ table * {
 																style="height: 25px">기타</span>
 														</div>
 														<small>And some small print.</small>
-													</div>
 												</td>
 											</tr>
 										</tbody>
@@ -381,29 +467,28 @@ table * {
 		</section>
 		<!-- ======= End Section ======= -->
 
-
-
-
+		
 		<!-- Scrolling Modal -->
 		<div class="modal fade" id="viewModal" tabindex="-1" data-bs-backdrop="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header" id="vttl">
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body" id="modaCntn" style="min-height: 750px;">
-					내용
+					<div class="modal-body" id="vCntn">
+					 <div id="tnv" class=".txtA">에디터</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary">삭제</button>
+						<button type="button" class="btn btn-primary">수정</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- End Scrolling Modal-->
+		
 
 
 

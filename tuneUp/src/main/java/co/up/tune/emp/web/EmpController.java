@@ -68,6 +68,12 @@ public class EmpController {
 		System.out.println(ss.findId(vo));
 		return ss.findId(vo);
 	}
+	//비밃번호 성공하면 
+	@PostMapping(value = "/pwUpdate")
+	public String empUpdate(EmpVO vo) {
+		ss.empUpdate(vo);
+		return "redirect:/login";
+	}
 }
 	
 

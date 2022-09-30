@@ -34,6 +34,14 @@ public class SignUpServiceImpl implements SignUpService{
 		return map.findId(vo);
 	}
 
+	@Override
+	public int empUpdate(EmpVO vo) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String result = encoder.encode(vo.getPw());
+		vo.setPw(result);
+		return map.empUpdate(vo);
+	}
+
 	
 	
 	

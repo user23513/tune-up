@@ -45,7 +45,7 @@ table * {
 			  let mask = "<div id='mask' class='row' style='position:absolute; z-index:9000; background-color:#ffffff; text-align:center; display:none; left:0; top:0;'></div>";
 			  let loadingImg = '';
 			  loadingImg += "<div id='loadingImg' class='col align-self-center'>";    
-			  loadingImg += " <img src='"+ gif + "' style='position: relative; display: block; margin: 0px auto;'/>";
+			  loadingImg += " <img src='"+ gif + "' style='position: relative; width 10%; display: block; margin: 0px auto;'/>";
 			  loadingImg += "</div>";
 			  $('#main').append(mask);
 			  $('#mask').css({'width' : maskWidth +20 , 'height': maskHeight +60});
@@ -368,24 +368,22 @@ table * {
 		<!-- ======= End Section ======= -->
 
 		<!-- Vertically centered Modal -->
-		<div class="modal fade" id="aprvLineMD" tabindex="-1">
+		<div class="modal fade" id="lineModal" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">Vertically Centered</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body">Non omnis incidunt qui sed occaecati
-						magni asperiores est mollitia. Soluta at et reprehenderit. Placeat
-						autem numquam et fuga numquam. Tempora in facere consequatur sit
-						dolor ipsum. Consequatur nemo amet incidunt est facilis. Dolorem
-						neque recusandae quo sit molestias sint dignissimos.</div>
+					<div class="modal-body" id="LCntn">
+					
+					11111111
+					
+					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save
-							changes</button>
+							data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary">저장</button>
 					</div>
 				</div>
 			</div>
@@ -395,38 +393,21 @@ table * {
 
 
 		<!-- Scrolling Modal -->
-		<div class="modal fade" id="aprvView" tabindex="-1">
+		<div class="modal fade" id="viewModal" tabindex="-1" data-bs-backdrop="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">전자결재 - 문서상세</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body" style="min-height: 750px;">
-
-						<div id="pdf_canvas">
-
-							<table class="table">
-								<tbody>
-									<tr>
-										<td colspan="6" class="textSize" id="title"></td>
-									</tr>
-
-									<tr>
-										<td colspan="6" class=".txtA" style="height: 500px">내용</td>
-									</tr>
-
-								</tbody>
-							</table>
-
-						</div>
+					<div class="modal-body" id="VCntn" style="min-height: 750px;">
+					내용
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-primary">수정</button>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-primary">수정</button>
+					</div>
 				</div>
 			</div>
 		</div>

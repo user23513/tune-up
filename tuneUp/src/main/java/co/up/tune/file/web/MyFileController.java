@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.up.tune.file.service.FileService;
 import co.up.tune.file.service.MyFileService;
@@ -47,6 +49,7 @@ public class MyFileController {
 		 		
 		 	//}
 		 	// 맞는지 잘 모르겠음 ..
+	
 	
 		
 	//파일다운로드

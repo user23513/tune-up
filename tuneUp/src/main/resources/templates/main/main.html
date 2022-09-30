@@ -5,8 +5,9 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <title>HOME</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
@@ -27,49 +28,49 @@
 	})
 </script>
 <style>
-.attdBt{
+.attdBt {
 	text-align: center;
 }
-#stBtn{
-	display :inline-block;
+
+#stBtn {
+	display: inline-block;
 }
 
-#edBtn{
-	display :inline-block;
+#edBtn {
+	display: inline-block;
 }
-
 </style>
 </head>
 <body>
 	<main layout:fragment="content">
-		<div class="card">
-			<div class="card-body">
-				<h2 sec:authentication="name"></h2>
-				님 환영합니다!!
-				<!-- <h5 class="card-title">로그인 하면 보이는 홈화면</h5> -->
-					<div class="card" style="float: right; width: 270px; height: 500px;">
-					<div class="card" style="float: right; width: 270px; height: 200px;">
-					<h5>여기 공지사항?</h5> 밑에 버튼 나란히 어케 붙여요ㅠ
+
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-9">
+
+					<div class="card">
+						<div
+							class="card-body profile-card pt-4 d-flex flex-column align-items-center" style="height: 3000px;">
+							<h5 sec:authentication="name">님 환영합니다!!</h5>
+
+							달력 어쩌구 높이 스타일 수정해야함
+						</div>
 					</div>
-					<div class="attdBt">
-					 <form id="aFrm" method="post" action="startAttd">
-					 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-					 	<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}"> 
-					 	<input type="hidden" id="nm" name="nm" th:value="${session.nm}">
-						<input type="hidden" id="dept" name="dept" th:value="${session.dept}"> 
-						<input type="hidden" id="position" name="position" th:value="${session.position}">
-						<button onclick="alert('출근 시작!')" id="stBtn" type="button" class="btn btn-primary" style="width: 130px">출근</button>
-					</form>
-					<form id="endFrm" method="post" action="endAttd">
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-						<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
-						<button id="edBtn" type="button" class="btn btn-primary" style="width: 130px; display: inline-block;">퇴근</button>
-					</form>
+
+				</div>
+
+				<div class="col-xl-3">
+
+					<div class="card">
+						<div class="card-body pt-3" style="height: 3000px;">근태 어쩌구 높이 스타일 수정해야함</div>
 					</div>
-					</div>
+
 				</div>
 			</div>
+		</section>
+
+
+
 	</main>
 </body>
 </html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.prj.todo.mapper.DemoTodoMapper">
+
+	<select id="demoList" resultType="co.up.tune.prj.vo.DemoTodoVO">
+		select * from demoTodo
+	</select>
+	
+	<select id="demoSelect" parameterType="co.up.tune.prj.vo.DemoTodoVO">
+		select * from demoTodo
+		where no = #{no}
+	</select>
+	
+	<insert id="demoInsert" parameterType="co.up.tune.prj.vo.DemoTodoVO">
+		insert into demoTodo (cntn)
+		values (#{cntn})
+	</insert>
+	
+	<delete id="demoDelete" parameterType="co.up.tune.prj.vo.DemoTodoVO">
+		delete from demoTodo
+	</delete>
+
+</mapper>

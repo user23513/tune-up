@@ -358,17 +358,19 @@
             </li>
             	<!-- 근태관리 -->
              <li>
-             <form id="attdFrm" method="post" action="attdToday">
+             <form id="attdFrm" method="post" action="mypost">
              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
               <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" id="attdToday">
-                <i class="bi bi-person"></i>
-                <span>근태관리</span>
+                <i class="bi bi-person-lines-fill"></i>
+                <span>내 게시글</span>
               </a>
                </form>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
+            
+           
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="empManage">
@@ -425,6 +427,11 @@
               <i class="bi bi-circle"></i><span>내 프로젝트</span>
             </a>
           </li>
+          <li>
+            <a href="#">
+              <i class="bi bi-circle"></i><span>내 파일함</span>
+            </a>
+          </li>
         </ul>
       </li><!-- End Components Nav -->
 
@@ -453,7 +460,7 @@
         </ul>
       </li><!-- End Forms Nav -->
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#note-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>나의 수첩</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -474,7 +481,7 @@
             </a>
           </li>
         </ul>
-      </li><!-- End note Nav -->
+      </li>End note Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">

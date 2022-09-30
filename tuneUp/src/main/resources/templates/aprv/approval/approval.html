@@ -11,16 +11,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-
 <style>
-table * {
-	border-radius: 5px 5px 5px 5px;
-}
-
-.form-control {
-	justify-content: end;
-}
-
 *:focus {
 	outline: 0;
 }
@@ -33,24 +24,21 @@ table * {
 
 		<script>
 		
-		loadin(); // 로딩화면 
+		loadin(); //로딩화면
+		
 		function loadin(load) {
- 			LoadingWithMask("/assets/img/load.gif"); //동작
-  			setTimeout("closeLoadingWithMask()", 500); //밀리초 후 종료
+ 			LoadingWithMask("/assets/img/load.gif");
+  			setTimeout("closeLoadingWithMask()", 500);
 		} 
 		function LoadingWithMask(gif) {
-			var maskHeight = $(document).height();
-			var maskWidth  = window.document.body.clientWidth;
-  			
-			let mask = "<div id='mask' class='row' style='position:absolute; z-index:9000; background-color:#ffffff; text-align:center; display:none; left:0; top:0;'></div>";
-  			
-			let loadingImg = '';
-  			loadingImg += "<div id='loadingImg' class='col align-self-center'>";    
- 			loadingImg += " <img src='"+ gif + "' style='position:relative; width: 10%; display: block; margin: 0px auto;'/>";
- 			loadingImg += "</div>";
- 		
- 			$('#main').append(mask);
- 			$('#mask').css({'width' : maskWidth +20 , 'height': maskHeight +60});
+			let maskHeight = $(document).height();
+			let maskWidth  = window.document.body.clientWidth;
+  			let mask = "<div id='mask' class='row' style='position:absolute; z-index:9000; background-color:#ffffff; text-align:center; display:none; left:0; top:0;'></div>";
+  			let loadingImg = "<div id='loadingImg' class='col align-self-center'>";    
+ 			loadingImg += " <img src='"+ gif + "' style='position: relative; width: 10%; display: block; margin: 0px auto;'/>";
+  			loadingImg += "</div>";
+  			$('#main').append(mask);
+  			$('#mask').css({'width' : maskWidth +20 , 'height': maskHeight +60});
   			$('#mask').append(loadingImg);
   			$('#mask').show();
 		}
@@ -58,6 +46,8 @@ table * {
 			$('#mask').remove();
 			$('#mask').empty();
 		}	
+		
+	//로딩후	
 	$(document).ready(function() {
 	
 		//데이터테이블
@@ -69,26 +59,82 @@ table * {
 			lengthChange: false,
 			ordering: false,
 			info: false
-		
 		});
 		
-		//상태카테고리변경
-		$("#approvalBtns").on("click", "button", e=>{
-				let aprvSt = $(e.target).data("st"); 	
-				location.href=`/approval?aprvSt=${aprvSt}`;
-		});
-			
-	
-	/* 	approvalSelect();//상세조회
-		function aprvSelect() {
-			$("#approvaltb").on("click", ".select", e=>{
-				let no = $(e.target).data("no"); //글번호
-				$("#aprvNo").val(no)
-				$("#aprvfrm").submit();
-			})
-		} */
+	aprvSelect();
+	approvalSt();
 	
 	});
+	
+	//상태카테고리변경
+	function approvalSt(){
+		$("#approvalBtns").on("click", "button", e=>{
+				let aprvSt = $(e.target).data("st"); 
+				
+				$.ajax({
+					url:'aprvSt',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'aprvSt':aprvSt},
+				    dataType:'json',
+				    success:function(obj){   
+				    	
+				    	$.each (obj, (idx, o)=> {
+				    		$("#aprvtb").html("");
+							let tr = "";
+					    	tr += `<tr class="list-group" data-no='${o.aprvNo}'>
+								<td class="list-group-item" >
+									<div class="d-flex justify-content-between align-items-center">
+										<p class="mb-1 fw-bold">${o.ttl}
+											<input class="form-check-input me-1" type="checkbox"
+												value='${o.aprvNo}' aria-label="...">제목</p>`;
+							if (o.reqSt == '반려' || o.reqSt =='완료'){
+								tr += `<span class="badge bg-secondary rounded-pill"
+									style="height: 25px">${o.reqSt}</span>`;
+							} else {
+								tr +=`<span class="badge bg-primary rounded-pill"
+									style="height: 25px">${o.reqSt}</span>`;
+							}
+							
+							tr += `</div> <small>And some small print.</small>
+								</td></tr>`;								
+							$("#aprvtb").html(tr);
+				    });
+				    	
+				    	$(".apSt.btn-primary").addClass("btn-outline-primary");
+				    	$(".apSt.btn-primary").removeClass("btn-primary");
+				    	$(e.target).removeClass("btn-outline-primary");
+				    	$(e.target).addClass("btn-primary");
+				    	
+				    }
+			    }) 
+			})
+		}
+			
+		//상세조회
+		function aprvSelect() {
+		$("#approvalTable").on("click", "tr", e=>{
+			let aprvNo = $(e.target).data("no");
+			$.ajax({
+				url:'approvalView',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'aprvNo':aprvNo},
+			    dataType:'json',
+			    success:function(obj){    	
+			        $("#vttl").html(obj.ttl);
+					$("#tnv").html(obj.cntn);
+					$("#viewModal").modal('show');
+			        }
+			    }) 
+			})
+		}
+	
+	
 	</script>
 
 		<!--section -->
@@ -168,7 +214,11 @@ table * {
 											<div class="btn-group" role="group" id="approvalBtns"
 												aria-label="Approval List" style="width: 100%;">
 												<button type="button" th:each="s:${st}"
-													class="btn btn-outline-primary" th:text="${s.cdNm}"
+													th:if="${s.cdNm == '전체'}" class="btn btn-primary apSt"
+													th:text="${s.cdNm}" th:data-st="${s.cdNm}">전체</button>
+												<button type="button" th:each="s:${st}"
+													th:unless="${s.cdNm == '전체'}"
+													class="btn btn-outline-primary apSt" th:text="${s.cdNm}"
 													th:data-st="${s.cdNm}">전체</button>
 											</div>
 										</div>
@@ -181,22 +231,23 @@ table * {
 										style="width: 100%">
 										<thead hidden="hidden">
 											<tr>
-												<th>내용</th>
+												<th>제목</th>
 											</tr>
 										</thead>
 										<tbody id="aprvtb">
-											<tr class="list-group" th:each="p : ${approval}">
-												<td class="list-group-item" th:data-no="${p.aprvNo}">
+											<tr class="list-group" th:each="p : ${approval}"
+												th:data-no="${p.aprvNo}">
+												<td class="list-group-item">
 													<div
 														class="d-flex justify-content-between align-items-center">
 														<p class="mb-1 fw-bold" th:text="${p.ttl}">
-															><input class="form-check-input me-1" type="checkbox"
+															<input class="form-check-input me-1" type="checkbox"
 																th:value="${p.aprvNo}" aria-label="...">제목
 														</p>
-														<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료' }"
+														<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료'}"
 															th:text="진행" class="badge bg-primary rounded-pill"
 															style="height: 25px">진행</span> <span
-															th:if="${p.reqSt == '반려' or p.reqSt =='완료'  }"
+															th:if="${p.reqSt == '반려' or p.reqSt =='완료'}"
 															th:text="${p.reqSt}"
 															class="badge bg-secondary rounded-pill"
 															style="height: 25px">완료</span>
@@ -261,12 +312,13 @@ table * {
 			data-bs-backdrop="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
-					<div class="modal-header">
+					<div class="modal-header" id="vttl">
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body" id="VCntn" style="min-height: 750px;">
-						내용</div>
+					<div class="modal-body" id="vCntn">
+						<div id="tnv" class=".txtA">에디터</div>
+					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">닫기</button>

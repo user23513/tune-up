@@ -36,7 +36,7 @@ table * {
 		loadin(); // 로딩화면 
 		function loadin(load) {
  			LoadingWithMask("/assets/img/load.gif"); //동작
-  			setTimeout("closeLoadingWithMask()", 300); //300밀리초 후 종료
+  			setTimeout("closeLoadingWithMask()", 500); //밀리초 후 종료
 		} 
 		function LoadingWithMask(gif) {
 			var maskHeight = $(document).height();
@@ -46,7 +46,7 @@ table * {
   			
 			let loadingImg = '';
   			loadingImg += "<div id='loadingImg' class='col align-self-center'>";    
- 			loadingImg += " <img src='"+ gif + "' style='position: relative; display: block; margin: 0px auto;'/>";
+ 			loadingImg += " <img src='"+ gif + "' style='position:relative; width: 10%; display: block; margin: 0px auto;'/>";
  			loadingImg += "</div>";
  		
  			$('#main').append(mask);

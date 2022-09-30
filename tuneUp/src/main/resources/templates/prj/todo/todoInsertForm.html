@@ -32,28 +32,28 @@ textarea.none
 $(document).ready(function() {
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
+	let i = 0;
 	//할일 추가 버튼
 	$("#addTodo").on("click", e=>{
 		let cntn = $("#todoAdd").val(); //할일
-		
 		console.log(cntn);
-		let tdList = $("<div>").attr("id", "tdList"); 
+		i++
 		
 		//할일 추가 처리
 		$.ajax({
-	         url:'demoInsert',
+	         url: "demoInsert",
 	         beforeSend:function(xhr){
 	 	  		xhr.setRequestHeader(header,token);  
 	     	  },
-	         type:'post',
-	         data:{'cntn': cntn},
-	         dataType:'json',
+	     	 type : "post",
+	         data:{"cntn" : cntn },
 	         success:function(res){
 	        	 console.log(res);
-	        	let str = "<tr><td>"+res.no+"</td>";
-	     		str += "<td >"+res.cntn+"</td><td><a id='remove' name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
+	        	let str = "<tr><td id='no'>"+ i +"</td>";
+	     		str += "<td >"+res+"</td><td><a id='remove' name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
 	     		str += "<i class='bi bi-x-lg'></i></a> </td> </tr>";
-	        	 $("#tbd").append(str);
+	        	
+	     		$("#tbd").append(str);
 	         }
 	      })
 	})

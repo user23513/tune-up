@@ -12,9 +12,4 @@ public interface TodoDetailMapper {
 	int detailUpdate(TodoDetailVO vo); //할일 상세 수정
 	int detailDelete(TodoDetailVO vo); //할일 상세 삭제
 	int cmpltYnUpdate(TodoDetailVO vo); //할일 체크
-	
-	List<DemoTodoVO> demoList(); //데모 리스트
-	DemoTodoVO demoSelect(DemoTodoVO vo); //데모 한건 조회
-	int demoInsert(DemoTodoVO vo); //데모 추가
-	int demoDelete(DemoTodoVO vo); //데모 삭제
 }

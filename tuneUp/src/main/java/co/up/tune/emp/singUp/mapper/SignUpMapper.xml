@@ -26,10 +26,18 @@
 		where nm=#{nm} and email=#{email}
 	</select>
 	
+<<<<<<< HEAD
 	<update id="empUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
 		set pw = #{pw}
 		where id=#{id} and email=#{email}
+=======
+	<update id="findPassword" parameterType="co.up.tune.emp.vo.EmpVO">
+		update emp
+		set pw = #{pw}
+		where id = #{id}
+		<!--디비에 넣어보고 수정해야 함 -->
+>>>>>>> branch 'kimgayun' of https://github.com/user23513/tune-up.git
 	</update>
 
 </mapper>

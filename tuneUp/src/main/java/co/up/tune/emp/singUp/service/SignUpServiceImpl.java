@@ -35,11 +35,16 @@ public class SignUpServiceImpl implements SignUpService{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public int empUpdate(EmpVO vo) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String result = encoder.encode(vo.getPw());
 		vo.setPw(result);
 		return map.empUpdate(vo);
+=======
+	public String findPassword(EmpVO vo) {
+		return map.findPassword(vo);
+>>>>>>> branch 'kimgayun' of https://github.com/user23513/tune-up.git
 	}
 
 	

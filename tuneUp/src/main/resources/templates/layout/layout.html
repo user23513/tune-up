@@ -83,7 +83,7 @@
   		let rList = $("<div>").attr("id", "rList");
   		let bellCntn = wrtr+'님이 <a id="freeTitle" data-no='+postNo+' href="javascript:void(0);" onClick="freeTitle()">['+postTitle+']</a>게시글에 댓글을 남겼습니다.';
   			
-          //전송한 정보를 db에 저장
+         //전송한 정보를 db에 저장
   		//내가 등록한 댓글은 db에 저장되지 않고
   		//내 게시글에 댓글 달 경우는 나에게 알림이 가지 않도록
   		if(receiverNo != empNo) {
@@ -226,12 +226,7 @@
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li><!-- End Search Icon-->
-        
+       
         <!-- 조직도 아이콘 -->
         <li class="nav-item dropdown">
         	<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">

@@ -133,7 +133,7 @@
 <update id="aprvLineUp" parameterType="co.up.tune.aprv.vo.AprvLineVO">
 	UPDATE APRV_LINE
 		<set>
-		<if test=" != null and empNo != ''">
+		<if test=" empNo != null and empNo != ''">
 		EMP_NO = #{empNo},
 		</if>
 		<if test="dept != null and dept != ''">

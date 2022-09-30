@@ -46,7 +46,7 @@
 
 
 	<select id="aprvFormAll" resultType="co.up.tune.aprv.vo.FormVO">
-		SELECT FORM_NO, FORM_NM,
+		SELECT FORM_NO, TTL,
 		FORM_CAT, EMP_NO, FORM_AUTH
 		FROM FORM
 		<if test="formCat != null and formCat != '' and formCat != '전체'">WHERE FORM_CAT=#{formCat}</if>
@@ -72,8 +72,8 @@
 		parameterType="co.up.tune.aprv.vo.FormVO">
 		UPDATE FORM
 		<set>
-			<if test="formNm != null and formNm != ''">FORM_NM=#{formNm},</if>
-			<if test="formCntn != null and formCntn != ''">FORM_CNTN=#{formCntn},</if>
+			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
+			<if test="cntn != null and cntn != ''">CNTN=#{cntn},</if>
 			<if test="formCat != null and formCat != ''">FORM_CAT=#{formCat},</if>
 			<if test="formAuth != null and formAuth != ''">FORM_AUTH=#{formAuth}</if>
 		</set>

@@ -104,4 +104,12 @@
 		FROM EMP
 	</select>
 	
+	<!-- 프로젝트 일정 리스트 -->
+	<select id="scheduleList" resultType="co.up.tune.prj.vo.ScheduleVO">
+		SELECT *
+		FROM SCHEDULE
+		WHERE PRJ_NO = #{prjNo}
+		ORDER BY POST_NO
+	</select>
+	
 </mapper>

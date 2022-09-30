@@ -7,6 +7,7 @@ import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
+import co.up.tune.prj.vo.ScheduleVO;
 
 public interface PropostService {
 	
@@ -28,6 +29,7 @@ public interface PropostService {
 	
 	/* 현지 수정 */
 	List<EmpVO> empList(); //모든 사원정보
+	List<ScheduleVO> scheduleList(int prjNo); //프로젝트 일정 리스트
 	
  
 	

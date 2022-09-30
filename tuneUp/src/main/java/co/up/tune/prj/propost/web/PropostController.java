@@ -49,6 +49,7 @@ public class PropostController {
 	@PostMapping("/prjPostList")
 	public String prjPostList(@RequestParam("prjNo")int prjNo, Model model) {
 		model.addAttribute("prjNo", prjNo);
+		model.addAttribute("scheduleList", dao.scheduleList(prjNo));
 		return "prj/post/prjPostList";
 	}
 	

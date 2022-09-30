@@ -106,14 +106,14 @@ $(document).ready(function() {
 				<h5 class="card-title">MY PROJECT</h5>
 				<div class="pagetitle">
 				
-					<form action="postInsertForm" method="post">
-						<div style="display: inline-block; margin: 0 5px; float: right;">
+					<div style="display: inline-block; margin: 0 5px; float: right;">
+						<form action="postInsertForm" method="post">
 							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 							<!-- 프로젝트 번호  -->
-							<input type="hidden" id="prjNo" th:value="${prjNo}">
+							<input type="hidden" id="prjNo" name="prjNo" th:value="${prjNo}">
 							<button type="submit" class="btn btn-outline-primary">글쓰기</button>
-						</div>
-					</form>
+						</form>
+					</div>
 					
 					<br>
 					<br>
@@ -153,157 +153,175 @@ $(document).ready(function() {
 				<div class="tab-content pt-2" id="myTabjustifiedContent">
 					<div class="tab-pane fade show active" id="home-justified"
 						role="tabpanel" aria-labelledby="home-tab">
-						<div id="chart_div"></div>	
+						<div id="chart_div">
+						</div>	
 					</div>	
 				
 				<!-- Start 일정 목록 -->
 				<div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
-					<div class="card">
+					<div class="card" th:each="s:${scheduleList}">
 						<div class="card-body">
-							
+							<div class="card-title">
+								<span>[[${wrtr}]]</span>
+								<!-- 드롭다운 아이콘 -->
+								<div class="filter" style="float: right" >
+									<a class="icon" href="#" data-bs-toggle="dropdown">
+										<i class="bi bi-three-dots" ></i>
+									</a>
+									<!-- 드롭다운 수정삭제 펼치기 -->
+									<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" >
+										<li class="dropdown-header text-start" > Settings
+											<button class="dropdown-item" style="text-align: center">수정</button>
+											<button class="dropdown-item" style="text-align: center">삭제</button>
+										</li>	
+									</ul>
+								</div>
+							</div>
+							<span style="font-size: large;">[[${ttl}]]</span><br><br>
+							<span>[[${sdt}]] - [[${edt}]]</span>
+							<div style="font-size: medium;">
+								참석자
+								참석 불참 미정 숫자
+								지도
+								참석 불참 미정 버튼
+							</div><br><br>
+							첨부파일:<span style="font-size: large;"> </span><br><br>
+								
+							<div class="form-floating mb-3">
+								<textarea class="form-control" placeholder="Leave a comment here"
+										  style="height: 100px; resize: none"></textarea>
+								<label for="floatingTextarea">Comments</label>
+							</div>
+							<button class="btn btn-primary btn-sm" style="float: right" type="button">등록</button>
 						</div>
 					</div>
 				</div>
 				<!-- End 일정 목록 -->
 				
 				<!-- 글 목록 -->
-					<div class="tab-pane fade" id="pst" role="tabpanel"
-						aria-labelledby="pst-tab">
-						<!-- Default Card -->
-						<div id="incd">
+				<div class="tab-pane fade" id="pst" role="tabpanel" aria-labelledby="pst-tab">
+					<!-- Default Card -->
+					<div id="incd">
 						<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
 						<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
-							<div class="card" th:each="pj :${prjPostList}">
-								<div class="card-body">
-									<h3 class="card-title">
-										<span th:text="${pj.wrtr}	"></span>
-										<span th:text="${#dates.format(pj.dttm, 'yyyy-MM-dd')}"></span>
-									<!-- 드롭다운 아이콘 -->
-									<div class="filter" style="float: right" >
-											<a class="icon" href="#" data-bs-toggle="dropdown"  ><i
-												class="bi bi-three-dots" ></i></a>
-											
-											<!-- 드롭다운 수정삭제 펼치기 -->
+						<div class="card" th:each="pj :${prjPostList}">
+							<div class="card-body">
+								<h3 class="card-title">
+								<span th:text="${pj.wrtr}	"></span>
+								<span th:text="${#dates.format(pj.dttm, 'yyyy-MM-dd')}"></span>
+								<!-- 드롭다운 아이콘 -->
+								<div class="filter" style="float: right" >
+									<a class="icon" href="#" data-bs-toggle="dropdown">
+										<i class="bi bi-three-dots" ></i>
+									</a>
+									<!-- 드롭다운 수정삭제 펼치기 -->
 									<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" >
-												<li class="dropdown-header text-start" > Settings</li>
-												<form id="upFrm" action="postUpdateForm" method="post" >
-												<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-												<input type="hidden" id="postNo" name="postNo" th:value="${pj.postNo}">
-												<button id="up" class="dropdown-item" style="text-align: center">수정</button>
-												</form>
-											<!-- <li><a class="dropdown-item" href="#" style="text-align: center" onclick="location.href='postUpdateForm'">수정</a></li> -->
-										
-											<!-- <form id="upFrm" action="prjPostUpdate" method="get" >
-												<input type="hidden" id="postNo" name="postNo"
-													th:value="${pj.postNo}">
-													   <button id="delete" class="dropdown-item" style="text-align: center">수정</button>
-												</form> -->
-
-													<!-- <form id="upFrm" action="prjPostUpdate">
-												<input type="hidden" name="postNo" th:value="${pj.postNo}">
-												<button class="btn btn-primary w-100" type="button" id="up">수정</button>
-											</form> -->
-
-											<form id="delFrm" action="prjPostDelete" method="post" >
+										<li class="dropdown-header text-start" > Settings</li>
+										<form id="upFrm" action="postUpdateForm" method="post" >
 											<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-												<input type="hidden" id="postNo" name="postNo" th:value="${pj.postNo}">
-												<button id="delete" class="dropdown-item" style="text-align: center">삭제</button>
-											</form>
-												
-											<!-- 	<li><a class="dropdown-item" href="#">삭제</a></li> -->
-									 </ul>
-									</div>
-
-										
-									</h3>
-									<span th:text="${pj.ttl}" style="font-size: large;"></span><br><br>
-									<span th:text="${pj.cntn}" style="font-size: medium;"></span><br><br>
-									첨부파일:<span th:text="${pj.atchNo}" style="font-size: large;"> </span><br><br>
-									<!-- <div class="row mb-3">
-										<div class="col-sm-10" style="float: right;">
-											<input type="text" class="form-control" >
-											 <button type="button" class="btn btn-primary btn-sm" style="float: right">등록</button>
-										</div>
-									</div> -->
-									
-									<!-- 댓글창 -->
-									<!-- 댓리스트 -->
-													<!-- <div class="card" th:each="p :${ppReplyList}">
-													<div class="card-body">
-									<h3 class="card-title">
-										<span th:text="${p.wrtr}	"></span>
-										<span th:text="${p.cntn}"></span>
-										
-										</h3></div>
-													
-													
-													</div> -->
-																<!--대  -->
-								 	
-									
-									
-									<!-- 전체 댓글 -->
-						<!-- <div class="input-group mb-3">
-						<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
-						<span id="rBtn" class="input-group-text">등록</span>
-					</div>	 -->		
-								 
-									
+											<input type="hidden" id="postNo" name="postNo" th:value="${pj.postNo}">
+											<button id="up" class="dropdown-item" style="text-align: center">수정</button>
+										</form>
+										<!-- <li><a class="dropdown-item" href="#" style="text-align: center" onclick="location.href='postUpdateForm'">수정</a></li> -->
 								
-						<div id="rList">
-							<div th:each="r : ${ppReplyList}">
-								<span th:text="${r.wrtr}">작성자</span>&nbsp;
-								<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-							<!-- 	<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span> -->
-								<br>
-								<span>
-									<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == pj.empNo}"></i>
-								</span>&nbsp; <!-- 수정아이콘 -->
-								<span>
-									<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == pj.empNo}"></i>
-								</span> <!-- 삭제아이콘 -->
-								<hr>
-							</div>
-						</div>
-						<div class="form-floating mb-3">
-									<textarea class="form-control"
-										placeholder="Leave a comment here" id="rCntn"
-										style="height: 100px; resize: none"></textarea>
+										<!-- <form id="upFrm" action="prjPostUpdate" method="get" >
+										<input type="hidden" id="postNo" name="postNo"
+											th:value="${pj.postNo}">
+											   <button id="delete" class="dropdown-item" style="text-align: center">수정</button>
+										</form> -->
+
+											<!-- <form id="upFrm" action="prjPostUpdate">
+										<input type="hidden" name="postNo" th:value="${pj.postNo}">
+										<button class="btn btn-primary w-100" type="button" id="up">수정</button>
+									</form> -->
+
+										<form id="delFrm" action="prjPostDelete" method="post" >
+											<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+											<input type="hidden" id="postNo" name="postNo" th:value="${pj.postNo}">
+											<button id="delete" class="dropdown-item" style="text-align: center">삭제</button>
+										</form>
+										<!-- 	<li><a class="dropdown-item" href="#">삭제</a></li> -->
+									</ul>
+								</div>
+								</h3>
+								<span th:text="${pj.ttl}" style="font-size: large;"></span><br><br>
+								<span th:text="${pj.cntn}" style="font-size: medium;"></span><br><br>
+								첨부파일:<span th:text="${pj.atchNo}" style="font-size: large;"> </span><br><br>
+								<!-- <div class="row mb-3">
+									<div class="col-sm-10" style="float: right;">
+										<input type="text" class="form-control" >
+										 <button type="button" class="btn btn-primary btn-sm" style="float: right">등록</button>
+									</div>
+								</div> -->
+								<!-- 댓글창 -->
+								<!-- 댓리스트 -->
+								<!-- <div class="card" th:each="p :${ppReplyList}">
+								<div class="card-body">
+								<h3 class="card-title">
+									<span th:text="${p.wrtr}	"></span>
+									<span th:text="${p.cntn}"></span>
+									</h3></div>
+								</div> -->
+								<!--대  -->
+								<!-- 전체 댓글 -->
+								<!-- <div class="input-group mb-3">
+								<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요">
+								<span id="rBtn" class="input-group-text">등록</span>
+								</div>	 -->		
+								
+								<div id="rList">
+									<div th:each="r : ${ppReplyList}">
+										<span th:text="${r.wrtr}">작성자</span>&nbsp;
+										<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
+									<!-- 	<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span> -->
+										<br>
+										<span>
+											<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == pj.empNo}"></i>
+										</span>&nbsp; <!-- 수정아이콘 -->
+										<span>
+											<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == pj.empNo}"></i>
+										</span> <!-- 삭제아이콘 -->
+										<hr>
+									</div>
+								</div>
+								<div class="form-floating mb-3">
+									<textarea class="form-control" placeholder="Leave a comment here" id="rCntn" 
+											  style="height: 100px; resize: none"></textarea>
 									<label for="floatingTextarea">Comments</label>
 								</div>
-									<form id="rupFrm" action="ppReplyInsert" method="post">
-								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-								<button id="rBtn" class="btn btn-primary btn-sm" style="float: right" type="button">등록</button>
-									</form>	
-				<!-- end 댓글 -->
-								</div>
-							</div>
-							<!-- End Default Card -->
-
-								<!-- 페이징 -->
-								<nav aria-label="Page navigation example">
-									<ul class="pagination">
-										<li class="page-item"><a class="page-link" href="#"
-											aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-										</a></li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item"><a class="page-link" href="#"
-											aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-										</a></li>
-									</ul>
-								</nav>
+								<form id="rupFrm" action="ppReplyInsert" method="post">
+									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+									<button id="rBtn" class="btn btn-primary btn-sm" style="float: right" type="button">등록</button>
+								</form>	
+								<!-- end 댓글 -->
 							</div>
 						</div>
+						<!-- End Default Card -->
+
+						<!-- 페이징 -->
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+								<li class="page-item"><a class="page-link" href="#"
+									aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+								</a></li>
+								<li class="page-item"><a class="page-link" href="#">1</a></li>
+								<li class="page-item"><a class="page-link" href="#">2</a></li>
+								<li class="page-item"><a class="page-link" href="#">3</a></li>
+								<li class="page-item"><a class="page-link" href="#"
+									aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+								</a></li>
+							</ul>
+						</nav>
+					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 		</div>
 	</section>
 	<script>
 	/* 일정 리스트 */
-	$("#schedule-tab").on("click", e=>{
+	/* $("#schedule-tab").on("click", e=>{
 		let prjNo = $("#prjNo").val();
 		$.ajax({
 			url: 'scheduleList',
@@ -311,13 +329,13 @@ $(document).ready(function() {
 	 	  		xhr.setRequestHeader(header,token);  
 	     	},
 	     	type: 'post',
-	     	data: {prjNo:prjNo},
+	     	data: {'prjNo':prjNo},
 	     	dataType: 'json',
 	     	success: function(res){
 	     		console.log(res);
 	     	}
 		})
-	})
+	}) */
 	
 	/* $(document).ready(function() {
 	$("#delete").on("click", e=>{

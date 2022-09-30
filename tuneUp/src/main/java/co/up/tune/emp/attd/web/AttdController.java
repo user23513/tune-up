@@ -1,8 +1,7 @@
 package co.up.tune.emp.attd.web;
 
 
-
-
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,6 +49,24 @@ public class AttdController {
 		return "emp/attd/attdList";
 	}
 	
+	
+	//출근기록 저장 - 에러메세지 뜨게 수정해야함~~
+		@PostMapping("/startAttd")
+		public String startAttd(AttdVO vo) {
+			dao.startAttd(vo);
+			return "main/main";
+			
+		}
+		 
+		//퇴근기록 저장
+		@PostMapping("/endAttd")
+		public String endAttd(AttdVO vo) {
+			dao.endAttd(vo);
+			return "main/main";
+		}
+	
+	
+	
 	@PostMapping("/checkGood")
 	public String checkGood(AttdVO vo, Model model) throws Exception {
 		int count = dao.checkGood(vo);
@@ -64,8 +81,13 @@ public class AttdController {
 		return "emp/attd/attdList";
 	}
 	
-	
-	
+	 @GetMapping("/checkTime")
+	 public String checkTime(AttdVO vo, Model model) {
+		 model.addAttribute("checkTime", dao.checkTime(vo));
+		return "emp/attd/myAttdList";
+	 }
+	 
+	 
 	// 전체사원 근태 정상 리스트 - 관리자
 //	@GetMapping("/attdGoodList")
 //	public String attdGoodList(Model model) {
@@ -85,28 +107,14 @@ public class AttdController {
 	// ===================================
 		
 	@RequestMapping("/attdToday")
-	public String myAttdList(){
+	public String myAttdList(Model model){
+		AttdVO vo = new AttdVO();
+		model.addAttribute("checkTime", dao.checkTime(vo).getAtdcDttm());
 		return "emp/attd/myAttdList";
 		
 	}
 	
-	  //출근기록 저장
-	  
-		/*
-		 * @PostMapping("/startAttd") public String startAttd(AttdVO vo) {
-		 * 
-		 * dao.startAttd(vo); return "redirect:/main";
-		 * 
-		 * }
-		 */
-	  
-	/* //퇴근기록 저장
-	 * 
-	 * @PostMapping("/endAttd") public String endAttd(AttdVO vo,Model model) {
-	 * dao.endAttd(vo);
-	 * 
-	 * return "redirect:/attdToday"; }
-	 */
+	
 	
 	
 	/* public String workChart() {

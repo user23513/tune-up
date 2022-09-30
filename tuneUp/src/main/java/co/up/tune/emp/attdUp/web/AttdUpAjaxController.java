@@ -14,14 +14,14 @@ import co.up.tune.emp.vo.AttdUpVO;
 
 @RestController
 public class AttdUpAjaxController {
+	
 	/*
 	 * @Autowired AttdUpService dao;
-	 */
- 
-	/*
+	 * 
+	 * 
 	 * @PostMapping("/attdUpOk") public String attdUpOk(AttdUpVO vo,Model model) {
-	 * dao.attdUpOk(vo); model.addAttribute("attdUpOk",dao.attdUpOk(vo)); return
-	 * "redirect:/attdList"; }
+	 * model.addAttribute("attdUpOk",dao.attdUpOk(vo)); return "redirect:/attdList";
+	 * }
 	 */
 	
 }

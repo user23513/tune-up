@@ -29,6 +29,7 @@ public interface AttdService {
 	int checkGood(AttdVO vo);	//오늘 출근 시작 몇명
 	int checkBad(AttdVO vo); 	//어제 이상 출근 몇명
 	
+	AttdVO checkTime(AttdVO vo); //출근시간 띄우기
 	
 	//엑셀
 	void excel(AttdVO attdVO, HttpServletResponse res) throws Exception;

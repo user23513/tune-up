@@ -3,6 +3,7 @@ package co.up.tune.emp.attd.service;
 import java.net.URLEncoder;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -158,6 +159,12 @@ public class AttdServiceImpl implements AttdService{
 	public int checkBad(AttdVO vo) {
 		// 어제 이상 출근 몇명
 		return dao.checkBad(vo);
+	}
+
+	@Override
+	public AttdVO checkTime(AttdVO vo) {
+		// 출근시간 띄우기
+		return dao.checkTime(vo);
 	}
 
 }

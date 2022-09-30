@@ -8,6 +8,7 @@
 				DTTM, MOD_YN, ATCH_NO, REQ_ST,
 				APRV_AUTH, DEADLINE, IMPTS
 		FROM APRV
+		<if test="reqSt != null and reqSt != '' and reqSt != '전체' ">WHERE REQ_ST=#{reqSt}</if>
 		ORDER BY APRV_NO DESC
 	</select>
 
@@ -48,6 +49,7 @@
 		SELECT FORM_NO, FORM_NM,
 		FORM_CAT, EMP_NO, FORM_AUTH
 		FROM FORM
+		<if test="formCat != null and formCat != '' and formCat != '전체'">WHERE FORM_CAT=#{formCat}</if>
 		ORDER BY
 		FORM_NO DESC
 	</select>

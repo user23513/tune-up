@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
@@ -25,7 +27,7 @@ public class AprvAdminController {
 	
 	
 	@GetMapping("/aprvAdmin")
-	public String aprvAdmin(Model model, HttpServletRequest request) throws IOException {
+	public String aprvAdmin(Model model, HttpServletRequest request, @RequestParam(required = false, defaultValue = "전체")String reqSt, @RequestParam(required = false, defaultValue = "전체")String formCat) throws IOException {
 		
 		HttpSession session =  request.getSession();
 		String auth = (String) session.getAttribute("auth");
@@ -33,15 +35,15 @@ public class AprvAdminController {
 		if(auth.equals("ADMIN")) {
 			
 
-			List<AprvVO> list = ap.aprvListAll();
-			model.addAttribute("aprvList", list);
+			List<AprvVO> list = ap.aprvListAll(reqSt);
+			model.addAttribute("aprv", list);
 			
-			List<FormVO> form = ap.aprvFormAll();
-			model.addAttribute("formList", form);
+			List<FormVO> form = ap.aprvFormAll(formCat);
+			model.addAttribute("form", form);
 
 			
 			// 공통코드
-			model.addAttribute("cd", cd.commonList("신청상태"));
+			model.addAttribute("st", cd.commonList("신청상태"));
 			model.addAttribute("cat", cd.commonList("서식종류"));
 		
 			return "aprv/aprvAdmin/aprvAdmin";	

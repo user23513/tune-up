@@ -1,14 +1,17 @@
 package co.up.tune.aprv.aprvAdmin.service;
 
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 
 public interface AprvAdminService { // 전자결재 관리자
 
-	//////////결재문서
+	
 	//관리자 전체 결재문서 목록 조회
-	List<AprvVO> aprvListAll();
+	List<AprvVO> aprvListAll(@Param("reqSt") String reqSt);
 	//결재문서 단건 상세
 	AprvVO aprvSelect(AprvVO vo);
 	
@@ -19,9 +22,9 @@ public interface AprvAdminService { // 전자결재 관리자
 	int aprvAdminUp(AprvVO vo);
 	
 
-	////////// 서식
+
 	// 관리자 전체 서식 목록 조회
-	List<FormVO> aprvFormAll();
+	List<FormVO> aprvFormAll(@Param("formCat") String formCat);
 	// 서식 단건 상세
 	FormVO formSelect(FormVO vo);
 

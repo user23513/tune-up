@@ -6,8 +6,7 @@
 		parameterType="co.up.tune.aprv.vo.AprvVO"
 		resultType="co.up.tune.aprv.vo.AprvVO">
 		SELECT APRV_NO, EMP_NO, TTL, DTTM, MOD_YN, ATCH_NO, REQ_ST,
-		APRV_AUTH,
-		DEADLINE, IMPTS
+				APRV_AUTH, DEADLINE, IMPTS
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
 			AND NOT REQ_ST = '임시저장'

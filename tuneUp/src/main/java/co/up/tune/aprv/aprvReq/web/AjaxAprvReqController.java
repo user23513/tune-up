@@ -18,16 +18,6 @@ public class AjaxAprvReqController {
 	@Autowired
 	AprvReqService ap;
 	
-	@PostMapping("/reqSt")	
-	public List<AprvVO>reqSt(AprvVO vo) {
-	
-		List<AprvVO> list = ap.aprvReqList(vo);
-	
-		return list;
-			
-		}
-	
-
 	@RequestMapping("/aprvView")	
 	public AprvVO aprvView(AprvVO vo) {
 		

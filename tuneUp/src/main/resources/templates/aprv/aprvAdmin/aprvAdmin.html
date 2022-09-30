@@ -1,90 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
 <title>전자결재 - 관리 기능</title>
-<script src="/js/jquery-3.6.1.min.js"></script>
+<!-- <link rel="stylesheet"
+	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
 <script
-	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<link rel="stylesheet" href="/assets/css/datable.css">
+	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script> -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-<script>
-	$(document).ready(function() {
-		aprvSelect();
-		formSelect();
-		
-		$('#aprvTable').DataTable({
-			colums: [	
-				{data:"ttl"}		
-			],
 
-			columnDefs: [
-				{targets:0, width:400}
-			],	
-			lengthChange: false,
-			ordering: false,
-			info: false
-			
-		});
-		
-		
-		$('#formTable').DataTable({
-			//컬럼 갯수
-			colums: [
-				{data:"formCat"},
-				{data:"formNm"},
-				{data:"empNo"},
-				{data:"formAuth"}
-			],
-			//컬럼 넓이
-			columnDefs: [
-				{targets:0, width:50},
-				{targets:1, width:400},
-				{targets:2, width:50},
-				{targets:3, width:50}
-			],
-			//표시 건수 기능 숨기기
-			lengthChange: false,
-			//정렬 기능 숨기기
-			ordering: false,
-			//정보 표시 숨기기
-			info: false
-			
-		});
-		
-		//상세조회
-		function aprvSelect() {
-			$("#aprvtb").on("click", ".select", e=>{
-				let no = $(e.target).data("no"); //글번호
-				$("#aprvNo").val(no)
-				$("#aprvfrm").submit();
-			})
-		}
-		
-		function formSelect() {
-			$("#formtb").on("click", ".select", e=>{
-				let no = $(e.target).data("no"); //글번호
-				$("#formNo").val(no)
-				$("#formfrm").submit();
-			})
-		}
-		
-		
-		
-	} );
-</script>
 <style>
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-	padding: 0px;
-	margin-left: 0px;
-	display: inline;
-	border: 0px;
+table * {
+	border-radius: 5px 5px 5px 5px;
+}
+
+.form-control {
+	justify-content: end;
+}
+
+*:focus {
+	outline: 0;
 }
 </style>
 </head>
@@ -92,7 +34,108 @@
 	<!-- ======= Main ======= -->
 	<main id="main" class="main" layout:fragment="content">
 
+		<script>
+			//로딩화면
+			loadin(); 
+			function loadin(load) {
+	 			LoadingWithMask("/assets/img/load.gif");
+	  			setTimeout("closeLoadingWithMask()", 300);
+			} 
+			function LoadingWithMask(gif) {
+				var maskHeight = $(document).height();
+				var maskWidth  = window.document.body.clientWidth;
+	  
+	  			let mask = "<div id='mask' class='row' style='position:absolute; z-index:9000; background-color:#ffffff; text-align:center; display:none; left:0; top:0;'></div>";
+	  			let loadingImg = '';
+	  			loadingImg += "<div id='loadingImg' class='col align-self-center'>";    
+	 			loadingImg += " <img src='"+ gif + "' style='position: relative; display: block; margin: 0px auto;'/>";
+	  			loadingImg += "</div>";
+	  			$('#main').append(mask);
+	  			$('#mask').css({'width' : maskWidth +20 , 'height': maskHeight +60});
+	  			$('#mask').append(loadingImg);
+	  			$('#mask').show();
+			}
+			function closeLoadingWithMask() {    
+				$('#mask').remove();
+				$('#mask').empty();
+			}	
 
+			
+			$(document).ready(function() {
+					
+				//데이터테이블
+				$('#aprvTable').DataTable({
+					"dom":'lftip',
+					"language": {
+			   		"search": ""
+			 		},
+					
+					lengthChange: false,
+					ordering: false,
+					info: false
+			
+				});
+		
+		
+				$('#formTable').DataTable({
+					"dom":'lftip',
+					"language": {
+		   			"search": ""
+					},
+					lengthChange: false,	
+					ordering: false,
+					info: false	
+				});
+		
+
+			//새로고침 후 탭 고정
+			$('button[data-bs-toggle="tab"]').on("shown.bs.tab", function (e) {
+			    let id = $(e.target).attr("data-bs-target");
+			    localStorage.setItem('selectTab', id)
+			});
+
+				let selectTab = localStorage.getItem('selectTab');
+			
+			if ( selectTab ) {
+			    $('[data-bs-target="' + selectTab + '"]').tab('show');
+			    
+			} else{
+				$('[data-bs-target="#aprv-list"]').tab('show');
+			}
+			
+			//상태카테고리변경
+			$("#reqAdBtns").on("click", "button", e=>{
+					let reqSt = $(e.target).data("st"); 	
+					console.log("오이잉" + reqSt);
+					location.href=`/aprvAdmin?reqSt=${reqSt}`;
+			});
+				
+			$("#formAdBtns").on("click", "button", e=>{
+					let formCat = $(e.target).data("cat"); 
+					location.href=`/aprvAdmin?formCat=${formCat}`;
+			});
+			
+			/* aprvSelect();
+			formSelect();
+			//상세조회
+			function aprvSelect() {
+				$("#aprvtb").on("click", ".select", e=>{
+					let no = $(e.target).data("no"); //글번호
+					$("#aprvNo").val(no)
+					$("#aprvfrm").submit();
+				})
+			}
+		
+			function formSelect() {
+				$("#formtb").on("click", ".select", e=>{
+					let no = $(e.target).data("no"); //글번호
+					$("#formNo").val(no)
+					$("#formfrm").submit();
+				})
+			} */
+			
+			});
+	</script>
 
 		<!-- ======= Section ======= -->
 		<section class="section">
@@ -114,7 +157,7 @@
 						</nav>
 					</div>
 					<!-- End Page Title -->
-					<!-- Bordered Tabs -->
+
 					<!-- navList -->
 					<ul class="nav nav-tabs nav-tabs-bordered" id="bodyTab"
 						role="tablist">
@@ -133,7 +176,7 @@
 					<!-- End navList -->
 
 
-
+					<!-- Bordered Tabs -->
 					<div class="tab-content pt-2" id="bodyTabContent">
 						<div class="tab-pane fade show active" id="aprv-list"
 							role="tabpanel" aria-labelledby="aprv-tab">
@@ -162,24 +205,35 @@
 
 							<div class="card">
 								<div class="card-body">
+									<div class="row">
+										<div class="col text-center">
+
+											<br>
+
+											<div class="btn-group" id="reqAdBtns" role="group"
+												aria-label="Aprv Request List" style="width: 100%;">
+												<button type="button" th:each="s:${st}"
+													class="btn btn-outline-primary" th:text="${s.cdNm}"
+													th:data-st="${s.cdNm}">전체</button>
+											</div>
+
+										</div>
+									</div>
 
 									<br>
 									<table id="aprvTable" class="display center"
 										style="width: 100%">
 										<thead hidden="hidden">
 											<tr>
-
 												<th>내용</th>
-												
 											</tr>
 										</thead>
 										<tbody id="aprvtb">
-										
-											<tr class="list-group" id="aprvListDiv" th:each="p : ${aprvList}">
-
+											<tr class="list-group" id="aprvListDiv" th:each="p : ${aprv}">
 												<td>
-													<div class="list-group-item list-group-item-action aprvGroup" aria-current="true"
-														th:data-no="${p.aprvNo}" id="aprvDiv">
+													<div
+														class="list-group-item list-group-item-action aprvGroup"
+														aria-current="true" th:data-no="${p.aprvNo}">
 														<div class="d-flex w-100 justify-content-between">
 															<p class="mb-1 fw-bold" th:text="${p.ttl}">Some
 																placeholder content in a paragraph.</p>
@@ -194,9 +248,10 @@
 														</div>
 														<small>And some small print.</small>
 													</div>
+											
 												</td>
 											</tr>
-											
+
 										</tbody>
 									</table>
 
@@ -211,17 +266,14 @@
 										id="aprvNo" name="aprvNo">
 								</form>
 							</div>
-
-
 						</div>
 
 						<!-- Tabs Gap -->
 						<div class="tab-pane fade" id="form-list" role="tabpanel"
 							aria-labelledby="form-tab">
 
-
-
 							<br>
+
 							<!-- Card with an image on left -->
 							<div class="card mb-3">
 								<div class="row g-0">
@@ -242,51 +294,69 @@
 							</div>
 							<!-- End Card with an image on left -->
 
-
-
 							<div class="card">
 								<div class="card-body">
+
+									<br>
+
+									<div class="row">
+										<div class="col text-center">
+											<div class="btn-group" role="group" id="formAdBtns"
+												aria-label="Aprv Form List" style="width: 100%">
+												<button type="button" th:each="t:${cat}"
+													class="btn btn-outline-primary" th:text="${t.cdNm}"
+													th:data-cat="${t.cdNm}">전체</button>
+											</div>
+										</div>
+									</div>
+
 									<br>
 
 									<table id="formTable" class="display center"
 										style="width: 100%">
-										<thead>
+										<thead hidden="hidden">
 											<tr>
-
-												<th>카테고리</th>
-												<th>제목</th>
-												<th>작성자</th>
-												<th>공개여부</th>
+												<th>전체</th>
 											</tr>
 										</thead>
 										<tbody id="formtb">
-											<tr th:each="f : ${formList}">
-												<td th:text="${f.formCat}"></td>
-												<td class="select" th:attr="data-no=${f.formNo}"
-													th:text="${f.formNm}"></td>
-												<td th:text="${f.empNo}"></td>
-												<td th:text="${f.formAuth}"></td>
-
+											<tr class="list-group" id="formListDiv" th:each="f : ${form}">
+												<td>
+													<div
+														class="list-group-item list-group-item-action formGroup"
+														aria-current="true" th:data-no="${f.formNo}">
+														<div class="d-flex w-100 justify-content-between">
+															<p class="mb-1 fw-bold" th:text="${f.formNm}">Some
+																placeholder content in a paragraph.</p>
+															<span th:if="${f.formCat == '개인'}" th:text="${f.formCat}"
+																class="badge bg-primary rounded-pill"
+																style="height: 25px"></span> <span
+																th:unless="${f.formCat == '개인'}" th:text="${f.formCat}"
+																class="badge bg-secondary rounded-pill"
+																style="height: 25px">기타</span>
+														</div>
+														<small>And some small print.</small>
+													</div>
+												</td>
 											</tr>
 										</tbody>
 									</table>
 
 								</div>
+
+
+								<div>
+									<form id="formfrm" method="post" action="formSelect">
+										<input type="hidden" th:name="${_csrf.parameterName}"
+											th:value="${_csrf.token}"> <input type="hidden"
+											id="formNo" name="formNo">
+									</form>
+								</div>
+
 							</div>
 						</div>
-
-						<div>
-							<form id="formfrm" method="post" action="formSelect">
-								<input type="hidden" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}"> <input type="hidden"
-									id="formNo" name="formNo">
-							</form>
-						</div>
 					</div>
-
 				</div>
-
-
 			</div>
 			<!-- End Bordered Tabs -->
 
@@ -318,7 +388,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!-- End Scrolling Modal-->
 
 

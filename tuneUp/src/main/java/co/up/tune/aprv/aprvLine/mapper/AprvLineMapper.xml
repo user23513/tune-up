@@ -6,6 +6,7 @@
 	SELECT *
 	FROM APPROVAL
 	WHERE APRV_NO = #{aprvNo}
+	ORDER APRV_SEQ ASC
 </select>
 
 
@@ -26,7 +27,7 @@
 	APRVR = #{aprvr},
 	</if>
 	<if test="aprvDttm != null and aprvDttm != ''">
-	APRVDTTM = #{aprvDttm},
+	APRV_DTTM = #{aprvDttm},
 	</if>
 	<if test="sign != null and sign != ''">
 	SIGN = #{sign},
@@ -57,6 +58,7 @@
 	SELECT *
 	FROM REFER
 	WHERE APRV_NO = #{aprvNo}
+	ORDER BY REFER_NO DESC 
 </select>
 
 <insert id="referIn" parameterType="co.up.tune.aprv.vo.ReferVO">
@@ -70,7 +72,7 @@
 	INSERT INTO REFER
 		(REFER_NO, APRV_NO, EMP_NO , REFER_APRV)
 	VALUES
-		(#{referNo}, #{aprvNo}, #{empNo}, #{regerAprv})
+		(#{referNo}, #{aprvNo}, #{empNo}, #{referAprv})
 </insert>
 
 <update id="referUp" parameterType="co.up.tune.aprv.vo.ReferVO">
@@ -82,9 +84,6 @@
 		<if test="referNo != null and referNo != ''">
 		REFER_NO = #{referNo},
 		</if>
-		<if test="checked != null and checked != ''">
-		CHECKED = #{checked},
-		</if>
 		<if test="referAprv != null and referAprv != ''">
 		REFER_APRV = #{referAprv}
 		</if>
@@ -95,7 +94,7 @@
 
 <delete id="referDel" parameterType="co.up.tune.aprv.vo.ReferVO">
 	DELETE FROM REFER
-	WHERE APRV_NO = #{APRVNO}
+	WHERE APRV_NO = #{aprvNo}
 	<if test="empNo != null and empNo != ''">
 		AND EMP_NO = #{empNo}
 	</if>
@@ -109,11 +108,10 @@
 	SELECT *
 	FROM APRV_LINE
 	<if test="dept != null and dept != ''">
-	WHERE dept = #{dept}
-	</if>
-	<if test="empNo != null and empNo != ''">
+	WHERE DEPT = #{dept}
 		AND EMP_NO = #{empNo}
 	</if>
+	ORDER BY DECODE(DEF_YN, 'Y', 1, 'N', 2), LINE_NO ASC
 </select>
 
 <insert id="aprvLineIn" parameterType="co.up.tune.aprv.vo.AprvLineVO">
@@ -140,7 +138,7 @@
 		DEPT = #{dept}
 		</if>
 		<if test="defYn != null and defYn != ''">
-		DEFYN = #{defYn}
+		DEF_YN = #{defYn}
 		</if>
 		<if test="ap1 != null and ap1 != ''">
 		AP1 = #{ap1},
@@ -152,7 +150,7 @@
 		AP3 = #{ap3},
 		</if>
 		</set>
-	WHERE LINE_NO = #{line_no}
+	WHERE LINE_NO = #{lineNo}
 </update>
 
 <delete id="aprvLineDel" parameterType="co.up.tune.aprv.vo.AprvLineVO">

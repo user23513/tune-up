@@ -48,10 +48,6 @@ public class AprvReqController {
 		return "aprv/aprvReq/aprvReq";
 	}
 
-	@GetMapping("/aprvForm")
-	public String aprvForm() {
-		
-		return "aprv/aprvReq/aprvForm";
-	}
+	
 
 }

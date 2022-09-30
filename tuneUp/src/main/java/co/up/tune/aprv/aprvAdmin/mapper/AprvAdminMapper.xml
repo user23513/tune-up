@@ -9,7 +9,7 @@
 				APRV_AUTH, DEADLINE, IMPTS
 		FROM APRV
 		<if test="reqSt != null and reqSt != '' and reqSt != '전체' ">WHERE REQ_ST=#{reqSt}</if>
-		ORDER BY APRV_NO DESC
+		ORDER BY DEADLINE ASC, APRV_NO DESC
 	</select>
 
 	<select id="aprvSelect"

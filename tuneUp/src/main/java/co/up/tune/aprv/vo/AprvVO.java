@@ -18,7 +18,7 @@ public class AprvVO { //전자결재
 	String aprvAuth; //공개여부
 	String aprvEtc; //상신의견
 	Date deadline; //마감일
-	String impts; //중요도
+	String impts; //중요
 	String aprvSt; //승인상태
 
 }

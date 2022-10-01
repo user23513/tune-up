@@ -23,15 +23,20 @@ public class PropostServiceImpl implements PropostService {
 	PropostMapper map;
 
 	@Override
-	public List<PostVO> prjPostList() {
+	public List<PostVO> prjPostList(int prjNo) {
 		// 프로젝트 - 글 전체 리스트
-		return map.prjPostList();
+		return map.prjPostList(prjNo);
 	}
 
 	@Override
-	public int prjPostInsert(PostVO vo) {
-		// 프로젝트 - 글 등록
-		return map.prjPostInsert(vo);
+	public int prjPostInsert(PostVO pvo, FilesVO fvo) {
+		//프로젝트 글 등록
+		int a = map.prjPostInsert(pvo);
+		fvo.setAtchNo(pvo.getAtchNo());
+		System.out.println("-------"+pvo.getAtchNo());
+		//프로젝트 파일 등록
+		int b = map.prjFileInsert(fvo);
+		return a+b;
 	}
 
 	@Override

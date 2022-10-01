@@ -17,9 +17,8 @@ public class ScheduleController {
 	//일정 등록
 	@PostMapping("/scheduleInsert")
 	public String scheduleInsert(ScheduleVO vo) {
-		System.out.println("===="+vo);
 		dao.scheduleInsert(vo);
-		return "main/main";
+		return "redirect:/prjPostList";
 	}
 	
 }

@@ -11,7 +11,7 @@ import co.up.tune.prj.vo.PostVO;
 import co.up.tune.prj.vo.ScheduleVO;
 
 public interface PropostMapper {
-	List<PostVO> prjPostList();	//내 프로젝트 글 모아보기(전체조회)
+	List<PostVO> prjPostList(int prjNo);	//내 프로젝트 글 모아보기(전체조회)
 	int prjPostInsert(PostVO vo); //프로젝트-글 등록
 	int prjPostUpdate(PostVO vo); //프로젝트-글 수정
 	int prjPostDelete(PostVO vo); //프로젝트-글 삭제
@@ -27,6 +27,7 @@ public interface PropostMapper {
 	List<EmpVO> empList(); //모든 사원정보
 	List<ScheduleVO> scheduleList(int prjNo); //프로젝트 일정 리스트
 	List<MemberVO> scheduleMemberList(int prjNo); //프로젝트 일정 => 멤버 리스트
+	int prjFileInsert(FilesVO vo); //프로젝트 파일 등록
 	
 //	FilesVO filesSelect(FilesVO fvo); //파일 단건
 //	int filesInsert(FilesVO fvo); //파일등록

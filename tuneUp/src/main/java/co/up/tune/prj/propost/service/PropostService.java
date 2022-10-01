@@ -12,9 +12,9 @@ import co.up.tune.prj.vo.ScheduleVO;
 
 public interface PropostService {
 	
-	List<PostVO> prjPostList();	//내 프로젝트 - (모든 사람)글 
+	List<PostVO> prjPostList(int prjNo);	//내 프로젝트 - (모든 사람)글 
 	PostVO prjPostSelect(PostVO vo); // 프로젝트-글 단건
-	int prjPostInsert(PostVO vo); //프로젝트-글 등록
+	int prjPostInsert(PostVO pvo, FilesVO fvo); //프로젝트-글 등록
 	int prjPostUpdate(PostVO vo); //프로젝트-글 수정
 	int prjPostDelete(PostVO vo); //프로젝트-글 삭제
 

@@ -3,6 +3,8 @@ package co.up.tune.prj.propost.web;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.file.service.FileService;
 import co.up.tune.file.service.ProPostFileService;
 import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.vo.FilesVO;
@@ -29,6 +32,9 @@ public class PropostController {
 	
 	@Autowired
 	ProPostFileService fdao;
+	
+	@Autowired
+	FileService fileDao;
 	
 //	@Autowired
 //	testService fdao;
@@ -49,13 +55,17 @@ public class PropostController {
 	@PostMapping("/prjPostList")
 	public String prjPostList(@RequestParam("prjNo")int prjNo, Model model) {
 		model.addAttribute("prjNo", prjNo);
+		//일정
 		model.addAttribute("scheduleList", dao.scheduleList(prjNo));
 		model.addAttribute("scheduleMember", dao.scheduleMemberList(prjNo));
+		//글
+		model.addAttribute("postList", dao.prjPostList(prjNo));
+		
 		return "prj/post/prjPostList";
 	}
 	
 	// 내 프로젝트 - 글 리스트
-	@GetMapping("/prjPostList")
+	/*@GetMapping("/prjPostList")
 	public String prjPostList(Model model,ReplyVO rvo,PostVO pvo) {
 		model.addAttribute("prjPostList", dao.prjPostList());
 		
@@ -64,7 +74,7 @@ public class PropostController {
 		rvo.setPostNo(pvo.getPostNo());
 		model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
 		return "prj/post/prjPostList";
-	}
+	}*/
 	
 	
 	// 프로젝트- 글 상세조회
@@ -91,19 +101,24 @@ public class PropostController {
 		return "prj/post/postInsertForm";
 	}
 	
-	
-	 @PostMapping("/prjPostInsert") 
-	 public String prjPostInsert(PostVO vo,@RequestParam("file") MultipartFile file) throws IllegalStateException,
-	 IOException { 
-		 FilesVO fvo = new FilesVO();
-		 dao.prjPostInsert(vo);
-		 if (!file.isEmpty()) {
-			 fdao.fileUpload(fvo, file);
-			 
-		 }
+	//내프로젝트 글 insert(파일까지)
+	@PostMapping("/prjPostInsert") 
+	public String prjPostInsert(PostVO vo,@RequestParam("file") MultipartFile[] files) throws IllegalStateException,IOException { 
+		//file upload 처리
+		FilesVO fvo = new FilesVO();
+		List<FilesVO> list = new ArrayList<>();
+		if(files.length != 0) {
+			String folder = "prj"; //Temp안에 폴더명
+			list = fileDao.fileUpload(files, folder);
+			fvo.setFNm(list.get(0).getFNm());
+			fvo.setFPath(list.get(0).getFPath());
+			fvo.setFType(list.get(0).getFType());
+			fvo.setFCat("PROJECT");
+			fvo.setPNm(vo.getTtl());
+			dao.prjPostInsert(vo, fvo);
+		}
 		return "redirect:/prjPostList";
-	 
-	 }
+	}
 	
 	
 	// 내프로젝트 - 글 작성 post

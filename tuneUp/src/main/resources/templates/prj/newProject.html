@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<title>최종프로젝트</title>
+<link rel="stylesheet" href="/css/jquery.treeview.css"/>
+<link rel="stylesheet" href="/css/screen.css"/>
+<style>
+.test_obj input[type="radio"] {
+    display: none;
+}
+
+.test_obj input[type="radio"] + span {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 1px solid #dfdfdf;
+    color: #4e94ba;
+    background-color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    border: solid 1px #4e94ba; 
+    border-radius: 8px;
+}
+
+.test_obj input[type="radio"]:checked + span {
+    background-color: #4e94ba;
+    color: #ffffff;
+}
+</style>
+<script>
+	$(document).ready(function(){
+		$("#browser").treeview({}); 
+	});
+</script>
+</head>
+<body>
+	<main layout:fragment="content" id="main" class="main">
+		  <div class="pagetitle">
+      <h1>프로젝트 생성</h1>
+    </div><!-- End Page Title -->
+    
+     <section class="section">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+            	<br>
+			    <!-- Start 페이지 제목 -->
+				<div class="pagetitle">
+					<h1>프로젝트 생성</h1>
+				</div>
+				<!-- End 페이지 제목 -->
+				<br>
+              <form>
+               <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Project Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="nm" name="nm">
+                  </div>
+               </div>
+                <!--상태 버튼-->
+                <div>
+         	    	<label class="test_obj">
+					    <input type="radio" name="prog" value="요청">
+					    <span>요청</span>
+					</label>
+					<label class="test_obj">
+					    <input type="radio" name="prog" value="진행">
+					    <span>진행</span>
+					</label>
+					<label class="test_obj">
+					    <input type="radio" name="prog" value="완료">
+					    <span>완료</span>
+					</label>
+                </div>
+                
+                <!--프로젝트 팀원 추가-->
+				<div id="rr">
+					<br><h4 style="display: inline-block; padding-top: 10px; padding-right: 15px;"><i class="bi bi-person"></i></h4>
+					<!-- 추가된 인원 보여주기 -->
+					<div id="hello"></div>
+					<button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" 
+							data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">참석자 추가</button>
+					<!-- 버튼클릭시 뜨는 부분 -->
+					<div class="collapse" id="collapseExample" style="padding-top: 30px;">
+					   	<!-- 부서별 -->
+						<div style="min-height: 200px;">
+							<ul id="browser" class="filetree treeview-famfamfam">
+								<li id="depts"><span class="folder">Tune-Up</span>
+								<ul>
+									<li  class="closed"><span class="folder">인사팀</span>
+										<ul th:each="e:${empList}">
+											<li th:if="${e.dept}=='인사'">
+												<span class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span>
+											</li>
+										</ul>
+									</li>
+									<li class="closed"><span class="folder">기획팀</span>
+										<ul th:each="e:${empList}">
+											<li th:if="${e.dept}=='기획'">
+												<span class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span>
+											</li>
+										</ul>
+									</li>
+									<li class="closed"><span class="folder">영업팀</span>
+										<ul th:each="e:${empList}">
+											<li th:if="${e.dept}=='영업'">
+												<span class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span>
+											</li>
+										</ul>
+									</li>
+									<li class="closed"><span class="folder">회계팀</span>
+										<ul th:each="e:${empList}">
+											<li th:if="${e.dept}=='회계'">
+												<span class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span>
+											</li>
+										</ul>
+									</li>
+									<li class="closed"><span class="folder">개발팀</span>
+										<ul th:each="e:${empList}">
+											<li th:if="${e.dept}=='개발'">
+												<span class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span>
+											</li>
+										</ul>
+									</li>
+								</ul>
+								</li>
+							</ul>
+					  	</div>
+						<!-- 부서별 -->
+					  	<!-- 인원선택하면 추가되는 부분 -->
+					  	<div id="selectPerson">
+					  	</div>
+					  	<button id="personInsert" type="button">등록</button>
+					  	<!-- 인원선택하면 추가되는 부분 -->
+					</div>
+					<!-- 버튼클릭시 뜨는 부분  -->
+				</div>
+				<!-- 프로젝트 팀원 추가 -->
+                
+                 <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">시작일</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="sdt" name="sdt">
+                  </div>
+                </div>
+                
+                 <div class="row mb-3">
+                  <label for="inputDate" class="col-sm-2 col-form-label">종료일</label>
+                  <div class="col-sm-10">
+                    <input type="date" class="form-control" id="edt" name="edt">
+                  </div>
+                </div>
+                
+                <div class="row mb-3">
+                  <label for="inputPassword" class="col-sm-2 col-form-label">내용</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" style="height: 100px"></textarea>
+                  </div>
+                </div>
+                
+                <div class="col-12">
+                      <button class="btn btn-primary w-100" type="submit">프로젝트 생성</button>
+                    </div>
+              
+              </form>
+            
+                 
+                 
+			</div>
+          </div>
+       </div>
+      </div>
+    </section>
+    <script src="/js/jquery.cookie.js"></script>
+	<script src="/js/jquery.treeview.js"></script>
+    <script>
+		//부서별 사원이름 클릭시 추가되는 기능
+		$("#depts").on("click", ".name", e=>{
+			let empName = $(e.target).text(); //클릭한 사원의 이름
+			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
+			$("#selectPerson").append("<div><span data-no='"+ empNo +"'>"+empName+"</span><i class='bi bi-x' style='color: red;'></i></div>");
+		})
+		
+		//추가된 사원 삭제
+		$("#rr").on("click", ".bi-x", e=>{
+			let deleteNo = $(e.target).prev().data("no"); //삭제클릭한 사원의 사원번호
+			$("#scheduleFrm").find("#"+deleteNo+"").remove();
+			$(e.target).parent().remove();
+		})
+		
+		//추가한 사원모두 추가되는 기능 (등록버튼)
+		$("#personInsert").on("click", e=>{
+			let people = $(e.target).prev().find('span');
+			$.each(people, (idx, p)=>{
+				$("#hello").append("<div><span data-no='"+$(p).data("no")+"'>"+$(p).text()+"</span><i class='bi bi-x' style='color: red;'></i></div>");
+			
+				//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
+				$("#scheduleFrm").append("<input type='hidden' id='"+$(p).data("no")+"' name='teamEmpNo' value='"+$(p).data("no")+"'>")
+			})
+			$(e.target).prev().html("");
+			
+		})
+    </script>
+	</main>
+</body>
+</html>

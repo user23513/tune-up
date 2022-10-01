@@ -4,8 +4,9 @@
 				  
 	<select id="prjPostList" resultType="co.up.tune.prj.vo.PostVO">
 	SELECT *
-	FROM POST 
-	ORDER BY POST_NO DESC
+	FROM POST
+	WHERE PRJ_NO = #{prjNo}
+	ORDER BY POST_NO
 	</select>
 	
 	<insert id="prjPostInsert" parameterType="co.up.tune.prj.vo.PostVO">

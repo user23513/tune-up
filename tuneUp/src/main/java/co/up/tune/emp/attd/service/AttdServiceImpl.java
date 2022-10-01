@@ -1,6 +1,9 @@
 package co.up.tune.emp.attd.service;
 
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.Session;
@@ -103,7 +106,27 @@ public class AttdServiceImpl implements AttdService{
 	@Override
 	public List<AttdVO> attdList() {
 		// 관리자 - 전체사원 근태리스트
-		return dao.attdList();
+		
+		List<AttdVO> list =  dao.attdList();
+		
+		for( AttdVO vo :list) {
+			// 퇴근한 사원들 중
+			if (vo.getAfwkDttm() != null) {
+				// 60분 이상 근무 했다면
+				if(vo.getWktm() != null && vo.getWktm() > 59 ) {
+					long wktmH = (long) Math.floor(vo.getWktm() / 60);
+					vo.setWktmH(wktmH);
+					
+					// 60분 이상 초과 근무를 했다면
+					if(vo.getOvtm() != null && vo.getOvtm() > 59) {
+						// 소수점 버리기
+						long ovtmH = (long) Math.floor(vo.getOvtm() / 60);
+						vo.setOvtmH(ovtmH);
+					}
+				}
+			}
+		}
+		return list;
 	}
 
 	@Override
@@ -139,7 +162,72 @@ public class AttdServiceImpl implements AttdService{
 
 	@Override
 	public int endAttd(AttdVO vo) {
-		// 퇴근 시간 저장
+		// 일한시간은 출근시간+퇴근시간
+		// 야근시간은 9시간 초과 시간
+		// 상태는 근무시간 9시간 미만일 경우엔 '이상'으로, 9시간 이상일 경우엔 '정상'으로
+		
+		System.out.println("Attd ServiceImple endAttd vo :"+ vo);
+		
+		long commonWkTm = 540;
+		
+		// 1. 출근시간 조회
+		Date atdcDttm = dao.selectAtdcTmByEmpNo(vo.getEmpNo());
+		
+		// 2. wktm 구하기 (현재시간 - 출근시간 = 근무시간 *분단위) 
+		// 2-1 현시간 구하기
+		Date curDate = new Date();
+		
+		// 2-2 포맷 정하기
+		SimpleDateFormat dateFormat = new SimpleDateFormat("YY/MM/dd/ HH:mm:ss");
+		
+		// 날짜를 특정 포맷으로 변환시 무조건 에러 처리 해주어야하므로 try-catch 혹은 throw하여 에러를 보내주어야 함.
+		// try-catch로 처리.
+		try {
+			atdcDttm = dateFormat.parse(dateFormat.format(atdcDttm));
+			curDate = dateFormat.parse(dateFormat.format(curDate));
+			System.out.println("format atdcDttm : " + atdcDttm + "curDate: " + curDate);
+			
+			// 2-3 차이 구하기
+			long diff = curDate.getTime() - atdcDttm.getTime();
+			System.out.println("atdcDttm : " + atdcDttm.getTime() + "curDate: " + curDate.getTime());
+			
+			long diffMinutes = diff / 60000 ;   
+				
+			System.out.println("diffMinutes : " + diffMinutes);
+			
+			// 2-4 set wktm 
+			vo.setWktm(diffMinutes);
+			if(diffMinutes> 59) {
+				// 소수점 버리기
+				long wktmH = (long) Math.floor(diffMinutes / 60);
+				vo.setWktmH(wktmH);
+			}
+			
+			
+			// 3 st 구하기
+			// 정산근무 혹은 초과근무라면
+			if (diffMinutes >= commonWkTm ) {
+				vo.setSt("정상");
+				// 4 ovtm 구하기 (wktm-540)
+				long ovtm = diffMinutes-commonWkTm;
+				vo.setOvtm(ovtm);
+				
+				if(ovtm > 59) {
+					// 소수점 버리기
+					long ovtmH = (long) Math.floor(ovtm / 60);
+					vo.setOvtmH(ovtmH);
+				}
+			
+			// 근무시간 미달시
+			} else {
+				vo.setSt("비정상");
+			}
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 		return dao.endAttd(vo);
 	}
 

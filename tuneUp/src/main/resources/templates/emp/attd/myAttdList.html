@@ -67,6 +67,7 @@ function converDate(){
 					출근 시간<span class="badge bg-secondary text-light">
 					<span th:text="${#dates.format(checkTime, 'HH:mm')}"></span> </span>
 					</button>
+					<button onclick="location.href='attdList'" class="btn btn-primary" style="float: right;">관리자</button>
 						</div>
 					<!-- Large Modal -->
 					<form id="pstfrm" action="attdUpInsert" name="pstfrm" method="post">

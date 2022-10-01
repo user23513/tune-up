@@ -80,47 +80,16 @@
 				$('[data-bs-target="#aprv-list"]').tab('show');
 			}
 			
-			//상태카테고리변경
+			//상태카테고리변경		       
 			$("#reqAdBtns").on("click", "button", e=>{
-					let reqSt = $(e.target).data("st"); 	
-					$.ajax({
-						url:'reqAdSt',
-						beforeSend:function(xhr){
-					 		xhr.setRequestHeader(header,token);  
-					    },
-					    type:"post",
-					    data:{'reqSt':reqSt},
-					    dataType:'json',
-					    success:function(obj){    	
-					       
-					    	
-					    	
-					    	
-					        }
-					    }) 
-					})
-			
+								let reqSt = $(e.target).data("st"); 	
+								location.href=`/aprvAdmin?reqSt=${reqSt}`;
+						});
 			$("#formAdBtns").on("click", "button", e=>{
-					let formCat = $(e.target).data("cat"); 
-					$.ajax({
-						url:'formAdCat',
-						beforeSend:function(xhr){
-					 		xhr.setRequestHeader(header,token);  
-					    },
-					    type:"post",
-					    data:{'formCat':formCat},
-					    dataType:'json',
-					    success:function(obj){    	
-					        
-					    	
-					    	
-					    	
-					    	
-					        }
-					    }) 
-					})
-			
-			
+								let formCat = $(e.target).data("cat"); 
+								location.href=`/aprvAdmin?formCat=${formCat}`;
+						});		    	
+					  
 			//에디터
 			let plugins = [ "advlist", "autolink", "lists", "link", "image",
 							"preview", "searchreplace", "charmap",
@@ -315,14 +284,14 @@
 															<div class="fw-bold" th:text="${p.ttl}">제목</div>
 															Cras justo odio <small>And some small print.</small>
 														</div>
-														<span th:if="${p.reqSt == '전송' or p.reqSt =='반려'  }"
-															th:text="${p.reqSt}"
-															class="badge bg-primary rounded-pill"
-															style="height: 25px">수정가능</span> <span
-															th:unless="${p.reqSt == '전송' or p.reqSt =='반려'  }"
+														<span th:if="${p.reqSt == '전송' or p.reqSt =='검토'  }"
 															th:text="${p.reqSt}"
 															class="badge bg-secondary rounded-pill"
-															style="height: 25px">수정불가</span>
+															style="height: 25px"></span> <span
+															th:unless="${p.reqSt == '전송' or p.reqSt =='검토'  }"
+															th:text="${p.reqSt}"
+															class="badge bg-primary rounded-pill"
+															style="height: 25px"></span>
 												</td>
 											</tr>
 										</tbody>
@@ -369,9 +338,7 @@
 
 							<div class="card">
 								<div class="card-body">
-
 									<br>
-
 									<div class="row">
 										<div class="col text-center">
 											<div class="btn-group" role="group" id="formAdBtns"
@@ -384,11 +351,8 @@
 													th:data-cat="${t.cdNm}">전체</button>
 											</div>
 											</div>
-										</div>
-									</div>
-
+										</div>	
 									<br>
-
 									<table id="formTable" class="display center"
 										style="width: 100%">
 										<thead hidden="hidden">

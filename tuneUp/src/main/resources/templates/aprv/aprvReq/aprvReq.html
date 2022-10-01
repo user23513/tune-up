@@ -61,7 +61,6 @@
 				ordering: false,
 				info: false
 			});
-
 			$('#formTable').DataTable({
 				"dom":'lftip',
 				"language": {
@@ -83,16 +82,6 @@
 		} else{
 			$('[data-bs-target="#aprv-list"]').tab('show');
 		}
-		
-		//카테고리변경
-		$("#reqStBtns").on("click", "button", e=>{
-				let reqSt = $(e.target).data("st"); 	
-				location.href=`/aprvReq?reqSt=${reqSt}`;
-		});
-		$("#formCatBtns").on("click", "button", e=>{
-				let formCat = $(e.target).data("cat"); 
-				location.href=`/aprvReq?formCat=${formCat}`;
-		});
 		
 		//에디터
 		let plugins = [ "advlist", "autolink", "lists", "link", "image",
@@ -140,8 +129,89 @@
 		
 		reqSelect();
 		formSelect();
+		reqSt();
+		formCat();
 		
 	});
+		
+		//상태카테고리 변경
+		function reqSt(){
+			$("#reqStBtns").on("click", "button", e=>{
+				let reqSt = $(e.target).data("st"); 	
+				$.ajax({
+					url:'reqSt',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'reqSt':reqSt},
+				    dataType:'json',
+				    success:function(obj){ 
+				    	$("#aprvtb").html("");
+				    	$.each (obj, (idx, o)=> {
+				    		let tr ="";
+				    		tr += `<tr class="list-group-item list-group-item-action">
+								<td class="d-flex justify-content-between align-items-start" data-no='${o.aprvNo}'>
+										<div class="ms-2 me-auto">
+											<div class="fw-bold">${o.ttl}</div>
+											<small></small></div>`;
+							if(o.reqSt == '전송' || o.reqSt == '검토'){
+								tr +=`<span class="badge bg-secondary rounded-pill"
+									style="height: 25px">${o.reqSt}</span>`;
+							} else {
+								tr+= `<span class="badge bg-primary rounded-pill"
+									style="height: 25px">${o.reqSt}</span>`;
+							}
+								tr +=`</td></tr>`;		
+							$("#aprvtb").append(tr);
+				    });
+				    	$(".reqSt.btn-primary").addClass("btn-outline-primary");
+				    	$(".reqSt.btn-primary").removeClass("btn-primary");
+				    	$(e.target).removeClass("btn-outline-primary");
+				    	$(e.target).addClass("btn-primary");	    	
+				    }
+				})
+			});
+		}
+
+		function formCat(){
+			$("#formCatBtns").on("click", "button", e=>{
+				let formCat = $(e.target).data("cat"); 
+				$.ajax({
+					url:'formCat',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'formCat':formCat},
+				    dataType:'json',
+				    success:function(obj){ 
+				    	$("#formtb").html("");
+				    	$.each (obj, (idx, o)=> {
+				    		let tr ="";
+				    		tr += `<tr class="list-group-item list-group-item-action">
+								<td class="d-flex justify-content-between align-items-start" data-no='${o.formNo}'>
+								<div class="ms-2 me-auto">
+									<div class="fw-bold" >${o.ttl}</div>
+									<small></small></div>`;
+							if(o.formCat == '개인'){
+								tr +=`<span class="badge bg-primary rounded-pill"
+									style="height: 25px">${o.formCat}</span>`;
+							} else {
+								tr+= `<span class="badge bg-secondary rounded-pill"
+									style="height: 25px">${o.formCat}</span>`;
+							}
+								tr +=`</td></tr>`;		
+							$("#formtb").append(tr);											
+				    });
+				    	$(".formCat.btn-primary").addClass("btn-outline-primary");
+				    	$(".formCat.btn-primary").removeClass("btn-primary");
+				    	$(e.target).removeClass("btn-outline-primary");
+				    	$(e.target).addClass("btn-primary");	    	
+				    }
+				})
+			});
+		}
 		
 		//글상세
 		function reqSelect(){
@@ -272,10 +342,10 @@
 											<div class="btn-group" id="reqStBtns" role="group"
 												aria-label="Aprv Request List" style="width: 100%;">
 												<button type="button" th:each="s:${st}"
-													th:if="${s.cdNm == '전체'}" class="btn btn-primary" th:text="${s.cdNm}"
+													th:if="${s.cdNm == '전체'}" class="btn btn-primary reqSt" th:text="${s.cdNm}"
 													th:data-st="${s.cdNm}">전체</button>
 												<button type="button" th:each="s:${st}"
-													th:unless="${s.cdNm == '전체'}" class="btn btn-outline-primary" th:text="${s.cdNm}"
+													th:unless="${s.cdNm == '전체'}" class="btn btn-outline-primary reqSt" th:text="${s.cdNm}"
 													th:data-st="${s.cdNm}">전체</button>
 											</div>
 
@@ -293,21 +363,20 @@
 										</thead>
 										<tbody id="aprvtb" class="list-group">
 											<tr th:each="p : ${aprv}"
-												class="list-group-item list-group-item-action"
-												th:data-no="${p.aprvNo}">
-												<td class="d-flex justify-content-between align-items-start">
+												class="list-group-item list-group-item-action">
+												<td class="d-flex justify-content-between align-items-start" th:data-no="${p.aprvNo}">
 														<div class="ms-2 me-auto">
 															<div class="fw-bold" th:text="${p.ttl}">제목</div>
 															Cras justo odio <small>And some small print.</small>
 														</div>
-														<span th:if="${p.reqSt == '전송' or p.reqSt =='반려'  }"
-															th:text="${p.reqSt}"
-															class="badge bg-primary rounded-pill"
-															style="height: 25px">수정가능</span> <span
-															th:unless="${p.reqSt == '전송' or p.reqSt =='반려'  }"
+														<span th:if="${p.reqSt == '전송' or p.reqSt =='검토'  }"
 															th:text="${p.reqSt}"
 															class="badge bg-secondary rounded-pill"
-															style="height: 25px">수정불가</span>
+															style="height: 25px"></span> <span
+															th:unless="${p.reqSt == '전송' or p.reqSt =='검토'  }"
+															th:text="${p.reqSt}"
+															class="badge bg-primary rounded-pill"
+															style="height: 25px"></span>
 												</td>
 											</tr>
 										</tbody>
@@ -365,10 +434,10 @@
 											<div class="btn-group" role="group" id="formCatBtns"
 												aria-label="Aprv Form List" style="width: 100%">
 												<button type="button" th:each="t:${cat}" th:if="${t.cdNm == '전체'}"
-													class="btn btn-primary" th:text="${t.cdNm}"
+													class="btn btn-primary formCat" th:text="${t.cdNm}"
 													th:data-cat="${t.cdNm}">전체</button>
 												<button type="button" th:each="t:${cat}" th:unless="${t.cdNm == '전체'}"
-													class="btn btn-outline-primary" th:text="${t.cdNm}"
+													class="btn btn-outline-primary formCat" th:text="${t.cdNm}"
 													th:data-cat="${t.cdNm}">전체</button>
 											</div>
 										</div>
@@ -385,9 +454,8 @@
 										</thead>
 										<tbody id="formtb" class="list-group">
 											<tr th:each="f : ${form}"
-												class="list-group-item list-group-item-action"
-												th:data-no="${f.formNo}">
-												<td class="d-flex justify-content-between align-items-start">
+												class="list-group-item list-group-item-action">
+												<td class="d-flex justify-content-between align-items-start" th:data-no="${f.formNo}">
 														<div class="ms-2 me-auto">
 															<div class="fw-bold" th:text="${f.ttl}">제목</div>
 															Cras justo odio <small>And some small print.</small>

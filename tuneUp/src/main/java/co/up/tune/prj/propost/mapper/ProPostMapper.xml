@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.prj.propost.mapper.PropostMapper">
+	
+	
+	<!-- 프로젝트 file 등록  -->
+	<insert id="prjFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
+		INSERT INTO FILES
+		VALUES (FNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, #{fCat}, #{pNm})
+	</insert>
 				  
 	<select id="prjPostList" resultType="co.up.tune.prj.vo.PostVO">
-	SELECT *
-	FROM POST
-	WHERE PRJ_NO = #{prjNo}
-	ORDER BY POST_NO
+		SELECT *
+		FROM POST
+		WHERE PRJ_NO = #{prjNo}
+		ORDER BY POST_NO DESC
 	</select>
 	
 	<insert id="prjPostInsert" parameterType="co.up.tune.prj.vo.PostVO">
-	
-		<!-- INSERT INTO POST (ttl,cntn)
-	VALUES (PNO_SEQ.NEXTVAL,#{ttl},#{cntn}) -->
-	INSERT INTO POST
+		<selectKey keyProperty="atchNo" order="BEFORE" resultType="INTEGER">
+			SELECT 
+			    CASE WHEN MAX(ATCH_NO)IS NULL THEN 1
+			    ELSE MAX(ATCH_NO)+1
+			    END AS ATCH_NO
+			FROM POST
+		</selectKey>
+		INSERT INTO POST
 		VALUES (PNO_SEQ.NEXTVAL,#{empNo},#{wrtr},#{ttl},#{cntn},sysdate,#{atchNo},#{prjNo}) 
 	</insert>
 	
@@ -110,7 +121,7 @@
 		SELECT *
 		FROM SCHEDULE
 		WHERE PRJ_NO = #{prjNo}
-		ORDER BY POST_NO
+		ORDER BY POST_NO DESC
 	</select>
 	
 	<!-- 프로젝트 일정 => 멤버 리스트 -->

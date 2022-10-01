@@ -43,6 +43,7 @@ public class FileService {
 			list.add(vo);
 			vo.setFNm(origName);
 			vo.setFPath(saveName);
+			vo.setFType(extension);
 			
 			//실제 로컬에 uuid를 파일명으로 저장
 			file.transferTo(new File(savePath));

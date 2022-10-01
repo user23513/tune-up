@@ -6,7 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.pagehelper.PageInfo;
+
+import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.prj.myProject.service.MyProjectService;
+import co.up.tune.prj.vo.ProjectVO;
 
 @Controller
 public class MyProjectController {
@@ -16,8 +20,10 @@ public class MyProjectController {
 	
 	// 내 프로젝트 목록
 	@PostMapping("/myProject")
-	public String myProject(@RequestParam("empNo")int empNo, Model model) {
-		model.addAttribute("myPrjList", dao.myPrjList(empNo));
+	public String myProject(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, 
+							@RequestParam("empNo")int empNo, Model model) {
+		PageInfo<ProjectVO> p = new PageInfo<>(dao.myPrjList(empNo, pageNum),10);
+		model.addAttribute("myPrjList", p);
 		return "prj/myProject";
 	}
 }

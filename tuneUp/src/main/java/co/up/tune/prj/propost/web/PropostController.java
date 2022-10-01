@@ -4,7 +4,6 @@ package co.up.tune.prj.propost.web;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

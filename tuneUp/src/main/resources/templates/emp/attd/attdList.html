@@ -247,8 +247,8 @@
 													<th class="dt-head-center" data-priority="5">직위</th>
 													<th class="dt-head-center" data-priority="6">출근시간</th>
 													<th class="dt-head-center" data-priority="7">퇴근시간</th>
-													<th class="dt-head-center" data-priority="8">근무시간</th>
-													<th class="dt-head-center" data-priority="9">연장시간</th>
+													<th class="dt-head-center" data-priority="8">근무시간(분)</th>
+													<th class="dt-head-center" data-priority="9">연장시간(분)</th>
 													<th class="dt-head-center" data-priority="10">상태</th>
 												</tr>
 											</thead>
@@ -272,13 +272,23 @@
 
 
 													<td class="dt-body-center"><span
-														th:text="${#dates.format(at.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td class="dt-body-center"><span
-														th:text="${#dates.format(at.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
-													<td class="dt-body-center"><span
-														th:if="${at.st} == '601'" th:text="'정상'"></span> <span
-														th:if="${at.st} == '602'" th:text="'근태이상'"></span> <span
-														th:if="${at.st} == ' '" th:text="' '"></span></td>
+														th:text="${at.wktm}"></span>
+													<span th:if="${at.wktmH != null}" th:text="'('+${at.wktmH}+'시간)'"></span>
+													
+														</td>
+													<td class="dt-body-center">
+													<span th:text="${at.ovtm}"></span>
+													<span th:if="${at.ovtmH != null}" th:text="'('+${at.ovtmH}+'시간)'"></span>
+														</td>
+													<td class="dt-body-center">
+													<!-- <span
+														th:if="${at.st} == '601'" th:text="'정상'"></span>
+														<span
+														th:if="${at.st} == '602'" th:text="'근태이상'"></span>
+														<span
+														th:if="${at.st} == ' '" th:text="' '"></span> -->
+														<span th:text="${at.st}"></span>
+													</td>
 
 													<!-- <td><span th:text="${at.st}"></span></td> -->
 												</tr>

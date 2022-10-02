@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
+import co.up.tune.aprv.aprvLine.service.AprvLineService;
+import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.common.service.CommonService;
@@ -23,6 +25,8 @@ public class AprvAdminController {
 	CommonService cd;
 	@Autowired
 	AprvAdminService ap;
+	@Autowired
+	AprvLineService li;
 	
 	
 	
@@ -40,7 +44,11 @@ public class AprvAdminController {
 			
 			List<FormVO> form = ap.aprvFormAll(formCat);
 			model.addAttribute("form", form);
-
+			
+			AprvLineVO nu = new AprvLineVO();
+			List<AprvLineVO> line = li.aprvLineList(nu);
+			model.addAttribute("line", line);
+			model.addAttribute("dept", li.aprvDeptSearch());
 			
 			// 공통코드
 			model.addAttribute("st", cd.commonList("신청상태"));

@@ -61,7 +61,6 @@
 				ordering: false,
 				info: false
 			});
-
 			$('#formTable').DataTable({
 				"dom":'lftip',
 				"language": {
@@ -72,7 +71,7 @@
 				info: false	
 			});
 				
-		//새로고침 후 탭 고정
+		//새로고침후 탭고정
 		$('button[data-bs-toggle="tab"]').on("shown.bs.tab", function (e) {
 		    let id = $(e.target).attr("data-bs-target");
 		    localStorage.setItem('selectedTab', id)
@@ -84,35 +83,51 @@
 			$('[data-bs-target="#aprv-list"]').tab('show');
 		}
 		
-		//카테고리변경
+		//카테고리변경		       
 		$("#reqStBtns").on("click", "button", e=>{
-				let reqSt = $(e.target).data("st"); 	
-				location.href=`/aprvReq?reqSt=${reqSt}`;
-		});
+							let reqSt = $(e.target).data("st"); 	
+							localStorage.setItem('reqStBtn', reqSt)
+							location.href=`/aprvReq?reqSt=${reqSt}`;
+					});
+		let reqStBtn = localStorage.getItem('reqStBtn');
+		if(reqStBtn){//버튼색
+			$(".reqSt.btn-primary").addClass("btn-outline-primary");
+	    	$(".reqSt.btn-primary").removeClass("btn-primary");
+	    	$('[data-st="'+reqStBtn+'"]').removeClass("btn-outline-primary");
+	    	$('[data-st="'+reqStBtn+'"]').addClass("btn-primary");
+	    	localStorage.removeItem("reqStBtn");
+		}
 		$("#formCatBtns").on("click", "button", e=>{
-				let formCat = $(e.target).data("cat"); 
-				location.href=`/aprvReq?formCat=${formCat}`;
-		});
+							let formCat = $(e.target).data("cat"); 
+							localStorage.setItem('formCatBtn', formCat)
+							location.href=`/aprvReq?formCat=${formCat}`;
+					});
+		let formCatBtn = localStorage.getItem('formCatBtn');
+		if(formCatBtn){ //버튼색
+			$(".formCat.btn-primary").addClass("btn-outline-primary");
+	    	$(".formCat.btn-primary").removeClass("btn-primary");
+	    	$('[data-cat="'+formCatBtn+'"]').removeClass("btn-outline-primary");
+	    	$('[data-cat="'+formCatBtn+'"]').addClass("btn-primary");
+	    	localStorage.removeItem("formCatBtn");
+		}
+				  
 		
 		//에디터
 		let plugins = [ "advlist", "autolink", "lists", "link", "image",
 						"preview", "searchreplace", "charmap",
-						"fullscreen", "insertdatetime",
-						"media", "table", "wordcount", "save" ];
-		let edit_toolbar = 'formatselect fontselect fontsizeselect |'
-							+ ' forecolor backcolor |' + ' charmap |'
-							+ ' bold italic underline strikethrough |'
+						"fullscreen", "media", "table", "wordcount", "save" ];
+		let edit_toolbar = ' forecolor backcolor |'
+							+ ' bold italic underline strikethrough charmap |'
 							+ ' alignjustify alignleft aligncenter alignright |'
-							+ ' bullist numlist |' + ' table tabledelete |' + ' link image |' + ' insertdatetime |';
+							+ ' bullist numlist |' + ' table tabledelete |' + ' link image preview |';
 		tinymce.init({
 				selector : '#cntn',
-				height : 500,
+				height : 600,
 				menubar : false,
 				plugins : plugins,
 				toolbar : edit_toolbar,
 				
 				image_title : true,
-				automatic_uploads : true,
 				file_picker_types : 'image',
 				file_picker_callback : function(cb, value, meta) {
 					let input = document.createElement('input');
@@ -138,14 +153,106 @@
 				content_style : 'body { font-family: Helvetica, Arial, sans-serif; font-size:14px }'
 			});
 		
+		//결재라인 부서검색
+		$("#deptSelect").on("change", e=>{
+			let dept = $(e.target).val();
+			$.ajax({
+				url:'lineDeptChange',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'dept':dept},
+			    dataType:'json',
+			    success:function(obj){
+			    	$("#multi").html("");
+			    	 $.each (obj, (idx, o)=> {
+				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+				        	$("#multi").append(option);
+				        	}); 
+			    }
+		    }) 
+		})
+		//결재자 선택
+		$("#multi").on("click", e=>{
+				let empNo = $(e.target).val();
+				let name = $(e.target).text();	
+				let ap1= $("#nm1").val();
+				let ap2= $("#nm2").val();
+				let ap3= $("#nm3").val();
+				
+				if ( ap1 == ""){
+					$("#nm1").val(name);
+					$("#ap1").val(empNo);
+					
+				} else if (ap2 == "" && name != $("#nm1").val()){
+					$("#nm2").val(name);
+					$("#ap2").val(empNo);
+					
+				} else if(ap3 == "" && name != $("#nm1").val() && name != $("#nm2").val()) {
+					$("#nm3").val(name);
+					$("#ap3").val(empNo);
+				}
+			
+				})
+				
+			$(".aprvline").on("click", e=>{
+				let no =  $(e.target).data("no");
+				$(e.target).val("");
+				if (no == 1){
+					$("#ap1").val("");
+				} else if (no == 2){
+					$("#ap2").val("");
+				} else if (no == 3) {
+					$("#ap3").val("");
+				}
+				})
+				
+			$(".delLine").on("click", e=>{
+			let no = $(e.target).closest("li").data("no");
+			let result = confirm("삭제하시겠습니까?");
+			if (result ){
+				$.ajax({
+					url:'lineDel',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'lineNo':no},
+				    dataType:'json',
+				    success:function(obj){
+				    	$(e.target).closest("li").remove();
+				    }
+			    }) 
+			} else {
+				return;
+			}
+		})
+		
+		//게시글 등록
+    $("#save").on("click", function(){
+        let content = tinymce.activeEditor.getContent();
+        let ttl = $("#ttl").val();
+        $("#cntn").val(content);
+        
+        if (content != "" && ttl != ""){
+        	$("#newfrm").submit();
+        } else {
+        	alert("내용을 작성해주세요!");
+        }
+        
+    });
+		
+		
 		reqSelect();
 		formSelect();
 		
 	});
 		
+		
 		//글상세
 		function reqSelect(){
-			$("#aprvtb").on("click", "td", e=>{
+			$("#aprvtb").on("click", "tr", e=>{
 				let aprvNo = $(e.target).data("no");
 				$.ajax({
 					url:'reqView',
@@ -158,6 +265,10 @@
 				    success:function(obj){    	
 				        $("#vttl").html(obj.ttl);
 						$("#tnv").html(obj.cntn);
+						$("#viewFoot").html("");
+						let clBtn = `<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>`;
+						$("#viewFoot").append(clBtn);
 						$("#viewModal").modal('show');
 				        }
 				    }) 
@@ -165,7 +276,7 @@
 			}
 		
 		function formSelect(){
-			$("#formtb").on("click", "td", e=>{
+			$("#formtb").on("click", "tr", e=>{
 				let formNo = $(e.target).data("no"); 
 				$.ajax({
 					url:'formView',
@@ -178,7 +289,16 @@
 				    success:function(obj){
 				        $("#vttl").html(obj.ttl);
 						$("#tnv").html(obj.cntn);
+						if (sessionStorage.getItem("empNo") == obj.empNo){
+							$("#viewFoot").html("");
+							let clBtn = `<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">닫기</button>`;
+							let selBtn = `<button type="button" class="btn btn-primary">서식 선택</button>`;
+							$("#viewFoot").append(clBtn,selBtn);
+						}
+						
 						$("#viewModal").modal('show');
+						
 				        }
 				    }) 
 				})
@@ -253,7 +373,7 @@
 											</p>
 											<button type="button" id="lineBtn" class="btn btn-primary"
 												data-bs-toggle="modal" data-bs-target="#lineModal">
-												<i class="ri-restart-line"> 기본 결재라인 변경</i>
+												<i class="ri-restart-line"> 결재라인 관리</i>
 											</button>
 										</div>
 									</div>
@@ -272,10 +392,11 @@
 											<div class="btn-group" id="reqStBtns" role="group"
 												aria-label="Aprv Request List" style="width: 100%;">
 												<button type="button" th:each="s:${st}"
-													th:if="${s.cdNm == '전체'}" class="btn btn-primary" th:text="${s.cdNm}"
-													th:data-st="${s.cdNm}">전체</button>
+													th:if="${s.cdNm == '전체'}" class="btn btn-primary reqSt"
+													th:text="${s.cdNm}" th:data-st="${s.cdNm}">전체</button>
 												<button type="button" th:each="s:${st}"
-													th:unless="${s.cdNm == '전체'}" class="btn btn-outline-primary" th:text="${s.cdNm}"
+													th:unless="${s.cdNm == '전체'}"
+													class="btn btn-outline-primary reqSt" th:text="${s.cdNm}"
 													th:data-st="${s.cdNm}">전체</button>
 											</div>
 
@@ -289,25 +410,24 @@
 										<thead hidden="hidden">
 											<tr>
 												<th>제목</th>
-											</tr>										
+											</tr>
 										</thead>
 										<tbody id="aprvtb" class="list-group">
 											<tr th:each="p : ${aprv}"
 												class="list-group-item list-group-item-action"
 												th:data-no="${p.aprvNo}">
-												<td class="d-flex justify-content-between align-items-start">
-														<div class="ms-2 me-auto">
-															<div class="fw-bold" th:text="${p.ttl}">제목</div>
-															Cras justo odio <small>And some small print.</small>
-														</div>
-														<span th:if="${p.reqSt == '전송' or p.reqSt =='반려'  }"
-															th:text="${p.reqSt}"
-															class="badge bg-primary rounded-pill"
-															style="height: 25px">수정가능</span> <span
-															th:unless="${p.reqSt == '전송' or p.reqSt =='반려'  }"
-															th:text="${p.reqSt}"
-															class="badge bg-secondary rounded-pill"
-															style="height: 25px">수정불가</span>
+												<td class="d-flex justify-content-between align-items-start"
+													th:data-no="${p.aprvNo}">
+													<div class="ms-2 me-auto">
+														<div class="fw-bold" th:text="${p.ttl}">제목</div>
+														Cras justo odio <small>And some small print.</small>
+													</div> <span th:if="${p.reqSt == '전송' or p.reqSt =='검토'  }"
+													th:text="${p.reqSt}"
+													class="badge bg-secondary rounded-pill"
+													style="height: 25px"></span> <span
+													th:if="${p.reqSt == '반려' or p.reqSt =='완료'  }"
+													th:text="${p.reqSt}" class="badge bg-primary rounded-pill"
+													style="height: 25px"></span>
 												</td>
 											</tr>
 										</tbody>
@@ -345,9 +465,9 @@
 											<h5 class="card-title">기본서식목록</h5>
 											<p class="card-text">결재 서식목록입니다. 서식을 클릭하시면 해당 양식으로 간편하게
 												결재문서를 작성할 수 있습니다.</p>
-											<button type="button" id="newBtn" class="btn btn-primary">
-												<i class="ri-star-fill" data-bs-toggle="modal"
-													data-bs-target="#newModal"> 새로운 서식으로 작성</i>
+											<button type="button" id="newBtn" class="btn btn-primary"
+												data-bs-toggle="modal" data-bs-target="#newModal">
+												<i class="ri-star-fill"> 새로운 서식 만들기</i>
 											</button>
 										</div>
 									</div>
@@ -364,11 +484,12 @@
 										<div class="col text-center">
 											<div class="btn-group" role="group" id="formCatBtns"
 												aria-label="Aprv Form List" style="width: 100%">
-												<button type="button" th:each="t:${cat}" th:if="${t.cdNm == '전체'}"
-													class="btn btn-primary" th:text="${t.cdNm}"
-													th:data-cat="${t.cdNm}">전체</button>
-												<button type="button" th:each="t:${cat}" th:unless="${t.cdNm == '전체'}"
-													class="btn btn-outline-primary" th:text="${t.cdNm}"
+												<button type="button" th:each="t:${cat}"
+													th:if="${t.cdNm == '전체'}" class="btn btn-primary formCat"
+													th:text="${t.cdNm}" th:data-cat="${t.cdNm}">전체</button>
+												<button type="button" th:each="t:${cat}"
+													th:unless="${t.cdNm == '전체'}"
+													class="btn btn-outline-primary formCat" th:text="${t.cdNm}"
 													th:data-cat="${t.cdNm}">전체</button>
 											</div>
 										</div>
@@ -381,24 +502,23 @@
 										<thead hidden="hidden">
 											<tr>
 												<th>제목</th>
-											</tr>										
+											</tr>
 										</thead>
 										<tbody id="formtb" class="list-group">
 											<tr th:each="f : ${form}"
 												class="list-group-item list-group-item-action"
 												th:data-no="${f.formNo}">
-												<td class="d-flex justify-content-between align-items-start">
-														<div class="ms-2 me-auto">
-															<div class="fw-bold" th:text="${f.ttl}">제목</div>
-															Cras justo odio <small>And some small print.</small>
-														</div>
-														
-														<span th:if="${f.formCat == '개인'}" th:text="${f.formCat}"
-															class="badge bg-primary rounded-pill"
-															style="height: 25px"></span> <span
-															th:unless="${f.formCat == '개인'}" th:text="${f.formCat}"
-															class="badge bg-secondary rounded-pill"
-															style="height: 25px">기타</span>
+												<td class="d-flex justify-content-between align-items-start"
+													th:data-no="${f.formNo}">
+													<div class="ms-2 me-auto">
+														<div class="fw-bold" th:text="${f.ttl}">제목</div>
+														Cras justo odio <small>And some small print.</small>
+													</div> <span th:if="${f.formAuth == '개인'}" th:text="${f.formCat}"
+													class="badge bg-primary rounded-pill" style="height: 25px"></span>
+													<span th:unless="${f.formAuth == '개인'}"
+													th:text="${f.formCat}"
+													class="badge bg-secondary rounded-pill"
+													style="height: 25px">기타</span>
 												</td>
 											</tr>
 										</tbody>
@@ -420,26 +540,88 @@
 		</section>
 		<!-- ======= End Section ======= -->
 
-		<!-- Vertically centered Modal -->
+		<!-- Line Modal -->
 		<div class="modal fade" id="lineModal" tabindex="-1">
-			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-dialog modal-dialog-centered modal-md">
 				<div class="modal-content">
 					<div class="modal-header">
+						<b>전자결재 - 결재라인 설정</b>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body" id="lCntn">라인</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary">저장</button>
+					<div class="modal-body" id="lCntn">
+						<div class="row g-3">
+							<div class="col-md-12">
+								<ul class="list-group lineList">
+									<li class="list-group-item lineLi" th:each="n : ${line}"
+										th:data-no="${n.lineNo}"><b
+										th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
+										<button type="button" class="btn btn-primary delLine"
+											style="float: right;">삭제</button></li>
+								</ul>
+							</div>
+						</div>
+						<hr>
+						<form id="lineFrm" action="aprvLineInsert" method="post">
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}">
+							<div class="row g-3">
+								<div class="col-md-4">
+									<div class="form-floating">
+										<select class="form-select" id="deptSelect" aria-label="State">
+											<option>선택</option>
+											<option th:each="d : ${dept}" th:value="${d.dept}"
+												th:text="${d.dept}">부서</option>
+										</select> <label for="deptSelect">부서</label>
+									</div>
+								</div>
+								<div class="col-md-8">
+									<select class="form-select" id="multi" multiple
+										aria-label="multiple select example">
+
+									</select>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control aprvline" id="nm1"
+											name="nm1" placeholder="결재자" readonly="readonly" data-no="1" required="required">
+										<label for="nm1">1st</label>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control aprvline" id="nm2"
+											name="nm2" placeholder="결재자" readonly="readonly" data-no="2">
+										<label for="nm2">2nd</label>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-floating">
+										<input type="text" class="form-control aprvline" id="nm3"
+											name="nm3" placeholder="결재자" readonly="readonly" data-no="3">
+										<label for="nm3">3rd</label>
+									</div>
+								</div>
+								<input type="hidden" id="ap1" name="ap1"> <input
+									type="hidden" name="ap2" id="ap2"> <input type="hidden"
+									name="ap3" id="ap3">
+							</div>
+
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">닫기</button>
+								<button type="submit" class="btn btn-primary">저장</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- End Vertically centered Modal-->
 
-		<!-- Scrolling Modal -->
+		<!-- End Line Modal-->
+
+		<!--View Modal -->
 		<div class="modal fade" id="viewModal" tabindex="-1"
 			data-bs-backdrop="true">
 			<div class="modal-dialog modal-lg">
@@ -449,17 +631,16 @@
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="vCntn">
-						<div id="tnv" class=".txtA">에디터</div>
+						<div id="tnv" class=".txtA"></div>
 					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary">수정</button>
+					<div class="modal-footer" id="viewFoot">
+						
+						
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- End Scrolling Modal-->
+		<!-- View Modal-->
 
 		<!-- Scrolling Modal -->
 		<div class="modal fade" id="newModal" tabindex="-1"
@@ -467,42 +648,61 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
+						<b>전자결재 - 새로운 서식 작성</b>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="nCntn">
-						<form id="frm" method="post" action="aprvInsert"
+						<form id="newfrm" class="row g-3" method="post" action="formInsert"
 							enctype="multipart/form-data">
 							<input type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}">
-							<table class="table">
-								<tr>
-									<td colspan="5">
-										<div class="row mb-3">
-											<label for="ttl" class="col-sm-2 col-form-label center"><b>제목</b></label>
-											<div class="col-sm-10">
-												<input type="text" class="form-control" id="ttl" name="ttl">
-											</div>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td colspan="6"><textarea id="cntn" name="cntn"
-											class="line"></textarea></td>
-								</tr>
-								<tr>
-									<td colspan="6"><input type="file" id="file" name="file">
-									</td>
-								</tr>
-							</table>
 
-							<div>
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">닫기</button>
-								<span class="right">
-									<button type="button" id="save" class="btn btn-primary ">등록</button>
-								</span>
+							<div class="col-md-2">
+								<div class="form-floating">
+									<select class="form-select" id="formCatSelect" name="formCat"
+										aria-label="서식 종류">
+										<option value="품의">품의</option>
+										<option value="신청">신청</option>
+										<option value="보고">보고</option>
+										<option value="총무">총무</option>
+									</select> <label for="formCatSelect">서식 종류</label>
+								</div>
 							</div>
+							<div class="col-md-10">
+								<div class="form-floating">
+									<input type="text" class="form-control" id="ttl" name="ttl"
+										placeholder="서식 이름" required="required"><label for="ttl">서식 이름</label>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="form-floating">
+									<textarea class="line" id="cntn" name="cntn" required="required"></textarea>
+								</div>
+							</div>
+							<!-- <div class="col-md-12">
+								<input class="form-control" type="file" id="file" name="file">
+							</div> -->
+							<div class="col-3">
+								<div class="form-check form-switch">
+									<input class="form-check-input" type="checkbox"
+										id="formAuthCheck" name="formAuth"> <label
+										class="form-check-label" for="formAuthCheck">서식공개</label>
+
+								</div>
+							</div>
+							<div class="col-9">
+								<div>
+									<button type="button" id="save" class="btn btn-primary"
+										style="float: right;">저장</button>
+									<button type="button" class="btn btn-secondary float-right"
+										data-bs-dismiss="modal"
+										style="float: right; margin-right: 5px;">닫기</button>
+								</div>
+							</div>
+
+
+
 						</form>
 					</div>
 

@@ -5,6 +5,7 @@ import java.util.List;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.ReferVO;
+import co.up.tune.emp.vo.EmpVO;
 
 public interface AprvLineMapper {
 
@@ -35,7 +36,7 @@ public interface AprvLineMapper {
 
 		int aprvLineDel(AprvLineVO vo); // 삭제
 
+		List<EmpVO> aprvEmpSearch(EmpVO vo);
 	
-	
-
+		List<EmpVO> aprvDeptSearch(); //부서검색
 }

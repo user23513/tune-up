@@ -61,54 +61,26 @@
 			info: false
 		});
 		
+		
+		//상태카테고리변경		       
+		$("#approvalBtns").on("click", "button", e=>{
+							let aprvSt = $(e.target).data("st"); 	
+							localStorage.setItem('aprvStBtn', aprvSt)
+							location.href=`/approval?aprvSt=${aprvSt}`;
+					});
+		let aprvStBtn = localStorage.getItem('aprvStBtn');
+		if(aprvStBtn){ //버튼 활성화
+			$(".aprvSt.btn-primary").addClass("btn-outline-primary");
+	    	$(".aprvSt.btn-primary").removeClass("btn-primary");
+	    	$('[data-st="'+aprvStBtn+'"]').removeClass("btn-outline-primary");
+	    	$('[data-st="'+aprvStBtn+'"]').addClass("btn-primary");
+	    	localStorage.removeItem("aprvStBtn");
+		}
+		
+		
 	aprvSelect();
-	approvalSt();
 	
 	});
-	
-	//상태카테고리변경
-	function approvalSt(){
-		$("#approvalBtns").on("click", "button", e=>{
-				let aprvSt = $(e.target).data("st"); 
-				
-				$.ajax({
-					url:'aprvSt',
-					beforeSend:function(xhr){
-				 		xhr.setRequestHeader(header,token);  
-				    },
-				    type:"post",
-				    data:{'aprvSt':aprvSt},
-				    dataType:'json',
-				    success:function(obj){   
-				    	$("#aprvtb").html("");
-				    	$.each (obj, (idx, o)=> {
-							let tr = "";
-					    	tr += `<tr class="list-group">
-								<td class="list-group-item" data-no='${o.aprvNo}'>
-									<div class="d-flex justify-content-between align-items-center">
-										<p class="mb-1 fw-bold">${o.ttl}
-											<input class="form-check-input me-1" type="checkbox"
-												value='${o.aprvNo}' aria-label="..."></p>`;
-							if (o.reqSt == '반려' || o.reqSt =='완료'){
-								tr += `<span class="badge bg-secondary rounded-pill"
-									style="height: 25px">${o.reqSt}</span>`;
-							} else {
-								tr +=`<span class="badge bg-primary rounded-pill"
-									style="height: 25px">${o.reqSt}</span>`;
-							}
-							
-							tr += `</div><small></small>
-								</td></tr>`;								
-							$("#aprvtb").html(tr);
-				    });
-				    	$(".apSt.btn-primary").addClass("btn-outline-primary");
-				    	$(".apSt.btn-primary").removeClass("btn-primary");
-				    	$(e.target).removeClass("btn-outline-primary");
-				    	$(e.target).addClass("btn-primary");
-				    }
-			    }) 
-			})
-		}
 			
 		//상세조회
 		function aprvSelect() {
@@ -147,8 +119,8 @@
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="aprvReq">나의 신청</a></li>
 								<li class="breadcrumb-item active">나의 승인</li>
-								<li class="breadcrumb-item" th:if="${session.auth == 'ADMIN'}"><a href="aprvAdmin"
-									>관리 기능</a></li>
+								<li class="breadcrumb-item" th:if="${session.auth == 'ADMIN'}"><a
+									href="aprvAdmin">관리 기능</a></li>
 							</ol>
 						</nav>
 					</div>
@@ -211,11 +183,11 @@
 											<div class="btn-group" role="group" id="approvalBtns"
 												aria-label="Approval List" style="width: 100%;">
 												<button type="button" th:each="s:${st}"
-													th:if="${s.cdNm == '전체'}" class="btn btn-primary apSt"
+													th:if="${s.cdNm == '전체'}" class="btn btn-primary aprvSt"
 													th:text="${s.cdNm}" th:data-st="${s.cdNm}">전체</button>
 												<button type="button" th:each="s:${st}"
 													th:unless="${s.cdNm == '전체'}"
-													class="btn btn-outline-primary apSt" th:text="${s.cdNm}"
+													class="btn btn-outline-primary aprvSt" th:text="${s.cdNm}"
 													th:data-st="${s.cdNm}">전체</button>
 											</div>
 										</div>
@@ -232,7 +204,8 @@
 											</tr>
 										</thead>
 										<tbody id="aprvtb">
-											<tr class="list-group" th:each="p : ${approval}">
+											<tr class="list-group" th:each="p : ${approval}"
+												th:data-no="${p.aprvNo}">
 												<td class="list-group-item" th:data-no="${p.aprvNo}">
 													<div
 														class="d-flex justify-content-between align-items-center">
@@ -240,13 +213,13 @@
 															<input class="form-check-input me-1" type="checkbox"
 																th:value="${p.aprvNo}" aria-label="...">제목
 														</p>
-														<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료'}"
-															th:text="진행" class="badge bg-primary rounded-pill"
-															style="height: 25px">진행</span> <span
-															th:if="${p.reqSt == '반려' or p.reqSt =='완료'}"
+														<span th:if="${p.reqSt == '반려' or p.reqSt =='완료'}"
 															th:text="${p.reqSt}"
 															class="badge bg-secondary rounded-pill"
 															style="height: 25px">완료</span>
+														<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료'}"
+															th:text="진행" class="badge bg-primary rounded-pill"
+															style="height: 25px">진행</span> 
 													</div> <small>And some small print.</small>
 												</td>
 											</tr>

@@ -7,6 +7,7 @@ import co.up.tune.aprv.aprvLine.mapper.AprvLineMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.ReferVO;
+import co.up.tune.emp.vo.EmpVO;
 
 @Service
 public class AprvLineServiceImpl implements AprvLineService{
@@ -94,6 +95,16 @@ public class AprvLineServiceImpl implements AprvLineService{
 	@Override
 	public int aprvLineDel(AprvLineVO vo) {
 		return map.aprvLineDel(vo);
+	}
+
+	@Override
+	public List<EmpVO> aprvEmpSearch(EmpVO vo) {
+		return map.aprvEmpSearch(vo);
+	}
+
+	@Override
+	public List<EmpVO> aprvDeptSearch() {
+		return map.aprvDeptSearch();
 	}
 
 }

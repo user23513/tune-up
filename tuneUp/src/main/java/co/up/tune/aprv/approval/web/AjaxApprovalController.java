@@ -24,13 +24,7 @@ public class AjaxApprovalController {
 		return ap.approvalSelect(vo);	
 		}
 	
-	@PostMapping("/aprvSt")	
-	public List<AprvVO> aprvSt(AprvVO vo, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		String empNo = (String) session.getAttribute("empNo");
-		
-		return ap.approvalList(empNo, vo.getAprvSt());	
-		}
+	
 		
 		
 	

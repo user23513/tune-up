@@ -7,7 +7,7 @@ import co.up.tune.prj.vo.BusinessVO;
 
 public interface BusinessService {
 	
-	List<BusinessVO> businessList();
+	List<BusinessVO> businessList(BusinessVO vo);
 	int businessInsert(BusinessVO vo);
 	int businessUpdate(BusinessVO vo);
 	int businessDelete(BusinessVO vo);

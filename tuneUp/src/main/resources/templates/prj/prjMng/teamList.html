@@ -5,11 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header"
-	th:content="${_csrf.headerName}" />
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>프로젝트 관리</title>
 <link rel="stylesheet" href="/css/jquery.treeview.css" />
 <link rel="stylesheet" href="/css/screen.css" />
+<style type="text/css">
+	#bin, #modi {
+	background-color: white;
+	border: 0;
+	outline: 0;
+	}
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#browser").treeview({}); 
@@ -110,21 +116,29 @@ $(document).ready(function(){
 									<!-- Default Card -->
 
 									<div class="row row-cols-1 row-cols-md-3 g-4">
-										<form th:each="tm:${teamList}">
+										<div th:each="tm:${teamList}">
 											<input type="hidden" th:name="${_csrf.parameterName}"
-												th:value="${_csrf.token}"> <input type="hidden"
-												name="prjNo" th:value="${tm.prjNo}">
+												th:value="${_csrf.token}"> <input type="hidden" name="prjNo" th:value="${tm.prjNo}">
 											<div class="col teamSelect">
 												<div class="card size">
 													<div class="card-body">
 														<br>
-														<h5 class="card-text">[[${tm.nm}]]</h5>
-														<h6>[[${tm.empNo}]]</h6>
+														<form action="removeTeam" method="post" >
+													<input type="hidden" th:name="${_csrf.parameterName}"
+														th:value="${_csrf.token}"> <input type="hidden"
+														id="athEmpNo" name="empNo" th:value="${tm.empNo}">
+													<input type="hidden" id="athPrjNo" name="tmPrjNo"
+														th:value="${tm.prjNo}"> 
+													<h4><button class="ri-delete-bin-5-line" id="bin" style="float: right"></button></h4>
+												</form>
+														<h5 class="card-text">[[${tm.dept}]]팀&nbsp;&nbsp;[[${tm.nm}]] </h5>
+														<br>
+														<h6>사원번호 [[${tm.empNo}]]</h6>
 														<h6 class="card-subtitle mb-2 text-muted">[[${tm.auth}]]</h6>
 													</div>
 												</div>
 											</div>
-										</form>
+										</div>
 									</div>
 
 									<!--프로젝트 팀원 추가-->
@@ -203,38 +217,35 @@ $(document).ready(function(){
 							<!-- 관리자 탭 -->					
 							<div class="tab-pane fade row row-cols-1 row-cols-md-3 g-4" id="bordered-profile" role="tabpanel"
 								aria-labelledby="profile-tab">
-									<div class="card-body2">
+								
+							<div class="card-body2">
 										<h5 class="card-title2"></h5>
-										<div class="row row-cols-1 row-cols-md-3 g-4" >
-										<form class="authFrm" th:each="ath : ${authList}">
-											<input type="hidden" th:name="${_csrf.parameterName}"
-												th:value="${_csrf.token}"> <input type="hidden"
-												name="prjNo" th:value="${ath.prjNo}">
-												<input type="hidden"
-												name="prjNo" th:value="${ath.auth}">
+										<br>
+										<div th:each="ath : ${authList}">
+											<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+											<input type="hidden" name="prjNo" th:value="${ath.prjNo}">
+												<input type="hidden" name="prjNo" th:value="${ath.auth}">
 											<div class="col authSelect">
 												<div class="card size">
 													<div class="card-body">
 														<br>
-														<h5 class="card-text">[[${ath.nm}]]</h5>
-														<h6>[[${ath.empNo}]]</h6>
-														<h6>[[${ath.empNo}]]</h6>
+														<form id="rmvAuthFrm" name="rmvAuthNm" action="removeAuth" method="post" >
+													<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+													<input type="hidden" id="athempNo" name="athempNo" th:value="${ath.empNo}">
+													<input type="hidden" id="athprjno" name="athprjno" th:value="${ath.prjNo}"> 
+													<input type="hidden" id="athauth" name="athauth" th:value="${ath.auth}">
+													<h4><button class="ri-arrow-go-back-line" id="modi" style="float: right"></button></h4>
+												</form>
+												<h5 class="card-text">[[${ath.dept}]]팀&nbsp;&nbsp;[[${ath.nm}]]</h5>
+												<br>
+														<h6>사원번호 [[${ath.empNo}]]</h6>
+														<h6>[[${ath.auth}]]</h6>
 													</div>
 												</div>
 											</div>
-										</form>
+										</div>
 									</div>
-										
-										
-										
-										
-										
-										
-										
-										
-										
-										
-										
+								
 									</div>
 								</div>
 								<!-- End Default Card -->

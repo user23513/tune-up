@@ -20,7 +20,7 @@ public class AttdUpController {
 	public String attdUpInsert(AttdUpVO vo) {
 
 		dao.attdUpInsert(vo);
-		return "redirect:/attdToday";
+		return "redirect:/myAttdList";
 	}
 
 	@PostMapping("/checkModi")

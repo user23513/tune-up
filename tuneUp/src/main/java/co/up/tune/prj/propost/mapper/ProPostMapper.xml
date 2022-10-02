@@ -51,9 +51,9 @@
 	</update> -->
 	
 	
-	<delete id="prjPostDelete" parameterType="co.up.tune.prj.vo.PostVO">
+	<!-- <delete id="prjPostDelete" parameterType="co.up.tune.prj.vo.PostVO">
 	DELETE FROM POST WHERE POST_NO = #{postNo}
-	</delete>
+	</delete> -->
 	
 	<select id="prjPostSelect" resultType="co.up.tune.prj.vo.PostVO" parameterType="co.up.tune.prj.vo.PostVO">
 		SELECT * 
@@ -137,4 +137,42 @@
 		ORDER BY POST_NO
 	</select>
 	
+	<!-- 프로젝트 전체 댓글 -->
+	<select id="prjReplyList" resultType="co.up.tune.com.vo.ReplyVO">
+		SELECT *
+		FROM REPLY
+		WHERE REPLY_CAT='프로젝트'
+		ORDER BY REPLY_NO DESC
+	</select>
+	
+	<!-- 해당 게시글에 파일정보 가져오기 -->
+	<select id="prjPostFiles" resultType="co.up.tune.prj.vo.FilesVO">
+		SELECT * 
+		FROM FILES 
+		WHERE ATCH_NO in(
+			SELECT ATCH_NO FROM POST WHERE PRJ_NO=#{prjNo}
+			)
+	</select>
+	
+	<!-- 프로젝트 게시글 삭제 -->
+	<delete id="postDelete">
+		BEGIN
+			<if test='type.equals("일정")'>
+				DELETE FROM MEMBER 
+				WHERE POST_NO = #{postNo};
+				DELETE FROM SCHEDULE 
+				WHERE POST_NO = #{postNo};
+			</if>
+			<if test='type.equals("글")'>
+				DELETE FROM FILES 
+				WHERE ATCH_NO = (
+					SELECT ATCH_NO 
+					FROM POST 
+					WHERE POST_NO=#{postNo}
+				);
+				DELETE FROM POST 
+				WHERE POST_NO = #{postNo};
+			</if>
+		END;
+	</delete>
 </mapper>

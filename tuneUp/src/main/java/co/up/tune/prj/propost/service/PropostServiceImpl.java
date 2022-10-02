@@ -45,11 +45,11 @@ public class PropostServiceImpl implements PropostService {
 		return map.prjPostUpdate(vo);
 	}
 
-	@Override
-	public int prjPostDelete(PostVO vo) {
-		// 프로젝트 - 글 삭제
-		return map.prjPostDelete(vo);
-	}
+//	@Override
+//	public int prjPostDelete(PostVO vo) {
+//		// 프로젝트 - 글 삭제
+//		return map.prjPostDelete(vo);
+//	}
 
 	@Override
 	public List<ReplyVO> ppReplyList(ReplyVO vo) {
@@ -123,6 +123,25 @@ public class PropostServiceImpl implements PropostService {
 	@Override
 	public List<MemberVO> scheduleMemberList(int prjNo) {
 		return map.scheduleMemberList(prjNo);
+	}
+
+	//프로젝트 전체 댓글
+	@Override
+	public List<ReplyVO> prjReplyList() {
+		return map.prjReplyList();
+	}
+
+	//해당 게시글에 파일정보 가져오기
+	@Override
+	public List<FilesVO> prjPostFiles(int prjNo) {
+		return map.prjPostFiles(prjNo);
+	}
+
+	//게시글 삭제
+	@Override
+	public int postDelete(int postNo, String type) {
+		System.out.println("===="+postNo+"---"+type);
+		return map.postDelete(postNo, type);
 	}
 	
 	 

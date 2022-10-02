@@ -2,10 +2,16 @@ package co.up.tune.prj.schedule.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.pagehelper.PageInfo;
+
+import co.up.tune.prj.myProject.service.MyProjectService;
 import co.up.tune.prj.schedule.service.ScheduleService;
+import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.ScheduleVO;
 
 @Controller
@@ -14,11 +20,16 @@ public class ScheduleController {
 	@Autowired
 	ScheduleService dao;
 	
+	@Autowired
+	MyProjectService myDao;
+	
 	//일정 등록
 	@PostMapping("/scheduleInsert")
-	public String scheduleInsert(ScheduleVO vo) {
+	public String scheduleInsert(ScheduleVO vo, RedirectAttributes re) {
 		dao.scheduleInsert(vo);
-		return "redirect:/prjPostList";
+		re.addAttribute("prjNo", vo.getPrjNo());
+		
+		return "redirect:prjPostList";
 	}
 	
 }

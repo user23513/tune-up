@@ -59,7 +59,7 @@
 			   EMP_NO, 
 			   WRTR,
 			   CNTN, 
-			   TO_CHAR(DTTM, 'YYYY-MM-DD HH24:MI:SS') DTTM, 
+			   DTTM, 
 			   REPLY_CAT 
 		FROM REPLY
 		WHERE POST_NO = #{postNo}
@@ -82,7 +82,14 @@
 			FROM REPLY
 		</selectKey>
 		INSERT INTO REPLY
-		VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE, '커뮤니티')
+		VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE,
+				<if test="replyCat.equals('프로젝트')">
+					'프로젝트'
+				</if>
+				<if test="!replyCat.equals('프로젝트')">
+					'커뮤니티'
+				</if>
+			  )
 	</insert>
 	
 	<update id="replyUpdate" parameterType="co.up.tune.com.vo.ReplyVO"> 

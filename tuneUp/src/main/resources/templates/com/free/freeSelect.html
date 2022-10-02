@@ -10,117 +10,117 @@
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script th:inline="javascript">
-	$(document).ready(function() {
-		//게시글 수정버튼
-		$("#uBtn").on("click", e=>{
-			$("#uFrm").submit();
-		})
-		
-		//게시글 삭제버튼
-		$("#dBtn").on("click", e=>{
-			$("#dFrm").submit();
-		})
-		
-		//==============댓글==============
-		//댓글 등록 버튼 클릭시
-		$("#rBtn").on("click", e=>{
-			let postNo = $("#postNo").val(); //게시글 번호
-			let postTitle = $("#postTitle").text(); //게시글 제목
-			console.log(postTitle)
-			let cntn = $("#rCntn").val();    //댓글 내용
-			let empNo = $("#empNo").val();   //댓글 쓴 사원번호
-			let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
-			let rList = $("<div>").attr("id", "rList"); 
-			
-			//댓글 등록 처리
-			$.ajax({
-		         url:'replyInsert',
-		         beforeSend:function(xhr){
-		 	  		xhr.setRequestHeader(header,token);  
-		     	  },
-		         type:'post',
-		         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr},
-		         dataType:'json',
-		         success:function(res){
-						let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
-											.append($("<span>").html(res.dttm))
-											.append($("<br>"))
-											.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-											.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
-											.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
-											.append($("<hr>"))
-						$("#rList").prepend(div);
-						
-						$("#rCntn").val("");
-		         }
-		      })
-		})
-		
-		//댓글 수정 아이콘 클릭했을 때 이벤트위임 (상위 div에 이벤트 걸었음)
-		$("#rList").on("click", ".update", e=>{
-			let cntnTag = $(e.target).parent().prev() //댓글내용있는 태그
-			let replyNo = $(e.target).data("no"); //댓글 번호
-			let cntn = cntnTag.text();
-			cntnTag.html("");
-			
-			//수정(up), 삭제(de) 아이콘
-			let de = $(e.target).parent().next().hide();
-			let up = $(e.target).parent().hide();
-			
-			//댓글 수정폼 뜨게
-			cntnTag
-				   .append($("<textarea>").addClass("form-control auto txtA").val(cntn))
-				   .append($("<br>"))
-				   .append($("<button>").addClass("btn btn-secondary").attr("id", "replyUp").attr("type","button").html("수정"));
-			
-			//수정할 내용 입력하고 수정 클릭했을 때 db에 수정처리
-			$("#replyUp").on("click", e=>{
-				e.stopPropagation();
-				let cntn = $(e.target).prev().prev().val();
-				cntn = cntn.replaceAll(/(\n|\r\n)/g, "<br>"); //enter키 적용
-				$.ajax({
-					url:'replyUpdate',
-					beforeSend:function(xhr){
-				  		xhr.setRequestHeader(header,token);  
-			    	  },
-					type:'post',
-					data:{'replyNo':replyNo, 'cntn':cntn},
-					dataType:'json',
-					success:function(res){
-						$(e.target).parent().prev().prev().html(res);
-						$(e.target).prev().remove();
-						$(e.target).remove();
-						cntnTag.html(cntn).appendTo(cntnTag);
-						
-						//수정, 삭제 아이콘 보이게
-						up.show();
-						de.show();
-					}
-				}) 
-				
-			})
-		})
-		
-		
-		//댓글 삭제 이벤트위임 (상위 div에 이벤트 걸었음)
-		$("#rList").on("click", ".delete", e=>{
-			let replyNo = $(e.target).data("no"); //댓글 번호
-			//댓글 삭제처리
-			$.ajax({
-		         url:'replyDelete',
-		         beforeSend:function(xhr){
-		 	  		xhr.setRequestHeader(header,token);  
-		     	  },
-		         type:'post',
-		         data:{'replyNo':replyNo},
-		         dataType:'json',
-		         success:function(res){
-		         	$(e.target).parent().parent().remove();
-		         }
-		      })
-		})
-		  
+$(document).ready(function() {
+	//게시글 수정버튼
+	$("#uBtn").on("click", e=>{
+		$("#uFrm").submit();
 	})
+	
+	//게시글 삭제버튼
+	$("#dBtn").on("click", e=>{
+		$("#dFrm").submit();
+	})
+	
+	//==============댓글==============
+	//댓글 등록 버튼 클릭시
+	$("#rBtn").on("click", e=>{
+		let postNo = $("#postNo").val(); //게시글 번호
+		let postTitle = $("#postTitle").text(); //게시글 제목
+		console.log(postTitle)
+		let cntn = $("#rCntn").val();    //댓글 내용
+		let empNo = $("#empNo").val();   //댓글 쓴 사원번호
+		let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
+		let rList = $("<div>").attr("id", "rList"); 
+		
+		//댓글 등록 처리
+		$.ajax({
+	         url:'replyInsert',
+	         beforeSend:function(xhr){
+	 	  		xhr.setRequestHeader(header,token);  
+	     	  },
+	         type:'post',
+	         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr},
+	         dataType:'json',
+	         success:function(res){
+					let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
+										.append($("<span>").html(res.dttm))
+										.append($("<br>"))
+										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
+										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
+										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
+										.append($("<hr>"))
+					$("#rList").prepend(div);
+					
+					$("#rCntn").val("");
+	         }
+	      })
+	})
+	
+	//댓글 수정 아이콘 클릭했을 때 이벤트위임 (상위 div에 이벤트 걸었음)
+	$("#rList").on("click", ".update", e=>{
+		let cntnTag = $(e.target).parent().prev() //댓글내용있는 태그
+		let replyNo = $(e.target).data("no"); //댓글 번호
+		let cntn = cntnTag.text();
+		cntnTag.html("");
+		
+		//수정(up), 삭제(de) 아이콘
+		let de = $(e.target).parent().next().hide();
+		let up = $(e.target).parent().hide();
+		
+		//댓글 수정폼 뜨게
+		cntnTag
+			   .append($("<textarea>").addClass("form-control auto txtA").val(cntn))
+			   .append($("<br>"))
+			   .append($("<button>").addClass("btn btn-secondary").attr("id", "replyUp").attr("type","button").html("수정"));
+		
+		//수정할 내용 입력하고 수정 클릭했을 때 db에 수정처리
+		$("#replyUp").on("click", e=>{
+			e.stopPropagation();
+			let cntn = $(e.target).prev().prev().val();
+			cntn = cntn.replaceAll(/(\n|\r\n)/g, "<br>"); //enter키 적용
+			$.ajax({
+				url:'replyUpdate',
+				beforeSend:function(xhr){
+			  		xhr.setRequestHeader(header,token);  
+		    	  },
+				type:'post',
+				data:{'replyNo':replyNo, 'cntn':cntn},
+				dataType:'json',
+				success:function(res){
+					$(e.target).parent().prev().prev().html(res);
+					$(e.target).prev().remove();
+					$(e.target).remove();
+					cntnTag.html(cntn).appendTo(cntnTag);
+					
+					//수정, 삭제 아이콘 보이게
+					up.show();
+					de.show();
+				}
+			}) 
+			
+		})
+	})
+	
+	
+	//댓글 삭제 이벤트위임 (상위 div에 이벤트 걸었음)
+	$("#rList").on("click", ".delete", e=>{
+		let replyNo = $(e.target).data("no"); //댓글 번호
+		//댓글 삭제처리
+		$.ajax({
+	         url:'replyDelete',
+	         beforeSend:function(xhr){
+	 	  		xhr.setRequestHeader(header,token);  
+	     	  },
+	         type:'post',
+	         data:{'replyNo':replyNo},
+	         dataType:'json',
+	         success:function(res){
+	         	$(e.target).parent().parent().remove();
+	         }
+	      })
+	})
+	  
+})
 </script>
 
 <style>

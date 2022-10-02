@@ -61,7 +61,7 @@ textarea.none
 	resize: none;
 	border: none !important;
 }
-span:hover{color: blue;}
+span:hover{color: #5596d4;;}
 i.bi-plus-square:hover{color: red;}
 </style>
 <link rel="stylesheet" href="/css/jquery.treeview.css"/>
@@ -217,11 +217,15 @@ $(document).ready(function(){
 								
 								<!--프로젝트 팀원 추가-->
 								<div id="rr">
-									<br><h4 style="display: inline-block; padding-top: 10px; padding-right: 15px;"><i class="bi bi-person"></i></h4>
+									<br>
+									<h4 style="padding-top: 10px; padding-right: 15px; float: left;">
+										<i class="bi bi-person"></i>
+									</h4>
 									<!-- 추가된 인원 보여주기 -->
 									<div id="hello"></div>
-									<button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" 
-											data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">참석자 추가</button>
+									&nbsp;<button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" 
+											data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+											style="position: relative; top: 10px;">참석자 추가</button>
 									<!-- 버튼클릭시 뜨는 부분 -->
 									<div class="collapse" id="collapseExample" style="padding-top: 30px;">
 									   	<!-- 부서별 -->
@@ -272,7 +276,7 @@ $(document).ready(function(){
 									  	<!-- 인원선택하면 추가되는 부분 -->
 									  	<div id="selectPerson">
 									  	</div>
-									  	<button id="personInsert" type="button">등록</button>
+									  	<button id="personInsert" class="btn btn-outline-primary" type="button">등록</button>
 									  	<!-- 인원선택하면 추가되는 부분 -->
 									</div>
 									<!-- 버튼클릭시 뜨는 부분  -->
@@ -281,7 +285,10 @@ $(document).ready(function(){
 								
 								<!-- Start 카카오 지도 -->
 								<div style="clear: both;">
-									<br><h4 style="display: inline-block; padding-top: 20px;"><i class="bi bi-geo-alt"></i></h4>
+									<br>
+									<h4 style="display: inline-block; padding-top: 20px;">
+										<i class="bi bi-geo-alt"></i>
+									</h4>
 									<input type="text" class="form-control none" style="width: 400px;" id="keyword" name="" value="" placeholder="장소를 입력하세요.">
 								</div>
 								<br>
@@ -293,12 +300,14 @@ $(document).ready(function(){
 								        <div id="pagination"></div>
 								    </div>
 								</div>
-								<input type="text" id="result" name="place" value="">
-								<input type="text" id="lat" name="latitude" value="">
-								<input type="text" id="lon" name="longitude" value="">
+								<br>
+								선택한 장소: <input type="text" class="none" style="color: blue;" id="result" name="place" value="">
+								<input type="hidden" id="lat" name="latitude" value="">
+								<input type="hidden" id="lon" name="longitude" value="">
 								<!-- End 카카오 지도 -->
 								
-								<br><div class="col-sm-10">
+								<br>
+								<div class="col-sm-10">
 									<h4 style="padding-top: 10px; float: left;"><i class="bi bi-layout-text-sidebar-reverse"></i></h4>
 									<textarea class="form-control none" style="min-height: 200px; width: 80%; padding-top: 15px;" 
 											  name="cntn" placeholder="내용을 입력하세요."></textarea>
@@ -532,7 +541,7 @@ $(document).ready(function(){
 		function displayInfowindow(marker, title) {
 			let latitude = marker.getPosition().getLat();
 			let longitude = marker.getPosition().getLng();
-		    var content = `<div style='padding:5px;'>${title}<br><a href='https://map.kakao.com/link/to/${title},${latitude},${longitude}' style='color:blue' target='_blank'>길찾기</a>  <button type='button' class='placeSelect' style='color:blue'>선택</button></div>`;
+		    var content = `<div style='padding:5px;'>${title}<br><a href='https://map.kakao.com/link/to/${title},${latitude},${longitude}' style='color:blue' target='_blank'>길찾기</a>  <button type='button' class='placeSelect btn btn-secondary'>선택</button></div>`;
 		    	
 		    infowindow.setContent(content);
 		    infowindow.open(map, marker);
@@ -560,7 +569,7 @@ $(document).ready(function(){
 		$("#depts").on("click", ".name", e=>{
 			let empName = $(e.target).text(); //클릭한 사원의 이름
 			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
-			$("#selectPerson").append("<div><span data-no='"+ empNo +"'>"+empName+"</span><i class='bi bi-x' style='color: red;'></i></div>");
+			$("#selectPerson").append("<div><span data-no='"+ empNo +"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
 		})
 		
 		//추가된 사원 삭제
@@ -574,7 +583,7 @@ $(document).ready(function(){
 		$("#personInsert").on("click", e=>{
 			let people = $(e.target).prev().find('span');
 			$.each(people, (idx, p)=>{
-				$("#hello").append("<div><span data-no='"+$(p).data("no")+"'>"+$(p).text()+"</span><i class='bi bi-x' style='color: red;'></i></div>");
+				$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+$(p).data("no")+"'><b>"+$(p).text()+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
 			
 				//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
 				$("#scheduleFrm").append("<input type='hidden' id='"+$(p).data("no")+"' name='teamEmpNo' value='"+$(p).data("no")+"'>")

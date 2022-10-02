@@ -34,7 +34,7 @@
 		<![CDATA[
 		SELECT COUNT(*)
 		FROM ATTD
-		WHERE ST= '602' AND ATDC_DT <= SYSDATE
+		WHERE ST= '비정상' AND ATDC_DT <= SYSDATE
 		 ]]>
 	</select>
 	
@@ -63,9 +63,9 @@
 	
 	<insert id="startAttd" parameterType="co.up.tune.emp.vo.AttdVO">
 		INSERT INTO ATTD (atdc_dt,emp_no, nm, dept, position,atdc_dttm)
-		VALUES ((TO_CHAR(SYSDATE,'YYYY-MM-DD')), #{empNo}, #{nm}, #{dept}, #{position},(systimestamp + 9/24))
+		VALUES ((TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD')), #{empNo}, #{nm}, #{dept}, #{position},(systimestamp + 9/24))
 	</insert>
-	
+	 
 	<update id="endAttd" parameterType="co.up.tune.emp.vo.AttdVO">
 		 UPDATE ATTD 
 		 SET afwk_dttm = (systimestamp + 9/24)

@@ -14,17 +14,17 @@
 		
 	</select>
 	
-	<select id="authList" resultType="co.up.tune.prj.vo.TeamVO">
-		<!-- SELECT * 
-		FROM TEAM 
-		WHERE AUTH='팀장' AND PRJ_NO IN (
-    		SELECT PRJ_NO 
-    		FROM PROJECT 
-    		WHERE PRJ_NO=#{PRJNO} 
-    	) -->
-    	SELECT *
-    	FROM TEAM
-    	WHERE AUTH='팀장' AND PRJ_NO =#{prjNo}
+	<select id="authList" resultType="co.up.tune.prj.vo.TeamVO" parameterType="int">
+
+	SELECT *
+	FROM TEAM
+	WHERE PRJ_NO IN (
+	SELECT PRJ_NO
+	FROM PROJECT
+	WHERE PRJ_NO=#{prjNo}
+	) AND AUTH = '팀장'
+	ORDER BY PRJ_NO
+    	
 		
 	</select>
 	
@@ -57,11 +57,19 @@
 	</update>
 	
 	<update id="removeAuth" parameterType="co.up.tune.prj.vo.TeamVO">
-		UPDATE TEAM
+		<!-- UPDATE TEAM
 		<set>
-			<if test ="auth != null">AUTH=#{auth}</if>
+			<if test ="auth != null">AUTH='멤버'</if>
 		</set>
+		WHERE PRJ_NO = #{prjNo} -->
+		
+		<![CDATA[ 
+		UPDATE TEAM
+		SET AUTH = '멤버'
+		]]>
 		WHERE PRJ_NO = #{prjNo}
+		
+		
 	</update>
 	
 	<update id="prjSt" parameterType="co.up.tune.prj.vo.ProjectVO">

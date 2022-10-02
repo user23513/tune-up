@@ -29,5 +29,4 @@ public class AttdUpVO {
 	java.sql.Date aDate;  	//신청일자
 	
 	
-	
 }

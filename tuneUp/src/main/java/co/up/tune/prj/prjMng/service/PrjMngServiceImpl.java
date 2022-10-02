@@ -22,9 +22,9 @@ public class PrjMngServiceImpl implements PrjMngService {
 	}
 	
 	@Override
-	public List<TeamVO> authList() {
+	public List<TeamVO> authList(int prjNo) {
 		// TODO Auto-generated method stub
-		return map.authList();
+		return map.authList(prjNo);
 	}
 
 	@Override

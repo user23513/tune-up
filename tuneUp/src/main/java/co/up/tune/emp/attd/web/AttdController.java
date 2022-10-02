@@ -106,7 +106,7 @@ public class AttdController {
 	
 	// ===================================
 		
-	@RequestMapping("/attdToday")
+	@RequestMapping("/myAttdList")
 	public String myAttdList(Model model){
 		AttdVO vo = new AttdVO();
 		model.addAttribute("checkTime", dao.checkTime(vo).getAtdcDttm());

@@ -10,7 +10,7 @@ public interface PrjMngMapper {
 	
 	
 	List<TeamVO> teamList(int prjNo); // 멤버리스트
-	List<TeamVO> authList(); // 관리자리스트
+	List<TeamVO> authList(int prjNo); // 관리자리스트
 	
 	List<EmpVO> addTeamList(); //멤버추가 주소록
 	

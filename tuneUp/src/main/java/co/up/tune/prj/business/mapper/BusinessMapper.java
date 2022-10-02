@@ -6,7 +6,7 @@ import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.vo.BusinessVO;
 
 public interface BusinessMapper {
-	List<BusinessVO> businessList();
+	List<BusinessVO> businessList(BusinessVO vo);
 	int businessInsert(BusinessVO vo);
 	int businessUpdate(BusinessVO vo);
 	int businessDelete(BusinessVO vo);

@@ -11,14 +11,17 @@ public class AprvVO { //전자결재
 	String empNo; //사번
 	String ttl; //제목
 	Date dttm; //작성일시
-	String modYn; //수정여부
 	String cntn; //결재내용
-	int atchNo; //첨부파일번호
+	String fNm;	//파일이름
+	String fPath;	//파일위치
 	String reqSt; //신청상태
-	String aprvAuth; //공개여부
 	String aprvEtc; //상신의견
 	Date deadline; //마감일
 	String impts; //중요
 	String aprvSt; //승인상태
+	
+	int formNo; //서식번호
+	String formCat; //서식종류
+	String formAuth; //공개여부
 
 }

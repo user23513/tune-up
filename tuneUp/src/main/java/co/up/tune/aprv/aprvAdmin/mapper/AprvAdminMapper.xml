@@ -5,8 +5,8 @@
 
 	<select id="aprvListAll" resultType="co.up.tune.aprv.vo.AprvVO">
 		SELECT APRV_NO, EMP_NO, TTL,
-				DTTM, MOD_YN, ATCH_NO, REQ_ST,
-				APRV_AUTH, DEADLINE, IMPTS
+				DTTM, REQ_ST,
+				DEADLINE, IMPTS
 		FROM APRV
 		<if test="reqSt != null and reqSt != '' and reqSt != '전체' ">WHERE REQ_ST=#{reqSt}</if>
 		ORDER BY DEADLINE ASC, APRV_NO DESC
@@ -26,37 +26,19 @@
 		WHERE APRV_NO = #{aprvNo}
 	</delete>
 
-	<update id="aprvAdminUp"
-		parameterType="co.up.tune.aprv.vo.AprvVO">
-		UPDATE APRV
-		<set>
-			MOD_YN = 'Y',
-			DTTM = SYSTIMESTAMP
-			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
-			<if test="cntn != null and cntn != '' ">CNTN=#{cntn},</if>
-			<if test="atchNo != null and atchNo != '' ">ATCH_NO=#{atchNo},</if>
-			<if test="aprvAuth != null and aprvAuth != '' ">APRV_AUTH=#{aprvAuth},</if>
-			<if test="aprvEtc != null and aprvEtc != ''">APRV_ETC=#{aprvEtc},</if>
-			<if test="deadline != null and deadline != ''">DEADLINE=#{deadline},</if>
-			<if test="impts != null and impts != ''">IMPTS=#{impts}</if>
-		</set>
-		WHERE APRV_NO = #{aprvNo}
-	</update>
-
-
-
 	<select id="aprvFormAll" resultType="co.up.tune.aprv.vo.FormVO">
 		SELECT FORM_NO, TTL,
 		FORM_CAT, EMP_NO, FORM_AUTH
 		FROM FORM
-		<if test="formCat != null and formCat != '' and formCat != '전체'">WHERE FORM_CAT=#{formCat}</if>
+		<if test="formCat != null and formCat != '' and formCat != '전체' and formCat != '개인'">WHERE FORM_CAT=#{formCat}</if>
+		<if test="formCat == '개인'">WHERE FORM_AUTH= '개인'</if>
 		ORDER BY
 		FORM_NO DESC
 	</select>
 
 	<select id="formSelect"
-		parameterType="co.up.tune.aprv.vo.AprvVO"
-		resultType="co.up.tune.aprv.vo.AprvVO">
+		parameterType="co.up.tune.aprv.vo.FormVO"
+		resultType="co.up.tune.aprv.vo.FormVO">
 		SELECT *
 		FROM FORM
 		WHERE FORM_NO = #{formNo}
@@ -67,21 +49,14 @@
 		DELETE FROM FORM
 		WHERE FORM_NO = #{formNo}
 	</delete>
-
-	<update id="formAdminUp"
-		parameterType="co.up.tune.aprv.vo.FormVO">
-		UPDATE FORM
+	
+	<update id="aprvAdReject" parameterType="co.up.tune.aprv.vo.ApprovalVO">
+		UPDATE APPROVAL
 		<set>
-			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
-			<if test="cntn != null and cntn != ''">CNTN=#{cntn},</if>
-			<if test="formCat != null and formCat != ''">FORM_CAT=#{formCat},</if>
-			<if test="formAuth != null and formAuth != ''">FORM_AUTH=#{formAuth}</if>
+		APRV_ST = '반려'
 		</set>
-		WHERE FORM_NO = #{formNo}
+		WHERE APRV_NO = #{aprvNo}
 	</update>
-
-
-
 
 
 

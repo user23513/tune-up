@@ -42,9 +42,9 @@ public class TodoController {
 		return "prj/todo/todoInsertForm";
 	}
 	
-	@PostMapping("/todoInsert")
-	public String todoInsert(TodoVO vo) {
-		tdao.todoInsert(vo);
-		return "redirect:/todoList";
-	}
+//	@PostMapping("/todoInsert")
+//	public String todoInsert(TodoVO vo) {
+//		tdao.todoInsert(vo);
+//		return "redirect:/todoList";
+//	}
 }

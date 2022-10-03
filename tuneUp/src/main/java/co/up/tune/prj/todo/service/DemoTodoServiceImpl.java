@@ -33,6 +33,7 @@ public class DemoTodoServiceImpl implements DemoTodoService{
 		return map.demoDelete(vo);
 	}
 
-	public void demoDeleteAll(DemoTodoVO vo) {
+	public int demoDeleteAll(DemoTodoVO vo) {
+		return map.demoDeleteAll(vo);
 	}
 }

@@ -4,6 +4,7 @@
 
 	<select id="demoList" resultType="co.up.tune.prj.vo.DemoTodoVO">
 		select * from demoTodo
+		where emp_no= #{empNo}
 	</select>
 	
 	<select id="demoSelect" parameterType="co.up.tune.prj.vo.DemoTodoVO">
@@ -19,8 +20,8 @@
 			    end as no
 			from demotodo
 		</selectKey>
-		insert into demoTodo (no,cntn)
-		values (#{no}, #{cntn})
+		insert into demoTodo (no,cntn, emp_no)
+		values (#{no}, #{cntn}, #{empNo})
 	</insert>
 	
 	<delete id="demoDelete" parameterType="co.up.tune.prj.vo.DemoTodoVO">
@@ -30,5 +31,6 @@
 	
 	<delete id="demoDeleteAll" parameterType="co.up.tune.prj.vo.DemoTodoVO">
 		delete from demoTodo
+		where emp_no = #{empNo}
 	</delete>
 </mapper>

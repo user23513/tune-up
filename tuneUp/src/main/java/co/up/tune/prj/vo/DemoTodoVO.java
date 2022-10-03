@@ -8,4 +8,5 @@ import lombok.Setter;
 public class DemoTodoVO {
 	int no;
 	String cntn;
+	String empNo;
 }

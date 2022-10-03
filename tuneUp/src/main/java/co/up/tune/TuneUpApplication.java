@@ -20,8 +20,4 @@ public class TuneUpApplication {
 		return "main/main";
 	}
 	
-	@GetMapping("/sc")
-	public String sc() {
-		return "prj/schedule/scheduleForm";
-	}
 }

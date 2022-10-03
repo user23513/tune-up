@@ -56,6 +56,9 @@ public class PropostController {
 		/* 글 */
 		model.addAttribute("postList", dao.prjPostList(prjNo));
 		
+		/* 업무 */
+		model.addAttribute("businessList", dao.businessList(prjNo));
+		
 		/* 댓글 */
 		model.addAttribute("replyList", dao.prjReplyList());
 		
@@ -88,7 +91,7 @@ public class PropostController {
 	
 	//내프로젝트 글 등록(파일까지)
 	@PostMapping("/prjPostInsert") 
-	public String prjPostInsert(PostVO vo,@RequestParam("file") MultipartFile[] files, 
+	public String prjPostInsert(PostVO vo, @RequestParam("file") MultipartFile[] files, 
 								Model model, RedirectAttributes re) throws IllegalStateException, IOException { 
 		//file upload 처리
 		FilesVO fvo = new FilesVO();

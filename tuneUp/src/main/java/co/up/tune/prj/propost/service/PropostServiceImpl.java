@@ -1,17 +1,14 @@
 package co.up.tune.prj.propost.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.vo.ReplyVO;
-import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.propost.mapper.PropostMapper;
+import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
@@ -28,6 +25,7 @@ public class PropostServiceImpl implements PropostService {
 		return map.prjPostList(prjNo);
 	}
 
+	//글 등록
 	@Override
 	public int prjPostInsert(PostVO pvo, FilesVO fvo) {
 		//프로젝트 글 등록
@@ -140,8 +138,13 @@ public class PropostServiceImpl implements PropostService {
 	//게시글 삭제
 	@Override
 	public int postDelete(int postNo, String type) {
-		System.out.println("===="+postNo+"---"+type);
 		return map.postDelete(postNo, type);
+	}
+
+	//프로젝트 업무 리스트
+	@Override
+	public List<BusinessVO> businessList(int prjNo) {
+		return map.businessList(prjNo);
 	}
 	
 	 

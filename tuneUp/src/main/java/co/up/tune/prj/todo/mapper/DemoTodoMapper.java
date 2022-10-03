@@ -9,5 +9,5 @@ public interface DemoTodoMapper {
 	DemoTodoVO demoSelect(DemoTodoVO vo); //데모 한건 조회
 	int demoInsert(DemoTodoVO vo); //데모 추가
 	int demoDelete(DemoTodoVO vo); //데모 삭제
-	void demoDeleteAll(DemoTodoVO vo); //전체 삭제
+	int demoDeleteAll(DemoTodoVO vo); //전체 삭제
 }

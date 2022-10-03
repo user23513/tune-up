@@ -16,10 +16,10 @@
 	
 	<insert id="todoInsert" parameterType="co.up.tune.prj.vo.TodoVO">
 		<selectKey keyProperty="postNo" resultType="Integer" order="AFTER">
-		SELECT POST_SEQ.CURRVAL FROM DUAL
+		SELECT PNO_SEQ.CURRVAL FROM DUAL
 		</selectKey>
 		INSERT INTO TODO
-		VALUE = (POST_SEQ.NEXTVAL, #{empNO}, #{ttl}, #{nm}, sysdate, #{prjNo})
+		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{ttl}, #{wrtr}, sysdate, #{prjNo})
 	</insert>
 	
 	<update id="todoUpdate" parameterType="co.up.tune.prj.vo.TodoVO">

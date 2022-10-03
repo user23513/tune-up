@@ -21,7 +21,7 @@
 			from todoDetail
 		</selectKey>
 		insert into todoDetail (todo_no, cntn, cmplt_yn, post_no)
-		value = (#{todoNo}, #{cntn}, #{cmpltYn}, #{postNo})
+		value = (#{todoNo}, #{cntn}, 'N', #{postNo})
 	</insert>
 	
 	<update id="detailUpdate" parameterType="co.up.tune.prj.vo.TodoDetailVO">

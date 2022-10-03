@@ -9,21 +9,11 @@
 <title>프로젝트 글쓰기</title>
 <style>
 input:focus,
-textarea:focus
-{
-	outline:0px !important;
-    box-shadow: none !important;
-}
 input.none
 {
 	border: none !important;
 	display: inline-block;
 	border-bottom: 1px solid #d9d9d9 !important;
-}
-textarea.none
-{
-	resize: none;
-	border: none !important;
 }
 
 </style>
@@ -33,6 +23,22 @@ $(document).ready(function() {
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	let i = 0;
+	
+	//창 시작시 demoDelete 실행
+ 	let empNo = $("#empNo").val();
+	console.log("empNo : " + empNo);
+	$.ajax({
+        url: "demoDeleteAll",
+        beforeSend:function(xhr){
+	  		xhr.setRequestHeader(header,token);  
+    	  },
+    	 type : "post",
+        data:{"empNo" : empNo },
+        success:function(res){
+        	console.log("DB 삭제 완")
+        }
+	})
+	
 	//할일 추가 버튼
 	$("#addTodo").on("click", e=>{
 		let cntn = $("#todoAdd").val(); //할일
@@ -48,11 +54,11 @@ $(document).ready(function() {
 		 	  		xhr.setRequestHeader(header,token);  
 		     	  },
 		     	 type : "post",
-		         data:{"cntn" : cntn },
+		         data:{"cntn" : cntn , "empNo" : empNo},
 		         success:function(res){
 		        	 console.log(res);
 		        	let str = "<tr><td name='no' class='no' style='display: none'>"+ res.no +"</td>";
-		     		str += "<td>"+res.cntn+"</td><td><button name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
+		     		str += "<td class='cntn'>"+res.cntn+"</td><td><button name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
 		     		str += "<i class='bi bi-x-lg'></i></button> </td> </tr>";
 		        	
 		     		$("#tbd").append(str);
@@ -81,30 +87,64 @@ $(document).ready(function() {
 			}
 		})
 	})
-
-	//할일 저장
-	$("#btn").on("click",e=>{
-		let todo = document.querySelector("tr");
-		console.log(todo);
-		let no = document.querySelector("td").
-		if(todo == null){
-			console.log("할일 목록 없음")
-			alert("할 일을 등록해주세요")
-		}else{
-			console.log("할일 있음")
-		}
-		$("#todoFrm").submit();
-		$("#detailFrm").submit();
-	})
 });
 
 function save(){
-	let todo = document.querySelector("tr");
+	let todo = document.querySelectorAll("tr");
 	console.log(todo);
-	let no = document.querySelector("td")[].innerHtml
-	
-}
+	let ttl = document.querySelector("#ttl");
+	console.log(ttl);
+	let empNo = document.querySelector("#empNo");
+	let wrtr = document.querySelector("#nm");
+	let ttl = document.querySelector("#ttl");
+	if(todo == null){
+		console.log("할일 목록 없음");
+		alert("할 일을 등록해주세요");
+	}else{
+		console.log("할일 있음");
+		console.log(todo.length);
+		//$("#todoFrm").submit();
+/* 		$.ajax({
+	         url: "todoInsert",
+	         beforeSend:function(xhr){
+	 	  		xhr.setRequestHeader(header,token);  
+	     	  },
+	     	 type : "post",
+	         data:{"ttl" : ttl , "wrtr" : wrtr , "empNo" : empNo, "prjNo" : "123"},
+	         success:function(res){
+	        	 console.log(res);
+	        	 console.log("todoInsert 성공")
+	        	 for(r= 0; r <= todo.length; r++){
+	     			let no = todo[r].childNodes[0].innerText
+	     			console.log(no);
+	     			let cntn = todo[r].childNodes[1].innerText
+	     			console.log(cntn)
+	     			$.ajax({
+	     	         url: "detailInsert",
+	     	         beforeSend:function(xhr){
+	     	 	  		xhr.setRequestHeader(header,token);  
+	     	     	  },
+	     	     	 type : "post",
+	     	         data:{"cntn" : cntn , "postNo" : res.postNo },
+	     	         success:function(res){
+	     	        	 console.log(res);
+	     	        	 console.log("detailInert 성공")
+	     	        	 consol.log(cntn)
+	     	         }
+	     		})
+	     			
+	     		}
+	        	 
+	         }
+		}) */
+		
+		
+		
+		
+		
 
+	}
+}
 </script>
 </head>
 <body>
@@ -138,30 +178,36 @@ function save(){
 									</div>
 									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 									<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
-									<input type="hidden" id="postNo" name="postNo" value="123">
+									<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
+									<input type="hidden" id="prjNo" name="prjNo" value="111">
 								</form>
 							</div> <br>
 							
 							<!-- todo 상세 Insert -->
-							<div class="col-sm-10">
-							<div class="input-group mb-3">
-								<input type="text" id="todoAdd" name="cntn" class="form-control" placeholder="할 일 입력" 
-								aria-label="Recipient's username" aria-describedby="basic-addon2">
-								<button id="addTodo" type="button" class="btn btn-outline-secondary" style="right: auto;">
-									<i class="bi bi-plus-lg"></i>
-								</button>
-							</div>
-								<hr>
-								<div>
-									<table class="table table-borderless">
-										<tbody id="tbd">
-										</tbody>
-									</table>
+								<div class="col-sm-10">
+									<div class="input-group mb-3">
+										<input type="text" id="todoAdd" name="cntn" class="form-control" placeholder="할 일 입력" 
+										aria-label="Recipient's username" aria-describedby="basic-addon2">
+										<button id="addTodo" type="button" class="btn btn-outline-secondary" style="right: auto;">
+											<i class="bi bi-plus-lg"></i>
+										</button>
+									</div>
+									<hr>
+									<form id="addFrm" action="detailInsert" method="post">
+										<div>
+											<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+											<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+											<table class="table table-borderless">
+												<tbody id="tbd">
+												</tbody>
+											</table>
+										</div>
+									</form>
 								</div>
-							</div>
 							<br>
 							<div class="col-md-8 col-lg-9">
 				               <button id="btn" class="btn btn-primary" type="button">등록</button>
+				               <button id="btn" class="btn btn-primary" type="button" onclick="save()">테스트</button>
 							</div>
 						<!-- 할일 -->
 						</div>
@@ -171,13 +217,6 @@ function save(){
 			</div>
 		</div>
 	</div>
-	<script>
-	//부서인원 추가버튼
-	$("#emps").on("click", "i", e=>{
-		let empNo = $(e.target).data("no")
-	})
-	
-	</script>
 </main>
 </body>
 </html>

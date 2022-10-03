@@ -42,7 +42,7 @@ public class AprvReqController {
 	@GetMapping("/aprvReq")
 	public String aprvReq(Model model, HttpServletRequest request, @RequestParam(required = false, defaultValue = "전체")String reqSt, @RequestParam(required = false, defaultValue = "전체")String formCat) {
 		
-		//세션 사번
+		//세션사번
 		HttpSession session = request.getSession();
 		String empNo = (String) session.getAttribute("empNo");
 		String dept = (String) session.getAttribute("dept");
@@ -92,9 +92,9 @@ public class AprvReqController {
 		vo.setEmpNo(empNo);
 		
 		if(vo.getFormAuth() == null) {
-			vo.setFormAuth("공개");
-		} else {
 			vo.setFormAuth("개인");
+		} else {
+			vo.setFormAuth("공개");
 		}
 		
 		
@@ -102,7 +102,20 @@ public class AprvReqController {
 		return "redirect:aprvReq";
 	}
 
-	
+	@PostMapping("/aprvForm")
+	public String aprvForm(FormVO vo, Model model, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		String empNo = (String) session.getAttribute("empNo");
+		String dept = (String) session.getAttribute("dept");
+		AprvLineVO line = new AprvLineVO();
+		line.setDept(dept);
+		line.setEmpNo(empNo);
+		model.addAttribute("line", li.aprvLineList(line));
+		model.addAttribute("dept", li.aprvDeptSearch());
+		model.addAttribute("form", ap.formSelect(vo));
+		return "aprv/aprvReq/aprvForm";
+	}
 		
 	
 	

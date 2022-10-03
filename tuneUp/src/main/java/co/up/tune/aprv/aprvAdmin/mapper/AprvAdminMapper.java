@@ -27,7 +27,7 @@ public interface AprvAdminMapper {
 	FormVO formSelect(FormVO vo);
 
 // 관리자 서식 삭제
-	int formAdminDel(AprvVO vo);
+	int formAdminDel(FormVO vo);
 	
 	int aprvAdReject(ApprovalVO vo);
 

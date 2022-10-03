@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
+import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
@@ -36,6 +37,18 @@ public class AjaxAprvAdminController {
 	public List<AprvLineVO> lineDept(AprvLineVO vo){
 		return li.aprvLineList(vo);	
 	}
+	
+	@PostMapping("/formAdDel")	
+	public int formAdDel(FormVO vo){
+		return ap.formAdminDel(vo);	
+	}
+	
+	@PostMapping("/aprvAdRjt")	
+	public int aprvAdRjt(ApprovalVO vo){
+		return ap.aprvAdReject(vo);	
+	}
+	
+	
 	
 
 }

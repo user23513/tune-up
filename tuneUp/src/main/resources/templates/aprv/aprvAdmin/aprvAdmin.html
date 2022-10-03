@@ -132,21 +132,56 @@
 				    			
 				    			});
 				    			
-				    		
-				    			
+		
 				    }
 			    }) 
 			})
+			
+			//결재라인 부서검색
+		$("#deptSelect").on("change", e=>{
+			let dept = $(e.target).val();
+			$.ajax({
+				url:'lineDeptChange',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'dept':dept},
+			    dataType:'json',
+			    success:function(obj){
+			    	$("#multi").html("");
+			    	 $.each (obj, (idx, o)=> {
+				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+				        	$("#multi").append(option);
+				        	}); 
+			    }
+		    }) 
+		})
 					  
+			//결재선 삭제
+			$(".delLine").on("click", e=>{
+			let no = $(e.target).closest("li").data("no");
+			let result = confirm("삭제하시겠습니까?");
+			if (result ){
+				$.ajax({
+					url:'lineDel',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'lineNo':no},
+				    dataType:'json',
+				    success:function(obj){
+				    	$(e.target).closest("li").remove();
+				    }
+			    }) 
+			} else {
+				return;
+			}
+		})
 			
-			
-			reqAdSelect();
-			formAdSelect();
-			
-			});
 			
 			//글상세
-			function reqAdSelect(){
 				$("#aprvtb").on("click", "tr", e=>{
 					let aprvNo = $(e.target).data("no");
 					$.ajax({
@@ -161,18 +196,17 @@
 					        $("#vttl").html(obj.ttl);
 							$("#tnv").html(obj.cntn);
 							$("#viewFoot").html("");
-							let clBtn = `<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">닫기</button>`;
-							let rejectBtn = `<button type="button" class="btn btn-primary rejectBtn" data-no="${obj.aprvNo}">강제 반려</button>`;
-							$("#viewFoot").append(clBtn,rejectBtn);
+							let clBtn = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>`;
+							let rjtBtn = `<button type="button" class="btn btn-primary rjtBtn" data-no="${obj.aprvNo}"  onclick="rejectAd()">강제 반려</button>`;
+							$("#viewFoot").append(clBtn, rjtBtn);
 							$("#viewModal").modal('show');
 							
 					        }
 					    }) 
 					})
-				}
 				
-				function formAdSelect(){
+				
+			
 					$("#formtb").on("click", "tr", e=>{
 						let formNo = $(e.target).data("no"); 
 						$.ajax({
@@ -189,13 +223,54 @@
 								$("#viewFoot").html("");
 								let clBtn = `<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal">닫기</button>`;
-								let delBtn = `<button type="button" class="btn btn-primary delBtn" data-no="${obj.formNo}">강제 삭제</button>`;
+								let delBtn = `<button type="button" class="btn btn-primary delBtn" data-no="${obj.formNo}" onclick="delForm()">강제 삭제</button>`;
 								$("#viewFoot").append(clBtn, delBtn);
 								$("#viewModal").modal('show');
 						        }
 						    }) 
 						})
-					}
+			
+					
+			});
+			
+			//강제 삭제 반려
+			function delForm(){		
+				let formNo=$(".delBtn").data("no");
+					$.ajax({
+						url:'formAdDel',
+						beforeSend:function(xhr){
+					 		xhr.setRequestHeader(header,token);  
+					    },
+					    type:"post",
+					    data:{'formNo':formNo},
+					    dataType:'json',
+					    success:function(obj){
+	
+					    	location.href="aprvAdmin";
+
+					    }
+				    }) 
+				}
+				function rejectAd(){		
+				let aprvNo=$(".rjtBtn").data("no");
+
+					$.ajax({
+						url:'aprvAdRjt',
+						beforeSend:function(xhr){
+					 		xhr.setRequestHeader(header,token);  
+					    },
+					    type:"post",
+					    data:{'aprvNo':aprvNo},
+					    dataType:'json',
+					    success:function(obj){
+	
+					    	location.href="aprvAdmin";
+
+					    }
+				    }) 
+				}
+			
+					
 	</script>
 
 		<!-- ======= Section ======= -->
@@ -256,13 +331,15 @@
 										<div class="card-body">
 											<br>
 											<h5 class="card-title">전체결재목록</h5>
-											<p class="card-text">
-												전체결재문서 목록입니다. 모든 문서를 조회할 수 있습니다. <br>상세 조회 화면에서 강제 반려
-												처리가 가능합니다.
-											</p>
+											<p class="card-text">모든 결재 문서를 조회할 수 있습니다. 상세 조회 화면에서 강제
+												반려 처리가 가능합니다.</p>
 											<button type="button" id="lineBtn" class="btn btn-primary"
 												data-bs-toggle="modal" data-bs-target="#lineModal">
-												<i class="ri-arrow-left-right-fill"> 전체 결재 라인 관리</i>
+												<i class="ri-arrow-left-right-fill"> 결재 라인 조회</i>
+											</button>
+											<button type="button" id="trustBtn" class="btn btn-primary"
+												data-bs-toggle="modal" data-bs-target="#trustModal">
+												<i class="ri-parent-fill"> 결재 위임 현황</i>
 											</button>
 										</div>
 									</div>
@@ -351,7 +428,10 @@
 										<div class="card-body">
 											<br>
 											<h5 class="card-title">전체서식목록</h5>
-											<p class="card-text">모든 결재 서식입니다. <br> 서식을 클릭하시면 해당 양식을 확인하거나 삭제 가능합니다.</p>
+											<p class="card-text">
+												현재 사용 중인 결재 서식입니다. <br> 서식을 클릭하시면 해당 양식을 확인하거나 삭제
+												가능합니다.
+											</p>
 										</div>
 									</div>
 								</div>
@@ -424,6 +504,7 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
+						<b>전자결재 관리 - 결재 라인 조회</b>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
@@ -432,7 +513,7 @@
 							<div class="col-md-12">
 								<div class="form-floating">
 									<select class="form-select" id="deptSelect" aria-label="State">
-										<option value ="전체">전체</option>
+										<option value="전체">전체</option>
 										<option th:each="d : ${dept}" th:value="${d.dept}"
 											th:text="${d.dept}">부서</option>
 									</select> <label for="deptSelect">부서</label>
@@ -440,10 +521,10 @@
 								<hr>
 								<ul class="list-group lineList">
 									<li class="list-group-item lineLi" th:each="n : ${line}"
-								th:data-no="${n.lineNo}"><b
-								th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
-								<button type="button" class="btn btn-primary delLine"
-									style="float: right;">삭제</button></li>
+										th:data-no="${n.lineNo}"><b
+										th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
+										<button type="button" class="btn btn-primary delLine"
+											style="float: right;">삭제</button></li>
 								</ul>
 							</div>
 						</div>
@@ -457,6 +538,33 @@
 		</div>
 		<!-- End Vertically centered Modal-->
 
+		<div class="modal fade modal-md" id="trustModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<b>전자결재 관리 - 결재 위임 현황</b>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="lCntn">
+						<div class="col-md-12" th:if="${trust}">
+							<ul class="list-group trustList">
+								<li class="list-group-item trustli" th:each="t : ${trust}"
+									th:data-no="${t.trustNo}"><b th:text="|${t.empNo} → ${t.rptt}|"></b> <span
+									th:text="|${t.sdt} ~ ${t.edt}|"></span>
+									
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Scrolling Modal -->
 		<div class="modal fade" id="viewModal" tabindex="-1"
 			data-bs-backdrop="true">
@@ -469,7 +577,10 @@
 					<div class="modal-body" id="vCntn">
 						<div id="tnv" class=".txtA">에디터</div>
 					</div>
-					<div class="modal-footer" id="viewFoot"></div>
+					<div class="modal-footer" id="viewFoot">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+					</div>
 				</div>
 			</div>
 		</div>

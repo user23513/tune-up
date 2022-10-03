@@ -11,11 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import co.up.tune.aprv.approval.service.ApprovalService;
 import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
 import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
+import co.up.tune.aprv.vo.TrustVO;
 import co.up.tune.common.service.CommonService;
 
 @Controller
@@ -24,9 +26,11 @@ public class AprvAdminController {
 	@Autowired
 	CommonService cd;
 	@Autowired
-	AprvAdminService ap;
+	AprvAdminService as;
 	@Autowired
 	AprvLineService li;
+	@Autowired
+	ApprovalService ap;
 	
 	
 	
@@ -39,16 +43,18 @@ public class AprvAdminController {
 		if(auth.equals("ADMIN")) {
 			
 
-			List<AprvVO> list = ap.aprvListAll(reqSt);
+			List<AprvVO> list = as.aprvListAll(reqSt);
 			model.addAttribute("aprv", list);
 			
-			List<FormVO> form = ap.aprvFormAll(formCat);
+			List<FormVO> form = as.aprvFormAll(formCat);
 			model.addAttribute("form", form);
 			
 			AprvLineVO nu = new AprvLineVO();
-			List<AprvLineVO> line = li.aprvLineList(nu);
-			model.addAttribute("line", line);
+			model.addAttribute("line", li.aprvLineList(nu));
 			model.addAttribute("dept", li.aprvDeptSearch());
+			
+			TrustVO vo = new TrustVO();
+			model.addAttribute("trust", ap.trustList(vo));
 			
 			// 공통코드
 			model.addAttribute("st", cd.commonList("신청상태"));

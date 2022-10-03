@@ -40,7 +40,7 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	}
 
 	@Override
-	public int formAdminDel(AprvVO vo) {
+	public int formAdminDel(FormVO vo) {
 		return map.formAdminDel(vo);
 	}
 

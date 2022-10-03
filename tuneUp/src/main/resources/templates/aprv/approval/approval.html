@@ -77,6 +77,85 @@
 	    	localStorage.removeItem("aprvStBtn");
 		}
 		
+		//위임자 부서검색
+		$("#deptSelect").on("change", e=>{
+			let dept = $(e.target).val();
+			$.ajax({
+				url:'lineDeptChange',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'dept':dept},
+			    dataType:'json',
+			    success:function(obj){
+			    	$("#multi").html("");
+			    	 $.each (obj, (idx, o)=> {
+				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+				        	$("#multi").append(option);
+				        	}); 
+			    }
+		    }) 
+		})
+		
+		//위임자 선택
+		$("#multi").on("click", e=>{
+				let empNo = $(e.target).val();
+				let name = $(e.target).text();	
+
+					$("#rpttnm").val(name);
+					$("#rptt").val(empNo);
+
+				})
+				
+			//히든폼값지우기
+			$("#rpttnm").on("click", e=>{
+				$(e.target).val("");
+				$("#rptt").val("");
+				
+				})
+			
+			//위임 삭제
+			$(".delTrust").on("click", e=>{
+			let no = $(e.target).closest("li").data("no");
+			let result = confirm("삭제하시겠습니까?");
+			if (result ){
+				$.ajax({
+					url:'trustDel',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'trustNo':no},
+				    dataType:'json',
+				    success:function(obj){
+				    	$(e.target).closest("li").remove();
+				    }
+			    }) 
+			} else {
+				return;
+			}
+		})
+		
+		$(".trustInBtn").on("click", e=>{
+			if($("#rptt").val() == ""){
+				alert("위임자를 지정해주세요");
+				return;
+			} else if ($("#sdt").val() == ""){
+				alert("시작일을 지정해주세요.");
+				return;
+			}else if ($("#edt").val() == ""){
+				alert("종료일을 지정해주세요.");
+				return;
+			} else if ($("#sdt").val() >= $("#edt").val){
+				alert("시작일은 종료일보다 늦을 수 없습니다.");
+				return;
+			} else {
+				$("#trustFrm").submit();
+			}
+			
+		})
+		
 		
 	aprvSelect();
 	
@@ -216,10 +295,10 @@
 														<span th:if="${p.reqSt == '반려' or p.reqSt =='완료'}"
 															th:text="${p.reqSt}"
 															class="badge bg-secondary rounded-pill"
-															style="height: 25px">완료</span>
-														<span th:unless="${p.reqSt == '반려' or p.reqSt =='완료'}"
+															style="height: 25px">완료</span> <span
+															th:unless="${p.reqSt == '반려' or p.reqSt =='완료'}"
 															th:text="진행" class="badge bg-primary rounded-pill"
-															style="height: 25px">진행</span> 
+															style="height: 25px">진행</span>
 													</div> <small>And some small print.</small>
 												</td>
 											</tr>
@@ -262,14 +341,76 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
+						<b>전자결재 - 위임자 설정</b>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body" id="tCntn">내용</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary">저장</button>
+					<div class="modal-body" id="lCntn">
+						<div class="row g-3">
+							<div class="col-md-12" th:if="${rptt}">
+								<ul class="list-group">
+									<li class="list-group-item list-group-item-primary" th:text="|${rptt.empNo}님에게 ${rptt.edt}까지 결재 위임 받는중.|"></li>
+								</ul>
+							</div>
+							<div class="col-md-12">
+								<ul class="list-group trustList" th:if="${trust}">
+									<li class="list-group-item trustli" th:each="t : ${trust}"
+										th:data-no="${t.trustNo}"><b th:text="|${t.rptt}|"></b> <span
+										th:text="|${t.sdt} ~ ${t.edt}|"></span>
+										<button type="button" class="btn btn-primary delTrust"
+											style="float: right;">삭제</button></li>
+								</ul>
+							</div>
+						</div>
+						<hr>
+						<form id="trustFrm" action="trustInsert" method="post">
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}">
+							<div class="row g-3">
+								<div class="col-md-4">
+									<div class="form-floating">
+										<select class="form-select" id="deptSelect"
+											aria-label="State">
+											<option>선택</option>
+											<option th:each="d : ${dept}" th:value="${d.dept}"
+												th:text="${d.dept}">부서</option>
+										</select> <label for="deptSelect">부서</label>
+										<div class="form-floating">
+											<input type="text" class="form-control trustrptt" id="rpttnm"
+												name="rpttnm" placeholder="수임자" readonly="readonly"
+												required="required" style="margin-top: 5px"> <label
+												for="rpttnm">수임자</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-8">
+									<select class="form-select" id="multi" multiple
+										aria-label="multiple select example" style="height: 120px;">
+
+									</select>
+								</div>
+
+								<div class="col-md-5">
+
+									<input type="date" id = "sdt" name = "sdt" class="form-control">
+
+								</div>
+								<div class="col-md-2 text-center">~</div>
+								<div class="col-md-5">
+
+									<input type="date" id = "edt" name = "edt" class="form-control">
+
+								</div>
+
+								<input type="hidden" id="rptt" name="rptt">
+							</div>
+							<br>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-bs-dismiss="modal">닫기</button>
+								<button type="button" class="btn btn-primary trustInBtn">저장</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

@@ -5,11 +5,11 @@
 	<select id="attdList" resultType="co.up.tune.emp.vo.AttdVO">
     	SELECT * 
     	FROM ATTD
-    	ORDER BY ATDC_DT DESC
+    	
 	</select>	
 	
 	<!-- <select id="checkGood" resultType="Integer">
-		<![CDATA[
+		<![CDATA[ ]]>
 		SELECT COUNT(*)
 		FROM ATTD
 		WHERE ST= '601' AND ATDC_DT <= SYSDATE
@@ -17,9 +17,12 @@
 	</select> -->
 	
 	<select id="checkTime" resultType="co.up.tune.emp.vo.AttdVO">
+		<![CDATA[ 
 		SELECT ATDC_DTTM
 		FROM ATTD
 		WHERE EMP_NO= '999'
+		and atdc_dt = (TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD'))
+		]]>
 	</select>
 	
 	<select id="checkGood" resultType="Integer">
@@ -34,24 +37,24 @@
 		<![CDATA[
 		SELECT COUNT(*)
 		FROM ATTD
-		WHERE ST= '602' AND ATDC_DT <= SYSDATE
+		WHERE ST= '비정상' AND ATDC_DT <= SYSDATE
 		 ]]>
 	</select>
 	
 	
-	  <select id="attdGoodList" resultType="co.up.tune.emp.vo.AttdVO">
-    	SELECT * 
-    	FROM ATTD
-    	WHERE ST=601
-    	ORDER BY ATDC_DT DESC
-	</select>
-	
-	<select id="attdBadList" resultType="co.up.tune.emp.vo.AttdVO">
-    	SELECT * 
-    	FROM ATTD
-    	WHERE ST=602
-    	ORDER BY ATDC_DT DESC
-	</select>
+		  <select id="attdGoodList" resultType="co.up.tune.emp.vo.AttdVO">
+	    	SELECT * 
+	    	FROM ATTD
+	    	WHERE ST = '정상'
+	    	ORDER BY ATDC_DT DESC
+		</select>
+		
+		<select id="attdBadList" resultType="co.up.tune.emp.vo.AttdVO">
+	    	SELECT * 
+	    	FROM ATTD
+	    	WHERE ST = '비정상'
+	    	ORDER BY ATDC_DT DESC
+		</select>
 	
 	<select id="myAttdList" resultType="co.up.tune.emp.vo.AttdVO" parameterType="co.up.tune.emp.vo.AttdUpVO">
     	SELECT * 
@@ -63,17 +66,35 @@
 	
 	<insert id="startAttd" parameterType="co.up.tune.emp.vo.AttdVO">
 		INSERT INTO ATTD (atdc_dt,emp_no, nm, dept, position,atdc_dttm)
-		VALUES ((TO_CHAR(SYSDATE,'YYYY-MM-DD')), #{empNo}, #{nm}, #{dept}, #{position},systimestamp)
+		VALUES ((TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD')), #{empNo}, #{nm}, #{dept}, #{position},(systimestamp + 9/24))
 	</insert>
-	
+	 
 	<update id="endAttd" parameterType="co.up.tune.emp.vo.AttdVO">
-	<![CDATA[
-		 UPDATE ATTD SET AFWK_DTTM =  systimestamp
-		 ]]>
-		WHERE EMP_NO = #{empNo}	
+		<![CDATA[ 
+		 UPDATE ATTD 
+		 SET afwk_dttm = (systimestamp + 9/24)
+        , wktm = #{wktm}
+        , ovtm = #{ovtm}
+        , st = #{st}
+		WHERE EMP_NO = #{empNo}
+		AND ATDC_DT = (TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD'))
+		]]>	
 	</update>
 	
+	<select id="selectAtdcTmByEmpNo" parameterType="String" resultType="java.util.Date">
+		SELECT ATDC_DTTM
+		FROM ATTD
+		WHERE EMP_NO= #{empNo}
+		AND ATDC_DT = (TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD'))
+	</select>
 	
+	<select id="wktmChart" parameterType="co.up.tune.emp.vo.AttdVO">
+	SELECT WKTM,OVTM 
+	FROM ATTD 
+	WHERE EMP_NO=#{empNo} 
+	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE, 'IW') - 7, 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE, 'IW') - 1, 'YYYYMMDD')
+	
+ 	</select>
 	
 	 
 </mapper>

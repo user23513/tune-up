@@ -6,6 +6,7 @@
 	SELECT *
 	FROM APPROVAL
 	WHERE APRV_NO = #{aprvNo}
+	ORDER APRV_SEQ ASC
 </select>
 
 
@@ -26,7 +27,7 @@
 	APRVR = #{aprvr},
 	</if>
 	<if test="aprvDttm != null and aprvDttm != ''">
-	APRVDTTM = #{aprvDttm},
+	APRV_DTTM = #{aprvDttm},
 	</if>
 	<if test="sign != null and sign != ''">
 	SIGN = #{sign},
@@ -57,6 +58,7 @@
 	SELECT *
 	FROM REFER
 	WHERE APRV_NO = #{aprvNo}
+	ORDER BY REFER_NO DESC 
 </select>
 
 <insert id="referIn" parameterType="co.up.tune.aprv.vo.ReferVO">
@@ -68,9 +70,9 @@
 			FROM REFER
 		</selectKey>
 	INSERT INTO REFER
-		(REFER_NO, APRV_NO, EMP_NO , REFER_APRV)
+		(REFER_NO, APRV_NO, EMP_NO)
 	VALUES
-		(#{referNo}, #{aprvNo}, #{empNo}, #{regerAprv})
+		(#{referNo}, #{aprvNo}, #{empNo})
 </insert>
 
 <update id="referUp" parameterType="co.up.tune.aprv.vo.ReferVO">
@@ -82,12 +84,6 @@
 		<if test="referNo != null and referNo != ''">
 		REFER_NO = #{referNo},
 		</if>
-		<if test="checked != null and checked != ''">
-		CHECKED = #{checked},
-		</if>
-		<if test="referAprv != null and referAprv != ''">
-		REFER_APRV = #{referAprv}
-		</if>
 	</set>
 	WHERE APRV_NO = #{aprvNo}
 		AND REFER_NO = #{referNo}
@@ -95,12 +91,9 @@
 
 <delete id="referDel" parameterType="co.up.tune.aprv.vo.ReferVO">
 	DELETE FROM REFER
-	WHERE APRV_NO = #{APRVNO}
+	WHERE APRV_NO = #{aprvNo}
 	<if test="empNo != null and empNo != ''">
 		AND EMP_NO = #{empNo}
-	</if>
-	<if test="referAprv != null and referAprv != ''">
-		AND REFER_APRV = #{referAprv}
 	</if>
 </delete>
 
@@ -108,12 +101,13 @@
 <select id="aprvLineList" parameterType="co.up.tune.aprv.vo.AprvLineVO" resultType="co.up.tune.aprv.vo.AprvLineVO">
 	SELECT *
 	FROM APRV_LINE
-	<if test="dept != null and dept != ''">
-	WHERE dept = #{dept}
+	<if test="dept != null and dept != '' and dept != '전체'">
+	WHERE DEPT = #{dept}
 	</if>
-	<if test="empNo != null and empNo != ''">
-		AND EMP_NO = #{empNo}
-	</if>
+	<if test="empNo != null and empNo !=''">
+	OR EMP_NO = #{empNo}
+	</if> 
+	ORDER BY LINE_NO ASC
 </select>
 
 <insert id="aprvLineIn" parameterType="co.up.tune.aprv.vo.AprvLineVO">
@@ -125,9 +119,9 @@
 			FROM APRV_LINE
 		</selectKey>
 		INSERT INTO APRV_LINE
-				(LINE_NO, DEPT, DEF_YN, EMP_NO, AP1, AP2, AP3)
+				(LINE_NO, DEPT, EMP_NO, AP1, AP2, AP3, NM1, NM2, NM3)
 		VALUES
-				(#{lineNo}, #{dept}, #{defYn}, #{empNo}, #{ap1}, #{ap2}, #{ap3} )
+				(#{lineNo}, #{dept}, #{empNo}, #{ap1}, #{ap2}, #{ap3}, #{nm1}, #{nm2}, #{nm3})
 </insert>
 
 <update id="aprvLineUp" parameterType="co.up.tune.aprv.vo.AprvLineVO">
@@ -139,9 +133,6 @@
 		<if test="dept != null and dept != ''">
 		DEPT = #{dept}
 		</if>
-		<if test="defYn != null and defYn != ''">
-		DEFYN = #{defYn}
-		</if>
 		<if test="ap1 != null and ap1 != ''">
 		AP1 = #{ap1},
 		</if>
@@ -152,7 +143,7 @@
 		AP3 = #{ap3},
 		</if>
 		</set>
-	WHERE LINE_NO = #{line_no}
+	WHERE LINE_NO = #{lineNo}
 </update>
 
 <delete id="aprvLineDel" parameterType="co.up.tune.aprv.vo.AprvLineVO">
@@ -160,6 +151,19 @@
 	WHERE LINE_NO = #{lineNo}
 </delete>
 
+<select id="aprvEmpSearch" parameterType="co.up.tune.emp.vo.EmpVO" resultType="co.up.tune.emp.vo.EmpVO">
+	SELECT EMP_NO, NM, DEPT, POSITION 
+	FROM EMP
+	WHERE DEPT = #{dept}
+	ORDER BY NM
+</select>
+
+<select id="aprvDeptSearch" resultType="co.up.tune.emp.vo.EmpVO">
+	SELECT DISTINCT DEPT 
+	FROM EMP
+	WHERE DEPT IS NOT NULL
+	ORDER BY DEPT ASC
+</select>
 
 
 

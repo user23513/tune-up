@@ -5,11 +5,10 @@
 	<select id="aprvReqList"
 		parameterType="co.up.tune.aprv.vo.AprvVO"
 		resultType="co.up.tune.aprv.vo.AprvVO">
-		SELECT APRV_NO, EMP_NO, TTL, DTTM, MOD_YN, ATCH_NO, REQ_ST,
-				APRV_AUTH, DEADLINE, IMPTS
+		SELECT APRV_NO, EMP_NO, TTL, DTTM, REQ_ST,
+				DEADLINE, IMPTS
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
-			AND NOT REQ_ST = '임시저장'
 		<if test="reqSt != null and reqSt != '' and reqSt != '전체'">AND REQ_ST = #{reqSt}</if>
 		ORDER BY APRV_NO DESC
 	</select>
@@ -33,24 +32,21 @@
 			FROM APRV
 		</selectKey>
 		INSERT INTO APRV
-				(APRV_NO, EMP_NO, TTL, DTTM, CNTN, ATCH_NO, REQ_ST,
-					APRV_AUTH, APRV_ETC, DEADLINE, IMPTS)
+				(APRV_NO, EMP_NO, TTL, DTTM, CNTN, REQ_ST,
+					APRV_ETC, DEADLINE, IMPTS, F_NM, F_PATH)
 		VALUES
 				(#{aprvNo}, #{empNo},
-				#{ttl}, TIMESTAMP, #{cntn}, #{atchNo}, '전송', #{aprvAuth},
-				#{aprvEtc}, #{deadline}, #{impts} )
+				#{ttl}, SYSTIMESTAMP, #{cntn}, '전송',
+				#{aprvEtc}, #{deadline}, #{impts}, #{fNm}, #{fPath})
 	</insert>
 
 
 	<update id="aprvReqUp" parameterType="co.up.tune.aprv.vo.AprvVO">
 		UPDATE APRV
 		<set>
-			MOD_YN = 'Y',
 			DTTM = SYSTIMESTAMP
 			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
 			<if test="cntn != null and cntn != ''">CNTN=#{cntn},</if>
-			<if test="atchNo != null and atchNo != ''">ATCH_NO=#{atchNo},</if>
-			<if test="aprvAuth != null and aprvAuth != ''">APRV_AUTH=#{aprvAuth},</if>
 			<if test="aprvEtc != null and aprvEtc != ''">APRV_ETC=#{aprvEtc},</if>
 			<if test="deadline != null and deadline != ''">DEADLINE=#{deadline},</if>
 			<if test="impts != null and impts != ''">IMPTS=#{impts}</if>
@@ -75,11 +71,15 @@
 				FORM_AUTH = '공개'
 				OR EMP_NO = #{empNo} 
 		</if>
-		<if test="formCat != null and formCat != '' and formCat != '전체'">
+		<if test="formCat != null and formCat != '' and formCat != '전체' and formCat != '개인'">
 				FORM_AUTH = '공개'
                 AND FORM_CAT = #{formCat}
                 OR EMP_NO= #{empNo}
                 AND FORM_CAT = #{formCat}
+        </if>
+        <if test="formCat == '개인'">
+				FORM_AUTH = '개인'
+				AND EMP_NO = #{empNo}
         </if>
 		
 		ORDER BY
@@ -89,7 +89,7 @@
 	<select id="formSelect"
 		parameterType="co.up.tune.aprv.vo.FormVO"
 		resultType="co.up.tune.aprv.vo.FormVO">
-		SELECT *
+		SELECT FORM_NO, EMP_NO, TTL, CNTN
 		FROM FORM
 		WHERE FORM_NO = #{formNo}
 	</select>
@@ -126,7 +126,6 @@
 	<delete id="formDel" parameterType="co.up.tune.aprv.vo.FormVO">
 		DELETE FROM FORM
 		WHERE FORM_NO = #{formNo}
-		AND FORM_AUTH = '개인'
 	</delete>
 
 

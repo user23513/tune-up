@@ -106,7 +106,7 @@ public class AttdController {
 	
 	// ===================================
 		
-	@RequestMapping("/attdToday")
+	@RequestMapping("/myAttdList")
 	public String myAttdList(Model model){
 		AttdVO vo = new AttdVO();
 		model.addAttribute("checkTime", dao.checkTime(vo).getAtdcDttm());
@@ -115,6 +115,14 @@ public class AttdController {
 	}
 	
 	
+	//차트
+	/*
+	 * @RequestMapping("/wktmChart") public List<AttdVO> wktmChart(Model model,
+	 * AttdVO vo) throws Exception{ List<AttdVO> wktmChart = dao.wktmChart(vo);
+	 * model.addAttribute("wktmChart", wktmChart); return wktmChart;
+	 * 
+	 * }
+	 */
 	
 	
 	/* public String workChart() {

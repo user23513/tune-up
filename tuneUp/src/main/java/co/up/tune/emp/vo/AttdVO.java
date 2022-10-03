@@ -25,8 +25,14 @@ public class AttdVO {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	Date afwkDttm;	//퇴근시간
 	
-	String wktm;	//하루근무
-	Date ovtm;	//하루연장근무
+	Long wktm;	//하루근무 (분)
+	Long ovtm;	//하루연장근무 (분)
+	
+	Long wktmH;
+	Long ovtmH;
+	
 	String st;	//상태
+	
+	int cnt; //차트
 	
 }

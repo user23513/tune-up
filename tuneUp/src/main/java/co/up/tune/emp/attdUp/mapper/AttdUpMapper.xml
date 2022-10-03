@@ -6,7 +6,7 @@
 		parameterType="co.up.tune.emp.vo.AttdUpVO">
 		INSERT INTO ATTDUP
 		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{nm}, #{atdcDt}, #{atdcDttm},
-		#{afwkDttm}, #{aContent}, '701', sysdate)
+		#{afwkDttm}, #{aContent}, '701', (sysdate + 9/24))
 	</insert>
 
 	<select id="attdUpList" resultType="co.up.tune.emp.vo.AttdUpVO">
@@ -44,12 +44,11 @@
 		<set>
 			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
 			<if test="afwkDttm != null">AFWK_DTTM = #{afwkDttm}, </if>
-			<if test="st != null">ST = '601' </if>
+			<if test="st != null">ST = '정상' </if>
 		</set>
 		WHERE EMP_NO = #{empNo} AND ATDC_DT = #{atdcDt}
 		</update> 
-	
-	
+ 
 	
 	<!-- <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
 		<![CDATA[

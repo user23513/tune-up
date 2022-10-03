@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import co.up.tune.aprv.aprvAdmin.mapper.AprvAdminMapper;
+import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 
@@ -29,11 +30,6 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	}
 
 	@Override
-	public int aprvAdminUp(AprvVO vo) {
-		return map.aprvAdminUp(vo);
-	}
-
-	@Override
 	public List<FormVO> aprvFormAll(String formCat) {
 		return map.aprvFormAll(formCat);
 	}
@@ -44,15 +40,13 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	}
 
 	@Override
-	public int formAdminDel(AprvVO vo) {
+	public int formAdminDel(FormVO vo) {
 		return map.formAdminDel(vo);
 	}
 
 	@Override
-	public int formAdminUp(AprvVO vo) {
-		return map.formAdminUp(vo);
+	public int aprvAdReject(ApprovalVO vo) {
+		return map.aprvAdReject(vo);
 	}
-	
-	
 
 }

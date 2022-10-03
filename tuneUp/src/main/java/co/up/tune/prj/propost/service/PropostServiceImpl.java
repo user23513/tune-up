@@ -1,17 +1,14 @@
 package co.up.tune.prj.propost.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.com.vo.ReplyVO;
-import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.propost.mapper.PropostMapper;
+import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
@@ -23,15 +20,21 @@ public class PropostServiceImpl implements PropostService {
 	PropostMapper map;
 
 	@Override
-	public List<PostVO> prjPostList() {
+	public List<PostVO> prjPostList(int prjNo) {
 		// 프로젝트 - 글 전체 리스트
-		return map.prjPostList();
+		return map.prjPostList(prjNo);
 	}
 
+	//글 등록
 	@Override
-	public int prjPostInsert(PostVO vo) {
-		// 프로젝트 - 글 등록
-		return map.prjPostInsert(vo);
+	public int prjPostInsert(PostVO pvo, FilesVO fvo) {
+		//프로젝트 글 등록
+		int a = map.prjPostInsert(pvo);
+		fvo.setAtchNo(pvo.getAtchNo());
+		System.out.println("-------"+pvo.getAtchNo());
+		//프로젝트 파일 등록
+		int b = map.prjFileInsert(fvo);
+		return a+b;
 	}
 
 	@Override
@@ -40,11 +43,11 @@ public class PropostServiceImpl implements PropostService {
 		return map.prjPostUpdate(vo);
 	}
 
-	@Override
-	public int prjPostDelete(PostVO vo) {
-		// 프로젝트 - 글 삭제
-		return map.prjPostDelete(vo);
-	}
+//	@Override
+//	public int prjPostDelete(PostVO vo) {
+//		// 프로젝트 - 글 삭제
+//		return map.prjPostDelete(vo);
+//	}
 
 	@Override
 	public List<ReplyVO> ppReplyList(ReplyVO vo) {
@@ -118,6 +121,30 @@ public class PropostServiceImpl implements PropostService {
 	@Override
 	public List<MemberVO> scheduleMemberList(int prjNo) {
 		return map.scheduleMemberList(prjNo);
+	}
+
+	//프로젝트 전체 댓글
+	@Override
+	public List<ReplyVO> prjReplyList() {
+		return map.prjReplyList();
+	}
+
+	//해당 게시글에 파일정보 가져오기
+	@Override
+	public List<FilesVO> prjPostFiles(int prjNo) {
+		return map.prjPostFiles(prjNo);
+	}
+
+	//게시글 삭제
+	@Override
+	public int postDelete(int postNo, String type) {
+		return map.postDelete(postNo, type);
+	}
+
+	//프로젝트 업무 리스트
+	@Override
+	public List<BusinessVO> businessList(int prjNo) {
+		return map.businessList(prjNo);
 	}
 	
 	 

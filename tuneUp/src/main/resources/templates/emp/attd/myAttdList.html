@@ -11,7 +11,9 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>	<!-- 차트 CDN -->
 <!-- chart.js -->
+<script type="text/javascript">
 
+</script>
 <style type="text/css">
 #chart1 {
 	margin-right: 20px;
@@ -67,6 +69,7 @@ function converDate(){
 					출근 시간<span class="badge bg-secondary text-light">
 					<span th:text="${#dates.format(checkTime, 'HH:mm')}"></span> </span>
 					</button>
+					<button onclick="location.href='attdList'" class="btn btn-primary" style="float: right;">관리자</button>
 						</div>
 					<!-- Large Modal -->
 					<form id="pstfrm" action="attdUpInsert" name="pstfrm" method="post">
@@ -180,8 +183,87 @@ function converDate(){
 							style="width: 30%; padding: 55px 10px; margin: 4px 12px; height: 10px;">퇴근</button>
 					</form> -->
 
+
+					<div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">7days Chart</h5>
+
+              <!-- Stacked Bar Chart -->
+              <canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
+              <script>
+              /*  $(document).ready(function(){
+            		getGraph();
+            	});
+
+            	function getGraph(){
+            		let timeList = [];
+            		let wktmList = [];
+            		let ovtmList = [];
+            		let empNo = $("#eNo").val();
+            		
+            		$.ajax({
+            			url:'wktmChart',
+            			type:'get',
+            			data:{'empNo':empNo},
+            			datatype:'json',
+            			success:function(data){
+            				for (let i = 0; i<data.length; i++){
+            					timeList.push(data[i].attd_dt);
+            					wktmList.push(data[i].wktm);
+            					ovtmList.push(data[i].ovtm);
+            				}
+            			
+            			}
+            		}) 
+            	
+              
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#stakedBarChart'), {
+                    type: 'bar',
+                    data: {
+                      labels: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri'],
+                      datasets: [{
+                          label: '근무 시간',
+                          data: [9,9,12,9,10], 
+                          backgroundColor: 
+                        	  'rgba(255, 99, 132, 0.2)',
+                        },
+                        {
+                          label: '야근',
+                          data: [0,0,3,0,1], 
+                          backgroundColor: 
+                        	  'rgba(75, 192, 192, 0.2)',
+                        },
+                      
+                      ]
+                    },
+                    options: {
+                      plugins: {
+                        title: {
+                          display: true,
+                          text: ''
+                        },
+                      },
+                      responsive: true,
+                      scales: {
+                        x: {
+                          stacked: true,
+                        },
+                        y: {
+                          stacked: true
+                        }
+                      }
+                    }
+                  });
+                });
+            	} */
+              </script>
+              <!-- End Stacked Bar Chart -->
+					
+					
 					<!-- Bar Chart -->
-					<div class="col-lg-6" style="float: left" id="chart1">
+					<!-- <div class="col-lg-6" style="float: left" id="chart1">
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title">7days Chart</h5>
@@ -224,7 +306,7 @@ function converDate(){
                     }
                   });
                 });
-              </script>
+              </script> -->
 							</div>
 
 						</div>

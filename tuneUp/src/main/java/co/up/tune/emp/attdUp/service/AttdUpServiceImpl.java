@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import co.up.tune.emp.attdUp.mapper.AttdUpMapper;
 import co.up.tune.emp.vo.AttdUpVO;
-import co.up.tune.prj.vo.PostVO;
 @Service
 public class AttdUpServiceImpl implements AttdUpService{
 	@Autowired

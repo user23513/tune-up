@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.prj.prjMng.mapper.PrjMngMapper">
+	
+	<select id="teamList" resultType="co.up.tune.prj.vo.TeamVO" parameterType="int">
+		SELECT * 
+		FROM TEAM 
+		WHERE PRJ_NO IN (
+    		SELECT PRJ_NO 
+    		FROM PROJECT 
+    		WHERE PRJ_NO=#{prjNo}
+    	)
+    	ORDER BY PRJ_NO
+		
+	</select>
+	
+	<select id="authList" resultType="co.up.tune.prj.vo.TeamVO" parameterType="int">
+
+	SELECT *
+	FROM TEAM
+	WHERE PRJ_NO IN (
+	SELECT PRJ_NO
+	FROM PROJECT
+	WHERE PRJ_NO=#{prjNo}
+	) AND AUTH = '팀장'
+	ORDER BY PRJ_NO
+    	
+		
+	</select>
+	
+	<select id="addTeamList"  resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
+		SELECT *
+		FROM EMP
+	</select>
+	
+	<update id="addTeam" parameterType="co.up.tune.prj.vo.TeamVO">
+		UPDATE TEAM
+		<set>
+			<if test ="empNo != null">EMP_NO = #{empNo}</if>
+			<if test ="nm != null">NM = #{nm}</if>
+			<if test ="auth = null">AUTH='멤버'</if>
+		</set>
+		WHERE PRJ_NO = #{prjNo}
+	</update>
+	
+	<delete id="removeTeam" parameterType="co.up.tune.prj.vo.TeamVO">
+	DELETE FROM TEAM
+	WHERE EMP_NO = #{empNo}
+	</delete>
+	
+	<update id="teamAuth" parameterType="co.up.tune.prj.vo.TeamVO">
+		UPDATE TEAM
+		<set>
+			<if test ="auth != null">AUTH='관리자'</if>
+		</set>
+		WHERE PRJ_NO = #{prjNo}
+		AND EMP_NO = #{empNo}
+	</update>
+	
+	<update id="removeAuth" parameterType="co.up.tune.prj.vo.TeamVO">
+		<!-- UPDATE TEAM
+		<set>
+			<if test ="auth != null">AUTH='멤버'</if>
+		</set>
+		WHERE PRJ_NO = #{prjNo} -->
+		
+		<![CDATA[ 
+		UPDATE TEAM
+		SET AUTH = '멤버'
+		]]>
+		WHERE PRJ_NO = #{prjNo}
+		
+		
+	</update>
+	
+	<update id="prjSt" parameterType="co.up.tune.prj.vo.ProjectVO">
+		UPDATE PROJECT
+		<set>
+			<if test ="st != null">st = #{st}</if>
+		</set>
+		WHERE PRJ_NO = #{prjNo}
+	</update>
+	
+	
+</mapper>

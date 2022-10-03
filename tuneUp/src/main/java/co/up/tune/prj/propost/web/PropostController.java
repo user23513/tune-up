@@ -56,6 +56,9 @@ public class PropostController {
 		/* 글 */
 		model.addAttribute("postList", dao.prjPostList(prjNo));
 		
+		/* 업무 */
+		model.addAttribute("businessList", dao.businessList(prjNo));
+		
 		/* 댓글 */
 		model.addAttribute("replyList", dao.prjReplyList());
 		

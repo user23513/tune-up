@@ -15,7 +15,6 @@
 .size{
 	height: 18rem;
 	border-radius: 5%;
-	padding-top: 15%;
 }
 .pagination {
 	float: right;
@@ -48,6 +47,22 @@
 .pagination li i {
 	font-size: 16px;
 	padding-top: 6px
+}
+.round{
+	display: inline-block;
+    padding: 7px 25px;
+    border: 1px solid #dfdfdf;
+    color: #4e94ba;
+    background-color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    border: solid 1px #4e94ba; 
+    border-radius: 20px;
+    margin-right: 5px;
+}
+.select{
+	background-color: #4e94ba;
+    color: #ffffff;
 }
 </style>
 </head>
@@ -94,18 +109,24 @@
 											<!-- 프로젝트 카드 -->
 										    <div class="card size">
 												<span>
-													<i class="bi bi-info-circle" style="position: relative; right: 10px; top: -50px;" id="info"></i>
+													<i class="bi bi-info-circle" style="position: relative; right: 10px; top: 10px;" id="info"></i>
 												</span>
 												<div class="card-body">
-												  <h2 class="card-text">[[${prj.nm}]]</h2>
-												  <h6 class="card-subtitle mb-2 text-muted" style="position: relative; top: 20px;">[[${prj.cntn}]]</h6>
-												<div class="progress" style="width: 100%; position: relative; top: 50px; left: -10px;">
-												<div class="progress col-8" >
-													<div class="progress-bar" role="progressbar"  
-														style="width: 70%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+													<div style="position: relative; left: -30px; top: -5px;">
+														<span class="round" style="margin-left: 20px;" th:classappend="${prj.st} == '요청' ? 'select'">요청</span>
+														<span class="round" th:classappend="${prj.st} == '진행' ? 'select'">진행</span>
+														<span class="round" th:classappend="${prj.st} == '완료' ? 'select'">완료</span>
+													</div>
+													<br>
+												    <h2 class="card-text">[[${prj.nm}]]</h2>
+												    <h6 class="card-subtitle mb-2 text-muted" style="position: relative; top: 20px;">[[${prj.cntn}]]</h6>
+													<div class="progress" style="width: 100%; position: relative; top: 50px; left: -10px;">
+														<div class="progress col-8" >
+															<div class="progress-bar" role="progressbar"  
+																	style="width: 70%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+															</div>
 														</div>
 													</div>
-												</div>
 												</div>
 												<div class="card-footer">
 													<i class="bi bi-people-fill"> 5 </i>
@@ -182,7 +203,7 @@
 		let prjColor = $(".size");
 		$.each(prjColor, (idx, prj)=>{
 			const randomColor = Math.floor(Math.random()*16777215).toString(16);
-			$(prj).css('border','2px solid ' + '#' + randomColor);
+			$(prj).css('border','3px solid ' + '#' + randomColor);
 		})
 
 		$(".prjSelect").on("click", e=>{ 

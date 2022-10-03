@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.emp.vo.EmpVO;
+import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
@@ -33,6 +34,7 @@ public interface PropostMapper {
 	List<ReplyVO> prjReplyList(); //프로젝트 전체 댓글
 	List<FilesVO> prjPostFiles(int prjNo); //해당 게시글에 파일정보 가져오기
 	int postDelete(@Param("postNo")int postNo, @Param("type")String type); //게시글 삭제
+	List<BusinessVO> businessList(int prjNo); //프로젝트 업무 리스트
 	
 //	FilesVO filesSelect(FilesVO fvo); //파일 단건
 //	int filesInsert(FilesVO fvo); //파일등록

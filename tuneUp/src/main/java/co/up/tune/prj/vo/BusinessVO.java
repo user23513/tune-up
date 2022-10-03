@@ -2,13 +2,11 @@ package co.up.tune.prj.vo;
 
 import java.sql.Date;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class BusinessVO {	
-	int postNo;		//게시글 번호
+	 int postNo;		//게시글 번호
 	 String bussTtl;	//제목
 	 String empNo;	//사번
 	 String wrtr;	//작성자

@@ -14,11 +14,11 @@
 			    CASE WHEN MAX(ATCH_NO)IS NULL THEN 1
 			    ELSE MAX(ATCH_NO)+1
 			    END AS ATCH_NO
-			FROM POST
+			FROM FILES
 		</selectKey>
 		INSERT INTO BUSINESS
 		VALUES (PNO_SEQ.NEXTVAL, #{bussTtl}, #{empNo}, #{wrtr}, #{st}, #{sdt}, #{edt}, 
-					#{term}, #{cntn}, #{sub}, #{prog}, #{atechNo}, #{prjNo})
+					#{term}, #{cntn}, #{sub}, #{prog}, #{atchNo}, #{prjNo})
 	</insert>
 	
 	<update id="businessUpdate" parameterType="co.up.tune.prj.vo.BusinessVO">

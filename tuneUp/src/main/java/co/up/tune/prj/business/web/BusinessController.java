@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,9 @@ public class BusinessController {
 	//업무 등록
 	@PostMapping("/businessInsert")
 	public String businessInsert(BusinessVO vo, @RequestParam("file") MultipartFile[] files,
-									RedirectAttributes re) throws IllegalStateException, IOException {
+									HttpSession session, RedirectAttributes re) throws IllegalStateException, IOException {
+		vo.setEmpNo((String)session.getAttribute("empNo"));
+		vo.setWrtr((String)session.getAttribute("nm"));
 		//file upload 처리
 		FilesVO fvo = new FilesVO();
 		List<FilesVO> list = new ArrayList<>();

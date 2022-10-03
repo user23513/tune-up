@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.propost.mapper.PropostMapper;
+import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
@@ -137,8 +138,13 @@ public class PropostServiceImpl implements PropostService {
 	//게시글 삭제
 	@Override
 	public int postDelete(int postNo, String type) {
-		System.out.println("===="+postNo+"---"+type);
 		return map.postDelete(postNo, type);
+	}
+
+	//프로젝트 업무 리스트
+	@Override
+	public List<BusinessVO> businessList(int prjNo) {
+		return map.businessList(prjNo);
 	}
 	
 	 

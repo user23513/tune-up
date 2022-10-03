@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.prj.project.mapper.ProjectMapper">
+
+	<!-- 새 프로젝트에서 입력한 사원들 정보 가져오기 -->
+	<select id="teamList" parameterType="integer" resultType="co.up.tune.prj.vo.TeamVO">
+		SELECT EMP_NO, AUTH, NM, DEPT
+		FROM EMP
+		WHERE EMP_NO IN
+		<foreach collection="teamEmpNo" item="no" index="index" separator="," open="(" close=")">
+			#{no}
+		</foreach>
+	</select>
+
+	<!-- 새 프로젝트 등록 -->
+	<insert id="newProjectInsert">
+		<selectKey keyProperty="prjNo" order="BEFORE" resultType="int">
+			SELECT 
+			    CASE WHEN MAX(PRJ_NO) IS NULL THEN 1
+			    ELSE MAX(PRJ_NO)+1 
+			    END AS NO
+			FROM PROJECT
+		</selectKey>
+		begin
+			insert into project
+			values(${prjNo}, #{vo.nm}, #{vo.cntn}, #{vo.prog}, #{vo.st}, SYSDATE, #{vo.sdt}, #{vo.edt});
+			
+			<foreach collection="teamList" item="list">
+				insert into team
+				values(#{list.empNo}, #{prjNo}, #{list.auth}, #{list.nm}, #{list.dept});
+			</foreach>
+			
+		end;
+	</insert>
+
+</mapper>

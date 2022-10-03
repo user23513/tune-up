@@ -16,18 +16,14 @@ public class AjaxApprovalController {
 	@Autowired
 	ApprovalService ap;
 
-	@PostMapping("/approvalView")	
+	@PostMapping("/approvalView")
 	public AprvVO approvalView(AprvVO vo) {
-		
-		return ap.approvalSelect(vo);	
-		}
-	
+		return ap.approvalSelect(vo);
+	}
+
 	@PostMapping("/trustDel")
 	public int trustDel(TrustVO vo) {
 		return ap.trustDel(vo);
 	}
-		
-
-	
 
 }

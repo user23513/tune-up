@@ -22,33 +22,31 @@ public class AjaxAprvAdminController {
 	AprvAdminService ap;
 	@Autowired
 	AprvLineService li;
+
 	
-	//상세화면
-	@PostMapping("/reqAdView")	
-	public AprvVO aprvAdView(AprvVO vo){
-		return ap.aprvSelect(vo);	
-	}	
-	@PostMapping("/formAdView")	
-	public FormVO formAdView(FormVO vo){
-		return ap.formSelect(vo);	
+	@PostMapping("/reqAdView")
+	public AprvVO aprvAdView(AprvVO vo) {
+		return ap.aprvSelect(vo);
 	}
-	
-	@PostMapping("/lineDept")	
-	public List<AprvLineVO> lineDept(AprvLineVO vo){
-		return li.aprvLineList(vo);	
+
+	@PostMapping("/formAdView")
+	public FormVO formAdView(FormVO vo) {
+		return ap.formSelect(vo);
 	}
-	
-	@PostMapping("/formAdDel")	
-	public int formAdDel(FormVO vo){
-		return ap.formAdminDel(vo);	
+
+	@PostMapping("/lineDept")
+	public List<AprvLineVO> lineDept(AprvLineVO vo) {
+		return li.aprvLineList(vo);
 	}
-	
-	@PostMapping("/aprvAdRjt")	
-	public int aprvAdRjt(ApprovalVO vo){
-		return ap.aprvAdReject(vo);	
+
+	@PostMapping("/formAdDel")
+	public int formAdDel(FormVO vo) {
+		return ap.formAdminDel(vo);
 	}
-	
-	
-	
+
+	@PostMapping("/aprvAdRjt")
+	public int aprvAdRjt(ApprovalVO vo) {
+		return ap.aprvAdReject(vo);
+	}
 
 }

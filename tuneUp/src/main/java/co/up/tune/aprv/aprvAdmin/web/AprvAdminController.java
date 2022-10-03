@@ -22,7 +22,7 @@ import co.up.tune.common.service.CommonService;
 
 @Controller
 public class AprvAdminController {
-	
+
 	@Autowired
 	CommonService cd;
 	@Autowired
@@ -31,41 +31,41 @@ public class AprvAdminController {
 	AprvLineService li;
 	@Autowired
 	ApprovalService ap;
-	
-	
-	
+
 	@GetMapping("/aprvAdmin")
-	public String aprvAdmin(Model model, HttpServletRequest request, @RequestParam(required = false, defaultValue = "전체")String reqSt, @RequestParam(required = false, defaultValue = "전체")String formCat) throws IOException {
-		
-		HttpSession session =  request.getSession();
+	public String aprvAdmin(Model model, HttpServletRequest request,
+			@RequestParam(required = false, defaultValue = "전체") String reqSt,
+			@RequestParam(required = false, defaultValue = "전체") String formCat) throws IOException {
+
+		HttpSession session = request.getSession();
 		String auth = (String) session.getAttribute("auth");
 		
-		if(auth.equals("ADMIN")) {
-			
-
+		//관리자 체크
+		if (auth.equals("ADMIN")) {
+			//문서
 			List<AprvVO> list = as.aprvListAll(reqSt);
 			model.addAttribute("aprv", list);
-			
+			//서식
 			List<FormVO> form = as.aprvFormAll(formCat);
 			model.addAttribute("form", form);
-			
+			//결재선
 			AprvLineVO nu = new AprvLineVO();
 			model.addAttribute("line", li.aprvLineList(nu));
 			model.addAttribute("dept", li.aprvDeptSearch());
-			
+			//위임
 			TrustVO vo = new TrustVO();
 			model.addAttribute("trust", ap.trustList(vo));
-			
+
 			// 공통코드
 			model.addAttribute("st", cd.commonList("신청상태"));
 			model.addAttribute("cat", cd.commonList("서식종류"));
-		
-			return "aprv/aprvAdmin/aprvAdmin";	
-		
+
+			return "aprv/aprvAdmin/aprvAdmin";
+
 		} else {
-			
+
 			model.addAttribute("msg", "관리자가 아닙니다.");
-			return "main/main";	
+			return "main/main";
 		}
 
 	}

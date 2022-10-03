@@ -16,13 +16,13 @@ public class AprvVO { //전자결재
 	String fPath;	//파일위치
 	String reqSt; //신청상태
 	String aprvEtc; //상신의견
-	Date deadline; //마감일
+	String deadline; //마감일
 	String impts; //중요
-	String aprvSt; //승인상태
 	
-	String ap1;
-	String ap2;
-	String ap3;
+	
+	String aprvSt; 
+	String aprvr;
 	String refer;
-
+	String deadDay;
+	String deadTime;
 }

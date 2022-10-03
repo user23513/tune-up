@@ -27,10 +27,10 @@ public class ApprovalController {
 	@GetMapping("/approval")
 	public String approval(Model model, HttpServletRequest request,
 			@RequestParam(required = false, defaultValue = "전체") String aprvSt) {
-		
+
 		HttpSession session = request.getSession();
-		String empNo = (String)session.getAttribute("empNo");
-		
+		String empNo = (String) session.getAttribute("empNo");
+
 		// 승인문서목록
 		model.addAttribute("approval", ap.approvalList(empNo, aprvSt));
 
@@ -39,22 +39,21 @@ public class ApprovalController {
 		vo.setEmpNo(empNo);
 		model.addAttribute("trust", ap.trustList(vo));
 		model.addAttribute("rptt", ap.trustSelect(vo));
-		//부서
+		// 부서
 		model.addAttribute("dept", ls.aprvDeptSearch());
 		// 공통코드
 		model.addAttribute("st", cd.commonList("승인상태"));
 
 		return "aprv/approval/approval";
 	}
-	
+
 	@PostMapping("/trustInsert")
 	public String trustIn(TrustVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		String empNo = (String)session.getAttribute("empNo");
+		String empNo = (String) session.getAttribute("empNo");
 		vo.setEmpNo(empNo);
 		ap.trustIn(vo);
 		return "redirect:approval";
 	}
 
-	
 }

@@ -10,7 +10,6 @@ import co.up.tune.aprv.vo.FormVO;
 
 public interface AprvAdminMapper {
 
-
 //관리자 전체 결재문서 목록 조회
 	List<AprvVO> aprvListAll(@Param("reqSt") String reqSt);
 
@@ -28,8 +27,7 @@ public interface AprvAdminMapper {
 
 // 관리자 서식 삭제
 	int formAdminDel(FormVO vo);
-	
-	int aprvAdReject(ApprovalVO vo);
 
+	int aprvAdReject(ApprovalVO vo);
 
 }

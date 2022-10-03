@@ -13,15 +13,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Autowired
 	ApprovalMapper map;
-	
-	
+
 	@Override
 	public List<AprvVO> approvalList(String aprvr, String aprvSt) {
-	
 		return map.approvalList(aprvr, aprvSt);
 	}
-
-	
 
 	@Override
 	public AprvVO approvalSelect(AprvVO vo) {
@@ -30,7 +26,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	public int approvalSign(ApprovalVO vo) {
-		
 		return map.approvalSign(vo);
 	}
 
@@ -38,22 +33,17 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int aprvNext(ApprovalVO vo) {
 		return map.aprvNext(vo);
 	};
-	
-	
+
 	@Override
-	public List<TrustVO> trustList(TrustVO vo){
+	public List<TrustVO> trustList(TrustVO vo) {
 		return map.trustList(vo);
 	}
-	
-	
+
 	@Override
 	public TrustVO trustSelect(TrustVO vo) {
 		return map.trustSelect(vo);
 	};
-	
-	
-	
-	
+
 	@Override
 	public int trustIn(TrustVO vo) {
 		return map.trustIn(vo);
@@ -61,7 +51,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	public int trustUp(TrustVO vo) {
-		
 		return map.trustUp(vo);
 	}
 
@@ -69,8 +58,5 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int trustDel(TrustVO vo) {
 		return map.trustDel(vo);
 	}
-	
-	
-
 
 }

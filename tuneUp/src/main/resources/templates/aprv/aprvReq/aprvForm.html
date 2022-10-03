@@ -42,77 +42,63 @@
 			//로딩후
 $(document).ready(function(){
 
-		//에디터
-	let plugins = [ "advlist", "autolink", "lists",
-					"link", "image", "preview",
-					"searchreplace", "charmap",
-					"fullscreen", "media", "table",
-					"wordcount", "save" ];
+	//에디터
+	let plugins = [ "advlist", "autolink", "lists", "link", "image",
+					"preview", "searchreplace", "charmap",
+					"fullscreen", "media", "table", "wordcount", "save" ];
 	let edit_toolbar = ' forecolor backcolor |'
 						+ ' bold italic underline strikethrough charmap |'
 						+ ' alignjustify alignleft aligncenter alignright |'
-						+ ' bullist numlist |'
-						+ ' table tabledelete |'
-						+ ' link image preview |';
-	tinymce.init({ selector : '#cntn',
-					height : 600,
-					menubar : false,
-					plugins : plugins,
-				toolbar : edit_toolbar,
+						+ ' bullist numlist |' + ' table tabledelete |' + ' link image preview |';
+	tinymce.init({
+			selector : '#cntn',
+			height : 600,
+			menubar : false,
+			plugins : plugins,
+			toolbar : edit_toolbar,
+			
+			image_title : true,
+			file_picker_types : 'image',
+			file_picker_callback : function(cb, value, meta) {
+				let input = document.createElement('input');
+				input.setAttribute('type', 'file');
+				input.setAttribute('accept', 'image/*');
+				input.onchange = function() {
+					let file = this.files[0];
+					let reader = new FileReader();
+					reader.onload = function() {
+						let id = 'blobid' + (new Date()).getTime();
+						let blobCache = tinymce.activeEditor.editorUpload.blobCache;
+						let base64 = reader.result.split(',')[1];
+						let blobInfo = blobCache.create(id, file, base64);
+						blobCache.add(blobInfo);
+						cb(blobInfo.blobUri(), {
+							title : file.name
+						});
+					};
+					reader.readAsDataURL(file);
+				};
+				input.click();
+			},
+			content_style : 'body { font-family: Helvetica, Arial, sans-serif; font-size:14px }'
+		});
 
-				image_title : true,
-				file_picker_types : 'image',
-				file_picker_callback : function(cb, value, meta) {
-									let input = document.createElement('input');
-									input.setAttribute('type','file');
-									input.setAttribute('accept','image/*');
-									input.onchange = function() {
-									let file = this.files[0];
-									let reader = new FileReader();
-									reader.onload = function() {
-											let id = 'blobid'+ (new Date()).getTime();
-											let blobCache = tinymce.activeEditor.editorUpload.blobCache;
-											let base64 = reader.result.split(',')[1];
-											let blobInfo = blobCache.create(id,file,base64);
-											blobCache.add(blobInfo);
-											cb(blobInfo.blobUri(),{title : file.name});
-											};
-											reader.readAsDataURL(file);
-											};
-											input.click();
-											},
-											content_style : 'body { font-family: Helvetica, Arial, sans-serif; font-size:14px }'
-										});
-
-								
-	$(".selLine").on("click", e=>{
+	//라인선택				
+	$(".lineList").on("click", "li", e=>{
 		$(".list-group-item-primary").removeClass("list-group-item-primary");
-		$("#ap1").val(""); 
-		$("#ap2").val(""); 
-		$("#ap3").val(""); 
-		let ap1 = $(e.target).closest("li").data("ap1");
-		let ap2 = $(e.target).closest("li").data("ap2");
-		let ap3 = $(e.target).closest("li").data("ap3");
-		$("#ap1").val(ap1); 
-		$("#ap2").val(ap2); 
-		$("#ap3").val(ap3); 
-		$(e.target).closest("li").addClass("list-group-item-primary");
+		$("#aprvr").val(""); 
+		let ap1 = $(e.target).data("ap1");
+		let ap2 = $(e.target).data("ap2");
+		let ap3 = $(e.target).data("ap3");
+		
+		let ap = ap1 + ","+ ap2 +","+ap3;
+		
+		
+		$("#aprvr").val(ap); 
+		$(e.target).addClass("list-group-item-primary");
 		
 	})
-	
-	$(".aprvline").on("click", e=>{
-		let no = $(e.target).data("no");
-		$(e.target).val("");
-		if(no == 1){
-			$("#ap1").val("");
-		} else if (no == 2){
-			$("#ap2").val("");
-		} else if (no == 3){
-			$("#ap3").val("");
-		}
-		
-	})
-								
+							
 	//부서검색
 		$("#deptSelect").on("change", e=>{
 			let dept = $(e.target).val();
@@ -134,21 +120,35 @@ $(document).ready(function(){
 		    }) 
 		})						
 	
-		//선택
+		//참조선택
 		$("#multi").on("click", e=>{
-				let empNo = $(e.target).val();
-				let name = $(e.target).text();
-				let span = ``;
-			$(".referNm").html();
-				
-	
+			let empNo = $(e.target).val();
+			let name = $(e.target).text();
+			let val = $("#referNm").val();
+			let hval = $("#refer").val();
 			
+			if(val == ""){
+				$("#referNm").val(name);
+				$("#refer").val(empNo);
+			} else {
+				val += ", ";
+				val += name;
+				$("#referNm").val(val);
+				hval += ",";
+				hval += empNo;
+			
+				$("#refer").val(hval);
+				
+			}
+	
 		})
-				
-			//히든폼값삭제
-			$(".referNm").on("click", "span" e=>{
-				
-				})
+		
+		$("#referNm").on("click", e=>{
+			$("#referNm").val("");
+			$("#refer").val("");
+		})
+	
+	
 								
 								
 	aprvInsert();
@@ -161,13 +161,20 @@ $(document).ready(function(){
 				$("#save").on("click", function() {
 					let content = tinymce.activeEditor.getContent();
 					let ttl = $("#ttl").val();
+					let aprvr = $("#aprvr").val();
 					$("#cntn").val(content);
-
-					if (content != "" && ttl != "") {
-						$("#newfrm").submit();
-					} else {
-						alert("내용을 작성해주세요!");
-					}
+					
+					if (!confirm("문서를 상신하시겠습니까?")) {
+			            return;
+			        } else {
+			        	if (content != "" && ttl != "" && aprvr != ""){
+			        		$("#newfrm").submit();
+						
+			        	} else {
+							alert("필수 내용을 작성해주세요.");
+						}
+			           
+			        }
 
 				});
 			}
@@ -201,7 +208,7 @@ $(document).ready(function(){
 
 
 					<br>
-					<form id="newfrm" class="row g-3" method="post" action="formInsert"
+					<form id="newfrm" class="row g-3" method="post" action="aprvInsert"
 						enctype="multipart/form-data">
 						<input type="hidden" th:name="${_csrf.parameterName}"
 							th:value="${_csrf.token}">
@@ -215,8 +222,8 @@ $(document).ready(function(){
 						</div>
 						<div class="col-12">
 							<div class="form-floating">
-								<textarea class="line" id="cntn" name="cntn" required="required"
-									th:utext="${form.cntn}"></textarea>
+								<textarea class="line" id="cntn" name="cntn"
+									th:utext="${form.cntn}" required="required"></textarea>
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -230,31 +237,29 @@ $(document).ready(function(){
 
 							</div>
 						</div>
-						<div class="col-12">
-
+						<div class="col-6">
 							<div class="form-floating">
-								<input type="datetime-local" class="form-control" id="deadline"
-									name="deadline" placeholder="마감일자"> <label
-									for="deadline">마감일시</label>
+								<input type="date" class="form-control" id="deadDay"
+									name="deadDay"> <label for="deadDay">마감일자</label>
 							</div>
-
 						</div>
+						<div class="col-6">
+							<div class="form-floating">
+								<input type="time" class="form-control" id="deadTime"
+									name="deadTime"> <label for="deadTime">마감일시</label>
+							</div>
+						</div>
+
 						<div class="col-12">
 
 							<ul class="list-group lineList">
-								<li class="list-group-item lineLi" th:each="n : ${line}"
-									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
-									th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
-									th:data-nm1="${n.nm1}" th:data-nm2="${n.nm2}"
-									th:data-nm3="${n.nm3}"><b
-									th:if="${n.nm2} == null and ${n.nm3} == null"
-									th:text="|${n.nm1}|"></b> <b
-									th:if="${n.nm3} == null and ${n.nm2} != null"
-									th:text="|${n.nm1} → ${n.nm2}|"></b> <b
-									th:if="${n.nm3} != null"
-									th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
-									<button type="button" class="btn btn-primary selLine"
-										style="float: right;">선택</button></li>
+								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" 
+								th:data-ap1="${n.ap1}" th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+								th:data-nm1="${n.nm1}" th:data-nm2="${n.nm2}" th:data-nm3="${n.nm3}">
+								<b th:if="${n.nm2} == null and ${n.nm3} == null" th:text="|${n.nm1}|"></b>
+								<b th:if="${n.nm3} == null and ${n.nm2} != null" th:text="|${n.nm1} → ${n.nm2}|"></b>
+								<b th:if="${n.nm3} != null" th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
+									</li>
 							</ul>
 
 						</div>
@@ -277,22 +282,18 @@ $(document).ready(function(){
 						</div>
 						<div class="col-md-12">
 							<div class="form-floating">
-								<input type="text" class="form-control aprvline" id="referNm" name="referNm"
-									placeholder="참조인" readonly="readonly" data-no="1">
-								<label for="refer">참조인</label>
+								<input type="text" class="form-control aprvline" id="referNm"
+									readonly="readonly"> <label for="referNm">참조인</label>
 							</div>
 						</div>
 
-						<input type ="hidden" id="refer" name="refer">
-						<input type="hidden" id="ap1" name="ap1"> <input
-							type="hidden" name="ap2" id="ap2"> <input type="hidden"
-							name="ap3" id="ap3">
-
+						<input type="hidden" id="refer" name="refer">
+						<input type="hidden" id="aprvr" name="">
 
 						<div class="form-floating mb-3">
-							<textarea class="form-control" placeholder="Leave a comment here"
-								id="floatingTextarea" style="height: 100px;"></textarea>
-							<label for="floatingTextarea">상신의견</label>
+							<textarea class="form-control" placeholder="상신의견" id="Etcarea"
+								name="aprvEtc" style="height: 100px;"></textarea>
+							<label for="Etcarea">상신의견</label>
 						</div>
 
 						<div class="col-12">

@@ -49,7 +49,4 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 		return map.aprvAdReject(vo);
 	}
 
-	
-	
-
 }

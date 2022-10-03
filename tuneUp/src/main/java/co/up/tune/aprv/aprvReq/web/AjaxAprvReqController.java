@@ -26,28 +26,27 @@ public class AjaxAprvReqController {
 	AprvReqService ap;
 	@Autowired
 	AprvLineService li;
-	
-	//상세화면
-	@PostMapping("/reqView")	
+
+	@PostMapping("/reqView")
 	public AprvVO aprvView(AprvVO vo) {
-		return ap.aprvReqSelect(vo);	
-		}
-	@PostMapping("/formView")	
+		return ap.aprvReqSelect(vo);
+	}
+
+	@PostMapping("/formView")
 	public FormVO formView(FormVO vo) {
-		return ap.formSelect(vo);	
-		}
-	
-	@PostMapping("/lineDeptChange")	
+		return ap.formSelect(vo);
+	}
+
+	@PostMapping("/lineDeptChange")
 	public List<EmpVO> formCat(EmpVO vo) {
 		return li.aprvEmpSearch(vo);
-	
-		}
-		
-	@PostMapping("/lineDel")	
+
+	}
+
+	@PostMapping("/lineDel")
 	public int lineDel(AprvLineVO vo) {
 		return li.aprvLineDel(vo);
-	
-		}
-	
+
+	}
 
 }

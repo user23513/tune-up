@@ -21,24 +21,14 @@ public class AprvLineServiceImpl implements AprvLineService{
 	}
 
 	@Override
-	public int approvalIn(List<ApprovalVO> list) {
-		int cnt = 0;
-		for(ApprovalVO vo : list) {
-			map.approvalIn(vo);
-			cnt ++;
-		}
-		return cnt;
+	public int approvalIn(ApprovalVO vo) {
+		return map.approvalIn(vo);
 		
 	}
 
 	@Override
-	public int approvalUp(List<ApprovalVO> list) {
-		int cnt = 0;
-		for(ApprovalVO vo : list) {
-			map.approvalUp(vo);
-			cnt ++;
-		}
-		return cnt;
+	public int approvalUp(ApprovalVO vo) {
+		return map.approvalUp(vo);
 	}
 
 	@Override
@@ -52,24 +42,14 @@ public class AprvLineServiceImpl implements AprvLineService{
 	}
 
 	@Override
-	public int referIn(List<ReferVO> list) {
-		int cnt = 0;
-		for(ReferVO vo : list) {
-			map.referIn(vo);
-			cnt ++;
-		}
-		return cnt;
+	public int referIn(ReferVO vo) {
+		return map.referIn(vo);
 		
 	}
 
 	@Override
-	public int referUp(List<ReferVO> list) {
-		int cnt = 0;
-		for(ReferVO vo : list) {
-			map.referUp(vo);
-			cnt ++;
-		}
-		return cnt;
+	public int referUp(ReferVO vo) {
+		return map.referUp(vo);
 	}
 
 	@Override

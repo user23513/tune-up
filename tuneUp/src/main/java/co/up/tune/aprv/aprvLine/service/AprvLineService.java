@@ -11,18 +11,18 @@ public interface AprvLineService {
 	// 결재자
 	List<ApprovalVO> approvalList(ApprovalVO vo); // 조회
 
-	int approvalIn(List<ApprovalVO> list); // 등록 - 반복
+	int approvalIn(ApprovalVO vo); // 등록 - 반복
 
-	int approvalUp(List<ApprovalVO> list); // 수정 - 반복
+	int approvalUp(ApprovalVO vo); // 수정 - 반복
 
 	int approvalDel(ApprovalVO vo); // 삭제
 
 	// 참조인
 	List<ReferVO> ReferList(ReferVO vo); // 조회
 
-	int referIn(List<ReferVO> list); // 등록 - 반복
+	int referIn(ReferVO vo); // 등록 - 반복
 
-	int referUp(List<ReferVO> list); // 수정 - 반복
+	int referUp(ReferVO vo); // 수정 - 반복
 
 	int referDel(ReferVO vo); // 삭제
 

@@ -288,6 +288,11 @@
 				    success:function(obj){    	
 				        $("#vttl").html(obj.ttl);
 						$("#tnv").html(obj.cntn);
+						if(obj.fPath != ""){
+							let file = `<a href=@{/attach(path=${obj.fPath})}>${obj.fNm}</a>`;
+							$("#viewFoot").append(file);
+						}
+						
 						$("#viewFoot").html("");
 						let clBtn = `<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">닫기</button>`;

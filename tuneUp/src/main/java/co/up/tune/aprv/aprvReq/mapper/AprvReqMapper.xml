@@ -33,11 +33,11 @@
 		</selectKey>
 		INSERT INTO APRV
 				(APRV_NO, EMP_NO, TTL, DTTM, CNTN, REQ_ST,
-					APRV_ETC, DEADLINE, IMPTS)
+					APRV_ETC, DEADLINE, IMPTS, F_NM, F_PATH)
 		VALUES
 				(#{aprvNo}, #{empNo},
-				#{ttl}, TIMESTAMP, #{cntn}, '전송',
-				#{aprvEtc}, #{deadline}, #{impts} )
+				#{ttl}, SYSTIMESTAMP, #{cntn}, '전송',
+				#{aprvEtc}, #{deadline}, #{impts}, #{fNm}, #{fPath})
 	</insert>
 
 

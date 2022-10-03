@@ -16,20 +16,18 @@ public interface ApprovalMapper {
 	// 단건조회
 	AprvVO approvalSelect(AprvVO vo);
 
-	
 	// 결재 승인
 	int approvalSign(ApprovalVO vo);
-	
+
 	// 다음 결재자
 	int aprvNext(ApprovalVO vo);
-	
 
 	// 위임자 목록
 	List<TrustVO> trustList(TrustVO vo);
-	
-	// 위임자 단건
+
+	// 내가 위임자인지 조회
 	TrustVO trustSelect(TrustVO vo);
-	
+
 	// 위임자 등록
 	int trustIn(TrustVO vo);
 

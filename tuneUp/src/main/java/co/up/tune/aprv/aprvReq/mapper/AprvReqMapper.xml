@@ -89,7 +89,7 @@
 	<select id="formSelect"
 		parameterType="co.up.tune.aprv.vo.FormVO"
 		resultType="co.up.tune.aprv.vo.FormVO">
-		SELECT TTL, CNTN
+		SELECT FORM_NO, EMP_NO, TTL, CNTN
 		FROM FORM
 		WHERE FORM_NO = #{formNo}
 	</select>

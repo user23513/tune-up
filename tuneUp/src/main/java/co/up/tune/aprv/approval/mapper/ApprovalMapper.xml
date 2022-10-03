@@ -199,7 +199,7 @@
 		SELECT *
 		FROM TRUST
 		<if test="empNo != null and empNo != ''">
-			WHERE EMP_NO = #{empNo}
+			WHERE EMP_No = #{empNo}
 		</if>
 		ORDER BY EDT DESC
 	</select>
@@ -209,7 +209,7 @@
 		resultType="co.up.tune.aprv.vo.TrustVO">
 		SELECT *
 		FROM TRUST
-		WHERE TRUST_NO = #{trustNo}
+		WHERE RPTT = #{empNo}
 	</select>
 
 
@@ -223,9 +223,9 @@
 			FROM TRUST
 		</selectKey>
 		INSERT INTO TRUST
-			(TRUST_NO, EMP_NO, APRVR, RPTT, SDT, EDT)
+			(TRUST_NO, EMP_NO, RPTT, SDT, EDT)
 		VALUES
-			(#{trustNo}, #{empNo}, #{aprvr}, #{rptt}, #{sdt}, #{edt} )
+			(#{trustNo}, #{empNo}, #{rptt}, #{sdt}, #{edt} )
 	</insert>
 
 	<update id="trustUp" parameterType="co.up.tune.aprv.vo.TrustVO">

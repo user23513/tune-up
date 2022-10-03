@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>전자결재 - 문서 작성</title>
+</head>
+<body>
+	<main id="main" class="main" layout:fragment="content">
+		<script>
+			//로딩화면
+			loadin();
+			function loadin(load) {
+				LoadingWithMask("/assets/img/load.gif");
+				setTimeout("closeLoadingWithMask()", 500);
+			}
+			function LoadingWithMask(gif) {
+				let maskHeight = $(document).height();
+				let maskWidth = window.document.body.clientWidth;
+
+				let mask = "<div id='mask' class='row' style='position:absolute; z-index:9000; background-color:#ffffff; text-align:center; display:none; left:0; top:0;'></div>";
+				let loadingImg = "<div id='loadingImg' class='col align-self-center'>";
+				loadingImg += " <img src='"
+						+ gif
+						+ "' style='position: relative; width: 10%; display: block; margin: 0px auto;'/>";
+				loadingImg += "</div>";
+
+				$('#main').append(mask);
+				$('#mask').css({
+					'width' : maskWidth + 20,
+					'height' : maskHeight + 60
+				});
+				$('#mask').append(loadingImg);
+				$('#mask').show();
+			}
+			function closeLoadingWithMask() {
+				$('#mask').remove();
+				$('#mask').empty();
+			}
+
+			//로딩후
+$(document).ready(function(){
+
+		//에디터
+	let plugins = [ "advlist", "autolink", "lists",
+					"link", "image", "preview",
+					"searchreplace", "charmap",
+					"fullscreen", "media", "table",
+					"wordcount", "save" ];
+	let edit_toolbar = ' forecolor backcolor |'
+						+ ' bold italic underline strikethrough charmap |'
+						+ ' alignjustify alignleft aligncenter alignright |'
+						+ ' bullist numlist |'
+						+ ' table tabledelete |'
+						+ ' link image preview |';
+	tinymce.init({ selector : '#cntn',
+					height : 600,
+					menubar : false,
+					plugins : plugins,
+				toolbar : edit_toolbar,
+
+				image_title : true,
+				file_picker_types : 'image',
+				file_picker_callback : function(cb, value, meta) {
+									let input = document.createElement('input');
+									input.setAttribute('type','file');
+									input.setAttribute('accept','image/*');
+									input.onchange = function() {
+									let file = this.files[0];
+									let reader = new FileReader();
+									reader.onload = function() {
+											let id = 'blobid'+ (new Date()).getTime();
+											let blobCache = tinymce.activeEditor.editorUpload.blobCache;
+											let base64 = reader.result.split(',')[1];
+											let blobInfo = blobCache.create(id,file,base64);
+											blobCache.add(blobInfo);
+											cb(blobInfo.blobUri(),{title : file.name});
+											};
+											reader.readAsDataURL(file);
+											};
+											input.click();
+											},
+											content_style : 'body { font-family: Helvetica, Arial, sans-serif; font-size:14px }'
+										});
+
+								
+	$(".selLine").on("click", e=>{
+		$(".list-group-item-primary").removeClass("list-group-item-primary");
+		$("#ap1").val(""); 
+		$("#ap2").val(""); 
+		$("#ap3").val(""); 
+		let ap1 = $(e.target).closest("li").data("ap1");
+		let ap2 = $(e.target).closest("li").data("ap2");
+		let ap3 = $(e.target).closest("li").data("ap3");
+		$("#ap1").val(ap1); 
+		$("#ap2").val(ap2); 
+		$("#ap3").val(ap3); 
+		$(e.target).closest("li").addClass("list-group-item-primary");
+		
+	})
+	
+	$(".aprvline").on("click", e=>{
+		let no = $(e.target).data("no");
+		$(e.target).val("");
+		if(no == 1){
+			$("#ap1").val("");
+		} else if (no == 2){
+			$("#ap2").val("");
+		} else if (no == 3){
+			$("#ap3").val("");
+		}
+		
+	})
+								
+	//부서검색
+		$("#deptSelect").on("change", e=>{
+			let dept = $(e.target).val();
+			$.ajax({
+				url:'lineDeptChange',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'dept':dept},
+			    dataType:'json',
+			    success:function(obj){
+			    	$("#multi").html("");
+			    	 $.each (obj, (idx, o)=> {
+				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+				        	$("#multi").append(option);
+				        	}); 
+			    }
+		    }) 
+		})						
+	
+		//선택
+		$("#multi").on("click", e=>{
+				let empNo = $(e.target).val();
+				let name = $(e.target).text();
+				let span = ``;
+			$(".referNm").html();
+				
+	
+			
+		})
+				
+			//히든폼값삭제
+			$(".referNm").on("click", "span" e=>{
+				
+				})
+								
+								
+	aprvInsert();
+
+		
+					
+})
+
+			function aprvInsert() {
+				$("#save").on("click", function() {
+					let content = tinymce.activeEditor.getContent();
+					let ttl = $("#ttl").val();
+					$("#cntn").val(content);
+
+					if (content != "" && ttl != "") {
+						$("#newfrm").submit();
+					} else {
+						alert("내용을 작성해주세요!");
+					}
+
+				});
+			}
+			
+			
+			
+		</script>
+
+		<section class="section">
+
+			<!-- card -->
+			<div class="card">
+				<div class="card-body">
+
+					<br>
+
+					<!-- Page Title -->
+					<div class="pagetitle">
+						<h1>전자결재</h1>
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item active">나의 신청</li>
+								<li class="breadcrumb-item"><a href="approval">나의 승인</a></li>
+								<li class="breadcrumb-item" th:if="${session.auth == 'ADMIN'}"><a
+									href="aprvAdmin">관리 기능</a></li>
+							</ol>
+						</nav>
+					</div>
+					<!-- End Page Title -->
+
+
+
+					<br>
+					<form id="newfrm" class="row g-3" method="post" action="formInsert"
+						enctype="multipart/form-data">
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}">
+
+						<div class="col-md-12">
+							<div class="form-floating">
+								<input type="text" class="form-control" id="ttl" name="ttl"
+									placeholder="문서 제목" required="required" th:value="${form.ttl}"><label
+									for="ttl">문서 제목</label>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="form-floating">
+								<textarea class="line" id="cntn" name="cntn" required="required"
+									th:utext="${form.cntn}"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<input class="form-control" type="file" id="file" name="file">
+						</div>
+						<div class="col-12">
+							<div class="form-check form-switch">
+								<input class="form-check-input" type="checkbox"
+									id="formAuthCheck" name="impts"> <label
+									class="form-check-label" for="impts">중요</label>
+
+							</div>
+						</div>
+						<div class="col-12">
+
+							<div class="form-floating">
+								<input type="datetime-local" class="form-control" id="deadline"
+									name="deadline" placeholder="마감일자"> <label
+									for="deadline">마감일시</label>
+							</div>
+
+						</div>
+						<div class="col-12">
+
+							<ul class="list-group lineList">
+								<li class="list-group-item lineLi" th:each="n : ${line}"
+									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
+									th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+									th:data-nm1="${n.nm1}" th:data-nm2="${n.nm2}"
+									th:data-nm3="${n.nm3}"><b
+									th:if="${n.nm2} == null and ${n.nm3} == null"
+									th:text="|${n.nm1}|"></b> <b
+									th:if="${n.nm3} == null and ${n.nm2} != null"
+									th:text="|${n.nm1} → ${n.nm2}|"></b> <b
+									th:if="${n.nm3} != null"
+									th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
+									<button type="button" class="btn btn-primary selLine"
+										style="float: right;">선택</button></li>
+							</ul>
+
+						</div>
+
+						<div class="col-md-4">
+							<div class="form-floating">
+								<select class="form-select" id="deptSelect" aria-label="State"
+									style="height: 100px;">
+									<option>선택</option>
+									<option th:each="d : ${dept}" th:value="${d.dept}"
+										th:text="${d.dept}">부서</option>
+								</select> <label for="deptSelect">부서</label>
+							</div>
+						</div>
+						<div class="col-md-8">
+							<select class="form-select" id="multi" multiple
+								aria-label="multiple select example" style="height: 100px;">
+
+							</select>
+						</div>
+						<div class="col-md-12">
+							<div class="form-floating">
+								<input type="text" class="form-control aprvline" id="referNm" name="referNm"
+									placeholder="참조인" readonly="readonly" data-no="1">
+								<label for="refer">참조인</label>
+							</div>
+						</div>
+
+						<input type ="hidden" id="refer" name="refer">
+						<input type="hidden" id="ap1" name="ap1"> <input
+							type="hidden" name="ap2" id="ap2"> <input type="hidden"
+							name="ap3" id="ap3">
+
+
+						<div class="form-floating mb-3">
+							<textarea class="form-control" placeholder="Leave a comment here"
+								id="floatingTextarea" style="height: 100px;"></textarea>
+							<label for="floatingTextarea">상신의견</label>
+						</div>
+
+						<div class="col-12">
+							<div>
+								<button type="button" id="save" class="btn btn-primary"
+									style="float: right;">저장</button>
+								<button type="button" class="btn btn-secondary float-right"
+									data-bs-dismiss="modal"
+									style="float: right; margin-right: 5px;">닫기</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+		</section>
+
+	</main>
+</body>
+</html>

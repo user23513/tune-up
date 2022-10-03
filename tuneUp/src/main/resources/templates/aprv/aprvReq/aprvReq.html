@@ -196,6 +196,7 @@
 			
 				})
 				
+			//히든폼값
 			$(".aprvline").on("click", e=>{
 				let no =  $(e.target).data("no");
 				$(e.target).val("");
@@ -207,7 +208,8 @@
 					$("#ap3").val("");
 				}
 				})
-				
+			
+			//결재선 삭제
 			$(".delLine").on("click", e=>{
 			let no = $(e.target).closest("li").data("no");
 			let result = confirm("삭제하시겠습니까?");
@@ -229,26 +231,47 @@
 			}
 		})
 		
-		//게시글 등록
-    $("#save").on("click", function(){
-        let content = tinymce.activeEditor.getContent();
-        let ttl = $("#ttl").val();
-        $("#cntn").val(content);
-        
-        if (content != "" && ttl != ""){
-        	$("#newfrm").submit();
-        } else {
-        	alert("내용을 작성해주세요!");
-        }
-        
-    });
 		
+		$(".lineInsertBtn").on("click", e=>{
+			if($("#nm1").val() == ""){
+				alert("첫번째 결재자는 필수 지정입니다.");
+			} else{
+				$("#lineFrm").submit();
+			}
+			
+		})
 		
+   
 		reqSelect();
 		formSelect();
+		formInsert();
+		
 		
 	});
 		
+		function aprvFormSel(){
+			let formNo = $(".selFormBtn").data("no");
+			$("#formNo").val(formNo);
+			$("#formSelfrm").submit();
+			
+		}
+
+		
+		//서식등록
+		function formInsert(){
+			$("#save").on("click", function(){
+		        let content = tinymce.activeEditor.getContent();
+		        let ttl = $("#ttl").val();
+		        $("#cntn").val(content);
+		        
+		        if (content != "" && ttl != ""){
+		        	$("#newfrm").submit();
+		        } else {
+		        	alert("내용을 작성해주세요!");
+		        }
+		        
+		    });
+		}
 		
 		//글상세
 		function reqSelect(){
@@ -274,7 +297,7 @@
 				    }) 
 				})
 			}
-		
+		//서식상세
 		function formSelect(){
 			$("#formtb").on("click", "tr", e=>{
 				let formNo = $(e.target).data("no"); 
@@ -289,14 +312,11 @@
 				    success:function(obj){
 				        $("#vttl").html(obj.ttl);
 						$("#tnv").html(obj.cntn);
-						if (sessionStorage.getItem("empNo") == obj.empNo){
-							$("#viewFoot").html("");
-							let clBtn = `<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">닫기</button>`;
-							let selBtn = `<button type="button" class="btn btn-primary">서식 선택</button>`;
-							$("#viewFoot").append(clBtn,selBtn);
-						}
-						
+						$("#viewFoot").html("");
+						let clBtn = `<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>`;
+						let selBtn = `<button type="button" class="btn btn-primary selFormBtn" data-no="${obj.formNo}" onclick="aprvFormSel()">선택</button>`;
+						$("#viewFoot").append(clBtn, selBtn);		
 						$("#viewModal").modal('show');
 						
 				        }
@@ -434,14 +454,6 @@
 									</table>
 								</div>
 							</div>
-
-							<!-- <div>
-								<form id="frm" method="post" action="aprvSelect">
-									<input type="hidden" th:name="${_csrf.parameterName}"
-										th:value="${_csrf.token}"> <input type="hidden"
-										id="aprvNo" name="aprvNo">
-								</form>
-							</div> -->
 						</div>
 
 						<!-- tabs gap -->
@@ -524,13 +536,13 @@
 										</tbody>
 									</table>
 								</div>
-								<!-- <div>
-									<form id="formfrm" method="post" action="formSelect">
+								<div>
+									<form id="formSelfrm" method="post" action="aprvForm">
 										<input type="hidden" th:name="${_csrf.parameterName}"
 											th:value="${_csrf.token}"> <input type="hidden"
 											id="formNo" name="formNo">
 									</form>
-								</div> -->
+								</div>
 							</div>
 						</div>
 					</div>
@@ -555,6 +567,11 @@
 								<ul class="list-group lineList">
 									<li class="list-group-item lineLi" th:each="n : ${line}"
 										th:data-no="${n.lineNo}"><b
+										th:if="${n.nm2} == null and ${n.nm3} == null"
+										th:text="|${n.nm1}|"></b> <b
+										th:if="${n.nm3} == null and ${n.nm2} != null"
+										th:text="|${n.nm1} → ${n.nm2}|"></b> <b
+										th:if="${n.nm3} != null"
 										th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
 										<button type="button" class="btn btn-primary delLine"
 											style="float: right;">삭제</button></li>
@@ -568,7 +585,7 @@
 							<div class="row g-3">
 								<div class="col-md-4">
 									<div class="form-floating">
-										<select class="form-select" id="deptSelect" aria-label="State">
+										<select class="form-select" id="deptSelect" aria-label="State" style="height: 100px">
 											<option>선택</option>
 											<option th:each="d : ${dept}" th:value="${d.dept}"
 												th:text="${d.dept}">부서</option>
@@ -577,7 +594,7 @@
 								</div>
 								<div class="col-md-8">
 									<select class="form-select" id="multi" multiple
-										aria-label="multiple select example">
+										aria-label="multiple select example" style="height: 100px">
 
 									</select>
 								</div>
@@ -585,8 +602,8 @@
 								<div class="col-md-4">
 									<div class="form-floating">
 										<input type="text" class="form-control aprvline" id="nm1"
-											name="nm1" placeholder="결재자" readonly="readonly" data-no="1" required="required">
-										<label for="nm1">1st</label>
+											name="nm1" placeholder="결재자" readonly="readonly" data-no="1"
+											required="required"> <label for="nm1">1st</label>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -607,11 +624,11 @@
 									type="hidden" name="ap2" id="ap2"> <input type="hidden"
 									name="ap3" id="ap3">
 							</div>
-
+							<br>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary"
 									data-bs-dismiss="modal">닫기</button>
-								<button type="submit" class="btn btn-primary">저장</button>
+								<button type="button" class="btn btn-primary lineInsertBtn">저장</button>
 							</div>
 						</form>
 					</div>
@@ -633,10 +650,7 @@
 					<div class="modal-body" id="vCntn">
 						<div id="tnv" class=".txtA"></div>
 					</div>
-					<div class="modal-footer" id="viewFoot">
-						
-						
-					</div>
+					<div class="modal-footer" id="viewFoot"></div>
 				</div>
 			</div>
 		</div>
@@ -653,8 +667,8 @@
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="nCntn">
-						<form id="newfrm" class="row g-3" method="post" action="formInsert"
-							enctype="multipart/form-data">
+						<form id="newfrm" class="row g-3" method="post"
+							action="formInsert" enctype="multipart/form-data">
 							<input type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}">
 
@@ -672,23 +686,21 @@
 							<div class="col-md-10">
 								<div class="form-floating">
 									<input type="text" class="form-control" id="ttl" name="ttl"
-										placeholder="서식 이름" required="required"><label for="ttl">서식 이름</label>
+										placeholder="서식 이름" required="required"><label
+										for="ttl">서식 이름</label>
 								</div>
 							</div>
 							<div class="col-12">
 								<div class="form-floating">
-									<textarea class="line" id="cntn" name="cntn" required="required"></textarea>
+									<textarea class="line" id="cntn" name="cntn"
+										required="required"></textarea>
 								</div>
 							</div>
-							<!-- <div class="col-md-12">
-								<input class="form-control" type="file" id="file" name="file">
-							</div> -->
 							<div class="col-3">
 								<div class="form-check form-switch">
 									<input class="form-check-input" type="checkbox"
 										id="formAuthCheck" name="formAuth"> <label
 										class="form-check-label" for="formAuthCheck">서식공개</label>
-
 								</div>
 							</div>
 							<div class="col-9">
@@ -700,9 +712,6 @@
 										style="float: right; margin-right: 5px;">닫기</button>
 								</div>
 							</div>
-
-
-
 						</form>
 					</div>
 

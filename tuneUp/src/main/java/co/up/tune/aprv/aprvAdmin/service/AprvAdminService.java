@@ -25,7 +25,7 @@ public interface AprvAdminService { // 전자결재 관리자
 	FormVO formSelect(FormVO vo);
 
 	// 관리자 서식 삭제
-	int formAdminDel(AprvVO vo);
+	int formAdminDel(FormVO vo);
 
 	// 관리자 반려
 	int aprvAdReject(ApprovalVO vo);

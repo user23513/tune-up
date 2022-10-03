@@ -20,8 +20,9 @@ public class AprvVO { //전자결재
 	String impts; //중요
 	String aprvSt; //승인상태
 	
-	int formNo; //서식번호
-	String formCat; //서식종류
-	String formAuth; //공개여부
+	String ap1;
+	String ap2;
+	String ap3;
+	String refer;
 
 }

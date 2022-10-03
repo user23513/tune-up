@@ -62,7 +62,31 @@ textarea.none
 	border: none !important;
 }
 span:hover{color: #5596d4;;}
+
 i.bi-plus-square:hover{color: red;}
+
+.test_obj input[type="radio"] {
+    display: none;
+}
+.test_obj input[type="radio"] + span {
+    display: inline-block;
+    padding: 5px 15px;
+    border: 1px solid #dfdfdf;
+    color: #4e94ba;
+    background-color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+    border: solid 1px #4e94ba; 
+    border-radius: 20px;
+}
+
+.test_obj input[type="radio"]:checked + span {
+    background-color: #4e94ba;
+    color: #ffffff;
+}
+.size{
+	 font-size: 22px;
+}
 </style>
 <link rel="stylesheet" href="/css/jquery.treeview.css"/>
 <link rel="stylesheet" href="/css/screen.css"/>
@@ -152,43 +176,60 @@ $(document).ready(function(){
 				            
 						<!-- 업무 -->
 						<div class="tab-pane fade" id="business-justified" role="tabpanel" aria-labelledby="profile-tab">
-							<form>
+							<form action="businessInsert" method="post" enctype="multipart/form-data">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 								<div class="row mb-3">
 									<label for="inputText" class="col-sm-2 col-form-label">Project Name</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" id="nm" name="nm">
+										<input type="text" class="form-control" name="bussTtl">
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="inputText" class="col-sm-2 col-form-label">진행상태</label>
 									<div class="col-sm-10">
-										<button type="button" class="btn btn-outline-primary">요청</button>
-										<button type="button" class="btn btn-outline-primary">진행</button>
-										<button type="button" class="btn btn-outline-primary">완료</button>
+										<!--상태 버튼-->
+						                <i class="bi bi-arrow-clockwise size"></i>
+						                <div style="display: inline-block; width: 80%; margin-left: 10px;">
+						         	    	<label class="test_obj">
+											    <input type="radio" name="prog" value="요청">
+											    <span>요청</span>
+											</label>
+											&nbsp;
+											<label class="test_obj">
+											    <input type="radio" name="prog" value="진행">
+											    <span>진행</span>
+											</label>
+											&nbsp;
+											<label class="test_obj">
+											    <input type="radio" name="prog" value="완료">
+											    <span>완료</span>
+											</label>
+						                </div>
+						                <!--상태 버튼-->
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="inputDate" class="col-sm-2 col-form-label">시작일</label>
 									<div class="col-sm-10">
-										<input type="date" class="form-control" id="sdt" name="sdt">
+										<input type="date" class="form-control" name="sdt">
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="inputDate" class="col-sm-2 col-form-label">종료일</label>
 									<div class="col-sm-10">
-										<input type="date" class="form-control" id="edt" name="edt">
+										<input type="date" class="form-control" name="edt">
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="inputPassword" class="col-sm-2 col-form-label">내용</label>
 									<div class="col-sm-10">
-										<textarea class="form-control" style="height: 100px"></textarea>
+										<textarea class="form-control" style="height: 100px" name="cntn"></textarea>
 									</div>
 								</div>
 								<div class="row mb-3">
 									<label for="inputNumber" class="col-sm-2 col-form-label">FileUpload</label>
 									<div class="col-sm-10">
-										<input class="form-control" type="file" id="formFile">
+										<input class="form-control" type="file" name="file">
 									</div>
 								</div>
 								<div class="col-12">

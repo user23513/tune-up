@@ -7,7 +7,7 @@ import co.up.tune.prj.vo.BusinessVO;
 
 public interface BusinessMapper {
 	List<BusinessVO> businessList(BusinessVO vo);
-	int businessInsert(BusinessVO vo);
+	int businessInsert(BusinessVO vo); //업무 등록
 	int businessUpdate(BusinessVO vo);
 	int businessDelete(BusinessVO vo);
 	

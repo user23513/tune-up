@@ -2,18 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.prj.business.mapper.BusinessMapper">
 
-<select id="businessList" resultType="co.up.tune.prj.vo.BusinessVO">
-	select *
-	from business
-</select>
-
-<insert id="businessInsert" parameterType="co.up.tune.prj.vo.BusinessVO">
-	insert into business
-	values (PNO_SEQ.NEXTVAL,#{bussTtl},#{empNo},#{wrtr},#{st},#{sdt},#{edt},#{edt},#{term},#{cntn},#{sub},#{prog},#{atechNo},#{prjNo})
-</insert>
-
-<update id="businessUpdate" parameterType="co.up.tune.prj.vo.BusinessVO">
+	<select id="businessList" resultType="co.up.tune.prj.vo.BusinessVO">
+		select *
+		from business
+	</select>
 	
-</update>
+	<!-- 업무 등록 -->
+	<insert id="businessInsert" parameterType="co.up.tune.prj.vo.BusinessVO">
+		<selectKey keyProperty="atchNo" order="BEFORE" resultType="INTEGER">
+			SELECT 
+			    CASE WHEN MAX(ATCH_NO)IS NULL THEN 1
+			    ELSE MAX(ATCH_NO)+1
+			    END AS ATCH_NO
+			FROM POST
+		</selectKey>
+		INSERT INTO BUSINESS
+		VALUES (PNO_SEQ.NEXTVAL, #{bussTtl}, #{empNo}, #{wrtr}, #{st}, #{sdt}, #{edt}, 
+					#{term}, #{cntn}, #{sub}, #{prog}, #{atechNo}, #{prjNo})
+	</insert>
+	
+	<update id="businessUpdate" parameterType="co.up.tune.prj.vo.BusinessVO">
+		
+	</update>
 
 </mapper>

@@ -11,7 +11,9 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>	<!-- 차트 CDN -->
 <!-- chart.js -->
+<script type="text/javascript">
 
+</script>
 <style type="text/css">
 #chart1 {
 	margin-right: 20px;
@@ -190,6 +192,32 @@ function converDate(){
               <!-- Stacked Bar Chart -->
               <canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
               <script>
+              /*  $(document).ready(function(){
+            		getGraph();
+            	});
+
+            	function getGraph(){
+            		let timeList = [];
+            		let wktmList = [];
+            		let ovtmList = [];
+            		let empNo = $("#eNo").val();
+            		
+            		$.ajax({
+            			url:'wktmChart',
+            			type:'get',
+            			data:{'empNo':empNo},
+            			datatype:'json',
+            			success:function(data){
+            				for (let i = 0; i<data.length; i++){
+            					timeList.push(data[i].attd_dt);
+            					wktmList.push(data[i].wktm);
+            					ovtmList.push(data[i].ovtm);
+            				}
+            			
+            			}
+            		}) 
+            	
+              
                 document.addEventListener("DOMContentLoaded", () => {
                   new Chart(document.querySelector('#stakedBarChart'), {
                     type: 'bar',
@@ -197,13 +225,13 @@ function converDate(){
                       labels: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri'],
                       datasets: [{
                           label: '근무 시간',
-                          data: [12,9,9,18,9],
+                          data: [9,9,12,9,10], 
                           backgroundColor: 
                         	  'rgba(255, 99, 132, 0.2)',
                         },
                         {
                           label: '야근',
-                          data: [3,0,0,6,0],
+                          data: [0,0,3,0,1], 
                           backgroundColor: 
                         	  'rgba(75, 192, 192, 0.2)',
                         },
@@ -229,6 +257,7 @@ function converDate(){
                     }
                   });
                 });
+            	} */
               </script>
               <!-- End Stacked Bar Chart -->
 					

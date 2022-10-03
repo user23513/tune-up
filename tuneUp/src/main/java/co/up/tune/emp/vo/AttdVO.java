@@ -33,4 +33,6 @@ public class AttdVO {
 	
 	String st;	//상태
 	
+	int cnt; //차트
+	
 }

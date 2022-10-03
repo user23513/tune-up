@@ -155,39 +155,40 @@ public class AprvReqController {
 		int aprvNo = vo.getAprvNo();
 
 		// 결재인 테이블
-		String[] arrAp = vo.getAprvr().split(",");
 		ApprovalVO aprv = new ApprovalVO();
 		aprv.setAprvNo(aprvNo);
-		int a = 1; // 결재순서
-		if (arrAp[2] != "undefined") {
-			for (String i : arrAp) {
-				aprv.setAprvr(i);
-				aprv.setAprvSeq(a);
-				li.approvalIn(aprv);
-				a++;
+		if (vo.getAprvr().contains(",")) {
+			String[] arrAp = vo.getAprvr().split(",");
+
+			int a = 1; // 결재순서
+			if (arrAp[2] != "undefined") {
+				for (String i : arrAp) {
+					aprv.setAprvr(i);
+					aprv.setAprvSeq(a);
+					li.approvalIn(aprv);
+					a++;
+				}
+				;
+			} else if (arrAp[1] != "undefined") {
+				for (int i = 0; i < 2; i++) {
+					aprv.setAprvr(arrAp[i]);
+					aprv.setAprvSeq(a);
+					li.approvalIn(aprv);
+					a++;
+				}
+				;
 			}
-			;
-		} else if (arrAp[1] != "undefined") {
-			for (int i=0; i<2; i++) {
-				aprv.setAprvr(arrAp[i]);
-				aprv.setAprvSeq(a);
-				li.approvalIn(aprv);
-				a++;
-			}
-			;
 		} else {
-			aprv.setAprvr(arrAp[0]);
+			aprv.setAprvr(vo.getAprvr());
 			aprv.setAprvSeq(1);
 			li.approvalIn(aprv);
 		}
-		
 
 		// 참조인 테이블
 		ReferVO rf = new ReferVO();
 		rf.setAprvNo(aprvNo);
-		
-		String[] appRf = vo.getRefer().split(",");
-		if (appRf.length != 0) {
+		if (vo.getRefer().contains(",")) {
+			String[] appRf = vo.getRefer().split(",");
 			for (String i : appRf) {
 				rf.setEmpNo(i);
 				li.referIn(rf);
@@ -196,7 +197,6 @@ public class AprvReqController {
 		} else {
 			rf.setEmpNo(vo.getRefer());
 			li.referIn(rf);
-			
 		}
 
 		return "redirect:aprvReq";

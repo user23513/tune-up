@@ -125,12 +125,21 @@ $(document).ready(function(){
 														<br>
 														<form action="removeTeam" method="post" >
 													<input type="hidden" th:name="${_csrf.parameterName}"
-														th:value="${_csrf.token}"> <input type="hidden"
-														id="athEmpNo" name="empNo" th:value="${tm.empNo}">
-													<input type="hidden" id="athPrjNo" name="tmPrjNo"
-														th:value="${tm.prjNo}"> 
+														th:value="${_csrf.token}"> 
+														<input type="hidden" id="athEmpNo" name="empNo" th:value="${tm.empNo}">
+													<input type="hidden" id="athPrjNo" name="tmPrjNo" th:value="${tm.prjNo}"> 
 													<h4><button class="ri-delete-bin-5-line" id="bin" style="float: right"></button></h4>
 												</form>
+												
+												<form action="teamAuth" method="post" >
+													<input type="hidden" th:name="${_csrf.parameterName}"
+														th:value="${_csrf.token}"> 
+														<input type="hidden" id="taEmpNo" name="taempNo" th:value="${tm.empNo}">
+														 <input type="hidden" id="taAuth" name="taAuth" th:value="${tm.auth}">
+													<input type="hidden" id="taPrjNo" name="tatmPrjNo" th:value="${tm.prjNo}"> 
+													<h4><button class="bi bi-arrow-bar-up" id="bin" style="float: right"></button></h4>
+												</form>
+												
 														<h5 class="card-text">[[${tm.dept}]]팀&nbsp;&nbsp;[[${tm.nm}]] </h5>
 														<br>
 														<h6>사원번호 [[${tm.empNo}]]</h6>

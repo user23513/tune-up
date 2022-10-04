@@ -68,6 +68,11 @@
 		INSERT INTO ATTD (atdc_dt,emp_no, nm, dept, position,atdc_dttm)
 		VALUES ((TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD')), #{empNo}, #{nm}, #{dept}, #{position},(systimestamp + 9/24))
 	</insert>
+	
+	<select id="alreadyAttd" resultType="int" parameterType="map">
+		select count(*) from attd
+		where emp_no = #{empNo} and atdc_dt = #{atdcDt}
+	</select>
 	 
 	<update id="endAttd" parameterType="co.up.tune.emp.vo.AttdVO">
 		<![CDATA[ 

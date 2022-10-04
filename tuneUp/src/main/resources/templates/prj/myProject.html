@@ -16,25 +16,22 @@ $(document).ready(function(){
 
 	
 	</script>
-
-<style>
+	
+<style >
 #info {
 	background-color: white;
 	padding: 0;
 	border: none;
 	float: right;
 }
-
-.size {
+.size{
 	height: 18rem;
 	border-radius: 5%;
 }
-
 .pagination {
 	float: right;
 	margin: 0 0 5px;
 }
-
 .pagination li a {
 	border: none;
 	font-size: 15px;
@@ -47,8 +44,8 @@ $(document).ready(function(){
 	text-align: center;
 	padding: 0 6px;
 }
-
 .pagination li a:hover {
+
 	color: #fffff;
 }
 
@@ -56,20 +53,18 @@ $(document).ready(function(){
 	background: #3a86ff;
 }
 
+
 .pagination li.active a:hover {
 	background: #3a86ff;
 }
-
 .pagination li.disabled i {
 	color: #ccc;
 }
-
 .pagination li i {
 	font-size: 16px;
 	padding-top: 6px
 }
-
-.round {
+.round{
 	display: inline-block;
 	padding: 7px 25px;
 	border: 1px solid #3a86ff;
@@ -82,101 +77,109 @@ $(document).ready(function(){
 	margin-right: 5px;
 }
 
-.select {
-	background-color: #3a86ff;
-	color: #ffffff;
-}
+
 </style>
 </head>
 <body>
-	<!-- ======= Main ======= -->
-	<main id="main" class="main" layout:fragment="content">
-
-		<section class="section">
-			<div class="row">
-				<div class="col-12">
-					<div class="card">
-						<div class="card-body">
-							<br>
-							<div class="pagetitle">
-						<h1>프로젝트</h1>
-						<nav>
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item ">새 프로젝트</li>
-								<li class="breadcrumb-item active">내 프로젝트</li>
-								<li class="breadcrumb-item">내 파일함</li>
-							</ol>
-						</nav>
-					</div>
-							<!-- 진행/완료 탭 -->
-							<ul class="nav nav-tabs nav-tabs-bordered " id="borderedTab"
-								role="tablist">
-								<li class="nav-item" role="presentation">
-									<button class="nav-link active" id="ongoing-tab"
-										data-bs-toggle="tab" data-bs-target="#ongoing" type="button"
-										role="tab" aria-controls="ongoing" aria-selected="true">진행중</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="cmp-tab" data-bs-toggle="tab"
-										data-bs-target="#cmp" type="button" role="tab"
-										aria-controls="cmp" aria-selected="false">완료</button>
-								</li>
-							</ul>
-							<!-- 프로젝트 카드 -->
-							<div class="tab-content pt-2" id="borderedTabContent"
-								style="margin-top: 20px;">
-								<div class="tab-pane fade show active" id="ongoing"
-									role="tabpanel" aria-labelledby="ongoing-tab">
-									<!-- Start 내 프로젝트 리스트 현지수정 -->
-									<div class="row row-cols-1 row-cols-md-3 g-4">
-										<form action="prjPostList"
-											th:each="prj:${myPrjList.getList()}">
-											<div class="col prjSelect">
-												<input type="hidden" name="prjNo" th:value="${prj.prjNo}">
-
-												<!-- 프로젝트 카드 -->
-												<div class="card size">
-													<span> <i class="bi bi-info-circle"
-														style="position: relative; right: 10px; top: 10px;"
-														id="info"></i>
-													</span>
-													<div class="card-body">
-														<div style="position: relative; left: -30px; top: -5px;">
-															<span class="round" style="margin-left: 20px;"
-																th:classappend="${prj.st} == '요청' ? 'select'">요청</span>
-															<span class="round"
-																th:classappend="${prj.st} == '진행' ? 'select'">진행</span>
-															<span class="round"
-																th:classappend="${prj.st} == '완료' ? 'select'">완료</span>
-														</div>
-														<br>
-														<h2 class="card-text">[[${prj.nm}]]</h2>
-														<h6 class="card-subtitle mb-2 text-muted"
-															style="position: relative; top: 20px;">[[${prj.cntn}]]</h6>
-														<div class="progress"
-															style="width: 100%; position: relative; top: 50px; left: -10px;">
-															<div class="progress col-8">
-																<div class="progress-bar" role="progressbar"
-																	style="width: 70%" aria-valuenow="10" aria-valuemin="0"
-																	aria-valuemax="100"></div>
+<!-- ======= Main ======= -->
+<main id="main" class="main" layout:fragment="content">
+	<div class="pagetitle">
+		<h1>내 프로젝트</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+				<li class="breadcrumb-item">내 프로젝트</li>
+			</ol>
+		</nav>
+	</div>
+	<section class="section">
+		<div class="row">
+			<div class="col-12"> 
+				<div class="card">
+					<div class="card-body">
+						<br>
+						<!-- 진행/완료 탭 -->
+						<ul class="nav nav-tabs nav-tabs-bordered " id="borderedTab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="ongoing-tab" data-bs-toggle="tab" 
+										data-bs-target="#ongoing" type="button" role="tab" aria-controls="ongoing" 
+										aria-selected="true">진행중</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="cmp-tab" data-bs-toggle="tab"
+								 		data-bs-target="#cmp" type="button" role="tab" aria-controls="cmp" 
+								 		aria-selected="false">완료</button>
+							</li>
+						</ul>
+						<!-- 프로젝트 카드 -->
+						 <div class="tab-content pt-2" id="borderedTabContent" style="margin-top: 20px;">
+							<div class="tab-pane fade show active" id="ongoing" role="tabpanel" aria-labelledby="ongoing-tab">
+								<!-- Start 내 프로젝트 리스트 현지수정 -->
+								<div class="row row-cols-1 row-cols-md-3 g-4">
+									<form action="prjPostList" th:each="prj:${myPrjList.getList()}">
+										  <div class="col prjSelect" >
+											<input type="hidden" name="prjNo" th:value="${prj.prjNo}">
+											
+											<!-- 프로젝트 카드 -->
+										    <div class="card size">
+												<span>
+													<i class="bi bi-info-circle" style="position: relative; right: 10px; top: 10px;" id="info"></i>
+												</span>
+												<div class="card-body">
+													<div style="position: relative; left: -30px; top: -5px;">
+														<span class="round" style="margin-left: 20px;" th:classappend="${prj.st} == '요청' ? 'select'">요청</span>
+														<span class="round" th:classappend="${prj.st} == '진행' ? 'select'">진행</span>
+														<span class="round" th:classappend="${prj.st} == '완료' ? 'select'">완료</span>
+													</div>
+													<br>
+												    <h2 class="card-text">[[${prj.nm}]]</h2>
+												    <h6 class="card-subtitle mb-2 text-muted" style="position: relative; top: 20px;">[[${prj.cntn}]]</h6>
+													<div class="progress" style="width: 100%; position: relative; top: 50px; left: -10px;">
+														<div class="progress col-8" >
+															<div class="progress-bar" role="progressbar"  
+																	style="width: 70%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
 															</div>
 														</div>
 													</div>
-													<div class="card-footer">
-														<input type="hidden" class="inputPrj"
-															th:value="${prj.prjNo}"> <i
-															class="bi bi-people-fill"> <span
-															th:text="${checkTeam}"></span>
-														</i>
-
-
-
-													</div>
 												</div>
+												<div class="card-footer">
+												<input type="hidden" class="inputPrj" th:value="${prj.prjNo}">
+												
+													<i class="bi bi-people-fill"> <span th:text="${prj.cnt}"></span> </i>
+													
+													
+													
+												</div>
+										    </div>
+										    <!-- 프로젝트 카드 -->
+										    
+										  </div>
+									</form>
+								</div>
+								<!-- End 내 프로젝트 리스트 -->
+							</div>
+						</div> 
+						
+						<!-- Card with header and footer -->
+						<div class="tab-content pt-2" id="borderedTabContent">
+							 <div class="tab-pane fade" id="cmp" role="tabpanel"
+								aria-labelledby="cmp-tab">
+								
+								<div class="card">
+									<div class="card-header" onclick="location.href='#'">튠업
+										프로젝트2</div>
+									<div class="card-body">
+										<h5 class="card-title">Development Team2</h5>
+										그룹웨어 프로젝트 개발2
+									</div>
+									<div class="card-footer">
+										<i class="bi bi-people-fill"> 52 </i>
+
 												<!-- 프로젝트 카드 -->
 
 											</div>
 										</form>
+
 									</div>
 									<!-- End 내 프로젝트 리스트 -->
 								</div>

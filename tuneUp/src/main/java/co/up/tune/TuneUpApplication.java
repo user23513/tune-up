@@ -38,4 +38,7 @@ public class TuneUpApplication {
 	@GetMapping("/chat")
 	public String chat() {return "chat";}
 	
+	@GetMapping("/chart")
+	public String chart() {return "chart";}
+	
 }

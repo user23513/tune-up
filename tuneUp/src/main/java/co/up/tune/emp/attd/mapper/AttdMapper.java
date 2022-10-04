@@ -2,6 +2,7 @@ package co.up.tune.emp.attd.mapper;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -19,6 +20,8 @@ public interface AttdMapper {
 	
 	int startAttd(AttdVO vo);	//오늘 출근 시작
 	int endAttd(AttdVO vo);	//오늘 퇴근
+	
+	int alreadyAttd(Map<String, Object> paramMap); //오늘 이미 출근했는지 여부
 	
 	List<AttdVO> wktmChart(AttdVO vo);	// 워크타임 차트
 

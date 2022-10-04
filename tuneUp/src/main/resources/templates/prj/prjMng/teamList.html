@@ -21,20 +21,23 @@
 	<main id="main" class="main" layout:fragment="content">
 	<script type="text/javascript">
 $(document).ready(function(){
-$("#browser").treeview({
+/* $("#browser").treeview({
 		
 	}); 
+ */	
+ /* 
+	$("#bin").on("click", e=>{
+		
+		e.preventDefault();
+		
+		 $("#removeTeam").submit();
+		console.log("empno ", $(".inputEmpNo").val())
+		console.log("token ", $(".inputToken").val())
+	})*/
 	
 	console.log("empno ", $(".inputEmpNo").val())
 	console.log("prjno ", $(".inputprjNo").val())
 	console.log("prjno ", $(".inputAuth").val())
-	
-	$("#bin").on("click", e=>{
-		 $("#removeTeam").submit();
-		/* e.preventDefault();
-		console.log("empno ", $(".inputEmpNo").val())
-		console.log("token ", $(".inputToken").val())*/
-	})
 	
 });
 </script>
@@ -129,6 +132,9 @@ $("#browser").treeview({
 									<!-- Default Card -->
 
 									<div class="row row-cols-1 row-cols-md-3 g-4">
+									<div th:if="${teamList.empty}">
+									<span>해당 프로젝트를 진행중인 팀원이 없습니다. </span>
+									</div>
 										<div th:each="tm:${teamList}" >
 											<!-- <input type="hidden" th:name="${_csrf.parameterName}"
 												th:value="${_csrf.token}">  -->
@@ -139,26 +145,25 @@ $("#browser").treeview({
 												<div class="card size">
 													<div class="card-body">
 														<br>
-														<!-- <form action="removeTeam" method="post" > -->
-														<form action="removeTeam">
-													<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">  -->
-													 <input type="hidden" id="athEmpNo" name="empNo" th:value="${tm.empNo}">
-													<input type="hidden" id="athPrjNo" name="tmPrjNo" th:value="${tm.prjNo}"> 
+														 <form th:action="removeTeam" method="post" id="removeTeam"> 
+													<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">  
+													 <input type="hidden" id="athEmpNo" th:name="empNo" th:value="${tm.empNo}">
+													<input type="hidden" id="athPrjNo" th:name="prjNo" th:value="${tm.prjNo}"> 
 													<!-- 삭제버튼 -->
-													<h4><button class="ri-delete-bin-5-line" id="bin" style="float: right" ></button></h4>
+													<h4><button class="ri-delete-bin-5-line" type="submit" id="bin" style="float: right" ></button></h4>
 												</form>																				
 												
 												<form action="teamAuth" method="post"> 
 												 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-														 <input type="hidden"  name="tmEmmpNo" class="inputEmpNo" th:value="${tm.empNo}">
-														 <input type="hidden"  name="tmAuuth" class="inputAuth" th:value="${tm.auth}">
-													<input type="hidden"  name="tmPrrjNo" class="inputPrjNo" th:value="${tm.prjNo}">  
+														 <input type="hidden"  name="empNo" class="inputEmpNo" th:value="${tm.empNo}">
+														 <input type="hidden"  name="auth" class="inputAuth" th:value="${tm.auth}">
+													<input type="hidden"  name="prjNo" class="inputPrjNo" th:value="${tm.prjNo}">  
 													<!-- 권한 올리기 버튼 -->
 													<h4><button class="bi bi-arrow-bar-up" id="bin" style="float: right"  th:if="${tm.auth == '팀원'}" ></button></h4>
 												</form>
 												
 														<h5 class="card-text">[[${tm.dept}]]팀&nbsp;&nbsp;[[${tm.nm}]] </h5>
-														<br>
+														<br>	
 														<h6>사원번호 [[${tm.empNo}]]</h6>
 														<h6 class="card-subtitle mb-2 text-muted">[[${tm.auth}]]</h6>
 													</div>

@@ -81,8 +81,7 @@
 	
 	<!-- 댓 -->
 	
-
-	<select id="ppReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
+<select id="pjReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
 		SELECT REPLY_NO, 
 			   POST_NO, 
 			   EMP_NO, 
@@ -95,31 +94,41 @@
 		ORDER BY REPLY_NO DESC
 	</select>
 	
+	<select id="pjReplySelect" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">
+		SELECT * 
+		FROM REPLY
+		WHERE REPLY_NO = #{replyNo}
+	</select>
 	
-	<insert id="ppReplyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
-		 <selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
+	<insert id="pjReplyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
+		<!-- before:insert하기전에 -->
+		<selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
 			SELECT 
 			    CASE WHEN MAX(REPLY_NO) IS NULL THEN 1
 			    ELSE MAX(REPLY_NO)+1 
 			    END AS NO
 			FROM REPLY
-		</selectKey> 
-		INSERT INTO 
-			REPLY
-				VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
+		</selectKey>
+		INSERT INTO REPLY
+		VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
+				
 	</insert>
 	
+	<update id="pjReplyUpdate" parameterType="co.up.tune.com.vo.ReplyVO"> 
+		<selectKey keyColumn="dttm" keyProperty="dttm" order="AFTER" resultType="date">  
+			SELECT DTTM 
+			FROM REPLY
+			WHERE REPLY_NO = #{replyNo}
+		</selectKey>
+		UPDATE REPLY
+		SET CNTN = #{cntn}, DTTM = SYSDATE
+		WHERE REPLY_NO = #{replyNo}
+	</update>
 	
-	<delete id="ppReplyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
+	<delete id="pjReplyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
 		DELETE FROM REPLY
 		WHERE REPLY_NO = #{replyNo}
 	</delete>
-	
-	<select id="ppreplySelect" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">
-		SELECT * 
-		FROM REPLY
-		WHERE REPLY_NO = #{replyNo}
-	</select>
 	
 	<!-- 파일  -->
 	<!-- <select id="filesInsert" parameterType="co.up.tune.prj.vo.FilesVO" >
@@ -132,14 +141,6 @@
 	<select id="empList" resultType="co.up.tune.emp.vo.EmpVO">
 		SELECT *
 		FROM EMP
-	</select>
-	
-	<!-- 프로젝트 일정 리스트 -->
-	<select id="scheduleList" resultType="co.up.tune.prj.vo.ScheduleVO">
-		SELECT *
-		FROM SCHEDULE
-		WHERE PRJ_NO = #{prjNo}
-		ORDER BY POST_NO DESC
 	</select>
 	
 	<!-- 프로젝트 일정 => 멤버 리스트 -->

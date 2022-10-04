@@ -46,18 +46,29 @@ public class PrjMngController {
 	}
 	
 	//멤버삭제
-		@GetMapping("/removeTeam")
+		@PostMapping("/removeTeam")
 		public String removeTeam(TeamVO vo, Model model) {
-			dao.removeTeam(vo);
+			System.out.println("removeTeam :"+ vo.getEmpNo() + "getPrjNo :"+ vo.getPrjNo());
 			model.addAttribute("removeTeam", dao.removeTeam(vo));
+			
+			model.addAttribute("teamList", dao.teamList(vo.getPrjNo()));
+			model.addAttribute("addTeamList", dao.addTeamList());
+			model.addAttribute("authList", dao.authList(vo.getPrjNo()));
+			
 			return "prj/prjMng/teamList";
 			
 		}
 		
 		//관리자 추가
 		@PostMapping("/teamAuth")
-		public String teamAuth(TeamVO vo) {
+		public String teamAuth(TeamVO vo, Model model) {
+			System.out.println("teamAuth vo:" + vo);
 			dao.teamAuth(vo);
+			
+			model.addAttribute("teamList", dao.teamList(vo.getPrjNo()));
+			model.addAttribute("addTeamList", dao.addTeamList());
+			model.addAttribute("authList", dao.authList(vo.getPrjNo()));
+			
 			return "prj/prjMng/teamList";
 			
 		}

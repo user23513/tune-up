@@ -1,6 +1,7 @@
 package co.up.tune.prj.propost.web;
 
 import java.io.File;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,18 +34,28 @@ public class PropostAjaxController {
 		return cnt;
 	}
 	
-	@PostMapping("/ppReplyInsert") 
-	public ReplyVO ppReplyInsert(ReplyVO vo) {
-		dao.ppReplyInsert(vo); 
-		vo = dao.ppreplySelect(vo); 
-		return vo; 
-	}
-
-	//댓글 삭제
-	@PostMapping("/ppReplyDelete")
-	public int replyDelete(ReplyVO vo) {
-		return dao.ppReplyDelete(vo);
-	}
+	//=======댓글==========
+		//댓글 등록
+		@PostMapping("/pjReplyInsert")
+		public ReplyVO pjReplyInsert(ReplyVO vo) {
+			dao.pjReplyInsert(vo);
+			vo = dao.pjReplySelect(vo);
+			return vo;
+		}
+		
+		//댓글 수정
+		@PostMapping("/pjReplyUpdate")
+		public Date pjReplyUpdate(ReplyVO vo) {
+			dao.pjReplyUpdate(vo);
+			System.out.println(vo.getDttm());
+			return vo.getDttm();
+		}
+		
+		//댓글 삭제
+		@PostMapping("/pjReplyDelete")
+		public int pjReplyDelete(ReplyVO vo) {
+			return dao.pjReplyDelete(vo);
+		}
 
 	
 	

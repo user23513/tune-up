@@ -1,6 +1,7 @@
 package co.up.tune.emp.attdUp.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import co.up.tune.emp.vo.AttdUpVO;
 
@@ -11,11 +12,12 @@ public interface AttdUpMapper {
 	
 	List<AttdUpVO> myAttdUpList(); //나의 근태 수정리스트
 	int attdUpInsert(AttdUpVO vo); // 근태 수정 신청 - 사원
-	int attdUpDel(AttdUpVO vo);
-	int attdUpOk(AttdUpVO vo);
+	int attdUpDel(int attdUpNo);	//근태 수정 반려
+	int attdUpOk(AttdUpVO vo);	//근태 수정 승인
 	
 	int checkModi(AttdUpVO vo);	//수정요청 몇명
 	
+	int selectAttdUpNo(Map<String, Object> paramMap);
 	
 	
 	

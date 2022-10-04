@@ -15,4 +15,6 @@ public class TrustVO { //위임
 	Date sdt; //시작일
 	Date edt; //종료일
 	int trustNo; //위임번호
+	String rpttNm;
+	String nm;
 }

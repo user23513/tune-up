@@ -121,13 +121,12 @@ public class AprvReqController {
 	}
 
 	@PostMapping("/aprvInsert")
-	public String aprvInsert(AprvVO vo, HttpServletRequest request, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
+	public String aprvInsert(AprvVO vo, HttpServletRequest request, @RequestParam("file") MultipartFile[] files)
+			throws IllegalStateException, IOException {
 
-		List<FilesVO> list = new ArrayList<>();
-		
-		if(files.length != 0) {
-			String folder = "aprv"; 
-			list = fs.fileUpload(files, folder);
+		if (!files[0].isEmpty()) {
+			String folder = "aprv";
+			List<FilesVO> list = fs.fileUpload(files, folder);
 			vo.setFNm(list.get(0).getFNm());
 			vo.setFPath(list.get(0).getFPath());
 		}
@@ -154,29 +153,51 @@ public class AprvReqController {
 			// 참조 결재인 처리용 문서번호
 			int aprvNo = vo.getAprvNo();
 
-			// 결재인 테이블
+			// 폼에서 받아온 결재자 사번 분리 -> 결재자 테이블 입력
 			ApprovalVO aprv = new ApprovalVO();
 			aprv.setAprvNo(aprvNo);
 			
-			String[] arrAp = vo.getAprvr().split(",");
-			int a = 1; // 결재순서
-			for (int i = 0; i < 2; i++) {
-				aprv.setAprvr(arrAp[i]);
-				aprv.setAprvSeq(a);
+			String aprvr = vo.getAprvr();
+			if (!aprvr.contains(",")) {
+				aprv.setAprvr(aprvr);
+				aprv.setAprvSeq(1);
 				li.approvalIn(aprv);
-				a++;
+
+			} else {
+				String[] arrAp = aprvr.split(",");
+				int a = 1; // 결재순서
+				for (String i : arrAp) {
+					aprv.setAprvr(i);
+					aprv.setAprvSeq(a);
+					li.approvalIn(aprv);
+					a++;
+				}
+
 			}
-			// 참조인 테이블
+
+			// 폼에서 받아온 참조인 사번 분리 -> 참조 테이블 입력
 			ReferVO rf = new ReferVO();
 			rf.setAprvNo(aprvNo);
+			String refer = vo.getRefer();
+			if (!refer.contains(",")) {
 
-			String[] appRf = vo.getRefer().split(",");
-			for (String i : appRf) {
-				rf.setEmpNo(i);
+				rf.setEmpNo(refer);
 				li.referIn(rf);
+
+			} else {
+
+				String[] appRf = refer.split(",");
+				for (String i : appRf) {
+					rf.setEmpNo(i);
+					li.referIn(rf);
+
+				}
+
 			}
 			;
 		}
+		
+		
 		
 		return "redirect:aprvReq";
 

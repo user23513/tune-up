@@ -49,4 +49,9 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 		return map.aprvAdReject(vo);
 	}
 
+	@Override
+	public int reqAdReject(AprvVO vo) {
+		return map.reqAdReject(vo);
+	}
+
 }

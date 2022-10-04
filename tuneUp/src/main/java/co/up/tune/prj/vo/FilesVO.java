@@ -14,4 +14,5 @@ public class FilesVO {
 	 int atchNo;	//첨부파일번호
 	 String fCat;  //파일 카테고리
 	 String pNm; //프로젝트이름
+	 String empNo; //사번
 }

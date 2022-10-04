@@ -17,7 +17,5 @@ public interface AttdUpService {
 	AttdUpVO attdUpSelect(AttdUpVO vo); // 수정 상세조회 - 관리자 
 	
 	int checkModi(AttdUpVO vo);	//수정요청 몇명
-	
-	// 수정리스트 - 대기
-	// 수정리스트 - 완료
+ 
 }

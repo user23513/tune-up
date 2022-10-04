@@ -13,4 +13,12 @@
     	ORDER BY PRJ_NO DESC
 	</select>
 
+	<select id="checkTeam" resultType="Integer">
+		SELECT COUNT(*)
+		FROM TEAM
+		WHERE PRJ_NO = #{prjNo}
+	</select>
+
+
+
 </mapper>

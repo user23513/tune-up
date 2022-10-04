@@ -53,7 +53,7 @@ public class AttdController {
 		@PostMapping("/startAttd")
 		public String startAttd(AttdVO vo) {
 			dao.startAttd(vo);
-			return "main/main";
+			return "redirect:main";
 			
 		}
 		 
@@ -61,7 +61,7 @@ public class AttdController {
 		@PostMapping("/endAttd")
 		public String endAttd(AttdVO vo) {
 			dao.endAttd(vo);
-			return "main/main";
+			return "redirect:main";
 		}
 	
 	

@@ -84,7 +84,7 @@ $(document).ready(function(){
 		});
 
 	//라인선택				
-	$(".lineList").on("click", "li", e=>{
+	$(".lineLi").on("click", e=>{
 		$(".list-group-item-primary").removeClass("list-group-item-primary");
 		$("#aprvr").val(""); 
 		let ap1 = $(e.target).data("ap1");
@@ -148,38 +148,32 @@ $(document).ready(function(){
 			$("#refer").val("");
 		})
 	
-	
-								
-								
-	aprvInsert();
+		
+		$("#save").on("click", function() {
+			let content = tinymce.activeEditor.getContent();
+			let ttl = $("#ttl").val();
+			let aprvr = $("#aprvr").val();
+			$("#cntn").val(content);
+			
+			if (!confirm("문서를 상신하시겠습니까?")) {
+	            
+				return;
+	        
+			} else if (content != "" && ttl != "" && aprvr != ""){
+	        
+	        	$("#newfrm").submit();
+				
+	        	} else {
+	        		
+					alert("필수 내용을 작성해주세요.");
+				
+	        	}
+	           
+	        })
 
 		
-					
-})
-
-			function aprvInsert() {
-				$("#save").on("click", function() {
-					let content = tinymce.activeEditor.getContent();
-					let ttl = $("#ttl").val();
-					let aprvr = $("#aprvr").val();
-					$("#cntn").val(content);
-					
-					if (!confirm("문서를 상신하시겠습니까?")) {
-			            return;
-			        } else {
-			        	if (content != "" && ttl != "" && aprvr != ""){
-			        		$("#newfrm").submit();
-						
-			        	} else {
-							alert("필수 내용을 작성해주세요.");
-						}
-			           
-			        }
-
-				});
-			}
-			
-			
+		
+		});	
 			
 		</script>
 
@@ -252,15 +246,24 @@ $(document).ready(function(){
 
 						<div class="col-12">
 
-							<ul class="list-group lineList">
-								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" 
-								th:data-ap1="${n.ap1}" th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
-								th:data-nm1="${n.nm1}" th:data-nm2="${n.nm2}" th:data-nm3="${n.nm3}">
-								<b th:if="${n.nm2} == null and ${n.nm3} == null" th:text="|${n.nm1}|"></b>
-								<b th:if="${n.nm3} == null and ${n.nm2} != null" th:text="|${n.nm1} → ${n.nm2}|"></b>
-								<b th:if="${n.nm3} != null" th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
-									</li>
-							</ul>
+							<ol class="list-group list-group-numbered lineList">
+								<li class="list-group-item lineLi" th:each="n : ${line}"
+									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
+									th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+									th:if="${n.nm2} == null and ${n.nm3} == null"
+									th:text="|${n.nm1}|"></li>
+								<li class="list-group-item lineLi" th:each="n : ${line}"
+									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
+									th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+									th:if="${n.nm3} == null and ${n.nm2} != null"
+									th:text="|${n.nm1} → ${n.nm2}|"></li>
+								<li class="list-group-item lineLi" th:each="n : ${line}"
+									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
+									th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+									th:if="${n.nm3} != null"
+									th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></li>
+
+							</ol>
 
 						</div>
 
@@ -287,8 +290,8 @@ $(document).ready(function(){
 							</div>
 						</div>
 
-						<input type="hidden" id="refer" name="refer">
-						<input type="hidden" id="aprvr" name="">
+						<input type="hidden" id="refer" name="refer"> <input
+							type="hidden" id="aprvr" name="">
 
 						<div class="form-floating mb-3">
 							<textarea class="form-control" placeholder="상신의견" id="Etcarea"

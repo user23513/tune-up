@@ -41,7 +41,6 @@ public class AttdController {
 		model.addAttribute("attdBadList",dao.attdBadList());
 		model.addAttribute("attdUpList", udao.attdUpList());
 		model.addAttribute("attdUpSelect", udao.attdUpSelect(vo));
-		model.addAttribute("attdUpDel", udao.attdUpDel(vo));
 		model.addAttribute("checkGood", dao.checkGood(dvo));
 		model.addAttribute("checkBad", dao.checkBad(dvo));
 		model.addAttribute("checkModi", udao.checkModi(vo));

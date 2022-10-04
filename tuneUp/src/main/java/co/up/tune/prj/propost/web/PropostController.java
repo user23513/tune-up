@@ -71,13 +71,11 @@ public class PropostController {
 	// 프로젝트- 글 상세조회
 	@PostMapping("/prjPostSelect")
 	public String prjPostSelect(PostVO pvo, ReplyVO rvo, Model model) {
-		//dao.freeHitUpdate(cvo);
-		
 		model.addAttribute("p", dao.prjPostSelect(pvo));
 
 		// 댓글 리스트
-//			rvo.setPostNo(pvo.getPostNo());
-//			model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
+		rvo.setPostNo(pvo.getPostNo());
+		model.addAttribute("pjReplyList", dao.pjReplyList(rvo));
 		return "prj/post/prjPostSelect";
 	}
 	

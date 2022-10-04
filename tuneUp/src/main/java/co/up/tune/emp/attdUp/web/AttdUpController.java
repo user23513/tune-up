@@ -60,13 +60,14 @@ public class AttdUpController {
 	// 근태 수정요청 리스트 삭제(반려)
 	@PostMapping("/attdUpDel")
 	public String attdUpDel(AttdUpVO vo, Model model) {
-		model.addAttribute("attdUpDel", dao.attdUpDel(vo));
+		model.addAttribute("attdUpDel", dao.attdUpDel(vo.getAttdupNo()));
 		return "redirect:/attdList";
 	}
 
 	// 근태 수정요청 리스트 승인
 	@PostMapping("/attdUpOk")
 	public String attdUpOk(AttdUpVO vo, Model model) {
+		System.out.println("attdUpOk VO "+ vo);
 		model.addAttribute("attdUpOk", dao.attdUpOk(vo));
 		return "redirect:/attdList";
 	}

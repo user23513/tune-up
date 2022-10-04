@@ -1,6 +1,8 @@
 package co.up.tune.emp.attdUp.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,15 +45,28 @@ public class AttdUpServiceImpl implements AttdUpService{
 	}
 
 	@Override
-	public int attdUpDel(AttdUpVO vo) {
+	public int attdUpDel(int attdUpNo) {
 		// TODO Auto-generated method stub
-		return dao.attdUpDel(vo);
+		return dao.attdUpDel(attdUpNo);
 	}
 
 	@Override
 	public int attdUpOk(AttdUpVO vo) {
 		// TODO Auto-generated method stub
-		return dao.attdUpOk(vo);
+		int result = dao.attdUpOk(vo);
+		
+		// 수정이 완료 되었을 때
+		if(result > 0) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("empNo", vo.getEmpNo());
+			map.put("atdcDt", vo.getAtdcDt());
+			// 사번과 출근 날짜로 근태수정요청 데이터 찾기 
+			int no = dao.selectAttdUpNo(map);
+			// 근태수정요청 넘버로 근태수정요청데이터 지우기
+			dao.attdUpDel(no);
+		}
+		
+		return result;
 	}
 
 	@Override

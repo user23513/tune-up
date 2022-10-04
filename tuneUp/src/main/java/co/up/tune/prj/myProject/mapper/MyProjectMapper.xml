@@ -3,14 +3,14 @@
 <mapper namespace="co.up.tune.prj.myProject.mapper.MyProjectMapper">
 
 	<select id="myPrjList" resultType="co.up.tune.prj.vo.ProjectVO" parameterType="int">
-		select * 
-		from project 
-		where prj_no in (
-    		select prj_no 
-    		from team 
-    		where emp_no=#{empNo}
+		SELECT * 
+		FROM PROJECT 
+		WHERE PRJ_NO IN (
+    		SELECT PRJ_NO 
+    		FROM TEAM 
+    		WHERE EMP_NO=#{empNo}
     	)
-    	order by prj_no
+    	ORDER BY PRJ_NO DESC
 	</select>
 
 </mapper>

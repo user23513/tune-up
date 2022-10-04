@@ -17,5 +17,6 @@ public class ProjectVO {
 	 Date sdt;		//시작일
 	 Date edt;		//종료일
 	 
-	 List<Integer> teamEmpNo; //팀원들 사원번호
+	 List<String> teamEmpNo; //팀원들 사원번호
+	 String LeaderEmpNo; //등록한 팀장 사원번호
 }

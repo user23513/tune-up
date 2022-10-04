@@ -16,7 +16,7 @@ public interface PropostService {
 	List<PostVO> prjPostList(int prjNo);	//내 프로젝트 - (모든 사람)글 
 	PostVO prjPostSelect(PostVO vo); // 프로젝트-글 단건
 	int prjPostInsert(PostVO pvo, FilesVO fvo); //프로젝트-글 등록
-	int prjPostUpdate(PostVO vo); //프로젝트-글 수정
+	int prjPostUpdate(PostVO vo, FilesVO fvo); //프로젝트-글 수정
 	//int prjPostDelete(PostVO vo); //프로젝트-글 삭제
 
 	List<ReplyVO> ppReplyList(ReplyVO vo); // 댓글 리스트

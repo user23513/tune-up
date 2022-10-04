@@ -4,7 +4,7 @@
 
 	<!-- 새 프로젝트에서 입력한 사원들 정보 가져오기 -->
 	<select id="teamList" parameterType="integer" resultType="co.up.tune.prj.vo.TeamVO">
-		SELECT EMP_NO, AUTH, NM, DEPT
+		SELECT EMP_NO, NM, DEPT
 		FROM EMP
 		WHERE EMP_NO IN
 		<foreach collection="teamEmpNo" item="no" index="index" separator="," open="(" close=")">
@@ -12,7 +12,7 @@
 		</foreach>
 	</select>
 
-	<!-- 새 프로젝트 등록 -->
+	<!-- 새 프로젝트 등록 (등록한 사람은 팀장을 등록) -->
 	<insert id="newProjectInsert">
 		<selectKey keyProperty="prjNo" order="BEFORE" resultType="int">
 			SELECT 
@@ -27,7 +27,15 @@
 			
 			<foreach collection="teamList" item="list">
 				insert into team
-				values(#{list.empNo}, #{prjNo}, #{list.auth}, #{list.nm}, #{list.dept});
+				values(#{list.empNo}, #{prjNo}, 
+				<if test='#{list.empNo} != #{vo.LeaderEmpNo}'>
+					'팀원', 
+				</if>
+				<if test='#{list.empNo} == #{vo.LeaderEmpNo}'>
+					'팀장',
+				</if>
+					#{list.nm}, #{list.dept}
+				);
 			</foreach>
 			
 		end;

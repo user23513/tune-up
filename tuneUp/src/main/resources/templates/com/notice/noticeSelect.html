@@ -5,21 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="/js/jquery-3.6.1.min.js"></script>
-<script>
-	$(document).ready(function() {
-		//수정버튼
-		$("#uBtn").on("click", e=>{
-			$("#uFrm").submit();
-		})
-		
-		//삭제버튼
-		$("#dBtn").on("click", e=>{
-			$("#dFrm").submit();
-		})
-	})
-</script>
-
 <style>
 	.right{
 		position: relative;
@@ -83,8 +68,22 @@
 			<form id="dFrm" action="noticeDelete" method="post">
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 				<input type="hidden" id="postNo" name="postNo" th:value="${n.postNo}">
+				<input type="hidden" name="fPath" th:value="${n.fPath}">
 			</form>
 		</div>
+		
+		<script src="/js/jquery-3.6.1.min.js"></script>
+		<script>
+		//수정버튼
+		$("#uBtn").on("click", e=>{
+			$("#uFrm").submit();
+		})
+		
+		//삭제버튼
+		$("#dBtn").on("click", e=>{
+			$("#dFrm").submit();
+		})
+		</script>
 	</main>
 </body>
 </html>

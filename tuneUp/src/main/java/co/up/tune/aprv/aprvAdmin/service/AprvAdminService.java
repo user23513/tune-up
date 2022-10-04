@@ -28,5 +28,7 @@ public interface AprvAdminService { // 전자결재 관리자
 
 	// 관리자 반려
 	int aprvAdReject(ApprovalVO vo);
+	
+	int reqAdReject(AprvVO vo);
 
 }

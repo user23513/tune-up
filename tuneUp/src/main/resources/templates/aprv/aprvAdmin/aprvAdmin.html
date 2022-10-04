@@ -161,8 +161,8 @@
 			//결재선 삭제
 			$(".delLine").on("click", e=>{
 			let no = $(e.target).closest("li").data("no");
-			let result = confirm("삭제하시겠습니까?");
-			if (result ){
+			
+			if (confirm("삭제하시겠습니까?")){
 				$.ajax({
 					url:'lineDel',
 					beforeSend:function(xhr){
@@ -204,9 +204,6 @@
 					        }
 					    }) 
 					})
-				
-				
-			
 					$("#formtb").on("click", "tr", e=>{
 						let formNo = $(e.target).data("no"); 
 						$.ajax({
@@ -236,6 +233,7 @@
 			//강제 삭제 반려
 			function delForm(){		
 				let formNo=$(".delBtn").data("no");
+				if(confirm("정말 삭제하시겠습니까?")){
 					$.ajax({
 						url:'formAdDel',
 						beforeSend:function(xhr){
@@ -245,15 +243,15 @@
 					    data:{'formNo':formNo},
 					    dataType:'json',
 					    success:function(obj){
-	
 					    	location.href="aprvAdmin";
-
 					    }
 				    }) 
 				}
+					
+				}
 				function rejectAd(){		
 				let aprvNo=$(".rjtBtn").data("no");
-
+				if(confirm("정말 반려하시겠습니까?")){
 					$.ajax({
 						url:'aprvAdRjt',
 						beforeSend:function(xhr){
@@ -268,6 +266,7 @@
 
 					    }
 				    }) 
+					}
 				}
 			
 					
@@ -522,6 +521,11 @@
 								<ul class="list-group lineList">
 									<li class="list-group-item lineLi" th:each="n : ${line}"
 										th:data-no="${n.lineNo}"><b
+										th:if="${n.nm2} == null and ${n.nm3} == null"
+										th:text="|${n.nm1}|"></b> <b
+										th:if="${n.nm3} == null and ${n.nm2} != null"
+										th:text="|${n.nm1} → ${n.nm2}|"></b> <b
+										th:if="${n.nm3} != null"
 										th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
 										<button type="button" class="btn btn-primary delLine"
 											style="float: right;">삭제</button></li>
@@ -550,10 +554,9 @@
 						<div class="col-md-12" th:if="${trust}">
 							<ul class="list-group trustList">
 								<li class="list-group-item trustli" th:each="t : ${trust}"
-									th:data-no="${t.trustNo}"><b th:text="|${t.empNo} → ${t.rptt}|"></b> <span
-									th:text="|${t.sdt} ~ ${t.edt}|"></span>
-									
-								</li>
+									th:data-no="${t.trustNo}"><b
+									th:text="|${t.empNo} → ${t.rptt}|"></b> <span
+									th:text="|${t.sdt} ~ ${t.edt}|"></span></li>
 							</ul>
 						</div>
 					</div>

@@ -157,13 +157,13 @@
 		})
 		
 		
-	aprvSelect();
+	approvalSelect();
 	
 	});
 			
 		//상세조회
-		function aprvSelect() {
-		$("#approvalTable").on("click", "td", e=>{
+		function approvalSelect() {
+		$("#approvalTable").on("click", "tr", e=>{
 			let aprvNo = $(e.target).data("no");
 			$.ajax({
 				url:'approvalView',
@@ -282,24 +282,24 @@
 												<th>제목</th>
 											</tr>
 										</thead>
-										<tbody id="aprvtb">
-											<tr class="list-group" th:each="p : ${approval}"
+										<tbody id="aprvtb" class="list-group">
+
+
+											<tr th:each="p : ${approval}"
+												class="list-group-item list-group-item-action"
 												th:data-no="${p.aprvNo}">
-												<td class="list-group-item" th:data-no="${p.aprvNo}">
-													<div
-														class="d-flex justify-content-between align-items-center">
-														<p class="mb-1 fw-bold" th:text="${p.ttl}">
-															<input class="form-check-input me-1" type="checkbox"
-																th:value="${p.aprvNo}" aria-label="...">제목
-														</p>
-														<span th:if="${p.reqSt == '반려' or p.reqSt =='완료'}"
-															th:text="${p.reqSt}"
-															class="badge bg-secondary rounded-pill"
-															style="height: 25px">완료</span> <span
-															th:unless="${p.reqSt == '반려' or p.reqSt =='완료'}"
-															th:text="진행" class="badge bg-primary rounded-pill"
-															style="height: 25px">진행</span>
-													</div> <small>And some small print.</small>
+												<td class="d-flex justify-content-between align-items-start"
+													th:data-no="${p.aprvNo}">
+													<div class="ms-2 me-auto">
+														<div class="fw-bold" th:text="${p.ttl}">제목</div>
+														Cras justo odio <small>And some small print.</small>
+													</div> <span th:if="${p.reqSt == '반려' or p.reqSt =='완료'}"
+													th:text="${p.reqSt}"
+													class="badge bg-secondary rounded-pill"
+													style="height: 25px">완료</span> <span
+													th:unless="${p.reqSt == '반려' or p.reqSt =='완료'}"
+													th:text="진행" class="badge bg-primary rounded-pill"
+													style="height: 25px">진행</span>
 												</td>
 											</tr>
 										</tbody>
@@ -349,7 +349,8 @@
 						<div class="row g-3">
 							<div class="col-md-12" th:if="${rptt}">
 								<ul class="list-group">
-									<li class="list-group-item list-group-item-primary" th:text="|${rptt.empNo}님에게 ${rptt.edt}까지 결재 위임 받는중.|"></li>
+									<li class="list-group-item list-group-item-primary"
+										th:text="|${rptt.empNo}님에게 ${rptt.edt}까지 결재 위임 받는중.|"></li>
 								</ul>
 							</div>
 							<div class="col-md-12">
@@ -369,8 +370,7 @@
 							<div class="row g-3">
 								<div class="col-md-4">
 									<div class="form-floating">
-										<select class="form-select" id="deptSelect"
-											aria-label="State">
+										<select class="form-select" id="deptSelect" aria-label="State">
 											<option>선택</option>
 											<option th:each="d : ${dept}" th:value="${d.dept}"
 												th:text="${d.dept}">부서</option>
@@ -392,13 +392,13 @@
 
 								<div class="col-md-5">
 
-									<input type="date" id = "sdt" name = "sdt" class="form-control">
+									<input type="date" id="sdt" name="sdt" class="form-control">
 
 								</div>
 								<div class="col-md-2 text-center">~</div>
 								<div class="col-md-5">
 
-									<input type="date" id = "edt" name = "edt" class="form-control">
+									<input type="date" id="edt" name="edt" class="form-control">
 
 								</div>
 
@@ -432,7 +432,8 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">닫기</button>
-						<button type="button" class="btn btn-primary">수정</button>
+						<button type="button" class="btn btn-secondary">반려</button>
+						<button type="button" class="btn btn-primary">승인</button>
 					</div>
 				</div>
 			</div>

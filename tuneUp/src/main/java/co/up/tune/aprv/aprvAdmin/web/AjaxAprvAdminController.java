@@ -5,8 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import co.up.tune.aprv.approval.service.ApprovalService;
 import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
+import co.up.tune.aprv.aprvReq.service.AprvReqService;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.AprvVO;
@@ -22,6 +25,8 @@ public class AjaxAprvAdminController {
 	AprvAdminService ap;
 	@Autowired
 	AprvLineService li;
+	@Autowired
+	ApprovalService as;
 
 	
 	@PostMapping("/reqAdView")
@@ -46,7 +51,11 @@ public class AjaxAprvAdminController {
 
 	@PostMapping("/aprvAdRjt")
 	public int aprvAdRjt(ApprovalVO vo) {
-		return ap.aprvAdReject(vo);
+		
+		AprvVO req = new AprvVO();
+		req.setAprvNo(vo.getAprvNo());
+		ap.aprvAdReject(vo);
+		return ap.reqAdReject(req);
 	}
 
 }

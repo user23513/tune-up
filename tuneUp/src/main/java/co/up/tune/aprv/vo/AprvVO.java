@@ -18,8 +18,8 @@ public class AprvVO { //전자결재
 	String aprvEtc; //상신의견
 	String deadline; //마감일
 	String impts; //중요
-	
-	
+	String nm;
+	//=========테이블에 없는값
 	String aprvSt; 
 	String aprvr;
 	String refer;

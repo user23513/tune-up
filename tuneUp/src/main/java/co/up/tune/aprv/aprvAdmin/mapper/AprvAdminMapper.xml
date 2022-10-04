@@ -57,6 +57,14 @@
 		</set>
 		WHERE APRV_NO = #{aprvNo}
 	</update>
+	
+	<update id="reqAdReject" parameterType="co.up.tune.aprv.vo.AprvVO">
+		UPDATE APRV
+		<set>
+		REQ_ST = '반려'
+		</set>
+		WHERE APRV_NO = #{aprvNo}
+	</update>
 
 
 

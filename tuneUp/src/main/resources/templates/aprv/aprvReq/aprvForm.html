@@ -91,7 +91,17 @@ $(document).ready(function(){
 		let ap2 = $(e.target).data("ap2");
 		let ap3 = $(e.target).data("ap3");
 		
-		let ap = ap1 + ","+ ap2 +","+ap3;
+		let ap;
+		
+		if (ap3 != undefined){
+			ap = ap1 + ","+ ap2 +","+ap3;
+		} else if (ap2 != undefined ){
+			ap = ap1 + ","+ ap2;
+		} else {
+			ap = ap1;
+		}
+		
+		
 		
 		
 		$("#aprvr").val(ap); 

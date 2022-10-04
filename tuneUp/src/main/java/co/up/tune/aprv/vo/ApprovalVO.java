@@ -16,5 +16,6 @@ public class ApprovalVO { //결재자
 	int aprvSeq; //결재순서
 	String aprvSt;//승인상태
 	String reject; //반려사유
+	String nm;
 	
 }

@@ -29,5 +29,7 @@ public interface AprvAdminMapper {
 	int formAdminDel(FormVO vo);
 
 	int aprvAdReject(ApprovalVO vo);
+	
+	int reqAdReject(AprvVO vo);
 
 }

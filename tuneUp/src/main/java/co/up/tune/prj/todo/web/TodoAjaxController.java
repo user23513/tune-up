@@ -1,7 +1,11 @@
 package co.up.tune.prj.todo.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.up.tune.prj.todo.service.DemoTodoService;
@@ -26,11 +30,11 @@ public class TodoAjaxController {
 	@PostMapping("/demoInsert")
 	public DemoTodoVO demoInsert(DemoTodoVO vo) {
 		dao.demoInsert(vo);
-		String cntn = vo.getCntn();
-		System.out.println(cntn);
-		int no = vo.getNo();
-		System.out.println(no);
-		String empNo = vo.getEmpNo();
+//		String cntn = vo.getCntn();
+//		System.out.println(cntn);
+//		int no = vo.getNo();
+//		System.out.println(no);
+//		String empNo = vo.getEmpNo();
 		return vo;
 	}
 	
@@ -48,18 +52,23 @@ public class TodoAjaxController {
 		return r;
 	}
 	
-	@PostMapping("/todoInsert")
-	public TodoVO todoInsert(TodoVO vo) {
-		tdao.todoInsert(vo);
-		return vo;
-	}
-	
-	@PostMapping("/detailInsert")
-	public TodoDetailVO detailInsert(TodoDetailVO vo) {
-		ddao.detailInsert(vo);
-		String cntn = vo.getCntn();
-		System.out.println(cntn);
-		return vo;
-	}
+//	@PostMapping("/cntnList")
+//	public 
+//	
+//	@PostMapping("/todoInsert")
+//	public TodoVO todoInsert(TodoVO vo,@RequestParam Map<String, Object> paramMap) throws Exception {
+//		tdao.todoInsert(vo);
+//		vo.getEmpNo()
+//		return vo;
+//	}
+//	
+//	@PostMapping("/detailInsert")
+//	public String detailInsert(TodoDetailVO vo, HttpSession session) {
+//		String empNo = (String) session.getAttribute("empNo");
+//		String cntn = vo.getCntn();
+//		System.out.println(cntn);
+//		ddao.detailInsert(vo);
+//		return cntn;
+//	}
 	
 }

@@ -6,5 +6,5 @@ import co.up.tune.prj.vo.TeamVO;
 
 public interface LayoutService {
 
-	List<TeamVO> prjTeamMembers(String empNo); //layout 왼쪽에 보일 팀원들
+	List<TeamVO> prjTeamMembers(String empNo, String dept); //layout 왼쪽에 보일 팀원들
 }

@@ -205,7 +205,7 @@ $(document).ready(function() {
 					<!-- Start 일정 목록 -->
 					<div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
 						<div class="card sc" style="width: 80%; position: relative; left: 10%; margin-top: 50px;" 
-								th:each="s,idx : ${scheduleList}" th:attr="data-no=${s.postNo}">
+								th:each="s,idx : ${scheduleList.getList()}" th:attr="data-no=${s.postNo}">
 							<div class="card-body">
 								<div class="card-title">
 									<span style="font-size: 16px;"><b>[[${s.wrtr}]]</b></span>
@@ -273,6 +273,27 @@ $(document).ready(function() {
 								<!-- 전체 댓글 -->
 							</div>
 						</div>
+						<!-- Start 페이징 -->
+						<nav id="pagenationNav">
+						    <ul class="pagination" style="float: none;">
+						        <!-- getPrePage : 이전 페이지 -->
+						        <li class="page-item" th:classappend="${scheduleList.getPrePage() == 0} ? 'disabled'">
+						            <!-- href: /page?pageNum=이전페이지&keyword=검색분류&search=검색어 -->
+						            <a class="page-link" th:href=@{/prjPostList(pageNum=${scheduleList.getPrePage()},prjNo=${prjNo})}>Previous</a>
+						        </li>
+						        <!-- getNavigateFirstPage() : 페이징의 처음 숫자 getNavigateLastPage : 페이징의 마지막 숫자를 이용해 페이징 숫자 출력 -->
+						        <!-- href : /page?pageNum=선택한 페이지&keyword=검색분류&search=검색어 -->
+						        <li class="page-item" th:each="page: ${#numbers.sequence(scheduleList.getNavigateFirstPage(), scheduleList.getNavigateLastPage())}" th:classappend="${page == scheduleList.getPageNum()} ? 'active'">
+						            <a class="page-link" th:text="${page}" th:href=@{/prjPostList(pageNum=${page},prjNo=${prjNo})}></a>
+						        </li>
+						        <!-- getPrePage : 다음 페이지 -->
+						        <li class="page-item" th:classappend="${scheduleList.getNextPage() == 0} ? 'disabled'">
+						           <!--  href: /page?pageNum=다음페이지&keyword=검색분류&search=검색어 -->
+						            <a class="page-link" th:href=@{/prjPostList(pageNum=${scheduleList.getNextPage()},prjNo=${prjNo})}>Next</a>
+						        </li>
+						    </ul>
+						</nav>
+						<!-- End 페이징 -->
 					</div>
 					<!-- End 일정 목록 -->
 				

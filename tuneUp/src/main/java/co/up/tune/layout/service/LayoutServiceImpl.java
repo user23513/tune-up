@@ -16,8 +16,8 @@ public class LayoutServiceImpl implements LayoutService {
 
 	//layout 왼쪽에 보일 팀원들
 	@Override
-	public List<TeamVO> prjTeamMembers(String empNo) {
-		return map.prjTeamMembers(empNo);
+	public List<TeamVO> prjTeamMembers(String empNo, String dept) {
+		return map.prjTeamMembers(empNo, dept);
 	}
 
 }

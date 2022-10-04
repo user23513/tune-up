@@ -28,7 +28,6 @@ public interface PropostMapper {
 	
 	/* 현지 수정 */
 	List<EmpVO> empList(); //모든 사원정보
-	List<ScheduleVO> scheduleList(int prjNo); //프로젝트 일정 리스트
 	List<MemberVO> scheduleMemberList(int prjNo); //프로젝트 일정 => 멤버 리스트
 	int prjFileInsert(FilesVO vo); //프로젝트 파일 등록
 	List<ReplyVO> prjReplyList(); //프로젝트 전체 댓글

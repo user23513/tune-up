@@ -38,9 +38,9 @@ public class PropostServiceImpl implements PropostService {
 	}
 
 	@Override
-	public int prjPostUpdate(PostVO vo) {
+	public int prjPostUpdate(PostVO vo, FilesVO fvo) {
 		// 프로젝트 - 글 수정
-		return map.prjPostUpdate(vo);
+		return map.prjPostUpdate(vo, fvo);
 	}
 
 //	@Override

@@ -20,6 +20,8 @@ public class ProjectServiceImpl implements ProjectService {
 	public int newProjectInsert(ProjectVO vo) {
 		//새 프로젝트 팀원들 정보 가져오기
 		List<TeamVO> list = map.teamList(vo.getTeamEmpNo());
+		
+		//작성한 사원은 팀장으로 등록이 되어야함.
 		int cnt = map.newProjectInsert(vo, list);
 		return cnt;
 	}

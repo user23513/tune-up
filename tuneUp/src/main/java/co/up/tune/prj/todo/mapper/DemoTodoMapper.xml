@@ -3,7 +3,7 @@
 <mapper namespace="co.up.tune.prj.todo.mapper.DemoTodoMapper">
 
 	<select id="demoList" resultType="co.up.tune.prj.vo.DemoTodoVO">
-		select * from demoTodo
+		select cntn from demoTodo
 		where emp_no= #{empNo}
 	</select>
 	

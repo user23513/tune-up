@@ -1,5 +1,7 @@
 package co.up.tune.prj.project.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +31,9 @@ public class ProjectController {
 	
 	//새 프로젝트 등록
 	@PostMapping("/newProjectInsert")
-	public String newProjectInsert(ProjectVO vo, RedirectAttributes re) {
-		System.out.println("===="+vo.getTeamEmpNo());
+	public String newProjectInsert(ProjectVO vo, HttpSession session, RedirectAttributes re) {
+		vo.setLeaderEmpNo((String)session.getAttribute("empNo"));
+		vo.getTeamEmpNo().add(vo.getLeaderEmpNo());
 		prjDao.newProjectInsert(vo);
 		re.addAttribute("prjNo", vo.getPrjNo());
 		return "redirect:myProject";

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.up.tune.prj.vo.DemoTodoVO;
 import co.up.tune.prj.vo.TodoDetailVO;
 
 @Service

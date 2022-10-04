@@ -83,10 +83,10 @@
 		</selectKey>
 		INSERT INTO REPLY
 		VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE,
-				<if test="replyCat.equals('프로젝트')">
+				<if test='replyCat.equals("프로젝트")'>
 					'프로젝트'
 				</if>
-				<if test="!replyCat.equals('프로젝트')">
+				<if test='replyCat.equals("커뮤니티")'>
 					'커뮤니티'
 				</if>
 			  )

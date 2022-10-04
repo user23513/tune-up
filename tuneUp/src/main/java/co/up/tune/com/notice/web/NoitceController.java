@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
@@ -20,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 import co.up.tune.com.notice.service.NoticeService;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.file.service.FileService;
+import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
 
 @Controller
@@ -53,8 +55,7 @@ public class NoitceController {
 	public String noticeInsert(CommunityVO vo, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
 		//file upload 처리
 		List<FilesVO> list = new ArrayList<>();
-		System.out.println(files.length);
-		if(files.length != 0) {
+		if(!files[0].isEmpty()) {
 			String folder = "com"; //Temp안에 폴더명
 			list = fdao.fileUpload(files, folder);
 			vo.setFNm(list.get(0).getFNm());
@@ -126,12 +127,12 @@ public class NoitceController {
 		return "redirect:/noticeList";
 	}
 	
-	//=================================
-	@GetMapping("/gantt")
-	public String gantt() {
-		return "com/notice/gantt";
+	//간트 차트
+	@ResponseBody
+	@PostMapping("/ganttList")
+	public List<BusinessVO> ganttList(BusinessVO vo){
+		return dao.ganttList(vo);
 	}
-	
 	
 
 }

@@ -3,7 +3,7 @@
 <mapper namespace="co.up.tune.layout.mapper.LayoutMapper">
 
 	<select id="prjTeamMembers" resultType="co.up.tune.prj.vo.TeamVO">
-		select * 
+		select DISTINCT emp_no,nm,dept
 		from team 
 		where prj_no in (
 			    select prj_no 
@@ -12,6 +12,7 @@
 			    and auth ='팀장'
 			)
 		and auth='팀원'
+		and dept = #{dept}
 	</select>
 
 </mapper>

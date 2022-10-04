@@ -9,7 +9,6 @@ import com.github.pagehelper.PageHelper;
 
 import co.up.tune.prj.myProject.mapper.MyProjectMapper;
 import co.up.tune.prj.vo.ProjectVO;
-import co.up.tune.prj.vo.TeamVO;
 
 @Service
 public class MyProjectServiceImpl implements MyProjectService {
@@ -25,10 +24,5 @@ public class MyProjectServiceImpl implements MyProjectService {
 		return map.myPrjList(empNo);
 	}
 
-	@Override
-	public int checkTeam(TeamVO vo) {
-		// 프로젝트 멤버 수
-		return map.checkTeam(vo);
-	}
-
+	 
 }

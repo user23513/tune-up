@@ -46,6 +46,7 @@
 	<delete id="removeTeam" parameterType="co.up.tune.prj.vo.TeamVO">
 	DELETE FROM TEAM
 	WHERE EMP_NO = #{empNo}
+	AND PRJ_NO = #{prjNo}
 	</delete>
 	
 	<update id="teamAuth" parameterType="co.up.tune.prj.vo.TeamVO">

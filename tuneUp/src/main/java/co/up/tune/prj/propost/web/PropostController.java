@@ -16,14 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.pagehelper.PageInfo;
 
+import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.file.service.FileService;
 import co.up.tune.file.service.ProPostFileService;
 import co.up.tune.prj.myProject.service.MyProjectService;
 import co.up.tune.prj.propost.service.PropostService;
+import co.up.tune.prj.schedule.service.ScheduleService;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
+import co.up.tune.prj.vo.ScheduleVO;
 
 @Controller
 public class PropostController {
@@ -39,6 +43,9 @@ public class PropostController {
 	@Autowired
 	MyProjectService myDao;
 	
+	@Autowired
+	ScheduleService sDao;
+	
 
 	@Value("${file.dir}") 
 	private String fileDir;
@@ -46,11 +53,15 @@ public class PropostController {
 	
 	//내프로젝트에서 클릭한 프로젝트로 이동
 	@RequestMapping("/prjPostList")
-	public String prjPostList(@RequestParam("prjNo")int prjNo, Model model) {
+	public String prjPostList(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, 
+								@RequestParam("prjNo")int prjNo, Model model) {
+		
 		model.addAttribute("prjNo", prjNo);
 		
 		/* 일정 */
-		model.addAttribute("scheduleList", dao.scheduleList(prjNo));
+		PageInfo<ScheduleVO> s = new PageInfo<>(sDao.scheduleList(pageNum, prjNo),10); //페이징
+		model.addAttribute("scheduleList", s);
+		
 		model.addAttribute("scheduleMember", dao.scheduleMemberList(prjNo));
 		
 		/* 글 */
@@ -71,13 +82,11 @@ public class PropostController {
 	// 프로젝트- 글 상세조회
 	@PostMapping("/prjPostSelect")
 	public String prjPostSelect(PostVO pvo, ReplyVO rvo, Model model) {
-		//dao.freeHitUpdate(cvo);
-		
 		model.addAttribute("p", dao.prjPostSelect(pvo));
 
 		// 댓글 리스트
-//			rvo.setPostNo(pvo.getPostNo());
-//			model.addAttribute("ppReplyList", dao.ppReplyList(rvo));
+		rvo.setPostNo(pvo.getPostNo());
+		model.addAttribute("pjReplyList", dao.pjReplyList(rvo));
 		return "prj/post/prjPostSelect";
 	}
 	

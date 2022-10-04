@@ -250,26 +250,25 @@
 				</li>
 				<!-- End Notification Nav -->
 
-				<li class="nav-item dropdown pe-3"><a
-					class="nav-link nav-profile d-flex align-items-center pe-0"
-					href="#" data-bs-toggle="dropdown"> <img
-						src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
-						<span class="d-none d-md-block dropdown-toggle ps-2">내 프로필</span>
+
+				<li class="nav-item dropdown pe-3">
+				<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> 
+					<img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
+					<span class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
 				</a> <!-- End Profile Iamge Icon --> <!-- 마이페이지 프로필 아이콘 눌렀을때-->
-					<ul
-						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 						<li class="dropdown-header">
-							<h6 th:text="${session.nm}"></h6> <span
-							th:text="${session.position}"></span>
+							<h6 th:text="${session.nm}"></h6> 
+							<span th:text="${session.position}"></span>
 						</li>
-						<li class="form-floating"><select class="form-select"
-							id="floatingSelect" aria-label="State">
+						<li class="form-floating">
+							<select class="form-select" id="floatingSelect" aria-label="State">
 								<option value="1">온라인</option>
 								<option value="2">자리비움</option>
 								<option value="3">오프라인</option>
-						</select> <label for="floatingSelect"><i class="bi bi-person"></i>상태수정</label>
+							</select> 
+							<label for="floatingSelect"><i class="bi bi-person"></i>상태수정</label>
 						</li>
-
 						<li>
 							<form id="pwFrm" method="post" action="pwCheck">
 								<a id="pwCheck" name="pwCheck"
@@ -282,7 +281,6 @@
 								</a>
 							</form>
 						</li>
-
 						<li>
 							<hr class="dropdown-divider">
 						</li>
@@ -327,12 +325,26 @@
 
 	<!-- ======= Sidebar ======= -->
 	<aside id="sidebar" class="sidebar">
-		<!-- 프로필사진  -->
-		<section class="section profile">
-			<div>
-				<div
-					class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-					<img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
+
+		<ul class="sidebar-nav" id="sidebar-nav">
+			<!-- 프로필사진  -->
+			<section class="section profile">
+				<div>
+					<div
+						class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+						<img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
+						<div>
+							<i id="prev" class="bi bi-caret-left" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
+							<h2 th:text="${session.nm}">kim</h2>
+							<i id="next" class="bi bi-caret-right" style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i>
+						</div>
+						<!-- 이름  -->
+						<h3 th:text="${session.dept}">Web Designer</h3>
+						<!-- 부서명  -->
+						<!-- 팀원들? -->
+		                <div id="teamMem"></div>
+					</div>
+
 				</div>
 			</div>
 		</section>
@@ -433,6 +445,64 @@
   		$("#myPrjFrm").submit();
   	})
   </script> -->
+  
+    <script>
+  	//화살표 누르면 부서별 팀원
+  	let depts = ['영업','기획','인사','회계','개발'];
+  	let idx = 2;
+  	dept = depts[idx];
+  	console.log(idx)
+  	$("#next").on("click", e=>{
+  		if(idx < depts.length-1){
+  			$("#teamMem").html("");
+	  		idx = idx+1;
+	  		dept = depts[idx];
+	  		
+	  		$.ajax({
+	  	  		url: 'prjTeamMembers',
+	  	  		data:{'dept':dept},
+	  	  		dataType: 'json',
+	  	  		success: function(res){
+		  	  		$.each(res, (idx,team)=>{
+		  				$("#teamMem").append(`<div>${team.nm}&nbsp;${team.dept}</div>`)
+		  			})
+	  	  		}
+	  	  	})
+  		}
+  		
+  	})
+  	
+  	$("#prev").on("click", e=>{
+  		if(idx > 0){
+  			$("#teamMem").html("");
+	  		idx = idx-1;
+	  		dept = depts[idx];
+	  		
+	  		$.ajax({
+	  	  		url: 'prjTeamMembers',
+	  	  		data:{'dept':dept},
+	  	  		dataType: 'json',
+	  	  		success: function(res){
+		  	  		$.each(res, (idx,team)=>{
+		  				$("#teamMem").append(`<div>${team.nm}&nbsp;${team.dept}</div>`)
+		  			})
+	  	  		}
+	  	  	})
+  		}
+  		
+  	})
+  	//기본은 부서=>인사
+  	$.ajax({
+  		url: 'prjTeamMembers',
+  		data:{'dept':dept},
+  		dataType: 'json',
+  		success: function(res){
+	  		$.each(res, (idx,team)=>{
+				$("#teamMem").append(`<div>${team.nm}&nbsp;${team.dept}</div>`)
+			})
+  		}
+  	})
+  	</script>
 
 	<!-- Vendor JS Files -->
 	<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -443,18 +513,10 @@
 	<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
 	<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
 	<script src="/assets/vendor/php-email-form/validate.js"></script>
-
+	
 	<!-- Template Main JS File -->
 	<script src="/assets/js/main.js"></script>
-	<script>
-  	$.ajax({
-  		url: 'prjTeamMembers',
-  		dataType: 'json',
-  		success: function(res){
-  			console.log(res)
-  		}
-  	})
-  </script>
+
 </body>
 
 </html>

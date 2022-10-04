@@ -48,7 +48,10 @@
 		</set>
 		WHERE EMP_NO = #{empNo} AND ATDC_DT = #{atdcDt}
 		</update> 
- 
+
+		<select id="selectAttdUpNo" resultType="int" parameterType="map">
+		select attdup_no from ATTDUP where atdc_dt = #{atdcDt} and emp_no = #{empNo}
+		</select>
 	
 	<!-- <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
 		<![CDATA[

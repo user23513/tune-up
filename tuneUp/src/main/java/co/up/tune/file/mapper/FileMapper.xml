@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.file.mapper.FileMapper">
 	<!-- 내 파일함 리스트  -->
-	<select id="" resultType="co.up.tune.prj.vo.FilesVO">
+	<select id="myFileList" resultType="co.up.tune.prj.vo.FilesVO">
  		SELECT *
  		FROM FILES
  		WHERE NOT F_CAT='PROJECT'
+ 		AND EMP_NO=#{empNo}
  		ORDER BY FILE_NO DESC
 	</select>
 	<!-- 프로젝트 파일 리스트 -->

@@ -232,7 +232,7 @@
 
 				<!-- 조직도 아이콘 -->
 				<li class="nav-item dropdown"><a class="nav-link nav-icon"
-					href="#" data-bs-toggle="dropdown"> <i class="bi bi-diagram-3"></i>
+					href="group"> <i class="bi bi-diagram-3"></i>
 				</a></li>
 
 				<li class="nav-item dropdown">
@@ -244,65 +244,10 @@
 				<!-- End Notification Nav -->
 
 				<li class="nav-item dropdown">
-					<!-- ===== 메일 아이콘 =====  --> <a class="nav-link nav-icon" href="#"
-					data-bs-toggle="dropdown"> <i class="bi bi-envelope"></i> <span
+					<!-- ===== 메일 아이콘 =====  --> <a class="nav-link nav-icon"
+					href="message"> <i class="bi bi-envelope"></i> <span
 						class="badge bg-success badge-number">3</span>
 				</a> <!-- End Messages Icon -->
-
-					<ul
-						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-						<li class="dropdown-header">You have 3 new messages <a
-							href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View
-									all</span></a>
-						</li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li class="message-item"><a href="#"> <img
-								src="/assets/img/messages-1.jpg" alt="" class="rounded-circle">
-								<div>
-									<h4>Maria Hudson</h4>
-									<p>Velit asperiores et ducimus soluta repudiandae labore
-										officia est ut...</p>
-									<p>4 hrs. ago</p>
-								</div>
-						</a></li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li class="message-item"><a href="#"> <img
-								src="/assets/img/messages-2.jpg" alt="" class="rounded-circle">
-								<div>
-									<h4>Anna Nelson</h4>
-									<p>Velit asperiores et ducimus soluta repudiandae labore
-										officia est ut...</p>
-									<p>6 hrs. ago</p>
-								</div>
-						</a></li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li class="message-item"><a href="#"> <img
-								src="/assets/img/messages-3.jpg" alt="" class="rounded-circle">
-								<div>
-									<h4>David Muldon</h4>
-									<p>Velit asperiores et ducimus soluta repudiandae labore
-										officia est ut...</p>
-									<p>8 hrs. ago</p>
-								</div>
-						</a></li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-
-						<li class="dropdown-footer"><a href="#">Show all messages</a>
-						</li>
-
-					</ul> <!-- End Messages Dropdown Items -->
-
 				</li>
 				<!-- End Messages Nav -->
 
@@ -310,7 +255,7 @@
 					class="nav-link nav-profile d-flex align-items-center pe-0"
 					href="#" data-bs-toggle="dropdown"> <img
 						src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
-						<span class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
+						<span class="d-none d-md-block dropdown-toggle ps-2">내 프로필</span>
 				</a> <!-- End Profile Iamge Icon --> <!-- 마이페이지 프로필 아이콘 눌렀을때-->
 					<ul
 						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -383,21 +328,19 @@
 
 	<!-- ======= Sidebar ======= -->
 	<aside id="sidebar" class="sidebar">
-		<ul class="sidebar-nav" id="sidebar-nav">
-			<!-- 프로필사진  -->
-			<section class="section profile">
-				<div>
-					<div
-						class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-						<img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
-						<h2 th:text="${session.nm}">kim</h2>
-						<!-- 이름  -->
-						<h3 th:text="${session.dept}">Web Designer</h3>
-						<!-- 부서명  -->
-						<!-- 팀원들? -->
-					</div>
+		<!-- 프로필사진  -->
+		<section class="section profile">
+			<div>
+				<div
+					class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+					<img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
 				</div>
-			</section>
+			</div>
+		</section>
+
+		<b th:text="|${session.nm} ${session.position}|"
+			style="margin-left: 80px;">kim</b> <br><br>
+		<ul class="sidebar-nav" id="sidebar-nav">
 			<li class="nav-item"><a class="nav-link collapsed"
 				data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
 					<i class="bi bi-grid"></i><span>프로젝트</span><i
@@ -436,31 +379,6 @@
 					</a></li>
 
 				</ul></li>
-			<!-- End Forms Nav -->
-
-			<!-- <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#note-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>나의 수첩</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="note-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="calendar">
-              <i class="bi bi-circle"></i><span>내 캘린더</span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="bi bi-circle"></i><span>내 파일함</span>
-            </a>
-          </li>
-          <li>
-            <a href="mypost">
-              <i class="bi bi-circle"></i><span>내 게시글</span>
-            </a>
-          </li>
-        </ul>
-      </li>End note Nav -->
-
 			<li class="nav-item"><a class="nav-link collapsed"
 				data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
 					<i class="bi bi-layout-text-window-reverse"></i><span>커뮤니티</span><i

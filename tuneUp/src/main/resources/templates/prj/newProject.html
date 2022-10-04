@@ -18,23 +18,24 @@
 .test_obj input[type="radio"]+span {
 	display: inline-block;
 	padding: 5px 15px;
-	border: 1px solid #dfdfdf;
-	color: #4e94ba;
+	border: 1px solid #3a86ff;
+	color: #3a86ff;
 	background-color: #ffffff;
 	text-align: center;
 	cursor: pointer;
-	border: solid 1px #4e94ba;
+	border: solid 1px #3a86ff;
 	border-radius: 20px;
 }
 
 .test_obj input[type="radio"]:checked+span {
-	background-color: #4e94ba;
+	background-color: #3a86ff;
 	color: #ffffff;
 }
 
 .size {
 	font-size: 22px;
 }
+
 </style>
 <script>
 	$(document).ready(function(){
@@ -101,7 +102,7 @@
 								style="padding-top: 30px;">
 								<!-- 부서별 -->
 								<div style="min-height: 200px;">
-									<ul id="browser" class="filetree treeview-famfamfam">
+									<ul id="browser" class="filetree treeview-gray">
 										<li id="depts"><span class="folder">Tune-Up</span>
 											<ul>
 												<li class="closed"><span class="folder">인사팀</span>
@@ -132,13 +133,7 @@
 											</ul></li>
 									</ul>
 								</div>
-								<!-- 부서별 -->
-								<!-- 인원선택하면 추가되는 부분 -->
-								<div id="selectPerson"></div>
-								<br>
-								<button id="personInsert" class="btn btn-outline-primary"
-									type="button">등록</button>
-								<!-- 인원선택하면 추가되는 부분 -->
+								
 							</div>
 							<!-- 버튼클릭시 뜨는 부분  -->
 						</div>
@@ -172,13 +167,7 @@
 		<script src="/js/jquery.cookie.js"></script>
 		<script src="/js/jquery.treeview.js"></script>
 		<script>
-	  //부서별 사원이름 클릭시 추가되는 기능
-		$("#depts").on("click", ".name", e=>{
-			let empName = $(e.target).text(); //클릭한 사원의 이름
-			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
-			$("#selectPerson").append("<div><span data-no='"+ empNo +"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
-		})
-		
+	 
 		//추가된 사원 삭제
 		$("#rr").on("click", ".bi-x", e=>{
 			let deleteNo = $(e.target).prev().data("no"); //삭제클릭한 사원의 사원번호
@@ -186,16 +175,16 @@
 			$(e.target).parent().remove();
 		})
 		
-		//추가한 사원모두 추가되는 기능 (등록버튼)
-		$("#personInsert").on("click", e=>{
-			let people = $(e.target).prev().prev().find('span');
-			console.log(people)
-			$.each(people, (idx, p)=>{
-				$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+$(p).data("no")+"'><b>"+$(p).text()+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
+		//사원 추가되는 기능
+		$("#depts").on("click", ".name", e=>{
+			let empName = $(e.target).text(); //클릭한 사원의 이름
+			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
+			
+				$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+ empNo +"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
 			
 				//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
-				$("#newPrjFrm").append("<input type='hidden' id='"+$(p).data("no")+"' name='teamEmpNo' value='"+$(p).data("no")+"'>")
-			})
+				$("#newPrjFrm").append("<input type='hidden' id='"+empNo+"' name='teamEmpNo' value='"+empNo+"'>")
+			
 			$(e.target).prev().prev().html("");
 			
 		})

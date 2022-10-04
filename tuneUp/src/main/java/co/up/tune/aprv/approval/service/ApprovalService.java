@@ -37,5 +37,7 @@ public interface ApprovalService {
 	int trustDel(TrustVO vo);
 	
 	int signIn(EmpVO vo);//서명 업로드
+	
+	EmpVO signSel(EmpVO vo);//서명선택
 
 }

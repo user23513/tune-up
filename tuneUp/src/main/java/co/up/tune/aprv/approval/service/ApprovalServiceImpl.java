@@ -65,4 +65,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return map.signIn(vo);
 	}
 
+	@Override
+	public EmpVO signSel(EmpVO vo) {
+		return map.signSel(vo);
+	}
+
 }

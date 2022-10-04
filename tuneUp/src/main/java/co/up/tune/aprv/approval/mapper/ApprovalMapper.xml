@@ -255,5 +255,11 @@
 		WHERE EMP_NO = #{empNo}
 	</update>
 	
+	<select id="signSel" parameterType="co.up.tune.emp.vo.EmpVO" resultType="co.up.tune.emp.vo.EmpVO">
+		SELECT SIGN, NM, POSITION
+		FROM EMP
+		WHERE EMP_NO = #{empNo}
+	</select>
+	
 
 </mapper>

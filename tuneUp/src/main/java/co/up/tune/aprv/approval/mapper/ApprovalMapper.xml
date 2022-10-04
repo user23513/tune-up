@@ -13,7 +13,7 @@
 							FROM APPROVAL
 							WHERE APRVR = #{aprvr}
 							AND APRV_ST = '진행')
-			UNION ALL
+			UNION 
 			SELECT '위임', APRV_NO, EMP_NO, TTL, DTTM,
 							REQ_ST, DEADLINE, IMPTS
 			FROM APRV
@@ -24,14 +24,14 @@
 												WHERE RPTT = #{aprvr}
 												AND SYSDATE BETWEEN SDT AND EDT)
 												AND APRV_ST = '진행')
-			UNION ALL
+			UNION
 			SELECT '참조', APRV_NO, EMP_NO, TTL, DTTM,
 							REQ_ST, DEADLINE, IMPTS
 			FROM APRV
 			WHERE APRV_NO IN (SELECT APRV_NO
 							FROM REFER
 							WHERE EMP_NO = #{aprvr})
-			UNION ALL
+			UNION
 			SELECT '반려', APRV_NO, EMP_NO, TTL, DTTM,
 							REQ_ST, DEADLINE, IMPTS
 			FROM APRV
@@ -39,7 +39,7 @@
 								FROM APPROVAL
 								WHERE APRVR = #{aprvr}
 							AND APRV_ST = '반려')
-			UNION ALL
+			UNION
 			SELECT '완료', APRV_NO, EMP_NO, TTL, DTTM,
 							REQ_ST, DEADLINE, IMPTS
 			FROM APRV
@@ -246,5 +246,14 @@
 		WHERE
 		TRUST_NO = #{trustNo}
 	</delete>
+	
+	<update id="signIn" parameterType="co.up.tune.emp.vo.EmpVO">
+		UPDATE EMP
+		<set>
+		SIGN = #{sign}
+		</set>
+		WHERE EMP_NO = #{empNo}
+	</update>
+	
 
 </mapper>

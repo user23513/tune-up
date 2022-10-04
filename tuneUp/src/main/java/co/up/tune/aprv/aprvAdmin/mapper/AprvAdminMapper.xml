@@ -53,7 +53,8 @@
 	<update id="aprvAdReject" parameterType="co.up.tune.aprv.vo.ApprovalVO">
 		UPDATE APPROVAL
 		<set>
-		APRV_ST = '반려'
+		APRV_ST = '반려',
+		REJECT = '관리자에 의해 강제 반려됨'
 		</set>
 		WHERE APRV_NO = #{aprvNo}
 	</update>

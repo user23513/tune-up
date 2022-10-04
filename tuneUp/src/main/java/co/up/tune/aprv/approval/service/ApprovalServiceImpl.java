@@ -7,6 +7,7 @@ import co.up.tune.aprv.approval.mapper.ApprovalMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.TrustVO;
+import co.up.tune.emp.vo.EmpVO;
 
 @Service
 public class ApprovalServiceImpl implements ApprovalService {
@@ -57,6 +58,11 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public int trustDel(TrustVO vo) {
 		return map.trustDel(vo);
+	}
+
+	@Override
+	public int signIn(EmpVO vo) {
+		return map.signIn(vo);
 	}
 
 }

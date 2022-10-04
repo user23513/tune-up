@@ -16,5 +16,5 @@ public class TrustVO { //위임
 	Date edt; //종료일
 	int trustNo; //위임번호
 	String rpttNm;
-	String empNm;
+	String nm;
 }

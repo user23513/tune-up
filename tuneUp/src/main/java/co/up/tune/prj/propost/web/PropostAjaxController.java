@@ -25,8 +25,10 @@ public class PropostAjaxController {
 	public int prjPostDelete(@RequestParam("postNo")int postNo, @RequestParam("type")String type, @RequestParam("fPath")String fPath) {
 		int cnt = dao.postDelete(postNo, type); //성공하면 -1이 반환됨
 		if(cnt != 0) {
-			File file = new File(fileDir + "\\" + fPath);
-			file.delete();
+			if(fPath != "0") {
+				File file = new File(fileDir + "\\" + fPath);
+				file.delete();
+			}
 		}
 		return cnt;
 	}

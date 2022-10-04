@@ -44,6 +44,7 @@ public class BusinessController {
 			fvo.setFType(list.get(0).getFType());
 			fvo.setFCat("PROJECT");
 			fvo.setPNm(vo.getBussTtl());
+			fvo.setEmpNo(vo.getEmpNo());
 			
 		}
 		dao.businessInsert(vo, fvo);

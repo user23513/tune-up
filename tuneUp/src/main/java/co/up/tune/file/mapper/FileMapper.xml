@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.file.mapper.FileMapper">
+	<!-- 내 파일함 리스트  -->
+	<select id="" resultType="co.up.tune.prj.vo.FilesVO">
+ 		SELECT *
+ 		FROM FILES
+ 		WHERE NOT F_CAT='PROJECT'
+ 		ORDER BY FILE_NO DESC
+	</select>
+	<!-- 프로젝트 파일 리스트 -->
+	<select id="prjFileList" resultType="co.up.tune.prj.vo.FilesVO">
+		SELECT *
+		FROM FILES
+		WHERE F_CAT='PROJECT'
+		AND EMP_NO=#{empNo}
+		ORDER BY FILE_NO DESC
+	</select>
+	
+	<!-- 프로젝트 글 파일 리스트 -->
+	<select id="proPostFileList" resultType="co.up.tune.prj.vo.FilesVO">
+ 		SELECT *
+ 		FROM FILES
+ 		WHERE F_CAT='PROPOST'
+ 		ORDER BY FILE_NO DESC
+	</select>
+	
+	<!-- 내 파일함 업로드 -->	
+	<insert id="myFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
+		INSERT INTO FILES
+		VALUES(FNO_SEQ.nextval,#{fNm},#{fPath},#{fType},#{atchNo},#{fCat},#{pNm})
+	</insert>
+	
+	<!-- 프로젝트 글 파일 업로드 -->
+	<insert id="proPostFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
+		INSERT INTO FILES
+		VALUES(FNO_SEQ.nextval,#{fNm},#{fPath},#{fType},#{atchNo},#{fCat},#{pNm})
+	</insert>
+	
+	<!-- 파일 삭제 -->
+	<delete id="fileDelete" parameterType="co.up.tune.prj.vo.FilesVO">
+	  DELETE FROM FILES
+	  WHERE FILE_NO = #{fileNo}
+	</delete>
+	
+	<!-- 프로젝트 글 파일 삭제 -->
+	<delete id="proPostFileDelete" parameterType="co.up.tune.prj.vo.FilesVO">
+	  DELETE FROM FILES
+	  WHERE FILE_NO = #{fileNo}
+	</delete>
+</mapper>

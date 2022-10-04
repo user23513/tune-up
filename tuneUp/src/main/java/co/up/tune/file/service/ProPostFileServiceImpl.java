@@ -11,15 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import co.up.tune.file.mapper.ProPostFileMapper;
+import co.up.tune.file.mapper.FileMapper;
 import co.up.tune.prj.vo.FilesVO;
-import co.up.tune.prj.vo.PostVO;
 
 @Service
 public class ProPostFileServiceImpl implements ProPostFileService {
 
 	@Autowired
-	ProPostFileMapper map;
+	FileMapper map;
 	
 	
 	@Value("${file.dir}")
@@ -30,14 +29,15 @@ public class ProPostFileServiceImpl implements ProPostFileService {
 		// TODO Auto-generated method stub
 		return map.proPostFileList(vo);
 	}
-
+	
+	
 	@Override
 	public int proPostFileInsert(FilesVO vo) {
 		// TODO Auto-generated method stub
 		return map.proPostFileInsert(vo);
 	}
-
-
+	
+	
 	@Override
 	public int proPostFileDelete(FilesVO vo) {
 		// TODO Auto-generated method stub
@@ -75,6 +75,8 @@ public class ProPostFileServiceImpl implements ProPostFileService {
 		
 	}
 
+
+
 	
 //	public FilesVO ppfileUpload (FilesVO fvo,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
 //		//FilesVO fvo = new FilesVO();
@@ -107,9 +109,3 @@ public class ProPostFileServiceImpl implements ProPostFileService {
 
 	
 	
-	
-
-
-	
-	
-

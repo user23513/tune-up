@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.up.tune.prj.vo.FilesVO;
-import co.up.tune.prj.vo.PostVO;
 
 public interface ProPostFileService {
 	List<FilesVO> proPostFileList(FilesVO vo);

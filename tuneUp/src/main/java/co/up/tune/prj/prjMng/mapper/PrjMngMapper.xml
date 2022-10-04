@@ -50,11 +50,10 @@
 	
 	<update id="teamAuth" parameterType="co.up.tune.prj.vo.TeamVO">
 		UPDATE TEAM
-		<set>
-			<if test ="auth != null">AUTH='관리자'</if>
-		</set>
+		SET AUTH = '팀장'
 		WHERE PRJ_NO = #{prjNo}
 		AND EMP_NO = #{empNo}
+	 
 	</update>
 	
 	<update id="removeAuth" parameterType="co.up.tune.prj.vo.TeamVO">
@@ -64,13 +63,9 @@
 		</set>
 		WHERE PRJ_NO = #{prjNo} -->
 		
-		<![CDATA[ 
 		UPDATE TEAM
-		SET AUTH = '멤버'
-		]]>
+		SET AUTH = '팀원'
 		WHERE PRJ_NO = #{prjNo}
-		
-		
 	</update>
 	
 	<update id="prjSt" parameterType="co.up.tune.prj.vo.ProjectVO">

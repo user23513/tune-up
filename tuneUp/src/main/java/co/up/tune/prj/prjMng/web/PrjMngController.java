@@ -3,6 +3,7 @@ package co.up.tune.prj.prjMng.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,7 +18,7 @@ public class PrjMngController {
 	
 	
 	// 프로젝트 팀 리스트
-	@PostMapping("/teamList")
+	@GetMapping("/teamList")
 	public String teamList(@RequestParam("prjNo")int prjNo,Model model) {
 		TeamVO vo = new TeamVO();
 		model.addAttribute("teamList", dao.teamList(prjNo));
@@ -28,7 +29,7 @@ public class PrjMngController {
 	}
 	
 	// 관리자 리스트
-	@PostMapping("/authList")
+	@GetMapping("/authList")
 	public String authList(@RequestParam("prjNo")int prjNo,Model model) {
 		model.addAttribute("authList", dao.authList(prjNo));
 		model.addAttribute("addTeamList", dao.addTeamList());
@@ -37,7 +38,7 @@ public class PrjMngController {
 	
 	
 	//멤버추가
-	@PostMapping("/addTeam")
+	@GetMapping("/addTeam")
 	public String addTeam(TeamVO vo) {
 		dao.addTeam(vo);
 		return "prj/prjMng/teamList";
@@ -45,7 +46,7 @@ public class PrjMngController {
 	}
 	
 	//멤버삭제
-		@PostMapping("/removeTeam")
+		@GetMapping("/removeTeam")
 		public String removeTeam(TeamVO vo, Model model) {
 			dao.removeTeam(vo);
 			model.addAttribute("removeTeam", dao.removeTeam(vo));
@@ -70,7 +71,7 @@ public class PrjMngController {
 		}
 		
 		// 프로젝트 상태 변경
-		@PostMapping("/prjSt")
+		@GetMapping("/prjSt")
 		public String prjSt(ProjectVO vo) {
 			dao.prjSt(vo);
 			return "prj/prjMng/teamList";

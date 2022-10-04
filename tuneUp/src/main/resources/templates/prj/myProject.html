@@ -5,6 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>내 프로젝트 목록</title>
+<script>
+let schedules = []; //schedules가 db에 있는 모든 리스트
+$(document).ready(function(){
+	
+	/* $("#edBtn").on("click", e=>{
+		 $("#endFrm").submit(); */
+		console.log("prj ", $(".inputPrj").val())
+	});
+
+	
+	</script>
+	
 <style >
 #info {
 	background-color: white;
@@ -129,7 +141,12 @@
 													</div>
 												</div>
 												<div class="card-footer">
-													<i class="bi bi-people-fill"> 5 </i>
+												<input type="hidden" class="inputPrj" th:value="${prj.prjNo}">
+												
+													<i class="bi bi-people-fill"> <span th:text="${checkTeam}"></span> </i>
+													
+													
+													
 												</div>
 										    </div>
 										    <!-- 프로젝트 카드 -->

@@ -6,7 +6,7 @@
 	<!-- 프로젝트 file 등록  -->
 	<insert id="prjFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
 		INSERT INTO FILES
-		VALUES (FNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, #{fCat}, #{pNm})
+		VALUES (FNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, #{fCat}, #{pNm}, #{empNo})
 	</insert>
 				  
 	<select id="prjPostList" resultType="co.up.tune.prj.vo.PostVO">

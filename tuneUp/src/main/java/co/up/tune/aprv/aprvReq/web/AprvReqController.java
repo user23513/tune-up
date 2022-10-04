@@ -153,17 +153,18 @@ public class AprvReqController {
 			// 참조 결재인 처리용 문서번호
 			int aprvNo = vo.getAprvNo();
 
-			// 결재인 테이블
+			// 폼에서 받아온 결재자 사번 분리 -> 결재자 테이블 입력
 			ApprovalVO aprv = new ApprovalVO();
 			aprv.setAprvNo(aprvNo);
-
-			if (!vo.getAprvr().contains(",")) {
-				aprv.setAprvr(vo.getAprvr());
+			
+			String aprvr = vo.getAprvr();
+			if (!aprvr.contains(",")) {
+				aprv.setAprvr(aprvr);
 				aprv.setAprvSeq(1);
 				li.approvalIn(aprv);
 
 			} else {
-				String[] arrAp = vo.getAprvr().split(",");
+				String[] arrAp = aprvr.split(",");
 				int a = 1; // 결재순서
 				for (String i : arrAp) {
 					aprv.setAprvr(i);
@@ -174,17 +175,18 @@ public class AprvReqController {
 
 			}
 
-			// 참조인 테이블
+			// 폼에서 받아온 참조인 사번 분리 -> 참조 테이블 입력
 			ReferVO rf = new ReferVO();
 			rf.setAprvNo(aprvNo);
-			if (!vo.getRefer().contains(",")) {
+			String refer = vo.getRefer();
+			if (!refer.contains(",")) {
 
-				rf.setEmpNo(vo.getRefer());
+				rf.setEmpNo(refer);
 				li.referIn(rf);
 
 			} else {
 
-				String[] appRf = vo.getRefer().split(",");
+				String[] appRf = refer.split(",");
 				for (String i : appRf) {
 					rf.setEmpNo(i);
 					li.referIn(rf);
@@ -194,7 +196,9 @@ public class AprvReqController {
 			}
 			;
 		}
-
+		
+		
+		
 		return "redirect:aprvReq";
 
 	}

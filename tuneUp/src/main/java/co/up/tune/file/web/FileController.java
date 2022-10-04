@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import co.up.tune.file.service.FileService;
+import co.up.tune.file.service.MyFilesService;
 import co.up.tune.file.service.PrjFilesService;
 import co.up.tune.prj.vo.FilesVO;
 
@@ -28,16 +29,21 @@ public class FileController {
 	FileService fdao;
 	
 	@Autowired
-	PrjFilesService myDao;
+	PrjFilesService prjDao;
+	
+	@Autowired
+	MyFilesService myDao;
 	
 	//내 파일함 페이지
 	@GetMapping("/files")
 	public String files(HttpSession session, Model model) {
 		String empNo = (String) session.getAttribute("empNo");
-		model.addAttribute("prjFileList", myDao.prjFileList(empNo));
-		
+		model.addAttribute("prjFileList", prjDao.prjFileList(empNo));
+		model.addAttribute("myFileList",myDao.myFileList(empNo));
 		return "file/file";
 	}
+	
+	
 	//파일함 폼
 	@GetMapping("/fileUploadForm")
 	public String myFileInsertForm() {

@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.schedule.mapper.ScheduleMapper;
 import co.up.tune.prj.vo.ScheduleVO;
@@ -30,7 +33,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	//프로젝트 일정 리스트
 	@Override
-	public List<ScheduleVO> scheduleList(int prjNo) {
+	public Page<ScheduleVO> scheduleList(int pageNo, int prjNo) {
+		PageHelper.startPage(pageNo, 10);
 		return map.scheduleList(prjNo);
 	}
 

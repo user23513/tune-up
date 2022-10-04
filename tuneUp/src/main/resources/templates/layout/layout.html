@@ -393,9 +393,16 @@
               <div>
                  <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                     <img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
+                    <div>
+                    <i id="prev" class="bi bi-caret-left" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
                     <h2 th:text="${session.nm}">kim</h2> <!-- 이름  -->
+                    <i id="next" class="bi bi-caret-right" style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i> 
+                    </div>
                     <h3 th:text="${session.dept}">Web Designer</h3> <!-- 부서명  -->
                     <!-- 팀원들? -->
+                    <div id="teamMem">
+                    
+                    </div>
                  </div>
               </div>
           </section>
@@ -539,11 +546,61 @@
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
   <script>
+  	//화살표 누르면 부서별 팀원
+  	let depts = ['영업','기획','인사','회계','개발'];
+  	let idx = 2;
+  	dept = depts[idx];
+  	console.log(idx)
+  	$("#next").on("click", e=>{
+  		if(idx < depts.length-1){
+  			$("#teamMem").html("");
+	  		idx = idx+1;
+	  		dept = depts[idx];
+	  		
+	  		$.ajax({
+	  	  		url: 'prjTeamMembers',
+	  	  		data:{'dept':dept},
+	  	  		dataType: 'json',
+	  	  		success: function(res){
+		  	  		$.each(res, (idx,team)=>{
+		  				$("#teamMem").append(`<div>${team.nm}&nbsp;${team.dept}</div>`)
+		  			})
+	  	  		}
+	  	  	})
+  		}
+  		
+  	})
+  	
+  	$("#prev").on("click", e=>{
+  		if(idx > 0){
+  			$("#teamMem").html("");
+	  		idx = idx-1;
+	  		dept = depts[idx];
+	  		
+	  		$.ajax({
+	  	  		url: 'prjTeamMembers',
+	  	  		data:{'dept':dept},
+	  	  		dataType: 'json',
+	  	  		success: function(res){
+		  	  		$.each(res, (idx,team)=>{
+		  				$("#teamMem").append(`<div>${team.nm}&nbsp;${team.dept}</div>`)
+		  			})
+	  	  		}
+	  	  	})
+  		}
+  		
+  	})
+  	
+  	//기본은 부서=>인사
   	$.ajax({
   		url: 'prjTeamMembers',
+  		data:{'dept':dept},
   		dataType: 'json',
   		success: function(res){
-  			console.log(res)
+  			$.each(res, (idx,team)=>{
+  				$("#teamMem").append(`<div>${team.nm}&nbsp;${team.dept}</div>`)
+  			})
+  			
   		}
   	})
   </script>

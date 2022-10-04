@@ -110,12 +110,6 @@ public class PropostServiceImpl implements PropostService {
 		return map.empList();
 	}
 
-	//프로젝트 일정 리스트
-	@Override
-	public List<ScheduleVO> scheduleList(int prjNo) {
-		return map.scheduleList(prjNo);
-	}
-
 	//프로젝트 일정 => 멤버 리스트
 	@Override
 	public List<MemberVO> scheduleMemberList(int prjNo) {

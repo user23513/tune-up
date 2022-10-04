@@ -86,6 +86,10 @@ $(document).ready(function(){
 	         right: 'dayGridMonth,timeGridWeek,timeGridDay'
 	       },
 	       initialDate: new Date(), //'2020-09-12',
+	       titleFormat: function (date) {
+	           // YYYY년 MM월
+	           return `${date.date.year}년 ${date.date.month + 1}월`;
+	        },
 	       navLinks: true, // can click day/week names to navigate views
 	       selectable: true,
 	       selectMirror: true,

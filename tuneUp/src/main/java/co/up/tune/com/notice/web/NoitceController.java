@@ -1,11 +1,13 @@
 package co.up.tune.com.notice.web;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +30,9 @@ public class NoitceController {
 	
 	@Autowired
 	FileService fdao;
+	
+	@Value("${file.dir}")
+	private String fileDir;
 	
 	//공지사항 리스트
 	@GetMapping("/noticeList")
@@ -113,7 +118,11 @@ public class NoitceController {
 	//공지사항 삭제
 	@PostMapping("/noticeDelete")
 	public String noticeDelete(CommunityVO vo) {
-		dao.noticeDelete(vo);
+		int cnt = dao.noticeDelete(vo);
+		if(cnt == 1) {
+			File file = new File(fileDir + "\\" +vo.getFPath());
+			file.delete();
+		}
 		return "redirect:/noticeList";
 	}
 	

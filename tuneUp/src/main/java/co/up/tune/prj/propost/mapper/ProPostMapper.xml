@@ -28,13 +28,31 @@
 		VALUES (PNO_SEQ.NEXTVAL,#{empNo},#{wrtr},#{ttl},#{cntn},sysdate,#{atchNo},#{prjNo}) 
 	</insert>
 	
-	 <update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">
-		UPDATE POST
-		<set>
-			<if test="ttl != null">TTL=#{ttl},</if>
-			<if test="cntn != null">CNTN=#{cntn}</if>
-		</set>
-		WHERE POST_NO=#{postNo}
+	<!-- 프로젝트 글 수정 -->
+	<update id="prjPostUpdate">
+		DECLARE
+			V_FILE_NO	NUMBER(10);
+		BEGIN
+			UPDATE POST
+			SET
+				<if test="pvo.ttl != null">TTL=#{pvo.ttl},</if>
+				<if test="pvo.cntn != null">CNTN=#{pvo.cntn}</if>
+			WHERE POST_NO=#{pvo.postNo};
+		
+			SELECT FILE_NO 
+			INTO V_FILE_NO
+			FROM FILES
+			WHERE ATCH_NO = (
+			 		SELECT ATCH_NO FROM POST WHERE POST_NO=#{pvo.postNo}
+				);
+			 
+			 <if test="fvo.fNm != null">
+				 UPDATE FILES
+				 SET
+				 	F_NM=#{fvo.fNm}, F_PATH=#{fvo.fPath}, F_TYPE=#{fvo.fType}
+				 WHERE FILE_NO = V_FILE_NO;
+			 </if>
+		END; 	
 	</update> 
 	
 	 <!-- <update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">

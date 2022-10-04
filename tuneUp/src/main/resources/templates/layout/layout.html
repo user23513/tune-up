@@ -114,7 +114,7 @@
 
   //웹소켓 연결 함수
   function connectWs(){
-  	sock = new SockJS("http://192.168.0.19:80/ws/alarm"); //다른곳에서도 사용하려고 내 ip주소 적어놓음
+  	sock = new SockJS("/ws/alarm"); //다른곳에서도 사용하려고 내 ip주소 적어놓음
   	socket = sock;
   	
   	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)
@@ -395,6 +395,7 @@
                     <img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
                     <h2 th:text="${session.nm}">kim</h2> <!-- 이름  -->
                     <h3 th:text="${session.dept}">Web Designer</h3> <!-- 부서명  -->
+                    <!-- 팀원들? -->
                  </div>
               </div>
           </section>
@@ -537,6 +538,15 @@
 
   <!-- Template Main JS File -->
   <script src="/assets/js/main.js"></script>
+  <script>
+  	$.ajax({
+  		url: 'prjTeamMembers',
+  		dataType: 'json',
+  		success: function(res){
+  			console.log(res)
+  		}
+  	})
+  </script>
 </body>
 
 </html>

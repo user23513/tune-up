@@ -47,6 +47,7 @@ public class FileService {
 			
 			//실제 로컬에 uuid를 파일명으로 저장
 			file.transferTo(new File(savePath));
+			
 		}
 		
 		return list;

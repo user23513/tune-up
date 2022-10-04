@@ -268,9 +268,9 @@ $(document).ready(function(){
 									&nbsp;<button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" 
 											data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
 											style="position: relative; top: 10px;">참석자 추가</button>
+											
 									<!-- 버튼클릭시 뜨는 부분 -->
 									<div class="collapse" id="collapseExample" style="padding-top: 30px;">
-									   	<!-- 부서별 -->
 										<div style="min-height: 200px;">
 											<ul id="browser" class="filetree treeview-famfamfam">
 												<li id="depts"><span class="folder">Tune-Up</span>
@@ -314,12 +314,6 @@ $(document).ready(function(){
 												</li>
 											</ul>
 									  	</div>
-										<!-- 부서별 -->
-									  	<!-- 인원선택하면 추가되는 부분 -->
-									  	<div id="selectPerson">
-									  	</div>
-									  	<button id="personInsert" class="btn btn-outline-primary" type="button">등록</button>
-									  	<!-- 인원선택하면 추가되는 부분 -->
 									</div>
 									<!-- 버튼클릭시 뜨는 부분  -->
 								</div>
@@ -608,11 +602,11 @@ $(document).ready(function(){
 	<!-- 일정 -->
 	<script>
 		//부서별 사원이름 클릭시 추가되는 기능
-		$("#depts").on("click", ".name", e=>{
+		/* $("#depts").on("click", ".name", e=>{
 			let empName = $(e.target).text(); //클릭한 사원의 이름
 			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
 			$("#selectPerson").append("<div><span data-no='"+ empNo +"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
-		})
+		}) */
 		
 		//추가된 사원 삭제
 		$("#rr").on("click", ".bi-x", e=>{
@@ -622,15 +616,14 @@ $(document).ready(function(){
 		})
 		
 		//추가한 사원모두 추가되는 기능 (등록버튼)
-		$("#personInsert").on("click", e=>{
-			let people = $(e.target).prev().find('span');
-			$.each(people, (idx, p)=>{
-				$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+$(p).data("no")+"'><b>"+$(p).text()+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
+		$("#depts").on("click", ".name", e=>{
+			let empName = $(e.target).text(); //클릭한 사원의 이름
+			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
 			
-				//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
-				$("#scheduleFrm").append("<input type='hidden' id='"+$(p).data("no")+"' name='teamEmpNo' value='"+$(p).data("no")+"'>")
-			})
-			$(e.target).prev().html("");
+			$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+empNo+"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
+			
+			//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
+			$("#scheduleFrm").append("<input type='hidden' id='"+empNo+"' name='teamEmpNo' value='"+empNo+"'>")
 			
 		})
 		

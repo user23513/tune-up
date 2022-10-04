@@ -92,7 +92,7 @@ public class PropostController {
 	//내프로젝트 글 등록(파일까지)
 	@PostMapping("/prjPostInsert") 
 	public String prjPostInsert(PostVO vo, @RequestParam("file") MultipartFile[] files, 
-								Model model, RedirectAttributes re) throws IllegalStateException, IOException { 
+								RedirectAttributes re) throws IllegalStateException, IOException { 
 		//file upload 처리
 		FilesVO fvo = new FilesVO();
 		List<FilesVO> list = new ArrayList<>();
@@ -112,27 +112,43 @@ public class PropostController {
 		return "redirect:prjPostList";
 	}
 	
-	//내 프로젝트 - 글 삭제 post
-//	@PostMapping("/prjPostDelete")
-//	public String prjPostDelete(PostVO vo) {
-//		dao.prjPostDelete(vo);
-//		return "redirect:/prjPostList";
+	//내프로젝트 글 수정
+	@PostMapping("/prjPostUpdate")
+	public String prjPostUpdate(PostVO vo, @RequestParam("file") MultipartFile[] files, RedirectAttributes re) throws IllegalStateException, IOException {
+		//file upload 처리
+		FilesVO fvo = new FilesVO();
+		List<FilesVO> list = new ArrayList<>();
+		if(!files[0].isEmpty()) {
+			String folder = "prj"; //Temp안에 폴더명
+			list = fileDao.fileUpload(files, folder);
+			fvo.setFNm(list.get(0).getFNm());
+			fvo.setFPath(list.get(0).getFPath());
+			fvo.setFType(list.get(0).getFType());
+			fvo.setFCat("PROJECT");
+			fvo.setPNm(vo.getTtl());
+		}
+		
+		dao.prjPostUpdate(vo, fvo);
+		
+		re.addAttribute("prjNo", vo.getPrjNo());
+		
+		return "redirect:prjPostList";
+	}
+	
+	//내 프로젝트 - 글 수정 폼 post
+//	@PostMapping("/postUpdateForm")
+//	public String prjPostUpdateForm(PostVO vo, Model model) {
+//		model.addAttribute("pj", dao.prjPostSelect(vo));
+//		//dao.prjPostUpdate(vo);
+//		return "prj/post/postUpdateForm";
 //	}
 	  
-	//내 프로젝트 - 글 수정 폼 post
-	@PostMapping("/postUpdateForm")
-	public String prjPostUpdateForm(PostVO vo, Model model) {
-		model.addAttribute("pj", dao.prjPostSelect(vo));
-		//dao.prjPostUpdate(vo);
-		return "prj/post/postUpdateForm";
-	}
-	  
 	//내 프로젝트 - 글 수정 post
-	@PostMapping("/prjPostUpdate")
-	public String prjPostUpdate(PostVO vo) {
-		dao.prjPostUpdate(vo);
-		return "redirect:/prjPostList";
-	}
+//	@PostMapping("/prjPostUpdate")
+//	public String prjPostUpdate(PostVO vo) {
+//		dao.prjPostUpdate(vo);
+//		return "redirect:/prjPostList";
+//	}
 	  
 	// 내 프로젝트 - 관리자
 	@GetMapping("/prjMng")

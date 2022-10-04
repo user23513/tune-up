@@ -13,10 +13,6 @@ public class FreeAjaxController {
 	@Autowired
 	FreeService dao;
 	
-	//페이징처리 클래스
-	@Autowired
-	Paging paging; 
-	
 	//=======댓글==========
 	//댓글 등록
 	@PostMapping("/replyInsert")

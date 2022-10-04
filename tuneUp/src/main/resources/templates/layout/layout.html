@@ -313,14 +313,8 @@
 				</a> <!-- End Profile Iamge Icon --> <!-- 마이페이지 프로필 아이콘 눌렀을때-->
 					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 						<li class="dropdown-header">
-							<div>
-								<i id="prev" class="bi bi-caret-left" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
-								<h6 th:text="${session.nm}"></h6> 
-								<i id="next" class="bi bi-caret-right" style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i>
-							</div>
+							<h6 th:text="${session.nm}"></h6> 
 							<span th:text="${session.position}"></span>
-							 <!-- 팀원들? -->
-		                    <div id="teamMem"></div>
 						</li>
 						<li class="form-floating">
 							<select class="form-select" id="floatingSelect" aria-label="State">
@@ -393,11 +387,16 @@
 					<div
 						class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 						<img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
-						<h2 th:text="${session.nm}">kim</h2>
+						<div>
+							<i id="prev" class="bi bi-caret-left" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
+							<h2 th:text="${session.nm}">kim</h2>
+							<i id="next" class="bi bi-caret-right" style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i>
+						</div>
 						<!-- 이름  -->
 						<h3 th:text="${session.dept}">Web Designer</h3>
 						<!-- 부서명  -->
 						<!-- 팀원들? -->
+		                <div id="teamMem"></div>
 					</div>
 				</div>
 			</section>

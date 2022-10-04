@@ -57,7 +57,7 @@ $(document).ready(function() {
 		         success:function(res){
 		        	 console.log(res);
 		        	let str = "<tr><td name='no' class='no' style='display: none'>"+ res.no +"</td>";
-		     		str += "<td><input type='hidden' name='cntn' class='cntn' value='"+ res.cntn+"'>"+ res.cntn +"</td><td><button name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
+		     		str += "<td><input type='text' name='cntn' class='cntn' value='"+ res.cntn+"'>"+ res.cntn +"</td><td><button name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
 		     		str += "<i class='bi bi-x-lg'></i></button> </td> </tr>";
 		     		$("#tbd").append(str);
 		         }
@@ -95,13 +95,13 @@ $(document).ready(function() {
 	}) */
 });
 
-function test(){
-	let todo = document.querySelectorAll("tr");
+function save(){
+/* 	let todo = document.querySelectorAll("tr");
 	console.log("test");
- 	let cntn1 = $("[name='cntn']").innerText;
+ 	let cntn1 = $("[name='cntn']").value;
 	console.log("cntn = "+cntn1);
 	list = [todo.length];
-	console.log(list);
+	console.log(list); */
 	
 /* 	 for(r= 0; r < todo.length; r++){
 		let todoNo = todo[r].children[0].innerText;
@@ -131,7 +131,7 @@ function test(){
 	      }
 		}) */
 	 
-	//$("#todoFrm").submit();
+	$("#todoFrm").submit();
 }
 
 /* function save(){
@@ -237,7 +237,7 @@ function test(){
 									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 									<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
 									<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
-									<input type="hidden" id="prjNo" name="prjNo" value="111">
+									<input type="hidden" id="prjNo" name="prjNo" th:value="111">
 							</div> <br>
 							
 							<!-- todo 상세 Insert -->
@@ -261,7 +261,7 @@ function test(){
 							<br>
 							<div class="col-md-8 col-lg-9">
 				               <button id="btn" class="btn btn-primary" type="button">등록</button>
-				               <button id="test" class="btn btn-primary" type="button" onclick="test()">테스트</button>
+				               <button id="test" class="btn btn-primary" type="button" onclick="save()">테스트</button>
 							</div>
 						<!-- 할일 -->
 						</div>

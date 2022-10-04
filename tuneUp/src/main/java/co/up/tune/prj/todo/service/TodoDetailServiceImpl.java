@@ -19,7 +19,7 @@ public class TodoDetailServiceImpl implements TodoDetailService{
 
 	@Override
 	public int detailInsert(TodoDetailVO vo) {
-		return map.detailInsert(vo);
+		return 0;
 	}
 
 	@Override

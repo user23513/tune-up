@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.todo.mapper.DemoTodoMapper;
 import co.up.tune.prj.todo.mapper.TodoMapper;
-import co.up.tune.prj.vo.DemoTodoVO;
+//import co.up.tune.prj.vo.DemoTodoVO;
 import co.up.tune.prj.vo.TodoVO;
 
 @Service
@@ -33,11 +33,11 @@ public class TodoServiceImpl implements TodoService {
 	public int todoInsert(TodoVO vo) {
 //		int r= map.todoInsert(vo);
 //		System.out.println("todoInsert r = " + r);
-		
-		vo.setDemoList(dmap.demoList());
+//		
+//		vo.setDemoList(dmap.demoList());
 //		System.out.println(cntn);
-		
-		//1. todo insert
+//		
+//		1. todo insert
 //		int r = map.todoInsert(vo);
 //		System.out.println(r);
 		
@@ -53,14 +53,14 @@ public class TodoServiceImpl implements TodoService {
 //		System.out.println("empNo============ : " + dmvo.getEmpNo());
 //		//========================= 성공 ==========================
 //		
-////		 int result[] = new int[devo.getDemoList().size()];
-////		 System.out.println(result);
+//		 int result[] = new int[devo.getDemoList().size()];
+//		 System.out.println(result);
 //		
-////		dmap.demoList().get(0).getCntn();
-////		System.out.println(dmap.demoList().get(0).getCntn());
+//		dmap.demoList().get(0).getCntn();
+//		System.out.println(dmap.demoList().get(0).getCntn());
 //		
-////		devo.getDemoList().get(0).getCntn();
-////		System.out.println("demo : " +devo.getDemoList().get(0).getCntn());
+//		devo.getDemoList().get(0).getCntn();
+//		System.out.println("demo : " +devo.getDemoList().get(0).getCntn());
 //		
 //		dmap.demoList();
 //		
@@ -75,11 +75,11 @@ public class TodoServiceImpl implements TodoService {
 //		//4. detail insert
 //		if(devo.getDemoList() != null) {
 //			System.out.println("널이 아님");
-////			for(int i = 0; i< devo.getDemoList().size(); i++) {
-////				//devo.setCntn(devo.getDemo().get(i));
-////				//devo.setTodoNo(devo.getDemo().get(i));
-////				System.out.println("test" +i);
-////			}
+//			for(int i = 0; i< devo.getDemoList().size(); i++) {
+//				//devo.setCntn(devo.getDemo().get(i));
+//				//devo.setTodoNo(devo.getDemo().get(i));
+//				System.out.println("test" +i);
+//			}
 //		}else {
 //			System.out.println("값이 없음");
 //		}

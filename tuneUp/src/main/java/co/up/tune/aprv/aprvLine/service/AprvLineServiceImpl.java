@@ -27,16 +27,6 @@ public class AprvLineServiceImpl implements AprvLineService{
 	}
 
 	@Override
-	public int approvalUp(ApprovalVO vo) {
-		return map.approvalUp(vo);
-	}
-
-	@Override
-	public int approvalDel(ApprovalVO vo) {
-		return map.approvalDel(vo);
-	}
-
-	@Override
 	public List<ReferVO> ReferList(ReferVO vo) {
 		return map.ReferList(vo);
 	}
@@ -45,11 +35,6 @@ public class AprvLineServiceImpl implements AprvLineService{
 	public int referIn(ReferVO vo) {
 		return map.referIn(vo);
 		
-	}
-
-	@Override
-	public int referUp(ReferVO vo) {
-		return map.referUp(vo);
 	}
 
 	@Override
@@ -65,11 +50,6 @@ public class AprvLineServiceImpl implements AprvLineService{
 	@Override
 	public int aprvLineIn(AprvLineVO vo) {
 		return map.aprvLineIn(vo);
-	}
-
-	@Override
-	public int aprvLineUp(AprvLineVO vo) {
-		return map.aprvLineUp(vo);
 	}
 
 	@Override

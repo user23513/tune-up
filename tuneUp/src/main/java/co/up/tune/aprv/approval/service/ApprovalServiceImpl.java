@@ -51,18 +51,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public int trustUp(TrustVO vo) {
-		return map.trustUp(vo);
-	}
-
-	@Override
 	public int trustDel(TrustVO vo) {
 		return map.trustDel(vo);
 	}
 
 	@Override
-	public int signIn(EmpVO vo) {
-		return map.signIn(vo);
+	public int signUp(EmpVO vo) {
+		return map.signUp(vo);
 	}
 
 	@Override

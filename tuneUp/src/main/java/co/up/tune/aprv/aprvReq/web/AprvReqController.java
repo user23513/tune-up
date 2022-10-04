@@ -121,13 +121,12 @@ public class AprvReqController {
 	}
 
 	@PostMapping("/aprvInsert")
-	public String aprvInsert(AprvVO vo, HttpServletRequest request, @RequestParam("file") MultipartFile[] files)
-			throws IllegalStateException, IOException {
+	public String aprvInsert(AprvVO vo, HttpServletRequest request, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
 
-		// 파일처리
 		List<FilesVO> list = new ArrayList<>();
-		if (files.length != 0) {
-			String folder = "aprv";
+		
+		if(files.length != 0) {
+			String folder = "aprv"; 
 			list = fs.fileUpload(files, folder);
 			vo.setFNm(list.get(0).getFNm());
 			vo.setFPath(list.get(0).getFPath());
@@ -149,57 +148,38 @@ public class AprvReqController {
 		}
 
 		// 결재문서 테이블 입력
-		ap.aprvReqIn(vo);
+		int cnt = ap.aprvReqIn(vo);
 
-		// 참조 결재인 처리용 문서번호
-		int aprvNo = vo.getAprvNo();
+		if (cnt != 0) {
+			// 참조 결재인 처리용 문서번호
+			int aprvNo = vo.getAprvNo();
 
-		// 결재인 테이블
-		ApprovalVO aprv = new ApprovalVO();
-		aprv.setAprvNo(aprvNo);
-		if (vo.getAprvr().contains(",")) {
+			// 결재인 테이블
+			ApprovalVO aprv = new ApprovalVO();
+			aprv.setAprvNo(aprvNo);
+			
 			String[] arrAp = vo.getAprvr().split(",");
-
 			int a = 1; // 결재순서
-			if (arrAp[2] != "undefined") {
-				for (String i : arrAp) {
-					aprv.setAprvr(i);
-					aprv.setAprvSeq(a);
-					li.approvalIn(aprv);
-					a++;
-				}
-				;
-			} else if (arrAp[1] != "undefined") {
-				for (int i = 0; i < 2; i++) {
-					aprv.setAprvr(arrAp[i]);
-					aprv.setAprvSeq(a);
-					li.approvalIn(aprv);
-					a++;
-				}
-				;
+			for (int i = 0; i < 2; i++) {
+				aprv.setAprvr(arrAp[i]);
+				aprv.setAprvSeq(a);
+				li.approvalIn(aprv);
+				a++;
 			}
-		} else {
-			aprv.setAprvr(vo.getAprvr());
-			aprv.setAprvSeq(1);
-			li.approvalIn(aprv);
-		}
+			// 참조인 테이블
+			ReferVO rf = new ReferVO();
+			rf.setAprvNo(aprvNo);
 
-		// 참조인 테이블
-		ReferVO rf = new ReferVO();
-		rf.setAprvNo(aprvNo);
-		if (vo.getRefer().contains(",")) {
 			String[] appRf = vo.getRefer().split(",");
 			for (String i : appRf) {
 				rf.setEmpNo(i);
 				li.referIn(rf);
 			}
 			;
-		} else {
-			rf.setEmpNo(vo.getRefer());
-			li.referIn(rf);
 		}
-
+		
 		return "redirect:aprvReq";
+
 	}
 
 }

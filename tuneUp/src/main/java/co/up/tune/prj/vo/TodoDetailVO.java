@@ -12,5 +12,4 @@ public class TodoDetailVO {
 	 String cmpltYn;	//완료여부
 	 Date edt;		//종료일
 	 int postNo;	//게시글 번호
-	 List<DemoTodoVO> demoList;
 }

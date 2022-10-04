@@ -9,7 +9,6 @@ import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.todo.mapper.DemoTodoMapper;
 import co.up.tune.prj.todo.mapper.TodoMapper;
 import co.up.tune.prj.vo.DemoTodoVO;
-import co.up.tune.prj.vo.TodoDetailVO;
 import co.up.tune.prj.vo.TodoVO;
 
 @Service
@@ -32,11 +31,16 @@ public class TodoServiceImpl implements TodoService {
 
 	@Override
 	public int todoInsert(TodoVO vo) {
+//		int r= map.todoInsert(vo);
+//		System.out.println("todoInsert r = " + r);
+		
+		vo.setDemoList(dmap.demoList());
+//		System.out.println(cntn);
+		
 		//1. todo insert
-//		System.out.println("test");
 //		int r = map.todoInsert(vo);
 //		System.out.println(r);
-//		
+		
 //		//2. demo list 뿌리기
 //		TodoDetailVO devo = new TodoDetailVO();
 //		System.out.println("postno : " + vo.getPostNo());
@@ -49,11 +53,8 @@ public class TodoServiceImpl implements TodoService {
 //		System.out.println("empNo============ : " + dmvo.getEmpNo());
 //		//========================= 성공 ==========================
 //		
-//		
 ////		 int result[] = new int[devo.getDemoList().size()];
 ////		 System.out.println(result);
-//		 
-//		 
 //		
 ////		dmap.demoList().get(0).getCntn();
 ////		System.out.println(dmap.demoList().get(0).getCntn());
@@ -82,7 +83,7 @@ public class TodoServiceImpl implements TodoService {
 //		}else {
 //			System.out.println("값이 없음");
 //		}
-		//dmap.demoInsert();
+//		//dmap.demoInsert();
 		return map.todoInsert(vo);
 	}
 

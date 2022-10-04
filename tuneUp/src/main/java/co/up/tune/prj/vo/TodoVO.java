@@ -1,6 +1,7 @@
 package co.up.tune.prj.vo;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +14,6 @@ public class TodoVO {
 	 String wrtr;	//작성자
 	 Timestamp dttm; 	//작성일시
 	 int prjNo;		//프로젝트번호
+	 List<DemoTodoVO> demoList;
+	 String cntn;
 }

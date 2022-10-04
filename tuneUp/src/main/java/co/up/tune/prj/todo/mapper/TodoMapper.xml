@@ -20,7 +20,28 @@
 		</selectKey>
 		INSERT INTO TODO
 		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{ttl}, #{wrtr}, sysdate, #{prjNo})
+		<!-- <selectKey keyProperty="todoNo" order="BEFORE" resultType="int">
+			select
+			    case when max(todo_no) is null then 1
+			    else max(todo_no)+1
+			    end as no
+			from todoDetail
+		</selectKey> -->
+		<foreach collection="demoList" item="demo">
+			insert into tododetail (todo_no, cntn, cmplt_yn, post_no, edt)
+			value = (#{todoNo}, #{demo.cntn}, 'N', #{postNo}, sysdate)
+		</foreach>
 	</insert>
+	
+<!-- 	<insert id="">
+		<selectKey ></selectKey>
+		insert todo
+		values()
+		<foreach collection="demoList" item="demo">
+			insert into tododetail
+			values (#{empNo})
+		</foreach>
+	</insert> -->
 	
 	<update id="todoUpdate" parameterType="co.up.tune.prj.vo.TodoVO">
 		update todo

@@ -30,13 +30,10 @@ public interface ApprovalService {
 	// 위임자 등록
 	int trustIn(TrustVO vo);
 
-	// 위임자 수정
-	int trustUp(TrustVO vo);
-
 	// 위임자 삭제
 	int trustDel(TrustVO vo);
 	
-	int signIn(EmpVO vo);//서명 업로드
+	int signUp(EmpVO vo);//서명 업로드
 	
 	EmpVO signSel(EmpVO vo);//서명선택
 

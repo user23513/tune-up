@@ -236,20 +236,19 @@
 				</a></li>
 
 				<li class="nav-item dropdown">
-					<!-- 알림 아이콘 --> <a class="nav-link nav-icon" href="bellList"> <i
-						class="bi bi-bell"></i> <span id="bell"
-						class="badge bg-primary badge-number"></span>
-				</a> <!-- End Notification Icon -->
-				</li>
-				<!-- End Notification Nav -->
-
-				<li class="nav-item dropdown">
 					<!-- ===== 메일 아이콘 =====  --> <a class="nav-link nav-icon"
 					href="message"> <i class="bi bi-envelope"></i> <span
 						class="badge bg-success badge-number">3</span>
 				</a> <!-- End Messages Icon -->
 				</li>
 				<!-- End Messages Nav -->
+				<li class="nav-item dropdown">
+					<!-- 알림 아이콘 --> <a class="nav-link nav-icon" href="bellList"> <i
+						class="bi bi-bell"></i> <span id="bell"
+						class="badge bg-primary badge-number"></span>
+				</a> <!-- End Notification Icon -->
+				</li>
+				<!-- End Notification Nav -->
 
 
 				<li class="nav-item dropdown pe-3">
@@ -351,7 +350,8 @@
 		</section>
 
 		<b th:text="|${session.nm} ${session.position}|"
-			style="margin-left: 80px;">kim</b> <br><br>
+			style="margin-left: 80px;">kim</b> <br>
+		<br>
 		<ul class="sidebar-nav" id="sidebar-nav">
 			<li class="nav-item"><a class="nav-link collapsed"
 				data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">

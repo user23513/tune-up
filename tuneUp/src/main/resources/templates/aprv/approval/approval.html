@@ -147,6 +147,7 @@
 			}
 		})
 		
+		//위임자 추가
 		$(".trustInBtn").on("click", e=>{
 			if($("#rptt").val() == ""){
 				alert("위임자를 지정해주세요");
@@ -169,103 +170,7 @@
 		
 	approvalSelect();
 		
-		/* //서명
-		(function(obj){ 
-			obj.init();      
-	    	$(obj.onLoad);    
-		})((function(){     
-			let canvas = $("#canvas");      
-	     	let div = canvas.parent("div");      
-	    	//캔버스 오브젝트
-	     	let ctx = canvas[0].getContext("2d");      
-	     	let drawble = false;            
-	     	
-	     	function canvasResize(){        
-	        	canvas[0].height = div.height();        
-	        	canvas[0].width = div.width();
-	        }      
-	       	//PC
-	        function draw(e){        
-	            function getPosition(){          
-	                return {            
-	                    X: e.pageX - canvas[0].offsetLeft,             
-	                    Y: e.pageY - canvas[0].offsetTop          
-	                }        
-	            }        
-	            switch(e.type){          
-	                case "mousedown":{            
-	                    drawble = true;            
-	                    ctx.beginPath();            
-	                    ctx.moveTo(getPosition().X, getPosition().Y);          
-	                }
-	                break;          
-	                case "mousemove":{            
-	                    if(drawble){              
-	                        ctx.lineTo(getPosition().X, getPosition().Y);              
-	                        ctx.stroke();            
-	                    }          
-	                }          
-	                break;          
-	                case "mouseup":          
-	                case "mouseout":{            
-	                    drawble = false;            
-	                    ctx.closePath();          
-	                }          
-	                break;        
-	            }      
-	        }      
-	       
-	        function touchdraw(e){        
-	            function getPosition(){          
-	                return {            
-	                    X: e.changedTouches[0].pageX - canvas[0].offsetLeft,             
-	                    Y: e.changedTouches[0].pageY - canvas[0].offsetTop          
-	                }        
-	            }        
-	            switch(e.type){          
-	                case "touchstart":{            
-	                    drawble = true;            
-	                    ctx.beginPath();            
-	                    ctx.moveTo(getPosition().X, getPosition().Y);          
-	                }
-					break;          
-	                case "touchmove":{            
-	                    if(drawble){                      
-	                        e.preventDefault();              
-	                        ctx.lineTo(getPosition().X, getPosition().Y);              
-	                        ctx.stroke();            
-	                    }          
-	                }         
-	                break;          
-	                case "touchend":          
-	                case "touchcancel":{            
-	                    drawble = false;            
-	                    ctx.closePath();          
-	                }
-	                break;        
-	            }      
-	        }      
-	       
-	        return {        
-	            init: function(){          
-	                $(window).on("resize", canvasResize);
-	                canvas.on("mousedown", draw);          
-	                canvas.on("mousemove", draw);          
-	                canvas.on("mouseup", draw);          
-	                canvas.on("mouseout", draw);          
-	                //스마트폰
-	                canvas.on("touchstart", touchdraw);          
-	                canvas.on("touchend", touchdraw);          
-	                canvas.on("touchcancel", touchdraw);          
-	                canvas.on("touchmove", touchdraw);          
-	                    
-	                      
-	            },        
-	            onLoad: function(){          
-	                canvasResize();        
-	            }      
-			}    
-		})());            */
+	
 		
 	
 		var isDrawing = false;
@@ -339,7 +244,7 @@
        	       
 
                            $.ajax({
-                               url: 'signIn',
+                               url: 'signUp',
                                        processData: false,
                                        contentType: false,
                                        data: formData,

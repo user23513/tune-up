@@ -5,7 +5,7 @@
 	<!-- ======할일======= -->
 	<select id="todoList" resultType="co.up.tune.prj.vo.TodoVO">
 		select * from todo
-		where prj_no = #{prjNo}
+		where prj_no = '111'
 		order by post_no desc
 	</select>
 	
@@ -27,10 +27,10 @@
 			    end as no
 			from todoDetail
 		</selectKey> -->
-		<foreach collection="demoList" item="demo">
+<!-- 		<foreach collection="demoList" item="demo">
 			insert into tododetail (todo_no, cntn, cmplt_yn, post_no, edt)
 			value = (#{todoNo}, #{demo.cntn}, 'N', #{postNo}, sysdate)
-		</foreach>
+		</foreach> -->
 	</insert>
 	
 <!-- 	<insert id="">

@@ -28,12 +28,14 @@ body {
 	padding: 0;
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	font-size: 14px;
+	color: black;
 }
 
 #calendar {
 	max-width: 1100px;
 	margin: 0 auto;
 }
+
 </style>
 <link href='/fullcalendar-5.11.3/lib/main.css' rel='stylesheet' />
 <script src='/fullcalendar-5.11.3/lib/main.js'></script>
@@ -163,9 +165,9 @@ $(document).ready(function(){
 	       editable: true,
 	       dayMaxEvents: true, // allow "more" link when too many events
 	       events: schedules,
-	       eventColor: '#b7cca7',
+	       eventColor: '#A9A9A9',
 	       eventDidMount: function(info) {
-	       	let prjColor = '#8f9fc9';
+	       	let prjColor = '#708090';
 	       	if(info.event.extendedProps.type != 302){
 	       		info.el.style.backgroundColor = prjColor;
 	       	}
@@ -194,7 +196,7 @@ $(document).ready(function(){
 			<div class="row">
 				<div class="col-xl-9">
 					<div class="card">
-						<div class="card-body" style="min-height: 800px;">
+						<div class="card-body" style="min-height: 850px;">
 							<br> <br>
 							<div id='calendar'></div>
 						</div>
@@ -203,12 +205,12 @@ $(document).ready(function(){
 
 				<div class="col-xl-3">
 					<div class="card">
-						<div class="card-body pt-3" style="min-height: 800px;">
+						<div class="card-body pt-3" style="min-height: 850px;">
 							<br>
 							<div class="card mb-3">
 								<div class="card-body">
 									<br>
-									<h5 th:text="|${session.nm}님 환영합니다.|"></h5>
+									<span th:text="|${session.nm}님 환영합니다.|"></span>
 									<hr>
 									<div class="btn-group" role="group" aria-label="Basic example"
 										style="width: 100%;">

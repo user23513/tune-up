@@ -63,8 +63,14 @@ function converDate(){
 			<div class="card-body">
 				<br>
 				<div class="pagetitle">
-					<h1>출퇴근 현황</h1>
+					<h1>근태관리</h1>
+					<nav>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active">출퇴근현황</li>
+							<li class="breadcrumb-item ">관리자페이지</li>
 
+						</ol>
+					</nav>
 				</div>
 
 				<hr>
@@ -84,16 +90,13 @@ function converDate(){
 						퇴근 시간 <span class="badge bg-secondary text-light"
 							th:text="${#dates.format(checkTime, 'HH:mm')}"></span>
 					</div>
-
-
 				</div>
 				<div class="col-3" style="float: right;">
-					<button onclick="location.href='attdList'" class="btn btn-primary"
-						style="float: right;">관리자</button>
-
 					<button type="button" class="btn btn-primary"
 						data-bs-toggle="modal" data-bs-target="#largeModal"
-						style="float: right; margin-right: 5px;">수정신청</button>
+						style="float: right;">수정신청</button>
+					<button onclick="location.href='attdList'" class="btn btn-primary"
+						style="float: right; margin-right: 5px;">관리자 페이지</button>
 				</div>
 
 				<br> <br> <br>

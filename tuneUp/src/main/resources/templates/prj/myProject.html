@@ -45,13 +45,17 @@ $(document).ready(function(){
 	padding: 0 6px;
 }
 .pagination li a:hover {
-	color: #666;
-}	
-.pagination li.active a, .pagination li.active a.page-link {
-	background: #03A9F4;
+
+	color: #fffff;
 }
-.pagination li.active a:hover {        
-	background: #0397d6;
+
+.pagination li.active a, .pagination li.active a.page-link {
+	background: #3a86ff;
+}
+
+
+.pagination li.active a:hover {
+	background: #3a86ff;
 }
 .pagination li.disabled i {
 	color: #ccc;
@@ -62,20 +66,18 @@ $(document).ready(function(){
 }
 .round{
 	display: inline-block;
-    padding: 7px 25px;
-    border: 1px solid #dfdfdf;
-    color: #4e94ba;
-    background-color: #ffffff;
-    text-align: center;
-    cursor: pointer;
-    border: solid 1px #4e94ba; 
-    border-radius: 20px;
-    margin-right: 5px;
+	padding: 7px 25px;
+	border: 1px solid #3a86ff;
+	color: #3a86ff;
+	background-color: #ffffff;
+	text-align: center;
+	cursor: pointer;
+	border: solid 1px #3a86ff;
+	border-radius: 20px;
+	margin-right: 5px;
 }
-.select{
-	background-color: #4e94ba;
-    color: #ffffff;
-}
+
+
 </style>
 </head>
 <body>
@@ -252,7 +254,7 @@ $(document).ready(function(){
 		let prjColor = $(".size");
 		$.each(prjColor, (idx, prj)=>{
 			const randomColor = Math.floor(Math.random()*16777215).toString(16);
-			$(prj).css('border','3px solid ' + '#' + randomColor);
+			$(prj).css('border','3px solid #e9ecef');
 		})
 
 		$(".prjSelect").on("click", e=>{ 

@@ -104,6 +104,7 @@ public class PropostController {
 			fvo.setFType(list.get(0).getFType());
 			fvo.setFCat("PROJECT");
 			fvo.setPNm(vo.getTtl());
+			fvo.setEmpNo(vo.getEmpNo());
 			
 			dao.prjPostInsert(vo, fvo);
 		}

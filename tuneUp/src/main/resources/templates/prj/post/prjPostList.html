@@ -412,7 +412,7 @@ $(document).ready(function() {
 								<br>
 								<div th:text="${b.cntn}" style="font-size: medium; min-height: 200px; padding: 10px;"></div>
 								<br><br>
-								<a th:each="f:${postFiles}" th:if="${f.atchNo}==${b.atchNo}" th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a>
+								<a th:each="f:${postFiles}" th:if="${f.atchNo}==${b.atchNo}" th:attr="data-path=${f.fPath}" th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a>
 								<br>
 								
 								<!-- 댓글 -->
@@ -478,7 +478,7 @@ $(document).ready(function() {
 	</div>
 	<!-- 모달창 -->
 	
-	<script th:inline="javascript">
+	<script>
 		/*===== 댓글 =====*/
 		$(".attendBtn").on("click", ".attend", e=>{
 			let postNo = $(e.target).parent().parent().parent().data("no");
@@ -543,6 +543,9 @@ $(document).ready(function() {
 			//게시글 삭제 (type으로 일정인지 글인지 구분한다.)
 			if($(e.target).text().trim()=='삭제'){
 				let fPath = $(e.target).closest(".card-title").siblings("a").data("path");
+				if(fPath == null){
+					fPath = '0';
+				}
 				let postNo = $(e.target).data("no");
 				let type = $(e.target).data("type");
 				$.ajax({

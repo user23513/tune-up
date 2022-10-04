@@ -2,46 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>	
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 
-  <title>TuneUp - Home</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+<title>TuneUp - Home</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
 
-  <!-- Favicons -->
-  <link href="/assets/img/로고.png" rel="icon">
-  <link href="/assets/img/로고.png" rel="apple-touch-icon">
+<!-- Favicons -->
+<link href="/assets/img/로고.png" rel="icon">
+<link href="/assets/img/로고.png" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"> -->
+<!-- Google Fonts -->
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"> -->
 
-  <!-- Vendor CSS Files -->
-  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet"> 
-  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet"> 
-  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+<!-- Vendor CSS Files -->
+<link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+	rel="stylesheet">
+<link href="/assets/vendor/boxicons/css/boxicons.min.css"
+	rel="stylesheet">
+<link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+<link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+<link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+<link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
-  <link href="/assets/css/style.css" rel="stylesheet">
+<!-- Template Main CSS File -->
+<link href="/assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
+<!-- =======================================================
   * Template Name: NiceAdmin - v2.4.0
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
-  <!-- 웹소켓 현지수정 2022/9/24 -->
-  <script src="/js/jquery-3.6.1.min.js"></script>
-  <!-- sockJS -->
-  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-  <script> /*웹소켓 자바스크립트*/
+<!-- 웹소켓 현지수정 2022/9/24 -->
+<script src="/js/jquery-3.6.1.min.js"></script>
+<!-- sockJS -->
+<script
+	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script> /*웹소켓 자바스크립트*/
   //전역변수 선언 - 모든 홈페이지에서 사용 할 수 있게 index에 저장
   var socket = null;
   var token = $("meta[name='_csrf']").attr("content");
@@ -146,18 +151,18 @@
   	}
   }
   </script>
-  <style>
-	/* 긴급공지 헤더에 띄우는 css */
-	.noticeAlert{ 
-		margin: 0;
-		position: relative;
-		top: 7px;
-		left: 70px;
-		width: 45%;
-		min-width: 500px;
-	}
-  </style>
-  <script>
+<style>
+/* 긴급공지 헤더에 띄우는 css */
+.noticeAlert {
+	margin: 0;
+	position: relative;
+	top: 7px;
+	left: 70px;
+	width: 45%;
+	min-width: 500px;
+}
+</style>
+<script>
   $(document).ready(function(){
 	let empNo = $("#eNo").val();
 	
@@ -183,11 +188,10 @@
 	    $("#pwFrm").submit();
 	})
 	
-	//현진 근태관리 empNo
- 	$("#attdToday").on("click", e=>{
- 		$("#eNo").val()
-		 console.log($("#eNo").val());
-		 $("#attdFrm").submit();
+	
+ 	$("#replyFrm").on("click", e=>{
+ 		
+		 $("#replyFrm").submit();
 	})
 })
 
@@ -201,261 +205,243 @@
   </script>
 </head>
 <body>
-  <form id="bellFrm" method="post" action="freeSelect">
-		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-		<input type="hidden" id="alarmPostNo" name="postNo" value="">
-  </form>
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+	<form id="bellFrm" method="post" action="freeSelect">
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}"> <input type="hidden"
+			id="alarmPostNo" name="postNo" value="">
+	</form>
+	<!-- ======= Header ======= -->
+	<header id="header" class="header fixed-top d-flex align-items-center">
 
-	<!-- Start Logo -->
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="/main" class="logo d-flex align-items-center">
-        <img src="/assets/img/로고.png" alt="">
-        <span class="d-none d-lg-block">Tune-Up</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div>
-    <!-- End Logo -->
-    
-    <!-- 웹소켓 긴급공지 알림 -->
-	<div id="alertNotice" class="noticeAlert"></div>
-	
-	<!-- 헤더 오른쪽 아이콘들 -->
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
+		<!-- Start Logo -->
+		<div class="d-flex align-items-center justify-content-between">
+			<a href="/main" class="logo d-flex align-items-center"> <img
+				src="/assets/img/로고.png" alt=""> <span
+				class="d-none d-lg-block">Tune-Up</span>
+			</a> <i class="bi bi-list toggle-sidebar-btn"></i>
+		</div>
+		<!-- End Logo -->
 
-       
-        <!-- 조직도 아이콘 -->
-        <li class="nav-item dropdown">
-        	<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-diagram-3"></i>
-          </a>
-        </li>
+		<!-- 웹소켓 긴급공지 알림 -->
+		<div id="alertNotice" class="noticeAlert"></div>
 
-        <li class="nav-item dropdown">
-		  <!-- 알림 아이콘 -->
-          <a class="nav-link nav-icon" href="bellList">
-            <i class="bi bi-bell"></i>
-            <span id="bell" class="badge bg-primary badge-number"></span>
-          </a>
-          <!-- End Notification Icon -->
-        </li><!-- End Notification Nav -->
+		<!-- 헤더 오른쪽 아이콘들 -->
+		<nav class="header-nav ms-auto">
+			<ul class="d-flex align-items-center">
 
-        <li class="nav-item dropdown">
-		  
-		  <!-- ===== 메일 아이콘 =====  -->
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-envelope"></i>
-            <span class="badge bg-success badge-number">3</span>
-          </a><!-- End Messages Icon -->
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-            <li class="dropdown-header">
-              You have 3 new messages
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+				<!-- 조직도 아이콘 -->
+				<li class="nav-item dropdown"><a class="nav-link nav-icon"
+					href="#" data-bs-toggle="dropdown"> <i class="bi bi-diagram-3"></i>
+				</a></li>
 
-            <li class="message-item">
-              <a href="#">
-                <img src="/assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Maria Hudson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+				<li class="nav-item dropdown">
+					<!-- 알림 아이콘 --> <a class="nav-link nav-icon" href="bellList"> <i
+						class="bi bi-bell"></i> <span id="bell"
+						class="badge bg-primary badge-number"></span>
+				</a> <!-- End Notification Icon -->
+				</li>
+				<!-- End Notification Nav -->
 
-            <li class="message-item">
-              <a href="#">
-                <img src="/assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>Anna Nelson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>6 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+				<li class="nav-item dropdown">
+					<!-- ===== 메일 아이콘 =====  --> <a class="nav-link nav-icon" href="#"
+					data-bs-toggle="dropdown"> <i class="bi bi-envelope"></i> <span
+						class="badge bg-success badge-number">3</span>
+				</a> <!-- End Messages Icon -->
 
-            <li class="message-item">
-              <a href="#">
-                <img src="/assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                <div>
-                  <h4>David Muldon</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>8 hrs. ago</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+					<ul
+						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+						<li class="dropdown-header">You have 3 new messages <a
+							href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View
+									all</span></a>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
 
-            <li class="dropdown-footer">
-              <a href="#">Show all messages</a>
-            </li>
+						<li class="message-item"><a href="#"> <img
+								src="/assets/img/messages-1.jpg" alt="" class="rounded-circle">
+								<div>
+									<h4>Maria Hudson</h4>
+									<p>Velit asperiores et ducimus soluta repudiandae labore
+										officia est ut...</p>
+									<p>4 hrs. ago</p>
+								</div>
+						</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
 
-          </ul><!-- End Messages Dropdown Items -->
+						<li class="message-item"><a href="#"> <img
+								src="/assets/img/messages-2.jpg" alt="" class="rounded-circle">
+								<div>
+									<h4>Anna Nelson</h4>
+									<p>Velit asperiores et ducimus soluta repudiandae labore
+										officia est ut...</p>
+									<p>6 hrs. ago</p>
+								</div>
+						</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
 
-        </li><!-- End Messages Nav -->
+						<li class="message-item"><a href="#"> <img
+								src="/assets/img/messages-3.jpg" alt="" class="rounded-circle">
+								<div>
+									<h4>David Muldon</h4>
+									<p>Velit asperiores et ducimus soluta repudiandae labore
+										officia est ut...</p>
+									<p>8 hrs. ago</p>
+								</div>
+						</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
 
-        <li class="nav-item dropdown pe-3">
+						<li class="dropdown-footer"><a href="#">Show all messages</a>
+						</li>
 
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
-          </a><!-- End Profile Iamge Icon -->
-		  
-		  <!-- 마이페이지 프로필 아이콘 눌렀을때-->
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6 th:text="${session.nm}">Kevin Anderson</h6>
-              <span>Web Designer</span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+					</ul> <!-- End Messages Dropdown Items -->
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="bi bi-person"></i>
-                <span>상태수정</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+				</li>
+				<!-- End Messages Nav -->
 
-            <li>
-              <form id="pwFrm" method="post" action="pwCheck">
-               <a id="pwCheck" name="pwCheck" class="dropdown-item d-flex align-items-center" 
-                  href="javascript:void(0);" onClick="pwCheck()">
-                 <i class="bi bi-gear"></i>
-                 <span>개인정보</span>
-                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-             	 <input type="text" id="eNo" name="empNo" th:value="${session.empNo}">
-               </a>
-              </form>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <!-- 근태관리 -->
-             <li>
-             <form id="attdFrm" method="post" action="mypost">
-             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-              <a class="dropdown-item d-flex align-items-center" href="javascript:void(0);" id="attdToday">
-                <i class="bi bi-person-lines-fill"></i>
-                <span>내 게시글</span>
-              </a>
-               </form>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="empManage">
-                <i class="bi bi-question-circle"></i>
-                <span>사원관리</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <form class="dropdown-item d-flex align-items-center" action="logout" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                <i class="bi bi-box-arrow-right"></i>
-                <button class="dropdown-item d-flex align-items-center" type="submit">로그아웃</button>
-              </form>
-            </li>
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-      </ul>
-    </nav><!-- End Icons Navigation -->
-  </header><!-- End Header -->
+				<li class="nav-item dropdown pe-3">
+				<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> 
+					<img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
+					<span class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
+				</a> <!-- End Profile Iamge Icon --> <!-- 마이페이지 프로필 아이콘 눌렀을때-->
+					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+						<li class="dropdown-header">
+							<div>
+								<i id="prev" class="bi bi-caret-left" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
+								<h6 th:text="${session.nm}"></h6> 
+								<i id="next" class="bi bi-caret-right" style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i>
+							</div>
+							<span th:text="${session.position}"></span>
+							 <!-- 팀원들? -->
+		                    <div id="teamMem"></div>
+						</li>
+						<li class="form-floating">
+							<select class="form-select" id="floatingSelect" aria-label="State">
+								<option value="1">온라인</option>
+								<option value="2">자리비움</option>
+								<option value="3">오프라인</option>
+							</select> 
+							<label for="floatingSelect"><i class="bi bi-person"></i>상태수정</label>
+						</li>
+						<li>
+							<form id="pwFrm" method="post" action="pwCheck">
+								<a id="pwCheck" name="pwCheck"
+									class="dropdown-item d-flex align-items-center"
+									href="javascript:void(0);" onClick="pwCheck()"> <i
+									class="bi bi-gear"></i> <span>개인정보</span> <input type="hidden"
+									th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+									<input type="hidden" id="eNo" name="empNo"
+									th:value="${session.empNo}">
+								</a>
+							</form>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li><a class="dropdown-item d-flex align-items-center"
+							href="empManage"> <i class="bi bi-question-circle"></i> <span>사원관리</span>
+						</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-    <ul class="sidebar-nav" id="sidebar-nav">
-    	  <!-- 프로필사진  -->
-    	   <section class="section profile">
-              <div>
-                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                    <img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
-                    <div>
-                    <i id="prev" class="bi bi-caret-left" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
-                    <h2 th:text="${session.nm}">kim</h2> <!-- 이름  -->
-                    <i id="next" class="bi bi-caret-right" style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i> 
-                    </div>
-                    <h3 th:text="${session.dept}">Web Designer</h3> <!-- 부서명  -->
-                    <!-- 팀원들? -->
-                    <div id="teamMem">
-                    
-                    </div>
-                 </div>
-              </div>
-          </section>
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-grid"></i><span>프로젝트</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="/newproject">
-              <i class="bi bi-circle"></i><span>새 프로젝트</span>
-            </a>
-          </li>
-          <li>
-            <a href="/myProject">
-              <i class="bi bi-circle"></i><span>내 프로젝트</span>
-            </a>
-          </li>
-          <li>
-            <a href="files">
-              <i class="bi bi-circle"></i><span>내 파일함</span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <!-- End Components Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>전자결재</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="aprvReq">
-              <i class="bi bi-circle"></i><span>나의 신청</span>
-            </a>
-          </li>
-          <li>
-            <a href="approval">
-              <i class="bi bi-circle"></i><span>나의 승인</span>
-            </a>
-          </li>
-          
-          <li th:if = "${session.auth == 'ADMIN'}">
-            <a href="aprvAdmin">
-              <i class="bi bi-circle"></i><span>관리 기능</span>
-            </a>
-          </li>
-        
-        </ul>
-      </li><!-- End Forms Nav -->
+						<li>
+							<form id="replyFrm" method="post" action="myReply">
+								<input type="hidden" th:name="${_csrf.parameterName}"
+									th:value="${_csrf.token}"> <a
+									class="dropdown-item d-flex align-items-center"
+									href="javascript:void(0);"> <i
+									class="bi bi-person-lines-fill"></i><span>나의댓글</span>
+								</a>
+							</form>
+						</li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li>
+							<form class="dropdown-item d-flex align-items-center"
+								action="logout" method="post">
+								<input type="hidden" th:name="${_csrf.parameterName}"
+									th:value="${_csrf.token}"> <i
+									class="bi bi-box-arrow-right"></i>
+								<button class="dropdown-item d-flex align-items-center"
+									type="submit">로그아웃</button>
+							</form>
+						</li>
+					</ul> <!-- End Profile Dropdown Items --></li>
+				<!-- End Profile Nav -->
+			</ul>
+		</nav>
+		<!-- End Icons Navigation -->
+	</header>
+	<!-- End Header -->
 
-    <!-- <li class="nav-item">
+	<!-- ======= Sidebar ======= -->
+	<aside id="sidebar" class="sidebar">
+		<ul class="sidebar-nav" id="sidebar-nav">
+			<!-- 프로필사진  -->
+			<section class="section profile">
+				<div>
+					<div
+						class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+						<img src="/assets/img/짱구.png" alt="Profile" class="rounded-circle">
+						<h2 th:text="${session.nm}">kim</h2>
+						<!-- 이름  -->
+						<h3 th:text="${session.dept}">Web Designer</h3>
+						<!-- 부서명  -->
+						<!-- 팀원들? -->
+					</div>
+				</div>
+			</section>
+			<li class="nav-item"><a class="nav-link collapsed"
+				data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+					<i class="bi bi-grid"></i><span>프로젝트</span><i
+					class="bi bi-chevron-down ms-auto"></i>
+			</a>
+				<ul id="components-nav" class="nav-content collapse "
+					data-bs-parent="#sidebar-nav">
+					<li><a href="/newproject"> <i class="bi bi-circle"></i><span>새
+								프로젝트</span>
+					</a></li>
+					<li><a href="/myProject"> <i class="bi bi-circle"></i><span>내
+								프로젝트</span>
+					</a></li>
+					<li><a href="files"> <i class="bi bi-circle"></i><span>내
+								파일함</span>
+					</a></li>
+				</ul></li>
+			<!-- End Components Nav -->
+
+			<li class="nav-item"><a class="nav-link collapsed"
+				data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+					<i class="bi bi-journal-text"></i><span>전자결재</span><i
+					class="bi bi-chevron-down ms-auto"></i>
+			</a>
+				<ul id="forms-nav" class="nav-content collapse "
+					data-bs-parent="#sidebar-nav">
+					<li><a href="aprvReq"> <i class="bi bi-circle"></i><span>나의
+								신청</span>
+					</a></li>
+					<li><a href="approval"> <i class="bi bi-circle"></i><span>나의
+								승인</span>
+					</a></li>
+
+					<li th:if="${session.auth == 'ADMIN'}"><a href="aprvAdmin">
+							<i class="bi bi-circle"></i><span>관리 기능</span>
+					</a></li>
+
+				</ul></li>
+			<!-- End Forms Nav -->
+
+			<!-- <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#note-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>나의 수첩</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -478,51 +464,51 @@
         </ul>
       </li>End note Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-layout-text-window-reverse"></i><span>커뮤니티</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="noticeList">
-              <i class="bi bi-circle"></i><span>공지게시판</span>
-            </a>
-          </li>
-          <li>
-            <a href="freeList">
-              <i class="bi bi-circle"></i><span>자유게시판</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Tables Nav -->
-    </ul>
-  </aside>
-  <!-- End Sidebar-->
-  
-  <!-- 알림 toast 창 뜨는 곳 -->
-  <div id="bellArea" class="toast-container position-absolute bottom-0 end-0" style="z-index: 1"></div>
-  
-  <!-- ======= Main ======= -->
-  <main id="main" class="main" layout:fragment="content" style="min-height: 83vh;">
-  	
-  </main>
-  <!-- End #main -->
+			<li class="nav-item"><a class="nav-link collapsed"
+				data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+					<i class="bi bi-layout-text-window-reverse"></i><span>커뮤니티</span><i
+					class="bi bi-chevron-down ms-auto"></i>
+			</a>
+				<ul id="tables-nav" class="nav-content collapse "
+					data-bs-parent="#sidebar-nav">
+					<li><a href="noticeList"> <i class="bi bi-circle"></i><span>공지게시판</span>
+					</a></li>
+					<li><a href="freeList"> <i class="bi bi-circle"></i><span>자유게시판</span>
+					</a></li>
+				</ul></li>
+			<!-- End Tables Nav -->
+		</ul>
+	</aside>
+	<!-- End Sidebar-->
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-  </footer>
-  <!-- End Footer -->
+	<!-- 알림 toast 창 뜨는 곳 -->
+	<div id="bellArea"
+		class="toast-container position-absolute bottom-0 end-0"
+		style="z-index: 1"></div>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+	<!-- ======= Main ======= -->
+	<main id="main" class="main" layout:fragment="content"
+		style="min-height: 83vh;"></main>
+	<!-- End #main -->
 
-  <!-- 내 프로젝트 form  -->
-  <!-- <form id="myPrjFrm" action="myProject" method="post">
+	<!-- ======= Footer ======= -->
+	<footer id="footer" class="footer">
+		<div class="copyright">
+			&copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights
+			Reserved
+		</div>
+		<div class="credits">
+			Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+		</div>
+	</footer>
+	<!-- End Footer -->
+
+	<a href="#"
+		class="back-to-top d-flex align-items-center justify-content-center"><i
+		class="bi bi-arrow-up-short"></i></a>
+
+	<!-- 내 프로젝트 form  -->
+	<!-- <form id="myPrjFrm" action="myProject" method="post">
   	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
   	<input type="hidden" name="empNo" th:value="${session.empNo}">
   </form>
@@ -533,19 +519,7 @@
   	})
   </script> -->
   
-  <!-- Vendor JS Files -->
-  <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/vendor/chart.js/chart.min.js"></script>
-  <script src="/assets/vendor/echarts/echarts.min.js"></script>
-  <script src="/assets/vendor/quill/quill.min.js"></script>
-  <script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="/assets/vendor/php-email-form/validate.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="/assets/js/main.js"></script>
-  <script>
+    <script>
   	//화살표 누르면 부서별 팀원
   	let depts = ['영업','기획','인사','회계','개발'];
   	let idx = 2;
@@ -590,20 +564,32 @@
   		}
   		
   	})
-  	
   	//기본은 부서=>인사
   	$.ajax({
   		url: 'prjTeamMembers',
   		data:{'dept':dept},
   		dataType: 'json',
   		success: function(res){
-  			$.each(res, (idx,team)=>{
-  				$("#teamMem").append(`<div>${team.nm}&nbsp;${team.dept}</div>`)
-  			})
-  			
+	  		$.each(res, (idx,team)=>{
+				$("#teamMem").append(`<div>${team.nm}&nbsp;${team.dept}</div>`)
+			})
   		}
   	})
-  </script>
+  	</script>
+
+	<!-- Vendor JS Files -->
+	<script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+	<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="/assets/vendor/chart.js/chart.min.js"></script>
+	<script src="/assets/vendor/echarts/echarts.min.js"></script>
+	<script src="/assets/vendor/quill/quill.min.js"></script>
+	<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+	<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+	<script src="/assets/vendor/php-email-form/validate.js"></script>
+	
+	<!-- Template Main JS File -->
+	<script src="/assets/js/main.js"></script>
+
 </body>
 
 </html>

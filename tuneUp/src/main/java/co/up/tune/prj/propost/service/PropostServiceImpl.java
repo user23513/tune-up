@@ -48,31 +48,6 @@ public class PropostServiceImpl implements PropostService {
 //		return map.prjPostDelete(vo);
 //	}
 
-	@Override
-	public List<ReplyVO> ppReplyList(ReplyVO vo) {
-		// 댓글 리스트
-		return map.ppReplyList(vo);
-	}
-
-
-	@Override
-	public int ppReplyDelete(ReplyVO vo) {
-		// 댓글 삭제
-		return map.ppReplyDelete(vo);
-	}
-
-	@Override
-	public int ppReplyInsert(ReplyVO vo) {
-		// 댓글 등록
-		return map.ppReplyInsert(vo);
-	}
-
-	@Override
-	public ReplyVO ppReplySelect(ReplyVO vo) {
-		// TODO Auto-generated method stub
-		return map.ppReplySelect(vo);
-		
-	}
 
 	@Override
 	public PostVO prjPostSelect(PostVO vo) {
@@ -80,11 +55,6 @@ public class PropostServiceImpl implements PropostService {
 		return map.prjPostSelect(vo);
 	}
 
-	@Override
-	public ReplyVO ppreplySelect(ReplyVO vo) {
-		// TODO Auto-generated method stub
-		return map.ppreplySelect(vo);
-	}
 
 	@Override
 	public FilesVO filesSelect(FilesVO fvo) {
@@ -138,6 +108,36 @@ public class PropostServiceImpl implements PropostService {
 	@Override
 	public List<BusinessVO> businessList(int prjNo) {
 		return map.businessList(prjNo);
+	}
+
+	@Override
+	public List<ReplyVO> pjReplyList(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return map.pjReplyList(vo);
+	}
+
+	@Override
+	public ReplyVO pjReplySelect(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return map.pjReplySelect(vo);
+	}
+
+	@Override
+	public int pjReplyInsert(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return map.pjReplyInsert(vo);
+	}
+
+	@Override
+	public int pjReplyUpdate(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return map.pjReplyUpdate(vo);
+	}
+
+	@Override
+	public int pjReplyDelete(ReplyVO vo) {
+		// TODO Auto-generated method stub
+		return map.pjReplyDelete(vo);
 	}
 	
 	 

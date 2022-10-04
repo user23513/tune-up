@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import co.up.tune.com.vo.ReplyVO;
-import co.up.tune.emp.vo.AttdVO;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
@@ -20,11 +19,12 @@ public interface PropostMapper {
 	//int prjPostDelete(PostVO vo); //프로젝트-글 삭제
 	PostVO prjPostSelect(PostVO vo); // 프로젝트-글 단건
 	
-	List<ReplyVO> ppReplyList(ReplyVO vo); //댓글 리스트
-	int ppReplyInsert(ReplyVO vo); //댓글 등록
-	int ppReplyDelete(ReplyVO vo); //댓글 삭제
-	ReplyVO ppReplySelect(ReplyVO vo); //댓글 조회
-	ReplyVO ppreplySelect(ReplyVO vo);
+	//댓글
+		List<ReplyVO> pjReplyList(ReplyVO vo); //댓글 리스트
+		ReplyVO pjReplySelect(ReplyVO vo); //댓글 조회
+		int pjReplyInsert(ReplyVO vo); //댓글 등록
+		int pjReplyUpdate(ReplyVO vo); //댓글 수정
+		int pjReplyDelete(ReplyVO vo); //댓글 삭제
 	
 	/* 현지 수정 */
 	List<EmpVO> empList(); //모든 사원정보

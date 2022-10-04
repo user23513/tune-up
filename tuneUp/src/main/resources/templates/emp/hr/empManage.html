@@ -4,12 +4,15 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css"/>
-<script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
+<script
+	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <script>
 	$(document).ready(function() {
 		//datatables
@@ -78,17 +81,7 @@
 <body>
 	<main id="main" class="main" layout:fragment="content">
 
-		<div class="pagetitle">
-			<h1>사원관리</h1>
-			<nav>
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-					<li class="breadcrumb-item">Components</li>
-					<li class="breadcrumb-item active">Tabs</li>
-				</ol>
-			</nav>
-		</div>
-		<!-- End Page Title -->
+
 
 		<section class="section">
 			<div class="row">
@@ -96,8 +89,20 @@
 
 					<div class="card">
 						<div class="card-body">
-							<h6 class="card-title"></h6>
-
+							<!-- Page Title -->
+							<br>
+							<div class="pagetitle">
+								<h1>내 프로필</h1>
+								<nav>
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item ">개인정보</li>
+										<li class="breadcrumb-item active">사원관리</li>
+										<li class="breadcrumb-item">나의댓글</li>
+									</ol>
+								</nav>
+							</div>
+							<!-- End Page Title -->
+							<br>
 							<!-- Default Tabs -->
 							<ul class="nav nav-tabs" id="myTab" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -111,8 +116,8 @@
 										aria-controls="contact" aria-selected="false">관리자</button>
 								</li>
 							</ul>
-							
-							
+
+
 							<div class="tab-content pt-2" id="myTabContent">
 								<div class="tab-pane fade show active" id="home" role="tabpanel"
 									aria-labelledby="home-tab">
@@ -138,10 +143,9 @@
 											</tr>
 										</thead>
 										<tbody id="tb">
-											<tr th:each="e : ${empList}" >
-												<th scope="row">
-													<input id="ck" name="ck" type="checkbox">
-												</th>
+											<tr th:each="e : ${empList}">
+												<th scope="row"><input id="ck" name="ck"
+													type="checkbox"></th>
 												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}">HR100</td>
 												<td th:text="${e.nm}">김인사</td>
 												<td th:text="${e.dept}">인사</td>
@@ -152,7 +156,8 @@
 												<td th:text="${e.email}">aaa1234@gmail.com</td>
 												<td th:attr="data-no=${e.auth}" class="eAuth">[[${e.auth}]]</td>
 												<td>
-													<button id="ok" name="ok" type="button" class="btn btn-primary btn-sm ok"
+													<button id="ok" name="ok" type="button"
+														class="btn btn-primary btn-sm ok"
 														th:disabled="${e.auth != 'GUEST'}?disabled">승인</button>
 												</td>
 											</tr>
@@ -160,8 +165,8 @@
 									</table>
 									<!-- End Table with hoverable rows -->
 								</div>
-								
-								
+
+
 								<div class="tab-pane fade" id="contact" role="tabpanel"
 									aria-labelledby="contact-tab">
 									<br>
@@ -185,7 +190,8 @@
 										<tbody id="tbd">
 											<tr th:each="m : ${managerList}" th:if="m.auth">
 												<th scope="row"></th>
-												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"> </td>
+												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}">
+												</td>
 												<td th:text="${m.nm}">김인사</td>
 												<td th:text="${m.dept}">인사</td>
 												<td th:text="${m.position}">대리</td>
@@ -193,7 +199,7 @@
 												<td th:text="${m.hDate}">2010-01-01</td>
 												<td th:text="${m.phone}">010-0000-0000</td>
 												<td th:text="${m.email}">aaa1234@gmail.com</td>
-												<td th:text="${m.auth}"> </td>
+												<td th:text="${m.auth}"></td>
 											</tr>
 										</tbody>
 									</table>
@@ -210,14 +216,15 @@
 
 			</div>
 		</section>
-	  <div>
-		<form id="frm" method="post" action="empUpdateForm">
-			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-			<input type="hidden" id="empNo" name="empNo">
-		</form>
-	  </div>
+		<div>
+			<form id="frm" method="post" action="empUpdateForm">
+				<input type="hidden" th:name="${_csrf.parameterName}"
+					th:value="${_csrf.token}"> <input type="hidden" id="empNo"
+					name="empNo">
+			</form>
+		</div>
 	</main>
-	
+
 	<!-- End #main -->
 </body>
 </html>

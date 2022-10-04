@@ -41,7 +41,6 @@ public class AttdController {
 		model.addAttribute("attdBadList",dao.attdBadList());
 		model.addAttribute("attdUpList", udao.attdUpList());
 		model.addAttribute("attdUpSelect", udao.attdUpSelect(vo));
-		model.addAttribute("attdUpDel", udao.attdUpDel(vo));
 		model.addAttribute("checkGood", dao.checkGood(dvo));
 		model.addAttribute("checkBad", dao.checkBad(dvo));
 		model.addAttribute("checkModi", udao.checkModi(vo));
@@ -53,7 +52,7 @@ public class AttdController {
 		@PostMapping("/startAttd")
 		public String startAttd(AttdVO vo) {
 			dao.startAttd(vo);
-			return "main/main";
+			return "redirect:main";
 			
 		}
 		 
@@ -61,7 +60,7 @@ public class AttdController {
 		@PostMapping("/endAttd")
 		public String endAttd(AttdVO vo) {
 			dao.endAttd(vo);
-			return "main/main";
+			return "redirect:main";
 		}
 	
 	

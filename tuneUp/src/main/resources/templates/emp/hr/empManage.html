@@ -14,49 +14,49 @@
 <script
 	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <script>
-	$(document).ready(function() {
-		//datatables
-		$('#empList').DataTable();
-		$('#managerList').DataTable();
-		
-		
+$(document).ready(function() {
+	//datatables
+	$('#empList').DataTable();
+	$('#managerList').DataTable();
+	
+	
 	//사원 테이블 tr태그 클릭 이벤트
 	$("#tb").on("click", "tr", e=>{
-        let tg = e.target.closest('tr').children[1].innerText;
-        console.log(tg);
-        $("#empNo").val(tg);
-        console.log($("#empNo").val());
-        $("#frm").submit();
-    })
-    
-    //관리자 tr태그 클릭 이벤트
+		let tg = e.target.closest('tr').children[1].innerText;
+		console.log(tg);
+		$("#empNo").val(tg);
+		console.log($("#empNo").val());
+		$("#frm").submit();
+	})
+   
+	//관리자 tr태그 클릭 이벤트
 	$("#tbd").on("click", "tr", e=>{
-        let tg = e.target.closest('tr').children[1].innerText;
-        console.log(tg)
-        $("#empNo").val(tg);
-        $("#frm").submit();
-    })
-    
-    //승인버튼 이벤트
- 	$(".ok").on("click", e=>{
-	   e.stopPropagation(); //tr태그 클릭이벤트 발생X
-	   let auth = e.target.closest('td').previousElementSibling.innerText;
- 	   if(auth=='GUEST'){
-		   let really = confirm("권한을 USER로 바꾸시겠습니까?");
-	      if(really){
-	    	  	//토큰
+		let tg = e.target.closest('tr').children[1].innerText;
+		console.log(tg)
+		$("#empNo").val(tg);
+		$("#frm").submit();
+	})
+   
+	//승인버튼 이벤트
+	$(".ok").on("click", e=>{
+		e.stopPropagation(); //tr태그 클릭이벤트 발생X
+		let auth = e.target.closest('td').previousElementSibling.innerText;
+		if(auth=='GUEST'){
+			let really = confirm("권한을 USER로 바꾸시겠습니까?");
+			if(really){
+				//토큰
 				var token = $("meta[name='_csrf']").attr("content");
 				var header = $("meta[name='_csrf_header']").attr("content");
 				
 				//권한
 				let tg = e.target.closest('tr').children[1].innerText;
-		        $("#auth").val(tg)
-		        
+				$("#auth").val(tg);
+				      
 				$.ajax({
 					url : "authUpdate",
 					beforeSend:function(xhr){
-			 	  		xhr.setRequestHeader(header,token);  
-			     	  },
+						xhr.setRequestHeader(header,token);  
+					},
 					type : "post",
 					data: {"auth" : "USER", "empNo" : tg},
 					
@@ -65,24 +65,20 @@
 						e.target.closest('td').previousElementSibling.innerText = res;
 					}
 				})
-	      }
-	   }
-	}) 
-	
+			}
+		}
+	})
+
 	//체크박스 이벤트
 	$("#ck").on("click", e=>{
 		e.stopPropagation(); //tr태그 클릭이벤트 발생X
 	})
-	
-	});
-	
+
+});
 </script>
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-
-
-
 		<section class="section">
 			<div class="row">
 				<div>
@@ -218,9 +214,8 @@
 		</section>
 		<div>
 			<form id="frm" method="post" action="empUpdateForm">
-				<input type="hidden" th:name="${_csrf.parameterName}"
-					th:value="${_csrf.token}"> <input type="hidden" id="empNo"
-					name="empNo">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+				<input type="hidden" id="empNo" name="empNo">
 			</form>
 		</div>
 	</main>

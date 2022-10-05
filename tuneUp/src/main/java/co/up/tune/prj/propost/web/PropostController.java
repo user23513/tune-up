@@ -49,7 +49,10 @@ public class PropostController {
 	@Autowired
 	ScheduleService sDao;
 	
-	/* 은지 추가 2022.10.05 */
+	/**
+	 * 은지 추가 
+	 * 2022.10.05
+	 */
 	@Autowired
 	TodoService tdao;
 
@@ -59,13 +62,8 @@ public class PropostController {
 	@Autowired
 	DemoTodoService demo;
 	
-	@Autowired
-	
-	
-
 	@Value("${file.dir}") 
 	private String fileDir;
-
 	
 	//내프로젝트에서 클릭한 프로젝트로 이동
 	@RequestMapping("/prjPostList")
@@ -92,11 +90,14 @@ public class PropostController {
 		/* 파일 */
 		model.addAttribute("postFiles", dao.prjPostFiles(prjNo));
 		
-		/* 할일 */ /* 은지 추가 2022.10.05 */
-//		model.addAttribute("todoList", tdao.todoList(prjNo));
-//		rvo.setPostNo(tvo.getPostNo());
-//		dvo.setPostNo(tvo.getPostNo());
-//		model.addAttribute("d", detail.detailList());
+		/* 할일 */
+		/**
+		 * 은지 추가 
+		 * 2022.10.05
+		 */
+		model.addAttribute("todoList", tdao.todoList(prjNo));
+		
+//		model.addAttribute("detailList", detail.detailList(postNo));
 		
 		return "prj/post/prjPostList";
 	}
@@ -272,7 +273,6 @@ public class PropostController {
 //	  }
 	
 	
-	/* 은지 추가 */
 	
 }
 

@@ -9,16 +9,12 @@
 <script>
 	$(document).ready(function(){
 		alert("비밀번호가 일치하지않습니다.");
-		$("#frm").submit();
+		location.href="pwCheck"
 	})
 </script>
 </head>
 <body>
   <main id="main" class="main" layout:fragment="content">
-   <form id="frm" method="post" action="pwCheck">
-	  		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-			<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
-	</form>
   </main>
 </body>
 

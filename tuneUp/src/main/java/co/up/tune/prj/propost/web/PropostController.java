@@ -127,7 +127,7 @@ public class PropostController {
 		//file upload 처리
 		FilesVO fvo = new FilesVO();
 		List<FilesVO> list = new ArrayList<>();
-		if(files.length != 0) {
+		if(!files[0].isEmpty()) {
 			String folder = "prj"; //Temp안에 폴더명
 			list = fileDao.fileUpload(files, folder);
 			fvo.setFNm(list.get(0).getFNm());

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import com.github.pagehelper.PageInfo;
 import co.up.tune.com.free.service.FreeService;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.com.vo.SearchVO;
 import co.up.tune.file.service.FileService;
 import co.up.tune.paging.vo.pagingVO;
 
@@ -29,9 +31,10 @@ public class FreeController {
 	
 	// 자유게시판 리스트로 이동
 	@GetMapping("freeList")
-	public String freeList(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, Model model) { // 페이징 처리
-		PageInfo<CommunityVO> p = new PageInfo<>(dao.freeList(pageNum),10);
+	public String freeList(@ModelAttribute SearchVO search, @RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, Model model) { // 페이징 처리
+		PageInfo<CommunityVO> p = new PageInfo<>(dao.freeList(pageNum, search),10);
 		model.addAttribute("fList", p);
+		model.addAttribute("search", search);
 		return "com/free/freeList";
 	}
 

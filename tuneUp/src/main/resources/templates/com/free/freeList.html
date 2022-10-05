@@ -163,6 +163,21 @@ table.table .avatar {
 
 				<br>
 				<div>
+					<!-- 검색기능 -->
+					<form action="" method="get">
+						<div style="float: right;">
+							<select class="form-select form-select-sm w-auto h-auto" 
+									style="display: inline-block;" name="keyword">
+								<option value="all">전체</option>
+								<option value="ttl">제목</option>
+								<option value="wrtr">작성자</option>
+								<option value="cntn">내용</option>
+							</select>
+							<input class="form-control form-control-sm w-auto h-auto" 
+									style="display: inline-block;" type="text" name="search">
+							<button class="btn" type="submit"><i style="font-size: 20px;" class="bi bi-search"></i></button>
+						</div>
+					</form>
 					<table id="freeTb" class="table">
 						<thead class="table-title">
 							<tr>
@@ -192,7 +207,7 @@ table.table .avatar {
 								th:classappend="${fList.getPrePage() == 0} ? 'disabled'">
 								<!-- href: /page?pageNum=이전페이지&keyword=검색분류&search=검색어 --> <a
 								class="page-link"
-								th:href=@{/freeList(pageNum=${fList.getPrePage()})}>Previous</a>
+								th:href=@{/freeList(pageNum=${fList.getPrePage()},keyword=${search.getKeyword()},search=${search.getSearch()})}>Previous</a>
 							</li>
 							<!-- getNavigateFirstPage() : 페이징의 처음 숫자 getNavigateLastPage : 페이징의 마지막 숫자를 이용해 페이징 숫자 출력 -->
 							<!-- href : /page?pageNum=선택한 페이지&keyword=검색분류&search=검색어 -->
@@ -200,14 +215,14 @@ table.table .avatar {
 								th:each="page: ${#numbers.sequence(fList.getNavigateFirstPage(), fList.getNavigateLastPage())}"
 								th:classappend="${page == fList.getPageNum()} ? 'active'">
 								<a class="page-link" th:text="${page}"
-								th:href=@{/freeList(pageNum=${page})}></a>
+								th:href=@{/freeList(pageNum=${page},keyword=${search.getKeyword()},search=${search.getSearch()})}></a>
 							</li>
 							<!-- getPrePage : 다음 페이지 -->
 							<li class="page-item"
 								th:classappend="${fList.getNextPage() == 0} ? 'disabled'">
 								<!--  href: /page?pageNum=다음페이지&keyword=검색분류&search=검색어 --> <a
 								class="page-link"
-								th:href=@{/freeList(pageNum=${fList.getNextPage()})}>Next</a>
+								th:href=@{/freeList(pageNum=${fList.getNextPage()},keyword=${search.getKeyword()},search=${search.getSearch()})}>Next</a>
 							</li>
 						</ul>
 					</nav>

@@ -1,6 +1,5 @@
 package co.up.tune.aprv.approval.web;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,10 +25,9 @@ public class ApprovalController {
 	
 	//승인페이지
 	@GetMapping("/approval")
-	public String approval(TrustVO vo, Model model, HttpServletRequest request,
+	public String approval(TrustVO vo, Model model, HttpSession session,
 			@RequestParam(required = false, defaultValue = "전체") String aprvSt) {
 
-		HttpSession session = request.getSession();
 		String empNo = (String) session.getAttribute("empNo");
 
 		// 승인문서목록
@@ -49,20 +47,21 @@ public class ApprovalController {
 		return "aprv/approval/approval";
 	}
 	
-		//위임자 추가
-		@PostMapping("/trustInsert")
-		public String trustIn(TrustVO vo, HttpServletRequest request) {
-			HttpSession session = request.getSession();
-			String empNo = (String) session.getAttribute("empNo");
-			String nm = (String) session.getAttribute("nm");
-			//내정보등록
-			vo.setNm(nm);
-			vo.setEmpNo(empNo);
-			ap.trustIn(vo);
-			
-			return "redirect:approval";
+	//위임자 추가
+	@PostMapping("/trustInsert")
+	public String trustIn(TrustVO vo, HttpSession session) {
 		
-		}
+		String empNo = (String) session.getAttribute("empNo");
+		String nm = (String) session.getAttribute("nm");
+		//내정보등록
+		vo.setNm(nm);
+		vo.setEmpNo(empNo);
+		
+		ap.trustIn(vo);
+		
+		return "redirect:approval";
+	
+	}
 
 	
 

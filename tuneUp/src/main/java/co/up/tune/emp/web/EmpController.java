@@ -2,6 +2,8 @@ package co.up.tune.emp.web;
 
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,19 +82,27 @@ public class EmpController {
 	// 이메일 인증
 	@PostMapping("/sendCode")
 	@ResponseBody
-	public String mailConfirm(@RequestParam("email") String email) throws Exception {
+	public String mailConfirm(@RequestParam("email") String email, HttpSession session) throws Exception {
 		String code = "";
 		try {
 			code = rm.sendSimpleMessage(email);
+//			session.setAttribute(email, code);
 		}catch (Exception e ){
 			e.printStackTrace();
 		}
-	   System.out.println("인증코드 : " + code);
+	    //System.out.println("인증코드 : " + code);
 	   return code;
 	}
 
 
 	//인증확인
+//	@PostMapping("/sendCodeCheck")
+//	@ResponseBody
+//	public String mailCodeCheck(HttpSession session) {
+//		session.getAttribute(code);
+//		return "";
+//	}
+	
 	
 	//비밃번호 성공하면 
 	@PostMapping(value = "/pwUpdate")

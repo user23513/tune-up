@@ -14,7 +14,7 @@
 		                 EMAIL,
 		                 AUTH,
 		                 PHONE)
-				 VALUES(#{empNo},
+				VALUES (#{empNo},
 				        #{nm},
 				        #{id},
 				        #{pw},

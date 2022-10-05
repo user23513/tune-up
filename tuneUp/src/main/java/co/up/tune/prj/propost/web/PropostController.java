@@ -115,8 +115,8 @@ public class PropostController {
 			fvo.setPNm(vo.getTtl());
 			fvo.setEmpNo(vo.getEmpNo());
 			
-			dao.prjPostInsert(vo, fvo);
 		}
+		dao.prjPostInsert(vo, fvo);
 		re.addAttribute("prjNo", vo.getPrjNo());
 		
 		return "redirect:prjPostList";

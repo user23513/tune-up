@@ -7,6 +7,7 @@
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
 <meta id="_csrf_header" name="_csrf_header"
 	th:content="${_csrf.headerName}" />
+<link href="assets/css/style.css" rel="stylesheet">
 <title>파일함 페이지</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 
@@ -14,6 +15,45 @@
 button {
 	float: right;
 	margin: 5px;
+}
+
+
+.search-bar {
+	min-width: 360px;
+	padding: 0 20px;
+	
+}
+/* .search-form{
+ float: right;
+ margin: 5px;
+} */
+
+.search-form input {
+	border: 0;
+	font-size: 14px;
+	color: #012970;
+	border: 1px solid rgba(1, 41, 112, 0.2);
+	padding: 7px 38px 7px 8px;
+	border-radius: 3px;
+	transition: 0.3s;
+	width: 40%;
+}
+
+.search-form input:focus, .search-form input:hover {
+	outline: none;
+	box-shadow: 0 0 10px 0 rgba(1, 41, 112, 0.15);
+	border: 1px solid rgba(1, 41, 112, 0.3);
+}
+
+.search-form button {
+	border: 0;
+	padding: 0;
+	margin-left: -30px;
+	background: none;
+}
+
+.search-form button i {
+	color: #012970;
 }
 </style>
 
@@ -25,61 +65,148 @@ button {
 		})
 	});
 
-	 //파일 체크한 뒤 삭제
-	$(function(){
-		
-			var chkObj = document.getElementsByName("RowCheck");
-			var rowCnt = chkObj.length;
-			
-			$("input[name='allCheck']").click(function(){
-				var chk_listArr = $("input[name='RowCheck']");
-				for (var i=0; i<chk_listArr.length; i++){
-					chk_listArr[i].checked = this.checked;
-				}
-			});
-			$("input[name='RowCheck']").click(function(){
-				if($("input[name='RowCheck']:checked").length == rowCnt){
-					$("input[name='allCheck']")[0].checked = true;
-				}
-				else{
-					$("input[name='allCheck']")[0].checked = false;
-				}
-			});
-		});
-	 
-		function deleteValue(){
-			var url = "filedelete";    // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
-			var valueArr = new Array();
-		    var list = $("input[name='RowCheck']");
-		    for(var i = 0; i < list.length; i++){
-		        if(list[i].checked){ //선택되어 있으면 배열에 값을 저장함
-		            valueArr.push(list[i].value);
-		        }
-		    }
-		    if (valueArr.length == 0){
-		    	alert("선택된 글이 없습니다.");
-		    }
-		    else{
-				var chk = confirm("정말 삭제하시겠습니까?");				 
-				$.ajax({
-				    url : url,                    // 전송 URL
-				    type : 'POST',                // GET or POST 방식
-				    traditional : true,
-				    data : {
-				    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
-				    },
-	                success: function(jdata){
-	                    if(jdata = 1) {
-	                        alert("삭제 성공");
-	                        location.replace("list")
-	                    }
-	                    else{
-	                        alert("삭제 실패");
-	                    }
-	                }
-				});
+	//파일 체크한 뒤 삭제(프로젝트)
+	$(function() {
+
+		var chkObj = document.getElementsByName("RowCheck");
+		var rowCnt = chkObj.length;
+
+		$("input[name='allCheck']").click(function() {
+			var chk_listArr = $("input[name='RowCheck']");
+			for (var i = 0; i < chk_listArr.length; i++) {
+				chk_listArr[i].checked = this.checked;
 			}
+		});
+		$("input[name='RowCheck']").click(function() {
+			if ($("input[name='RowCheck']:checked").length == rowCnt) {
+				$("input[name='allCheck']")[0].checked = true;
+			} else {
+				$("input[name='allCheck']")[0].checked = false;
+			}
+		});
+	});
+	//파일 체크한 뒤 삭제(내 파일함)
+	$(function() {
+
+		var chkObj = document.getElementsByName("RowCheck1");
+		var rowCnt = chkObj.length;
+
+		$("input[name='allCheck1']").click(function() {
+			var chk_listArr = $("input[name='RowCheck1']");
+			for (var i = 0; i < chk_listArr.length; i++) {
+				chk_listArr[i].checked = this.checked;
+			}
+		});
+		$("input[name='RowCheck1']").click(function() {
+			if ($("input[name='RowCheck1']:checked").length == rowCnt) {
+				$("input[name='allCheck1']")[0].checked = true;
+			} else {
+				$("input[name='allCheck1']")[0].checked = false;
+			}
+		});
+	});
+	
+	function deleteValue() {
+		var url = "filedelete"; // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
+		var valueArr = new Array();
+		var list = $("input[name='RowCheck']");
+	
+	for (var i = 0; i < list.length; i++) {
+		
+		if (list[i].checked) { //선택되어 있으면 배열에 값을 저장함
+			valueArr.push(list[i].value);
 		}
+	};
+	
+	if (valueArr.length == 0) {
+		
+		alert("선택된 글이 없습니다.");
+		
+	} else {
+		
+		if(confirm("정말 삭제하시겠습니까?")){
+			
+			$.ajax({
+				url : url, // 전송 URL
+				beforeSend:function(xhr){
+		 	  		xhr.setRequestHeader(header,token);  
+		     	},
+				type : 'POST', // GET or POST 방식
+				data : {
+					'valueArr' : valueArr
+				// 보내고자 하는 data 변수 설정
+				},
+				success : function(jdata) {
+					if (jdata = 1) {
+						alert("삭제 성공");
+						location.replace("files")
+					} else {
+						alert("삭제 실패");
+					}
+				},
+				error:function(error){
+					alert("파일 삭제를 실패하였습니다")
+				}
+			});
+			
+		}else{
+			return;
+		}
+			
+		
+	}
+}
+	
+	function deleteValue1() {
+			var url = "filedelete"; // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
+			var valueArr = new Array();
+			var list = $("input[name='RowCheck1']");
+		
+		for (var i = 0; i < list.length; i++) {
+			
+			if (list[i].checked) { //선택되어 있으면 배열에 값을 저장함
+				valueArr.push(list[i].value);
+			}
+		};
+		
+		if (valueArr.length == 0) {
+			
+			alert("선택된 글이 없습니다.");
+			
+		} else {
+			
+			if(confirm("정말 삭제하시겠습니까?")){
+				
+				$.ajax({
+					url : url, // 전송 URL
+					beforeSend:function(xhr){
+			 	  		xhr.setRequestHeader(header,token);  
+			     	},
+					type : 'POST', // GET or POST 방식
+					data : {
+						'valueArr' : valueArr
+					// 보내고자 하는 data 변수 설정
+					},
+					success : function(jdata) {
+						if (jdata = 1) {
+							alert("삭제 성공");
+							location.replace("files")
+						} else {
+							alert("삭제 실패");
+						}
+					},
+					error:function(error){
+						alert("파일 삭제를 실패하였습니다")
+					}
+				});
+				
+			}else{
+				return;
+			}
+				
+			
+		}
+	}
 	
 </script>
 </head>
@@ -99,6 +226,7 @@ button {
 					</nav>
 				</div>
 				<br>
+				
 				<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
 					<li class="nav-item flex-fill" role="presentation" id="default">
 						<button class="nav-link w-100 active" id="home-tab"
@@ -121,34 +249,45 @@ button {
 
 							<!-- <form th:action th:object="${form}" method="get"> -->
 
-								<input type="hidden" id="empNo" name="empNo"
-									th:value="${session.empNo}"> <input type="hidden"
-									id="wrtr" name="wrtr" th:value="${session.nm}">
+							<input type="hidden" id="empNo" name="empNo"
+								th:value="${session.empNo}"> <input type="hidden"
+								id="wrtr" name="wrtr" th:value="${session.nm}">
+							<br>
+							<form class="search-form d-flex align-items-center" method="POST"
+								action="#">
+								<input type="text" name="query" placeholder="Search"
+									title="Enter search keyword">
+								<button type="submit" title="Search">
+									<i class="bi bi-search"></i>
+								</button>
+							</form>
+							
+							<div>
+								<button type="button" class="btn btn-outline-secondary btn-sm"
+									onclick="deleteValue();">선택삭제</button>
+							</div>
 
-								<div>
-									<button type="button" class="btn btn-outline-secondary btn-sm"
-										onclick="deleteValue();">선택삭제</button>
-								</div>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col"><input class="form-check-input"
+											type="checkbox" name="allCheck" id="allCheck"></th>
+										<th scope="col">프로젝트 이름</th>
+										<th scope="col">파일이름</th>
+										<th scope="col"></th>
 
-								<table class="table table-hover">
-									<thead>
-										<tr>
-											<th scope="col"><input class="form-check-input" type="checkbox" name="allCheck" id="allCheck"></th>
-											<th scope="col">프로젝트 이름</th>
-											<th scope="col">파일이름</th>
-											<th scope="col"></th>
-
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="f: ${prjFileList}">
-											<th scope="row"><input th:value="${f.fileNo}" class="form-check-input" type="checkbox" name="RowCheck"></th>
-											<td th:text="${f.pNm}"></td>
-											<td th:text="${f.fNm}"></td>
-											<td></td>
-										</tr>
-									</tbody>
-								</table>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="f: ${prjFileList}">
+										<th scope="row"><input th:value="${f.fileNo}"
+											class="form-check-input" type="checkbox" name="RowCheck"></th>
+										<td th:text="${f.pNm}"></td>
+										<td th:text="${f.fNm}"></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
 							<!-- </form> -->
 						</div>
 						<!-- 프로젝트 끝 -->
@@ -158,37 +297,48 @@ button {
 						<div class="tab-pane fade" id="business-justified" role="tabpanel"
 							aria-labelledby="profile-tab">
 							<!-- <form th:action th:object="${form}" method="get"> -->
-								<div>
-									<button type="button"
-										class="btn btn btn-outline-secondary btn-sm"
-										onclick="deleteValue();">선택삭제</button>
-								</div>
-
-								<div>
-									<button type="button" class="btn btn-outline-primary btn-sm"
-										id="fileUploadForm">파일 추가</button>
-								</div>
-								<input type="hidden" id="empNo" name="empNo"
-									th:value="${session.empNo}"> <input type="hidden"
-									id="wrtr" name="wrtr" th:value="${session.nm}">
-								<table class="table table-hover">
-									<thead>
-										<tr>
-											<th scope="col"><input class="form-check-input" type="checkbox" name="allCheck" id="allCheck"></th>
-											<th scope="col">카테고리</th>
-											<th scope="col">파일명</th>
-											<td></td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr th:each="m : ${myFileList}">
-											<th scope="row"><input th:value="${m.fileNo}" class="form-check-input" type="checkbox" name="RowCheck1"></th>
-											<td th:text="${m.fCat}"></td>
-											<td th:text="${m.fNm}"></td>
-											<td></td>
-										</tr>
-									</tbody>
-								</table>
+							<br>
+							<form class="search-form d-flex align-items-center" method="POST"
+								action="#">
+								<input type="text" name="query" placeholder="Search"
+									title="Enter search keyword">
+								<button type="submit" title="Search">
+									<i class="bi bi-search"></i>
+								</button>
+							</form>
+							<div>
+								<button type="button"
+									class="btn btn btn-outline-secondary btn-sm"
+									onclick="deleteValue1();">선택삭제</button>
+							</div>
+							
+							<div>
+								<button type="button" class="btn btn-outline-primary btn-sm"
+									id="fileUploadForm">파일 추가</button>
+							</div>
+							<input type="hidden" id="empNo" name="empNo"
+								th:value="${session.empNo}"> <input type="hidden"
+								id="wrtr" name="wrtr" th:value="${session.nm}">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col"><input class="form-check-input"
+											type="checkbox" name="allCheck1" id="allCheck1"></th>
+										<th scope="col">카테고리</th>
+										<th scope="col">파일명</th>
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="m : ${myFileList}">
+										<th scope="row"><input th:value="${m.fileNo}"
+											class="form-check-input" type="checkbox" name="RowCheck1"></th>
+										<td th:text="${m.fCat}"></td>
+										<td th:text="${m.fNm}"></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
 							<!-- </form> -->
 						</div>
 

@@ -13,20 +13,25 @@
 <style>
 .right {
 	position: relative;
-	left: 85%;
+	left: 87%;
 }
-
 .textSize {
 	font-size: 25px;
 }
-
 .auto {
 	display: inline-block;
 	width: auto;
 }
-
 .txtA {
 	resize: none; /* textarea 크기조절 삭제  */
+}
+.text-white{
+	background-color: #435d7d !important;
+}
+.card{
+	width: 90%; 
+	margin-left: 5%; 
+	margin-top: 3%;
 }
 </style>
 </head>
@@ -34,12 +39,10 @@
 	<main layout:fragment="content">
 		<div class="card">
 			<div class="card-body">
-
 				<br>
 				<div>
 					<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
-					<input type="hidden" id="receiverNo" name="receiverNo"
-						th:value="${f.empNo}">
+					<input type="hidden" id="receiverNo" name="receiverNo" th:value="${f.empNo}">
 					<table class="table">
 						<tbody>
 							<tr>
@@ -54,36 +57,35 @@
 								<td th:text="${f.hit}"></td>
 							</tr>
 							<tr>
-								<td colspan="6" th:utext="${f.cntn}" class=".txtA"
-									style="height: 500px">내용들어가는곳</td>
+								<td colspan="6" th:utext="${f.cntn}" class=".txtA" style="height: 500px">내용들어가는곳</td>
 							</tr>
 							<tr th:if="${f.fNm != null}">
 								<th style="width: 100px">첨부파일</th>
-								<td colspan="6"><a th:href="|/attach/${f.postNo}|"
-									th:text="${f.fNm}"></a></td>
+								<td colspan="6">
+									<a th:href="|/attach/${f.postNo}|" th:text="${f.fNm}"></a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
 
 					<!-- start 댓글 -->
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" id="rCntn" name="cntn"
-							placeholder="댓글을 입력하세요"> <span id="rBtn"
-							class="input-group-text socket">등록</span>
+						<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요"> 
+						<span id="rBtn" class="input-group-text socket">등록</span>
 					</div>
 					<!-- 전체 댓글 -->
 					<div id="rList">
 						<div th:each="r : ${replyList}">
-							<span th:text="${r.wrtr}">작성자</span>&nbsp; <span
-								th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
-							<br> <span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; <span>
-								<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"
-								th:if="${session.empNo == f.empNo}"></i>
+							<span th:text="${r.wrtr}">작성자</span>&nbsp; 
+							<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
+							<br> 
+							<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; 
+							<span>
+								<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == f.empNo}"></i>
 							</span>&nbsp;
 							<!-- 수정아이콘 -->
-							<span> <i class="ri-delete-bin-line delete"
-								th:attr="data-no=${r.replyNo}"
-								th:if="${session.empNo == f.empNo}"></i>
+							<span> 
+								<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == f.empNo}"></i>
 							</span>
 							<!-- 삭제아이콘 -->
 							<hr>
@@ -94,32 +96,27 @@
 					<!-- 게시글 버튼 -->
 					<hr>
 					<div>
-						<span> <a href="freeList" class="btn btn-primary">목록</a>
+						<span> 
+							<a href="freeList" class="btn text-white">목록</a>
 						</span>
-						<div class="btn-group right" role="group"
-							aria-label="Basic example">
-							<button type="button" class="btn btn-primary" id="uBtn"
-								th:if="${session.empNo == f.empNo}">수정</button>
-							<button type="button" class="btn btn-primary" id="dBtn"
-								th:if="${session.empNo == f.empNo}">삭제</button>
+						<div class="btn-group right" role="group" aria-label="Basic example">
+							<button type="button" class="btn text-white" id="uBtn" th:if="${session.empNo == f.empNo}">수정</button>
+							<button type="button" class="btn text-white" id="dBtn" th:if="${session.empNo == f.empNo}">삭제</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<div>
 			<form id="uFrm" action="freeUpdateForm" method="post">
-				<input type="hidden" th:name="${_csrf.parameterName}"
-					th:value="${_csrf.token}"> <input type="hidden"
-					name="postNo" th:value="${f.postNo}">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+				<input type="hidden" name="postNo" th:value="${f.postNo}">
 			</form>
 		</div>
 		<div>
 			<form id="dFrm" action="freeDelete" method="post">
-				<input type="hidden" th:name="${_csrf.parameterName}"
-					th:value="${_csrf.token}"> <input type="hidden" id="postNo"
-					name="postNo" th:value="${f.postNo}">
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+				<input type="hidden" id="postNo" name="postNo" th:value="${f.postNo}">
 			</form>
 		</div>
 

@@ -29,16 +29,6 @@ public class AprvReqServiceImpl implements AprvReqService {
 	}
 
 	@Override
-	public int aprvReqUp(AprvVO vo) {
-		return map.aprvReqUp(vo);
-	}
-
-	@Override
-	public int aprvReqDel(AprvVO vo) {
-		return map.aprvReqDel(vo);
-	}
-
-	@Override
 	public List<FormVO> formList(FormVO vo) {
 		return map.formList(vo);
 	}

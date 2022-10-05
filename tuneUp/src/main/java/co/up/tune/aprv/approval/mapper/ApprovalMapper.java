@@ -1,16 +1,15 @@
 package co.up.tune.aprv.approval.mapper;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.TrustVO;
+import co.up.tune.emp.vo.EmpVO;
 
 public interface ApprovalMapper {
 
-	// 문서 조회
+	// 문서 조회 (aprvr = empNo)
 	List<AprvVO> approvalList(@Param("aprvr") String aprvr, @Param("aprvSt") String aprvSt);
 
 	// 단건조회
@@ -31,10 +30,13 @@ public interface ApprovalMapper {
 	// 위임자 등록
 	int trustIn(TrustVO vo);
 
-	// 위임자 수정
-	int trustUp(TrustVO vo);
-
 	// 위임자 삭제
 	int trustDel(TrustVO vo);
+
+	// 서명 업로드
+	int signUp(EmpVO vo);
+
+	// 서명선택
+	EmpVO signSel(EmpVO vo);
 
 }

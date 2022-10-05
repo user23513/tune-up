@@ -14,21 +14,25 @@
 	
 	<insert id="detailInsert" parameterType="co.up.tune.prj.vo.TodoDetailVO">
 		<selectKey keyProperty="todoNo" order="BEFORE" resultType="int">
-			select
-			    case when max(todo_no) is null then 1
-			    else max(todo_no)+1
-			    end as no
-			from todoDetail
-		</selectKey>
-		insert into todoDetail (todo_no, cntn, cmplt_yn, post_no)
-		value = (#{todoNo}, #{cntn}, 'N', #{postNo})
+			select nvl(max(todo_no),0)+1
+		 	  from todoDetail
+		</selectKey> 
+		insert into todoDetail (todo_no,
+								cntn,
+								cmplt_yn,
+								post_no,
+								edt)
+		values (#{todoNo},
+				#{cntn},
+				'N',
+				#{postNo},
+				sysdate)
 	</insert>
 	
 	<update id="detailUpdate" parameterType="co.up.tune.prj.vo.TodoDetailVO">
 		update todoDetail
 		<set>
 			<if test="cntn != null">cntn = #{cntn},</if>
-			<if test="cmpltYn != null" >cmplt_yn = #{cmpltYn},</if>
 			<if test="edt != null">edt = #{edt}</if>
 		</set>
 		where todo_no = #{todoNo}

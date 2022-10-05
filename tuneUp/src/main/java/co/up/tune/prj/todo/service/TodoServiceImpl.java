@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.todo.mapper.DemoTodoMapper;
 import co.up.tune.prj.todo.mapper.TodoMapper;
-import co.up.tune.prj.vo.DemoTodoVO;
-import co.up.tune.prj.vo.TodoDetailVO;
+//import co.up.tune.prj.vo.DemoTodoVO;
 import co.up.tune.prj.vo.TodoVO;
 
 @Service
@@ -21,8 +20,8 @@ public class TodoServiceImpl implements TodoService {
 	DemoTodoMapper dmap;
 	
 	@Override
-	public List<TodoVO> todoList() {
-		return map.todoList();
+	public List<TodoVO> todoList(int prjNo) {
+		return map.todoList(prjNo);
 	}
 
 	@Override
@@ -32,57 +31,6 @@ public class TodoServiceImpl implements TodoService {
 
 	@Override
 	public int todoInsert(TodoVO vo) {
-		//1. todo insert
-//		System.out.println("test");
-//		int r = map.todoInsert(vo);
-//		System.out.println(r);
-//		
-//		//2. demo list 뿌리기
-//		TodoDetailVO devo = new TodoDetailVO();
-//		System.out.println("postno : " + vo.getPostNo());
-//		int postNo = vo.getPostNo();
-//		devo.setPostNo(postNo);
-//		System.out.println("==============="+devo.getPostNo());
-//		
-//		DemoTodoVO dmvo = new DemoTodoVO();
-//		dmvo.setEmpNo(vo.getEmpNo());
-//		System.out.println("empNo============ : " + dmvo.getEmpNo());
-//		//========================= 성공 ==========================
-//		
-//		
-////		 int result[] = new int[devo.getDemoList().size()];
-////		 System.out.println(result);
-//		 
-//		 
-//		
-////		dmap.demoList().get(0).getCntn();
-////		System.out.println(dmap.demoList().get(0).getCntn());
-//		
-////		devo.getDemoList().get(0).getCntn();
-////		System.out.println("demo : " +devo.getDemoList().get(0).getCntn());
-//		
-//		dmap.demoList();
-//		
-//		System.out.println("=========demoList ========== " + dmap.demoList() );
-//		
-//		
-//		//3. demo list -> detail 담기
-//		devo.setDemoList(dmap.demoList());
-//		devo.getDemoList();
-//		System.out.println("=========="+devo.getDemoList());
-//		
-//		//4. detail insert
-//		if(devo.getDemoList() != null) {
-//			System.out.println("널이 아님");
-////			for(int i = 0; i< devo.getDemoList().size(); i++) {
-////				//devo.setCntn(devo.getDemo().get(i));
-////				//devo.setTodoNo(devo.getDemo().get(i));
-////				System.out.println("test" +i);
-////			}
-//		}else {
-//			System.out.println("값이 없음");
-//		}
-		//dmap.demoInsert();
 		return map.todoInsert(vo);
 	}
 

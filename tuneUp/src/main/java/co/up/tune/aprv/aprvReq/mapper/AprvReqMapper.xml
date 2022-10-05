@@ -6,10 +6,12 @@
 		parameterType="co.up.tune.aprv.vo.AprvVO"
 		resultType="co.up.tune.aprv.vo.AprvVO">
 		SELECT APRV_NO, EMP_NO, TTL, DTTM, REQ_ST,
-				DEADLINE, IMPTS
+				DEADLINE, IMPTS, NM
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
-		<if test="reqSt != null and reqSt != '' and reqSt != '전체'">AND REQ_ST = #{reqSt}</if>
+		<if test="reqSt != null and reqSt != '' and reqSt != '전체'">
+		AND REQ_ST = #{reqSt}
+		</if>
 		ORDER BY APRV_NO DESC
 	</select>
 
@@ -33,38 +35,16 @@
 		</selectKey>
 		INSERT INTO APRV
 				(APRV_NO, EMP_NO, TTL, DTTM, CNTN, REQ_ST,
-					APRV_ETC, DEADLINE, IMPTS, F_NM, F_PATH)
+					APRV_ETC, DEADLINE, IMPTS, F_NM, F_PATH, NM)
 		VALUES
 				(#{aprvNo}, #{empNo},
 				#{ttl}, SYSTIMESTAMP, #{cntn}, '전송',
-				#{aprvEtc}, #{deadline}, #{impts}, #{fNm}, #{fPath})
+				#{aprvEtc}, #{deadline}, #{impts}, #{fNm}, #{fPath}, #{nm})
 	</insert>
-
-
-	<update id="aprvReqUp" parameterType="co.up.tune.aprv.vo.AprvVO">
-		UPDATE APRV
-		<set>
-			DTTM = SYSTIMESTAMP
-			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
-			<if test="cntn != null and cntn != ''">CNTN=#{cntn},</if>
-			<if test="aprvEtc != null and aprvEtc != ''">APRV_ETC=#{aprvEtc},</if>
-			<if test="deadline != null and deadline != ''">DEADLINE=#{deadline},</if>
-			<if test="impts != null and impts != ''">IMPTS=#{impts}</if>
-		</set>
-		WHERE APRV_NO = #{aprvNo}
-		AND REQ_ST = '전송' OR '반려'
-	</update>
-
-	<delete id="aprvReqDel"
-		parameterType="co.up.tune.aprv.vo.AprvVO">
-		DELETE FROM APRV
-		WHERE APRV_NO = #{aprvNo}
-		AND REQ_ST = '전송' or '반려'
-	</delete>
 
 	<select id="formList" parameterType="co.up.tune.aprv.vo.FormVO"
 		resultType="co.up.tune.aprv.vo.FormVO">
-		SELECT FORM_NO, TTL, FORM_CAT, EMP_NO, FORM_AUTH
+		SELECT FORM_NO, TTL, FORM_CAT, EMP_NO, FORM_AUTH, NM
 		FROM FORM
 		WHERE 
 		<if test="formCat =='전체'">
@@ -89,7 +69,7 @@
 	<select id="formSelect"
 		parameterType="co.up.tune.aprv.vo.FormVO"
 		resultType="co.up.tune.aprv.vo.FormVO">
-		SELECT FORM_NO, EMP_NO, TTL, CNTN
+		SELECT FORM_NO, EMP_NO, TTL, CNTN, FORM_CAT, NM, FORM_AUTH
 		FROM FORM
 		WHERE FORM_NO = #{formNo}
 	</select>
@@ -100,7 +80,9 @@
 			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
 			<if test="cntn != null and cntn != ''">CNTN=#{cntn},</if>
 			<if test="formCat != null and formCat != '' ">FORM_CAT=#{formCat},</if>
-			<if test="formAuth != null and formAuth != ''">FORM_AUTH=#{formAuth}</if>
+			<if test="formAuth != null and formAuth != ''">FORM_AUTH=#{formAuth},</if>
+			<if test="empNo != null and empNo != ''">EMP_NO=#{empNo},</if>
+			<if test="nm != null and nm != ''">NM=#{nm}</if>
 		</set>
 		WHERE FORM_NO = #{formNo}
 		
@@ -117,9 +99,9 @@
 			FROM FORM
 		</selectKey>
 		INSERT INTO FORM
-				(FORM_NO, TTL, CNTN, FORM_CAT, EMP_NO, FORM_AUTH)
+				(FORM_NO, TTL, CNTN, FORM_CAT, EMP_NO, FORM_AUTH, NM)
 		VALUES
-				(#{formNo}, #{ttl}, #{cntn}, #{formCat}, #{empNo}, #{formAuth})
+				(#{formNo}, #{ttl}, #{cntn}, #{formCat}, #{empNo}, #{formAuth}, #{nm})
 
 	</insert>
 

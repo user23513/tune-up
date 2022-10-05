@@ -16,6 +16,7 @@ public class MyProjectServiceImpl implements MyProjectService {
 	@Autowired
 	MyProjectMapper map;
 	
+	
 	//내프로젝트 리스트
 	@Override
 	public List<ProjectVO> myPrjList(int empNo, int pageNo) {
@@ -23,4 +24,5 @@ public class MyProjectServiceImpl implements MyProjectService {
 		return map.myPrjList(empNo);
 	}
 
+	 
 }

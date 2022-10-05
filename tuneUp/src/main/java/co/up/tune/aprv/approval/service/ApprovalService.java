@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.TrustVO;
+import co.up.tune.emp.vo.EmpVO;
 
 public interface ApprovalService {
 
@@ -29,10 +30,11 @@ public interface ApprovalService {
 	// 위임자 등록
 	int trustIn(TrustVO vo);
 
-	// 위임자 수정
-	int trustUp(TrustVO vo);
-
 	// 위임자 삭제
 	int trustDel(TrustVO vo);
+	
+	int signUp(EmpVO vo);//서명 업로드
+	
+	EmpVO signSel(EmpVO vo);//서명선택
 
 }

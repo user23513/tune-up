@@ -4,9 +4,10 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -157,7 +158,21 @@ public class AttdServiceImpl implements AttdService{
 	@Override
 	public int startAttd(AttdVO vo) {
 		// 출근 시간 저장
-		return dao.startAttd(vo);
+		
+		// 오늘 날짜 구하기
+		Date curDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("YY/MM/dd");
+		String today = dateFormat.format(curDate);
+		
+		Map<String, Object> checkMap = new HashMap<>();
+		checkMap.put("empNo", vo.getEmpNo());
+		checkMap.put("atdcDt", today);
+		
+		// 이미 출근했는지 여부 체크
+		if(dao.alreadyAttd(checkMap) == 0) {
+			dao.startAttd(vo);
+		}
+		return 0;
 	}
 
 	@Override
@@ -254,5 +269,12 @@ public class AttdServiceImpl implements AttdService{
 		// 출근시간 띄우기
 		return dao.checkTime(vo);
 	}
+
+	@Override
+	public AttdVO checkBTime(AttdVO vo) {
+		// TODO Auto-generated method stub
+		return dao.checkBTime(vo);
+	}
+
 
 }

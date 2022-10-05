@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.up.tune.layout.mapper.LayoutMapper">
+
+	<select id="prjTeamMembers" resultType="co.up.tune.prj.vo.TeamVO">
+		select DISTINCT emp_no,nm,dept
+		from team 
+		where prj_no in (
+			    select prj_no 
+			    from team 
+			    where emp_no=#{empNo}
+			    and auth ='팀장'
+			)
+		and auth='팀원'
+		and dept = #{dept}
+	</select>
+
+</mapper>

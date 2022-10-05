@@ -9,7 +9,9 @@
 	th:content="${_csrf.headerName}" />
 <title>나의 근태</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>	<!-- 차트 CDN -->
+<script
+	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<!-- 차트 CDN -->
 <!-- chart.js -->
 <script type="text/javascript">
 
@@ -57,112 +59,138 @@ function converDate(){
 	
 	</script>
 
-		<div class="pagetitle">
-			<h1>출퇴근 현황</h1>
-			<!-- Default Card -->
-			<h5 class="card-title"></h5>
-			<div class="card">
-				<div class="card-body">
-					<h5 class="card-title"></h5>
-					<div>
-					<button type="button" class="btn btn-light mb-2" style="width: 30%; padding: 55px 10px; margin: 4px 12px;">
-					출근 시간<span class="badge bg-secondary text-light">
-					<span th:text="${#dates.format(checkTime, 'HH:mm')}"></span> </span>
-					</button>
-					<button onclick="location.href='attdList'" class="btn btn-primary" style="float: right;">관리자</button>
-						</div>
-					<!-- Large Modal -->
-					<form id="pstfrm" action="attdUpInsert" name="pstfrm" method="post">
-						<input type="hidden" th:name="${_csrf.parameterName}"
-							th:value="${_csrf.token}">
-						<button type="button" class="btn btn-primary"
-							data-bs-toggle="modal" data-bs-target="#largeModal"
-							style="float: right">수정신청</button>
+		<div class="card">
+			<div class="card-body">
+				<br>
+				<div class="pagetitle">
+					<h1>근태관리</h1>
+					<nav>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item active">출퇴근현황</li>
+							<li class="breadcrumb-item ">관리자페이지</li>
 
-						<div class="modal fade" id="largeModal" tabindex="-1">
-							<div class="modal-dialog modal-lg">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title">근태 수정 폼</h5>
-										<button type="button" class="btn-close"
-											data-bs-dismiss="modal" aria-label="Close"></button>
+						</ol>
+					</nav>
+				</div>
+
+				<hr>
+
+				<div class="list-group col-2" style="float: left">
+
+					<div class="list-group-item list-group-item-primary"
+						style="width: 200px">
+						출근 시간 <span class="badge bg-secondary text-light"
+							th:text="${#dates.format(checkTime, 'HH:mm')}"></span>
+					</div>
+				</div>
+
+				<div class="list-group col-3" style="float: left">
+					<div class="list-group-item list-group-item-primary "
+						style="width: 200px;">
+						퇴근 시간 <span class="badge bg-secondary text-light"
+							th:text="${#dates.format(checkBTime, 'HH:mm')}"></span>
+					</div>
+				</div>
+				<div class="col-3" style="float: right;">
+					<button type="button" class="btn btn-primary"
+						data-bs-toggle="modal" data-bs-target="#largeModal"
+						style="float: right;">수정신청</button>
+					<button onclick="location.href='attdList'" class="btn btn-primary"
+						style="float: right; margin-right: 5px;">관리자 페이지</button>
+				</div>
+
+				<br> <br> <br>
+
+
+
+				<!-- Large Modal -->
+				<form id="pstfrm" action="attdUpInsert" name="pstfrm" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}"
+						th:value="${_csrf.token}">
+					<div class="modal fade" id="largeModal" tabindex="-1">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">근태 수정 폼</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+
+									<!-- 수정폼 -->
+									<div class="input-group mb-3">
+										<span class="input-group-text" id="basic-addon1"
+											style="width: 90px;">사원번호</span> <input type="text"
+											class="form-control" name="empNo" aria-label="Username"
+											aria-describedby="basic-addon1" th:value="${session.empNo}">
 									</div>
-									<div class="modal-body">
+									<div class="input-group mb-3">
+										<span class="input-group-text" id="basic-addon1"
+											style="width: 90px;">이름</span> <input type="text"
+											class="form-control" name="nm" aria-label="Username1"
+											aria-describedby="basic-addon1" th:value="${session.nm}">
+									</div>
+									<div class="row mb-3">
+										<label for="inputDate" class="col-sm-2 col-form-label">출근
+											날짜</label>
+										<div class="col-sm-10">
+											<input type="date" class="form-control" name="atdcDt"
+												step="1">
+										</div>
+									</div>
 
-										<!-- 수정폼 -->
-										<div class="input-group mb-3">
-											<span class="input-group-text" id="basic-addon1"
-												style="width: 90px;">사원번호</span> <input type="text"
-												class="form-control" name="empNo" aria-label="Username"
-												aria-describedby="basic-addon1" th:value="${session.empNo}">
+									<div class="row mb-3">
+										<label for="inputDate" class="col-sm-2 col-form-label">출근
+											시간</label>
+										<div class="col-sm-10">
+											<!-- <input type="date" class="form-control"> -->
+											<input type="datetime-local" class="form-control"
+												name="atdcDttm" step="1">
 										</div>
-										<div class="input-group mb-3">
-											<span class="input-group-text" id="basic-addon1"
-												style="width: 90px;">이름</span> <input type="text"
-												class="form-control" name="nm" aria-label="Username1"
-												aria-describedby="basic-addon1" th:value="${session.nm}">
-										</div>
-										<div class="row mb-3">
-											<label for="inputDate" class="col-sm-2 col-form-label">출근
-												날짜</label>
-											<div class="col-sm-10">
-												<input type="date" class="form-control" name="atdcDt"
-													step="1">
-											</div>
-										</div>
-
-										<div class="row mb-3">
-											<label for="inputDate" class="col-sm-2 col-form-label">출근
-												시간</label>
-											<div class="col-sm-10">
-												<!-- <input type="date" class="form-control"> -->
-												<input type="datetime-local" class="form-control"
-													name="atdcDttm" step="1">
-											</div>
-										</div>
-										<!-- <div class="row mb-3">
+									</div>
+									<!-- <div class="row mb-3">
 									<label for="inputTime" class="col-sm-2 col-form-label">출근 시간</label>
 									<div class="col-sm-10">
 										<input type="time" class="form-control">
 										<input type="datetime-local" class="form-control" name="atdcDttm" step="1">
 									</div>
 								</div> -->
-										<div class="row mb-3">
-											<label for="inputTime" class="col-sm-2 col-form-label">퇴근
-												시간</label>
-											<div class="col-sm-10">
-												<!-- <input type="time" class="form-control"> -->
-												<input type="datetime-local" class="form-control"
-													name="afwkDttm" step="1">
-											</div>
+									<div class="row mb-3">
+										<label for="inputTime" class="col-sm-2 col-form-label">퇴근
+											시간</label>
+										<div class="col-sm-10">
+											<!-- <input type="time" class="form-control"> -->
+											<input type="datetime-local" class="form-control"
+												name="afwkDttm" step="1">
 										</div>
-										<div class="form-floating mb-3">
-											<textarea class="form-control"
-												placeholder="Leave a comment here" id="floatingTextarea"
-												style="height: 100px; resize: none" name="aContent"></textarea>
-											<label for="floatingTextarea">사유</label>
-											<!-- <input type="hidden" id="st" name="st" th:value="${701}"> -->
-										</div>
-										<!-- 바디 끝 -->
-
-
 									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-bs-dismiss="modal">취소</button>
-
-										<button type="submit" class="btn btn-primary">신청</button>
-
+									<div class="form-floating mb-3">
+										<textarea class="form-control"
+											placeholder="Leave a comment here" id="floatingTextarea"
+											style="height: 100px; resize: none" name="aContent"></textarea>
+										<label for="floatingTextarea">사유</label>
+										<!-- <input type="hidden" id="st" name="st" th:value="${701}"> -->
 									</div>
+									<!-- 바디 끝 -->
+
 
 								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">취소</button>
+
+									<button type="submit" class="btn btn-primary">신청</button>
+
+								</div>
+
 							</div>
 						</div>
-					</form>
-					<!-- End Large Modal-->
+					</div>
+				</form>
+				<!-- End Large Modal-->
 
-					<!-- 출퇴근 버튼  -->
-					  <!-- <form action="startAttd" method="post" id="attdFrm">
+				<!-- 출퇴근 버튼  -->
+				<!-- <form action="startAttd" method="post" id="attdFrm">
 						<input type="hidden" th:name="${_csrf.parameterName}"
 							th:value="${_csrf.token}"> <input type="hidden"
 							id="empNo" name="empNo" th:value="${session.empNo}"> <input
@@ -184,20 +212,19 @@ function converDate(){
 					</form> -->
 
 
-					<div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">7days Chart</h5>
-
-              <!-- Stacked Bar Chart -->
-              <canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
-              <script>
-              /*  $(document).ready(function(){
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">7days Chart</h5>
+							<!-- Stacked Bar Chart -->
+							<canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
+							<script>
+          /*    $(document).ready(function(){
             		getGraph();
             	});
 
             	function getGraph(){
-            		let timeList = [];
+            	let timeList = []; 
             		let wktmList = [];
             		let ovtmList = [];
             		let empNo = $("#eNo").val();
@@ -212,11 +239,12 @@ function converDate(){
             					timeList.push(data[i].attd_dt);
             					wktmList.push(data[i].wktm);
             					ovtmList.push(data[i].ovtm);
+            					 
             				}
             			
             			}
             		}) 
-            	
+             */
               
                 document.addEventListener("DOMContentLoaded", () => {
                   new Chart(document.querySelector('#stakedBarChart'), {
@@ -224,14 +252,14 @@ function converDate(){
                     data: {
                       labels: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri'],
                       datasets: [{
-                          label: '근무 시간',
-                          data: [9,9,12,9,10], 
+                          label: '근무 시간',  /*wktmList*/
+                          data: [9,12,9,9,10], 
                           backgroundColor: 
                         	  'rgba(255, 99, 132, 0.2)',
                         },
                         {
-                          label: '야근',
-                          data: [0,0,3,0,1], 
+                          label: '야근',	/*ovtmList*/
+                          data: [0,3,0,0,1], 
                           backgroundColor: 
                         	  'rgba(75, 192, 192, 0.2)',
                         },
@@ -257,13 +285,12 @@ function converDate(){
                     }
                   });
                 });
-            	} */
               </script>
-              <!-- End Stacked Bar Chart -->
-					
-					
-					<!-- Bar Chart -->
-					<!-- <div class="col-lg-6" style="float: left" id="chart1">
+							<!-- End Stacked Bar Chart -->
+
+
+							<!-- Bar Chart -->
+							<!-- <div class="col-lg-6" style="float: left" id="chart1">
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title">7days Chart</h5>
@@ -307,20 +334,20 @@ function converDate(){
                   });
                 });
               </script> -->
-							</div>
-
 						</div>
+
 					</div>
-					<!-- radial -->
-					<div class="col-lg-6" style="float: right" id="chart2">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">7days Chart</h5>
+				</div>
+				<!-- radial -->
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">7days Chart</h5>
 
-								<!-- Radial Bar Chart -->
-								<div id="radialBarChart"></div>
+							<!-- Radial Bar Chart -->
+							<div id="radialBarChart"></div>
 
-								<script>
+							<script>
                 document.addEventListener("DOMContentLoaded", () => {
                   new ApexCharts(document.querySelector("#radialBarChart"), {
                     series: [44, 55],
@@ -355,11 +382,10 @@ function converDate(){
                   }).render();
                 });
               </script>
-							</div>
 						</div>
-						<!-- End Radial Bar Chart -->
-						<!-- End Doughnut CHart -->
 					</div>
+					<!-- End Radial Bar Chart -->
+					<!-- End Doughnut CHart -->
 				</div>
 			</div>
 		</div>

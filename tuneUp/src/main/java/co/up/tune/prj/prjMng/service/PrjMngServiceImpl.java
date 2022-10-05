@@ -17,50 +17,57 @@ public class PrjMngServiceImpl implements PrjMngService {
 	
 	@Override
 	public List<TeamVO> teamList(int prjNo) {
-		// TODO Auto-generated method stub
+		// 플젝 - 멤버리스트
 		return map.teamList(prjNo);
 	}
 	
 	@Override
 	public List<TeamVO> authList(int prjNo) {
-		// TODO Auto-generated method stub
+		// 플젝 - 팀장 리스트
 		return map.authList(prjNo);
 	}
 
-	@Override
+/*	@Override
 	public List<EmpVO> addTeamList() {
 		// TODO Auto-generated method stub
 		return map.addTeamList();
 	}
+	*/
 
 	@Override
 	public int addTeam(TeamVO vo) {
-		// TODO Auto-generated method stub
+		// 플젝 - 멤버추가
 		return map.addTeam(vo);
 	}
 
 	@Override
 	public int removeTeam(TeamVO vo) {
-		// TODO Auto-generated method stub
+		// 플젝 - 멤버 삭제
 		return map.removeTeam(vo);
 	}
 
 	@Override
 	public int teamAuth(TeamVO vo) {
-		// TODO Auto-generated method stub
+		// 플젝 - 팀장 권한 부여
 		return map.teamAuth(vo);
 	}
 
 	@Override
 	public int removeAuth(TeamVO vo) {
-		// TODO Auto-generated method stub
+		// 플젝 - 팀장 권한 삭제
 		return map.removeAuth(vo);
 	}
 
 	@Override
 	public int prjSt(ProjectVO vo) {
-		// TODO Auto-generated method stub
+		// 플젝 - 상태 
 		return map.prjSt(vo);
+	}
+
+	@Override
+	public int addTeamList(TeamVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	 

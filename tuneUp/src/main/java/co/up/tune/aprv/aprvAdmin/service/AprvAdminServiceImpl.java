@@ -26,7 +26,9 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 
 	@Override
 	public int aprvAdminDel(AprvVO vo) {
-		return map.aprvAdminDel(vo);
+		int cnt = map.approvalAdminDel(vo);
+		cnt += map.aprvAdminDel(vo);
+		return cnt;
 	}
 
 	@Override
@@ -46,7 +48,11 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 
 	@Override
 	public int aprvAdReject(ApprovalVO vo) {
-		return map.aprvAdReject(vo);
+		int cnt = map.reqAdReject(vo);
+		cnt +=map.aprvAdReject(vo);
+		return cnt;
 	}
+
+	
 
 }

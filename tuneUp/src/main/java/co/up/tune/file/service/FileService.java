@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,6 +49,7 @@ public class FileService {
 			
 			//실제 로컬에 uuid를 파일명으로 저장
 			file.transferTo(new File(savePath));
+			
 		}
 		
 		return list;

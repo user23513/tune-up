@@ -6,7 +6,7 @@
 	<!-- 프로젝트 file 등록  -->
 	<insert id="prjFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
 		INSERT INTO FILES
-		VALUES (FNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, #{fCat}, #{pNm})
+		VALUES (FNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, #{fCat}, #{pNm}, #{empNo})
 	</insert>
 				  
 	<select id="prjPostList" resultType="co.up.tune.prj.vo.PostVO">
@@ -28,13 +28,31 @@
 		VALUES (PNO_SEQ.NEXTVAL,#{empNo},#{wrtr},#{ttl},#{cntn},sysdate,#{atchNo},#{prjNo}) 
 	</insert>
 	
-	 <update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">
-		UPDATE POST
-		<set>
-			<if test="ttl != null">TTL=#{ttl},</if>
-			<if test="cntn != null">CNTN=#{cntn}</if>
-		</set>
-		WHERE POST_NO=#{postNo}
+	<!-- 프로젝트 글 수정 -->
+	<update id="prjPostUpdate">
+		DECLARE
+			V_FILE_NO	NUMBER(10);
+		BEGIN
+			UPDATE POST
+			SET
+				<if test="pvo.ttl != null">TTL=#{pvo.ttl},</if>
+				<if test="pvo.cntn != null">CNTN=#{pvo.cntn}</if>
+			WHERE POST_NO=#{pvo.postNo};
+		
+			SELECT FILE_NO 
+			INTO V_FILE_NO
+			FROM FILES
+			WHERE ATCH_NO = (
+			 		SELECT ATCH_NO FROM POST WHERE POST_NO=#{pvo.postNo}
+				);
+			 
+			 <if test="fvo.fNm != null">
+				 UPDATE FILES
+				 SET
+				 	F_NM=#{fvo.fNm}, F_PATH=#{fvo.fPath}, F_TYPE=#{fvo.fType}
+				 WHERE FILE_NO = V_FILE_NO;
+			 </if>
+		END; 	
 	</update> 
 	
 	 <!-- <update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">
@@ -63,8 +81,7 @@
 	
 	<!-- 댓 -->
 	
-
-	<select id="ppReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
+<select id="pjReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
 		SELECT REPLY_NO, 
 			   POST_NO, 
 			   EMP_NO, 
@@ -77,31 +94,41 @@
 		ORDER BY REPLY_NO DESC
 	</select>
 	
+	<select id="pjReplySelect" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">
+		SELECT * 
+		FROM REPLY
+		WHERE REPLY_NO = #{replyNo}
+	</select>
 	
-	<insert id="ppReplyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
-		 <selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
+	<insert id="pjReplyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
+		<!-- before:insert하기전에 -->
+		<selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
 			SELECT 
 			    CASE WHEN MAX(REPLY_NO) IS NULL THEN 1
 			    ELSE MAX(REPLY_NO)+1 
 			    END AS NO
 			FROM REPLY
-		</selectKey> 
-		INSERT INTO 
-			REPLY
-				VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
+		</selectKey>
+		INSERT INTO REPLY
+		VALUES(#{replyNo}, #{postNo}, #{empNo}, #{wrtr}, #{cntn}, SYSDATE,'프로젝트글')
+				
 	</insert>
 	
+	<update id="pjReplyUpdate" parameterType="co.up.tune.com.vo.ReplyVO"> 
+		<selectKey keyColumn="dttm" keyProperty="dttm" order="AFTER" resultType="date">  
+			SELECT DTTM 
+			FROM REPLY
+			WHERE REPLY_NO = #{replyNo}
+		</selectKey>
+		UPDATE REPLY
+		SET CNTN = #{cntn}, DTTM = SYSDATE
+		WHERE REPLY_NO = #{replyNo}
+	</update>
 	
-	<delete id="ppReplyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
+	<delete id="pjReplyDelete" parameterType="co.up.tune.com.vo.ReplyVO">
 		DELETE FROM REPLY
 		WHERE REPLY_NO = #{replyNo}
 	</delete>
-	
-	<select id="ppreplySelect" resultType="co.up.tune.com.vo.ReplyVO" parameterType="co.up.tune.com.vo.ReplyVO">
-		SELECT * 
-		FROM REPLY
-		WHERE REPLY_NO = #{replyNo}
-	</select>
 	
 	<!-- 파일  -->
 	<!-- <select id="filesInsert" parameterType="co.up.tune.prj.vo.FilesVO" >
@@ -114,14 +141,6 @@
 	<select id="empList" resultType="co.up.tune.emp.vo.EmpVO">
 		SELECT *
 		FROM EMP
-	</select>
-	
-	<!-- 프로젝트 일정 리스트 -->
-	<select id="scheduleList" resultType="co.up.tune.prj.vo.ScheduleVO">
-		SELECT *
-		FROM SCHEDULE
-		WHERE PRJ_NO = #{prjNo}
-		ORDER BY POST_NO DESC
 	</select>
 	
 	<!-- 프로젝트 일정 => 멤버 리스트 -->

@@ -15,11 +15,7 @@ public class HrAjaxContoller {
 	@PostMapping("/authUpdate")
 	public String authUpdate(EmpVO vo) {
 		dao.authUpdate(vo);
-		
-		String auth = vo.getAuth();
-		System.out.println(auth);
-		
-		return auth;
+		return vo.getAuth();
 	}
 	
 	

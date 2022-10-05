@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.emp.mypage.mapper.MyPageMapper">
-	<select id="empSelectOne" parameterType="co.up.tune.emp.vo.EmpVO" resultType="co.up.tune.emp.vo.EmpVO">
+	<select id="empSelectOne"
+		parameterType="co.up.tune.emp.vo.EmpVO"
+		resultType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
 		where emp_no = #{empNo}
 	</select>
-	
-	
-	<update id="profileUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
+
+	<update id="profileUpdate"
+		parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
 		<set>
 			<if test="pw != null">pw = #{pw},</if>
@@ -18,20 +20,46 @@
 		</set>
 		where emp_no = #{empNo}
 	</update>
-	
+
 	<update id="picUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
-		update emp
-		<set>
-			<if test="pic != 'assets/img/default_profile.png'">pic = #{pic}</if>
-		</set>
-		where emp_no = #{empNo}
+		update  emp
+		   set	pic = #{pic}
+		 where	emp_no = #{empNo}
 	</update>
-	
-	<update id="signUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
-		update emp
-		<set>
-			<if test="sign != null">sign = #{sign}</if>
-			where emp_no = #{empNo}
-		</set>
-	</update>
+
+	<select id="myReply" parameterType="co.up.tune.com.vo.ReplyVO"
+		resultType="co.up.tune.com.vo.ReplyVO">
+		SELECT	REPLY_CAT,
+				CNTN,
+				POST_NO
+		FROM REPLY
+		WHERE EMP_NO = #{empNo}
+		ORDER BY REPLY_NO DESC
+	</select>
+
+	<select id="postLook" parameterType="co.up.tune.prj.vo.PostVO" resultType="co.up.tune.prj.vo.PostVO">
+		SELECT	TTL,
+				CNTN,
+				WRTR
+		FROM POST
+		WHERE POST_NO = #{postNo}
+		<!-- UNION
+		SELECT TTL, CNTN, WRTR
+		FROM BUSINESS
+		WHERE POST_NO = #{postNo} -->
+		UNION
+		SELECT	TTL,
+				CNTN,
+				WRTR
+		FROM COMMUNITY
+		WHERE POST_NO = #{postNo}
+		UNION
+		SELECT	TTL,
+				CNTN,
+				WRTR
+		FROM SCHEDULE
+		WHERE POST_NO = #{postNo}
+	</select>
+
+
 </mapper>

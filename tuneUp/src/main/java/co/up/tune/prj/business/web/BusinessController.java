@@ -36,7 +36,7 @@ public class BusinessController {
 		//file upload 처리
 		FilesVO fvo = new FilesVO();
 		List<FilesVO> list = new ArrayList<>();
-		if(files.length != 0) {
+		if(!files[0].isEmpty()) {
 			String folder = "prj"; //Temp안에 폴더명
 			list = fileDao.fileUpload(files, folder);
 			fvo.setFNm(list.get(0).getFNm());
@@ -44,9 +44,10 @@ public class BusinessController {
 			fvo.setFType(list.get(0).getFType());
 			fvo.setFCat("PROJECT");
 			fvo.setPNm(vo.getBussTtl());
+			fvo.setEmpNo(vo.getEmpNo());
 			
-			dao.businessInsert(vo, fvo);
 		}
+		dao.businessInsert(vo, fvo);
 		re.addAttribute("prjNo", vo.getPrjNo());
 		
 		return "redirect:prjPostList";

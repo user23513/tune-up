@@ -4,249 +4,200 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <title>파일함 페이지</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+
 <style type="text/css">
-	.filter{
-		float: right;
-		padding: 10px;	
-	}
-	
+button {
+	float: right;
+	margin: 5px;
+}
 </style>
+
+<script>
+	//파일 업로드 폼으로 이동
+	$(function() {
+		$("#fileUploadForm").click(function() {
+			location.href = 'fileUploadForm';
+		})
+	});
+
+	 //파일 체크한 뒤 삭제
+	$(function(){
+		
+			var chkObj = document.getElementsByName("RowCheck");
+			var rowCnt = chkObj.length;
+			
+			$("input[name='allCheck']").click(function(){
+				var chk_listArr = $("input[name='RowCheck']");
+				for (var i=0; i<chk_listArr.length; i++){
+					chk_listArr[i].checked = this.checked;
+				}
+			});
+			$("input[name='RowCheck']").click(function(){
+				if($("input[name='RowCheck']:checked").length == rowCnt){
+					$("input[name='allCheck']")[0].checked = true;
+				}
+				else{
+					$("input[name='allCheck']")[0].checked = false;
+				}
+			});
+		});
+	 
+		function deleteValue(){
+			var url = "filedelete";    // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
+			var valueArr = new Array();
+		    var list = $("input[name='RowCheck']");
+		    for(var i = 0; i < list.length; i++){
+		        if(list[i].checked){ //선택되어 있으면 배열에 값을 저장함
+		            valueArr.push(list[i].value);
+		        }
+		    }
+		    if (valueArr.length == 0){
+		    	alert("선택된 글이 없습니다.");
+		    }
+		    else{
+				var chk = confirm("정말 삭제하시겠습니까?");				 
+				$.ajax({
+				    url : url,                    // 전송 URL
+				    type : 'POST',                // GET or POST 방식
+				    traditional : true,
+				    data : {
+				    	valueArr : valueArr        // 보내고자 하는 data 변수 설정
+				    },
+	                success: function(jdata){
+	                    if(jdata = 1) {
+	                        alert("삭제 성공");
+	                        location.replace("list")
+	                    }
+	                    else{
+	                        alert("삭제 실패");
+	                    }
+	                }
+				});
+			}
+		}
+	
+</script>
 </head>
 <body>
 	<main layout:fragment="content">
 		<div class="card">
 			<div class="card-body">
-				<h5 class="card-title">FILES</h5>
-				
-				<div>
-					<button type="button" class="btn btn-outline-primary btn-sm" href="fileUpload">파일 추가</button>
-					<button type="button" class="btn btn-outline-danger btn-sm">파일 삭제</button>
+				<br>
+				<div class="pagetitle">
+					<h1>프로젝트</h1>
+					<nav>
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item ">새 프로젝트</li>
+							<li class="breadcrumb-item ">내 프로젝트</li>
+							<li class="breadcrumb-item active">내 파일함</li>
+						</ol>
+					</nav>
 				</div>
 				<br>
-				<br>
-				
 				<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
-						
-						<li class="nav-item flex-fill" role="presentation">
-							<button class="nav-link w-100 active" id="home-tab"
-								data-bs-toggle="tab" data-bs-target="#home-justified"
-								type="button" role="tab" aria-controls="home"
-								aria-selected="true">프로젝트</button>
-						
-						
-						<li class="nav-item flex-fill" role="presentation">
-							<button class="nav-link w-100" id="pst-tab"
-								data-bs-toggle="tab" data-bs-target="#pst"
-								type="button" role="tab" aria-controls="pst"
-								aria-selected="false">전자결재</button>
-						</li>
-						<li class="nav-item flex-fill" role="presentation">
-							<button class="nav-link w-100" id="contact-tab"
-								data-bs-toggle="tab" data-bs-target="#business-justified"
-								type="button" role="tab" aria-controls="contact"
-								aria-selected="false">내 보관함</button>
-						</li>
-						
-					</ul>
-				
-			<!-- 프로젝트 -->	
-			<div class="tab-content pt-2" id="myTabjustifiedContent">
+					<li class="nav-item flex-fill" role="presentation" id="default">
+						<button class="nav-link w-100 active" id="home-tab"
+							data-bs-toggle="tab" data-bs-target="#home-justified"
+							type="button" role="tab" aria-controls="home"
+							aria-selected="true">프로젝트</button></li>
+					<li class="nav-item flex-fill" role="presentation">
+						<button class="nav-link w-100" id="contact-tab"
+							data-bs-toggle="tab" data-bs-target="#business-justified"
+							type="button" role="tab" aria-controls="contact"
+							aria-selected="false">내 보관함</button>
+					</li>
+				</ul>
+
+				<!-- 프로젝트 -->
 				<div class="tab-content pt-2" id="myTabjustifiedContent">
+					<div class="tab-content pt-2" id="myTabjustifiedContent">
 						<div class="tab-pane fade show active" id="home-justified"
 							role="tabpanel" aria-labelledby="home-tab">
+
+							<!-- <form th:action th:object="${form}" method="get"> -->
+
+								<input type="hidden" id="empNo" name="empNo"
+									th:value="${session.empNo}"> <input type="hidden"
+									id="wrtr" name="wrtr" th:value="${session.nm}">
+
+								<div>
+									<button type="button" class="btn btn-outline-secondary btn-sm"
+										onclick="deleteValue();">선택삭제</button>
+								</div>
+
 								<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">프로젝트 이름</th>
-							<th scope="col">파일명</th>
-							<th scope="col">작성자</th>
-							<th scope="col">작성일자</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="f: ${myFileSelect}">
-							<th scope="row">1</th>
-							<td th:text="${f.pNm}" th:attr="data-no${f.fileNo}">Brandon Jacob</td>
-							<td th:text="${f.fNm}">Designer</td>
-							<td >28</td>
-							<td>2016-05-25</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Bridie Kessler</td>
-							<td>Developer</td>
-							<td>35</td>
-							<td>2014-12-05</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td>Ashleigh Langosh</td>
-							<td>Finance</td>
-							<td>45</td>
-							<td>2011-08-12</td>
-						</tr>
-						<tr>
-							<th scope="row">4</th>
-							<td>Angus Grady</td>
-							<td>HR</td>
-							<td>34</td>
-							<td>2012-06-11</td>
-						</tr>
-						<tr>
-							<th scope="row">5</th>
-							<td>Raheem Lehner</td>
-							<td>Dynamic Division Officer</td>
-							<td>47</td>
-							<td>2011-04-19</td>
-						</tr>
-					</tbody>
-				</table>
-				<!-- End Table with hoverable rows -->
-				
-				<nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-			</div>	
-			<!-- 프로젝트 끝 -->
-			
-			<!-- 전자결재 -->			
-			<div class="tab-pane fade" id="pst" role="tabpanel" aria-labelledby="pst-tab">		
-				<!-- Table with hoverable rows -->
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">파일명</th>
-							<th scope="col">작성자</th>
-							<th scope="col">작성일자</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<th scope="row">1</th>
-							<td>Designer</td>
-							<td>28</td>
-							<td>2016-05-25</td>
-						</tr>
-						<tr>
-							<th scope="row">2</th>
-							<td>Developer</td>
-							<td>35</td>
-							<td>2014-12-05</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td>Finance</td>
-							<td>45</td>
-							<td>2011-08-12</td>
-						</tr>
-						<tr>
-							<th scope="row">4</th>
-							<td>HR</td>
-							<td>34</td>
-							<td>2012-06-11</td>
-						</tr>
-						<tr>
-							<th scope="row">5</th>
-							<td>Dynamic Division Officer</td>
-							<td>47</td>
-							<td>2011-04-19</td>
-						</tr>
-					</tbody>
-				</table>
-				<!-- End Table with hoverable rows -->
-				
-				<nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-             </div>
-             <!-- 전자결재 끝-->
-             
-             <!-- 내 보관함 -->
-             <div class="tab-pane fade" id="business-justified" role="tabpanel"
+									<thead>
+										<tr>
+											<th scope="col"><input class="form-check-input" type="checkbox" name="allCheck" id="allCheck"></th>
+											<th scope="col">프로젝트 이름</th>
+											<th scope="col">파일이름</th>
+											<th scope="col"></th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="f: ${prjFileList}">
+											<th scope="row"><input th:value="${f.fileNo}" class="form-check-input" type="checkbox" name="RowCheck"></th>
+											<td th:text="${f.pNm}"></td>
+											<td th:text="${f.fNm}"></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							<!-- </form> -->
+						</div>
+						<!-- 프로젝트 끝 -->
+
+
+						<!-- 내 보관함 -->
+						<div class="tab-pane fade" id="business-justified" role="tabpanel"
 							aria-labelledby="profile-tab">
-             	<!-- Table with hoverable rows -->
-             	<div float="left">
-             	<button type="button" class="btn btn-outline-primary btn-sm" href="fileUpload">파일 추가</button>
-             	</div>
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">파일명</th>
-							<th scope="col">카테고리</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="m : ${myFileSelect}">
-							<th scope="row">1</th>
-							<td th:text="${m.fNm}">Designer</td>
-							<td th:text="${m.fCat}">Designer</td>
-							
-						</tr>
-						
-					</tbody>
-				</table>
-				<!-- End Table with hoverable rows -->
-				
-				<nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-             </div>
-             <!-- 내 보관함 끝 -->
-             
-             
-             
-             
-             </div>
-			</div>
+							<!-- <form th:action th:object="${form}" method="get"> -->
+								<div>
+									<button type="button"
+										class="btn btn btn-outline-secondary btn-sm"
+										onclick="deleteValue();">선택삭제</button>
+								</div>
+
+								<div>
+									<button type="button" class="btn btn-outline-primary btn-sm"
+										id="fileUploadForm">파일 추가</button>
+								</div>
+								<input type="hidden" id="empNo" name="empNo"
+									th:value="${session.empNo}"> <input type="hidden"
+									id="wrtr" name="wrtr" th:value="${session.nm}">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th scope="col"><input class="form-check-input" type="checkbox" name="allCheck" id="allCheck"></th>
+											<th scope="col">카테고리</th>
+											<th scope="col">파일명</th>
+											<td></td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="m : ${myFileList}">
+											<th scope="row"><input th:value="${m.fileNo}" class="form-check-input" type="checkbox" name="RowCheck1"></th>
+											<td th:text="${m.fCat}"></td>
+											<td th:text="${m.fNm}"></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							<!-- </form> -->
+						</div>
+
+
+					</div>
+
+				</div>
 			</div>
 		</div>
-
 	</main>
 </body>
 </html>

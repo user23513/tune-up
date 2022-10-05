@@ -28,5 +28,7 @@ public class MyProjectController {
 		PageInfo<ProjectVO> p = new PageInfo<>(dao.myPrjList(empNo, pageNum),10);
 		model.addAttribute("myPrjList", p);
 		return "prj/myProject";
-	}
+	
+		}
+	
 }

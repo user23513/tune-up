@@ -1,7 +1,6 @@
 package co.up.tune.aprv.aprvReq.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,7 +36,8 @@ public class AprvReqController {
 	ApprovalService as;
 	@Autowired
 	FileService fs;
-
+	
+	//결재신청상태
 	@GetMapping("/aprvReq")
 	public String aprvReq(Model model, HttpServletRequest request,
 			@RequestParam(required = false, defaultValue = "전체") String reqSt,
@@ -46,7 +46,6 @@ public class AprvReqController {
 		// 세션사번
 		HttpSession session = request.getSession();
 		String empNo = (String) session.getAttribute("empNo");
-		String dept = (String) session.getAttribute("dept");
 
 		// 신청문서
 		AprvVO vo = new AprvVO();
@@ -60,10 +59,9 @@ public class AprvReqController {
 		frm.setFormCat(formCat);
 		model.addAttribute("form", ap.formList(frm));
 
-		// 결재라인
+		// 결재라인 ~ 부서
 		AprvLineVO line = new AprvLineVO();
-		line.setDept(dept);
-		line.setEmpNo(empNo);
+		line.setEmpNo(empNo); //(부서 있으면 안됨, 사번만)
 		model.addAttribute("line", li.aprvLineList(line));
 		model.addAttribute("dept", li.aprvDeptSearch());
 
@@ -73,25 +71,29 @@ public class AprvReqController {
 
 		return "aprv/aprvReq/aprvReq";
 	}
-
+	
+	// 결재선 추가
 	@PostMapping("/aprvLineInsert")
-	public String aprvLineInsert(AprvLineVO vo, HttpServletRequest request) {
+	public int aprvLineInsert(AprvLineVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String empNo = (String) session.getAttribute("empNo");
 		String dept = (String) session.getAttribute("dept");
 		vo.setDept(dept);
 		vo.setEmpNo(empNo);
-
-		li.aprvLineIn(vo);
-		return "redirect:aprvReq";
+		
+		return li.aprvLineIn(vo);
 	}
-
+	
+	//서식 추가
 	@PostMapping("/formInsert")
 	public String formInsert(FormVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String empNo = (String) session.getAttribute("empNo");
+		String nm = (String) session.getAttribute("nm");
+		vo.setNm(nm);
 		vo.setEmpNo(empNo);
-		// 공개문서
+		
+		// 권한 개인 공개문서 처리
 		if (vo.getFormAuth() == null) {
 			vo.setFormAuth("개인");
 		} else {
@@ -101,47 +103,48 @@ public class AprvReqController {
 		ap.formIn(vo);
 		return "redirect:aprvReq";
 	}
-
+	
+	//선택한 폼 정보 가지고 결재문서 작성폼 이동
 	@PostMapping("/aprvForm")
 	public String aprvForm(FormVO vo, Model model, HttpServletRequest request) {
-		// 세션값
+
 		HttpSession session = request.getSession();
 		String empNo = (String) session.getAttribute("empNo");
-		String dept = (String) session.getAttribute("dept");
-		// 결재선조회
+		// 결재선 조회
 		AprvLineVO line = new AprvLineVO();
-		line.setDept(dept);
-		line.setEmpNo(empNo);
+		line.setEmpNo(empNo); //(부서 있으면 안됨, 사번만)
 		model.addAttribute("line", li.aprvLineList(line));
 		// 부서목록
 		model.addAttribute("dept", li.aprvDeptSearch());
 		// 서식출력
 		model.addAttribute("form", ap.formSelect(vo));
+		
 		return "aprv/aprvReq/aprvForm";
 	}
 
+	//결재 문서 입력
 	@PostMapping("/aprvInsert")
 	public String aprvInsert(AprvVO vo, HttpServletRequest request, @RequestParam("file") MultipartFile[] files)
 			throws IllegalStateException, IOException {
-
-		// 파일처리
-		List<FilesVO> list = new ArrayList<>();
-		if (files.length != 0) {
+		
+		// 파일 처리
+		if (!files[0].isEmpty()) {
 			String folder = "aprv";
-			list = fs.fileUpload(files, folder);
+			List<FilesVO> list = fs.fileUpload(files, folder);
 			vo.setFNm(list.get(0).getFNm());
 			vo.setFPath(list.get(0).getFPath());
 		}
 
-		// 세션 사번 입력
 		HttpSession session = request.getSession();
 		String empNo = (String) session.getAttribute("empNo");
 		vo.setEmpNo(empNo);
-
-		// 마감일
+		String nm = (String) session.getAttribute("nm");
+		vo.setNm(nm);
+		
+		// 마감일시 처리
 		vo.setDeadline(vo.getDeadDay() + " " + vo.getDeadTime());
 
-		// 중요도
+		// 중요도 처리
 		if (vo.getImpts() == "on") {
 			vo.setImpts("Y");
 		} else {
@@ -149,57 +152,58 @@ public class AprvReqController {
 		}
 
 		// 결재문서 테이블 입력
-		ap.aprvReqIn(vo);
+		int cnt = ap.aprvReqIn(vo);
+		// 입력 완료시
+		if (cnt != 0) {
+			// 입력된 문서번호 가져와서 참조 결재자 입력 
+			int aprvNo = vo.getAprvNo();
+			
+			ApprovalVO aprv = new ApprovalVO();
+			aprv.setAprvNo(aprvNo);
+			
+			//폼에서 가져온 결재자 목록 처리
+			String aprvr = vo.getAprvr();
 
-		// 참조 결재인 처리용 문서번호
-		int aprvNo = vo.getAprvNo();
+			if (!aprvr.contains(",")) {
+				aprv.setAprvr(aprvr);
+				aprv.setAprvSeq(1);
+				li.approvalIn(aprv);
 
-		// 결재인 테이블
-		ApprovalVO aprv = new ApprovalVO();
-		aprv.setAprvNo(aprvNo);
-		if (vo.getAprvr().contains(",")) {
-			String[] arrAp = vo.getAprvr().split(",");
-
-			int a = 1; // 결재순서
-			if (arrAp[2] != "undefined") {
+			} else {
+				String[] arrAp = aprvr.split(",");
+				int a = 1; // 결재순서
+				
 				for (String i : arrAp) {
 					aprv.setAprvr(i);
 					aprv.setAprvSeq(a);
 					li.approvalIn(aprv);
 					a++;
 				}
-				;
-			} else if (arrAp[1] != "undefined") {
-				for (int i = 0; i < 2; i++) {
-					aprv.setAprvr(arrAp[i]);
-					aprv.setAprvSeq(a);
-					li.approvalIn(aprv);
-					a++;
-				}
-				;
-			}
-		} else {
-			aprv.setAprvr(vo.getAprvr());
-			aprv.setAprvSeq(1);
-			li.approvalIn(aprv);
-		}
 
-		// 참조인 테이블
-		ReferVO rf = new ReferVO();
-		rf.setAprvNo(aprvNo);
-		if (vo.getRefer().contains(",")) {
-			String[] appRf = vo.getRefer().split(",");
-			for (String i : appRf) {
-				rf.setEmpNo(i);
+			}
+
+			// 반복
+			ReferVO rf = new ReferVO();
+			rf.setAprvNo(aprvNo);
+			
+			// 폼에서 가져온 참조인 목록 처리
+			String refer = vo.getRefer();
+			if (!refer.contains(",")) {
+				rf.setEmpNo(refer);
 				li.referIn(rf);
-			}
-			;
-		} else {
-			rf.setEmpNo(vo.getRefer());
-			li.referIn(rf);
-		}
 
+			} else {
+				String[] appRf = refer.split(",");
+				for (String i : appRf) {
+					rf.setEmpNo(i);
+					li.referIn(rf);
+
+				}
+			}
+		};
+		
 		return "redirect:aprvReq";
 	}
 
+	
 }

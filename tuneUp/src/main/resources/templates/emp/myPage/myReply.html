@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>나의 댓글</title>
+<script src="/js/jquery-3.6.1.min.js"></script>
+
+</head>
+<body>
+	<main id="main" class="main" layout:fragment="content">
+		<script>
+			$(document).ready(function() {
+
+				/* $(".replyBtn").on("click", e=>{
+					let postNo = $(e.target).data("no");
+					$.ajax({
+						url:'postView',
+						beforeSend:function(xhr){
+					 		xhr.setRequestHeader(header,token);  
+					    },
+					    type:"post",
+					    data:{'postNo':postNo},
+					    dataType:'json',
+					    success:function(obj){ 
+					    	
+					    	if(obj.length != 0){
+					    		 $("#vttl").html(obj.ttl);
+									$("#tnv").html(obj.cntn);
+									$("#viewModal").modal('show');
+							        }
+					    	}
+					       
+					    }) 
+					})
+				 */
+
+			});
+		</script>
+		<section class="section profile">
+
+
+			<div class="card">
+				<div class="card-body">
+					<!-- Page Title -->
+					<br>
+					<div class="pagetitle">
+						<h1>내 프로필</h1>
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item ">개인정보</li>
+								<li class="breadcrumb-item">사원관리</li>
+								<li class="breadcrumb-item active">나의댓글</li>
+							</ol>
+						</nav>
+					</div>
+					<!-- End Page Title -->
+					<hr>
+					<div class="list-group">
+
+						<button type="button"
+							class="list-group-item list-group-item-action replyBtn"
+							th:each="r : ${reply}" th:text="|[${r.replyCat}]: ${r.cntn}|"
+							th:data-no="${r.postNo}"></button>
+					</div>
+
+
+				</div>
+			</div>
+		</section>
+		<!--View Modal -->
+		<div class="modal fade" id="viewModal" tabindex="-1"
+			data-bs-backdrop="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header" id="vttl">
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="vCntn">
+						<div id="tnv" class=".txtA"></div>
+					</div>
+					<div class="modal-footer" id="viewFoot">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- View Modal-->
+
+	</main>
+
+</body>
+</html>

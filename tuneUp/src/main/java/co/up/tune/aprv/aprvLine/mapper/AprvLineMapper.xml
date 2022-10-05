@@ -3,56 +3,23 @@
 <mapper namespace="co.up.tune.aprv.aprvLine.mapper.AprvLineMapper">
 
 <select id="approvalList" parameterType="co.up.tune.aprv.vo.ApprovalVO" resultType="co.up.tune.aprv.vo.ApprovalVO">
-	SELECT *
-	FROM APPROVAL
-	WHERE APRV_NO = #{aprvNo}
-	ORDER APRV_SEQ ASC
+	SELECT A.APRVR, A.APRV_NO, A.APRV_DTTM, 
+			A.APRV_ST, A.REJECT, A.APRV_SEQ, E.SIGN, E.NM
+	FROM APPROVAL A, EMP E
+	WHERE A.APRVR = E.EMP_NO
+			AND A.APRV_NO = #{aprvNo}
+	ORDER BY A.APRV_SEQ ASC;
 </select>
 
 
 <insert id="approvalIn" parameterType="co.up.tune.aprv.vo.ApprovalVO">
 	INSERT INTO APPROVAL
-		(APRV_NO, APRVR, APRV_SEQ, APRV_ST)
+		(APRV_NO, APRVR, APRV_SEQ, NM, APRV_ST)
 	VALUES
-		(#{aprvNo}, #{aprvr}, #{aprvSeq},
-	<if test="aprvSeq == 1 ">'진행'</if>
-	<if test="aprvSeq != 1 " >'대기'</if>)
+		(#{aprvNo}, #{aprvr}, #{aprvSeq}, #{nm},
+		<if test="aprvSeq == 1 ">'진행'</if>
+		<if test="aprvSeq != 1 " >'대기'</if> )
 </insert>
-
-
-<update id="approvalUp" parameterType="co.up.tune.aprv.vo.ApprovalVO">
-	UPDATE APPROVAL
-	<set>
-	<if test="aprvr != null and aprvr != '' " >
-	APRVR = #{aprvr},
-	</if>
-	<if test="aprvDttm != null and aprvDttm != ''">
-	APRV_DTTM = #{aprvDttm},
-	</if>
-	<if test="sign != null and sign != ''">
-	SIGN = #{sign},
-	</if>
-	<if test="aprvSt != null and aprvSt != ''">
-	APRV_ST = #{aprvSt},
-	</if>
-	<if test="aprvSeq != null and aprvSeq != ''">
-	APRV_SEQ = #{aprvSeq},
-	</if>
-	<if test="reject != null and reject != ''">
-	REJECT = #{reject}
-	</if>
-	</set>
-	WHERE APRV_NO = #{aprvNo}
-			AND APRVR = #{APRVR}
-</update>
-
-
-<delete id="approvalDel" parameterType="co.up.tune.aprv.vo.ApprovalVO">
-	DELETE FROM APPROVAL
-	WHERE APRV_NO = #{aprvNo}
-</delete>
-
-
 
 <select id="referList" parameterType="co.up.tune.aprv.vo.ReferVO" resultType="co.up.tune.aprv.vo.ReferVO">
 	SELECT *
@@ -70,24 +37,10 @@
 			FROM REFER
 		</selectKey>
 	INSERT INTO REFER
-		(REFER_NO, APRV_NO, EMP_NO)
+		(REFER_NO, APRV_NO, EMP_NO, NM)
 	VALUES
-		(#{referNo}, #{aprvNo}, #{empNo})
+		(#{referNo}, #{aprvNo}, #{empNo}, #{nm})
 </insert>
-
-<update id="referUp" parameterType="co.up.tune.aprv.vo.ReferVO">
-	UPDATE REFER
-	<set>
-		<if test="empNo != null and empNo != ''">
-		EMP_NO = #{empNo},
-		</if>
-		<if test="referNo != null and referNo != ''">
-		REFER_NO = #{referNo},
-		</if>
-	</set>
-	WHERE APRV_NO = #{aprvNo}
-		AND REFER_NO = #{referNo}
-</update>
 
 <delete id="referDel" parameterType="co.up.tune.aprv.vo.ReferVO">
 	DELETE FROM REFER
@@ -105,9 +58,9 @@
 	WHERE DEPT = #{dept}
 	</if>
 	<if test="empNo != null and empNo !=''">
-	OR EMP_NO = #{empNo}
+	WHERE EMP_NO = #{empNo}
 	</if> 
-	ORDER BY LINE_NO ASC
+	ORDER BY LINE_NO DESC
 </select>
 
 <insert id="aprvLineIn" parameterType="co.up.tune.aprv.vo.AprvLineVO">
@@ -124,27 +77,6 @@
 				(#{lineNo}, #{dept}, #{empNo}, #{ap1}, #{ap2}, #{ap3}, #{nm1}, #{nm2}, #{nm3})
 </insert>
 
-<update id="aprvLineUp" parameterType="co.up.tune.aprv.vo.AprvLineVO">
-	UPDATE APRV_LINE
-		<set>
-		<if test=" empNo != null and empNo != ''">
-		EMP_NO = #{empNo},
-		</if>
-		<if test="dept != null and dept != ''">
-		DEPT = #{dept}
-		</if>
-		<if test="ap1 != null and ap1 != ''">
-		AP1 = #{ap1},
-		</if>
-		<if test="ap2 != null and ap2 != ''">
-		AP2 = #{ap2},
-		</if>
-		<if test="ap3 != null and ap3 != ''">
-		AP3 = #{ap3},
-		</if>
-		</set>
-	WHERE LINE_NO = #{lineNo}
-</update>
 
 <delete id="aprvLineDel" parameterType="co.up.tune.aprv.vo.AprvLineVO">
 	DELETE FROM APRV_LINE

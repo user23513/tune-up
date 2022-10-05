@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <title>알람 목록</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
@@ -33,36 +34,47 @@
 	});
 	
 	function freeTitle() {
+		console.log($(e.target))
 		let postNo = $("#freeTitle").data("no");
+		console.log(postNo)
 		$("#postNo").val(postNo);
-		$("#bellFrm").submit();
+		//$("#bellFrm").submit();
 	};
 </script>
 </head>
 <body>
 	<main layout:fragment="content">
-		<input type="hidden" id="empNo" th:value="${session.empNo}">
-		<div>
-			<div class="pagetitle">
-				<h1>내 알림</h1>
-				<nav>
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-						<li class="breadcrumb-item">내 알림</li>
-					</ol>
-				</nav>
-			</div>
-			<div id="bellList">
-				<div class="alert alert-primary alert-dismissible fade show" role="alert" 
-							style="height: 100px" th:each="bell:${bellList}">
-				  <!-- 알림에서 게시글 제목 클릭시 해당 게시글로 이동 -->
-				  <form id="bellFrm" method="post" action="freeSelect">
-				    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-				    <input type="hidden" id="postNo" name="postNo" value="">
-				  	<strong th:utext="${bell.cntn}"></strong>
-				  </form>
-				  <button id="bellDelBtn" type="button" class="btn-close"></button>
-				  <input type="hidden" id="bellNo" name="bellNo" th:value="${bell.bellNo}">
+
+		<div class="card">
+			<div class="card-body" style="min-height: 600px;">
+				<input type="hidden" id="empNo" th:value="${session.empNo}">
+				<div>
+					<br>
+					<div class="pagetitle">
+						<h1>내 알림</h1>
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+								<li class="breadcrumb-item active">내 알림</li>
+							</ol>
+						</nav>
+					</div>
+					<hr>
+					<div id="bellList">
+						<div class="alert alert-primary alert-dismissible fade show"
+							role="alert" style="height: 100px" th:each="bell:${bellList}">
+							<!-- 알림에서 게시글 제목 클릭시 해당 게시글로 이동 -->
+							<form id="bellFrm" method="post" action="freeSelect">
+								<input type="hidden" th:name="${_csrf.parameterName}"
+									th:value="${_csrf.token}"> <input type="hidden"
+									id="postNo" name="postNo" value=""> <strong
+									th:utext="${bell.cntn}"></strong>
+							</form>
+							<button id="bellDelBtn" type="button" class="btn-close"></button>
+							<input type="hidden" id="bellNo" name="bellNo"
+								th:value="${bell.bellNo}">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

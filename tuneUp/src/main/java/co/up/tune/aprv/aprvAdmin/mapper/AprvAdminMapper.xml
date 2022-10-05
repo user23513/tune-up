@@ -6,10 +6,12 @@
 	<select id="aprvListAll" resultType="co.up.tune.aprv.vo.AprvVO">
 		SELECT APRV_NO, EMP_NO, TTL,
 				DTTM, REQ_ST,
-				DEADLINE, IMPTS
+				DEADLINE, IMPTS, NM
 		FROM APRV
-		<if test="reqSt != null and reqSt != '' and reqSt != '전체' ">WHERE REQ_ST=#{reqSt}</if>
-		ORDER BY DEADLINE ASC, APRV_NO DESC
+		<if test="reqSt != null and reqSt != '' and reqSt != '전체' ">
+		WHERE REQ_ST=#{reqSt}
+		</if>
+		ORDER BY APRV_NO DESC
 	</select>
 
 	<select id="aprvSelect"
@@ -25,13 +27,22 @@
 		DELETE FROM APRV
 		WHERE APRV_NO = #{aprvNo}
 	</delete>
-
+	<delete id="approvalAdminDel"
+		parameterType="co.up.tune.aprv.vo.AprvVO">
+		DELETE FROM APPROVAL
+		WHERE APRV_NO = #{aprvNo}
+	</delete>
+	
 	<select id="aprvFormAll" resultType="co.up.tune.aprv.vo.FormVO">
 		SELECT FORM_NO, TTL,
-		FORM_CAT, EMP_NO, FORM_AUTH
+		FORM_CAT, EMP_NO, FORM_AUTH, NM
 		FROM FORM
-		<if test="formCat != null and formCat != '' and formCat != '전체' and formCat != '개인'">WHERE FORM_CAT=#{formCat}</if>
-		<if test="formCat == '개인'">WHERE FORM_AUTH= '개인'</if>
+		<if test="formCat != null and formCat != '' and formCat != '전체' and formCat != '개인'">
+		WHERE FORM_CAT=#{formCat}
+		</if>
+		<if test="formCat == '개인'">
+		WHERE FORM_AUTH= '개인'
+		</if>
 		ORDER BY
 		FORM_NO DESC
 	</select>
@@ -53,7 +64,16 @@
 	<update id="aprvAdReject" parameterType="co.up.tune.aprv.vo.ApprovalVO">
 		UPDATE APPROVAL
 		<set>
-		APRV_ST = '반려'
+		APRV_ST = '반려',
+		REJECT = #{reject}
+		</set>
+		WHERE APRV_NO = #{aprvNo}
+	</update>
+	
+	<update id="reqAdReject" parameterType="co.up.tune.aprv.vo.ApprovalVO">
+		UPDATE APRV
+		<set>
+		REQ_ST = '반려'
 		</set>
 		WHERE APRV_NO = #{aprvNo}
 	</update>

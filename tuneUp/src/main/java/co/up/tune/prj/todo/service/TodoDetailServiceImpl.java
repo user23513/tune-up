@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.up.tune.prj.vo.DemoTodoVO;
+import co.up.tune.prj.todo.mapper.TodoDetailMapper;
 import co.up.tune.prj.vo.TodoDetailVO;
 
 @Service
 public class TodoDetailServiceImpl implements TodoDetailService{
 	@Autowired
-	TodoDetailService map;
+	TodoDetailMapper map;
 	
 	@Override
-	public List<TodoDetailVO> detailList() {
-		return map.detailList();
+	public List<TodoDetailVO> detailList(int postNo) {
+		return map.detailList(postNo);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class TodoDetailServiceImpl implements TodoDetailService{
 	}
 
 	@Override
-	public int cmpltYnUpdate(TodoDetailVO vo) {
+	public String cmpltYnUpdate(TodoDetailVO vo) {
 		return map.cmpltYnUpdate(vo);
 	}
 

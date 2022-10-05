@@ -26,7 +26,6 @@ public class CalendarAjaxController {
 	@PostMapping("/calendarInsert")
 	public CalendarVO calendarInsert(CalendarVO vo) {
 		dao.CalendarInsert(vo);
-		vo.setCalTyp("302");
 		
 		return vo;
 	}

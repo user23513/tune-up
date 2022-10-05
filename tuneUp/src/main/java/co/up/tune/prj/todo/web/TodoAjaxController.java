@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.up.tune.prj.todo.service.DemoTodoService;
 import co.up.tune.prj.todo.service.TodoDetailService;
 import co.up.tune.prj.todo.service.TodoService;
-import co.up.tune.prj.todo.service.TodoServiceImpl;
 import co.up.tune.prj.vo.DemoTodoVO;
-import co.up.tune.prj.vo.TodoDetailVO;
-import co.up.tune.prj.vo.TodoVO;
 
 @RestController
 public class TodoAjaxController {
@@ -26,11 +23,6 @@ public class TodoAjaxController {
 	@PostMapping("/demoInsert")
 	public DemoTodoVO demoInsert(DemoTodoVO vo) {
 		dao.demoInsert(vo);
-		String cntn = vo.getCntn();
-		System.out.println(cntn);
-		int no = vo.getNo();
-		System.out.println(no);
-		String empNo = vo.getEmpNo();
 		return vo;
 	}
 	
@@ -47,19 +39,4 @@ public class TodoAjaxController {
 		System.out.println("삭제완" + r);
 		return r;
 	}
-	
-	@PostMapping("/todoInsert")
-	public TodoVO todoInsert(TodoVO vo) {
-		tdao.todoInsert(vo);
-		return vo;
-	}
-	
-	@PostMapping("/detailInsert")
-	public TodoDetailVO detailInsert(TodoDetailVO vo) {
-		ddao.detailInsert(vo);
-		String cntn = vo.getCntn();
-		System.out.println(cntn);
-		return vo;
-	}
-	
 }

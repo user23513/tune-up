@@ -7,112 +7,110 @@
 	<select id="approvalList" resultType="co.up.tune.aprv.vo.AprvVO">
 		<if test="aprvSt == '전체' ">
 			SELECT '진행' APRV_ST, APRV_NO, EMP_NO, TTL, DTTM,
-						REQ_ST, DEADLINE, IMPTS
+						REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO =(SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 							FROM APPROVAL
 							WHERE APRVR = #{aprvr}
 							AND APRV_ST = '진행')
-			UNION ALL
+			UNION 
 			SELECT '위임', APRV_NO, EMP_NO, TTL, DTTM,
-							REQ_ST, DEADLINE, IMPTS
+							REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO = (SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 								FROM APPROVAL
-								WHERE APRVR = (SELECT EMP_NO
+								WHERE APRVR IN (SELECT EMP_NO
 												FROM TRUST
 												WHERE RPTT = #{aprvr}
 												AND SYSDATE BETWEEN SDT AND EDT)
 												AND APRV_ST = '진행')
-			UNION ALL
+			UNION
 			SELECT '참조', APRV_NO, EMP_NO, TTL, DTTM,
-							REQ_ST, DEADLINE, IMPTS
+							REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO = (SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 							FROM REFER
 							WHERE EMP_NO = #{aprvr})
-			UNION ALL
+			UNION
 			SELECT '반려', APRV_NO, EMP_NO, TTL, DTTM,
-							REQ_ST, DEADLINE, IMPTS
+							REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO = (SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 								FROM APPROVAL
 								WHERE APRVR = #{aprvr}
 							AND APRV_ST = '반려')
-			UNION ALL
+			UNION
 			SELECT '완료', APRV_NO, EMP_NO, TTL, DTTM,
-							REQ_ST, DEADLINE, IMPTS
+							REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO = (SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 							FROM APPROVAL
 							WHERE APRVR = #{aprvr}
 							AND APRV_ST = '완료')
-			ORDER BY DEADLINE ASC, APRV_NO DESC
+			ORDER BY APRV_NO DESC
 		</if>
 
 		<if test="aprvSt == '진행' ">
 			SELECT '진행' APRV_ST, APRV_NO, EMP_NO, TTL, DTTM,
-						REQ_ST, DEADLINE, IMPTS
+						REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO = (SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 							FROM APPROVAL
 							WHERE APRVR = #{aprvr}
 							AND APRV_ST = '진행')
-			ORDER BY DEADLINE ASC, APRV_NO DESC
+			ORDER BY APRV_NO DESC
 		</if>
 
 		<if test="aprvSt == '위임' ">
 			SELECT '위임' APRV_ST, APRV_NO, EMP_NO, TTL, DTTM,
-						REQ_ST, DEADLINE, IMPTS
+						REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO = (SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 							FROM APPROVAL
-							WHERE APRVR = (SELECT EMP_NO
+							WHERE APRVR IN (SELECT EMP_NO
 											FROM TRUST
 											WHERE RPTT = #{aprvr}
 											AND SYSDATE BETWEEN SDT AND EDT)
 							AND APRV_ST ='진행')
-			ORDER BY DEADLINE ASC, APRV_NO DESC
+			ORDER BY APRV_NO DESC
 		</if>
 
 		<if test="aprvSt == '참조' ">
 			SELECT '참조' APRV_ST, APRV_NO, EMP_NO, TTL, DTTM,
-						REQ_ST, DEADLINE, IMPTS
+						REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO = (SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 			FROM REFER
 			WHERE EMP_NO = #{aprvr})
-			ORDER BY DEADLINE ASC, APRV_NO DESC
+			ORDER BY APRV_NO DESC
 		</if>
 
 		<if test="aprvSt == '반려' ">
 			SELECT '반려' APRV_ST, APRV_NO, EMP_NO, TTL, DTTM,
-						REQ_ST, DEADLINE, IMPTS
+						REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO = (SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 							FROM APPROVAL
 							WHERE APRVR = #{aprvr}
 							AND APRV_ST = '반려')
-			ORDER BY DEADLINE ASC, APRV_NO DESC
+			ORDER BY APRV_NO DESC
 		</if>
 
 		<if test="aprvSt == '완료' ">
 			SELECT '완료' APRV_ST, APRV_NO, EMP_NO, TTL, DTTM,
-						REQ_ST, DEADLINE, IMPTS
+						REQ_ST, DEADLINE, IMPTS, NM
 			FROM APRV
-			WHERE APRV_NO =(SELECT APRV_NO
+			WHERE APRV_NO IN (SELECT APRV_NO
 							FROM APPROVAL
 							WHERE APRVR = #{aprvr}
 							AND APRV_ST = '완료')
-			ORDER BY DEADLINE ASC, APRV_NO DESC
+			ORDER BY APRV_NO DESC
 		</if>
 
 	</select>
 
-	<select id="apprvalSelect"
-		resultType="co.up.tune.aprv.vo.AprvVO">
-		SELECT EMP_NO, TTL, DTTM, CNTN,
-				REQ_ST, DEADLINE, IMPTS
+	<select id="approvalSelect" parameterType ="co.up.tune.aprv.vo.AprvVO" resultType="co.up.tune.aprv.vo.AprvVO">
+		SELECT *
 		FROM APRV
 		WHERE APRV_NO = #{aprvNo}
 	</select>
@@ -122,7 +120,7 @@
 		parameterType="co.up.tune.aprv.vo.ApprovalVO">
 		UPDATE APPROVAL
 		<set>
-			APRV_DTTM = SYSDATE,
+			APRV_DTTM = SYSTIMESTAMP,
 			<if test="sign != null and sign != '' ">
 				SIGN=#{sign},
 				APRV_ST = '완료',
@@ -133,18 +131,14 @@
 			</if>
 		</set>
 		WHERE APRV_NO = #{aprvNo}
-				AND APRVR = (SELECT EMP_NO
-							FROM TRUST
-							WHERE RPTT = #{aprvr})
-							OR #{aprvr}
+				AND APRV_ST = '진행'
 	</update>
 
 	<update id="aprvNext"
 		parameterType="co.up.tune.aprv.vo.ApprovalVO">
 		DECLARE
 			V_APRV_NO APRV.APRV_NO%TYPE := #{aprvNo};
-			V_APRV_SEQ APPROVAL.APRV_SEQ%TYPE := #{aprvSeq};
-			V_REQ_ST APRV.REQ_ST%TYPE;
+			V_APRV_SEQ APPROVAL.APRV_SEQ%TYPE;
 			V_APRV_ST APPROVAL.APRV_ST%TYPE;
 			V_CNT APPROVAL.APRV_NO%TYPE;
 
@@ -154,13 +148,14 @@
 			FROM APPROVAL
 			WHERE APRV_NO = V_APRV_NO;
 
-			SELECT A.REQ_ST, P.APRV_ST
-			INTO V_REQ_ST, V_APRV_ST
-			FROM APPROVAL P,
-			APRV A
-			WHERE P.APRV_NO = V_APRV_NO
-				AND A.APRV_NO = P.APRV_NO
-				AND P.APRV_SEQ = V_APRV_SEQ;
+			SELECT APRV_ST, APRV_SEQ
+			INTO V_APRV_ST, V_APRV_SEQ
+			FROM APPROVAL
+			WHERE APRV_NO = V_APRV_NO
+					AND APRVR =  (SELECT EMP_NO
+									FROM TRUST
+									WHERE RPTT = #{aprvr})
+					OR APRVR = #{aprvr}
 
 
 		IF V_CNT = V_APRV_SEQ AND V_APRV_ST = '완료' THEN
@@ -223,31 +218,30 @@
 			FROM TRUST
 		</selectKey>
 		INSERT INTO TRUST
-			(TRUST_NO, EMP_NO, RPTT, SDT, EDT)
+			(TRUST_NO, EMP_NO, RPTT, SDT, EDT, NM, RPTT_NM)
 		VALUES
-			(#{trustNo}, #{empNo}, #{rptt}, #{sdt}, #{edt} )
+			(#{trustNo}, #{empNo}, #{rptt}, #{sdt}, #{edt}, #{nm}, #{rpttNm} )
 	</insert>
-
-	<update id="trustUp" parameterType="co.up.tune.aprv.vo.TrustVO">
-		UPDATE TRUST
-		<set>
-			<if test="rptt != null and rptt != ''">
-			RPTT = #{rptt},
-			</if>
-			<if test="sdt != null and sdt != ''">
-			SDT = #{sdt},
-			</if>
-			<if test="edt != null and edt != ''">
-			EDT = #{edt}
-			</if>
-		</set>
-		WHERE TRUST_NO = #{trustNo}
-	</update>
 
 	<delete id="trustDel" parameterType="co.up.tune.aprv.vo.TrustVO">
 		DELETE FROM TRUST
 		WHERE
 		TRUST_NO = #{trustNo}
 	</delete>
+	
+	<update id="signUp" parameterType="co.up.tune.emp.vo.EmpVO">
+		UPDATE EMP
+		<set>
+		SIGN = #{sign}
+		</set>
+		WHERE EMP_NO = #{empNo}
+	</update>
+	
+	<select id="signSel" parameterType="co.up.tune.emp.vo.EmpVO" resultType="co.up.tune.emp.vo.EmpVO">
+		SELECT SIGN, NM, POSITION
+		FROM EMP
+		WHERE EMP_NO = #{empNo}
+	</select>
+	
 
 </mapper>

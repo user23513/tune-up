@@ -2,7 +2,6 @@ package co.up.tune.aprv.aprvAdmin.web;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import co.up.tune.aprv.approval.service.ApprovalService;
 import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
@@ -32,6 +30,7 @@ public class AprvAdminController {
 	@Autowired
 	ApprovalService ap;
 
+	//관리자페이지
 	@GetMapping("/aprvAdmin")
 	public String aprvAdmin(Model model, HttpServletRequest request,
 			@RequestParam(required = false, defaultValue = "전체") String reqSt,
@@ -48,14 +47,14 @@ public class AprvAdminController {
 			//서식
 			List<FormVO> form = as.aprvFormAll(formCat);
 			model.addAttribute("form", form);
-			//결재선
+			//결재선 (empNo 있으면 전체 조회 안됨)
 			AprvLineVO nu = new AprvLineVO();
 			model.addAttribute("line", li.aprvLineList(nu));
+			//부서 목록
 			model.addAttribute("dept", li.aprvDeptSearch());
-			//위임
+			//위임자 (empNo 있으면 전체 조회 안됨)
 			TrustVO vo = new TrustVO();
 			model.addAttribute("trust", ap.trustList(vo));
-
 			// 공통코드
 			model.addAttribute("st", cd.commonList("신청상태"));
 			model.addAttribute("cat", cd.commonList("서식종류"));

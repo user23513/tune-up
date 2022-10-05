@@ -163,6 +163,7 @@ $(document).ready(function() {
 							<form action="teamList">
 								<!-- 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
 								<input type="hidden" name="prjNo" th:value="${prjNo}">
+								<input type="hidden" name="auth" th:value="${auth}">
 								<button type="submit" class="btn btn-outline-primary">관리</button>
 							</form>
 						</div>

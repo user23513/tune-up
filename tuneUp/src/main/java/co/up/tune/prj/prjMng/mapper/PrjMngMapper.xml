@@ -62,14 +62,6 @@
 		AUTH ='팀원' 
 		WHERE PRJ_NO = #{prjNo}
 		AND EMP_NO = #{empNo}
-
- 
-		
-	<!-- 	UPDATE TEAM
-		SET AUTH = '팀원'
-		WHERE PRJ_NO = #{prjNo}
-		AND EMP_NO = #{empNo} -->
-		
 		
 	</update>
 	

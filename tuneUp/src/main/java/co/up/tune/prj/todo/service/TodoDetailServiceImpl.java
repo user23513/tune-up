@@ -14,8 +14,8 @@ public class TodoDetailServiceImpl implements TodoDetailService{
 	TodoDetailMapper map;
 	
 	@Override
-	public List<TodoDetailVO> detailList(int postNo) {
-		return map.detailList(postNo);
+	public List<TodoDetailVO> detailList() {
+		return map.detailList();
 	}
 
 	@Override

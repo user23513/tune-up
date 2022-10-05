@@ -128,6 +128,7 @@ public class PropostController {
 		//file upload 처리
 		FilesVO fvo = new FilesVO();
 		List<FilesVO> list = new ArrayList<>();
+
 		if(files.length != 0 && files[0] != null && files[0].getSize() > 0) {
 
 			String folder = "prj"; //Temp안에 폴더명

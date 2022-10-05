@@ -14,4 +14,6 @@ public class TeamVO {
 	 String auth;	//권한
 	 String nm;	//이름
 	 String dept;	//부서
+	 
+	 String position; //직급
 }

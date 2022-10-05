@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 
 import co.up.tune.com.notice.service.NoticeService;
 import co.up.tune.com.vo.CommunityVO;
+import co.up.tune.com.vo.SearchVO;
 import co.up.tune.file.service.FileService;
 import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
@@ -38,9 +40,10 @@ public class NoitceController {
 	
 	//공지사항 리스트
 	@GetMapping("/noticeList")
-	public String noticeList(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, Model model) {
-		PageInfo<CommunityVO> p = new PageInfo<>(dao.noticeList(pageNum),10);
+	public String noticeList(@ModelAttribute SearchVO search ,@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, Model model) {
+		PageInfo<CommunityVO> p = new PageInfo<>(dao.noticeList(pageNum, search),10);
 		model.addAttribute("nList", p);
+		model.addAttribute("search", search);
 		return "com/notice/noticeList";
 	}
 	

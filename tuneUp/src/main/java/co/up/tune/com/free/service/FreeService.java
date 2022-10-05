@@ -6,11 +6,12 @@ import com.github.pagehelper.Page;
 
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.com.vo.SearchVO;
 
 public interface FreeService {
 	
 	//게시글
-	Page<CommunityVO> freeList(int pageNo); //자유게시판 전체조회
+	Page<CommunityVO> freeList(int pageNo, SearchVO search); //자유게시판 전체조회
 	CommunityVO freeSelect(CommunityVO vo); //자유게시판 상세조회
 	int freeInsert(CommunityVO vo); //자유게시판 입력
 	int freeUpdate(CommunityVO vo); //자유게시판 수정

@@ -8,11 +8,12 @@ import com.github.pagehelper.Page;
 
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.com.vo.SearchVO;
 
 public interface FreeMapper {
 	
 	//게시글
-	Page<CommunityVO> freeList(); //자유게시판 전체조회
+	Page<CommunityVO> freeList(SearchVO search); //자유게시판 전체조회
 	CommunityVO freeSelect(CommunityVO vo); //자유게시판 상세조회
 	int freeInsert(CommunityVO vo); //자유게시판 입력
 	int freeUpdate(CommunityVO vo); //자유게시판 수정

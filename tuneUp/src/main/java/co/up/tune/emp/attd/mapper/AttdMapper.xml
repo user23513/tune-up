@@ -102,7 +102,7 @@
 		AND ATDC_DT = (TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD'))
 	</select>
 	
-	<select id="wktmChart" parameterType="co.up.tune.emp.vo.AttdVO">
+	<select id="wktmChart" parameterType="co.up.tune.emp.vo.AttdVO" resultType="co.up.tune.emp.vo.AttdVO">
 	SELECT WKTM,OVTM 
 	FROM ATTD 
 	WHERE EMP_NO=#{empNo} 

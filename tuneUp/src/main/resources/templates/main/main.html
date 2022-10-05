@@ -146,6 +146,11 @@ body {
 	<script src='/fullcalendar-5.11.3/lib/main.js'></script>
 	<script>
 	let schedules = []; //schedules가 db에 있는 모든 리스트
+	
+	let msg = "[[${msg}]]";
+	if (msg != '') {
+		alert(msg);
+	}
 	$(document).ready(function(){
 		//확인 버튼 클릭 이벤트
 		 $("#attdBtn").on("click", e=>{

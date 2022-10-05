@@ -2,9 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.aprv.aprvLine.mapper.AprvLineMapper">
 
-<select id="approvalList" parameterType="co.up.tune.aprv.vo.ApprovalVO" resultType="co.up.tune.aprv.vo.ApprovalVO">
-	SELECT A.APRVR, A.APRV_NO, A.APRV_DTTM, 
-			A.APRV_ST, A.REJECT, A.APRV_SEQ, E.SIGN, E.NM
+<select id="approvalList" 
+	parameterType="co.up.tune.aprv.vo.ApprovalVO" 
+	resultType="co.up.tune.aprv.vo.ApprovalVO">
+	SELECT 
+			A.APRVR, 
+			A.APRV_NO, 
+			A.APRV_DTTM, 
+			A.APRV_ST, 
+			A.REJECT, 
+			A.APRV_SEQ, 
+			E.SIGN, 
+			E.NM
 	FROM APPROVAL A, EMP E
 	WHERE A.APRVR = E.EMP_NO
 			AND A.APRV_NO = #{aprvNo}
@@ -12,37 +21,56 @@
 </select>
 
 
-<insert id="approvalIn" parameterType="co.up.tune.aprv.vo.ApprovalVO">
+<insert id="approvalIn" 
+	parameterType="co.up.tune.aprv.vo.ApprovalVO">
 	INSERT INTO APPROVAL
-		(APRV_NO, APRVR, APRV_SEQ, NM, APRV_ST)
+						(APRV_NO, 
+						APRVR, 
+						APRV_SEQ, 
+						NM, 
+						APRV_ST)
 	VALUES
-		(#{aprvNo}, #{aprvr}, #{aprvSeq}, #{nm},
-		<if test="aprvSeq == 1 ">'진행'</if>
-		<if test="aprvSeq != 1 " >'대기'</if> )
+			(#{aprvNo}, 
+			#{aprvr}, 
+			#{aprvSeq}, 
+			#{nm},
+	<if test="aprvSeq == 1 ">
+			'진행'
+	</if>
+	<if test="aprvSeq != 1 " >
+			'대기'
+	</if> )
 </insert>
 
-<select id="referList" parameterType="co.up.tune.aprv.vo.ReferVO" resultType="co.up.tune.aprv.vo.ReferVO">
+<select id="referList" 
+	parameterType="co.up.tune.aprv.vo.ReferVO" 
+	resultType="co.up.tune.aprv.vo.ReferVO">
 	SELECT *
 	FROM REFER
 	WHERE APRV_NO = #{aprvNo}
 	ORDER BY REFER_NO DESC 
 </select>
 
-<insert id="referIn" parameterType="co.up.tune.aprv.vo.ReferVO">
+<insert id="referIn" 
+	parameterType="co.up.tune.aprv.vo.ReferVO">
 	<selectKey keyProperty="referNo" order="BEFORE" resultType="int">
-			SELECT
-			CASE WHEN MAX(REFER_NO) IS NULL THEN 1
-			ELSE
-			MAX(REFER_NO) + 1 END AS NO
+			SELECT NVL(MAX(REFER_NO),0)+1 
 			FROM REFER
 		</selectKey>
 	INSERT INTO REFER
-		(REFER_NO, APRV_NO, EMP_NO, NM)
+					(REFER_NO, 
+					APRV_NO, 
+					EMP_NO, 
+					NM)
 	VALUES
-		(#{referNo}, #{aprvNo}, #{empNo}, #{nm})
+			(#{referNo}, 
+			#{aprvNo}, 
+			#{empNo}, 
+			#{nm})
 </insert>
 
-<delete id="referDel" parameterType="co.up.tune.aprv.vo.ReferVO">
+<delete id="referDel" 
+	parameterType="co.up.tune.aprv.vo.ReferVO">
 	DELETE FROM REFER
 	WHERE APRV_NO = #{aprvNo}
 	<if test="empNo != null and empNo != ''">
@@ -51,7 +79,9 @@
 </delete>
 
 
-<select id="aprvLineList" parameterType="co.up.tune.aprv.vo.AprvLineVO" resultType="co.up.tune.aprv.vo.AprvLineVO">
+<select id="aprvLineList" 
+	parameterType="co.up.tune.aprv.vo.AprvLineVO" 
+	resultType="co.up.tune.aprv.vo.AprvLineVO">
 	SELECT *
 	FROM APRV_LINE
 	<if test="dept != null and dept != '' and dept != '전체'">
@@ -63,34 +93,56 @@
 	ORDER BY LINE_NO DESC
 </select>
 
-<insert id="aprvLineIn" parameterType="co.up.tune.aprv.vo.AprvLineVO">
+<insert id="aprvLineIn" 
+	parameterType="co.up.tune.aprv.vo.AprvLineVO">
 	<selectKey keyProperty="lineNo" order="BEFORE" resultType="int">
-			SELECT
-			CASE WHEN MAX(LINE_NO) IS NULL THEN 1
-			ELSE
-			MAX(LINE_NO) + 1 END AS NO
+			SELECT NVL(MAX(LINE_NO),0)+1 
 			FROM APRV_LINE
 		</selectKey>
 		INSERT INTO APRV_LINE
-				(LINE_NO, DEPT, EMP_NO, AP1, AP2, AP3, NM1, NM2, NM3)
+								(LINE_NO, 
+								DEPT, 
+								EMP_NO, 
+								AP1, 
+								AP2, 
+								AP3, 
+								NM1, 
+								NM2, 
+								NM3)
 		VALUES
-				(#{lineNo}, #{dept}, #{empNo}, #{ap1}, #{ap2}, #{ap3}, #{nm1}, #{nm2}, #{nm3})
+				(#{lineNo}, 
+				#{dept}, 
+				#{empNo}, 
+				#{ap1}, 
+				#{ap2}, 
+				#{ap3}, 
+				#{nm1}, 
+				#{nm2}, 
+				#{nm3})
 </insert>
 
 
-<delete id="aprvLineDel" parameterType="co.up.tune.aprv.vo.AprvLineVO">
+<delete id="aprvLineDel" 
+	parameterType="co.up.tune.aprv.vo.AprvLineVO">
 	DELETE FROM APRV_LINE
 	WHERE LINE_NO = #{lineNo}
 </delete>
 
-<select id="aprvEmpSearch" parameterType="co.up.tune.emp.vo.EmpVO" resultType="co.up.tune.emp.vo.EmpVO">
-	SELECT EMP_NO, NM, DEPT, POSITION 
+<select id="aprvEmpSearch" 
+	parameterType="co.up.tune.emp.vo.EmpVO" 
+	resultType="co.up.tune.emp.vo.EmpVO">
+	SELECT 
+			EMP_NO, 
+			NM, 
+			DEPT, 
+			POSITION 
 	FROM EMP
 	WHERE DEPT = #{dept}
 	ORDER BY NM
 </select>
 
-<select id="aprvDeptSearch" resultType="co.up.tune.emp.vo.EmpVO">
+<select id="aprvDeptSearch" 
+	resultType="co.up.tune.emp.vo.EmpVO">
 	SELECT DISTINCT DEPT 
 	FROM EMP
 	WHERE DEPT IS NOT NULL

@@ -7,6 +7,13 @@ import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.TrustVO;
 import co.up.tune.emp.vo.EmpVO;
 
+/**
+* 결재자 승인 mapper
+* @author 윤정은
+* @date 2022.09.25
+* @version 1.0
+**/
+
 public interface ApprovalMapper {
 
 	// 문서 조회 (aprvr = empNo)

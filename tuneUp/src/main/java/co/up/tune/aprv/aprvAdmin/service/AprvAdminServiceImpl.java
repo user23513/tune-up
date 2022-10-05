@@ -3,6 +3,8 @@ package co.up.tune.aprv.aprvAdmin.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import co.up.tune.aprv.aprvAdmin.mapper.AprvAdminMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
@@ -25,6 +27,7 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	}
 
 	@Override
+	@Transactional
 	public int aprvAdminDel(AprvVO vo) {
 		int cnt = map.approvalAdminDel(vo);
 		cnt += map.aprvAdminDel(vo);
@@ -47,9 +50,10 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	}
 
 	@Override
+	@Transactional
 	public int aprvAdReject(ApprovalVO vo) {
-		int cnt = map.reqAdReject(vo);
-		cnt +=map.aprvAdReject(vo);
+		int cnt = map.aprvAdReject(vo);
+		cnt = map.reqAdReject(vo);
 		return cnt;
 	}
 

@@ -6,5 +6,6 @@ import co.up.tune.prj.vo.FilesVO;
 
 public interface PrjFilesService {
 	List<FilesVO> prjFileList(String empNo);
+	int fileDelete(FilesVO vo);
 
 }

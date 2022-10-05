@@ -516,7 +516,7 @@ function save(){
 										<div class="collapse" id="collapseExample"
 											style="padding-top: 30px;">
 											<div style="min-height: 200px;">
-												<ul id="browser" class="filetree treeview-famfamfam">
+												<ul id="browser" class="filetree treeview-gray">
 													<li id="depts"><span class="folder">Tune-Up</span>
 														<ul>
 															<li class="closed"><span class="folder">인사팀</span>
@@ -585,6 +585,7 @@ function save(){
 									<!-- End 카카오 지도 -->
 
 									<br>
+									<br>
 									<div class="col-sm-10">
 										<h4 style="padding-top: 10px; float: left;">
 											<i class="bi bi-layout-text-sidebar-reverse"></i>
@@ -649,8 +650,8 @@ function save(){
 				</div>
 			</div>
 		</div>
-		<script
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8979f5b92eaf5997a6ea3ade6a7e65f1&libraries=services"></script>
+		
+		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8979f5b92eaf5997a6ea3ade6a7e65f1&libraries=services"></script>
 		<script src="/js/jquery.cookie.js"></script>
 		<script src="/js/jquery.treeview.js"></script>
 		<script>
@@ -882,13 +883,6 @@ function save(){
 
 		<!-- 일정 -->
 		<script>
-			//부서별 사원이름 클릭시 추가되는 기능
-			/* $("#depts").on("click", ".name", e=>{
-				let empName = $(e.target).text(); //클릭한 사원의 이름
-				let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
-				$("#selectPerson").append("<div><span data-no='"+ empNo +"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
-			}) */
-			
 			//추가된 사원 삭제
 			$("#rr").on("click", ".bi-x", e=>{
 				let deleteNo = $(e.target).prev().data("no"); //삭제클릭한 사원의 사원번호

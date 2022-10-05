@@ -5,8 +5,7 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header"
-	th:content="${_csrf.headerName}" />
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
 
 <title>TuneUp - Home</title>
 <meta content="" name="description">
@@ -47,7 +46,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script> /*웹소켓 자바스크립트*/
-  //전역변수 선언 - 모든 홈페이지에서 사용 할 수 있게 index에 저장
+  //전역변수 선언
   var socket = null;
   var token = $("meta[name='_csrf']").attr("content");
   var header = $("meta[name='_csrf_header']").attr("content");
@@ -88,7 +87,7 @@
   		let rList = $("<div>").attr("id", "rList");
   		let bellCntn = wrtr+'님이 <a id="freeTitle" data-no='+postNo+' href="javascript:void(0);" onClick="freeTitle()">['+postTitle+']</a>게시글에 댓글을 남겼습니다.';
   			
-         //전송한 정보를 db에 저장
+        //전송한 정보를 db에 저장
   		//내가 등록한 댓글은 db에 저장되지 않고
   		//내 게시글에 댓글 달 경우는 나에게 알림이 가지 않도록
   		if(receiverNo != empNo) {

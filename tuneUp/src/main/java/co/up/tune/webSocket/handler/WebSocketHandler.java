@@ -59,14 +59,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
 							"님이 <a id=freeTitle data-no="+postNo+" href=javascript:void(0); onClick=freeTitle()>["+postTitle+"]</a>게시글에 댓글을 남겼습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				}
-			}else if(strs != null && strs.length == 2) {
+			}else if(strs != null && strs.length == 3) {
 				//모든 유저에게 보낸다 - 브로드 캐스팅
 				String cmd = strs[0];
 				String Noticetitle = strs[1];
+				String noticePostNo = strs[2];
 				//본인에게는 알림을 안보내기 위해서
-				sessions.remove(session);
 				for (WebSocketSession sess : sessions) {
-					sess.sendMessage(new TextMessage("게시글 관리자님이 <a type='external' href='/noticeList' class='link-danger'>"+Noticetitle+"</a>에 공지를 등록했습니다."));
+					if(session != sess) {
+						sess.sendMessage(new TextMessage("게시글 관리자님이 <a type='external' href='/noticeDetail?postNo="+noticePostNo+"' class='link-danger'>"+Noticetitle+"</a>에 공지를 등록했습니다."));
+					}
+					
 				}
 			}
 		}

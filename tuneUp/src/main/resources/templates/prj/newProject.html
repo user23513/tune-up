@@ -14,26 +14,38 @@
 .test_obj input[type="radio"] {
 	display: none;
 }
-
 .test_obj input[type="radio"]+span {
 	display: inline-block;
 	padding: 5px 15px;
-	border: 1px solid #3a86ff;
-	color: #3a86ff;
+	border: 1px solid #9c91cf;
+	color: #9c91cf;
 	background-color: #ffffff;
 	text-align: center;
 	cursor: pointer;
-	border: solid 1px #3a86ff;
 	border-radius: 20px;
 }
-
 .test_obj input[type="radio"]:checked+span {
-	background-color: #3a86ff;
+	background-color: #9c91cf;
 	color: #ffffff;
 }
-
 .size {
 	font-size: 22px;
+}
+input:focus, textarea:focus {
+	outline: 0px !important;
+	box-shadow: none !important;
+}
+input.none {
+	border: none !important;
+	display: inline-block;
+	border-bottom: 1px solid #d9d9d9 !important;
+}
+textarea.none {
+	resize: none;
+	border: none !important;
+}
+.text-white{
+	background-color: #756cad !important;
 }
 </style>
 <script>
@@ -45,11 +57,9 @@
 <body>
 	<main layout:fragment="content" id="main" class="main">
 		<section class="section">
-
 			<div class="card">
 				<div class="card-body">
 					<br>
-
 					<!-- Page Title -->
 					<div class="pagetitle">
 						<h1>프로젝트</h1>
@@ -69,7 +79,7 @@
 							th:value="${_csrf.token}">
 						<div class="row mb-3">
 							<div class="col-sm-10">
-								<input type="text" class="form-control" name="nm"
+								<input type="text" class="form-control none" name="nm"
 									placeholder="프로젝트 제목을 입력해주세요.">
 							</div>
 						</div>
@@ -92,10 +102,10 @@
 							<!-- 추가된 인원 보여주기 -->
 							<div id="hello"></div>
 							&nbsp;
-							<button class="btn btn-outline-secondary" type="button"
-								data-bs-toggle="collapse" data-bs-target="#collapseExample"
-								aria-expanded="false" aria-controls="collapseExample"
-								style="position: relative; top: 10px;">참석자 추가</button>
+							<button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" 
+									data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+									style="position: relative; top: 10px; left: -10px;">참석자 추가
+							</button>
 							<!-- 버튼클릭시 뜨는 부분 -->
 							<div class="collapse" id="collapseExample"
 								style="padding-top: 30px;">
@@ -138,24 +148,23 @@
 						</div>
 						<!-- 프로젝트 팀원 추가 -->
 
-						<br> <br>
-						<div>
+						<br>
+						<br>
+						<div class="col-sm-10">
 							<i class="bi bi-calendar4 size" style="margin-right: 10px;"></i>
-							<input type="date" style="display: inline-block; width: 85%;"
-								class="form-control" name="sdt"> 부터
-						</div>
-						<div style="margin-top: 10px;">
-							<i class="bi bi-calendar4 size" style="margin-right: 10px;"></i>
-							<input type="date" style="display: inline-block; width: 85%;"
-								class="form-control" name="edt"> 까지
+							<input type="date" class="form-control none" name="sdt"
+								 style="width: 300px"> ~ <input type="date" class="form-control none" name="edt" style="width: 300px">
 						</div>
 						<div style="margin-top: 30px;">
-							<textarea class="form-control" style="height: 100px" name="cntn"></textarea>
+							<h4 style="padding-top: 10px; float: left;">
+								<i class="bi bi-layout-text-sidebar-reverse"></i>
+							</h4>
+							<textarea class="form-control none" style="height: 100px; width: 80%; position: relative; top: 5px; left: 5px;" 
+									name="cntn" placeholder="프로젝트 내용을 입력해주세요."></textarea>
 						</div>
 
 						<div style="margin-top: 30px;">
-							<button class="btn btn-primary w-100" type="submit">프로젝트
-								생성</button>
+							<button class="btn text-white w-100" type="submit">프로젝트 생성</button>
 						</div>
 					</form>
 				</div>

@@ -16,12 +16,12 @@ import co.up.tune.emp.vo.AttdVO;
 public class AttdAjaxController {
 	
 	
-	  @Autowired AttdService dao;
+	  @Autowired AttdService service;
 	 
+	  //근무시간 차트
 	  @RequestMapping("/wktmChart")
 		public List<AttdVO> wktmChart(Model model, AttdVO vo) throws Exception{
-			List<AttdVO> wktmChart = dao.wktmChart(vo);
-			model.addAttribute("wktmChart", wktmChart);
+			List<AttdVO> wktmChart = service.wktmChart(vo);
 			return wktmChart;
 			
 		}

@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import co.up.tune.emp.singUp.email.RegisterMail;
 import co.up.tune.emp.singUp.service.SignUpService;
 import co.up.tune.emp.vo.EmpVO;
 
@@ -17,6 +19,9 @@ public class EmpController {
 	@Autowired
 	private SignUpService ss;
 
+	@Autowired
+	private RegisterMail rm;
+	
 	
 	//로그인
 	@GetMapping("/login")
@@ -35,11 +40,13 @@ public class EmpController {
 	public String findIdForm() throws Exception{
 		return "member/findId";
 	}
+	
 	//비밀번호 찾기
 	@GetMapping("/findpassword")
 	public String findPassword() {
 		return "member/findPassword";
 	}
+	
 	//에러페이지
 	@GetMapping("/error404")
 	public String error404() {
@@ -54,6 +61,7 @@ public class EmpController {
 		int result = ss.idCheck(id);
 		return result;
 	}
+	
 	//회원가입 성공하면 로그인폼으로 
 	@PostMapping(value = "/signup")
 	public String signup(EmpVO vo) {
@@ -65,10 +73,27 @@ public class EmpController {
 	@ResponseBody
 	@PostMapping("/findid")
 	public String findId(EmpVO vo){
-		System.out.println(ss.findId(vo));
+		//System.out.println(ss.findId(vo));
 		return ss.findId(vo);
 	}
+	
+	// 이메일 인증
+	@PostMapping("/sendCode")
+	@ResponseBody
+	public String mailConfirm(@RequestParam("email") String email) throws Exception {
+		String code = "";
+		try {
+			code = rm.sendSimpleMessage(email);
+		}catch (Exception e ){
+			e.printStackTrace();
+		}
+	   System.out.println("인증코드 : " + code);
+	   return code;
+	}
 
+
+	//인증확인
+	
 	//비밃번호 성공하면 
 	@PostMapping(value = "/pwUpdate")
 	public String empUpdate(EmpVO vo) {

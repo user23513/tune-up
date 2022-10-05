@@ -31,18 +31,7 @@ public class ProPostFileServiceImpl implements ProPostFileService {
 	}
 	
 	
-	@Override
-	public int proPostFileInsert(FilesVO vo) {
-		// TODO Auto-generated method stub
-		return map.proPostFileInsert(vo);
-	}
 	
-	
-	@Override
-	public int proPostFileDelete(FilesVO vo) {
-		// TODO Auto-generated method stub
-		return map.proPostFileDelete(vo);
-	}
 
 	@Override
 	public FilesVO fileUpload(FilesVO vo,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
@@ -73,6 +62,24 @@ public class ProPostFileServiceImpl implements ProPostFileService {
 		return vo;
 		// TODO Auto-generated method stub
 		
+	}
+
+
+
+
+	@Override
+	public int proPostFileInsert(FilesVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+
+	@Override
+	public int proPostFileDelete(FilesVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

@@ -7,20 +7,19 @@
 <title>Insert title here</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script>
-	$(document).ready(function(){
-		//확인 버튼 클릭 이벤트
-		$("#btn").on("click", e=>{
- 			let pw = $("#pw").val();
-			$("#pw").val();
-			$("#frm").submit();
-			
-		})
+$(document).ready(function(){
+	//확인 버튼 클릭 이벤트
+	$("#btn").on("click", e=>{
+		let pw = $("#pw").val();
+		$("#pw").val();
+		$("#frm").submit();
 	})
+})
 </script>
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-		<form id="frm" method="post" action="profile">
+		<form id="frm" method="post" action="pwConfirm">
 			<div class="container">
 				<br> <br> <br> <br>
 				<br>
@@ -47,13 +46,10 @@
 							</div>
 						</div>
 					</div>
-					<input type="hidden" th:name="${_csrf.parameterName}"
-						th:value="${_csrf.token}"> <input type="hidden" id="empNo"
-						name="empNo" th:value="${session.empNo}">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 				</div>
 			</div>
 		</form>
 	</main>
 </body>
-
 </html>

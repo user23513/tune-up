@@ -4,20 +4,29 @@
 
 	<insert id="empInsert" parameterType="co.up.tune.emp.vo.EmpVO">
 		<selectKey keyProperty="empNo" order="BEFORE" resultType="String">
-			SELECT
-			CASE WHEN MAX(to_number(EMP_NO)) IS NULL THEN 1
-			ELSE
-			MAX(to_number(EMP_NO)) + 1 END AS NO
-			FROM EMP
+			SELECT nvl(MAX(to_number(EMP_NO)),0)+1 
+			FROM   EMP
 		</selectKey>
-		INSERT INTO EMP (EMP_NO,NM,ID,PW,EMAIL,AUTH,PHONE)
-		 VALUES(#{empNo},#{nm},#{id},#{pw},#{email},'GUEST',#{phone})
+		INSERT INTO EMP (EMP_NO,
+		                 NM,
+		                 ID,
+		                 PW,
+		                 EMAIL,
+		                 AUTH,
+		                 PHONE)
+				 VALUES(#{empNo},
+				        #{nm},
+				        #{id},
+				        #{pw},
+				        #{email},
+				        'GUEST',
+				        #{phone})
 	</insert>
 	
 	<select id="idCheck" parameterType="co.up.tune.emp.vo.EmpVO" resultType="int">
 		select count(*)
-		from emp
-		where id=#{id}
+		  from emp
+		 where id=#{id}
 	</select>
 	
 	<select id="findId" parameterType="co.up.tune.emp.vo.EmpVO" resultType="string">

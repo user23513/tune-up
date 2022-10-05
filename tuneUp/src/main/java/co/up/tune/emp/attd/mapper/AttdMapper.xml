@@ -5,7 +5,7 @@
 	<select id="attdList" resultType="co.up.tune.emp.vo.AttdVO">
     	SELECT * 
     	FROM ATTD
-    	
+    	ORDER BY ATDC_DT DESC
 	</select>	
 	
 	<!-- <select id="checkGood" resultType="Integer">

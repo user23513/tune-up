@@ -20,8 +20,8 @@ public class TodoServiceImpl implements TodoService {
 	DemoTodoMapper dmap;
 	
 	@Override
-	public List<TodoVO> todoList() {
-		return map.todoList();
+	public List<TodoVO> todoList(int prjNo) {
+		return map.todoList(prjNo);
 	}
 
 	@Override

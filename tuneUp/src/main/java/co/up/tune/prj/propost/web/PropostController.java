@@ -31,6 +31,7 @@ import co.up.tune.prj.todo.service.TodoService;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
 import co.up.tune.prj.vo.ScheduleVO;
+import co.up.tune.prj.vo.TodoVO;
 
 @Controller
 public class PropostController {
@@ -54,20 +55,17 @@ public class PropostController {
 	 * 2022.10.05
 	 */
 	@Autowired
-	TodoService tdao;
+	TodoService tServ;
 
 	@Autowired
 	TodoDetailService detail;
-	
-	@Autowired
-	DemoTodoService demo;
 	
 	@Value("${file.dir}") 
 	private String fileDir;
 	
 	//내프로젝트에서 클릭한 프로젝트로 이동
 	@RequestMapping("/prjPostList")
-	public String prjPostList(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, 
+	public String prjPostList(TodoVO vo ,@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, 
 								@RequestParam("prjNo")int prjNo, Model model) {
 		
 		model.addAttribute("prjNo", prjNo);
@@ -95,9 +93,10 @@ public class PropostController {
 		 * 은지 추가 
 		 * 2022.10.05
 		 */
-		model.addAttribute("todoList", tdao.todoList(prjNo));
-		
-//		model.addAttribute("detailList", detail.detailList(postNo));
+		model.addAttribute("todoList", tServ.todoList(prjNo));
+		System.out.println(tServ.todoList(prjNo));
+		System.out.println("=============================================" + vo.getPostNo());
+		model.addAttribute("detailList", detail.detailList());
 		
 		return "prj/post/prjPostList";
 	}

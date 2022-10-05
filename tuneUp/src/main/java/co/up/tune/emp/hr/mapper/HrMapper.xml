@@ -5,14 +5,17 @@
 		select * from emp
 		<!-- order by (dept||empNo) -->
 	</select>
+	
 	<select id="empSelect" resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
 		where emp_no = #{empNo}
 	</select>
+	
 	<select resultType="co.up.tune.emp.vo.EmpVO" id="managerList">
 		select * from emp
-		where auth = 'ADMIN' or auth = 'MANAGER'
+		where auth = 'ADMIN'
 	</select>
+	
 	<update id="empUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
 		<set>
@@ -26,6 +29,7 @@
 		</set>
 		where emp_no = #{empNo}
 	</update>
+	
 	<update id="authUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
 		<set>
@@ -33,5 +37,4 @@
 		</set>
 		where emp_no = #{empNo}
 	</update>
-
 </mapper>

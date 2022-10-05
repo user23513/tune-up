@@ -2,7 +2,6 @@ package co.up.tune.aprv.approval.web;
 
 import java.io.IOException;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,9 +41,9 @@ public class AjaxApprovalController {
 	
 	//사인업데이트
 	@PostMapping("/signUp")
-	public int signUp(EmpVO vo, HttpServletRequest request, @RequestParam("file") MultipartFile[] files)
+	public int signUp(EmpVO vo, HttpSession session, @RequestParam("file") MultipartFile[] files)
 			throws IllegalStateException, IOException {
-		HttpSession session = request.getSession();
+		
 		String empNo = (String) session.getAttribute("empNo");
 		vo.setEmpNo(empNo);
 		if (!files[0].isEmpty()) {
@@ -58,14 +57,13 @@ public class AjaxApprovalController {
 	
 	//승인 반려 결재 approvalSign -> aprvNext 문서의 신청상태 변경 and 다음 결재자 상태 변경 (결재권 넘어감)
 	@PostMapping("/signReject")
-	public int signReject(ApprovalVO vo, HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public int signReject(ApprovalVO vo, HttpSession session) {
+		
 		String empNo = (String) session.getAttribute("empNo");
 		vo.setAprvr(empNo);
 		//sign reject null값으로 상태 바뀜
-		int cnt = ap.approvalSign(vo);
-		cnt = ap.aprvNext(vo);
-		return cnt;
+		
+		return ap.approvalSign(vo);
 	}
 	
 }

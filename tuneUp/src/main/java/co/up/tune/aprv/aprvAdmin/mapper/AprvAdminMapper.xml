@@ -3,10 +3,16 @@
 <mapper namespace="co.up.tune.aprv.aprvAdmin.mapper.AprvAdminMapper">
 
 
-	<select id="aprvListAll" resultType="co.up.tune.aprv.vo.AprvVO">
-		SELECT APRV_NO, EMP_NO, TTL,
-				DTTM, REQ_ST,
-				DEADLINE, IMPTS, NM
+	<select id="aprvListAll" 
+		resultType="co.up.tune.aprv.vo.AprvVO">
+		SELECT 	APRV_NO,
+				EMP_NO, 
+				TTL,
+				DTTM, 
+				REQ_ST,
+				DEADLINE, 
+				IMPTS, 
+				NM
 		FROM APRV
 		<if test="reqSt != null and reqSt != '' and reqSt != '전체' ">
 		WHERE REQ_ST=#{reqSt}
@@ -22,20 +28,27 @@
 		WHERE APRV_NO = #{aprvNo}
 	</select>
 
-	<delete id="aprvAdminDel"
+	<delete id="aprvAdminDel" 
 		parameterType="co.up.tune.aprv.vo.AprvVO">
 		DELETE FROM APRV
 		WHERE APRV_NO = #{aprvNo}
 	</delete>
+	
+	
 	<delete id="approvalAdminDel"
 		parameterType="co.up.tune.aprv.vo.AprvVO">
 		DELETE FROM APPROVAL
 		WHERE APRV_NO = #{aprvNo}
 	</delete>
 	
-	<select id="aprvFormAll" resultType="co.up.tune.aprv.vo.FormVO">
-		SELECT FORM_NO, TTL,
-		FORM_CAT, EMP_NO, FORM_AUTH, NM
+	<select id="aprvFormAll" 
+		resultType="co.up.tune.aprv.vo.FormVO">
+		SELECT 	FORM_NO, 
+				TTL,
+				FORM_CAT, 
+				EMP_NO, 
+				FORM_AUTH, 
+				NM
 		FROM FORM
 		<if test="formCat != null and formCat != '' and formCat != '전체' and formCat != '개인'">
 		WHERE FORM_CAT=#{formCat}
@@ -61,7 +74,8 @@
 		WHERE FORM_NO = #{formNo}
 	</delete>
 	
-	<update id="aprvAdReject" parameterType="co.up.tune.aprv.vo.ApprovalVO">
+	<update id="aprvAdReject" 
+		parameterType="co.up.tune.aprv.vo.ApprovalVO">
 		UPDATE APPROVAL
 		<set>
 		APRV_ST = '반려',
@@ -70,7 +84,8 @@
 		WHERE APRV_NO = #{aprvNo}
 	</update>
 	
-	<update id="reqAdReject" parameterType="co.up.tune.aprv.vo.ApprovalVO">
+	<update id="reqAdReject"
+		parameterType="co.up.tune.aprv.vo.ApprovalVO">
 		UPDATE APRV
 		<set>
 		REQ_ST = '반려'

@@ -5,8 +5,14 @@
 	<select id="aprvReqList"
 		parameterType="co.up.tune.aprv.vo.AprvVO"
 		resultType="co.up.tune.aprv.vo.AprvVO">
-		SELECT APRV_NO, EMP_NO, TTL, DTTM, REQ_ST,
-				DEADLINE, IMPTS, NM
+		SELECT 	APRV_NO, 
+				EMP_NO, 
+				TTL, 
+				DTTM, 
+				REQ_ST,
+				DEADLINE, 
+				IMPTS, 
+				NM
 		FROM APRV
 		WHERE EMP_NO = #{empNo}
 		<if test="reqSt != null and reqSt != '' and reqSt != '전체'">
@@ -24,27 +30,50 @@
 	</select>
 
 
-	<insert id="aprvReqIn" parameterType="co.up.tune.aprv.vo.AprvVO">
-		<selectKey keyProperty="aprvNo" order="BEFORE"
-			resultType="int">
-			SELECT
-			CASE WHEN MAX(APRV_NO) IS NULL THEN 1
-			ELSE
-			MAX(APRV_NO) + 1 END AS NO
+	<insert id="aprvReqIn" 
+		parameterType="co.up.tune.aprv.vo.AprvVO">
+		<selectKey keyProperty="aprvNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(APRV_NO),0)+1 
 			FROM APRV
 		</selectKey>
 		INSERT INTO APRV
-				(APRV_NO, EMP_NO, TTL, DTTM, CNTN, REQ_ST,
-					APRV_ETC, DEADLINE, IMPTS, F_NM, F_PATH, NM)
+						(APRV_NO, 
+						EMP_NO, 
+						TTL, 
+						DTTM, 
+						CNTN, 
+						REQ_ST,
+						APRV_ETC, 
+						DEADLINE, 
+						IMPTS, 
+						F_NM, 
+						F_PATH, 
+						NM)
 		VALUES
-				(#{aprvNo}, #{empNo},
-				#{ttl}, SYSTIMESTAMP, #{cntn}, '전송',
-				#{aprvEtc}, #{deadline}, #{impts}, #{fNm}, #{fPath}, #{nm})
+				(#{aprvNo}, 
+				#{empNo},
+				#{ttl}, 
+				SYSTIMESTAMP, 
+				#{cntn}, 
+				'전송',
+				#{aprvEtc}, 
+				#{deadline}, 
+				#{impts}, 
+				#{fNm}, 
+				#{fPath}, 
+				#{nm})
 	</insert>
 
-	<select id="formList" parameterType="co.up.tune.aprv.vo.FormVO"
+	<select id="formList" 
+		parameterType="co.up.tune.aprv.vo.FormVO"
 		resultType="co.up.tune.aprv.vo.FormVO">
-		SELECT FORM_NO, TTL, FORM_CAT, EMP_NO, FORM_AUTH, NM
+		SELECT 	
+				FORM_NO, 
+				TTL, 
+				FORM_CAT, 
+				EMP_NO, 
+				FORM_AUTH, 
+				NM
 		FROM FORM
 		WHERE 
 		<if test="formCat =='전체'">
@@ -54,6 +83,7 @@
 		<if test="formCat != null and formCat != '' and formCat != '전체' and formCat != '개인'">
 				FORM_AUTH = '공개'
                 AND FORM_CAT = #{formCat}
+               
                 OR EMP_NO= #{empNo}
                 AND FORM_CAT = #{formCat}
         </if>
@@ -69,43 +99,73 @@
 	<select id="formSelect"
 		parameterType="co.up.tune.aprv.vo.FormVO"
 		resultType="co.up.tune.aprv.vo.FormVO">
-		SELECT FORM_NO, EMP_NO, TTL, CNTN, FORM_CAT, NM, FORM_AUTH
+		SELECT 	
+				FORM_NO, 
+				EMP_NO, 
+				TTL, 
+				CNTN, 
+				FORM_CAT, 
+				NM, 
+				FORM_AUTH
 		FROM FORM
 		WHERE FORM_NO = #{formNo}
 	</select>
 
-	<update id="formUp" parameterType="co.up.tune.aprv.vo.FormVO">
+	<update id="formUp" 
+		parameterType="co.up.tune.aprv.vo.FormVO">
 		UPDATE FORM
 		<set>
-			<if test="ttl != null and ttl != ''">TTL=#{ttl},</if>
-			<if test="cntn != null and cntn != ''">CNTN=#{cntn},</if>
-			<if test="formCat != null and formCat != '' ">FORM_CAT=#{formCat},</if>
-			<if test="formAuth != null and formAuth != ''">FORM_AUTH=#{formAuth},</if>
-			<if test="empNo != null and empNo != ''">EMP_NO=#{empNo},</if>
-			<if test="nm != null and nm != ''">NM=#{nm}</if>
+		<if test="ttl != null and ttl != ''">
+			TTL=#{ttl},
+		</if>
+		<if test="cntn != null and cntn != ''">
+			CNTN=#{cntn},
+		</if>
+		<if test="formCat != null and formCat != '' ">
+			FORM_CAT=#{formCat},
+		</if>
+		<if test="formAuth != null and formAuth != ''">
+			FORM_AUTH=#{formAuth},
+		</if>
+		<if test="empNo != null and empNo != ''">
+			EMP_NO=#{empNo},
+		</if>
+		<if test="nm != null and nm != ''">
+			NM=#{nm}
+		</if>
 		</set>
 		WHERE FORM_NO = #{formNo}
 		
 	</update>
 
 
-	<insert id="formIn" parameterType="co.up.tune.aprv.vo.FormVO">
-		<selectKey keyProperty="formNo" order="BEFORE"
-			resultType="int">
-			SELECT
-			CASE WHEN MAX(FORM_NO) IS NULL THEN 1
-			ELSE
-			MAX(FORM_NO) + 1 END AS NO
+	<insert id="formIn" 
+		parameterType="co.up.tune.aprv.vo.FormVO">
+		<selectKey keyProperty="formNo" order="BEFORE" resultType="int">
+			SELECT NVL(MAX(FORM_NO),0)+1 
 			FROM FORM
 		</selectKey>
 		INSERT INTO FORM
-				(FORM_NO, TTL, CNTN, FORM_CAT, EMP_NO, FORM_AUTH, NM)
+						(FORM_NO, 
+						TTL, 
+						CNTN, 
+						FORM_CAT, 
+						EMP_NO, 
+						FORM_AUTH, 
+						NM)
 		VALUES
-				(#{formNo}, #{ttl}, #{cntn}, #{formCat}, #{empNo}, #{formAuth}, #{nm})
+				(#{formNo}, 
+				#{ttl}, 
+				#{cntn}, 
+				#{formCat}, 
+				#{empNo}, 
+				#{formAuth}, 
+				#{nm})
 
 	</insert>
 
-	<delete id="formDel" parameterType="co.up.tune.aprv.vo.FormVO">
+	<delete id="formDel" 
+		parameterType="co.up.tune.aprv.vo.FormVO">
 		DELETE FROM FORM
 		WHERE FORM_NO = #{formNo}
 	</delete>

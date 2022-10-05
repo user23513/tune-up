@@ -302,7 +302,7 @@ $(document).ready(function() {
 		let no = e.target.closest('tr').firstChild.innerText;
 		console.log(no);
 		
-		//todo 삭제
+		//todo 삭제 이벤트
 		$.ajax({
 			url: "demoDelete",
 			beforeSend:function(xhr){
@@ -409,7 +409,9 @@ function save(){
 							<!-- 글 end -->
 
 							<!-- 업무 -->
+
 							<div class="tab-pane fade" id="business"
+
 								role="tabpanel" aria-labelledby="business-tab">
 								<form action="businessInsert" method="post"
 									enctype="multipart/form-data">
@@ -597,48 +599,51 @@ function save(){
 							</div>
 							<!-- 일정 -->
 
-						<!-- 할일 -->
-						<div class="tab-pane fade" id="todo-justified"
-								role="tabpanel" aria-labelledby="todo-tab" style="padding: 15px;">
-							<form id="todoFrm" action="todoInsert" method="post">
-							<div class="row mb-3">
-								<!-- todo insert -->
-									<div class="col-sm-10" style="width: 80%">
-										<input type="text" class="form-control none" style="border-bottom:1px solid blue;"
-											id="ttl" name="ttl" placeholder="제목을 입력하세요.">
+
+							<!-- 할일 -->
+							<div class="tab-pane fade" id="todo-justified" role="tabpanel"
+								aria-labelledby="todo-tab" style="padding: 15px;">
+								<form id="todoFrm" action="todoInsert" method="post">
+									<div class="row mb-3">
+										<!-- todo insert -->
+											<div class="col-sm-10" style="width: 80%">
+												<input type="text" class="form-control none" style="border-bottom:1px solid blue;"
+													id="ttl" name="ttl" placeholder="제목을 입력하세요.">
+											</div>
+											<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+											<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+											<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
+											<input type="hidden" name="prjNo" th:value="${prjNo}">
+									</div> <br>
+									
+									<!-- todo 상세 Insert -->
+									<div class="col-sm-10">
+										<div class="input-group mb-3">
+											<input type="text" id="todoAdd" name="todoAdd" class="form-control" placeholder="할 일 입력" 
+											aria-label="Recipient's username" aria-describedby="basic-addon2">
+											<button id="addTodo" type="button" class="btn btn-outline-secondary" style="right: auto;">
+												<i class="bi bi-plus-lg"></i>
+											</button>
+										</div>
+										<hr>
+										<div>
+											<table class="table table-borderless">
+												<tbody id="tbd">
+												</tbody>
+											</table>
+										</div>
+
 									</div>
-									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-									<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
-									<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
-									<input type="hidden" name="prjNo" th:value="${prjNo}">
-							</div> <br>
-							
-							<!-- todo 상세 Insert -->
-								<div class="col-sm-10">
-									<div class="input-group mb-3">
-										<input type="text" id="todoAdd" name="todoAdd" class="form-control" placeholder="할 일 입력" 
-										aria-label="Recipient's username" aria-describedby="basic-addon2">
-										<button id="addTodo" type="button" class="btn btn-outline-secondary" style="right: auto;">
-											<i class="bi bi-plus-lg"></i>
-										</button>
+									<!-- todo 상세 Insert 끝 -->
+									<br>
+									<div class="col-md-8 col-lg-9">
+						               <button id="btn" class="btn btn-primary" type="button" onclick="save()">등록</button>
 									</div>
-									<hr>
-									<div>
-										<table class="table table-borderless">
-											<tbody id="tbd">
-											</tbody>
-										</table>
-									</div>
-								</div>
-								<!-- todo 상세 Insert 끝 -->
-							<br>
-							<div class="col-md-8 col-lg-9">
-				               <button id="btn" class="btn btn-primary" type="button">등록</button>
-				               <button id="test" class="btn btn-primary" type="button" onclick="save()">테스트</button>
+								</form>
 							</div>
-							</form>
-						</div>
-						<!-- 할일 -->
+
+							<!-- 할일 -->
+
 						<!-- End Default Tabs -->
 					</div>
 				</div>
@@ -877,39 +882,39 @@ function save(){
 
 		<!-- 일정 -->
 		<script>
-		//부서별 사원이름 클릭시 추가되는 기능
-		/* $("#depts").on("click", ".name", e=>{
-			let empName = $(e.target).text(); //클릭한 사원의 이름
-			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
-			$("#selectPerson").append("<div><span data-no='"+ empNo +"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
-		}) */
-		
-		//추가된 사원 삭제
-		$("#rr").on("click", ".bi-x", e=>{
-			let deleteNo = $(e.target).prev().data("no"); //삭제클릭한 사원의 사원번호
-			$("#scheduleFrm").find("#"+deleteNo+"").remove();
-			$(e.target).parent().remove();
-		})
-		
-		//추가한 사원모두 추가되는 기능 (등록버튼)
-		$("#depts").on("click", ".name", e=>{
-			let empName = $(e.target).text(); //클릭한 사원의 이름
-			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
+			//부서별 사원이름 클릭시 추가되는 기능
+			/* $("#depts").on("click", ".name", e=>{
+				let empName = $(e.target).text(); //클릭한 사원의 이름
+				let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
+				$("#selectPerson").append("<div><span data-no='"+ empNo +"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
+			}) */
 			
-			$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+empNo+"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
+			//추가된 사원 삭제
+			$("#rr").on("click", ".bi-x", e=>{
+				let deleteNo = $(e.target).prev().data("no"); //삭제클릭한 사원의 사원번호
+				$("#scheduleFrm").find("#"+deleteNo+"").remove();
+				$(e.target).parent().remove();
+			})
 			
-			//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
-			$("#scheduleFrm").append("<input type='hidden' id='"+empNo+"' name='teamEmpNo' value='"+empNo+"'>")
+			//추가한 사원모두 추가되는 기능 (등록버튼)
+			$("#depts").on("click", ".name", e=>{
+				let empName = $(e.target).text(); //클릭한 사원의 이름
+				let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
+				
+				$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+empNo+"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
+				
+				//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
+				$("#scheduleFrm").append("<input type='hidden' id='"+empNo+"' name='teamEmpNo' value='"+empNo+"'>")
+				
+			})
 			
-		})
-		
-		//input창 enter키 누르면 submit되는거 방지
-		$('input[type="text"]').keydown(function() {
-		    if (event.keyCode === 13) {
-		        event.preventDefault();
-		    }
-		});
-	</script>
+			//input창 enter키 누르면 submit되는거 방지
+			$('input[type="text"]').keydown(function() {
+			    if (event.keyCode === 13) {
+			        event.preventDefault();
+			    }
+			});
+		</script>
 	</main>
 </body>
 </html>

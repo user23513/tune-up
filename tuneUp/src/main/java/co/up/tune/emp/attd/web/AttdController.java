@@ -40,38 +40,38 @@ public class AttdController {
 		model.addAttribute("attdGoodList",dao.attdGoodList());
 		model.addAttribute("attdBadList",dao.attdBadList());
 		model.addAttribute("attdUpList", udao.attdUpList());
-		model.addAttribute("attdUpSelect", udao.attdUpSelect(vo));
-		model.addAttribute("checkGood", dao.checkGood(dvo));
-		model.addAttribute("checkBad", dao.checkBad(dvo));
-		model.addAttribute("checkModi", udao.checkModi(vo));
+		model.addAttribute("attdUpSelect", udao.attdUpSelect(vo));	//검색조건 추가하기
+		
+		model.addAttribute("checkGood", dao.checkGood(null));
+		model.addAttribute("checkBad", dao.checkBad(null));
+		model.addAttribute("checkModi", udao.checkModi(null));
 		return "emp/attd/attdList";
 	}
-	
-	
-	//출근기록 저장 
-		@PostMapping("/startAttd")
-		public String startAttd(AttdVO vo) {
-			dao.startAttd(vo);
-			return "redirect:main";
-			
-		}
-		 
-		//퇴근기록 저장
-		@PostMapping("/endAttd")
-		public String endAttd(AttdVO vo) {
-			dao.endAttd(vo);
-			return "redirect:main";
-		}
-	
-	
-	
-	@PostMapping("/checkGood")
+
+	// 출근기록 저장
+	@PostMapping("/startAttd")
+	public String startAttd(AttdVO vo) {
+		dao.startAttd(vo);
+		return "redirect:main";
+
+	}
+
+	// 퇴근기록 저장
+	@PostMapping("/endAttd")
+	public String endAttd(AttdVO vo) {
+		dao.endAttd(vo);
+		return "redirect:main";
+	}
+
+	// 전체 사원 정상출근 리스트
+	@PostMapping("/checkGood")		
 	public String checkGood(AttdVO vo, Model model) throws Exception {
 		int count = dao.checkGood(vo);
 		model.addAttribute("checkGood", count);
 		return "emp/attd/attdList";
 	}
 	
+	//전체 사원 비정상 출근 리스트
 	@PostMapping("/checkBad")
 	public String checkBad(AttdVO vo, Model model) throws Exception {
 		int count = dao.checkBad(vo);
@@ -79,37 +79,21 @@ public class AttdController {
 		return "emp/attd/attdList";
 	}
 	
+	//출근 시간 체크
 	 @GetMapping("/checkTime")
 	 public String checkTime(AttdVO vo, Model model) {
 		 model.addAttribute("checkTime", dao.checkTime(vo));
 		return "emp/attd/myAttdList";
 	 }
 	 
+	 // 퇴근 시간 체크
 	 @GetMapping("/checkBTime")
 	 public String checkBTime(AttdVO vo, Model model) {
 		 model.addAttribute("checkBTime", dao.checkBTime(vo));
 		return "emp/attd/myAttdList";
 	 }
 	 
-	 
-	// 전체사원 근태 정상 리스트 - 관리자
-//	@GetMapping("/attdGoodList")
-//	public String attdGoodList(Model model) {
-//		model.addAttribute("attdGoodList",dao.attdGoodList());
-//		System.out.println(model);
-//		return "emp/attd/attdList";
-//	}
-	
-//	// 전체사원 근태 이상 리스트 - 관리자
-//		@GetMapping("/attdBadList")
-//		public String attdBadList(Model model) {
-//			model.addAttribute("attdBadList",dao.attdBadList());
-//			return "emp/attd/attdList";
-//		}
-		
-	
-	// ===================================
-		
+	 // 나의 근태 보기
 	@RequestMapping("/myAttdList")
 	public String myAttdList(Model model){
 		AttdVO vo = new AttdVO();
@@ -117,50 +101,14 @@ public class AttdController {
 		return "emp/attd/myAttdList";
 		
 	}
-	
-	
-	//차트
-	/*
-	 * @RequestMapping("/wktmChart") public List<AttdVO> wktmChart(Model model,
-	 * AttdVO vo) throws Exception{ List<AttdVO> wktmChart = dao.wktmChart(vo);
-	 * model.addAttribute("wktmChart", wktmChart); return wktmChart;
-	 * 
-	 * }
-	 */
-	
-	
-	/* public String workChart() {
-		List<AttdVO> logList = 
-
-		Gson gson = new Gson();
-		JsonArray jArray = new JsonArray();
-				
-		Iterator<LogVO> it = logNameList.iterator();
-		while(it.hasNext()) {
-			LogVO curVO = it.next();
-			JsonObject object = new JsonObject();
-			String userid = curVO.getLog_userid();
-			int cnt = curVO.getCnt();
-			
-		    object.addProperty("ID", userid);
-			object.addProperty("Count", cnt);
-			jArray.add(object);
-		}
-				
-		String json = gson.toJson(jArray);
-		model.addAttribute("json", json);
-		
-		return null;
-		
-	} */
-	
+	 
+ 
 	// ===================================
 	
 	
 	
 	//엑셀
 	@RequestMapping(value="/excel")
-	@ResponseBody
 	public void excel(@ModelAttribute AttdVO a,HttpServletResponse res, HttpServletRequest req) throws Exception{
 		dao.excel(a, res);
 	}

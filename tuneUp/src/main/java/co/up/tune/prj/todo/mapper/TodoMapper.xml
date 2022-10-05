@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.prj.todo.mapper.TodoMapper">
-	
 	<!-- ======할일======= -->
 	<select id="todoList" resultType="co.up.tune.prj.vo.TodoVO">
 		select * from todo
@@ -20,28 +19,7 @@
 		</selectKey>
 		INSERT INTO TODO
 		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{ttl}, #{wrtr}, sysdate, ${prjNo})
-		<!-- <selectKey keyProperty="todoNo" order="BEFORE" resultType="int">
-			select
-			    case when max(todo_no) is null then 1
-			    else max(todo_no)+1
-			    end as no
-			from todoDetail
-		</selectKey> -->
-<!-- 		<foreach collection="demoList" item="demo">
-			insert into tododetail (todo_no, cntn, cmplt_yn, post_no, edt)
-			value = (#{todoNo}, #{demo.cntn}, 'N', #{postNo}, sysdate)
-		</foreach> -->
 	</insert>
-	
-<!-- 	<insert id="">
-		<selectKey ></selectKey>
-		insert todo
-		values()
-		<foreach collection="demoList" item="demo">
-			insert into tododetail
-			values (#{empNo})
-		</foreach>
-	</insert> -->
 	
 	<update id="todoUpdate" parameterType="co.up.tune.prj.vo.TodoVO">
 		update todo
@@ -71,11 +49,8 @@
 	
 	<insert id="replyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
 		 <selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
-			select 
-			    case when max(reply_no) is null then 1
-			    else max(reply_no)+1 
-			    end as no
-			from reply
+			select nvl(max(reply_no),0)+1
+		 	  from reply
 		</selectKey> 
 		insert into reply
 		values(#{replyno}, #{postno}, #{empno}, #{wrtr}, #{cntn}, sysdate,'프로젝트할일')

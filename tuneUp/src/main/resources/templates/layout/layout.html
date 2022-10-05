@@ -273,13 +273,9 @@
 							<label for="floatingSelect"><i class="bi bi-person"></i>상태수정</label>
 						</li>
 						<li>
-							<form id="pwFrm" method="post" action="pwCheck">
-								<a id="pwCheck" name="pwCheck" class="dropdown-item d-flex align-items-center" 
-									href="javascript:void(0);" onClick="pwCheck()"> 
-									<i class="bi bi-gear"></i> 
-									<span>개인정보</span> 
-									<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-									<input type="hidden" id="eNo" name="empNo" th:value="${session.empNo}">
+							<form id="pwFrm" method="get" action="profile">
+								<a id="pwCheck" class="dropdown-item d-flex align-items-center"
+									href="javascript:void(0);"> <i class="bi bi-gear"></i> <span>개인정보</span> 
 								</a>
 							</form>
 						</li>

@@ -1,6 +1,8 @@
 package co.up.tune.prj.vo;
 
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +17,6 @@ public class FilesVO {
 	 String fCat;  //파일 카테고리
 	 String pNm; //프로젝트이름
 	 String empNo; //사번
+	 
+	 List<Integer> valueArr; //선택한 파일번호
 }

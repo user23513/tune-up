@@ -53,38 +53,6 @@
 		select attdup_no from ATTDUP where atdc_dt = #{atdcDt} and emp_no = #{empNo}
 		</select>
 	
-	<!-- <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
-		<![CDATA[
-		UPDATE ATTD
-		SET(ATDC_DTTM,AFWK_DTTM,ST) = (?,?,'601')
-		WHERE EMP_NO = ? AND ATDC_DT >= ?
-		 ]]>
-		</update>   -->
-	
-
-<!-- 	<update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
-		UPDATE ATTD 
-		<set>
-			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
-			<if test="afwkDttm != null">AFWK_DTTM = #{afwkDttm}, </if>
-			<if test="st != null">ST = '601' </if>
-		</set>
-		
-		WHERE EMP_NO = #{empNo} 
-		AND  ATDC_DT = #{atdcDt} 
-		</update>   -->
-		
-		
-		<!-- <![CDATA[   
-		UPDATE ATTD A
-	SET (A.ATDC_DTTM, A.AFWK_DTTM) = (
-	SELECT B.ATDC_DTTM, B.AFWK_DTTM FROM ATTDUP B WHERE A.EMP_NO = B.EMP_NO AND A.ATDC_DT = B.ATDC_DT)
-	WHERE EXISTS (
-	SELECT 0 FROM ATTDUP B WHERE A.EMP_NO = ? AND A.ATDC_DT = ? )
-		    ]]>  -->
-	
-
-	
 	
 	
 </mapper> 

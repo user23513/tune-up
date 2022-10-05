@@ -18,9 +18,6 @@ public interface ApprovalService {
 	// 결재 승인
 	int approvalSign(ApprovalVO vo);
 
-	// 다음 결재자
-	int aprvNext(ApprovalVO vo);
-
 	// 위임자 목록
 	List<TrustVO> trustList(TrustVO vo);
 

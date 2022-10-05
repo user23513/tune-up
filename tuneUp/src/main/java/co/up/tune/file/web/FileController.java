@@ -3,7 +3,6 @@ package co.up.tune.file.web;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,7 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.up.tune.file.service.FileService;
 import co.up.tune.file.service.MyFilesService;
@@ -30,20 +29,20 @@ import co.up.tune.prj.vo.FilesVO;
 public class FileController {
 	
 	@Autowired
-	FileService fdao;
+	FileService fService;
 	
 	@Autowired
-	PrjFilesService prjDao;
+	PrjFilesService prjService;
 	
 	@Autowired
-	MyFilesService myDao;
+	MyFilesService myService;
 	
 	//내 파일함 페이지
 	@GetMapping("/files")
 	public String files(HttpSession session, Model model) {
 		String empNo = (String) session.getAttribute("empNo");
-		model.addAttribute("prjFileList", prjDao.prjFileList(empNo));
-		model.addAttribute("myFileList",myDao.myFileList(empNo));
+		model.addAttribute("prjFileList", prjService.prjFileList(empNo));
+		model.addAttribute("myFileList",myService.myFileList(empNo));
 		return "file/file";
 	}
 	
@@ -60,24 +59,17 @@ public class FileController {
 //	public String fileUpload(List<FilesVO> vo, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException { 
 //		 //file upload 처리 
 //		 if(!file.isEmpty()) { 
-//		 	vo = fdao.fileUpload(null, null)
+//		 	vo = fService.fileUpload(null, null)
 //		}
 	
-	//파일 삭제
-	
-//	  @PostMapping("/prjfiledelete") 
-//	  public String filedelete(HttpServletRequest request) throws Exception{
-//		  String[] ajaxMsg = request.getParameterValues("valueArr");
-//	        int size = ajaxMsg.length;
-//	        for(int i=0; i<size; i++) {
-//	        	prjDao.fileDelete((ajaxMsg[i]);
-//	        }
-//		  return "redirect:/files"; 
-//	  
-//	  }
+	  //파일 삭제
+	  @ResponseBody
+	  @PostMapping("/filedelete") 
+	  public int filedelete(FilesVO vo, HttpServletRequest request) throws Exception{
+		  return prjService.fileDelete(vo); 
+	  }
 	 
 		
-	
 	
 		
 	//파일다운로드

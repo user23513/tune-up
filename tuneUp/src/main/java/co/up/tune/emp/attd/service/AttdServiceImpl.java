@@ -26,7 +26,6 @@ import co.up.tune.emp.attd.mapper.AttdMapper;
 import co.up.tune.emp.vo.AttdVO;
 
 @Service
-@Transactional
 public class AttdServiceImpl implements AttdService{
 	@Autowired
 	private AttdMapper dao;
@@ -81,13 +80,13 @@ public class AttdServiceImpl implements AttdService{
 				cell.setCellValue(excelData.getAfwkDttm());
 				
 				cell = row.createCell(7);
-				cell.setCellValue(excelData.getWktm());
+				cell.setCellValue(excelData.getWktm()==null? "":excelData.getWktm().toString());
 				
 				cell = row.createCell(8);
-				cell.setCellValue(excelData.getOvtm());
+				cell.setCellValue(excelData.getOvtm()==null? "":excelData.getOvtm().toString());
 				
 				cell = row.createCell(9);
-				cell.setCellValue(excelData.getSt());
+				cell.setCellValue(excelData.getSt()==null? "":excelData.getSt().toString());
 				}
 			
 			//컨텐츠 타입 + 파일명

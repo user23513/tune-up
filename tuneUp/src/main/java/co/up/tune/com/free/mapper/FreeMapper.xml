@@ -8,6 +8,15 @@
 		SELECT *
 		FROM COMMUNITY
 		WHERE TYP='102'
+		<if test='keyword == "ttl"'>
+    		and ttl like ('%' || #{search} || '%')
+    	</if>
+    	<if test='keyword == "wrtr"'>
+    		and wrtr like ('%' || #{search} || '%')
+    	</if>
+    	<if test='keyword == "cntn"'>
+    		and cntn like ('%' || #{search} || '%')
+    	</if>
 		ORDER BY POST_NO DESC
 	</select>
 	

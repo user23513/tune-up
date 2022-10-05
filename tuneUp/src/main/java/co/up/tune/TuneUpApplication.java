@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 
 import co.up.tune.com.notice.service.NoticeService;
 import co.up.tune.com.vo.CommunityVO;
+import co.up.tune.com.vo.SearchVO;
 
 @SpringBootApplication
 @MapperScan(basePackages = "co.up.tune.**.mapper")
@@ -27,7 +28,7 @@ public class TuneUpApplication {
 	
 	@GetMapping("/main")
 	public String main(Model model) {
-		PageInfo<CommunityVO> p = new PageInfo<>(dao.noticeList(1), 5);
+		PageInfo<CommunityVO> p = new PageInfo<>(dao.noticeList(1, new SearchVO()), 5);
 		model.addAttribute("nList", p);
 		return "main/main";
 	}

@@ -11,6 +11,7 @@
 <title>내프로젝트</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 google.charts.load('current', {'packages':['gantt']});
 google.charts.setOnLoadCallback(drawChart);
@@ -163,6 +164,7 @@ $(document).ready(function() {
 							<form action="teamList">
 								<!-- 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> -->
 								<input type="hidden" name="prjNo" th:value="${prjNo}">
+								<input type="hidden" name="auth" th:value="${auth}">
 								<button type="submit" class="btn btn-outline-primary">관리</button>
 							</form>
 						</div>
@@ -742,10 +744,19 @@ $(document).ready(function() {
 			     	success:function(res){
 			     		//성공하면 -1이 넘어옴
 			     		if(res!=0){
-			     			alert("게시글이 삭제되었습니다!");
-			     			$(e.target).closest(".sc").remove();
+			     			swal({
+			     				  icon: "success",
+			     				 title: '게시글이 삭제되었습니다!',
+			     				})
+			     				.then(function(){
+			     					$(e.target).closest(".sc").remove();
+			     				});
+			     			
 			     		}else{
-			     			alert("게시글이 삭제되지 않았습니다!");
+			     			swal({
+			     				  icon: "error",
+			     				 title: '게시글이 삭제되지 않았습니다!',
+			     				});
 			     		}
 			     	}
 					

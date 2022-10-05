@@ -2,13 +2,13 @@ package co.up.tune.aprv.aprvAdmin.web;
 
 import java.io.IOException;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.up.tune.aprv.approval.service.ApprovalService;
 import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
@@ -32,11 +32,10 @@ public class AprvAdminController {
 
 	//관리자페이지
 	@GetMapping("/aprvAdmin")
-	public String aprvAdmin(Model model, HttpServletRequest request,
+	public String aprvAdmin(Model model, HttpSession session, RedirectAttributes rttr,
 			@RequestParam(required = false, defaultValue = "전체") String reqSt,
 			@RequestParam(required = false, defaultValue = "전체") String formCat) throws IOException {
 
-		HttpSession session = request.getSession();
 		String auth = (String) session.getAttribute("auth");
 		
 		//관리자 체크
@@ -63,8 +62,8 @@ public class AprvAdminController {
 
 		} else {
 
-			model.addAttribute("msg", "관리자가 아닙니다.");
-			return "main/main";
+			rttr.addFlashAttribute("msg", "관리자가 아닙니다.");
+			return "redirect:main";
 		}
 
 	}

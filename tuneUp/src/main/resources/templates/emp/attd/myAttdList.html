@@ -14,7 +14,7 @@
 <!-- 차트 CDN -->
 <!-- chart.js -->
 <script type="text/javascript">
-
+	
 </script>
 <style type="text/css">
 #chart1 {
@@ -37,27 +37,15 @@
 <body>
 	<main layout:fragment="content">
 		<script type="text/javascript">
-	$(document).ready(function(){
-		//확인 버튼 클릭 이벤트
-	/* 	$("#startBt").on("click", e=>{
-			
-			$("#attdFrm").submit();
-		}) */
+			function converDate() {
+				document.pstfrm.atdcDttm.value = atdcDttm2.value.replace('T',
+						' ')
+				document.pstfrm.afwkDttm.value = afwkDttm2.value.replace('T',
+						' ')
+				document.pstfrm.submit();
+			}
+		</script>
 
-function converDate(){
-	document.pstfrm.atdcDttm.value=atdcDttm2.value.replace('T',' ')
-	document.pstfrm.afwkDttm.value=afwkDttm2.value.replace('T',' ')
-	document.pstfrm.submit();
-}
-		
-	
-	
-	
-	})
-
-        	
-	
-	</script>
 
 		<div class="card">
 			<div class="card-body">
@@ -148,13 +136,7 @@ function converDate(){
 												name="atdcDttm" step="1">
 										</div>
 									</div>
-									<!-- <div class="row mb-3">
-									<label for="inputTime" class="col-sm-2 col-form-label">출근 시간</label>
-									<div class="col-sm-10">
-										<input type="time" class="form-control">
-										<input type="datetime-local" class="form-control" name="atdcDttm" step="1">
-									</div>
-								</div> -->
+
 									<div class="row mb-3">
 										<label for="inputTime" class="col-sm-2 col-form-label">퇴근
 											시간</label>
@@ -187,154 +169,64 @@ function converDate(){
 						</div>
 					</div>
 				</form>
-				<!-- End Large Modal-->
-
-				<!-- 출퇴근 버튼  -->
-				<!-- <form action="startAttd" method="post" id="attdFrm">
-						<input type="hidden" th:name="${_csrf.parameterName}"
-							th:value="${_csrf.token}"> <input type="hidden"
-							id="empNo" name="empNo" th:value="${session.empNo}"> <input
-							type="hidden" id="nm" name="nm" th:value="${session.nm}">
-						<input type="hidden" id="dept" name="dept"
-							th:value="${session.dept}"> <input type="hidden"
-							id="position" name="position" th:value="${session.position}">
-						<button type="submit" id="startBt" class="btn btn-light mb-2"
-							style="width: 30%; padding: 55px 10px; margin: 4px 12px; height: 10px;">출근</button>
-					</form>  
-					<br>
-
-					<form action="endAttd" method="post" id="afwkFrm">
-						<input type="hidden" th:name="${_csrf.parameterName}"
-							th:value="${_csrf.token}"> <input type="hidden"
-							id="empNo" name="empNo" th:value="${session.empNo}">
-						<button type="submit" id="bt2" class="btn btn-light mb-2"
-							style="width: 30%; padding: 55px 10px; margin: 4px 12px; height: 10px;">퇴근</button>
-					</form> -->
-
 
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">7days Chart</h5>
-							<!-- Stacked Bar Chart -->
+
 							<canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
 							<script>
-          /*    $(document).ready(function(){
-            		getGraph();
-            	});
+								var timeAry = new Array();
+								var overAry = new Array();
+								let empNo = $("#eNo").val();
 
-            	function getGraph(){
-            	let timeList = []; 
-            		let wktmList = [];
-            		let ovtmList = [];
-            		let empNo = $("#eNo").val();
-            		
-            		$.ajax({
-            			url:'wktmChart',
-            			type:'get',
-            			data:{'empNo':empNo},
-            			datatype:'json',
-            			success:function(data){
-            				for (let i = 0; i<data.length; i++){
-            					timeList.push(data[i].attd_dt);
-            					wktmList.push(data[i].wktm);
-            					ovtmList.push(data[i].ovtm);
-            					 
-            				}
-            			
-            			}
-            		}) 
-             */
-              
-                document.addEventListener("DOMContentLoaded", () => {
-                  new Chart(document.querySelector('#stakedBarChart'), {
-                    type: 'bar',
-                    data: {
-                      labels: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri'],
-                      datasets: [{
-                          label: '근무 시간',  /*wktmList*/
-                          data: [9,12,9,9,10], 
-                          backgroundColor: 
-                        	  'rgba(255, 99, 132, 0.2)',
-                        },
-                        {
-                          label: '야근',	/*ovtmList*/
-                          data: [0,3,0,0,1], 
-                          backgroundColor: 
-                        	  'rgba(75, 192, 192, 0.2)',
-                        },
-                      
-                      ]
-                    },
-                    options: {
-                      plugins: {
-                        title: {
-                          display: true,
-                          text: ''
-                        },
-                      },
-                      responsive: true,
-                      scales: {
-                        x: {
-                          stacked: true,
-                        },
-                        y: {
-                          stacked: true
-                        }
-                      }
-                    }
-                  });
-                });
-              </script>
-							<!-- End Stacked Bar Chart -->
+								$.ajax({
+									url : 'wktmChart',
+									type : 'get',
+									data : {
+										'empNo' : empNo
+									},
+									datatype : 'json',
+									success : function(data) {
 
+										for (let i = 0; i < data.length; i++) {
 
-							<!-- Bar Chart -->
-							<!-- <div class="col-lg-6" style="float: left" id="chart1">
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">7days Chart</h5>
-								<canvas id="barChart" style="max-height: 400px;"></canvas>
-								<script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new Chart(document.querySelector('#barChart'), {
-                    type: 'bar',
-                    data: {
-                      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],		//x축
-                      datasets: [{		//데이터
-                        label: 'Attd Chart',	//차트 제목
-                        data: [9, 9, 12, 6, 9],		//x축에 대응하는 값
-                        backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(255, 159, 64, 0.2)',
-                          'rgba(255, 205, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(54, 162, 235, 0.2)'
-                          
-                        ],
-                        borderColor: [
-                          'rgb(255, 99, 132)',
-                          'rgb(255, 159, 64)',
-                          'rgb(255, 205, 86)',
-                          'rgb(75, 192, 192)',
-                          'rgb(54, 162, 235)',
-                          'rgb(153, 102, 255)',
-                          'rgb(201, 203, 207)'
-                        ],
-                        borderWidth: 1
-                      }]
-                    },
-                    options: {
-                      scales: {
-                        y: {
-                          beginAtZero: true
-                        }
-                      }
-                    }
-                  });
-                });
-              </script> -->
+											timeAry.push(data[i].wktm);
+											overAry.push(data[i].ovtm);
+
+										}
+									}
+								});
+
+								const labels = [ 'Mon', 'Tue', 'Wed', 'Thu',
+										'Fri' ];
+
+								const datas = {
+									labels : labels,
+									datasets : [ {
+										label : '7 days work',
+										backgroundColor : 'rgb(255, 99, 132)',
+										borderColor : 'rgb(255, 99, 132)',
+										data : timeAry,
+									} ]
+								};
+
+								const config = {
+									type : 'bar',
+									data : datas,
+									options : {}
+								};
+
+								const myChart = new Chart(document
+										.getElementById('stakedBarChart'),
+										config);
+							</script>
+
 						</div>
+
+
+
+
 
 					</div>
 				</div>
@@ -342,50 +234,19 @@ function converDate(){
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">7days Chart</h5>
 
-							<!-- Radial Bar Chart -->
-							<div id="radialBarChart"></div>
-
+							<canvas id="radialBarChart" style="max-height: 400px;"></canvas>
 							<script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#radialBarChart"), {
-                    series: [44, 55],
-                    chart: {
-                      height: 350,
-                      type: 'radialBar',
-                      toolbar: {
-                        show: true
-                      }
-                    },
-                    plotOptions: {
-                      radialBar: {
-                        dataLabels: {
-                          name: {
-                            fontSize: '22px',
-                          },
-                          value: {
-                            fontSize: '16px',
-                          },
-                          total: {
-                            show: true,
-                            label: 'Total',
-                            formatter: function(w) {
-                              // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                              return 52+'시간'
-                            }
-                          }
-                        }
-                      }
-                    },
-                    labels: ['연장근무', '남은시간'],
-                  }).render();
-                });
-              </script>
+							
+							</script>
+
+
+
+
+
 						</div>
 					</div>
-					<!-- End Radial Bar Chart -->
-					<!-- End Doughnut CHart -->
+
 				</div>
 			</div>
 		</div>

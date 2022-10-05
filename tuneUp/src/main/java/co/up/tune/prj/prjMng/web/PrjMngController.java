@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.up.tune.prj.prjMng.service.PrjMngService;
+import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.TeamVO;
 
@@ -15,79 +17,69 @@ import co.up.tune.prj.vo.TeamVO;
 public class PrjMngController {
 	@Autowired
 	PrjMngService dao;
-	
-	
+	@Autowired
+	PropostService postDao;
+
 	// 프로젝트 팀 리스트
 	@GetMapping("/teamList")
-	public String teamList(@RequestParam("prjNo")int prjNo,Model model) {
-		TeamVO vo = new TeamVO();
+	public String teamList(@RequestParam("prjNo") int prjNo, Model model) {
+		model.addAttribute("empList", postDao.empList());
 		model.addAttribute("teamList", dao.teamList(prjNo));
-		//model.addAttribute("addTeamList", dao.addTeamList());
+		// model.addAttribute("addTeamList", dao.addTeamList());
 		model.addAttribute("authList", dao.authList(prjNo));
-		model.addAttribute("removeTeam", dao.removeTeam(vo));
 		return "prj/prjMng/teamList";
 	}
-	
+
 	// 관리자 리스트
 	@GetMapping("/authList")
-	public String authList(@RequestParam("prjNo")int prjNo,Model model) {
+	public String authList(@RequestParam("prjNo") int prjNo, Model model) {
 		model.addAttribute("authList", dao.authList(prjNo));
-		//model.addAttribute("addTeamList", dao.addTeamList());
+		// model.addAttribute("addTeamList", dao.addTeamList());
 		return "prj/prjMng/teamList";
 	}
-	
-	
-	//멤버추가
+
+	// 멤버추가
 	@GetMapping("/addTeam")
 	public String addTeam(TeamVO vo) {
 		dao.addTeam(vo);
 		return "prj/prjMng/teamList";
-		
+
 	}
-	
-	//멤버삭제
-		@PostMapping("/removeTeam")
-		public String removeTeam(TeamVO vo, Model model) {
-			System.out.println("removeTeam :"+ vo.getEmpNo() + "getPrjNo :"+ vo.getPrjNo());
-			model.addAttribute("removeTeam", dao.removeTeam(vo));
-			
-			model.addAttribute("teamList", dao.teamList(vo.getPrjNo()));
-			//model.addAttribute("addTeamList", dao.addTeamList());
-			model.addAttribute("authList", dao.authList(vo.getPrjNo()));
-			
-			return "prj/prjMng/teamList";
-			
-		}
-		
-		//관리자 추가
-		@PostMapping("/teamAuth")
-		public String teamAuth(TeamVO vo, Model model) {
-			System.out.println("teamAuth vo:" + vo);
-			dao.teamAuth(vo);
-			
-			model.addAttribute("teamList", dao.teamList(vo.getPrjNo()));
-			//model.addAttribute("addTeamList", dao.addTeamList());
-			model.addAttribute("authList", dao.authList(vo.getPrjNo()));
-			
-			return "prj/prjMng/teamList";
-			
-		}
-		
-		//관리자 삭제
-		@PostMapping("/removeAuth")
-		public String removeAuth(TeamVO vo) {
-			dao.removeAuth(vo);
-			return "prj/prjMng/teamList";
-			
-		}
-		
-		// 프로젝트 상태 변경
-		@GetMapping("/prjSt")
-		public String prjSt(ProjectVO vo) {
-			dao.prjSt(vo);
-			return "prj/prjMng/teamList";
-			
-		}
-		
-		
+
+	// 멤버삭제
+	@PostMapping("/removeTeam")
+	public String removeTeam(TeamVO vo, Model model, RedirectAttributes rttr) {
+		dao.removeTeam(vo);
+		rttr.addAttribute("prjNo", vo.getPrjNo());
+		return "redirect:/teamList";
+
+	}
+
+	// 관리자 추가
+	@PostMapping("/teamAuth")
+	public String teamAuth(TeamVO vo, RedirectAttributes rttr) {
+		System.out.println("teamAuth vo:" + vo);
+		dao.teamAuth(vo);
+		rttr.addAttribute("prjNo", vo.getPrjNo());
+		return "redirect:/teamList";
+
+	}
+
+	// 관리자 삭제
+	@PostMapping("/removeAuth")
+	public String removeAuth(TeamVO vo, RedirectAttributes rttr) {
+		dao.removeAuth(vo);
+		rttr.addAttribute("prjNo", vo.getPrjNo());
+		return "redirect:/teamList";
+
+	}
+
+	// 프로젝트 상태 변경
+	@GetMapping("/prjSt")
+	public String prjSt(ProjectVO vo) {
+		dao.prjSt(vo);
+		return "prj/prjMng/teamList";
+
+	}
+
 }

@@ -128,17 +128,20 @@ public class PropostController {
 		//file upload 처리
 		FilesVO fvo = new FilesVO();
 		List<FilesVO> list = new ArrayList<>();
-		if(files.length != 0) {
+
+		if(files.length != 0 && files[0] != null && files[0].getSize() > 0) {
+
 			String folder = "prj"; //Temp안에 폴더명
 			list = fileDao.fileUpload(files, folder);
 			fvo.setFNm(list.get(0).getFNm());
 			fvo.setFPath(list.get(0).getFPath());
 			fvo.setFType(list.get(0).getFType());
-			fvo.setFCat("PROJECT");
-			fvo.setPNm(vo.getTtl());
-			fvo.setEmpNo(vo.getEmpNo());
 			
 		}
+		fvo.setFCat("PROJECT");
+		fvo.setPNm(vo.getTtl());
+		fvo.setEmpNo(vo.getEmpNo());
+		
 		dao.prjPostInsert(vo, fvo);
 		re.addAttribute("prjNo", vo.getPrjNo());
 		

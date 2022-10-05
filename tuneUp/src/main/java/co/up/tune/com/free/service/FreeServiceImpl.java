@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import co.up.tune.com.free.mapper.FreeMapper;
 import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
+import co.up.tune.com.vo.SearchVO;
 
 @Service
 public class FreeServiceImpl implements FreeService {
@@ -20,10 +21,10 @@ public class FreeServiceImpl implements FreeService {
 
 	//[자유게시판 게시글]
 	@Override
-	public Page<CommunityVO> freeList(int pageNo) {
+	public Page<CommunityVO> freeList(int pageNo, SearchVO search) {
 		//자유게시판 전체조회
 		PageHelper.startPage(pageNo, 10);
-		return map.freeList();
+		return map.freeList(search);
 	}
 
 	@Override

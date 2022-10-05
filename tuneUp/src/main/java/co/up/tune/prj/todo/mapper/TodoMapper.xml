@@ -5,7 +5,7 @@
 	<!-- ======할일======= -->
 	<select id="todoList" resultType="co.up.tune.prj.vo.TodoVO">
 		select * from todo
-		where prj_no = '111'
+		where prj_no = #{prjNo}
 		order by post_no desc
 	</select>
 	
@@ -19,7 +19,7 @@
 		SELECT PNO_SEQ.CURRVAL FROM DUAL
 		</selectKey>
 		INSERT INTO TODO
-		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{ttl}, #{wrtr}, sysdate, #{prjNo})
+		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{ttl}, #{wrtr}, sysdate, ${prjNo})
 		<!-- <selectKey keyProperty="todoNo" order="BEFORE" resultType="int">
 			select
 			    case when max(todo_no) is null then 1

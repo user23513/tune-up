@@ -25,6 +25,9 @@ import co.up.tune.file.service.ProPostFileService;
 import co.up.tune.prj.myProject.service.MyProjectService;
 import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.schedule.service.ScheduleService;
+import co.up.tune.prj.todo.service.DemoTodoService;
+import co.up.tune.prj.todo.service.TodoDetailService;
+import co.up.tune.prj.todo.service.TodoService;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
 import co.up.tune.prj.vo.ScheduleVO;
@@ -45,6 +48,19 @@ public class PropostController {
 	
 	@Autowired
 	ScheduleService sDao;
+	
+	/* 은지 추가 2022.10.05 */
+	@Autowired
+	TodoService tdao;
+
+	@Autowired
+	TodoDetailService detail;
+	
+	@Autowired
+	DemoTodoService demo;
+	
+	@Autowired
+	
 	
 
 	@Value("${file.dir}") 
@@ -75,6 +91,12 @@ public class PropostController {
 		
 		/* 파일 */
 		model.addAttribute("postFiles", dao.prjPostFiles(prjNo));
+		
+		/* 할일 */ /* 은지 추가 2022.10.05 */
+//		model.addAttribute("todoList", tdao.todoList(prjNo));
+//		rvo.setPostNo(tvo.getPostNo());
+//		dvo.setPostNo(tvo.getPostNo());
+//		model.addAttribute("d", detail.detailList());
 		
 		return "prj/post/prjPostList";
 	}
@@ -115,8 +137,8 @@ public class PropostController {
 			fvo.setPNm(vo.getTtl());
 			fvo.setEmpNo(vo.getEmpNo());
 			
-			dao.prjPostInsert(vo, fvo);
 		}
+		dao.prjPostInsert(vo, fvo);
 		re.addAttribute("prjNo", vo.getPrjNo());
 		
 		return "redirect:prjPostList";
@@ -248,6 +270,9 @@ public class PropostController {
 //	  return "redirect:/prjPostList";
 //	  
 //	  }
+	
+	
+	/* 은지 추가 */
 	
 }
 

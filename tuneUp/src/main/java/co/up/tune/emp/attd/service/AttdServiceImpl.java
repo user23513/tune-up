@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -269,6 +268,12 @@ public class AttdServiceImpl implements AttdService{
 	public AttdVO checkTime(AttdVO vo) {
 		// 출근시간 띄우기
 		return dao.checkTime(vo);
+	}
+
+	@Override
+	public AttdVO checkBTime(AttdVO vo) {
+		// TODO Auto-generated method stub
+		return dao.checkBTime(vo);
 	}
 
 

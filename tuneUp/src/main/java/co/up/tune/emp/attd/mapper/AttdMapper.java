@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import co.up.tune.emp.vo.AttdUpVO;
 import co.up.tune.emp.vo.AttdVO;
 
 
@@ -29,6 +28,7 @@ public interface AttdMapper {
 	int checkBad(AttdVO vo); 	//어제 이상 출근 몇명
 	
 	AttdVO checkTime(AttdVO vo); //출근시간 띄우기
+	AttdVO checkBTime(AttdVO vo); //퇴근시간 띄우기
 	
 	Date selectAtdcTmByEmpNo(String empNo); // 특정 사원의 출근시간 조회 
 	

@@ -17,11 +17,11 @@
 			select
 			    case when max(todo_no) is null then 1
 			    else max(todo_no)+1
-			    end as todo_no
+			    end as no
 			from todoDetail
 		</selectKey> 
 		insert into todoDetail (todo_no, cntn, cmplt_yn, post_no, edt)
-		value = (#{todoNo}, #{cntn}, 'N', #{postNo}, sysdate)
+		values  (#{todoNo}, #{cntn}, 'N', #{postNo}, sysdate)
 	</insert>
 	
 	<update id="detailUpdate" parameterType="co.up.tune.prj.vo.TodoDetailVO">

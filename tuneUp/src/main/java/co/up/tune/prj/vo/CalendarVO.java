@@ -14,4 +14,5 @@ public class CalendarVO {
 	 Date sdt;	//시작일
 	 Date edt;	//종료일
 	 String calTyp;	//캘린더유형
+	 String color; //일정 색상
 }

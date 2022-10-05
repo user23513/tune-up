@@ -6,17 +6,12 @@
 <meta charset="UTF-8">
 <title>내 프로젝트 목록</title>
 <script>
-let schedules = []; //schedules가 db에 있는 모든 리스트
 $(document).ready(function(){
-	
 	/* $("#edBtn").on("click", e=>{
 		 $("#endFrm").submit(); */
-		console.log("prj ", $(".inputPrj").val())
-	});
-
-	
-	</script>
-
+	console.log("prj ", $(".inputPrj").val())
+});
+</script>
 <style>
 #info {
 	background-color: white;
@@ -49,7 +44,7 @@ $(document).ready(function(){
 }
 
 .pagination li a:hover {
-	color: #fffff;
+	color: #ffffff;
 }
 
 .pagination li.active a, .pagination li.active a.page-link {
@@ -81,6 +76,10 @@ $(document).ready(function(){
 	border-radius: 20px;
 	margin-right: 5px;
 }
+.select{
+	background-color: #4e94ba;
+    color: #ffffff;
+}
 </style>
 </head>
 <body>
@@ -89,7 +88,6 @@ $(document).ready(function(){
 
 		<div class="card">
 			<div class="card-body">
-
 				<br>
 				<div class="pagetitle">
 					<h1>프로젝트</h1>
@@ -103,8 +101,7 @@ $(document).ready(function(){
 				</div>
 				<br>
 				<!-- 진행/완료 탭 -->
-				<ul class="nav nav-tabs nav-tabs-bordered " id="borderedTab"
-					role="tablist">
+				<ul class="nav nav-tabs nav-tabs-bordered " id="borderedTab" role="tablist">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link active" id="ongoing-tab"
 							data-bs-toggle="tab" data-bs-target="#ongoing" type="button"
@@ -155,12 +152,9 @@ $(document).ready(function(){
 										</div>
 										<div class="card-footer">
 											<input type="hidden" class="inputPrj" th:value="${prj.prjNo}">
-
-											<i class="bi bi-people-fill"> <span th:text="${prj.cnt}"></span>
+											<i class="bi bi-people-fill">
+												<span th:text="${prj.cnt}"></span>
 											</i>
-
-
-
 										</div>
 									</div>
 									<!-- 프로젝트 카드 -->
@@ -188,10 +182,8 @@ $(document).ready(function(){
 								<i class="bi bi-people-fill"> 52 </i>
 
 								<!-- 프로젝트 카드 -->
-
 							</div>
 							</form>
-
 						</div>
 						<!-- End 내 프로젝트 리스트 -->
 					</div>
@@ -258,17 +250,7 @@ $(document).ready(function(){
 				</div>
 			</div>
 		</div>
-		</div>
-		</div>
-		</section>
 		<script>
-		//랜덤 색상
-		let prjColor = $(".size");
-		$.each(prjColor, (idx, prj)=>{
-			const randomColor = Math.floor(Math.random()*16777215).toString(16);
-			$(prj).css('border','3px solid #e9ecef');
-		})
-
 		$(".prjSelect").on("click", e=>{ 
 			$(e.currentTarget).parent().submit();
 		})
@@ -277,7 +259,7 @@ $(document).ready(function(){
 			e.stopPropagation();
 			location.href='prjMng';
 		})
-	</script>
+		</script>
 	</main>
 </body>
 </html>

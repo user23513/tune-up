@@ -19,4 +19,11 @@ public class PrjfilesServiceImpl implements PrjFilesService {
 		return map.prjFileList(empNo);
 	}
 
+	@Override
+	public int fileDelete(FilesVO vo) {
+		return map.fileDelete(vo);
+	}
+
+
+
 }

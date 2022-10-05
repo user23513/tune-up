@@ -54,8 +54,9 @@ public class NoitceController {
 	}
 	
 	//공지사항 등록(파일까지)
+	@ResponseBody
 	@PostMapping("/noticeInsert")
-	public String noticeInsert(CommunityVO vo, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
+	public CommunityVO noticeInsert(CommunityVO vo, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
 		//file upload 처리
 		List<FilesVO> list = new ArrayList<>();
 		if(!files[0].isEmpty()) {
@@ -65,19 +66,20 @@ public class NoitceController {
 			vo.setFPath(list.get(0).getFPath());
 		}
 		
-		//긴급공지 체크되었을때 "1", 안되었을때 "0"
+		//긴급공지일 때 "1"
 		if(vo.getEmerg() == null) {
 			vo.setEmerg("0");
-		} else {
+		}else {
 			vo.setEmerg("1");
 		}
+		
 		dao.noticeInsert(vo);
 		
-		return "redirect:/noticeList";
+		return vo;
 	}
 	
 	//공지사항 상세조회
-	@PostMapping("/noticeSelect")
+	@GetMapping("/noticeDetail")
 	public String noticeSelect(CommunityVO vo, Model model) {
 		dao.noticeHitUpdate(vo);
 		model.addAttribute("n", dao.noticeSelect(vo));

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -284,7 +283,7 @@ $(document).ready(function() {
 									<!-- 전체 댓글 -->
 									<div class="rList">
 										<div th:each="r : ${replyList}"
-											th:if="${s.postNo}==${r.postNo}">
+											th:if="${s.postNo}==${r.postNo}" th:attr="data-no=${s.empNo}">
 											<span th:text="${r.wrtr}">작성자</span>&nbsp; <span
 												th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
 											<br> <span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; <span>
@@ -469,18 +468,17 @@ $(document).ready(function() {
 									<span>[[${b.sdt}]] - [[${b.edt}]]</span>
 									<hr style="color: gray;">
 									<!-- 상태 -->
-									<i class="bi bi-arrow-clockwise size"></i> <span class="round"
-										style="margin-left: 20px;"
-										th:classappend="${b.st} == '요청' ? 'select'">요청</span> <span
-										class="round" th:classappend="${b.st} == '진행' ? 'select'">진행</span>
+									<span class="round" th:classappend="${b.st} == '요청' ? 'select'">요청</span> 
+									<span class="round" th:classappend="${b.st} == '진행' ? 'select'">진행</span>
 									<span class="round" th:classappend="${b.st} == '완료' ? 'select'">완료</span>
-									<br> <br>
-									<div th:text="${b.cntn}"
-										style="font-size: medium; min-height: 200px; padding: 10px;"></div>
-									<br> <br> <a th:each="f:${postFiles}"
-										th:if="${f.atchNo}==${b.atchNo}"
-										th:attr="data-path=${f.fPath}"
-										th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a> <br>
+									<br>
+									<br>
+									<div th:text="${b.cntn}" style="font-size: medium; min-height: 200px; padding: 10px;"></div>
+									<br> 
+									<br> 
+									<a th:each="f:${postFiles}" th:if="${f.atchNo}==${b.atchNo}" th:attr="data-path=${f.fPath}"
+										th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a> 
+									<br>
 
 									<!-- 댓글 -->
 									<br>
@@ -663,48 +661,72 @@ $(document).ready(function() {
 		</div>
 		<!-- 모달창 -->
 
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script th:inline="javascript">
-		/*===== 댓글 =====*/
+		//모달창
+		const Toast = Swal.mixin({
+			  toast: true,
+			  position: 'center',
+			  showConfirmButton: true,
+			  timerProgressBar: true,
+			  didOpen: (toast) => {
+			    toast.addEventListener('mouseenter', Swal.stopTimer)
+			    toast.addEventListener('mouseleave', Swal.resumeTimer)
+			 }
+		})
+		var count = 0;
+		/*===== 일정 참석 댓글 =====*/
 		$(".attendBtn").on("click", ".attend", e=>{
-			let postNo = $(e.target).parent().parent().parent().data("no");
-			let empNo = $("#empNo").val();
-			let replyCat = "프로젝트";
-			let cntn = null;
-			let wrtr = [[${session.nm}]];
-			if($(e.target).text()=="참석"){
-				cntn = wrtr+"님이 참석합니다.";
-			}else if($(e.target).text()=="불참"){
-				cntn = wrtr+"님이 불참합니다.";
-			}else {
-				cntn = wrtr+"님이 참석미정입니다.";
-			}
+			$.each($(".rList").children(), (idx, reply)=>{
+				if([[${session.empNo}]] == $(reply).data("no")){
+					count = 1;
+					return false;
+				}
+			})
 			
-			//댓글 등록 처리
-			$.ajax({
-		         url:'replyInsert',
-		         beforeSend:function(xhr){
-		 	  		xhr.setRequestHeader(header,token);  
-		     	 },
-		         type:'post',
-		         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr, 'replyCat':replyCat},
-		         dataType:'json',
-		         success:function(res){
-					let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
-										.append($("<span>").html(res.dttm))
-										.append($("<br>"))
-										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
-										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
-										.append($("<hr>"))
-					$(e.target).parent().next().next().next().next().append(div);
-					
-					$("#rCntn").val("");
-	         	}
-	      	})
-			if($(e.target).text()=="참석"){
+			if(count == 1){
+				Toast.fire({
+	  				  title: '이미 참석여부를 결정하셨습니다!'
+	  			})
+			}else {
+				let postNo = $(e.target).parent().parent().parent().data("no");
+				let empNo = $("#empNo").val();
+				let replyCat = "프로젝트";
+				let cntn = null;
+				let wrtr = [[${session.nm}]];
+				if($(e.target).text()=="참석"){
+					cntn = wrtr+"님이 참석합니다.";
+				}else if($(e.target).text()=="불참"){
+					cntn = wrtr+"님이 불참합니다.";
+				}else {
+					cntn = wrtr+"님이 참석미정입니다.";
+				}
 				
+				//댓글 등록 처리
+				$.ajax({
+			         url:'replyInsert',
+			         beforeSend:function(xhr){
+			 	  		xhr.setRequestHeader(header,token);  
+			     	 },
+			         type:'post',
+			         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr, 'replyCat':replyCat},
+			         dataType:'json',
+			         success:function(res){
+						let div = $("<div>").attr("data-no", empNo).append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
+											.append($("<span>").html(res.dttm))
+											.append($("<br>"))
+											.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
+											.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
+											.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
+											.append($("<hr>"))
+						$(e.target).parent().next().next().next().next().append(div);
+						
+						$("#rCntn").val("");
+		         	}
+		      	})
 			}
 		})
+		
 		//댓글 삭제 이벤트위임 (상위 div에 이벤트 걸었음)
 		$(".rList").on("click", ".delete", e=>{
 			let replyNo = $(e.target).data("no"); //댓글 번호
@@ -719,6 +741,7 @@ $(document).ready(function() {
 		         dataType:'json',
 		         success:function(res){
 		         	$(e.target).parent().parent().remove();
+		         	count = 0;
 		         }
 		      })
 		})
@@ -744,19 +767,18 @@ $(document).ready(function() {
 			     	success:function(res){
 			     		//성공하면 -1이 넘어옴
 			     		if(res!=0){
-			     			swal({
-			     				  icon: "success",
-			     				 title: '게시글이 삭제되었습니다!',
-			     				})
-			     				.then(function(){
-			     					$(e.target).closest(".sc").remove();
-			     				});
+			  				Toast.fire({
+			  				  icon: 'success',
+			  				  title: '게시글이 삭제되었습니다!'
+			  				}).then(function(){
+			  					$(e.target).closest(".sc").remove();
+			   				});
 			     			
 			     		}else{
-			     			swal({
-			     				  icon: "error",
-			     				 title: '게시글이 삭제되지 않았습니다!',
-			     				});
+			     			Toast.fire({
+				  				  icon: 'error',
+				  				  title: '게시글이 삭제되지 않았습니다!'
+				  			})
 			     		}
 			     	}
 					

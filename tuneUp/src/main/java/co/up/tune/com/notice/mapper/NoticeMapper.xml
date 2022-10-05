@@ -32,8 +32,12 @@
 	</insert>
 	
 	<insert id="noticeInsert" parameterType="co.up.tune.com.vo.CommunityVO">
+		<selectKey keyProperty="postNo" order="BEFORE" resultType="integer">
+			SELECT PNO_SEQ.NEXTVAL 
+			FROM DUAL
+		</selectKey>
 		INSERT INTO COMMUNITY
-		VALUES (PNO_SEQ.NEXTVAL, #{ttl}, #{wrtr}, SYSDATE, #{fNm}, #{fPath}, 0, #{emerg}, '101', #{empNo}, #{cntn})
+		VALUES (#{postNo}, #{ttl}, #{wrtr}, SYSDATE, #{fNm}, #{fPath}, 0, #{emerg}, '101', #{empNo}, #{cntn})
 	</insert>
 	
 	<update id="noticeUpdate" parameterType="co.up.tune.com.vo.CommunityVO">

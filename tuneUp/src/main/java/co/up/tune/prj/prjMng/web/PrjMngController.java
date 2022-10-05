@@ -22,7 +22,7 @@ public class PrjMngController {
 	public String teamList(@RequestParam("prjNo")int prjNo,Model model) {
 		TeamVO vo = new TeamVO();
 		model.addAttribute("teamList", dao.teamList(prjNo));
-		model.addAttribute("addTeamList", dao.addTeamList());
+		//model.addAttribute("addTeamList", dao.addTeamList());
 		model.addAttribute("authList", dao.authList(prjNo));
 		model.addAttribute("removeTeam", dao.removeTeam(vo));
 		return "prj/prjMng/teamList";
@@ -32,7 +32,7 @@ public class PrjMngController {
 	@GetMapping("/authList")
 	public String authList(@RequestParam("prjNo")int prjNo,Model model) {
 		model.addAttribute("authList", dao.authList(prjNo));
-		model.addAttribute("addTeamList", dao.addTeamList());
+		//model.addAttribute("addTeamList", dao.addTeamList());
 		return "prj/prjMng/teamList";
 	}
 	
@@ -52,7 +52,7 @@ public class PrjMngController {
 			model.addAttribute("removeTeam", dao.removeTeam(vo));
 			
 			model.addAttribute("teamList", dao.teamList(vo.getPrjNo()));
-			model.addAttribute("addTeamList", dao.addTeamList());
+			//model.addAttribute("addTeamList", dao.addTeamList());
 			model.addAttribute("authList", dao.authList(vo.getPrjNo()));
 			
 			return "prj/prjMng/teamList";
@@ -66,7 +66,7 @@ public class PrjMngController {
 			dao.teamAuth(vo);
 			
 			model.addAttribute("teamList", dao.teamList(vo.getPrjNo()));
-			model.addAttribute("addTeamList", dao.addTeamList());
+			//model.addAttribute("addTeamList", dao.addTeamList());
 			model.addAttribute("authList", dao.authList(vo.getPrjNo()));
 			
 			return "prj/prjMng/teamList";

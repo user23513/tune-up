@@ -48,7 +48,7 @@ public class AttdController {
 	}
 	
 	
-	//출근기록 저장 - 에러메세지 뜨게 수정해야함~~
+	//출근기록 저장 
 		@PostMapping("/startAttd")
 		public String startAttd(AttdVO vo) {
 			dao.startAttd(vo);
@@ -82,6 +82,12 @@ public class AttdController {
 	 @GetMapping("/checkTime")
 	 public String checkTime(AttdVO vo, Model model) {
 		 model.addAttribute("checkTime", dao.checkTime(vo));
+		return "emp/attd/myAttdList";
+	 }
+	 
+	 @GetMapping("/checkBTime")
+	 public String checkBTime(AttdVO vo, Model model) {
+		 model.addAttribute("checkBTime", dao.checkBTime(vo));
 		return "emp/attd/myAttdList";
 	 }
 	 

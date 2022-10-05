@@ -25,6 +25,15 @@
 		]]>
 	</select>
 	
+	<select id="checkBTime" resultType="co.up.tune.emp.vo.AttdVO">
+		<![CDATA[ 
+		SELECT AFWK_DTTM
+		FROM ATTD
+		WHERE EMP_NO= '999'
+		and atdc_dt = (TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD'))
+		]]>
+	</select>
+	
 	<select id="checkGood" resultType="Integer">
 		<![CDATA[
 		SELECT COUNT(*)

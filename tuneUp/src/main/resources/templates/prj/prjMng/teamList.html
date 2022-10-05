@@ -17,32 +17,16 @@
 	outline: 0;
 }
 </style>
+<script>
+	$(document).ready(function(){
+		$("#browser").treeview({}); 
+	});
+</script>
+
+
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-		<script type="text/javascript">
-$(document).ready(function(){
-$("#browser").treeview({
-
- }); 
-	
-  
-	$("#bin").on("click", e=>{
-		
-		e.preventDefault();
-		
-		 $("#removeTeam").submit();
-		console.log("empno ", $(".inputEmpNo").val())
-		console.log("token ", $(".inputToken").val())
-	})
-	
-	console.log("empno ", $(".inputEmpNo").val())
-	console.log("prjno ", $(".inputprjNo").val())
-	console.log("prjno ", $(".inputAuth").val())
-	
-});
-</script>
-
 		<section class="section">
 			<div class="row align-items-top">
 				<div>
@@ -266,19 +250,18 @@ $("#browser").treeview({
 									<div th:each="ath : ${authList}">
 										<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">  -->
 										<input type="hidden" name="prjNo" th:value="${ath.prjNo}">
-										<input type="hidden" name="prjNo" th:value="${ath.auth}">
+										<input type="hidden" name="auth" th:value="${ath.auth}">
+										<input type="hidden" name="empNo" th:value="${ath.empNo}">
 										<div class="col authSelect">
 											<div class="card size">
 												<div class="card-body">
 													<br>
-													<form id="rmvAuthFrm" name="rmvAuthNm" action="removeAuth"
-														method="post">
+													<form action="removeAuth" method="post">
 														<input type="hidden" th:name="${_csrf.parameterName}"
-															th:value="${_csrf.token}"> <input type="hidden"
-															id="athempNo" name="athempNo" th:value="${ath.empNo}">
-														<input type="hidden" id="athprjno" name="athprjno"
-															th:value="${ath.prjNo}"> <input type="hidden"
-															id="athauth" name="athauth" th:value="${ath.auth}">
+															th:value="${_csrf.token}"> 
+														<input type="hidden" name="empNo" th:value="${ath.empNo}">
+														<input type="hidden" name="prjNo" th:value="${ath.prjNo}"> 
+														<input type="hidden" name="auth" th:value="${ath.auth}">
 														<h4>
 															<button class="ri-arrow-go-back-line" id="modi"
 																style="float: right"></button>

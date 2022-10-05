@@ -14,11 +14,8 @@
 	
 	<insert id="demoInsert" parameterType="co.up.tune.prj.vo.DemoTodoVO">
 		<selectKey keyProperty="no" order="BEFORE" resultType="int">
-			select
-			    case when max(no) is null then 1
-			    else max(no)+1
-			    end as no
-			from demotodo
+			select nvl(max(no),0)+1
+		 	  from 	demoTodo
 		</selectKey>
 		insert into demoTodo (no,cntn, emp_no)
 		values (#{no}, #{cntn}, #{empNo})

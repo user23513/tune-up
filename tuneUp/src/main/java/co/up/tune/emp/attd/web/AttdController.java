@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import co.up.tune.emp.attd.service.AttdService;
@@ -35,7 +34,6 @@ public class AttdController {
 	@GetMapping("/attdList")
 	public String attdList(Model model) {
 		AttdUpVO vo = new AttdUpVO();
-		AttdVO dvo = new AttdVO();
 		model.addAttribute("attdList",dao.attdList());
 		model.addAttribute("attdGoodList",dao.attdGoodList());
 		model.addAttribute("attdBadList",dao.attdBadList());
@@ -98,6 +96,7 @@ public class AttdController {
 	public String myAttdList(Model model){
 		AttdVO vo = new AttdVO();
 		model.addAttribute("checkTime", dao.checkTime(vo).getAtdcDttm());
+		model.addAttribute("checkBTime", dao.checkBTime(vo).getAfwkDttm());
 		return "emp/attd/myAttdList";
 		
 	}

@@ -84,7 +84,7 @@
 						data-bs-toggle="modal" data-bs-target="#largeModal"
 						style="float: right;">수정신청</button>
 					<button onclick="location.href='attdList'" class="btn btn-primary"
-						style="float: right; margin-right: 5px;">관리자 페이지</button>
+						style="float: right; margin-right: 5px;" th:if="${session.mng}=='attd'">관리자 페이지</button>
 				</div>
 
 				<br> <br> <br>

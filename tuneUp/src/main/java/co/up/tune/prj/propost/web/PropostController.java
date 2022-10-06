@@ -18,14 +18,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 
-import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.file.service.FileService;
 import co.up.tune.file.service.ProPostFileService;
 import co.up.tune.prj.myProject.service.MyProjectService;
 import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.schedule.service.ScheduleService;
-import co.up.tune.prj.todo.service.DemoTodoService;
 import co.up.tune.prj.todo.service.TodoDetailService;
 import co.up.tune.prj.todo.service.TodoService;
 import co.up.tune.prj.vo.FilesVO;

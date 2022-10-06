@@ -90,6 +90,8 @@ $(document).ready(function() {
 	    })
 	})
 	
+	
+	//=============  할 일  ====================
 	//todo 체크박스 이벤트
 	$('[name="todoCk"]').change(function() {
 		let todoNo = this. closest("td").nextElementSibling.innerText;
@@ -108,8 +110,6 @@ $(document).ready(function() {
 				data: {"cmpltYn" : "Y", "todoNo" : todoNo},
 				success:function(res){
 					//this.closest("tr").lastElementChild.innerText = res;
-					
-					
 				}
 			})
 		}
@@ -562,6 +562,7 @@ $(document).ready(function() {
 							<div class="card sc"
 								style="width: 80%; position: relative; left: 10%; margin-top: 50px;"
 								th:each="t :${todoList}">
+								<div th:each="perc :${todoPerc}"th:if="${perc.postNo}==${t.postNo}">
 
 								<div class="card-body">
 									<div class="card-title">
@@ -590,6 +591,11 @@ $(document).ready(function() {
 									<span style="font-size: 22px;"><b>[[${t.ttl}]]</b></span><br>
 									<hr style="color: gray;">
 									<div>
+ 										<div class="progress" style=" position: relative; top: 50px; left: -10px;">
+											<div class="progress-bar bg-info" role="progressbar"
+												th:style="|width:${perc.perc}%|" th:attr="aria-valuenow=${perc.perc}" aria-valuemin="0"
+												aria-valuemax="100">[[${perc.perc}]]%</div>
+										</div>
 										<table class="table table-borderless">
 											<tbody>
 												<tr th:each="detail : ${detailList}" th:if="${t.postNo} == ${detail.postNo}">
@@ -633,6 +639,7 @@ $(document).ready(function() {
 									</div>
 								</div>
 								<!-- 전체 댓글 -->
+							</div>
 							</div>
 						</div>
 					</div>

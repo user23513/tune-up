@@ -5,9 +5,9 @@
 	<!-- 내프로젝트 리스트 -->
 	<select id="myPrjList" resultType="co.up.tune.prj.vo.ProjectVO" parameterType="int">
     	SELECT p.prj_no,p.nm,p.cntn,(select nvl(ROUND((select count(*)*100 
-        from business 
-        where prj_no=p.prj_no 
-        and st='완료')/
+	        from business 
+	        where prj_no=p.prj_no 
+	        and st='완료')/
        (select nullif(count(*),0) 
         from business 
         where prj_no=p.prj_no)),0) prog

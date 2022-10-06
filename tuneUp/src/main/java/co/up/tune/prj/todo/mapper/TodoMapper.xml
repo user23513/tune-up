@@ -18,7 +18,7 @@
 		SELECT PNO_SEQ.CURRVAL FROM DUAL
 		</selectKey>
 		INSERT INTO TODO
-		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{ttl}, #{wrtr}, sysdate, ${prjNo})
+		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{ttl}, #{wrtr}, sysdate, ${prjNo}, 0)
 	</insert>
 	
 	<update id="todoUpdate" parameterType="co.up.tune.prj.vo.TodoVO">
@@ -34,6 +34,22 @@
 		delete from todo
 		where post_no = #{postNo}
 	</delete>
+	
+	<!-- ======percent bar====== -->
+	<select id="todoPerc" resultType="co.up.tune.prj.vo.TodoVO" parameterType="int">
+		select (
+			nvl(round(
+				(select count(*)*100
+				from tododetail
+				where post_no = #{postNo}
+				and cmplt_yn = 'Y')
+				/(select COUNT(*)
+				from tododetail
+				where post_no = #{postNo})),0)
+			) as perc
+		from todo
+		where post_no = #{postNo}
+	</select>
 	
 	<!-- ======댓글====== -->
 	<select id="replyList" resultType="co.up.tune.com.vo.ReplyVO"> 

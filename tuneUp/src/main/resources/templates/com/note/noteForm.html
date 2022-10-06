@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>쪽지 쓰기</title>
+</head>
+<body>
+<div>
+	<b>받는사람</b>&nbsp; 
+	<input type="checkbox">&nbsp;내게쓰기
+	<!-- 여러명은 쉼표로 구분 -->
+	<input type="text" disabled>
+	<!-- 주소록 -->
+	<button class="deptsBtn" type="button">주소록</button>
+	
+</div>
+<hr>
+<div>
+	<textarea style="width: 579px; height: 283px;"></textarea>
+</div>
+<div>
+	<input type="checkbox" name="cntn">&nbsp;보낸쪽지함에 저장
+</div>
+<div>
+	<button type="button" style="margin-right: 5px;">보내기</button>
+	<button type="button">취소</button>
+</div>
+
+<script src="/js/jquery-3.6.1.min.js"></script>
+<script>
+	//주소록 버튼 클릭 시
+	$(".deptsBtn").on("click", e=>{
+		console.log("dd")
+		var popupWidth = 600;
+		var popupHeight = 400;
+		var popupX = (window.screen.width / 2) - (popupWidth / 3);
+		// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+		var popupY= (window.screen.height / 2) - (popupHeight / 3);
+		// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+		
+  	  	window.open('/deptList', '', 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+	})
+</script>
+</body>
+</html>

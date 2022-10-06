@@ -138,19 +138,22 @@
  	<script src="/js/jquery-3.6.1.min.js"></script>
 	<script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 	<script>
-		//datatables
-		$('#sNoteList').DataTable();
-		$('#rNoteList').DataTable();
-		$('#kNoteList').DateTable();
+		/* $(function(){
+			//datatables
+			$('#sNoteList').DataTable();
+			$('#rNoteList').DataTable();
+			$('#kNoteList').DateTable();
+		}) */
 		
 		$("#noteForm").on("click", e=>{
-			var chatWidth = 450;
-	  	    var chatHeight = 655;
-	  	    var chatLeft = 90;
-	  	    var chatTop = 100;
-	  	    var	xPos = (document.body.offsetWidth) - w; // 오른쪽 정렬
-	  	    var yPos = (document.body.offsetHeight/2) - (h/2);
-	  	    window.open('/noteForm', '', `width = ${chatWidth}px, height = ${chatHeight}px,left = ${chatLeft}%,top = ${chatTop}`)
+			var popupWidth = 600;
+			var popupHeight = 400;
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+			var popupY= (window.screen.height / 2) - (popupHeight / 2);
+			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+			
+	  	  	window.open('/noteForm', '', 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
 		})
 	</script>
 </main>

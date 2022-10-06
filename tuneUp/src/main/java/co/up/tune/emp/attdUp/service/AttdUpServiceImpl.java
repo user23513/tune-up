@@ -1,5 +1,8 @@
 package co.up.tune.emp.attdUp.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +43,7 @@ public class AttdUpServiceImpl implements AttdUpService{
 
 	@Override
 	public int attdUpInsert(AttdUpVO vo) {
-		// TODO Auto-generated method stub
+		
 		return dao.attdUpInsert(vo);
 	}
 
@@ -53,7 +56,61 @@ public class AttdUpServiceImpl implements AttdUpService{
 	@Override
 	public int attdUpOk(AttdUpVO vo) {
 		// TODO Auto-generated method stub
-		int result = dao.attdUpOk(vo);
+		
+		System.out.println("attdUpOk :"+ vo);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		paramMap.put("atdcDt", vo.getAtdcDt());
+		paramMap.put("empNo", vo.getEmpNo());
+		paramMap.put("atdcDttm", vo.getAtdcDttm());
+		paramMap.put("afwkDttm", vo.getAfwkDttm());
+
+		// 만약 퇴근시간 데이터가 있다면
+		if(vo.getAfwkDttm() != null ) {
+			// 근무시간 등 계산
+		
+			Date afwkDttm = vo.getAfwkDttm();
+			Date atdcDttm = vo.getAtdcDttm();
+			
+			//포맷 정하기
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMdd HH:mm:ss");
+			
+			try {
+				
+				System.out.println("atdcDttmStr : "+ dateFormat.format(atdcDttm));
+				atdcDttm = dateFormat.parse(dateFormat.format(atdcDttm));
+				afwkDttm = dateFormat.parse(dateFormat.format(afwkDttm));
+			
+				long commonWktm = 540;
+				
+				// 1. 근무시간 구하기 (퇴근시간 - 출근시간)
+				long diff = afwkDttm.getTime() - atdcDttm.getTime();
+				// 분단위로 변환
+				long diffMinutes = diff / 60000 ;  
+				
+				paramMap.put("wktm", diffMinutes);
+				
+				// 2. 초과근무시간 구하기 (일반 근무시간(540분) - 근무시간)
+				// 정산근무 혹은 초과근무라면
+				if (diffMinutes >= commonWktm ) {
+					paramMap.put("st", "정상");
+					long ovtmLong = diffMinutes-commonWktm;
+					paramMap.put("ovtm", ovtmLong);
+				
+				// 근무시간 미달시
+				} else {
+					paramMap.put("st", "비정상");
+					paramMap.put("ovtm", 0);
+				}
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		int result = dao.attdUpOk(paramMap);
 		
 		// 수정이 완료 되었을 때
 		if(result > 0) {

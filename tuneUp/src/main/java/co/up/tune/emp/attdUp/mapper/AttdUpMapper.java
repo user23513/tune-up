@@ -13,11 +13,13 @@ public interface AttdUpMapper {
 	List<AttdUpVO> myAttdUpList(); //나의 근태 수정리스트
 	int attdUpInsert(AttdUpVO vo); // 근태 수정 신청 - 사원
 	int attdUpDel(int attdUpNo);	//근태 수정 반려
-	int attdUpOk(AttdUpVO vo);	//근태 수정 승인
+	int attdUpOk(Map<String, Object> paramMap);	//근태 수정 승인
 	
 	int checkModi(AttdUpVO vo);	//수정요청 몇명
 	
 	int selectAttdUpNo(Map<String, Object> paramMap);
+	
+	
 	
 	
 	

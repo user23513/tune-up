@@ -37,7 +37,7 @@ public interface PropostService {
 	int postDelete(int postNo, String type); //게시글 삭제
 	List<BusinessVO> businessList(int prjNo); //프로젝트 업무 리스트
 	
-//	FilesVO filesSelect(FilesVO vo); //파일 단건
-//	int filesInsert(FilesVO vo); //파일등록
-//	int filesDelete(FilesVO vo); //파일삭제
+	//관리버튼 관리자 권한 체크
+	boolean isAuth(String empNo, int prjNo);
+ 
 }

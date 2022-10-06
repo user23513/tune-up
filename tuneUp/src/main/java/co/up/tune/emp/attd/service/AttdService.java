@@ -2,6 +2,7 @@ package co.up.tune.emp.attd.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,9 +24,8 @@ public interface AttdService {
 	int startAttd(AttdVO vo);	//오늘 출근 시작
 	int endAttd(AttdVO vo);	//오늘 퇴근
 	
-	
-	List<AttdVO> wktmChart(AttdVO vo) throws Exception;	// 워크타임 차트
-	
+	List<String> wktmChart(String empNo);	// 워크타임 차트에 쓰이는 근무시간리스트
+	List<String> ovtmChart(String empNo);	// 워크타임 차트에 쓰이는 초과근무시간리스트
 	
 	int checkGood(AttdVO vo);	//오늘 출근 시작 몇명
 	int checkBad(AttdVO vo); 	//어제 이상 출근 몇명
@@ -35,6 +35,5 @@ public interface AttdService {
 	
 	//엑셀
 	void excel(AttdVO attdVO, HttpServletResponse res) throws Exception;
-	
 	 
 }

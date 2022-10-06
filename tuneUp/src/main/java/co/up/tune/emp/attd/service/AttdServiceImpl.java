@@ -3,6 +3,7 @@ package co.up.tune.emp.attd.service;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +108,7 @@ public class AttdServiceImpl implements AttdService{
 		// 관리자 - 전체사원 근태리스트
 		
 		List<AttdVO> list =  dao.attdList();
-		
+	
 		for( AttdVO vo :list) {
 			// 퇴근한 사원들 중
 			if (vo.getAfwkDttm() != null) {
@@ -124,6 +125,7 @@ public class AttdServiceImpl implements AttdService{
 					}
 				}
 			}
+			System.out.println("attdListVO :" + vo);
 		}
 		return list;
 	}
@@ -281,11 +283,6 @@ public class AttdServiceImpl implements AttdService{
 		return dao.endAttd(vo);
 	}
 
-	@Override
-	public List<AttdVO> wktmChart(AttdVO vo) {
-		// 워크타임 차트
-		return dao.wktmChart(vo);
-	}
 
 	@Override
 	public int checkGood(AttdVO vo) {
@@ -310,6 +307,21 @@ public class AttdServiceImpl implements AttdService{
 		// TODO Auto-generated method stub
 		return dao.checkBTime(vo);
 	}
+
+
+	@Override
+	public List<String> wktmChart(String empNo) {
+		return dao.wktmChart(empNo);
+	}
+
+	@Override
+	public List<String> ovtmChart(String empNo) {
+		// TODO Auto-generated method stub
+		return dao.ovtmChart(empNo);
+	}
+
+
+
 
 
 }

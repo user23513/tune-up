@@ -2,8 +2,12 @@ package co.up.tune.emp.attd.web;
 
 
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -93,10 +97,20 @@ public class AttdController {
 	 
 	 // 나의 근태 보기
 	@RequestMapping("/myAttdList")
-	public String myAttdList(Model model){
+	public String myAttdList(Model model, HttpServletRequest request){
+		HttpSession session =  request.getSession();
 		AttdVO vo = new AttdVO();
-		model.addAttribute("checkTime", dao.checkTime(vo).getAtdcDttm());
-		model.addAttribute("checkBTime", dao.checkBTime(vo).getAfwkDttm());
+		String empNo = (String)session.getAttribute("empNo");
+		
+		model.addAttribute("wktmChart", dao.wktmChart(empNo));
+		model.addAttribute("ovtmChart", dao.ovtmChart(empNo));
+		
+		vo.setEmpNo(empNo);
+		// 만약 금일 출근 기록이 없거나 출근시간을 찍지 않았다면
+		model.addAttribute("checkTime", (dao.checkTime(vo) == null || dao.checkTime(vo).getAtdcDttm() == null) ? null : dao.checkTime(vo).getAtdcDttm());
+		// 퇴근시간을 찍지 않았다면
+		model.addAttribute("checkBTime", (dao.checkBTime(vo) == null || dao.checkBTime(vo).getAfwkDttm() == null) ? null : dao.checkBTime(vo).getAfwkDttm());
+		
 		return "emp/attd/myAttdList";
 		
 	}

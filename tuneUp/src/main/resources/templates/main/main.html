@@ -53,12 +53,31 @@ body {
 								<br>
 								<span th:text="|${session.nm}님 환영합니다.|"></span>
 								<hr>
+									<!-- 출근 시간 보여주기 -->
+									<div class="list-group col-2" style="float: left">
+										<div class="list-group-item list-group-item-primary"
+											style="width: 150px; height: 50px;">
+											출근 시간 <span class="badge bg-secondary text-light"
+												th:text="${checkTime == null? '' :  #dates.format(checkTime, 'HH:mm')}"></span>
+										</div>
+									</div>
+									<!-- 퇴근 시간 보여주기 -->
+									<div class="list-group col-3" style="float: right">
+										<div class="list-group-item list-group-item-primary "
+											style="width: 150px; height: 50px;">
+											퇴근 시간 <span class="badge bg-secondary text-light"
+												th:text="${checkBTime == null? '' : #dates.format(checkBTime, 'HH:mm')}"></span>
+										</div>
+									</div>
+									<br><br><br>
+									<!-- 출퇴근 버튼 찍기 -->
 								<div class="btn-group" role="group" aria-label="Basic example" style="width: 100%;">
 									<button id="attdBtn" type="button" class="btn btn-primary">출근</button>
 									<button id="edBtn" type="button" class="btn btn-primary">퇴근</button>
 								</div>
 								<br> 
 								<br>
+								<!-- 근태관리 버튼 -->
 								<div class="col-12 justify-content-end">
 									<button type="button" class="btn btn-primary"
 										style="width: 100%;" onclick="location.href='myAttdList'">근태 관리</button>

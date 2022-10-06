@@ -1,6 +1,8 @@
 package co.up.tune.prj.propost.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
 import co.up.tune.prj.vo.ScheduleVO;
+import co.up.tune.prj.vo.TeamVO;
 
 @Service
 public class PropostServiceImpl implements PropostService {
@@ -138,6 +141,16 @@ public class PropostServiceImpl implements PropostService {
 	public int pjReplyDelete(ReplyVO vo) {
 		// TODO Auto-generated method stub
 		return map.pjReplyDelete(vo);
+	}
+
+	@Override
+	public boolean isAuth(String empNo, int prjNo) {
+		// TODO Auto-generated method stub
+		TeamVO vo = new TeamVO();
+		vo.setEmpNo(empNo);
+		vo.setPrjNo(prjNo);
+		
+		return map.isAuth(vo) > 0;
 	}
 	
 	 

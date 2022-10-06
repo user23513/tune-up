@@ -2,8 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.prj.myProject.mapper.MyProjectMapper">
 
+	<!-- 내프로젝트 리스트 -->
 	<select id="myPrjList" resultType="co.up.tune.prj.vo.ProjectVO" parameterType="int">
-    	SELECT p.*, (select count(*) from team t where t.prj_no = p.prj_no) as cnt
+    	SELECT p.prj_no,p.nm,p.cntn,(select nvl(ROUND((select count(*)*100 
+        from business 
+        where prj_no=p.prj_no 
+        and st='완료')/
+       (select nullif(count(*),0) 
+        from business 
+        where prj_no=p.prj_no)),0) prog
+from dual) prog ,p.st,p.dt,p.sdt,p.edt, (select count(*) from team t where t.prj_no = p.prj_no) as cnt
 		FROM PROJECT p
         WHERE PRJ_NO IN (
     		SELECT PRJ_NO 
@@ -12,6 +20,5 @@
     	)
     	ORDER BY PRJ_NO DESC
 	</select>
-
-
+	
 </mapper>

@@ -27,6 +27,8 @@ public interface PrjMngMapper {
 	int prjSt(ProjectVO vo); //프로젝트 상태 변경
 	
 	ProjectVO pjSelect(ProjectVO vo);
+	
+	TeamVO tmSelect(TeamVO vo);
 	/////////아래는 테스트용/////////////
 	
 	int addTeamList(@Param("vo")TeamVO vo, @Param("addTeamList")List<TeamVO> addTeamList); //새 멤버 추가

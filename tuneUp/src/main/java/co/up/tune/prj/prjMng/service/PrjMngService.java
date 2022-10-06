@@ -26,6 +26,8 @@ public interface PrjMngService {
 	int prjSt(ProjectVO vo); //프로젝트 상태 변경
 	
 	ProjectVO pjSelect(ProjectVO vo);
+	
+	TeamVO tmSelect(TeamVO vo);
 	///////////////
 	
 	int addTeamList(TeamVO vo); //새 멤버 추가

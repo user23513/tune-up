@@ -1,7 +1,6 @@
 package co.up.tune.prj.prjMng.web;
 
 
-import java.io.Console;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,10 +29,8 @@ public class PrjMngController {
 		vo.setPrjNo(prjNo);
 		model.addAttribute("empList", postDao.empList());
 		model.addAttribute("teamList", dao.teamList(prjNo));
-		// model.addAttribute("addTeamList", dao.addTeamList());
 		model.addAttribute("authList", dao.authList(prjNo));
-		model.addAttribute("prjSt", dao.prjSt(vo));
-		model.addAttribute("s", dao.pjSelect(vo));
+		model.addAttribute("prj", dao.pjSelect(vo));
 		return "prj/prjMng/teamList";
 	}
 
@@ -85,7 +82,6 @@ public class PrjMngController {
 	// 프로젝트 상태 변경
 	@PostMapping("/prjSt")
 	public String prjSt(ProjectVO vo, RedirectAttributes rttr) {
-		System.out.println(vo.getPrjNo() + vo.getSt()+"=====================");
 		dao.prjSt(vo);
 		rttr.addAttribute("prjNo", vo.getPrjNo());
 		return "redirect:/teamList";

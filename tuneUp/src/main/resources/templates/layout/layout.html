@@ -258,7 +258,8 @@
 
 				<li class="nav-item dropdown pe-3">
 				<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> 
-					<img th:src=@{/attach(path=${session.pic})} alt="Profile" class="rounded-circle">
+					<img th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
+						 alt="Profile" class="rounded-circle">
 					<span class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
 				</a> <!-- End Profile Iamge Icon --> <!-- 마이페이지 프로필 아이콘 눌렀을때-->
 					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -266,7 +267,7 @@
 							<h6 th:text="${session.nm}"></h6> 
 							<span th:text="${session.position}"></span>
 						</li>
-						<li class="form-floating">
+						<li class="form-floating">`
 							<select class="form-select" id="floatingSelect" aria-label="State">
 								<option value="1">온라인</option>
 								<option value="2">자리비움</option>
@@ -325,7 +326,8 @@
 			<section class="section profile">
 				<div>
 					<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-						<img th:src=@{/attach(path=${session.pic})} alt="Profile" class="rounded-circle">
+						<img th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
+							 alt="Profile" class="rounded-circle">
 						<div style="position: relative; left: -8px;">
 							<!-- <h3 style="position: relative; top: 40px; left: 9px;" th:text="|${session.dept}팀|">Web Designer</h3> -->
 							<i id="prev" class="bi bi-caret-left-fill" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>

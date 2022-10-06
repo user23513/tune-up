@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,9 +66,13 @@ public class PropostController {
 	//내프로젝트에서 클릭한 프로젝트로 이동
 	@RequestMapping("/prjPostList")
 	public String prjPostList(TodoVO vo ,@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, 
-								@RequestParam("prjNo")int prjNo, Model model) {
+								@RequestParam("prjNo")int prjNo, Model model, HttpServletRequest request) {
 		
 		model.addAttribute("prjNo", prjNo);
+		//관리자버튼 empNo세션값
+		HttpSession session =  request.getSession();
+		
+		String empNo =(String)session.getAttribute("empNo");
 		
 		/* 일정 */
 		PageInfo<ScheduleVO> s = new PageInfo<>(sDao.scheduleList(pageNum, prjNo),10); //페이징
@@ -95,6 +101,13 @@ public class PropostController {
 		System.out.println(tServ.todoList(prjNo));
 		System.out.println("=============================================" + vo.getPostNo());
 		model.addAttribute("detailList", detail.detailList());
+		
+		//프로젝트 관리버튼 권한체크
+		/**
+		 * 현진 추가 
+		 * 2022.10.07
+		 */
+		model.addAttribute("isAuth", dao.isAuth(empNo, prjNo));
 		
 		return "prj/post/prjPostList";
 	}

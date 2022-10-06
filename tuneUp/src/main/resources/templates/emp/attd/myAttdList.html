@@ -68,7 +68,7 @@
 					<div class="list-group-item list-group-item-primary"
 						style="width: 200px">
 						출근 시간 <span class="badge bg-secondary text-light"
-							th:text="${#dates.format(checkTime, 'HH:mm')}"></span>
+							th:text="${checkTime == null? '' :  #dates.format(checkTime, 'HH:mm')}"></span>
 					</div>
 				</div>
 
@@ -76,7 +76,7 @@
 					<div class="list-group-item list-group-item-primary "
 						style="width: 200px;">
 						퇴근 시간 <span class="badge bg-secondary text-light"
-							th:text="${#dates.format(checkBTime, 'HH:mm')}"></span>
+							th:text="${checkBTime == null? '' : #dates.format(checkBTime, 'HH:mm')}"></span>
 					</div>
 				</div>
 				<div class="col-3" style="float: right;">
@@ -174,53 +174,63 @@
 					<div class="card">
 						<div class="card-body">
 
-							<canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
-							<script>
-								var timeAry = new Array();
-								var overAry = new Array();
-								let empNo = $("#eNo").val();
+							<!-- Stacked Bar Chart -->
+              <canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
+              <script th:inline="javascript">
+              
 
-								$.ajax({
-									url : 'wktmChart',
-									type : 'get',
-									data : {
-										'empNo' : empNo
-									},
-									datatype : 'json',
-									success : function(data) {
+			    /*<![CDATA[*/
+			    
+			    var wktmChart = [[${wktmChart}]];
+			    console.log(wktmChart);
+			    
+			    var ovtmChart = [[${ovtmChart}]];
+			    console.log(ovtmChart);
+			    
+			    /*]]>*/
+			    
+                document.addEventListener("DOMContentLoaded", () => {
+                	
+                  new Chart(document.querySelector('#stakedBarChart'), {
+                    type: 'bar',
+                    data: {
+                      labels: ['Mon', 'Tue', 'Wed', 'Thur', 'Fri'],
+                      datasets: [{
+                          label: '근무 시간',
+                          data: wktmChart,
+                          backgroundColor: 
+                        	  'rgba(255, 99, 132, 0.2)',
+                        },
+                        {
+                          label: '야근',
+                          data: ovtmChart,
+                          backgroundColor: 
+                        	  'rgba(75, 192, 192, 0.2)',
+                        },
 
-										for (let i = 0; i < data.length; i++) {
-
-											timeAry.push(data[i].wktm);
-											overAry.push(data[i].ovtm);
-
-										}
-									}
-								});
-
-								const labels = [ 'Mon', 'Tue', 'Wed', 'Thu',
-										'Fri' ];
-
-								const datas = {
-									labels : labels,
-									datasets : [ {
-										label : '7 days work',
-										backgroundColor : 'rgb(255, 99, 132)',
-										borderColor : 'rgb(255, 99, 132)',
-										data : timeAry,
-									} ]
-								};
-
-								const config = {
-									type : 'bar',
-									data : datas,
-									options : {}
-								};
-
-								const myChart = new Chart(document
-										.getElementById('stakedBarChart'),
-										config);
-							</script>
+                      ]
+                    },
+                    options: {
+                      plugins: {
+                        title: {
+                          display: true,
+                          text: ''
+                        },
+                      },
+                      responsive: true,
+                      scales: {
+                        x: {
+                          stacked: true,
+                        },
+                        y: {
+                          stacked: true
+                        }
+                      }
+                    }
+                  });
+                });
+              </script>
+              <!-- End Stacked Bar Chart -->
 
 						</div>
 

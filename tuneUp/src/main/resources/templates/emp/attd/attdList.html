@@ -448,9 +448,9 @@
 											<td class="dt-body-center"><span th:text="${aup.empNo}"></span></td>
 											<td class="dt-body-center"><span th:text="${aup.nm}"></span></td>
 											<td class="dt-body-center"><span
-												th:text="${#dates.format(aup.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+												th:text="${#dates.format(aup.atdcDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
 											<td class="dt-body-center"><span
-												th:text="${#dates.format(aup.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+												th:text="${#dates.format(aup.afwkDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
 											<td class="dt-body-center"><span
 												th:text="${aup.aContent}"></span></td>
 											<td class="dt-body-center"><span
@@ -465,9 +465,9 @@
 												<!-- <input type="hidden" id="attdupNo" name="attdupNo" th:value="${aup.attdupNo}">  -->
 												<input type="hidden" id="st" name="st" th:value="${aup.st}">
 												<input type="hidden" id="atdcDttm" name="atdcDttm"
-													th:value="|${#dates.format(aup.atdcDttm, 'yyyy-MM-dd')}T${#dates.format(aup.atdcDttm, 'hh:mm:ss')}|">
+													th:value="|${#dates.format(aup.atdcDttm, 'yyyy-MM-dd')}T${#dates.format(aup.atdcDttm, 'HH:mm:ss')}|">
 												<input type="hidden" id="afwkDttm" name="afwkDttm"
-													th:value="|${#dates.format(aup.afwkDttm, 'yyyy-MM-dd')}T${#dates.format(aup.afwkDttm, 'hh:mm:ss')}|">
+													th:value="|${#dates.format(aup.afwkDttm, 'yyyy-MM-dd')}T${#dates.format(aup.afwkDttm, 'HH:mm:ss')}|">
 												<input type="hidden" id="empNo" name="empNo"
 													th:value="${aup.empNo}"> <input type="hidden"
 													id="atdcDt" name="atdcDt" th:value="${aup.atdcDt}">

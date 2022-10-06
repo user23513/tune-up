@@ -1,5 +1,8 @@
 package co.up.tune;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -32,15 +35,20 @@ public class TuneUpApplication {
 	}
 	
 	@GetMapping("/main")
-	public String main(Model model) {
-		AttdVO avo = new AttdVO();
+	public String main(Model model, HttpServletRequest request) {
 		PageInfo<CommunityVO> p = new PageInfo<>(dao.noticeList(1, new SearchVO()), 5);
+		AttdVO vo = new AttdVO();
+		//세션에서 empNo 받아옴(출근기록)
+		HttpSession session =  request.getSession();
+		
+		vo.setEmpNo((String)session.getAttribute("empNo"));
+		
 		model.addAttribute("nList", p);
-		/* 메인화면 출퇴근 띄우기 -> 널포인트 수정하고 주석 풀게영
-		model.addAttribute("checkTime", adao.checkTime(avo).getAtdcDttm());
-		//메인화면 퇴근시간 띄우기 (퇴근 기록 없으면 메인 오류 뜨는거 수정해야함)
-		model.addAttribute("checkBTime", adao.checkBTime(avo).getAfwkDttm());
-		*/
+		
+		// 당일 출퇴근 기록이 없다면(출근기록)
+		model.addAttribute("checkTime", (adao.checkTime(vo) == null || adao.checkTime(vo).getAtdcDttm() == null) ? null : adao.checkTime(vo).getAtdcDttm());
+		model.addAttribute("checkBTime", (adao.checkBTime(vo) == null || adao.checkBTime(vo).getAfwkDttm() == null) ? null : adao.checkBTime(vo).getAfwkDttm());
+		
 		return "main/main";
 	}
 	

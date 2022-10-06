@@ -20,7 +20,7 @@
 		<![CDATA[ 
 		SELECT ATDC_DTTM
 		FROM ATTD
-		WHERE EMP_NO= '999'
+		WHERE EMP_NO= #{empNo}
 		and atdc_dt = (TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD'))
 		]]>
 	</select>
@@ -29,7 +29,7 @@
 		<![CDATA[ 
 		SELECT AFWK_DTTM
 		FROM ATTD
-		WHERE EMP_NO= '999'
+		WHERE EMP_NO= #{empNo}
 		and atdc_dt = (TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD'))
 		]]>
 	</select>
@@ -102,13 +102,18 @@
 		AND ATDC_DT = (TO_CHAR(SYSDATE+ 9/24,'YYYY-MM-DD'))
 	</select>
 	
-	<select id="wktmChart" parameterType="co.up.tune.emp.vo.AttdVO" resultType="co.up.tune.emp.vo.AttdVO">
-	SELECT WKTM,OVTM 
+	<select id="ovtmChart" parameterType="String" resultType="String">
+	SELECT round(OVTM/60) 
 	FROM ATTD 
 	WHERE EMP_NO=#{empNo} 
 	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE, 'IW') - 7, 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE, 'IW') - 1, 'YYYYMMDD')
-	
  	</select>
 	
+	<select id="wktmChart" parameterType="String" resultType="String">
+	SELECT round(WKTM/60)
+	FROM ATTD 
+	WHERE EMP_NO=#{empNo} 
+	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE, 'IW') - 7, 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE, 'IW') - 1, 'YYYYMMDD')
+ 	</select>
 	 
 </mapper>

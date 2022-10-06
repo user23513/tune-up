@@ -218,4 +218,9 @@
 		WHERE PRJ_NO = #{prjNo}
 		ORDER BY POST_NO DESC
 	</select>
+	
+	<!-- 프로젝트 관리자 권한 체크 -->
+	<select id="isAuth" parameterType="co.up.tune.prj.vo.TeamVO" resultType="integer">
+		select count(*) from team where prj_no = #{prjNo} and emp_no = #{empNo}	and auth = '팀장'
+	</select>
 </mapper>

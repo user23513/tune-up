@@ -39,12 +39,14 @@
 	</delete>
 	
  
-	 <update id="attdUpOk" parameterType="co.up.tune.emp.vo.AttdUpVO">
+	 <update id="attdUpOk" parameterType="map">
 		UPDATE ATTD 
 		<set>
 			<if test="atdcDttm != null">ATDC_DTTM = #{atdcDttm}, </if>
 			<if test="afwkDttm != null">AFWK_DTTM = #{afwkDttm}, </if>
-			<if test="st != null">ST = '정상' </if>
+			<if test="wktm != null">WKTM = #{wktm}, </if>
+			<if test="ovtm != null">OVTM = #{ovtm}, </if>
+			<if test="st != null">ST = #{st} </if>
 		</set>
 		WHERE EMP_NO = #{empNo} AND ATDC_DT = #{atdcDt}
 		</update> 

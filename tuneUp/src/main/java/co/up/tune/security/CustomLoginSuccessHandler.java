@@ -41,6 +41,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			session.setAttribute("auth", vo.getAuth());
 			session.setAttribute("mng", vo.getMng());
 			session.setAttribute("position", vo.getPosition());
+			session.setAttribute("pic", vo.getPic());
 			
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			

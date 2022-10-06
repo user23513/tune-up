@@ -2,6 +2,7 @@ package co.up.tune.emp.web;
 
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +111,16 @@ public class EmpController {
 		ss.empUpdate(vo);
 		return "redirect:/login";
 	}
+	
+	/*
+	 * @PostMapping("/valid-recaptcha") public @ResponseBody String
+	 * validRecaptcha(HttpServletRequest request){ String result = null; String
+	 * response = request.getParameter("g-recaptcha-response"); boolean isRecaptcha
+	 * = homeService.verifyRecaptcha(response); //인증 메소드 서비스로 분리
+	 * 
+	 * if(isRecaptcha) { result = "success"; }else { result = "false"; } return
+	 * result; }
+	 */
 
 }
 	

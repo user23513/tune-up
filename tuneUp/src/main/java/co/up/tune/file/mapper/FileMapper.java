@@ -11,7 +11,7 @@ public interface FileMapper {
 	List<FilesVO> proPostFileList(FilesVO vo);
 	
 	int fileDelete(FilesVO vo);//파일 삭제
-	List<FilesVO> myFileInsert();//파일 업로드 ?????
+	int myFileInsert(FilesVO vo);//파일 업로드
 	
 	int proPostFileUpdate(FilesVO vo);
 	

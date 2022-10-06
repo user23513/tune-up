@@ -19,4 +19,10 @@ public class MyFilesServiceImpl implements MyFilesService {
 		return map.myFileList(empNo);
 	}
 
+	//파일 업로드
+	@Override
+	public int myFileInsert(FilesVO vo) {
+		return map.myFileInsert(vo);
+	}
+
 }

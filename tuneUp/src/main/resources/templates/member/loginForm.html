@@ -60,7 +60,14 @@
 		$("#SignUp").click(function() {
 			location.href = 'signupform';
 		})
-	})
+	});
+	
+	var isRecaptchachecked=false;
+	function recaptchaCallback(){// 리캡챠 체크 박스 클릭시 isRecaptchachecked 값이 true로 변경
+	  isRecaptchachecked = true;
+	}
+	
+	
 </script>
 </head>
 
@@ -105,6 +112,11 @@
 											<div class="invalid-feedback">Please enter your
 												password!</div>
 										</div>
+										
+										<!-- <div id="recaptcha" class="g-recaptcha" th:attr="data-sitekey=${@captchaSettings.getSite()}" 
+ 											data-callback="recaptchaCallback">
+ 										</div> -->
+ 										
 										<div class="col-12">
 											<button id="login" class="btn btn-primary w-100"
 												type="submit">LOGIN</button>

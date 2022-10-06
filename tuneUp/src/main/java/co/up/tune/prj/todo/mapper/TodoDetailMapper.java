@@ -11,5 +11,5 @@ public interface TodoDetailMapper {
 	int detailInsert(TodoDetailVO vo); //할일 상세 추가
 	int detailUpdate(TodoDetailVO vo); //할일 상세 수정
 	int detailDelete(TodoDetailVO vo); //할일 상세 삭제
-	String cmpltYnUpdate(TodoDetailVO vo); //할일 체크
+	int cmpltYnUpdate(TodoDetailVO vo); //할일 체크
 }

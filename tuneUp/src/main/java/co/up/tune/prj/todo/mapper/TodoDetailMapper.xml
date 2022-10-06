@@ -3,7 +3,6 @@
 <mapper namespace="co.up.tune.prj.todo.mapper.TodoDetailMapper">
 	<select id="detailList" resultType="co.up.tune.prj.vo.TodoDetailVO">
 		select * from todoDetail
-		where post_no = #{postNo}
 		order by todo_no
 	</select>
 	

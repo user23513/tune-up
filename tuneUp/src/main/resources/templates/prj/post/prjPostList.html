@@ -89,6 +89,46 @@ $(document).ready(function() {
 	         }
 	    })
 	})
+	
+	//todo 체크박스 이벤트
+	$('[name="todoCk"]').change(function() {
+		let todoNo = this. closest("td").nextElementSibling.innerText;
+		let result = this.closest("tr").lastElementChild.innerText;
+		let cntn = this.closest("tr").childNodes[3].innerText;
+		console.log(cntn);
+		if ($(this).is(':checked')) {
+			console.log(todoNo + " 체크됨");
+			console.log(result);
+			$.ajax({
+				url : "cmpltYnUpdate",
+				beforeSend:function(xhr){
+					xhr.setRequestHeader(header,token);  
+				},
+				type : "post",
+				data: {"cmpltYn" : "Y", "todoNo" : todoNo},
+				success:function(res){
+					//this.closest("tr").lastElementChild.innerText = res;
+					
+					
+				}
+			})
+		}
+		else {
+			console.log(todoNo + " 체크 해제")
+			
+			$.ajax({
+				url : "cmpltYnUpdate",
+				beforeSend:function(xhr){
+					xhr.setRequestHeader(header,token);  
+				},
+				type : "post",
+				data: {"cmpltYn" : "N", "todoNo" : todoNo},
+				success:function(res){
+					//this.closest("tr").lastElementChild.innerText = res;
+				}
+			})
+		}
+	});
 })
 </script>
 <style>
@@ -139,6 +179,7 @@ $(document).ready(function() {
 	position: relative;
 	top: 7px;
 }
+
 </style>
 </head>
 <body>
@@ -547,26 +588,18 @@ $(document).ready(function() {
 										</div>
 									</div>
 									<span style="font-size: 22px;"><b>[[${t.ttl}]]</b></span><br>
-									<div id="postNo" th:text="${t.postNo}"></div>
 									<hr style="color: gray;">
-										<div th:each="d : ${detailList}">
-											<div th:text="${d.cntn}"></div>
-										</div>
 									<div>
-									
-										<table border="1"><!-- class="table table-borderless" -->
-											<thead>
-												<tr>
-													<td><input type="checkbox"></td>
-													<td>1</td>
-													<td>w</td>
-												</tr>
-											</thead>
+										<table class="table table-borderless">
 											<tbody>
-												<tr th:each="d : ${detailList}" th:if="${d.postNo} == ${t.postNo}">
-													<td><input type="checkbox"></td>
-													<td th:text="${d.todoNo}">No</td>
-													<td th:text="${d.cntn}">내용</td>
+												<tr th:each="detail : ${detailList}" th:if="${t.postNo} == ${detail.postNo}">
+													<td>
+														<input type="checkbox" name="todoCk"
+															th:checked="${detail.cmpltYn=='Y'}?checked">
+													</td>
+													<td style="display : none;">[[${detail.todoNo}]]</td>
+													<td>[[${detail.cntn}]]</td>
+													<td th:attr="data-yn=${detail.cmpltYn}" style="display : none;">[[${detail.cmpltYn}]]</td>
 												</tr>
 											</tbody>
 										</table>

@@ -202,6 +202,12 @@
 				DELETE FROM BUSINESS 
 				WHERE POST_NO = #{postNo};
 			</if>
+			<if test='type.equals("할일")'>
+				DELETE FROM todoDetail
+				WHERE post_no = #{postNo};
+				DELETE FROM todo
+				WHERE POST_NO = #{postNo};
+			</if>
 		END;
 	</delete>
 	

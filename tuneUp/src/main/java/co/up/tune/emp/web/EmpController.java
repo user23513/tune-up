@@ -2,7 +2,6 @@ package co.up.tune.emp.web;
 
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +104,7 @@ public class EmpController {
 //	}
 	
 	
-	//비밃번호 성공하면 
+	//비밀번호 성공하면 
 	@PostMapping(value = "/pwUpdate")
 	public String empUpdate(EmpVO vo) {
 		ss.empUpdate(vo);

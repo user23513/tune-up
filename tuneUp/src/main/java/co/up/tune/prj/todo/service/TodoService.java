@@ -21,6 +21,4 @@ public interface TodoService {
 	int replyUpdate(ReplyVO vo); //댓글 수정
 	int replyDelete(ReplyVO vo); //댓글 삭제
 	
-	//percentage bar
-	List<TodoVO> todoPerc(); //할 일 완료 퍼센트 계산
 }

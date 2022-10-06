@@ -51,7 +51,7 @@
 	<!-- 내 파일함 업로드 -->	
 	<insert id="myFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
 		INSERT INTO FILES
-		VALUES(FNO_SEQ.nextval,#{fNm},#{fPath},#{fType},#{atchNo},#{fCat},#{pNm})
+		VALUES(FNO_SEQ.NEXTVAL,#{fNm},#{fPath},#{fType},0,#{fCat},#{pNm},${empNo})
 	</insert>
 	
 	<!-- 프로젝트 글 파일 업로드 -->

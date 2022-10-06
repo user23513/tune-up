@@ -58,6 +58,7 @@ button {
 </style>
 
 <script>
+
 	//파일 업로드 폼으로 이동
 	$(function() {
 		$("#fileUploadForm").click(function() {
@@ -110,11 +111,13 @@ button {
 		var url = "filedelete"; // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
 		var valueArr = new Array();
 		var list = $("input[name='RowCheck']");
+		var fPaths = new Array();
 	
 	for (var i = 0; i < list.length; i++) {
 		
 		if (list[i].checked) { //선택되어 있으면 배열에 값을 저장함
 			valueArr.push(list[i].value);
+			fPaths.push($(list[i]).parent().next().next().children().first().data("path"));
 		}
 	};
 	
@@ -161,11 +164,14 @@ button {
 			var url = "filedelete"; // Controller로 보내고자 하는 URL (.dh부분은 자신이 설정한 값으로 변경해야됨)
 			var valueArr = new Array();
 			var list = $("input[name='RowCheck1']");
+			var fPaths = new Array();
+			
 		
 		for (var i = 0; i < list.length; i++) {
 			
 			if (list[i].checked) { //선택되어 있으면 배열에 값을 저장함
 				valueArr.push(list[i].value);
+				fPaths.push($(list[i]).parent().next().next().children().first().data("path"));
 			}
 		};
 		
@@ -184,7 +190,7 @@ button {
 			     	},
 					type : 'POST', // GET or POST 방식
 					data : {
-						'valueArr' : valueArr
+						'valueArr' : valueArr, 'fPaths':fPaths
 					// 보내고자 하는 data 변수 설정
 					},
 					success : function(jdata) {
@@ -282,8 +288,8 @@ button {
 									<tr th:each="f: ${prjFileList}">
 										<th scope="row"><input th:value="${f.fileNo}"
 											class="form-check-input" type="checkbox" name="RowCheck"></th>
-										<td th:text="${f.pNm}"></td>
-										<td th:text="${f.fNm}"></td>
+										<td th:text="${f.pNm}"> </td>
+										<td><a class="filePath" th:attr="data-path=${f.fPath}" th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a></td>
 										<td></td>
 									</tr>
 								</tbody>
@@ -334,8 +340,9 @@ button {
 										<th scope="row"><input th:value="${m.fileNo}"
 											class="form-check-input" type="checkbox" name="RowCheck1"></th>
 										<td th:text="${m.fCat}"></td>
-										<td th:text="${m.fNm}"></td>
-										<td></td>
+										<td>
+											<a class="filePath" th:attr="data-path=${m.fPath}" th:href=@{/attach(path=${m.fPath})} th:text="${m.fNm}"></a>
+										</td>
 									</tr>
 								</tbody>
 							</table>

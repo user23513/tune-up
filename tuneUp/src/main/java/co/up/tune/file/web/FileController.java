@@ -2,6 +2,7 @@ package co.up.tune.file.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -42,6 +44,9 @@ public class FileController {
 	@Autowired
 	MyFilesService myService;
 	
+	@Value("${file.dir}")
+	private String fileDir;
+	
 	//내 파일함 페이지
 	@GetMapping("/files")
 	public String files(HttpSession session, Model model) {
@@ -52,7 +57,7 @@ public class FileController {
 	}
 	
 	
-	//파일함 폼
+	//파일함 등록 폼
 	@GetMapping("/fileUploadForm")
 	public String myFileInsertForm() {
 		return "file/myFileInsertForm";
@@ -60,16 +65,20 @@ public class FileController {
 	
 	
 	//파일등록
-	 @PostMapping("/myFileInsert")
+	@PostMapping("/fileInsert")
 	public String fileUpload(FilesVO vo, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException { 
 		 //file upload 처리 
 		 List<FilesVO> list = new ArrayList<>();
 			if(!files[0].isEmpty()) {
-				String folder = "com"; //Temp안에 폴더명
+				String folder = "prj"; //Temp안에 폴더명
 				list = fService.fileUpload(files, folder);
 				vo.setFNm(list.get(0).getFNm());
 				vo.setFPath(list.get(0).getFPath());
+				vo.setFType(list.get(0).getFType());
 			}
+			vo.setFCat("MYFILE");
+			vo.setPNm("내파일함");
+			myService.myFileInsert(vo);
 			
 		 	return "redirect:/files";
 		}
@@ -78,6 +87,12 @@ public class FileController {
 	  @ResponseBody
 	  @PostMapping("/filedelete") 
 	  public int filedelete(FilesVO vo, HttpServletRequest request) throws Exception{
+		 List<String> paths = vo.getFPaths();
+		  for(String path :paths) {
+			  File file = new File(fileDir + "\\" +path);
+			  file.delete();
+		  }
+		  
 		  return prjService.fileDelete(vo); 
 	  }
 	 
@@ -85,13 +100,14 @@ public class FileController {
 	
 		
 	//파일다운로드
-	@GetMapping("/myfileattach/{no}")
-	public ResponseEntity<UrlResource> download(FilesVO vo ,@PathVariable("no") int no) {
+	@GetMapping("/attach/{no}")
+	public ResponseEntity<UrlResource> download(FilesVO vo ,@PathVariable("no") int no) throws MalformedURLException{
 		//파일 다운로드
 		vo.setFileNo(no);
-//		vo = (FilesVO) mdao.myFileSelect(vo); //(FilesVO) ???
+	//	vo = (FilesVO) fService.fileUpload(null, null); 
 		
 		String filePath = vo.getFPath();
+		System.out.println("-------------------"+filePath);
 		File target = new File(filePath);
 		HttpHeaders header = new HttpHeaders();
 		UrlResource rs = null;

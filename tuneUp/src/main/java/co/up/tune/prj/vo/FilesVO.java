@@ -19,4 +19,5 @@ public class FilesVO {
 	 String empNo; //사번
 	 
 	 List<Integer> valueArr; //선택한 파일번호
+	 List<String> fPaths; //선택한 파일경로
 }

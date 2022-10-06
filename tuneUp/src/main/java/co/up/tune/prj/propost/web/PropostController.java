@@ -100,7 +100,6 @@ public class PropostController {
 		model.addAttribute("todoList", tServ.todoList(prjNo));
 		System.out.println(tServ.todoList(prjNo));
 		System.out.println("=============================================" + vo.getPostNo());
-		model.addAttribute("todoPerc", tServ.todoPerc());
 		model.addAttribute("detailList", detail.detailList());
 		
 		//프로젝트 관리버튼 권한체크

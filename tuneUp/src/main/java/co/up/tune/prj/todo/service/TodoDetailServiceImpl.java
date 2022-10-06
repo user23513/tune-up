@@ -34,7 +34,7 @@ public class TodoDetailServiceImpl implements TodoDetailService{
 	}
 
 	@Override
-	public String cmpltYnUpdate(TodoDetailVO vo) {
+	public int cmpltYnUpdate(TodoDetailVO vo) {
 		return map.cmpltYnUpdate(vo);
 	}
 

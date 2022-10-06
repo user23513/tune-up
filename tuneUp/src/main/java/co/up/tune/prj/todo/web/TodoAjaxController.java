@@ -8,6 +8,7 @@ import co.up.tune.prj.todo.service.DemoTodoService;
 import co.up.tune.prj.todo.service.TodoDetailService;
 import co.up.tune.prj.todo.service.TodoService;
 import co.up.tune.prj.vo.DemoTodoVO;
+import co.up.tune.prj.vo.TodoDetailVO;
 
 @RestController
 public class TodoAjaxController {
@@ -38,5 +39,13 @@ public class TodoAjaxController {
 		int r = dao.demoDeleteAll(vo);
 		System.out.println("삭제완" + r);
 		return r;
+	}
+	
+	@PostMapping("/cmpltYnUpdate")
+	public String cmpltYnUpdate(TodoDetailVO vo) {
+		ddao.cmpltYnUpdate(vo);
+		String yn = vo.getCmpltYn();
+		System.out.println("수정 완 : " + yn);
+		return yn; 
 	}
 }

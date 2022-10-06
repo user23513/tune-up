@@ -13,9 +13,13 @@
 		<script>
 			$(document).ready(function() {
 
-				/* $(".replyBtn").on("click", e=>{
-					let postNo = $(e.target).data("no");
-					$.ajax({
+				 $(".replyBtn").on("click", e=>{
+					
+					 let postNo = $(e.target).data("no");
+					 $("#vttl").html("");
+					 $("#tnv").html("");
+					
+					 $.ajax({
 						url:'postView',
 						beforeSend:function(xhr){
 					 		xhr.setRequestHeader(header,token);  
@@ -26,21 +30,20 @@
 					    success:function(obj){ 
 					    	
 					    	if(obj.length != 0){
-					    		 $("#vttl").html(obj.ttl);
-									$("#tnv").html(obj.cntn);
+					    		
+					    		$("#vttl").html("제목 : "+obj.ttl);
+									$("#tnv").html("내용 : "+obj.cntn);
 									$("#viewModal").modal('show');
 							        }
 					    	}
 					       
 					    }) 
 					})
-				 */
+				 
 
 			});
 		</script>
 		<section class="section profile">
-
-
 			<div class="card">
 				<div class="card-body">
 					<!-- Page Title -->
@@ -61,34 +64,35 @@
 
 						<button type="button"
 							class="list-group-item list-group-item-action replyBtn"
-							th:each="r : ${reply}" th:text="|[${r.replyCat}]: ${r.cntn}|"
-							th:data-no="${r.postNo}"></button>
+							th:each="r : ${reply}" th:if="${r.replyCat} != '커뮤니티'"
+							th:text="${r.cntn}" th:data-no="${r.postNo}"></button>
 					</div>
 
 
 				</div>
 			</div>
+			<!--View Modal -->
+			<div class="modal fade" id="viewModal" tabindex="-1"
+				data-bs-backdrop="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header" id="vttl">
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body" id="vCntn">
+							<div id="tnv"></div>
+						</div>
+						<div class="modal-footer" id="viewFoot">
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">닫기</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- View Modal-->
 		</section>
-		<!--View Modal -->
-		<div class="modal fade" id="viewModal" tabindex="-1"
-			data-bs-backdrop="true">
-			<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-					<div class="modal-header" id="vttl">
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					<div class="modal-body" id="vCntn">
-						<div id="tnv" class=".txtA"></div>
-					</div>
-					<div class="modal-footer" id="viewFoot">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">닫기</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- View Modal-->
+
 
 	</main>
 

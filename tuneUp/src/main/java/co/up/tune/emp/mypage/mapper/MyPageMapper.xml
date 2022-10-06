@@ -38,20 +38,15 @@
 	</select>
 
 	<select id="postLook" parameterType="co.up.tune.prj.vo.PostVO" resultType="co.up.tune.prj.vo.PostVO">
-		SELECT	TTL,
+		SELECT 
+				TTL,
 				CNTN,
 				WRTR
 		FROM POST
 		WHERE POST_NO = #{postNo}
-		<!-- UNION
-		SELECT TTL, CNTN, WRTR
-		FROM BUSINESS
-		WHERE POST_NO = #{postNo} -->
 		UNION
-		SELECT	TTL,
-				CNTN,
-				WRTR
-		FROM COMMUNITY
+		SELECT BUSS_TTL TTL, CNTN, WRTR
+		FROM BUSINESS
 		WHERE POST_NO = #{postNo}
 		UNION
 		SELECT	TTL,

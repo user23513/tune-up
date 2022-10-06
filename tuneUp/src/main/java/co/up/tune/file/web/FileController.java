@@ -47,6 +47,7 @@ public class FileController {
 	@Value("${file.dir}")
 	private String fileDir;
 	
+	
 	//내 파일함 페이지
 	@GetMapping("/files")
 	public String files(HttpSession session, Model model) {
@@ -83,6 +84,7 @@ public class FileController {
 		 	return "redirect:/files";
 		}
 	
+	
 	  //파일 삭제
 	  @ResponseBody
 	  @PostMapping("/filedelete") 
@@ -95,8 +97,6 @@ public class FileController {
 		  
 		  return prjService.fileDelete(vo); 
 	  }
-	 
-		
 	
 		
 	//파일다운로드
@@ -104,8 +104,6 @@ public class FileController {
 	public ResponseEntity<UrlResource> download(FilesVO vo ,@PathVariable("no") int no) throws MalformedURLException{
 		//파일 다운로드
 		vo.setFileNo(no);
-	//	vo = (FilesVO) fService.fileUpload(null, null); 
-		
 		String filePath = vo.getFPath();
 		System.out.println("-------------------"+filePath);
 		File target = new File(filePath);
@@ -125,7 +123,6 @@ public class FileController {
 				e.printStackTrace();
 			}
 		}
-		
 		return new ResponseEntity<UrlResource>(rs, header, HttpStatus.OK);
 	}
 

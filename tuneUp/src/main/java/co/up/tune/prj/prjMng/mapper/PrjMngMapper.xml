@@ -18,6 +18,11 @@
 		WHERE PRJ_NO = #{prjNo}
 	</select>
 	
+	<select id="tmSelect" resultType="co.up.tune.prj.vo.TeamVO" parameterType="co.up.tune.prj.vo.TeamVO">
+		SELECT * FROM TEAM
+		WHERE PRJ_NO = #{prjNo}
+	</select>
+	
 	<select id="authList" resultType="co.up.tune.prj.vo.TeamVO" parameterType="int">
 
 	SELECT *
@@ -70,7 +75,9 @@
 	
 	<update id="prjSt" parameterType="co.up.tune.prj.vo.ProjectVO">
 		UPDATE PROJECT 
-		SET ST = #{st} 
+		<set>
+		ST = #{st} 
+		</set>
 		WHERE PRJ_NO = #{prjNo}
 	</update>
 	

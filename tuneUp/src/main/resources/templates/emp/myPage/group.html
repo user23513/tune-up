@@ -15,32 +15,15 @@
 		<script id="code">
 function init() {
 
-  // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
-  // For details, see https://gojs.net/latest/intro/buildingObjects.html
-  const $ = go.GraphObject.make;  // for conciseness in defining templates
+  
+  const $ = go.GraphObject.make;  
 
   myDiagram =
     $(go.Diagram, "myDiagramDiv", // must be the ID or reference to div
       {
         allowCopy: false,
         allowDelete: false,
-        //initialAutoScale: go.Diagram.Uniform,
-        maxSelectionCount: 1, // users can select only one part at a time
-        validCycle: go.Diagram.CycleDestinationTree, // make sure users can only create trees
-        "clickCreatingTool.archetypeNodeData": { // allow double-click in background to create a new node
-          name: "(new person)",
-          title: "",
-          comments: ""
-        },
-        "clickCreatingTool.insertPart": function(loc) {  // override to scroll to the new node
-          const node = go.ClickCreatingTool.prototype.insertPart.call(this, loc);
-          if (node !== null) {
-            this.diagram.select(node);
-            this.diagram.commandHandler.scrollToPart(node);
-            this.diagram.commandHandler.editTextBlock(node.findObject("NAMETB"));
-          }
-          return node;
-        },
+
         layout:
           $(go.TreeLayout,
             {
@@ -55,23 +38,11 @@ function init() {
               alternateAlignment: go.TreeLayout.AlignmentBus,
               alternateNodeSpacing: 20
             }),
-        "undoManager.isEnabled": true // enable undo & redo
+        "undoManager.isEnabled": false // enable undo & redo
       });
 
-  // when the document is modified, add a "*" to the title and enable the "Save" button
-  myDiagram.addDiagramListener("Modified", e => {
-    const button = document.getElementById("SaveButton");
-    if (button) button.disabled = !myDiagram.isModified;
-    const idx = document.title.indexOf("*");
-    if (myDiagram.isModified) {
-      if (idx < 0) document.title += "*";
-    } else {
-      if (idx >= 0) document.title = document.title.slice(0, idx);
-    }
-  });
-
-  const levelColors = ["#AC193D", "#2672EC", "#8C0095", "#5133AB",
-    "#008299", "#D24726", "#008A00", "#094AB2"];
+ 
+  const levelColors = ["#493E87", "#645FCE", "#40356F", "#645FCD"];
 
   // override TreeLayout.commitNodes to also modify the background brush based on the tree depth level
   myDiagram.layout.commitNodes = function() {
@@ -87,14 +58,6 @@ function init() {
       }
     });
   };
-
-  // this is used to determine feedback during drags
-  function mayWorkFor(node1, node2) {
-    if (!(node1 instanceof go.Node)) return false;  // must be a Node
-    if (node1 === node2) return false;  // cannot work for yourself
-    if (node2.isInTreeOf(node1)) return false;  // cannot work for someone who works for you
-    return true;
-  }
 
   // This function provides a common style for most of the TextBlocks.
   // Some of these values may be overridden in a particular TextBlock.
@@ -112,10 +75,10 @@ function init() {
   myDiagram.nodeTemplate =
     $(go.Node, "Spot",
       {
-        selectionObjectName: "BODY",
+        /* selectionObjectName: "BODY",
         mouseEnter: (e, node) => node.findObject("BUTTON").opacity = node.findObject("BUTTONX").opacity = 1,
         mouseLeave: (e, node) => node.findObject("BUTTON").opacity = node.findObject("BUTTONX").opacity = 0,
-        // handle dragging a Node onto a Node to (maybe) change the reporting relationship
+        // handle dragging a Node onto a Node to (maybe) change the reporting relationship */
         mouseDragEnter: (e, node, prev) => {
           const diagram = node.diagram;
           const selnode = diagram.selection.first();
@@ -156,20 +119,13 @@ function init() {
         $(go.Shape, "Rectangle",
           { name: "SHAPE", fill: "#333333", stroke: 'white', strokeWidth: 3.5, portId: "" }),
         $(go.Panel, "Horizontal",
-          $(go.Picture,
-            {
-              name: "Picture",
-              desiredSize: new go.Size(70, 70),
-              margin: 1.5,
-              source: "images/HSnopic.png"  // the default image
-            },
-            new go.Binding("source", "pic", findHeadShot)),
+        
           // define the panel where the text will appear
           $(go.Panel, "Table",
             {
               minSize: new go.Size(130, NaN),
               maxSize: new go.Size(150, NaN),
-              margin: new go.Margin(6, 10, 0, 6),
+              margin: new go.Margin(10, 10, 10, 10),
               defaultAlignment: go.Spot.Left
             },
             $(go.RowColumnDefinition, { column: 2, width: 4 }),
@@ -178,44 +134,24 @@ function init() {
                 name: "NAMETB",
                 row: 0, column: 0, columnSpan: 5,
                 font: "12pt Segoe UI,sans-serif",
-                editable: true, isMultiline: false,
+                editable: false, isMultiline: false,
                 minSize: new go.Size(50, 16)
               },
               new go.Binding("text", "name").makeTwoWay()),
-            $(go.TextBlock, "Title: ", textStyle(),
+            $(go.TextBlock, "", textStyle(),
               { row: 1, column: 0 }),
             $(go.TextBlock, textStyle(),
               {
                 row: 1, column: 1, columnSpan: 4,
-                editable: true, isMultiline: false,
+                editable: false, isMultiline: false,
                 minSize: new go.Size(50, 14),
-                margin: new go.Margin(0, 0, 0, 3)
+                margin: new go.Margin(10, 10, 10, 10)
               },
-              new go.Binding("text", "title").makeTwoWay()),
-            $(go.TextBlock, textStyle(),
-              { row: 2, column: 0 },
-              new go.Binding("text", "key", v => "ID: " + v)),
-            $(go.TextBlock, textStyle(),  // the comments
-              {
-                row: 3, column: 0, columnSpan: 5,
-                font: "italic 9pt sans-serif",
-                wrap: go.TextBlock.WrapFit,
-                editable: true,  // by default newlines are allowed
-                minSize: new go.Size(100, 14)
-              },
-              new go.Binding("text", "comments").makeTwoWay())
+              new go.Binding("text", "title").makeTwoWay())
           ) // end Table Panel
         ) // end Horizontal Panel
       ), // end Auto Panel
-      $("Button",
-        $(go.Shape, "PlusLine", { width: 10, height: 10 }),
-        {
-          name: "BUTTON", alignment: go.Spot.Right, opacity: 0,  // initially not visible
-          click: (e, button) => addEmployee(button.part)
-        },
-        // button is visible either when node is selected or on mouse-over
-        new go.Binding("opacity", "isSelected", s => s ? 1 : 0).ofObject()
-      ),
+     
       new go.Binding("isTreeExpanded").makeTwoWay(),
       $("TreeExpanderButton",
         {
@@ -223,121 +159,27 @@ function init() {
           "_treeExpandedFigure": "TriangleUp",
           "_treeCollapsedFigure": "TriangleDown"
         },
-        // button is visible either when node is selected or on mouse-over
         new go.Binding("opacity", "isSelected", s => s ? 1 : 0).ofObject()
       )
     );  // end Node, a Spot Panel
 
-  function addEmployee(node) {
-    if (!node) return;
-    const thisemp = node.data;
-    myDiagram.startTransaction("add employee");
-    const newemp = { name: "(new person)", title: "(title)", comments: "", parent: thisemp.key };
-    myDiagram.model.addNodeData(newemp);
-    const newnode = myDiagram.findNodeForData(newemp);
-    if (newnode) newnode.location = node.location;
-    myDiagram.commitTransaction("add employee");
-    myDiagram.commandHandler.scrollToPart(newnode);
-  }
-
-  // the context menu allows users to make a position vacant,
-  // remove a role and reassign the subtree, or remove a department
-  myDiagram.nodeTemplate.contextMenu =
-    $("ContextMenu",
-      $("ContextMenuButton",
-        $(go.TextBlock, "Add Employee"),
-        {
-          click: (e, button) => addEmployee(button.part.adornedPart)
-        }
-      ),
-      $("ContextMenuButton",
-        $(go.TextBlock, "Vacate Position"),
-        {
-          click: (e, button) => {
-            const node = button.part.adornedPart;
-            if (node !== null) {
-              const thisemp = node.data;
-              myDiagram.startTransaction("vacate");
-              // update the key, name, picture, and comments, but leave the title
-              myDiagram.model.setDataProperty(thisemp, "name", "(Vacant)");
-              myDiagram.model.setDataProperty(thisemp, "pic", "");
-              myDiagram.model.setDataProperty(thisemp, "comments", "");
-              myDiagram.commitTransaction("vacate");
-            }
-          }
-        }
-      ),
-      $("ContextMenuButton",
-        $(go.TextBlock, "Remove Role"),
-        {
-          click: (e, button) => {
-            // reparent the subtree to this node's boss, then remove the node
-            const node = button.part.adornedPart;
-            if (node !== null) {
-              myDiagram.startTransaction("reparent remove");
-              const chl = node.findTreeChildrenNodes();
-              // iterate through the children and set their parent key to our selected node's parent key
-              while (chl.next()) {
-                const emp = chl.value;
-                myDiagram.model.setParentKeyForNodeData(emp.data, node.findTreeParentNode().data.key);
-              }
-              // and now remove the selected node itself
-              myDiagram.model.removeNodeData(node.data);
-              myDiagram.commitTransaction("reparent remove");
-            }
-          }
-        }
-      ),
-      $("ContextMenuButton",
-        $(go.TextBlock, "Remove Department"),
-        {
-          click: (e, button) => {
-            // remove the whole subtree, including the node itself
-            const node = button.part.adornedPart;
-            if (node !== null) {
-              myDiagram.startTransaction("remove dept");
-              myDiagram.removeParts(node.findTreeParts());
-              myDiagram.commitTransaction("remove dept");
-            }
-          }
-        }
-      )
-    );
 
   // define the Link template
   myDiagram.linkTemplate =
     $(go.Link, go.Link.Orthogonal,
       { layerName: "Background", corner: 5 },
-      $(go.Shape, { strokeWidth: 1.5, stroke: "#F5F5F5" }));  // the link shape
+      $(go.Shape, { strokeWidth: 1.5, stroke: "#999999" }));  // the link shape
 
+      
   // read in the JSON-format data from the "mySavedModel" element
   load();
+  myDiagram.commandHandler.zoomToFit();
 
 
-  // support editing the properties of the selected person in HTML
-  if (window.Inspector) myInspector = new Inspector("myInspector", myDiagram,
-    {
-      properties: {
-        "key": { readOnly: true },
-        "comments": {}
-      }
-    });
-
-  // Setup zoom to fit button
-  document.getElementById('zoomToFit').addEventListener('click', () => myDiagram.commandHandler.zoomToFit());
-
-  document.getElementById('centerRoot').addEventListener('click', () => {
-    myDiagram.scale = 1;
-    myDiagram.commandHandler.scrollToPart(myDiagram.findNodeForKey(1));
-  });
+  
 } // end init
 
-
 // Show the diagram's model in JSON format
-function save() {
-  document.getElementById("mySavedModel").value = myDiagram.model.toJson();
-  myDiagram.isModified = false;
-}
 function load() {
   myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
   // make sure new data keys are unique positive integers
@@ -373,56 +215,33 @@ window.addEventListener('DOMContentLoaded', init);
 					<!-- End Page Title -->
 					<hr>
 
-					<div id="sample">
-						<div id="myDiagramDiv"
-							style="background-color: rgb(52, 52, 60); border: 1px solid black; height: 570px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0);">
-							<canvas tabindex="0" width="1054" height="568"
-								style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 1054px; height: 568px;">This text is displayed if your browser does not support the Canvas HTML element.</canvas>
-							<div
-								style="position: absolute; overflow: auto; width: 1054px; height: 568px; z-index: 1;">
-								<div style="position: absolute; width: 1px; height: 1px;"></div>
-							</div>
-						</div>
-						<div>
-							Edit details:<br>
-							<div id="myInspector" class="inspector"></div>
-						</div>
-						<p>
-							<button id="zoomToFit">Zoom to Fit</button>
-							<button id="centerRoot">Center on root</button>
-						</p>
 
-						<div>
-							<div>
-								<button id="SaveButton" onclick="save()" disabled="">Save</button>
-								<button onclick="load()">Load</button>
-								Diagram Model saved in JSON format:
-							</div>
-							<textarea id="mySavedModel" style="width: 100%; height: 270px;">{ "class": "go.TreeModel",
+					<div id="myDiagramDiv"
+						style="background-color: rgb(255, 255, 255); border: 0px; height: 570px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0);">
+						<canvas tabindex="0" width="1054" height="568"
+							style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 1054px; height: 568px;">This text is displayed if your browser does not support the Canvas HTML element.</canvas>
+						<div
+							style="position: absolute; overflow: auto; width: 1054px; height: 568px; z-index: 1;">
+							<div style="position: absolute; width: 1px; height: 1px;"></div>
+						</div>
+					</div>
+
+
+					<textarea id="mySavedModel"  hidden="hiden" style="width: 100%; height: 270px; ">{ "class": "go.TreeModel",
   "nodeDataArray": [
-{"key":1, "name":"Stella Payne Diaz", "title":"CEO", "pic":"1.jpg"},
-{"key":2, "name":"Luke Warm", "title":"VP Marketing/Sales", "pic":"2.jpg", "parent":1},
-{"key":3, "name":"Meg Meehan Hoffa", "title":"Sales", "pic":"3.jpg", "parent":2},
-{"key":4, "name":"Peggy Flaming", "title":"VP Engineering", "pic":"4.jpg", "parent":1},
-{"key":5, "name":"Saul Wellingood", "title":"Manufacturing", "pic":"5.jpg", "parent":4},
-{"key":6, "name":"Al Ligori", "title":"Marketing", "pic":"6.jpg", "parent":2},
-{"key":7, "name":"Dot Stubadd", "title":"Sales Rep", "pic":"7.jpg", "parent":3},
-{"key":8, "name":"Les Ismore", "title":"Project Mgr", "pic":"8.jpg", "parent":5},
-{"key":9, "name":"April Lynn Parris", "title":"Events Mgr", "pic":"9.jpg", "parent":6},
-{"key":10, "name":"Xavier Breath", "title":"Engineering", "pic":"10.jpg", "parent":4},
-{"key":11, "name":"Anita Hammer", "title":"Process", "pic":"11.jpg", "parent":5},
-{"key":12, "name":"Billy Aiken", "title":"Software", "pic":"12.jpg", "parent":10},
-{"key":13, "name":"Stan Wellback", "title":"Testing", "pic":"13.jpg", "parent":10},
-{"key":14, "name":"Marge Innovera", "title":"Hardware", "pic":"14.jpg", "parent":10},
-{"key":15, "name":"Evan Elpus", "title":"Quality", "pic":"15.jpg", "parent":5},
-{"key":16, "name":"Lotta B. Essen", "title":"Sales Rep", "pic":"16.jpg", "parent":3}
+{"key":1, "name":"임원진", "title":"Board of directors"},
+{"key":2, "name":"인사팀", "title":"VP Marketing/Sales", "parent":1},
+{"key":3, "name":"회계팀", "title":"Sales",  "parent":1},
+{"key":4, "name":"영업팀", "title":"VP Engineering",  "parent":1},
+{"key":5, "name":"재무팀", "title":"Manufacturing",  "parent":1},
+{"key":6, "name":"기획팀", "title":"Marketing",  "parent":1}
  ]
 }
     </textarea>
-						</div>
-					</div>
 				</div>
 			</div>
+			
+
 
 		</section>
 

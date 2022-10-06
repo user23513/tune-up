@@ -270,7 +270,6 @@
 							<select class="form-select" id="floatingSelect" aria-label="State">
 								<option value="1">온라인</option>
 								<option value="2">자리비움</option>
-								<option value="3">오프라인</option>
 							</select> 
 							<label for="floatingSelect"><i class="bi bi-person"></i>상태수정</label>
 						</li>
@@ -504,8 +503,10 @@
   	})
   	/* 화살표 누르면 부서별 팀원 */
   	$("#teamMem").on("click", ".teamMList", e=>{
+
   		var chatWidth = 450;
   	    var chatHeight = 655;
+
   	    var chatLeft = 90;
   	    var chatTop = 100;
   	    window.open('/chat', '', `width = ${chatWidth}px, height = ${chatHeight}px,left = ${chatLeft}%,top = ${chatTop}`)

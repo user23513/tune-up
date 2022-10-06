@@ -27,10 +27,10 @@
 				F_CAT,
 				P_NM,
 				EMP_NO
-		FROM FILES
-		WHERE F_CAT='PROJECT'
-		AND EMP_NO=#{empNo}
-		ORDER BY FILE_NO DESC
+		  FROM FILES
+		 WHERE F_CAT='PROJECT'
+		   AND EMP_NO=#{empNo}
+	  ORDER BY FILE_NO DESC
 	</select>
 	
 	<!-- 프로젝트 글 파일 리스트 -->
@@ -51,13 +51,27 @@
 	<!-- 내 파일함 업로드 -->	
 	<insert id="myFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
 		INSERT INTO FILES
-		VALUES(FNO_SEQ.NEXTVAL,#{fNm},#{fPath},#{fType},0,#{fCat},#{pNm},${empNo})
+		VALUES(FNO_SEQ.NEXTVAL,
+			   #{fNm},
+			   #{fPath},
+			   #{fType},
+			   0,
+			   #{fCat},
+			   #{pNm},
+			   #{empNo})
 	</insert>
 	
 	<!-- 프로젝트 글 파일 업로드 -->
 	<insert id="proPostFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
 		INSERT INTO FILES
-		VALUES(FNO_SEQ.nextval,#{fNm},#{fPath},#{fType},#{atchNo},#{fCat},#{pNm})
+		VALUES(FNO_SEQ.nextval,
+			   #{fNm},
+			   #{fPath},
+			   #{fType},
+			   #{atchNo},
+			   #{fCat},
+			   #{pNm},
+			   #{empNo})
 	</insert>
 	
 	<!-- 파일 삭제 -->

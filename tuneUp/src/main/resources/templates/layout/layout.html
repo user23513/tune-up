@@ -207,6 +207,7 @@
   </script>
 </head>
 <body>
+	<input type="hidden" id="eNo" name="empNo" th:value="${session.empNo}">
 	<form id="bellFrm" method="post" action="freeSelect">
 		<input type="hidden" th:name="${_csrf.parameterName}"
 			th:value="${_csrf.token}"> <input type="hidden"
@@ -214,7 +215,7 @@
 	</form>
 	<!-- ======= Header ======= -->
 	<header id="header" class="header fixed-top d-flex align-items-center">
-
+		
 		<!-- Start Logo -->
 		<div class="d-flex align-items-center justify-content-between">
 			<a href="/main" class="logo d-flex align-items-center"> <img
@@ -230,25 +231,27 @@
 		<!-- 헤더 오른쪽 아이콘들 -->
 		<nav class="header-nav ms-auto">
 			<ul class="d-flex align-items-center">
-
-
 				<!-- 조직도 아이콘 -->
-				<li class="nav-item dropdown"><a class="nav-link nav-icon"
-					href="group"> <i class="bi bi-diagram-3"></i>
-				</a></li>
+				<li class="nav-item dropdown">
+					<a class="nav-link nav-icon" href="group"> 
+						<i class="bi bi-diagram-3"></i>
+					</a>
+				</li>
 
 				<li class="nav-item dropdown">
-					<!-- ===== 메일 아이콘 =====  --> <a class="nav-link nav-icon"
-					href="message"> <i class="bi bi-envelope"></i> <span
-						class="badge bg-success badge-number">3</span>
-				</a> <!-- End Messages Icon -->
+					<!-- 메일 아이콘 --> 
+					<a class="nav-link nav-icon" href="noteHome"> 
+						<i class="bi bi-envelope"></i> 
+						<span class="badge bg-success badge-number">3</span>
+					</a> <!-- End Messages Icon -->
 				</li>
 				<!-- End Messages Nav -->
 				<li class="nav-item dropdown">
-					<!-- 알림 아이콘 --> <a class="nav-link nav-icon" href="bellList"> <i
-						class="bi bi-bell"></i> <span id="bell"
-						class="badge bg-primary badge-number"></span>
-				</a> <!-- End Notification Icon -->
+					<!-- 알림 아이콘 --> 
+					<a class="nav-link nav-icon" href="bellList"> 
+						<i class="bi bi-bell"></i> 
+						<span id="bell" class="badge bg-primary badge-number"></span>
+					</a> <!-- End Notification Icon -->
 				</li>
 				<!-- End Notification Nav -->
 
@@ -500,12 +503,10 @@
   		}
   	})
   	/* 화살표 누르면 부서별 팀원 */
-  	
   	$("#teamMem").on("click", ".teamMList", e=>{
-  		console.log($(e.target))
   		//window.open()
   		//window.resizeTo(1400, 740);
-  		 var chatWidth = 450;
+  		var chatWidth = 450;
   	    var chatHeight = 655;
   	    var chatLeft = 90;
   	    var chatTop = 100;

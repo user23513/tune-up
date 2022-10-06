@@ -16,7 +16,7 @@
 }
 .test_obj input[type="radio"]+span {
 	display: inline-block;
-	padding: 5px 15px;
+	padding: 10px 20px;
 	border: 1px solid #9c91cf;
 	color: #9c91cf;
 	background-color: #ffffff;
@@ -46,6 +46,14 @@ textarea.none {
 }
 .text-white{
 	background-color: #756cad !important;
+}
+.card{
+	width: 75%;
+	margin-left: 13%; 
+	margin-top: 3%;
+}
+.mar{
+	margin-bottom: 35px;
 }
 </style>
 <script>
@@ -79,25 +87,30 @@ textarea.none {
 							th:value="${_csrf.token}">
 						<div class="row mb-3">
 							<div class="col-sm-10">
-								<input type="text" class="form-control none" name="nm"
+								<input type="text" class="form-control none mar" name="nm"
 									placeholder="프로젝트 제목을 입력해주세요.">
 							</div>
 						</div>
 						<!--상태 버튼-->
 						<i class="bi bi-arrow-clockwise size"></i>
-						<div style="display: inline-block; width: 80%; margin-left: 10px;">
-							<label class="test_obj"> <input type="radio" name="st"
-								value="요청"> <span>요청</span>
-							</label> &nbsp; <label class="test_obj"> <input type="radio"
-								name="st" value="진행"> <span>진행</span>
-							</label> &nbsp; <label class="test_obj"> <input type="radio"
-								name="st" value="완료"> <span>완료</span>
+						<div class="mar" style="display: inline-block; width: 80%; margin-left: 10px;">
+							<label class="test_obj"> 
+								<input type="radio" name="st" value="요청">
+								<span>요청</span>
+							</label> &nbsp; 
+							<label class="test_obj"> 
+								<input type="radio" name="st" value="진행"> 
+								<span>진행</span>
+							</label> &nbsp; 
+							<label class="test_obj"> 
+								<input type="radio" name="st" value="완료"> 
+								<span>완료</span>
 							</label>
 						</div>
 
 						<!--프로젝트 팀원 추가-->
-						<div id="rr">
-							<br> <i class="bi bi-person size"
+						<div id="rr" class="mar">
+							<i class="bi bi-person size"
 								style="padding-top: 10px; padding-right: 15px; float: left;"></i>
 							<!-- 추가된 인원 보여주기 -->
 							<div id="hello"></div>
@@ -149,13 +162,12 @@ textarea.none {
 						<!-- 프로젝트 팀원 추가 -->
 
 						<br>
-						<br>
-						<div class="col-sm-10">
+						<div class="col-sm-10 mar">
 							<i class="bi bi-calendar4 size" style="margin-right: 10px;"></i>
 							<input type="date" class="form-control none" name="sdt"
 								 style="width: 300px"> ~ <input type="date" class="form-control none" name="edt" style="width: 300px">
 						</div>
-						<div style="margin-top: 30px;">
+						<div style="margin-top: 30px;" class="mar">
 							<h4 style="padding-top: 10px; float: left;">
 								<i class="bi bi-layout-text-sidebar-reverse"></i>
 							</h4>

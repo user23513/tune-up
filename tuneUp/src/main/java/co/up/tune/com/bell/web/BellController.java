@@ -24,4 +24,9 @@ public class BellController {
 		model.addAttribute("bellList", dao.bellList(vo));
 		return "com/bell/bellList";
 	}
+	
+	@GetMapping("/noteForm")
+	public String noteForm() {
+		return "com/bell/noteForm";
+	}
 }

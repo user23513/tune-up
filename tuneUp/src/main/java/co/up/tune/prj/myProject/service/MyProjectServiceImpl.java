@@ -24,5 +24,4 @@ public class MyProjectServiceImpl implements MyProjectService {
 		return map.myPrjList(empNo);
 	}
 
-	 
 }

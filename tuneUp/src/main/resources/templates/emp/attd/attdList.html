@@ -284,6 +284,7 @@
 												<td class="dt-body-center"><span th:text="${at.ovtm}"></span>
 													<span th:if="${at.ovtmH != null}"
 													th:text="'('+${at.ovtmH}+'시간)'"></span></td>
+												
 												<td class="dt-body-center">
 													<!-- <span
 														th:if="${at.st} == '601'" th:text="'정상'"></span>
@@ -339,12 +340,13 @@
 													th:text="${#dates.format(ag.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
 												<td class="dt-body-center"><span
 													th:text="${#dates.format(ag.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
-												<td class="dt-body-center"><span
-													th:text="${#dates.format(ag.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
-												<td class="dt-body-center"><span
-													th:text="${#dates.format(ag.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
-												<td class="dt-body-center"><span
-													th:text="'정상'"></span></td>
+												<td class="dt-body-center"><span th:text="${ag.wktm}"></span>
+													<span th:if="${ag.wktmH != null}"
+													th:text="'('+${ag.wktmH}+'시간)'"></span></td>
+												<td class="dt-body-center"><span th:text="${ag.ovtm}"></span>
+													<span th:if="${ag.ovtmH != null}"
+													th:text="'('+${ag.ovtmH}+'시간)'"></span></td>
+												<td class="dt-body-center"><span th:text="'정상'"></span></td>
 											</tr>
 										</tbody>
 									</table>
@@ -385,10 +387,12 @@
 													th:text="${#dates.format(ab.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
 												<td class="dt-body-center"><span
 													th:text="${#dates.format(ab.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
-												<td class="dt-body-center"><span
-													th:text="${#dates.format(ab.wktm, 'yyyy-MM-dd hh:mm')}"></span></td>
-												<td class="dt-body-center"><span
-													th:text="${#dates.format(ab.ovtm, 'yyyy-MM-dd hh:mm')}"></span></td>
+												<td class="dt-body-center"><span th:text="${ab.wktm}"></span>
+													<span th:if="${ab.wktmH != null}"
+													th:text="'('+${ab.wktmH}+'시간)'"></span></td>
+												<td class="dt-body-center"><span th:text="${ab.ovtm}"></span>
+													<span th:if="${ab.ovtmH != null}"
+													th:text="'('+${ab.ovtmH}+'시간)'"></span></td>
 												<td class="dt-body-center"><span
 													th:text="'비정상'"></span></td>
 

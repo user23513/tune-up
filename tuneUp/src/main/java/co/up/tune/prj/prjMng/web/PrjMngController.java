@@ -1,5 +1,8 @@
 package co.up.tune.prj.prjMng.web;
 
+
+import java.io.Console;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +26,14 @@ public class PrjMngController {
 	// 프로젝트 팀 리스트
 	@GetMapping("/teamList")
 	public String teamList(@RequestParam("prjNo") int prjNo, Model model) {
+		ProjectVO vo = new ProjectVO();
+		vo.setPrjNo(prjNo);
 		model.addAttribute("empList", postDao.empList());
 		model.addAttribute("teamList", dao.teamList(prjNo));
 		// model.addAttribute("addTeamList", dao.addTeamList());
 		model.addAttribute("authList", dao.authList(prjNo));
+		model.addAttribute("prjSt", dao.prjSt(vo));
+		model.addAttribute("s", dao.pjSelect(vo));
 		return "prj/prjMng/teamList";
 	}
 
@@ -39,10 +46,11 @@ public class PrjMngController {
 	}
 
 	// 멤버추가
-	@GetMapping("/addTeam")
-	public String addTeam(TeamVO vo) {
+	@PostMapping("/addTeam")
+	public String addTeam(TeamVO vo, RedirectAttributes rttr) {
 		dao.addTeam(vo);
-		return "prj/prjMng/teamList";
+		rttr.addAttribute("prjNo", vo.getPrjNo());
+		return "redirect:/teamList";
 
 	}
 
@@ -75,11 +83,15 @@ public class PrjMngController {
 	}
 
 	// 프로젝트 상태 변경
-	@GetMapping("/prjSt")
-	public String prjSt(ProjectVO vo) {
+	@PostMapping("/prjSt")
+	public String prjSt(ProjectVO vo, RedirectAttributes rttr) {
+		System.out.println(vo.getPrjNo() + vo.getSt()+"=====================");
 		dao.prjSt(vo);
-		return "prj/prjMng/teamList";
+		rttr.addAttribute("prjNo", vo.getPrjNo());
+		return "redirect:/teamList";
 
 	}
+	
+	
 
 }

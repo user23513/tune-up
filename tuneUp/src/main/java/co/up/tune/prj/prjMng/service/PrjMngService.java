@@ -13,7 +13,7 @@ public interface PrjMngService {
 	List<TeamVO> teamList(int prjNo); // 멤버리스트
 	List<TeamVO> authList(int prjNo); // 관리자리스트
 	
-	//List<EmpVO> addTeamList(); //멤버추가 주소록
+	List<EmpVO> addTeamList(EmpVO vo); //멤버추가 주소록
 	
 	int addTeam(TeamVO vo); // 멤버추가
 
@@ -25,6 +25,7 @@ public interface PrjMngService {
 	
 	int prjSt(ProjectVO vo); //프로젝트 상태 변경
 	
+	ProjectVO pjSelect(ProjectVO vo);
 	///////////////
 	
 	int addTeamList(TeamVO vo); //새 멤버 추가

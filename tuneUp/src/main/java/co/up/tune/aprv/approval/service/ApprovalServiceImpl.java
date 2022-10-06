@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import co.up.tune.aprv.approval.mapper.ApprovalMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
@@ -12,10 +11,10 @@ import co.up.tune.aprv.vo.TrustVO;
 import co.up.tune.emp.vo.EmpVO;
 
 /**
-* 결재자 승인 serviceImpl
+* 전자결재 승인 ServiceImpl
 * @author 윤정은
-* @date 2022.09.25
-* @version 1.0
+* @date 2022.10.1
+* @version 1.3
 **/
 
 @Service
@@ -27,11 +26,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Override
 	public List<AprvVO> approvalList(String aprvr, String aprvSt) {
 		return map.approvalList(aprvr, aprvSt);
-	}
-
-	@Override
-	public AprvVO approvalSelect(AprvVO vo) {
-		return map.approvalSelect(vo);
 	}
 
 	@Override
@@ -48,8 +42,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public TrustVO trustSelect(TrustVO vo) {
-		return map.trustSelect(vo);
+	public TrustVO trustCheck(TrustVO vo) {
+		return map.trustCheck(vo);
 	};
 
 	@Override
@@ -68,8 +62,8 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public EmpVO signSel(EmpVO vo) {
-		return map.signSel(vo);
+	public EmpVO signSelect(EmpVO vo) {
+		return map.signSelect(vo);
 	}
 
 }

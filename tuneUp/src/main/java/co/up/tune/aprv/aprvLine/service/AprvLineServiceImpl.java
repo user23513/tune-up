@@ -9,11 +9,19 @@ import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.ReferVO;
 import co.up.tune.emp.vo.EmpVO;
 
+/**
+ * 전자결재 결재라인 ServiceImpl
+ * @author 윤정은
+ * @date 2022.09.30
+ * @version 1.3
+ **/
+
 @Service
-public class AprvLineServiceImpl implements AprvLineService{
+public class AprvLineServiceImpl implements AprvLineService {
 
 	@Autowired
 	AprvLineMapper map;
+
 	
 	@Override
 	public List<ApprovalVO> approvalList(ApprovalVO vo) {
@@ -23,7 +31,7 @@ public class AprvLineServiceImpl implements AprvLineService{
 	@Override
 	public int approvalIn(ApprovalVO vo) {
 		return map.approvalIn(vo);
-		
+
 	}
 
 	@Override
@@ -34,7 +42,7 @@ public class AprvLineServiceImpl implements AprvLineService{
 	@Override
 	public int referIn(ReferVO vo) {
 		return map.referIn(vo);
-		
+
 	}
 
 	@Override
@@ -58,13 +66,13 @@ public class AprvLineServiceImpl implements AprvLineService{
 	}
 
 	@Override
-	public List<EmpVO> aprvEmpSearch(EmpVO vo) {
-		return map.aprvEmpSearch(vo);
+	public List<EmpVO> aprvEmpList(EmpVO vo) {
+		return map.aprvEmpList(vo);
 	}
 
 	@Override
-	public List<EmpVO> aprvDeptSearch() {
-		return map.aprvDeptSearch();
+	public List<EmpVO> aprvDeptList() {
+		return map.aprvDeptList();
 	}
 
 }

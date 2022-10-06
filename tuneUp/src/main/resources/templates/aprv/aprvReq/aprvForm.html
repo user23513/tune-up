@@ -4,14 +4,19 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>전자결재 - 문서 작성</title>
+<title>TuneUp - 전자결재</title>
+<style>
+*:focus {
+	outline: 0;
+}
+</style>
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
 		<script>
 			//로딩화면
-			loadin();
-			function loadin(load) {
+			loading();
+			function loading(load) {
 				LoadingWithMask("/assets/img/load.gif");
 				setTimeout("closeLoadingWithMask()", 500);
 			}
@@ -230,7 +235,7 @@ $(document).ready(function(){
 						<div class="col-12">
 							<div class="form-check form-switch">
 								<input class="form-check-input" type="checkbox"
-									id="formAuthCheck" name="impts"> <label
+									id="formAuthCheck" name="impts" value ="Y"> <label
 									class="form-check-label" for="impts">중요</label>
 
 							</div>

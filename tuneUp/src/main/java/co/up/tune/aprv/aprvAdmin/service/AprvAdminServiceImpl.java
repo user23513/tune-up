@@ -4,26 +4,28 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import co.up.tune.aprv.aprvAdmin.mapper.AprvAdminMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
+
+/**
+ * 전자결재 관리 ServiceImpl
+ * @author 윤정은
+ * @date 2022.09.28
+ * @version 1.1
+ **/
 
 @Service
 public class AprvAdminServiceImpl implements AprvAdminService {
 
 	@Autowired
 	AprvAdminMapper map;
-
+	
+	
 	@Override
 	public List<AprvVO> aprvListAll(String reqSt) {
 		return map.aprvListAll(reqSt);
-	}
-
-	@Override
-	public AprvVO aprvSelect(AprvVO vo) {
-		return map.aprvSelect(vo);
 	}
 
 	@Override
@@ -37,16 +39,6 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	@Override
 	public List<FormVO> aprvFormAll(String formCat) {
 		return map.aprvFormAll(formCat);
-	}
-
-	@Override
-	public FormVO formSelect(FormVO vo) {
-		return map.formSelect(vo);
-	}
-
-	@Override
-	public int formAdminDel(FormVO vo) {
-		return map.formAdminDel(vo);
 	}
 
 	@Override

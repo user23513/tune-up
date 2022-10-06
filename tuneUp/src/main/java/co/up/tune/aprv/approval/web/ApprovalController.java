@@ -12,6 +12,13 @@ import co.up.tune.aprv.aprvLine.service.AprvLineService;
 import co.up.tune.aprv.vo.TrustVO;
 import co.up.tune.common.service.CommonService;
 
+/**
+* 전자결재 승인 Controller
+* @author 윤정은
+* @date 2022.10.4
+* @version 1.3
+**/
+
 @Controller
 public class ApprovalController {
 
@@ -37,10 +44,10 @@ public class ApprovalController {
 		// 내가 위임한 리스트
 		model.addAttribute("trust", ap.trustList(vo));
 		// 내가 위임 받은 사항이 있는지 확인
-		model.addAttribute("rptt", ap.trustSelect(vo));
+		model.addAttribute("rptt", ap.trustCheck(vo));
 		
 		// 부서조회
-		model.addAttribute("dept", ls.aprvDeptSearch());
+		model.addAttribute("dept", ls.aprvDeptList());
 		// 공통코드
 		model.addAttribute("st", cd.commonList("승인상태"));
 
@@ -48,7 +55,7 @@ public class ApprovalController {
 	}
 	
 	//위임자 추가
-	@PostMapping("/trustInsert")
+	@PostMapping("/trustIn")
 	public String trustIn(TrustVO vo, HttpSession session) {
 		
 		String empNo = (String) session.getAttribute("empNo");

@@ -18,6 +18,13 @@ import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.TrustVO;
 import co.up.tune.common.service.CommonService;
 
+/**
+ * 전자결재 관리 Controller
+ * @author 윤정은
+ * @date 2022.09.27
+ * @version 1.1
+ **/
+
 @Controller
 public class AprvAdminController {
 
@@ -26,7 +33,7 @@ public class AprvAdminController {
 	@Autowired
 	AprvAdminService as;
 	@Autowired
-	AprvLineService li;
+	AprvLineService ls;
 	@Autowired
 	ApprovalService ap;
 
@@ -40,17 +47,17 @@ public class AprvAdminController {
 		
 		//관리자 체크
 		if (auth.equals("ADMIN")) {
-			//문서
-			List<AprvVO> list = as.aprvListAll(reqSt);
-			model.addAttribute("aprv", list);
-			//서식
+			//전체문서
+			List<AprvVO> aprv = as.aprvListAll(reqSt);
+			model.addAttribute("aprv", aprv);
+			//전체서식
 			List<FormVO> form = as.aprvFormAll(formCat);
 			model.addAttribute("form", form);
-			//결재선 (empNo 있으면 전체 조회 안됨)
+			//전체 결재선 (empNo 있으면 전체 조회 안됨)
 			AprvLineVO nu = new AprvLineVO();
-			model.addAttribute("line", li.aprvLineList(nu));
+			model.addAttribute("line", ls.aprvLineList(nu));
 			//부서 목록
-			model.addAttribute("dept", li.aprvDeptSearch());
+			model.addAttribute("dept", ls.aprvDeptList());
 			//위임자 (empNo 있으면 전체 조회 안됨)
 			TrustVO vo = new TrustVO();
 			model.addAttribute("trust", ap.trustList(vo));

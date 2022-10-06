@@ -11,6 +11,13 @@ import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.ReferVO;
 
+/**
+ * 전자결재 신청 ServiceImpl
+ * @author 윤정은
+ * @date 2022.09.22
+ * @version 1.2
+ **/
+
 @Service
 public class AprvReqServiceImpl implements AprvReqService {
 
@@ -25,18 +32,18 @@ public class AprvReqServiceImpl implements AprvReqService {
 	}
 
 	@Override
-	public AprvVO aprvReqSelect(AprvVO vo) {
-		return map.aprvReqSelect(vo);
+	public AprvVO aprvSelect(AprvVO vo) {
+		return map.aprvSelect(vo);
 	}
 
 	@Override
 	@Transactional
 	public int aprvReqIn(AprvVO vo) {
-		// 마감일시 처리
+		// 마감일시
 		vo.setDeadline(vo.getDeadDay() + " " + vo.getDeadTime());
 
-		// 중요도 처리
-		if (vo.getImpts() == "on") {
+		// 중요
+		if (vo.getImpts() != null) {
 			vo.setImpts("Y");
 		} else {
 			vo.setImpts("N");
@@ -44,48 +51,48 @@ public class AprvReqServiceImpl implements AprvReqService {
 		
 		int cnt = map.aprvReqIn(vo);
 		// 입력 완료시
+		
 		if (cnt != 0) {
-			// 입력된 문서번호 가져와서 참조 결재자 입력
+			// 문서번호 가져와서 참조 결재자 입력
 			int aprvNo = vo.getAprvNo();
 
 			ApprovalVO aprv = new ApprovalVO();
 			aprv.setAprvNo(aprvNo);
 
-			// 폼에서 가져온 결재자 목록 처리
-			String aprvr = vo.getAprvr();
+			// 결재자 목록 처리
+			String aprvrs = vo.getAprvr();
 
-			if (!aprvr.contains(",")) {
-				aprv.setAprvr(aprvr);
+			if (!aprvrs.contains(",")) {
+				aprv.setAprvr(aprvrs);
 				aprv.setAprvSeq(1);
 				lmap.approvalIn(aprv);
 
 			} else {
-				String[] arrAp = aprvr.split(",");
-				int a = 1; // 결재순서
+				String[] arrAp = aprvrs.split(",");
+				cnt = 1; // 결재순서
 
-				for (String i : arrAp) {
-					aprv.setAprvr(i);
-					aprv.setAprvSeq(a);
+				for (String ap : arrAp) {
+					aprv.setAprvr(ap);
+					aprv.setAprvSeq(cnt);//결재순서
 					lmap.approvalIn(aprv);
-					a++;
+					cnt++;
 				}
 
 			}
 
-			// 반복
+			// 참조인 목록 처리
 			ReferVO rf = new ReferVO();
 			rf.setAprvNo(aprvNo);
 
-			// 폼에서 가져온 참조인 목록 처리
-			String refer = vo.getRefer();
-			if (!refer.contains(",")) {
-				rf.setEmpNo(refer);
+			String refers = vo.getRefer();
+			if (!refers.contains(",")) {
+				rf.setEmpNo(refers);
 				lmap.referIn(rf);
 
 			} else {
-				String[] appRf = refer.split(",");
-				for (String i : appRf) {
-					rf.setEmpNo(i);
+				String[] arrRf = refers.split(",");
+				for (String emp : arrRf) {
+					rf.setEmpNo(emp);
 					lmap.referIn(rf);
 
 				}

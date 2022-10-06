@@ -4,7 +4,7 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>전자결재 - 나의 승인</title>
+<title>TuneUp - 전자결재</title>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
 <script type="text/javascript"
@@ -36,9 +36,9 @@
 
 		<script>
 		
-		loadin(); //로딩화면
-		
-		function loadin(load) {
+		loading(); //로딩화면
+		btnShow();
+		function loading(load) {
  			LoadingWithMask("/assets/img/load.gif");
   			setTimeout("closeLoadingWithMask()", 500);
 		} 
@@ -47,68 +47,66 @@
 			let maskWidth  = window.document.body.clientWidth;
   			let mask = "<div id='mask' class='row' style='position:absolute; z-index:9000; background-color:#ffffff; text-align:center; display:none; left:0; top:0;'></div>";
   			let loadingImg = "<div id='loadingImg' class='col align-self-center'>";    
- 			loadingImg += " <img src='"+ gif + "' style='position: relative; width: 10%; display: block; margin: 0px auto;'/>";
+ 			loadingImg += "<img src='"+ gif + "' style='position: relative; width: 10%; display: block; margin: 0px auto;'/>";
   			loadingImg += "</div>";
-  			$('#main').append(mask);
-  			$('#mask').css({'width' : maskWidth +20 , 'height': maskHeight +60});
-  			$('#mask').append(loadingImg);
-  			$('#mask').show();
+  			$("#main").append(mask);
+  			$("#mask").css({'width' : maskWidth +20 , 'height': maskHeight +60});
+  			$("#mask").append(loadingImg);
+  			$("#mask").show();
 		}
 		function closeLoadingWithMask() {    
-			$('#mask').remove();
-			$('#mask').empty();
+			$("#mask").remove();
+			$("#mask").empty();
 		}	
 		
-	//로딩후	
+		function btnShow(){
+			let aprvStBtn = localStorage.getItem('aprvStBtn');
+			if(aprvStBtn){ 
+				$(".aprvSt.btn-primary").addClass("btn-outline-primary");
+				$(".aprvSt.btn-primary").removeClass("btn-primary");
+				$('[data-st="'+aprvStBtn+'"]').removeClass("btn-outline-primary");
+				$('[data-st="'+aprvStBtn+'"]').addClass("btn-primary");
+				localStorage.removeItem("aprvStBtn"); }
+		} 
+		
+		
+	//==================================
 	$(document).ready(function() {
 	
-		//데이터테이블
-		$('#approvalTable').DataTable({
-			"dom":'lftip',
-			"language": {
-		    "search": ""
-		  	},
-			lengthChange: false,
-			ordering: false,
-			info: false
-		});
+		aprvTable();
+		aprvSelect();
+		btnChange();
 		
 		
-		//카테고리 변경후 버튼 활성화
-		$("#approvalBtns").on("click", "button", e=>{
-							let aprvSt = $(e.target).data("st"); 	
-							localStorage.setItem('aprvStBtn', aprvSt)
-							location.href=`/approval?aprvSt=${aprvSt}`;
-					});
-		let aprvStBtn = localStorage.getItem('aprvStBtn');
-		if(aprvStBtn){ 
-			$(".aprvSt.btn-primary").addClass("btn-outline-primary");
-	    	$(".aprvSt.btn-primary").removeClass("btn-primary");
-	    	$('[data-st="'+aprvStBtn+'"]').removeClass("btn-outline-primary");
-	    	$('[data-st="'+aprvStBtn+'"]').addClass("btn-primary");
-	    	localStorage.removeItem("aprvStBtn");
-		}
+		
+			
+			
+		
+		
 		
 		//위임 - 부서별 사원검색
-		$("#deptSelect").on("change", e=>{
-			let dept = $(e.target).val();
-			$.ajax({
-				url:'lineDeptChange',
-				beforeSend:function(xhr){
-			 		xhr.setRequestHeader(header,token);  
-			    },
-			    type:"post",
-			    data:{'dept':dept},
-			    dataType:'json',
-			    success:function(obj){
-			    	$("#multi").html("");
-			    	 $.each (obj, (idx, o)=> {
-				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
-				        	$("#multi").append(option);
-				        	}); 
-			    }
-		    }) 
-		})
+		function deptEmpSearch(){
+			$("#deptSelect").on("change", e=>{
+				let dept = $(e.target).val();
+				$.ajax({
+					url:'aprvEmpList',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'dept':dept},
+				    dataType:'json',
+				    success:function(obj){
+				    	$("#multi").html("");
+				    	 $.each (obj, (idx, o)=> {
+					        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+					        	$("#multi").append(option);
+					        	}); 
+				    }
+			    }) 
+			})
+		}
+		
 		
 		//위임자 선택
 		$("#multi").on("click", e=>{
@@ -168,10 +166,7 @@
 		})
 		
 		
-	approvalSelect();
-		
 	
-		
 	
 		var isDrawing = false;
 		var x = 0;
@@ -230,8 +225,6 @@
 		}
 		
 		
-		
-		
 		$("#save").on("click", function(){            
             
        	 let dataUrl = $("#canvas")[0].toDataURL("image/png");
@@ -256,18 +249,23 @@
           
        });  
 		
-	
+		
 	});
-			
-	
-	
-	
+	//==================================
+		function btnChange(){
+			$("#approvalBtns").on("click", "button", e=>{
+				let aprvSt = $(e.target).data("st"); 	
+				localStorage.setItem('aprvStBtn', aprvSt)
+				location.href=`/approval?aprvSt=${aprvSt}`;
+			});
+		
+		}
 		//상세조회
-		function approvalSelect() {
+		function aprvSelect() {
 		$("#approvalTable").on("click", "tr", e=>{
 			let aprvNo = $(e.target).data("no");
 			$.ajax({
-				url:'approvalView',
+				url:'apView',
 				beforeSend:function(xhr){
 			 		xhr.setRequestHeader(header,token);  
 			    },
@@ -283,7 +281,17 @@
 			})
 		}
 	
-	
+		function aprvTable(){
+			$('#approvalTable').DataTable({
+				"dom":'lftip',
+				"language": {
+			    "search": ""
+			  	},
+				lengthChange: false,
+				ordering: false,
+				info: false
+			});
+		}
 	</script>
 
 		<!--section -->
@@ -345,14 +353,11 @@
 												data-bs-toggle="modal" data-bs-target="#trustModal">
 												<i class="ri-account-pin-circle-fill"> 결재 위임자 설정</i>
 											</button>
-
-
 										</div>
 									</div>
 								</div>
 							</div>
 							<!-- End Card with an image on left -->
-
 
 							<div class="card">
 								<div class="card-body">
@@ -376,6 +381,7 @@
 
 									<br>
 
+									<!-- approvaTable -->
 									<table id="approvalTable" class="display center"
 										style="width: 100%">
 										<thead hidden="hidden">
@@ -387,7 +393,6 @@
 											<tr th:each="p : ${approval}"
 												class="list-group-item list-group-item-action"
 												th:data-no="${p.aprvNo}">
-
 												<td class="d-flex justify-content-between align-items-start"
 													th:data-no="${p.aprvNo}">
 													<div class="ms-2 me-auto">
@@ -404,19 +409,18 @@
 											</tr>
 										</tbody>
 									</table>
+									<!-- End approvaTable -->
 								</div>
 							</div>
-
 						</div>
 					</div>
 					<!-- End Tabs -->
 				</div>
 			</div>
-
 		</section>
 		<!-- End section -->
 
-		<!-- Modal -->
+		<!-- sign Modal -->
 
 		<div class="modal fade" id="signModal" tabindex="-1"
 			data-bs-backdrop="true">
@@ -428,12 +432,6 @@
 					</div>
 					<div class="modal-body" id="sCntn"
 						style="width: 350px; height: 400px;">
-
-
-						<!-- <div style="width: 300px; height: 300px;">
-							<canvas id="canvas" style="border: 1px solid gray;"></canvas>
-						</div> -->
-
 						<div class="container">
 							<canvas id="canvas" width="300" height="300"></canvas>
 							<form id="signFrm" method="post" enctype="multipart/form-data"
@@ -446,17 +444,14 @@
 								<button type="button" id="save" class="btn btn-primary">저장</button>
 							</form>
 						</div>
-
 					</div>
-
-
-
-
-
 				</div>
 			</div>
 		</div>
 
+		<!-- end sign Modal -->
+
+		<!-- trust Modal -->
 		<div class="modal fade" id="trustModal" tabindex="-1"
 			data-bs-backdrop="true">
 			<div class="modal-dialog modal-dialog-centered">
@@ -507,22 +502,16 @@
 								<div class="col-md-8">
 									<select class="form-select" id="multi" multiple
 										aria-label="multiple select example" style="height: 120px;">
-
 									</select>
 								</div>
-
 								<div class="col-md-5">
-
 									<input type="date" id="sdt" name="sdt" class="form-control">
-
 								</div>
 								<div class="col-md-2 text-center">~</div>
 								<div class="col-md-5">
 
 									<input type="date" id="edt" name="edt" class="form-control">
-
 								</div>
-
 								<input type="hidden" id="rptt" name="rptt">
 							</div>
 							<br>
@@ -536,7 +525,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- End Modal-->
+		<!-- end trust Modal -->
 
 		<!-- Scrolling Modal -->
 		<div class="modal fade" id="viewModal" tabindex="-1"
@@ -552,7 +541,6 @@
 					</div>
 					<div class="modal-footer">
 						<div class="col-12">
-
 							<button type="button" class="btn btn-primary"
 								style="float: right;">승인</button>
 
@@ -564,7 +552,6 @@
 			</div>
 		</div>
 		<!-- End Scrolling Modal-->
-
 
 	</main>
 	<!-- End main -->

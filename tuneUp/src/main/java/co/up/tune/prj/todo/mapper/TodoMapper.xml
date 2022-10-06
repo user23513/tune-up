@@ -3,8 +3,23 @@
 <mapper namespace="co.up.tune.prj.todo.mapper.TodoMapper">
 	<!-- ======할일======= -->
 	<select id="todoList" resultType="co.up.tune.prj.vo.TodoVO">
-		select * from todo
-		where prj_no = #{prjNo}
+		select	t.post_no,
+				t.emp_no,
+				t.ttl, 
+				t.wrtr, 
+				t.dttm, 
+				t.prj_no,
+			 	(nvl(round(
+					(select count(*)*100
+					from tododetail d
+					where d.post_no = t.post_no
+					and cmplt_yn = 'Y')
+					/(select COUNT(*)
+					from tododetail d
+					where d.post_no = t.post_no)),0)
+				) as percent
+		from todo t
+		where t.prj_no = #{prjNo}
 		order by post_no desc
 	</select>
 	
@@ -34,22 +49,6 @@
 		delete from todo
 		where post_no = #{postNo}
 	</delete>
-	
-	<!-- ======percent bar====== -->
-	<select id="todoPerc" resultType="co.up.tune.prj.vo.TodoVO" parameterType="int">
-		select (
-			nvl(round(
-				(select count(*)*100
-				from tododetail
-				where post_no = #{postNo}
-				and cmplt_yn = 'Y')
-				/(select COUNT(*)
-				from tododetail
-				where post_no = #{postNo})),0)
-			) as perc
-		from todo
-		where post_no = #{postNo}
-	</select>
 	
 	<!-- ======댓글====== -->
 	<select id="replyList" resultType="co.up.tune.com.vo.ReplyVO"> 

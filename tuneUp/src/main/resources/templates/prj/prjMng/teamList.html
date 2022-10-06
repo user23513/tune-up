@@ -11,12 +11,12 @@
 <title>프로젝트 관리</title>
 <link rel="stylesheet" href="/css/jquery.treeview.css" />
 <link rel="stylesheet" href="/css/screen.css" />
-<style >
-	#bin, #mody{
+<style>
+#bin, #mody {
 	background-color: white;
 	outline: 0;
-	border : 0;
-	}
+	border: 0;
+}
 </style>
 </head>
 <body>
@@ -59,35 +59,32 @@
 										aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									<fieldset class="row mb-3">
-										<legend class="col-form-label col-sm-2 pt-0">상태</legend>
-										<div class="col-sm-10">
-											<div class="form-check">
-												<input class="form-check-input" type="radio"
-													name="gridRadios" id="gridRadios1" value="option1" checked>
-												<label class="form-check-label" for="gridRadios1">
-													요청 </label>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="radio"
-													name="gridRadios" id="gridRadios2" value="option2">
-												<label class="form-check-label" for="gridRadios2">
-													진행 </label>
-											</div>
-											<div class="form-check disabled">
-												<input class="form-check-input" type="radio"
-													name="gridRadios" id="gridRadios3" value="option3">
-												<label class="form-check-label" for="gridRadios3">
-													완료 </label>
-											</div>
-										</div>
-									</fieldset>
+
+
+									<div class="col-sm-10">
+
+										<form action="prjSt" method="post">
+											<input type="hidden" th:name="${_csrf.parameterName}"
+												th:value="${_csrf.token}"> <input type="hidden"
+												name="prjNo" th:value="${s.prjNo}">
+											<fieldset>
+												<input class="form-check-input" type="radio" name="st"
+													id="gridRadios2" value="진행" checked> <label
+													class="form-check-label" for="gridRadios2"> 진행 </label> <input
+													class="form-check-input" type="radio" name="st"
+													id="gridRadios3" value="완료"> <label
+													class="form-check-label" for="gridRadios3"> 완료 </label>
+											</fieldset>
+
+											<button type="submit" class="btn btn-primary">변경</button>
+										</form>
+
+									</div>
+
+									<div class="modal-footer"></div>
 								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">닫기</button>
-									<button type="button" class="btn btn-primary">변경</button>
-								</div>
+
+
 							</div>
 						</div>
 					</div>
@@ -121,8 +118,7 @@
 									<span>해당 프로젝트를 진행중인 팀원이 없습니다. </span>
 								</div>
 								<div th:each="tm:${teamList}">
-									<!-- <input type="hidden" th:name="${_csrf.parameterName}"
-												th:value="${_csrf.token}">  -->
+									<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">  -->
 									<input type="hidden" name="prjNo" th:value="${tm.prjNo}">
 									<input type="hidden" name="empNo" th:value="${tm.empNo}">
 									<input type="hidden" id="auth" name="auth"
@@ -174,11 +170,9 @@
 							<div class="card">
 								<div class="card-body">
 
-									<form id="newPrjFrm" action="addTeam" method="post"
-										enctype="multipart/form-data">
+									<form id="newPrjFrm" action="addTeam" method="post">
 										<input type="hidden" th:name="${_csrf.parameterName}"
 											th:value="${_csrf.token}">
-
 										<!--프로젝트 팀원 추가-->
 										<div id="rr">
 											<br> <i class="bi bi-person size"
@@ -231,10 +225,7 @@
 											<!-- 버튼클릭시 뜨는 부분  -->
 										</div>
 										<!-- 프로젝트 팀원 추가 -->
-
 										<br> <br>
-
-
 										<div style="margin-top: 30px;">
 											<button class="btn btn-primary" type="submit">등록</button>
 										</div>

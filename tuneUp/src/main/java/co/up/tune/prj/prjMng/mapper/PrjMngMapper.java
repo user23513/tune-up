@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.TeamVO;
 
@@ -13,7 +14,7 @@ public interface PrjMngMapper {
 	List<TeamVO> teamList(int prjNo); // 멤버리스트
 	List<TeamVO> authList(int prjNo); // 관리자리스트
 	
-	//List<EmpVO> addTeamList(); //멤버추가 주소록
+	List<EmpVO> addTeamList(EmpVO vo); //트리뷰
 	
 	int addTeam(TeamVO vo); // 멤버추가
 
@@ -25,6 +26,7 @@ public interface PrjMngMapper {
 	
 	int prjSt(ProjectVO vo); //프로젝트 상태 변경
 	
+	ProjectVO pjSelect(ProjectVO vo);
 	/////////아래는 테스트용/////////////
 	
 	int addTeamList(@Param("vo")TeamVO vo, @Param("addTeamList")List<TeamVO> addTeamList); //새 멤버 추가

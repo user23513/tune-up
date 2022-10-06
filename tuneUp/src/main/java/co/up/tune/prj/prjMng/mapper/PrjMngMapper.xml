@@ -11,7 +11,11 @@
     		WHERE PRJ_NO=#{prjNo}
     	)
     	ORDER BY PRJ_NO
-		
+	</select>
+
+	<select id="pjSelect" resultType="co.up.tune.prj.vo.ProjectVO" parameterType="co.up.tune.prj.vo.ProjectVO">
+		SELECT * FROM PROJECT
+		WHERE PRJ_NO = #{prjNo}
 	</select>
 	
 	<select id="authList" resultType="co.up.tune.prj.vo.TeamVO" parameterType="int">
@@ -29,19 +33,18 @@
 	</select>
 	
 	<select id="addTeamList"  resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
-		SELECT *
+		SELECT EMP_NO, NM, DEPT
 		FROM EMP
+		WHERE DEPT = #{dept}
 	</select>
+ 
+ 	
 	
-	<update id="addTeam" parameterType="co.up.tune.prj.vo.TeamVO">
-		UPDATE TEAM
-		<set>
-			<if test ="empNo != null">EMP_NO = #{empNo}</if>
-			<if test ="nm != null">NM = #{nm}</if>
-			<if test ="auth = null">AUTH='멤버'</if>
-		</set>
+	<insert id="addTeam" parameterType="co.up.tune.prj.vo.TeamVO">
+		INSERT INTO TEAM
+		VALUES(#{empNo},#{prjNo},'팀원',#{nm},#{dept})
 		WHERE PRJ_NO = #{prjNo}
-	</update>
+	</insert>
 	
 	<delete id="removeTeam" parameterType="co.up.tune.prj.vo.TeamVO">
 	DELETE FROM TEAM
@@ -66,10 +69,8 @@
 	</update>
 	
 	<update id="prjSt" parameterType="co.up.tune.prj.vo.ProjectVO">
-		UPDATE PROJECT
-		<set>
-			<if test ="st != null">st = #{st}</if>
-		</set>
+		UPDATE PROJECT 
+		SET ST = #{st} 
 		WHERE PRJ_NO = #{prjNo}
 	</update>
 	

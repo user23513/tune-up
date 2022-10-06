@@ -132,15 +132,52 @@ public class AttdServiceImpl implements AttdService{
 	@Override
 	public List<AttdVO> attdGoodList() {
 		// 관리자 - 전체사원 정상
-		return dao.attdGoodList();
+		
+		List<AttdVO> list =  dao.attdGoodList();
+		
+		for( AttdVO vo :list) {
+			// 퇴근한 사원들 중
+			if (vo.getAfwkDttm() != null) {
+				// 60분 이상 근무 했다면
+				if(vo.getWktm() != null && vo.getWktm() > 59 ) {
+					long wktmH = (long) Math.floor(vo.getWktm() / 60);
+					vo.setWktmH(wktmH);
+					
+					// 60분 이상 초과 근무를 했다면
+					if(vo.getOvtm() != null && vo.getOvtm() > 59) {
+						// 소수점 버리기
+						long ovtmH = (long) Math.floor(vo.getOvtm() / 60);
+						vo.setOvtmH(ovtmH);
+					}
+				}
+			}
+		}
+		return list;
 	}
 
 	@Override
 	public List<AttdVO> attdBadList() {
 		// 관리자 - 전체사원 이상
-		return dao.attdBadList();
+		List<AttdVO> list =  dao.attdBadList();
+		for( AttdVO vo :list) {
+			// 퇴근한 사원들 중
+			if (vo.getAfwkDttm() != null) {
+				// 60분 이상 근무 했다면
+				if(vo.getWktm() != null && vo.getWktm() > 59 ) {
+					long wktmH = (long) Math.floor(vo.getWktm() / 60);
+					vo.setWktmH(wktmH);
+					
+					// 60분 이상 초과 근무를 했다면
+					if(vo.getOvtm() != null && vo.getOvtm() > 59) {
+						// 소수점 버리기
+						long ovtmH = (long) Math.floor(vo.getOvtm() / 60);
+						vo.setOvtmH(ovtmH);
+					}
+				}
+			}
+		}
+		return list;
 	}
-
 	@Override
 	public List<AttdVO> myAttdList(AttdVO vo) {
 		// TODO Auto-generated method stub

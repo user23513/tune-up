@@ -27,12 +27,12 @@ public class PrjMngServiceImpl implements PrjMngService {
 		return map.authList(prjNo);
 	}
 
-/*	@Override
-	public List<EmpVO> addTeamList() {
-		// TODO Auto-generated method stub
-		return map.addTeamList();
+	@Override
+	public List<EmpVO> addTeamList(EmpVO vo) {
+		// 트리뷰
+		return map.addTeamList(vo);
 	}
-	*/
+	
 
 	@Override
 	public int addTeam(TeamVO vo) {
@@ -68,6 +68,12 @@ public class PrjMngServiceImpl implements PrjMngService {
 	public int addTeamList(TeamVO vo) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public ProjectVO pjSelect(ProjectVO vo) {
+		// TODO Auto-generated method stub
+		return map.pjSelect(vo);
 	}
 
 	 

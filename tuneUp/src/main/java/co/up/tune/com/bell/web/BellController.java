@@ -25,8 +25,4 @@ public class BellController {
 		return "com/bell/bellList";
 	}
 	
-	@GetMapping("/noteForm")
-	public String noteForm() {
-		return "com/bell/noteForm";
-	}
 }

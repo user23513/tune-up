@@ -5,6 +5,64 @@
 <head>
 <meta charset="UTF-8">
 <title>쪽지</title>
+<style>
+input[type=text]{
+	display: inline-block;
+	margin-top: 5px;
+	width: 57%;
+	height: 30px;
+	border: 1px solid gray;
+}
+textarea{resize: none;}
+hr{margin: 7px;}
+.left{margin-left: 10px;}
+.to{
+	position: relative;
+	top: -4px;
+}
+.pagination {
+	float: right;
+	margin: 0 0 5px;
+}
+.pagination li a {
+	border: none;
+	font-size: 15px;
+	min-width: 30px;
+	min-height: 30px;
+	color: #999;
+	margin: 0 2px;
+	line-height: 30px;
+	border-radius: 2px !important;
+	text-align: center;
+	padding: 0 6px;
+}
+.pagination li a:hover {
+	color: #666;
+}	
+.pagination li.active a, .pagination li.active a.page-link {
+	background: #435d7d;
+}
+.pagination li.active a:hover {        
+	background: #435d7d;
+}
+.pagination li.disabled i {
+	color: #ccc;
+}
+.pagination li i {
+	font-size: 16px;
+	padding-top: 6px
+}
+.hint-text {
+	float: left;
+	margin-top: 10px;
+	font-size: 13px;
+}
+.word {
+	text-overflow:ellipsis; 
+	overflow:hidden; 
+	white-space:nowrap;
+}
+</style>
 </head>
 <body>
 <main id="main" class="main" layout:fragment="content" >
@@ -15,96 +73,107 @@
      				<h5 class="card-title">내 쪽지함</h5>
      			</div>
     		</div>
-     		<button id="noteForm" name="btn" type="button" class="btn btn-outline-primary sm">글쓰기</button>
+     		<button id="noteForm" name="btn" type="button" class="btn btn-outline-primary sm" data-bs-toggle="modal" data-bs-target="#noteModal">글쓰기</button>
 
-     		<!-- Bordered Tabs Justified -->
+     		<!-- 탭 -->
      		<ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
        			<li class="nav-item flex-fill" role="presentation">
-         			<button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">받은 쪽지</button>
+         			<button class="nav-link w-100 active" id="receive-tab" data-bs-toggle="tab" data-bs-target="#receiveNoteBox" 
+         					type="button" role="tab" aria-controls="home" aria-selected="true">받은 쪽지</button>
        			</li>
        			<li class="nav-item flex-fill" role="presentation">
-         			<button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">보낸 쪽지</button>
+         			<button class="nav-link w-100" id="send-tab" data-bs-toggle="tab" data-bs-target="#sendNoteBox" 
+         					type="button" role="tab" aria-controls="profile" aria-selected="false">보낸 쪽지</button>
        			</li>
        			<li class="nav-item flex-fill" role="presentation">
-         			<button class="nav-link w-100" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">보관함</button>
+         			<button class="nav-link w-100" id="keepNote-tab" data-bs-toggle="tab" data-bs-target="#keepNote" 
+         					type="button" role="tab" aria-controls="contact" aria-selected="false">보관함</button>
        			</li>
      		</ul>
-     		<div class="tab-content pt-2" id="borderedTabJustifiedContent">
-       			<div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+     		
+     		<!-- 탭 바디 -->
+     		<div class="tab-content pt-2" id="parentDiv">
+     		
+     			<!-- 받은 쪽지 보이는 곳 -->
+       			<div class="tab-pane fade show active" id="receiveNoteBox" role="tabpanel" aria-labelledby="receive-tab">
        				<div class="tab-content pt-2" id="myTabContent">
 						<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-							<!-- End Default Table Example -->
 							<br>
-							<!-- 받은 쪽지 보이는 곳 -->
-							<!-- Table with hoverable rows -->
-							<table class="table table-hover" id="sNoteList">
+							<table class="table table-hover" style="table-layout: fixed;">
 								<thead>
 									<tr>
-										<th scope="col">#</th>
-										<th style="display: none" scope="col">쪽지번호</th>
-										<th scope="col">보낸 사람</th>
-										<th scope="col">내용</th>
+										<th scope="col" style="width: 10%">#</th>
+										<th scope="col" style="width: 15%">보낸 사람</th>
+										<th scope="col" style="width: 55%">내용</th>
 										<th scope="col">날짜</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr th:each="s : ${sNoteLsist}" >
+								<tbody id="rNoteTb">
+									<tr th:each="r : ${rList.getList()}" th:attr="data-no=${r.noteNo}">
 										<th scope="row">
-										쪽지 체크박스
+											<input type="checkbox" th:value="${r.noteNo}">
 										</th>
-										<td style="display: none" th:text="${s.noteNo}" th:attr="data-no=${s.noteNo}">쪽지번호</td>
-										<td th:text="${s.receiver}">보낸 사람</td>
-										<td th:text="${s.cntn}">쪽지 내용</td>
-										<td th:text="${s.dttm}">발송 일시</td>
+										<td th:text="${r.receiver}">보낸 사람</td>
+										<td th:text="${r.cntn}" class="word">쪽지 내용</td>
+										<td th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">발송 일시</td>
 									</tr>
 								</tbody>
 							</table>
-							<!-- End Table with hoverable rows -->
 						</div>
+						<!-- Start 페이징 -->
+						<nav id="rPage">
+						    <ul class="pagination" style="float: none;">
+						        <li class="page-item">
+						            <a class="page-link">Previous</a>
+						        </li>
+						        <li class="page-item" th:each="page: ${#numbers.sequence(rList.getNavigateFirstPage(), rList.getNavigateLastPage())}">
+						            <a class="page-link" th:text="${page}"></a>
+						        </li>
+						        <li class="page-item" th:classappend="${rList.getNextPage() == 0} ? 'disabled'">
+						            <a class="page-link">Next</a>
+						        </li>
+						    </ul>
+						</nav>
+						<!-- End 페이징 -->
 					</div>			
        			</div>
+       			<!-- 받은 쪽지 보이는 곳 -->
        			
-       			<div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+       			<!-- 보낸 쪽지 보이는 곳 -->
+       			<div class="tab-pane fade" id="sendNoteBox" role="tabpanel" aria-labelledby="send-tab">
        				<div class="tab-content pt-2" id="myTabContent">
 						<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-							<!-- End Default Table Example -->
 							<br>
-							<!-- 보낸 쪽지 보이는 곳 -->
-							<!-- Table with hoverable rows -->
-							<table class="table table-hover" id="sNoteList">
+							<table class="table table-hover" id="sNoteList" style="table-layout: fixed;">
 								<thead>
 									<tr>
-										<th scope="col">#</th>
-										<th style="display: none" scope="col">쪽지번호</th>
-										<th scope="col">받는사람</th>
-										<th scope="col">내용</th>
+										<th scope="col" style="width: 10%">#</th>
+										<th scope="col" style="width: 15%">받는사람</th>
+										<th scope="col" style="width: 55%">내용</th>
 										<th scope="col">날짜</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr th:each="r : ${rNoteLsist}" >
+									<tr th:each="s : ${sList.getList()}" >
 										<th scope="row">
-										쪽지 체크박스
+											<input type="checkbox" th:value="${s.noteNo}">
 										</th>
-										<td style="display: none" th:text="${r.noteNo}" th:attr="data-no=${r.noteNo}">쪽지번호</td>
-										<td th:text="${r.receiver}">보낸 사람</td>
-										<td th:text="${r.cntn}">쪽지 내용</td>
-										<td th:text="${r.dttm}">발송 일시</td>
+										<td th:text="${s.receiver}">보낸 사람</td>
+										<td th:text="${s.cntn}" class="word">쪽지 내용</td>
+										<td th:text="${#dates.format(s.dttm, 'yyyy-MM-dd HH:mm:ss')}">발송 일시</td>
 									</tr>
 								</tbody>
 							</table>
-							<!-- End Table with hoverable rows -->
 						</div>
 					</div>			
       	 		</div>
-       
-       			<div class="tab-pane fade" id="bordered-justified-contact" role="tabpanel" aria-labelledby="contact-tab">
+      	 		<!-- 보낸 쪽지 보이는 곳 -->
+       			
+       			<!-- 쪽지보관함 보이는 곳 -->
+       			<div class="tab-pane fade" id="keepNote" role="tabpanel" aria-labelledby="keepNote-tab">
 	       			<div class="tab-content pt-2" id="myTabContent">
 						<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-							<!-- End Default Table Example -->
 							<br>
-							<!-- 쪽지보관함 보이는 곳 -->
-							<!-- Table with hoverable rows -->
 							<table class="table table-hover" id="sNoteList">
 								<thead>
 									<tr>
@@ -127,16 +196,240 @@
 									</tr>
 								</tbody>
 							</table>
-							<!-- End Table with hoverable rows -->
 						</div>
 					</div>			
        			</div>
-     		</div><!-- End Bordered Tabs Justified -->
+       			<!-- 쪽지보관함 보이는 곳 -->
+     		</div>
    		</div>
  	</div>
  	
+ 	<!-- 쪽지 보내기 모달 -->
+	<div class="modal fade" id="noteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 650px;">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="staticBackdropLabel">쪽지 주소록</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <form id="sendFrm">
+				<div class="to">
+					<b class="left">받는사람</b>&nbsp; 
+					<input type="checkbox">&nbsp;내게쓰기&nbsp;
+					<!-- 여러명은 쉼표로 구분 -->
+					<input type="text" class="form-control-plaintext" id="emps" disabled>
+					<input type="hidden" name="sender" id="sender">
+					<input type="hidden" name="sEmpNo" id="sEmpNo">
+					<!-- 주소록 -->
+					<button class="deptsBtn" type="button">주소록</button>
+				</div>
+				<hr>
+				<div>
+					<textarea class="left" style="width: 579px; height: 283px;" name="cntn"></textarea>
+				</div>
+				<div class="left">
+					<input type="checkbox" name="cntn">&nbsp;보낸쪽지함에 저장
+				</div>
+			</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary" onclick="sendFunc()">보내기</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+ 	
+ 	<!-- 상세조회 모달 -->
+	<div class="modal fade" id="noteSelectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 650px;">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="staticBackdropLabel">받은 쪽지</h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <form id="sendFrm">
+				<div class="to">
+					<b class="left">받는사람</b>&nbsp; 
+					<input type="text" class="form-control emp" disabled>
+					<input type="hidden" name="noteNo" class="no">
+				</div>
+				<hr>
+				<div>
+					<textarea class="left cntn" style="width: 579px; height: 283px;" name="cntn" disabled></textarea>
+				</div>
+				<div class="left">
+					<input type="checkbox" name="cntn">&nbsp;보낸쪽지함에 저장
+				</div>
+			</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+	        <button type="button" class="btn btn-primary" onclick="noteDeleteFunc()">삭제</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
  	<script src="/js/jquery-3.6.1.min.js"></script>
-	<script src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script th:inline="javascript">
+	//모달창
+	const Toast = Swal.mixin({
+		  toast: true,
+		  position: 'center',
+		  showConfirmButton: true,
+		  timerProgressBar: true,
+		  didOpen: (toast) => {
+		    toast.addEventListener('mouseenter', Swal.stopTimer)
+		    toast.addEventListener('mouseleave', Swal.resumeTimer)
+		 }
+	})
+	
+	//주소록 버튼 클릭 시
+	$(".deptsBtn").on("click", e=>{
+		var popupWidth = 600;
+		var popupHeight = 400;
+		var popupX = (window.screen.width / 2) - (popupWidth / 3);
+		// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+		var popupY= (window.screen.height / 2) - (popupHeight / 3);
+		// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+		
+	 	  	window.open('/deptList', '', 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+	})
+	
+	function somFunc(arr) {
+		let str = "";
+		let name = "";
+		let no = "";
+		for(let key in arr){
+			str += arr[key]+"<"+key+"> ";
+			name += arr[key]+" ";
+			no += key+" ";
+		}
+		$("#emps").val(str);
+		$("#sender").val(name);
+		$("#sEmpNo").val(no);
+	}
+	
+	function sendFunc() {
+		let formData = new FormData($("#sendFrm")[0]);
+		$.ajax({
+			url:'sendNote',
+			beforeSend:function(xhr){
+		 		xhr.setRequestHeader(header,token);  
+		    },
+		    type:"post",
+		    data:formData,
+		    contentType:false,
+		    processData:false,
+		    dataType:'json',
+		    success:function(note){
+		    	if(note.sendConut>0){
+		    		Toast.fire({
+	  				  icon: 'success',
+	  				  title: '쪽지가 성공적으로 보내졌습니다!'
+	  				}).then(function(){
+	  					socket.send('note,'+note.sempNo);
+	  					$('#noteModal').modal('hide')
+	   				});
+		    	}
+		    }
+			
+		})
+	}
+	
+	//받은쪽지함 페이징
+	$("#rPage").on("click", "a", e=>{
+		if($(e.target).text()=="Previous") {
+			//let url = "noteHome?pageNum="+[[${rList.getPrePage()}]];
+			//location.href = "noteHome?pageNum="+[[${rList.getPrePage()}]];
+			$.ajax({
+				url:"ajaxNoteHome?pageNum="+[[${rList.getPrePage()}]],
+			    type:"get",
+			    dataType:'json',
+			    success:function(rList){
+			    	$("#rNoteTb").html("");
+			    	$.each(rList.list, (idx,r)=>{
+			    		$("<tr>").append($("<th>").attr("scope","row").attr("data-no",r.noteNo).append($("<input>").attr("type","checkbox").val(r.noteNo)))
+			    				 .append($("<td>").text(r.receiver))
+			    				 .append($("<td>").text(r.cntn).addClass("word"))
+			    				 .append($("<td>").text(r.dttm))
+			    				 .appendTo($("#rNoteTb"));
+			    	})
+			    }
+			})
+		}else if($(e.target).text()=="Next") {
+			$.ajax({
+				url:"ajaxNoteHome?pageNum="+[[${rList.getNextPage()}]],
+			    type:"get",
+			    dataType:'json',
+			    success:function(rList){
+			    	$("#rNoteTb").html("");
+			    	$.each(rList.list, (idx,r)=>{
+			    		$("<tr>").append($("<th>").attr("scope","row").attr("data-no",r.noteNo).append($("<input>").attr("type","checkbox").val(r.noteNo)))
+			    				 .append($("<td>").text(r.receiver))
+			    				 .append($("<td>").text(r.cntn).addClass("word"))
+			    				 .append($("<td>").text(r.dttm))
+			    				 .appendTo($("#rNoteTb"));
+			    	})
+			    }
+			})
+		}else {
+			$.ajax({
+				url:"ajaxNoteHome?pageNum="+$(e.target).text(),
+			    type:"get",
+			    dataType:'json',
+			    success:function(rList){
+			    	$("#rNoteTb").html("");
+			    	$.each(rList.list, (idx,r)=>{
+			    		$("<tr>").append($("<th>").attr("scope","row").attr("data-no",r.noteNo).append($("<input>").attr("type","checkbox").val(r.noteNo)))
+			    				 .append($("<td>").text(r.receiver))
+			    				 .append($("<td>").text(r.cntn).addClass("word"))
+			    				 .append($("<td>").text(r.dttm))
+			    				 .appendTo($("#rNoteTb"));
+			    	})
+			    }
+			})
+		}
+	})
+	
+	//쪽지 상세조회
+	$("#parentDiv").on("click", "tbody", e=>{
+		console.log($(e.target))
+		$(".emp").val($(e.target).parent().children().eq(1).text());
+		$(".no").val($(e.target).parent().data("no"));
+		$(".cntn").text($(e.target).parent().children().eq(2).text())
+		$("#noteSelectModal").modal('show');
+	})
+	
+	//쪽지 상세조회 삭제
+	function noteDeleteFunc() {
+		let noteNo = $("input[name=noteNo]").val();
+		$.ajax({
+			url:'noteDelete',
+			beforeSend:function(xhr){
+		 		xhr.setRequestHeader(header,token);  
+		    },
+		    type:"post",
+		    data:{'noteNo':noteNo},
+		    dataType:'json',
+		    success:function(cnt){
+				if(cnt>0) {
+					Toast.fire({
+	  				  icon: 'success',
+	  				  title: '쪽지가 삭제되었습니다!'
+	  				}).then(function(){
+	  					$('#noteSelectModal').modal('hide');
+	  					
+	   				});
+				}		    	
+		    }
+		})
+	}
+	</script>
 	<script>
 		/* $(function(){
 			//datatables
@@ -145,7 +438,7 @@
 			$('#kNoteList').DateTable();
 		}) */
 		
-		$("#noteForm").on("click", e=>{
+		/* $("#noteForm").on("click", e=>{
 			var popupWidth = 600;
 			var popupHeight = 460;
 			var popupX = (window.screen.width / 2) - (popupWidth / 2);
@@ -154,7 +447,7 @@
 			// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
 			
 	  	  	window.open('/noteForm', '', 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
-		})
+		}) */
 	</script>
 </main>
 </body>

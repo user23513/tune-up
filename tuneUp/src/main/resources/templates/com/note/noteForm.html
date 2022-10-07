@@ -56,28 +56,6 @@ hr{margin: 7px;}
 
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<!-- 웹소켓 -->
-<script>
-var socket = null;
-//웹소켓 연결
-connectWs();
-	
-//서버가 끊겼을 때 호출
-socket.onclose = function(){
-	//setTimeout(function(){connectWs();}, 500);
-}
-
-//웹소켓 연결 함수
-function connectWs(){
-	sock = new SockJS("/ws/alarm"); //다른곳에서도 사용하려고 내 ip주소 적어놓음
-	socket = sock;
-	
-	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)
-	sock.onopen = function(){console.log("connect!")}
-};
-
-</script>
 <script>
 var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");
@@ -138,8 +116,8 @@ function sendFunc() {
   				  icon: 'success',
   				  title: '쪽지가 성공적으로 보내졌습니다!'
   				}).then(function(){
-  					socket.send('note,'+note.sender);
-  					window.close();
+  					socket.send('note,'+note.sempNo);
+  					//window.close();
    				});
 	    	}
 	    }

@@ -65,12 +65,6 @@ public class PrjMngServiceImpl implements PrjMngService {
 	}
 
 	@Override
-	public int addTeamList(TeamVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public ProjectVO pjSelect(ProjectVO vo) {
 		// TODO Auto-generated method stub
 		return map.pjSelect(vo);

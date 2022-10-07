@@ -33,23 +33,9 @@
 	WHERE PRJ_NO=#{prjNo}
 	) AND AUTH = '팀장'
 	ORDER BY PRJ_NO
-    	
 		
 	</select>
 	
-	<select id="addTeamList"  resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
-		SELECT EMP_NO, NM, DEPT
-		FROM EMP
-		WHERE DEPT = #{dept}
-	</select>
- 
- 	
-	
-	<insert id="addTeam" parameterType="co.up.tune.prj.vo.TeamVO">
-		INSERT INTO TEAM
-		VALUES(#{empNo},#{prjNo},'팀원',#{nm},#{dept})
-		WHERE PRJ_NO = #{prjNo}
-	</insert>
 	
 	<delete id="removeTeam" parameterType="co.up.tune.prj.vo.TeamVO">
 	DELETE FROM TEAM
@@ -80,6 +66,24 @@
 		</set>
 		WHERE PRJ_NO = #{prjNo}
 	</update>
+	
+	<!-- 트리뷰 부서별 주소록 리스트-->
+	<select id="addTeamList"  resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
+		SELECT EMP_NO, NM, DEPT
+		FROM EMP
+		WHERE DEPT = #{dept}
+	</select>
+ 
+ 	<!-- 멤버 추가 -->
+	<insert id="addTeam" >
+	
+	<foreach collection="addTeamList" item="list">
+	INSERT INTO TEAM
+	VALUES (#{list.empNo},#{prjNo},'팀원',#{list.nm},#{list.dept})
+	WHERE PRJ_NO = #{prjNo}
+	</foreach>
+	</insert>
+	
 	
 	<!--  팀 테이블에 멤버 추가 
 	 새 프로젝트에서 입력한 사원들 정보 가져오기 

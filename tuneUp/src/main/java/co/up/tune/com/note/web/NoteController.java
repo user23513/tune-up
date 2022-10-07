@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
 import co.up.tune.com.note.service.NoteService;
+import co.up.tune.com.vo.NoteVO;
 import co.up.tune.emp.vo.EmpVO;
 import oracle.jdbc.proxy.annotation.Post;
 
@@ -44,7 +45,7 @@ public class NoteController {
 	@GetMapping("/deptList")
 	public String deptList(Model model) {
 		// 부서조회
-		model.addAttribute("dept", ls.aprvDeptSearch());
+		model.addAttribute("dept", ls.aprvDeptList());
 		return "com/note/deptList";
 	}
 	
@@ -52,6 +53,13 @@ public class NoteController {
 	@ResponseBody
 	@PostMapping("/deptEmp")
 	public List<EmpVO> deptEmp(EmpVO vo){
-		return ls.aprvEmpSearch(vo);
+		return ls.aprvEmpList(vo);
+	}
+	
+	//쪽지 보내기
+	@PostMapping("/sendNote")
+	public String sendNote(NoteVO vo) {
+		dao.sendNote(vo);
+		return "";
 	}
 }

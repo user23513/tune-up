@@ -68,20 +68,17 @@
 	</update>
 	
 	<!-- 트리뷰 부서별 주소록 리스트-->
-	<select id="addTeamList"  resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
-		SELECT EMP_NO, NM, DEPT
+	<select id="tdeptList" resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
+		SELECT EMP_NO, NM
 		FROM EMP
 		WHERE DEPT = #{dept}
 	</select>
  
  	<!-- 멤버 추가 -->
-	<insert id="addTeam" >
-	
-	<foreach collection="addTeamList" item="list">
+	<insert id="teamInsert" parameterType="co.up.tune.prj.vo.TeamVO">
 	INSERT INTO TEAM
-	VALUES (#{list.empNo},#{prjNo},'팀원',#{list.nm},#{list.dept})
+	VALUES (#{empNo},#{prjNo},'팀원',#{nm},#{dept})
 	WHERE PRJ_NO = #{prjNo}
-	</foreach>
 	</insert>
 	
 	

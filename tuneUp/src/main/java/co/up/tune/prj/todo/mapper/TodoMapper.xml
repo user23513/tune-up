@@ -34,7 +34,7 @@
 					where d.post_no = #{postNo})),0)
 				) as percent
 		from todo
-		where t.post_no = #{postNo}
+		where post_no = #{postNo}
 	</select>
 	
 	<select id="todoSelect" resultType="co.up.tune.prj.vo.TodoVO">

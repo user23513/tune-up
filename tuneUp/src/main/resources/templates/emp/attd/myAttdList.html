@@ -9,10 +9,11 @@
 	th:content="${_csrf.headerName}" />
 <title>나의 근태</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 <!-- 차트 CDN -->
 <!-- chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+<!-- apexChart -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script type="text/javascript">
 	
 </script>
@@ -173,7 +174,7 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-
+							 <h5 class="card-title">7days</h5>
 							<!-- Stacked Bar Chart -->
               <canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
               <script th:inline="javascript">
@@ -233,31 +234,56 @@
               <!-- End Stacked Bar Chart -->
 
 						</div>
-
-
-
-
-
 					</div>
 				</div>
-				<!-- radial -->
-				<div class="col-lg-12">
+			 
+				 <div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
+              				<h5 class="card-title">총 근무시간</h5>
+				        <!-- Radial Bar Chart -->
+				              <div id="radialBarChart"></div>
+			              <script>
+			                document.addEventListener("DOMContentLoaded", () => {
+			                  new ApexCharts(document.querySelector("#radialBarChart"), {
+			                    series: [43,5],
+			                    chart: {
+			                      height: 350,
+			                      type: 'radialBar',
+			                      toolbar: {
+			                        show: true
+			                      }
+			                    },
+			                    plotOptions: {
+			                      radialBar: {
+			                        dataLabels: {
+			                          name: {
+			                            fontSize: '22px',
+			                          },
+			                          value: {
+			                            fontSize: '16px',
+			                          },
+			                          total: {
+			                            show: true,
+			                            label: '전체',
+			                            formatter: function(w) {
+			                              // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+			                              return 52
+			                            }
+			                          }
+			                        }
+			                      }
+			                    },
+			                    labels: ['잔여 근무', '연장 근무',''],
+			                  }).render();
+			                });
+			              </script>
+              <!-- End Radial Bar Chart -->
 
-							<canvas id="radialBarChart" style="max-height: 400px;"></canvas>
-							<script>
-							
-							</script>
-
-
-
-
-
-						</div>
-					</div>
-
-				</div>
+            </div>
+          </div>
+        </div>
+				
 			</div>
 		</div>
 

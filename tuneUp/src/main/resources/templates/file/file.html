@@ -236,16 +236,20 @@ button {
 					</li>
 				</ul>
 
-				<!-- 프로젝트 -->
+				
 				<div class="tab-content pt-2" id="myTabjustifiedContent">
 					<div class="tab-content pt-2" id="myTabjustifiedContent">
 						<div class="tab-pane fade show active" id="home-justified"
 							role="tabpanel" aria-labelledby="home-tab">
 							<!-- 내 보관함 -->
 							<br>
-							<form class="search-form d-flex align-items-center" method="POST"
-								action="#">
-								<input type="text" name="query" placeholder="Search"
+							<form class="search-form d-flex align-items-center" method="get"
+								action="">
+								<select class="form-select form-select-sm w-auto h-auto" 
+									 name="keyword">
+									<option value="fCat">내파일함</option>
+								</select>
+								<input type="text" name="search" placeholder="Search"
 									title="Enter search keyword">
 								<button type="submit" title="Search">
 									<i class="bi bi-search"></i>
@@ -261,9 +265,11 @@ button {
 								<button type="button" class="btn btn-outline-primary btn-sm"
 									id="fileUploadForm">파일 추가</button>
 							</div>
-							<input type="hidden" id="empNo" name="empNo"
-								th:value="${session.empNo}"> <input type="hidden"
-								id="wrtr" name="wrtr" th:value="${session.nm}">
+							<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+							<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+							<input type="hidden" id="postNo" name="postNo">
+							
 							<table class="table table-hover">
 								<thead>
 									<tr>
@@ -290,13 +296,20 @@ button {
 						<!-- 프로젝트 -->
 						<div class="tab-pane fade" id="business-justified" role="tabpanel"
 							aria-labelledby="profile-tab">
-							<br> <input type="hidden" id="empNo" name="empNo"
-								th:value="${session.empNo}"> <input type="hidden"
-								id="wrtr" name="wrtr" th:value="${session.nm}"> <br>
-							<form class="search-form d-flex align-items-center" method="POST"
-								action="#">
-								<input type="text" name="query" placeholder="Search"
-									title="Enter search keyword">
+							<br> 
+							<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
+							<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
+							
+							<br>
+							<form class="search-form d-flex align-items-center" method="get" action="">
+								<select class="form-select form-select-sm w-auto h-auto" 
+									 name="keyword">
+									<option value="all">전체</option>
+									<option value="ttl">제목</option>
+									<option value="wrtr">작성자</option>
+									<option value="cntn">내용</option>
+								</select>
+								<input type="text" name="query" placeholder="Search" title="Enter search keyword">
 								<button type="submit" title="Search">
 									<i class="bi bi-search"></i>
 								</button>

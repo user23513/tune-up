@@ -28,16 +28,16 @@ public class PrjMngServiceImpl implements PrjMngService {
 	}
 
 	@Override
-	public List<EmpVO> addTeamList(EmpVO vo) {
+	public List<EmpVO> tdeptList(EmpVO vo) {
 		// 트리뷰
-		return map.addTeamList(vo);
+		return map.tdeptList(vo);
 	}
 	
 
 	@Override
-	public int addTeam(TeamVO vo) {
+	public int teamInsert(TeamVO vo) {
 		// 플젝 - 멤버추가
-		return map.addTeam(vo);
+		return map.teamInsert(vo);
 	}
 
 	@Override

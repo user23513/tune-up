@@ -1,6 +1,8 @@
 package co.up.tune.prj.vo;
 
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,4 +18,5 @@ public class TeamVO {
 	 String dept;	//부서
 	 
 	 String position; //직급
+	 List<Integer> teamEmpNo; //팀원들 사원번호
 }

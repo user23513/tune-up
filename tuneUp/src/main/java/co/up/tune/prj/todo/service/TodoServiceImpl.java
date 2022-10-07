@@ -69,4 +69,9 @@ public class TodoServiceImpl implements TodoService {
 		return map.replyDelete(vo);
 	}
 
+	@Override
+	public int todoPercent(TodoVO vo) {
+		return map.todoPercent(vo);
+	}
+
 }

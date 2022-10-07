@@ -22,6 +22,12 @@ public class HrController {
 	public String empUpdateForm(EmpVO vo, Model model) {
 		
 		EmpVO emp = hrService.empSelect(vo);
+		
+		if(vo.getPic() == null) {
+			vo.setPic("");
+		}
+		
+		
 		System.out.println(vo.getEmpNo());
 		//주소
 		String addr = emp.getAddr();

@@ -68,7 +68,7 @@ $(document).ready(function(){
 	display: inline-block;
 	padding: 7px 25px;
 	border: 1px solid #756cad;
-	color:#756cad;
+	color: #756cad;
 	background-color: #ffffff;
 	text-align: center;
 	cursor: pointer;
@@ -76,14 +76,15 @@ $(document).ready(function(){
 	border-radius: 20px;
 	margin-right: 5px;
 }
-.select{
-	background-color:  #756cad;
-    color: #ffffff;
-}
-.btn-primary {
-	background-color:  #756cad !important;
-	border: #756cad !important;
 
+.select {
+	background-color: #756cad;
+	color: #ffffff;
+}
+
+.btn-primary {
+	background-color: #756cad !important;
+	border: #756cad !important;
 }
 </style>
 </head>
@@ -105,21 +106,21 @@ $(document).ready(function(){
 					</nav>
 				</div>
 				<div>
-				<button type ="button" class="btn btn-primary" onclick="location.href='newproject'" style="float: right;"><i class="ri-add-box-fill"> 새로운 프로젝트</i></button>
+					<button type="button" class="btn btn-primary"
+						onclick="location.href='newproject'" style="float: right;">
+						<i class="ri-add-box-fill"> 새로운 프로젝트</i>
+					</button>
 				</div>
 				<br>
 				<!-- 진행/완료 탭 -->
-				<ul class="nav nav-tabs nav-tabs-bordered " id="borderedTab" role="tablist">
+				<ul class="nav nav-tabs nav-tabs-bordered " id="borderedTab"
+					role="tablist">
 					<li class="nav-item" role="presentation">
 						<button class="nav-link active" id="ongoing-tab"
 							data-bs-toggle="tab" data-bs-target="#ongoing" type="button"
-							role="tab" aria-controls="ongoing" aria-selected="true">진행중</button>
+							role="tab" aria-controls="ongoing" aria-selected="true">내 프로젝트</button>
 					</li>
-					<li class="nav-item" role="presentation">
-						<button class="nav-link" id="cmp-tab" data-bs-toggle="tab"
-							data-bs-target="#cmp" type="button" role="tab"
-							aria-controls="cmp" aria-selected="false">완료</button>
-					</li>
+					
 				</ul>
 				<!-- 프로젝트 카드 -->
 				<div class="tab-content pt-2" id="borderedTabContent"
@@ -133,13 +134,14 @@ $(document).ready(function(){
 									<input type="hidden" name="prjNo" th:value="${prj.prjNo}">
 
 									<!-- 프로젝트 카드 -->
-									<div class="card size" style="cursor:pointer">	<!-- 프로젝트 마우스 올리면 포인터 생기게 -->
-										<span> <i class="bi bi-info-circle"
+									<div class="card size" style="cursor: pointer">
+										<!-- 프로젝트 마우스 올리면 포인터 생기게 -->
+										<!-- <span> <i class="bi bi-info-circle"
 											style="position: relative; right: 10px; top: 10px;" id="info"></i>
-										</span>
+										</span> -->
 										<div class="card-body">
-											<div style="position: relative; left: -30px; top: -5px;">
-												<span class="round" style="margin-left: 20px;"
+											<div style="position: relative; top: 15px;">
+												<span class="round" 
 													th:classappend="${prj.st} == '요청' ? 'select'">요청</span> <span
 													class="round" th:classappend="${prj.st} == '진행' ? 'select'">진행</span>
 												<span class="round"
@@ -149,16 +151,17 @@ $(document).ready(function(){
 											<h2 class="card-text">[[${prj.nm}]]</h2>
 											<h6 class="card-subtitle mb-2 text-muted"
 												style="position: relative; top: 20px;">[[${prj.cntn}]]</h6>
-											<div class="progress" style=" position: relative; top: 50px; left: -10px;">
-													<div class="progress-bar bg-primary" role="progressbar"
-														th:style="|width:${prj.prog}%|" th:attr="aria-valuenow=${prj.prog}" aria-valuemin="0"
-														aria-valuemax="100">[[${prj.prog}]]%</div>
+											<div class="progress"
+												style="position: relative; top: 50px; left: -10px;">
+												<div class="progress-bar bg-primary" role="progressbar"
+													th:style="|width:${prj.prog}%|"
+													th:attr="aria-valuenow=${prj.prog}" aria-valuemin="0"
+													aria-valuemax="100">[[${prj.prog}]]%</div>
 											</div>
 										</div>
 										<div class="card-footer">
 											<input type="hidden" class="inputPrj" th:value="${prj.prjNo}">
-											<i class="bi bi-people-fill">
-												<span th:text="${prj.cnt}"></span>
+											<i class="bi bi-people-fill"> <span th:text="${prj.cnt}"></span>
 											</i>
 										</div>
 									</div>
@@ -167,101 +170,44 @@ $(document).ready(function(){
 							</form>
 						</div>
 						<!-- End 내 프로젝트 리스트 -->
+
+						<!-- Start 페이징 -->
+						<nav id="pagenationNav">
+							<ul class="pagination" style="float: none;">
+								<!-- getPrePage : 이전 페이지 -->
+								<li class="page-item"
+									th:classappend="${myPrjList.getPrePage() == 0} ? 'disabled'">
+									<!-- href: /page?pageNum=이전페이지&keyword=검색분류&search=검색어 --> <a
+									class="page-link"
+									th:href=@{/myProject(pageNum=${myPrjList.getPrePage()})}>Previous</a>
+								</li>
+								<!-- getNavigateFirstPage() : 페이징의 처음 숫자 getNavigateLastPage : 페이징의 마지막 숫자를 이용해 페이징 숫자 출력 -->
+								<!-- href : /page?pageNum=선택한 페이지&keyword=검색분류&search=검색어 -->
+								<li class="page-item"
+									th:each="page: ${#numbers.sequence(myPrjList.getNavigateFirstPage(), myPrjList.getNavigateLastPage())}"
+									th:classappend="${page == myPrjList.getPageNum()} ? 'active'">
+									<a class="page-link" th:text="${page}"
+									th:href=@{/myProject(pageNum=${page})}></a>
+								</li>
+								<!-- getPrePage : 다음 페이지 -->
+								<li class="page-item"
+									th:classappend="${myPrjList.getNextPage() == 0} ? 'disabled'">
+									<!--  href: /page?pageNum=다음페이지&keyword=검색분류&search=검색어 --> <a
+									class="page-link"
+									th:href=@{/myProject(pageNum=${myPrjList.getNextPage()})}>Next</a>
+								</li>
+							</ul>
+						</nav>
+						<!-- End 페이징 -->
 					</div>
-				</div>
-
-				<!-- Card with header and footer -->
-				<div class="tab-content pt-2" id="borderedTabContent">
-					<div class="tab-pane fade" id="cmp" role="tabpanel"
-						aria-labelledby="cmp-tab">
-
-						<div class="card">
-							<div class="card-header" onclick="location.href='#'">튠업
-								프로젝트2</div>
-							<div class="card-body">
-								<h5 class="card-title">Development Team2</h5>
-								그룹웨어 프로젝트 개발2
-							</div>
-							<div class="card-footer">
-								<i class="bi bi-people-fill"> 52 </i>
-
-								<!-- 프로젝트 카드 -->
-							</div>
-						</div>
-						<!-- End 내 프로젝트 리스트 -->
-					</div>
-				</div>
-
-				<!-- Card with header and footer -->
-				<div class="tab-content pt-2" id="borderedTabContent">
-					<div class="tab-pane fade" id="cmp" role="tabpanel"
-						aria-labelledby="cmp-tab">
-
-						<div class="card">
-							<div class="card-header" onclick="location.href='#'">튠업
-								프로젝트2</div>
-							<div class="card-body">
-								<h5 class="card-title">Development Team2</h5>
-								그룹웨어 프로젝트 개발2
-							</div>
-							<div class="card-footer">
-								<i class="bi bi-people-fill"> 52 </i>
-							</div>
-						</div>
-						<!-- end -->
-
-						<div class="card">
-							<div class="card-header" onclick="location.href='#'">튠업
-								프로젝트2</div>
-							<div class="card-body">
-								<h5 class="card-title">Development Team2</h5>
-								그룹웨어 프로젝트 개발2
-							</div>
-							<div class="card-footer">
-								<i class="bi bi-people-fill"> 12 </i>
-							</div>
-						</div>
-					</div>
-					<!-- Start 페이징 -->
-					<nav id="pagenationNav">
-						<ul class="pagination" style="float: none;">
-							<!-- getPrePage : 이전 페이지 -->
-							<li class="page-item"
-								th:classappend="${myPrjList.getPrePage() == 0} ? 'disabled'">
-								<!-- href: /page?pageNum=이전페이지&keyword=검색분류&search=검색어 --> <a
-								class="page-link"
-								th:href=@{/myProject(pageNum=${myPrjList.getPrePage()})}>Previous</a>
-							</li>
-							<!-- getNavigateFirstPage() : 페이징의 처음 숫자 getNavigateLastPage : 페이징의 마지막 숫자를 이용해 페이징 숫자 출력 -->
-							<!-- href : /page?pageNum=선택한 페이지&keyword=검색분류&search=검색어 -->
-							<li class="page-item"
-								th:each="page: ${#numbers.sequence(myPrjList.getNavigateFirstPage(), myPrjList.getNavigateLastPage())}"
-								th:classappend="${page == myPrjList.getPageNum()} ? 'active'">
-								<a class="page-link" th:text="${page}"
-								th:href=@{/myProject(pageNum=${page})}></a>
-							</li>
-							<!-- getPrePage : 다음 페이지 -->
-							<li class="page-item"
-								th:classappend="${myPrjList.getNextPage() == 0} ? 'disabled'">
-								<!--  href: /page?pageNum=다음페이지&keyword=검색분류&search=검색어 --> <a
-								class="page-link"
-								th:href=@{/myProject(pageNum=${myPrjList.getNextPage()})}>Next</a>
-							</li>
-						</ul>
-					</nav>
-					<!-- End 페이징 -->
 				</div>
 			</div>
-		</div>
-		<script>
+			<script>
 		$(".prjSelect").on("click", e=>{ 
 			$(e.currentTarget).parent().submit();
 		})
 		
-		$(".bi-info-circle").on("click", e=>{
-			e.stopPropagation();
-			location.href='prjMng';
-		})
+		
 		</script>
 	</main>
 </body>

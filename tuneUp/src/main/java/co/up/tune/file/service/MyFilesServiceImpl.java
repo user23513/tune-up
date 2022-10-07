@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.file.mapper.FileMapper;
 import co.up.tune.prj.vo.FilesVO;
 
@@ -23,6 +24,11 @@ public class MyFilesServiceImpl implements MyFilesService {
 	@Override
 	public int myFileInsert(FilesVO vo) {
 		return map.myFileInsert(vo);
+	}
+
+	@Override
+	public List<CommunityVO> fileSearch(String key, String val) {
+		return map.fileSearch(key, val);
 	}
 
 }

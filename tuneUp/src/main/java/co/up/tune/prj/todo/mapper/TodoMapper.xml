@@ -23,6 +23,19 @@
 		order by post_no desc
 	</select>
 	
+	<select id="todoPercent" resultType="int">
+		select (nvl(round(
+					(select count(*)*100
+					from tododetail d
+					where d.post_no = #{postNo}
+					and cmplt_yn = 'Y')
+					/(select COUNT(*)
+					from tododetail d
+					where d.post_no = #{postNo})),0)
+				) as percent
+		from todo
+		where t.post_no = #{postNo}
+	</select>
 	
 	<select id="todoSelect" resultType="co.up.tune.prj.vo.TodoVO">
 		select * from todo

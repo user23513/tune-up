@@ -50,9 +50,10 @@ public class TodoAjaxController {
 		return yn; 
 	}
 	
-//	@PostMapping("/percentUpdate")
-//	public int percentUpdate(TodoVO vo) {
-//		
-//		
-//	}
+	@PostMapping("/todoPercent")
+	public int todoPercent(TodoVO vo) {
+		int perc = tdao.todoPercent(vo);
+		System.out.println("현재 진행상황 : " + perc+"%");
+		return perc;
+	}
 }

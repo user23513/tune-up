@@ -19,4 +19,14 @@
 		where keep = 'Y'
 		order by note_No
 	</select>
+	
+	<insert id="sendNote" parameterType="co.up.tune.com.vo.NoteVO">
+		<selectKey keyProperty="noteNo" order="BEFORE" resultType="integer">
+			SELECT nvl(max(note_no)+1,1)
+			from note
+		</selectKey>
+			INSERT INTO NOTE
+			VALUES (#{noteNo}, #{sender}, #{sEmpNo}, #{receiver}, #{rEmpNo},
+					#{cntn}, sysdate, 'N')
+	</insert>
 </mapper>

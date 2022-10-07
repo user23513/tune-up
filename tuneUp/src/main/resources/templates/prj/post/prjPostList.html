@@ -106,6 +106,8 @@ $(document).ready(function() {
 		let todoNo = this. closest("td").nextElementSibling.innerText;
 		let result = this.closest("tr").lastElementChild.innerText;
 		let cntn = this.closest("tr").childNodes[3].innerText;
+		let postNo = this.closest('.postNo').innerText;
+		console.log(postNo);
 		console.log(cntn);
 		if ($(this).is(':checked')) {
 			console.log(todoNo + " 체크됨");
@@ -124,17 +126,17 @@ $(document).ready(function() {
 			})
 			
 			//상태바 모션 변경
-			$.ajax({
-				url : "cmpltYnUpdate",
+/*  			$.ajax({
+				url : "todopercent",
 				beforeSend:function(xhr){
 					xhr.setRequestHeader(header,token);  
 				},
 				type : "post",
-				data: {"cmpltYn" : "Y", "todoNo" : todoNo},
+				data: {"postNo" : postNo},
 				success:function(res){
 					//this.closest("tr").lastElementChild.innerText = res;
 				}
-			})
+			}) */
 		}
 		else {
 			console.log(todoNo + " 체크 해제")
@@ -282,8 +284,6 @@ $(document).ready(function() {
 						<!-- Start 간트차트  -->
 						<div id="chart_div"></div>
 						<!-- End 간트차트  -->
-						
-
 						
 						<!-- start 글 목록 -->
 						<div class="tab-pane fade" id="pst" role="tabpanel"
@@ -598,6 +598,7 @@ $(document).ready(function() {
 							<div class="card-body">
 								<div class="card-title">
 									<span style="font-size: 16px;"><b>[[${t.wrtr}]]</b></span>
+									<span class="postNo">[[${t.postNo}]]</span>
 									<!-- 드롭다운 아이콘 -->
 									<div class="filter" style="float: right">
 										<a class="icon" href="#" data-bs-toggle="dropdown">

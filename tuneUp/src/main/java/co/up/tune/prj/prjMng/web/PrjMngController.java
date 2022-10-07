@@ -42,14 +42,15 @@ public class PrjMngController {
 		return "prj/prjMng/teamList";
 	}
 
-	// 멤버추가
+	/*// 멤버추가
 	@PostMapping("/addTeam")
 	public String addTeam(TeamVO vo, RedirectAttributes rttr) {
-		dao.addTeam(vo);
+		dao.teamInsert(vo);
 		rttr.addAttribute("prjNo", vo.getPrjNo());
 		return "redirect:/teamList";
 
 	}
+	*/
 
 	// 멤버삭제
 	@PostMapping("/removeTeam")
@@ -86,6 +87,14 @@ public class PrjMngController {
 		rttr.addAttribute("prjNo", vo.getPrjNo());
 		return "redirect:/teamList";
 
+	}
+	
+	@PostMapping("/teamInsert")
+	public String teamInsert(TeamVO vo, RedirectAttributes rttr) {
+		dao.teamInsert(vo);
+		rttr.addAttribute("prjNo", vo.getPrjNo());
+		return "redirect:/teamList";
+		
 	}
 	
 	

@@ -14,10 +14,12 @@ public class PrjMngAjaxController {
 	
 	@Autowired
 	PrjMngService pServ;
-	
-	@PostMapping("/addTeamList")
-	public List<EmpVO> addTeamList(EmpVO vo){
-		return pServ.addTeamList(vo);
+
+	@PostMapping("/tdeptList")
+	public List<EmpVO> tdeptList(EmpVO vo) {
+		return pServ.tdeptList(vo);
+	}
 		
 	}
-}
+
+ 

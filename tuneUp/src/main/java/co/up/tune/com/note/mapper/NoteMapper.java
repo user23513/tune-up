@@ -11,4 +11,7 @@ public interface NoteMapper {
 	List<NoteVO> kNoteList(); //보관함 쪽지 리스트
 	int noteInsert(NoteVO vo); //쪽지 전송
 	int noteDelete(NoteVO vo); //쪽지 삭제
+	
+	//현지
+	int sendNote(NoteVO noteList); //쪽지 보내기
 }

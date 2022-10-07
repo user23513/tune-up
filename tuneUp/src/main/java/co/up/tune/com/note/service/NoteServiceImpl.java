@@ -1,5 +1,6 @@
 package co.up.tune.com.note.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +43,29 @@ public class NoteServiceImpl implements NoteService {
 	//쪽지 보내기
 	@Override
 	public int sendNote(NoteVO vo) {
+		List<NoteVO> noteList = new ArrayList<>();
+		int send = 0;
 		
 		//보낸사람들 이름[]
-        //vo.setSenderList(vo.getSender().split(" "));
 		String[] sender = vo.getSender().split(" ");
 		//보낸사람들 사번[]
-        //vo.setSEmpNoList(vo.getSEmpNo().split(" "));
 		String[] sEmpNo = vo.getSEmpNo().split(" ");
 		
-		return 0;
+		for(int i = 0; i<sender.length; i++) {
+			NoteVO nvo = new NoteVO();
+			nvo.setSender(sender[i]);
+			nvo.setSEmpNo(sEmpNo[i]);
+			nvo.setReceiver(vo.getReceiver());
+			nvo.setREmpNo(vo.getREmpNo());
+			nvo.setCntn(vo.getCntn());
+			noteList.add(nvo);
+		}
+		
+		for(NoteVO n:noteList) {
+			send = map.sendNote(n);
+		}
+		
+		return send;
 	}
 
 }

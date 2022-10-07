@@ -2,6 +2,8 @@ package co.up.tune.com.note.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +16,6 @@ import co.up.tune.aprv.aprvLine.service.AprvLineService;
 import co.up.tune.com.note.service.NoteService;
 import co.up.tune.com.vo.NoteVO;
 import co.up.tune.emp.vo.EmpVO;
-import oracle.jdbc.proxy.annotation.Post;
-
 
 @Controller
 public class NoteController {
@@ -58,11 +58,14 @@ public class NoteController {
 	}
 	
 	//쪽지 보내기
+	@ResponseBody
 	@PostMapping("/sendNote")
-	public String sendNote(NoteVO vo) {
-		dao.sendNote(vo);
-		return "";
+	public NoteVO sendNote(NoteVO vo, HttpSession session) {
+		vo.setReceiver((String)session.getAttribute("nm"));
+		vo.setREmpNo((String)session.getAttribute("empNo"));
+		int cnt = dao.sendNote(vo);
+		vo.setSendConut(cnt);
+		return vo;
 
->
 	}
 }

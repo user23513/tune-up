@@ -42,10 +42,9 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 <script src="/js/jquery-3.6.1.min.js"></script>
+
 <!-- 웹소켓 현지수정 2022/9/24 -->
-<!-- sockJS -->
-<script
-	src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script> /*웹소켓 자바스크립트*/
   //전역변수 선언
   var socket = null;
@@ -53,9 +52,6 @@
   var header = $("meta[name='_csrf_header']").attr("content");
 
   $(document).ready(function(){
-	  
-	 
-	  
   	//웹소켓 연결
   	connectWs();
   	
@@ -133,16 +129,16 @@
   function onMessage(msg){
   	var data = msg.data;
   	
-  	let bellCount = $("#bell").text();
-  	$("#bell").text(Number(bellCount)+1);
-  	
   	if(data.includes("공지")) {
   		//alert
   		let alert = "<div class='alert alert-danger alert-dismissible fade show' role='alert' aria-live='assertive' aria-atomic='true'>";
   	    alert += "<i class='ri-alarm-warning-fill'></i><strong class='mr-auto'>"+data+"</strong>";
   	    alert += "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
   	    $("#alertNotice").append(alert);   
-  	}else{
+  	}else if(data.includes("댓글")){
+  		let bellCount = $("#bell").text();
+  		$("#bell").text(Number(bellCount)+1);
+  		
   		//toast
   		let toast = "<div class='toast' role='alert' aria-live='assertive' aria-atomic='true'>";
   		toast += "<div class='toast-header'><strong class='me-auto'>알림</strong>";
@@ -151,14 +147,12 @@
   	    $("#bellArea").append(toast);   // bellArea div에 생성한 toast 추가
   		$(".toast").toast({"animation": true, "autohide": false});
           $('.toast').toast('show');
+  	}else if(data.includes("쪽지")){
+  		let noteCount = $("#noteBell").text();
+  		$("#noteBell").text(Number(noteCount)+1);
   	}
   }
-  
- 
-  
-  
-  
-  </script>
+</script>
 <style>
 /* 긴급공지 헤더에 띄우는 css */
 .noticeAlert {
@@ -247,16 +241,18 @@
 				</a></li>
 
 				<li class="nav-item dropdown">
-					<!-- 메일 아이콘 --> <a class="nav-link nav-icon" href="noteHome"> <i
-						class="bi bi-envelope"></i> <span
-						class="badge bg-success badge-number">0</span>
+					<!-- 메일 아이콘 --> 
+					<a class="nav-link nav-icon" href="noteHome"> 
+						<i class="bi bi-envelope"></i> 
+						<span id="noteBell" class="badge bg-success badge-number"></span>
 				</a>
 				</li>
 
 				<li class="nav-item dropdown">
-					<!-- 알림 아이콘 --> <a class="nav-link nav-icon" href="bellList"> <i
-						class="bi bi-bell"></i> <span id="bell"
-						class="badge bg-primary badge-number"></span>
+					<!-- 알림 아이콘 --> 
+					<a class="nav-link nav-icon" href="bellList"> 
+					<i class="bi bi-bell"></i> 
+					<span id="bell" class="badge bg-primary badge-number"></span>
 				</a>
 				</li>
 				<!-- End Notification Nav -->

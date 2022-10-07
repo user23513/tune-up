@@ -1,8 +1,6 @@
 package co.up.tune.com.vo;
 
 import java.sql.Timestamp;
-import java.util.List;
-
 import lombok.Data;
 
 @Data
@@ -16,6 +14,6 @@ public class NoteVO {
 	 Timestamp dttm;	//발송일시
 	 String keep;		//보관여부
 	 
-	 //String[] senderList; //받는 사람들
-	 //String[] sEmpNoList; //받는 사람들 사번
+	 String[] sEmpNoList; //받는사람들 사번
+	 int sendConut; //쪽지 보냈을때 받는 int
 }

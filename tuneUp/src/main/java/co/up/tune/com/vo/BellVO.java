@@ -17,5 +17,6 @@ public class BellVO {
 	 String readYn;		//확인여부
 
 	 int empNo; //알림받을 사원번호
+	 
 }	
 

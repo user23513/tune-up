@@ -12,4 +12,7 @@ public interface NoteService {
 	int noteInsert(NoteVO vo); //쪽지 전송
 	int noteDelete(NoteVO vo); //쪽지 삭제
 	
+	//현지
+	int sendNote(NoteVO vo); //쪽지 보내기
+	
 }

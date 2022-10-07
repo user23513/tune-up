@@ -31,8 +31,8 @@ body{margin: 0;}
 		<select class="form-select" multiple size="10" aria-label="size 3 select example">
 		</select>
     </div>
-    <button type="button" onclick="empBook()">확인</button>
-    <button id="cancel" type="button">취소</button>
+    <a href="#" class="btn" onclick="empBook()">확인</a>
+    <a href="#" class="btn" onclick="javascript:window.close()">취소</a>
   </div>
 </div>
 
@@ -92,15 +92,15 @@ $("#selectEmp").on("mouseup", "option", e=>{
 function empBook(){
 	console.log($("#selectEmp").find("option"));
 	let emps = $("#selectEmp").find("option");
-	let str = null;
+	console.log(emps)
+	let arr = {}
 	$.each(emps, (idx, emp)=>{
-		if(emps.length != idx+1){
-			str += `<span data-no=${emp.empNo}>${emp.nm},</span>`;
-		}else {
-			str += `<span data-no=${emp.empNo}>${emp.nm}</span>`;
-		}
+		let empNo = $(emp).val();
+		let nm = $(emp).text();
+		arr[empNo] = nm;
 	})
-	$("#emps", opener.document).val('ee');
+	window.opener.somFunc(arr);
+	window.close();
 }
 </script>
 </body>

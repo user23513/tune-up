@@ -10,7 +10,7 @@
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(document).ready(function() {
-		$("#btn").on("click", e=>{
+		$("#save").on("click", e=>{
 			$("#empNo").val();
 			$("#dept").val();
 			let hd = $("#hDate").val();
@@ -22,6 +22,11 @@
 				$("#frm").submit(); 
 			}
 		})
+		
+		$("#rollback").on("click", e=>{
+			location.href="empManage";
+		})
+		
 		
 		        //선택된 mng
  		const query = 'input[name="mng"]:checked';
@@ -39,11 +44,6 @@
 		 
 		 //DB에 mng 값 넣기
 		 $("#mng").val(result);
-		
-		
-		
-		
-		
 		
 		//관리자 체크박스
 		$('#mngCk').change(function() {
@@ -141,22 +141,22 @@
 						<label for="profileImage" class="col-md-4 col-lg-3 col-form-label">프로필
 							사진</label>
 						<div class="col-md-8 col-lg-9">
-							<img th:src=@{/attach(path=${e.pic})} alt="Profile"
-								style="width: 120px;">
+							<img th:src="${emp.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
+								 alt="Profile" style="width: 120px;">
 						</div>
 					</div>
 
 					<div class="row" style="display: none;">
 						<div class="col-lg-3 col-md-4 label">사번</div>
 						<input type="text" name="empNo" class="form-control" id="empNo"
-							th:value="${e.empNo}">
+							th:value="${emp.empNo}">
 					</div>
 
 					<div class="row mb-3">
 						<label for="name" class="col-md-4 col-lg-3 col-form-label">성명</label>
 						<div class="col-md-8 col-lg-9">
 							<input name="nm" type="text" class="form-control" id="nm"
-								th:value="${e.nm}" disabled>
+								th:value="${emp.nm}" disabled>
 						</div>
 					</div>
 
@@ -164,7 +164,7 @@
 						<label for="company" class="col-md-4 col-lg-3 col-form-label">휴대폰</label>
 						<div class="col-md-8 col-lg-9">
 							<input name="phone" type="text" class="form-control" id="phone"
-								th:value="${e.phone}" disabled>
+								th:value="${emp.phone}" disabled>
 						</div>
 					</div>
 
@@ -172,7 +172,7 @@
 						<label for="email" class="col-md-4 col-lg-3 col-form-label">이메일</label>
 						<div class="col-md-8 col-lg-9">
 							<input name="email" type="email" class="form-control" id="email"
-								th:value="${e.email}" disabled>
+								th:value="${emp.email}" disabled>
 						</div>
 					</div>
 
@@ -180,7 +180,7 @@
 						<label for="birth" class="col-md-4 col-lg-3 col-form-label">생년월일</label>
 						<div class="col-md-8 col-lg-9">
 							<input name="birth" type="date" class="form-control" id="birth"
-								th:value="${e.birth}" disabled>
+								th:value="${emp.birth}" disabled>
 						</div>
 					</div>
 
@@ -200,10 +200,10 @@
 					<div class="row mb-3">
 						<label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
 						<div class="col-md-8 col-lg-9">
-							<select id="dept" name="dept" th:value="${e.dept}"
+							<select id="dept" name="dept" th:value="${emp.dept}"
 								class="form-select" aria-label="Default select example">
-								<option selected th:value="${e.dept}">--부서--</option>
-								<option th:each="d : ${d}" th:value="${d?.cdNm}"
+								<option selected th:value="${emp.dept}">--부서--</option>
+								<option th:each="d : ${dept}" th:value="${d?.cdNm}"
 									th:uText="${d?.cdNm}"></option>
 							</select>
 						</div>
@@ -212,10 +212,10 @@
 					<div class="row mb-3">
 						<label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
 						<div class="col-md-8 col-lg-9">
-							<select id="position" name="position" th:value="${e.position}"
+							<select id="position" name="position" th:value="${emp.position}"
 								class="form-select" aria-label="Default select example">
-								<option selected th:value="${e.position}">--직위--</option>
-								<option th:each="p : ${p}" th:value="${p.cdNm}"
+								<option selected th:value="${emp.position}">--직위--</option>
+								<option th:each="p : ${position}" th:value="${p.cdNm}"
 									th:uText="${p.cdNm}"></option>
 							</select>
 						</div>
@@ -225,7 +225,7 @@
 						<label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
 						<div class="col-md-8 col-lg-9">
 							<input type="text" id="sample6_postcode" name="zip"
-								th:value="${e.zip}" placeholder="우편번호"> <input
+								th:value="${emp.zip}" placeholder="우편번호"> <input
 								type="button" onclick="sample6_execDaumPostcode()"
 								value="우편번호 찾기"><br>
 						</div>
@@ -235,11 +235,11 @@
 						<label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
 						<div class="col-md-8 col-lg-9">
 							<input type="text" id="sample6_address" name="ad1"
-								th:value="${e.ad1}" placeholder="주소"><br> <input
+								th:value="${emp.ad1}" placeholder="주소"><br> <input
 								type="text" id="sample6_detailAddress" name="ad2"
-								th:value="${e.ad2}" placeholder="상세주소"> <input
+								th:value="${emp.ad2}" placeholder="상세주소"> <input
 								type="hidden" id="sample6_extraAddress" name="ad3"
-								th:value="${e.ad3}" placeholder="참고항목">
+								th:value="${emp.ad3}" placeholder="참고항목">
 
 						</div>
 					</div>
@@ -247,7 +247,7 @@
 						<label for="hDate" class="col-md-4 col-lg-3 col-form-label">입사일</label>
 						<div class="col-md-8 col-lg-9">
 							<input name="hDate" type="date" class="form-control" id="hDate"
-								th:value="${e.hDate}">
+								th:value="${emp.hDate}">
 						</div>
 					</div>
 
@@ -262,7 +262,7 @@
 						<label for="auth" class="col-md-4 col-lg-3 col-form-label">권한</label>
 						<div class="col-md-8 col-lg-9">
 							<input name="auth" type="text" class="form-control" id="auth"
-								th:value="${e.auth}">
+								th:value="${emp.auth}">
 						</div>
 					</div>
 
@@ -270,24 +270,24 @@
 						<label class="col-md-4 col-lg-3 col-form-label">관리자</label>
 						<div class="col-md-8 col-lg-9">
 							<div class="form-check">
-								<input th:checked="${e.auth == 'MANAGER'}?checked"
+								<input th:checked="${emp.auth == 'MANAGER'}?checked"
 									class="form-check-input" type="checkbox" id="mngCk"> <label
 									class="form-check-label" for=""> 관리자 권한 </label>
 							</div>
 
 							<div
-								th:style="${e.auth == 'USER'} or ${e.auth == 'GUEST'}?'display:none'"
+								th:style="${emp.auth == 'USER'} or ${emp.auth == 'GUEST'}?'display:none'"
 								id="view">
-								<input th:checked="${e.mng=='hr'}?checked"
+								<input th:checked="${emp.mng=='hr'}?checked"
 									class="form-check-input" type="radio" name="mng" value="hr"
 									id="hrCk"> <label class="form-check-label"
 									for="gridCheck1"> 인사 관리자 </label>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
-									th:checked="${e.mng=='attd'}?checked" class="form-check-input"
+									th:checked="${emp.mng=='attd'}?checked" class="form-check-input"
 									type="radio" name="mng" value="attd" id="attdCk"> <label
 									class="form-check-label" for="gridCheck1"> 근태 관리자 </label>
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
-									th:checked="${e.mng=='board'}?checked" class="form-check-input"
+									th:checked="${emp.mng=='board'}?checked" class="form-check-input"
 									type="radio" name="mng" value="board" id="boardCk"> <label
 									class="form-check-label" for="gridCheck1"> 게시판 관리자 </label>
 							</div>
@@ -295,15 +295,12 @@
 					</div>
 
 					<div class="text-center">
-						<button type="button" class="btn btn-secondary">되돌리기</button>
-						<button id="btn" type="button" class="btn btn-primary">저장</button>
+						<button id="rollback" type="button" class="btn btn-secondary">되돌리기</button>
+						<button id="save" type="button" class="btn btn-primary">저장</button>
 					</div>
 				</form>
 				<!-- End Profile Edit Form -->
 			</div>
-		</div>
-		</div>
-		</div>
 		</div>
 	</main>
 </body>

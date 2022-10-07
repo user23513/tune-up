@@ -36,12 +36,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		//protocol : cmd , 댓글작성자, 게시글 작성자 , seq (reply , user2 , user1 , 12)
 		String senderId = getId(session);
+		
 		//자바스크립트에서 넘어온 msg
 		String msg = message.getPayload(); 
+		
 		//메세지가 비어있지 않을 때
 		if(!StringUtils.isEmpty(msg)) {
 			String[] strs = msg.split(",");
 			
+			//댓글
 			if(strs != null && strs.length == 6) {
 				String cmd = strs[0]; //댓글인지 게시글인지	
 				String caller = strs[1]; //메세지 남긴 사람 이름
@@ -59,6 +62,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 							"님이 <a id=freeTitle data-no="+postNo+" href=javascript:void(0); onClick=freeTitle()>["+postTitle+"]</a>게시글에 댓글을 남겼습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				}
+			//공지
 			}else if(strs != null && strs.length == 3) {
 				//모든 유저에게 보낸다 - 브로드 캐스팅
 				String cmd = strs[0];
@@ -71,6 +75,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
 					}
 					
 				}
+			//쪽지
+			}else if(strs != null && strs.length == 2) {
+				//작성자가 로그인 해서 있다면
+				//WebSocketSession boardWriterSession = userSessionsMap.get(receiverNo); //메세지를 받을 세션 조회
+				System.out.println(strs[1].split(" "));
 			}
 		}
 	}

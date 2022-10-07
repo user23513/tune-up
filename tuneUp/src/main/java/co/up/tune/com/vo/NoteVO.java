@@ -16,6 +16,6 @@ public class NoteVO {
 	 Timestamp dttm;	//발송일시
 	 String keep;		//보관여부
 	 
-	 List<String> senderList; //받는 사람들
-	 List<String> sEmpNoList; //받는 사람들 사번
+	 //String[] senderList; //받는 사람들
+	 //String[] sEmpNoList; //받는 사람들 사번
 }

@@ -358,7 +358,7 @@
 									th:text="${session.st} == '온라인' ? '온라인' : '자리비움'"></option>
 								<option th:value="${session.st} == '온라인' ? '자리비움' : '온라인'"
 									th:text="${session.st} == '온라인' ? '자리비움' : '온라인'"></option>
-						</select> <label for="sessionSt"><i class="bi bi-person"></i>나의상태</label></li>
+						</select> <label for="sessionSt"><i class="bi bi-person"></i>내 상태</label></li>
 						<li>
 							<form id="pwFrm" method="get" action="profile">
 								<a id="pwCheck" class="dropdown-item d-flex align-items-center"
@@ -716,7 +716,7 @@
 			    data:{'st':st},
 			    dataType:'json',
 			    success:function(obj){
-					alert("나의 상태 변경 완료.");
+					alert("상태 변경 완료!");
 					
 				}
 			})

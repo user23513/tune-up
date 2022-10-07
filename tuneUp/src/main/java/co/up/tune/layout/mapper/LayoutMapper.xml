@@ -3,7 +3,7 @@
 <mapper namespace="co.up.tune.layout.mapper.LayoutMapper">
 
 	<select id="prjTeamMembers" resultType="co.up.tune.prj.vo.TeamVO">
-		select t.emp_no, t.nm, t.dept, e.position
+		select t.emp_no, t.nm, t.dept, e.position, e.st
 		from (select DISTINCT emp_no, nm, dept
 				from team 
 				where prj_no in (

@@ -37,6 +37,7 @@ public class AprvReqController {
 	AprvLineService ls;
 	@Autowired
 	FileService fs;
+
 	
 	//결재신청상태
 	@GetMapping("/aprvReq")
@@ -101,6 +102,8 @@ public class AprvReqController {
 		return "redirect:aprvReq";
 	}
 	
+	
+
 	//서식적용 결재문서 작성화면
 	@PostMapping("/aprvForm")
 	public String aprvForm(FormVO vo, Model model, HttpSession session) {

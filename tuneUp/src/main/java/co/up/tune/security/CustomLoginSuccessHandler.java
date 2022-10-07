@@ -25,7 +25,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 	EmpMapper mapper;
 	@Autowired
 	NoticeService dao;
-	
 	@Autowired
 	AttdService adao;
 	
@@ -48,22 +47,24 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			session.setAttribute("mng", vo.getMng());
 			session.setAttribute("position", vo.getPosition());
 			session.setAttribute("pic", vo.getPic());
+			
+			vo.setSt("온라인");
+			mapper.loginStUp(vo);
 			session.setAttribute("st", "온라인");
 			
 			PageInfo<CommunityVO> p = new PageInfo<>(dao.noticeList(1, new SearchVO()), 5);
+			
 			AttdVO at = new AttdVO();
-			
 			at.setEmpNo((String)session.getAttribute("empNo"));
-			
 			session.setAttribute("nList", p);
+			
+			
 			
 			// 당일 출퇴근 기록이 없다면(출근기록)
 			session.setAttribute("checkTime", (adao.checkTime(at) == null || adao.checkTime(at).getAtdcDttm() == null) ? null : adao.checkTime(at).getAtdcDttm());
 			session.setAttribute("checkBTime", (adao.checkBTime(at) == null || adao.checkBTime(at).getAfwkDttm() == null) ? null : adao.checkBTime(at).getAfwkDttm());
 			
-			
 			response.addHeader("Access-Control-Allow-Origin", "*");
-			
 			response.sendRedirect("/main");	
 	}
 	

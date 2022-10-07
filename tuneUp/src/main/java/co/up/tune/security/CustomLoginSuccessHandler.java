@@ -1,20 +1,14 @@
 package co.up.tune.security;
 
 import java.io.IOException;
-import java.security.Principal;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
 import co.up.tune.emp.mapper.EmpMapper;
-import co.up.tune.emp.mypage.service.MypageService;
 import co.up.tune.emp.vo.EmpVO;
 
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
@@ -34,7 +28,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			
 			HttpSession session =  request.getSession();
 			session.setMaxInactiveInterval(7200000);
-			
 			session.setAttribute("empNo", vo.getEmpNo());
 			session.setAttribute("nm", vo.getNm());
 			session.setAttribute("dept", vo.getDept());
@@ -42,6 +35,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 			session.setAttribute("mng", vo.getMng());
 			session.setAttribute("position", vo.getPosition());
 			session.setAttribute("pic", vo.getPic());
+			session.setAttribute("st", "온라인");
 			
 			response.addHeader("Access-Control-Allow-Origin", "*");
 			

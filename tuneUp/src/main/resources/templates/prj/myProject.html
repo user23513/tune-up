@@ -48,11 +48,11 @@ $(document).ready(function(){
 }
 
 .pagination li.active a, .pagination li.active a.page-link {
-	background: #3a86ff;
+	background: #756cad;
 }
 
 .pagination li.active a:hover {
-	background: #3a86ff;
+	background: #756cad;
 }
 
 .pagination li.disabled i {
@@ -67,18 +67,23 @@ $(document).ready(function(){
 .round {
 	display: inline-block;
 	padding: 7px 25px;
-	border: 1px solid #3a86ff;
-	color: #3a86ff;
+	border: 1px solid #756cad;
+	color:#756cad;
 	background-color: #ffffff;
 	text-align: center;
 	cursor: pointer;
-	border: solid 1px #3a86ff;
+	border: solid 1px #756cad;
 	border-radius: 20px;
 	margin-right: 5px;
 }
 .select{
-	background-color: #4e94ba;
+	background-color:  #756cad;
     color: #ffffff;
+}
+.btn-primary {
+	background-color:  #756cad !important;
+	border: #756cad !important;
+
 }
 </style>
 </head>
@@ -98,6 +103,9 @@ $(document).ready(function(){
 							<li class="breadcrumb-item">내 파일함</li>
 						</ol>
 					</nav>
+				</div>
+				<div>
+				<button type ="button" class="btn btn-primary" onclick="location.href='newproject'" style="float: right;"><i class="ri-add-box-fill"> 새로운 프로젝트</i></button>
 				</div>
 				<br>
 				<!-- 진행/완료 탭 -->
@@ -142,7 +150,7 @@ $(document).ready(function(){
 											<h6 class="card-subtitle mb-2 text-muted"
 												style="position: relative; top: 20px;">[[${prj.cntn}]]</h6>
 											<div class="progress" style=" position: relative; top: 50px; left: -10px;">
-													<div class="progress-bar bg-info" role="progressbar"
+													<div class="progress-bar bg-primary" role="progressbar"
 														th:style="|width:${prj.prog}%|" th:attr="aria-valuenow=${prj.prog}" aria-valuemin="0"
 														aria-valuemax="100">[[${prj.prog}]]%</div>
 											</div>

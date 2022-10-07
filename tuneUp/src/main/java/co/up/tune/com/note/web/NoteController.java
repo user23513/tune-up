@@ -54,6 +54,7 @@ public class NoteController {
 	@PostMapping("/deptEmp")
 	public List<EmpVO> deptEmp(EmpVO vo){
 		return ls.aprvEmpList(vo);
+
 	}
 	
 	//쪽지 보내기
@@ -61,5 +62,7 @@ public class NoteController {
 	public String sendNote(NoteVO vo) {
 		dao.sendNote(vo);
 		return "";
+
+>
 	}
 }

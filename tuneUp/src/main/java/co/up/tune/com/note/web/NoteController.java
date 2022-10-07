@@ -63,6 +63,6 @@ public class NoteController {
 		dao.sendNote(vo);
 		return "";
 
->
+
 	}
 }

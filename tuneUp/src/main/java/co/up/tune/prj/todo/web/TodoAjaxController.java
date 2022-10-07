@@ -9,6 +9,7 @@ import co.up.tune.prj.todo.service.TodoDetailService;
 import co.up.tune.prj.todo.service.TodoService;
 import co.up.tune.prj.vo.DemoTodoVO;
 import co.up.tune.prj.vo.TodoDetailVO;
+import co.up.tune.prj.vo.TodoVO;
 
 @RestController
 public class TodoAjaxController {
@@ -48,4 +49,10 @@ public class TodoAjaxController {
 		System.out.println("수정 완 : " + yn);
 		return yn; 
 	}
+	
+//	@PostMapping("/percentUpdate")
+//	public int percentUpdate(TodoVO vo) {
+//		
+//		
+//	}
 }

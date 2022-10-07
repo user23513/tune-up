@@ -124,7 +124,7 @@ $(document).ready(function() {
 			})
 			
 			//상태바 모션 변경
-			/* $.ajax({
+			$.ajax({
 				url : "cmpltYnUpdate",
 				beforeSend:function(xhr){
 					xhr.setRequestHeader(header,token);  
@@ -134,7 +134,7 @@ $(document).ready(function() {
 				success:function(res){
 					//this.closest("tr").lastElementChild.innerText = res;
 				}
-			}) */
+			})
 		}
 		else {
 			console.log(todoNo + " 체크 해제")

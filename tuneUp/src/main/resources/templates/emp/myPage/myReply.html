@@ -65,7 +65,7 @@
 						<button type="button"
 							class="list-group-item list-group-item-action replyBtn"
 							th:each="r : ${reply}" th:if="${r.replyCat} != '커뮤니티'"
-							th:text="${r.cntn}" th:data-no="${r.postNo}"></button>
+							th:text="${r.cntn}" th:data-no="${r.postNo}" th:data-reply="${r.replyNo}"></button>
 					</div>
 
 

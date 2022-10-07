@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.project.mapper.ProjectMapper;
 import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.TeamVO;
@@ -25,5 +26,9 @@ public class ProjectServiceImpl implements ProjectService {
 		int cnt = map.newProjectInsert(vo, list);
 		return cnt;
 	}
-
+	
+	@Override
+	public List<ReplyVO> myReply(ReplyVO vo) {
+		return map.myReply(vo);
+	}
 }

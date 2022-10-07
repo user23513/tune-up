@@ -35,10 +35,7 @@ public class MyPageServiceImpl implements MypageService {
 		return map.signUpdate(vo);
 	}
 
-	@Override
-	public List<ReplyVO> myReply(ReplyVO vo) {
-		return map.myReply(vo);
-	}
+	
 
 	@Override
 	public PostVO postLook(PostVO vo) {

@@ -40,5 +40,15 @@
 			
 		end;
 	</insert>
+	
+	<select id="myReply" parameterType="co.up.tune.com.vo.ReplyVO"
+		resultType="co.up.tune.com.vo.ReplyVO">
+		SELECT	REPLY_CAT,
+				CNTN,
+				POST_NO
+		FROM REPLY
+		WHERE EMP_NO = #{empNo}
+		ORDER BY REPLY_NO DESC
+	</select>
 
 </mapper>

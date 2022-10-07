@@ -53,44 +53,44 @@
 	}
 }
 
-.btn-primary {
-    --bs-btn-color: #ffffff;
-    --bs-btn-bg: #9c91cf;
-    --bs-btn-border-color: #9c91cf;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #8b80bf;
-    --bs-btn-hover-border-color: #8b80bf;
-    --bs-btn-focus-shadow-rgb: 156,145,207;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #9c91cf;
-    --bs-btn-active-border-color: #9c91cf;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #a79bde;
-    --bs-btn-disabled-border-color: #a79bde;
+.btn-primary { -
+	-bs-btn-color: #ffffff; -
+	-bs-btn-bg: #9c91cf; -
+	-bs-btn-border-color: #9c91cf; -
+	-bs-btn-hover-color: #fff; -
+	-bs-btn-hover-bg: #7e72ba; -
+	-bs-btn-hover-border-color: 7e72ba; -
+	-bs-btn-focus-shadow-rgb: 156, 145, 207; -
+	-bs-btn-active-color: #fff; -
+	-bs-btn-active-bg: #9c91cf; -
+	-bs-btn-active-border-color: #9c91cf; -
+	-bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); -
+	-bs-btn-disabled-color: #fff; -
+	-bs-btn-disabled-bg: #a79bde; -
+	-bs-btn-disabled-border-color: #a79bde;
 }
 
-.btn-outline-primary {
-    --bs-btn-color: #9c91cf;
-    --bs-btn-border-color: #9c91cf;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #9c91cf;
-    --bs-btn-hover-border-color: #9c91cf;
-    --bs-btn-focus-shadow-rgb: 13,110,253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #9c91cf;
-    --bs-btn-active-border-color: #9c91cf;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color:#9c91cf;
-    --bs-btn-disabled-bg: transparent;
-    --bs-btn-disabled-border-color: #9c91cf;
-    --bs-gradient: none;
+.btn-outline-primary { -
+	-bs-btn-color: #9c91cf; -
+	-bs-btn-border-color: #9c91cf; -
+	-bs-btn-hover-color: #fff; -
+	-bs-btn-hover-bg: 7e72ba; -
+	-bs-btn-hover-border-color: 7e72ba; -
+	-bs-btn-focus-shadow-rgb: 13, 110, 253; -
+	-bs-btn-active-color: #fff; -
+	-bs-btn-active-bg: 7e72ba; -
+	-bs-btn-active-border-color: 7e72ba; -
+	-bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); -
+	-bs-btn-disabled-color: #9c91cf; -
+	-bs-btn-disabled-bg: transparent; -
+	-bs-btn-disabled-border-color: #9c91cf; -
+	-bs-gradient: none;
 }
 
-.back-to-top {
-background-color: #9c91cf;
-border: 1px solid #9c91cf;
-background: #9c91cf;
+.back-to-top, .back-to-top:hover {
+	background-color: #9c91cf;
+	border: 1px solid #9c91cf;
+	background: #9c91cf;
 }
 
 </style>
@@ -162,12 +162,20 @@ background: #9c91cf;
   					//db전송 성공시 실시간 알림 전송
   					//소켓에 전달되는 메세지
   					//handler에서 ,(comma)를 이용해서 분리시킨다
-  					console.log(res)
+ 
   					socket.send('reply,'+wrtr+','+receiverNm+','+receiverNo+','+postNo+','+postTitle);
   				}
   			})
   		}
   	})
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
   })
 
   //웹소켓 연결 함수
@@ -311,14 +319,11 @@ background: #9c91cf;
 		<nav class="header-nav ms-auto">
 			<ul class="d-flex align-items-center">
 				<!-- 조직도 아이콘 -->
-				<li class="nav-item dropdown">
-					<a class="nav-link nav-icon" href="group"> 
-						<i class="bi bi-diagram-3"></i>
-					</a>
-				</li>
+				<li class="nav-item dropdown"><a class="nav-link nav-icon"
+					href="group"> <i class="bi bi-diagram-3"></i>
+				</a></li>
 
 				<li class="nav-item dropdown">
-
 					<!-- 메일 아이콘 --> <a class="nav-link nav-icon" href="noteHome"> <i
 						class="bi bi-envelope"></i> <span id="noteBell"
 						class="badge bg-success badge-number"></span>
@@ -348,12 +353,12 @@ background: #9c91cf;
 							th:text="${session.position}"></span>
 						</li>
 						<li class="form-floating"><select class="form-select"
-							id="sessionSt" aria-label="State">
+							id="sessionSt" name = "sessionSt" aria-label="State">
 								<option th:value="${session.st} == '온라인' ? '온라인' : '자리비움'"
 									th:text="${session.st} == '온라인' ? '온라인' : '자리비움'"></option>
 								<option th:value="${session.st} == '온라인' ? '자리비움' : '온라인'"
 									th:text="${session.st} == '온라인' ? '자리비움' : '온라인'"></option>
-						</select> <label for="sessionSt"><i class="bi bi-person"></i>상태수정</label></li>
+						</select> <label for="sessionSt"><i class="bi bi-person"></i>나의상태</label></li>
 						<li>
 							<form id="pwFrm" method="get" action="profile">
 								<a id="pwCheck" class="dropdown-item d-flex align-items-center"
@@ -482,7 +487,8 @@ background: #9c91cf;
 			</div>
 			<!-- End #main -->
 			<div class="col-xl-2 visible-lg"
-				style="position: fixed; right: 0px; top: 80px; padding-right: 30px;" id="mainBar">
+				style="position: fixed; right: 0px; top: 80px; padding-right: 30px;"
+				id="mainBar">
 				<div class="profile-card">
 					<div class="card">
 						<div class="card-body pt-3">
@@ -494,8 +500,7 @@ background: #9c91cf;
 									<hr>
 
 									<div class="list-group col-12">
-										<div class="list-group-item list-group-item-primary"
-											>
+										<div class="list-group-item list-group-item-primary">
 											<div>
 												출근 시간 <span class="badge bg-secondary text-light"
 													th:text="${session.checkTime == null? '' :  #dates.format(session.checkTime, 'HH:mm')}"
@@ -613,7 +618,7 @@ background: #9c91cf;
 		success: function(res){
 			if(res.length != 0){
 		  		$.each(res, (idx,team)=>{
-		  			$("#teamMem").append(`<li class="list-group-item teamMList">${team.nm}&nbsp;&nbsp;${team.position}</li>`)
+		  			$("#teamMem").append(`<li class="list-group-item teamMList">${team.nm}&nbsp;&nbsp;${team.position}&nbsp;&nbsp;<span class="badge rounded-pill bg-primary">${team.st}</span></li>`)
 				})
 			}
 		}
@@ -635,7 +640,7 @@ background: #9c91cf;
 	  	  		console.log(res)
 	  	  			if(res.length != 0){
 			  	  		$.each(res, (idx,team)=>{
-			  	  			$("#teamMem").append(`<li class="list-group-item teamMList">${team.nm}&nbsp;&nbsp;${team.position}</li>`)
+			  	  			$("#teamMem").append(`<li class="list-group-item teamMList">${team.nm}&nbsp;&nbsp;${team.position}&nbsp;&nbsp;<span class="badge rounded-pill bg-primary">${team.st}</span></li>`)
 			  			})
 	  	  			}
 	  	  		}
@@ -659,7 +664,7 @@ background: #9c91cf;
 	  	  			console.log(res)
 	  	  			if(res.length != 0){
 			  	  		$.each(res, (idx,team)=>{
-			  	  			$("#teamMem").append(`<li class="list-group-item teamMList">${team.nm}&nbsp;&nbsp;${team.position}</li>`)
+			  	  			$("#teamMem").append(`<li class="list-group-item teamMList">${team.nm}&nbsp;&nbsp;${team.position}&nbsp;&nbsp;<span class="badge rounded-pill bg-primary">${team.st}</span></li>`)
 			  			})
 	  	  			}
 	  	  		}
@@ -677,19 +682,12 @@ background: #9c91cf;
   	    window.open('/chat', '', `width = ${chatWidth}px, height = ${chatHeight}px,left = ${chatLeft}%,top = ${chatTop}`)
   	})
   	
-  	 $("#sessionSt").on("onchange", e=>{
-		  let st = ("#sessionSt").val();
-		  console.log(st);
-		  sessionStorage.setItem("st", st); 
-		  
-	  })
   	
-  	
-  	</script>
-	<script>
-	let msg = "[[${msg}]]";
-	if (msg != '') {
-		alert(msg);
+ 
+  
+	let msgs = "[[${msg}]]";
+	if (msgs != '') {
+		alert(msgs);
 	}
 	$(document).ready(function(){
 		//확인 버튼 클릭 이벤트
@@ -706,10 +704,26 @@ background: #9c91cf;
 			} 
 		})
 		
+		 $("#sessionSt").on("change", e=>{
+		  let st = $("select[name=sessionSt]").val();
+		 
+		  $.ajax({
+				url:'empStChange',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'st':st},
+			    dataType:'json',
+			    success:function(obj){
+					alert("나의 상태 변경 완료.");
+					
+				}
+			})
+		  
+	  })
 		
-
-		
-		
+	
 		//공지글 상세조회
 		$("#noticeTable").on("click", "tbody>tr", e=>{
 			let no = $(e.currentTarget).data("no"); //게시글 번호
@@ -718,6 +732,9 @@ background: #9c91cf;
 		})
 		
 	})
+	
+	
+	
 	</script>
 
 	<!-- Vendor JS Files -->

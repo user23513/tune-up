@@ -1,6 +1,7 @@
 package co.up.tune.aprv.aprvReq.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.up.tune.aprv.aprvReq.service.AprvReqService;
@@ -19,6 +20,8 @@ public class AjaxAprvReqController {
 
 	@Autowired
 	AprvReqService rs;
+	@Value("${file.dir}") 
+	private String fileDir;
 
 	// 문서 상세
 	@PostMapping("/aprvView")

@@ -18,4 +18,12 @@
 		FROM EMP
 		WHERE ID = #{id}
 	</select>
+	
+	<update id="loginStUp" parameterType="co.up.tune.emp.vo.EmpVO">
+		UPDATE EMP
+		SET
+		ST = #{st}
+		WHERE EMP_NO = #{empNo}
+	</update>
+	
 </mapper>

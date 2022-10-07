@@ -19,4 +19,5 @@ public class TeamVO {
 	 
 	 String position; //직급
 	 List<Integer> teamEmpNo; //팀원들 사원번호
+	 String st;
 }

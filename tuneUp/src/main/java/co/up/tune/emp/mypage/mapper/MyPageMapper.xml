@@ -27,15 +27,7 @@
 		 where	emp_no = #{empNo}
 	</update>
 
-	<select id="myReply" parameterType="co.up.tune.com.vo.ReplyVO"
-		resultType="co.up.tune.com.vo.ReplyVO">
-		SELECT	REPLY_CAT,
-				CNTN,
-				POST_NO
-		FROM REPLY
-		WHERE EMP_NO = #{empNo}
-		ORDER BY REPLY_NO DESC
-	</select>
+	
 
 	<select id="postLook" parameterType="co.up.tune.prj.vo.PostVO" resultType="co.up.tune.prj.vo.PostVO">
 		SELECT 

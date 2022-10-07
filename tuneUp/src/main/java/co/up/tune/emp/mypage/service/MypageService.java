@@ -11,6 +11,5 @@ public interface MypageService {
 	int profileUpdate(EmpVO vo); //프로필 업데이트
 	int picUpdate(EmpVO vo); //프로필 사진 업데이트
 	int signUpdate(EmpVO vo); //결재 서명 업데이트
-	List<ReplyVO> myReply(ReplyVO vo);
 	PostVO postLook(PostVO vo);
 }

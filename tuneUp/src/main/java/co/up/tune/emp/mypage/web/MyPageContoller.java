@@ -123,23 +123,12 @@ public class MyPageContoller {
 		}
 	}
 
-	// 프로필 수정 폼 이동
-	@RequestMapping("/myReply")
-	public String myReply(ReplyVO vo, Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		String empNo = (String) session.getAttribute("empNo");
-		vo.setEmpNo(empNo);
-		model.addAttribute("reply", dao.myReply(vo));
-		return "emp/myPage/myReply";
-	}
 	
-	@RequestMapping("/message")
-	public String message(Model model, HttpServletRequest request) {
-		return "emp/myPage/message";
-	}
+	
+	
 	
 	@RequestMapping("/group")
 	public String myReply(Model model, HttpServletRequest request) {
-		return "emp/myPage/group";
+		return "emp/group/group";
 	}
 }

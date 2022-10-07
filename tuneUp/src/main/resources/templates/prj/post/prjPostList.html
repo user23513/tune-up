@@ -103,15 +103,10 @@ $(document).ready(function() {
 	//=============  할 일  ====================
 	//todo 체크박스 이벤트
 	$('[name="todoCk"]').change(function() {
-		let todoNo = this. closest("td").nextElementSibling.innerText;
-		let result = this.closest("tr").lastElementChild.innerText;
-		let cntn = this.closest("tr").childNodes[3].innerText;
-		let postNo = this.closest('.postNo').innerText;
-		console.log(postNo);
-		console.log(cntn);
+		let todoNo = this.closest("td").nextElementSibling.innerText;
+		let postNo = this.closest("tr").lastElementChild.innerText;
 		if ($(this).is(':checked')) {
 			console.log(todoNo + " 체크됨");
-			console.log(result);
 			
 			//cmpltYn 값을 Y로 변경
 			$.ajax({
@@ -126,17 +121,28 @@ $(document).ready(function() {
 			})
 			
 			//상태바 모션 변경
-/*  			$.ajax({
-				url : "todopercent",
+  			$.ajax({
+				url : "todoPercent",
 				beforeSend:function(xhr){
 					xhr.setRequestHeader(header,token);  
 				},
 				type : "post",
 				data: {"postNo" : postNo},
 				success:function(res){
-					//this.closest("tr").lastElementChild.innerText = res;
+					/* console.log(res)
+					let test = $(this).closest(".sc").children("[name=proBar]").text();
+					console.log(test); */
+					//$(this).closest(".sc").children(".proBar").remove();
+					
+					
+					/* let test =$(this).closest(".sc").children("progress").attr('th:value', res);
+					console.log("test = " +test)
+					$(this).closest(".sc").children("[name=perc]").html(res) */
+					
+					
+					
 				}
-			}) */
+			})
 		}
 		else {
 			console.log(todoNo + " 체크 해제")
@@ -147,6 +153,17 @@ $(document).ready(function() {
 				},
 				type : "post",
 				data: {"cmpltYn" : "N", "todoNo" : todoNo},
+				success:function(res){
+				}
+			})
+			//상태바 모션 변경
+  			$.ajax({
+				url : "todoPercent",
+				beforeSend:function(xhr){
+					xhr.setRequestHeader(header,token);  
+				},
+				type : "post",
+				data: {"postNo" : postNo},
 				success:function(res){
 				}
 			})
@@ -598,7 +615,6 @@ $(document).ready(function() {
 							<div class="card-body">
 								<div class="card-title">
 									<span style="font-size: 16px;"><b>[[${t.wrtr}]]</b></span>
-									<span class="postNo">[[${t.postNo}]]</span>
 									<!-- 드롭다운 아이콘 -->
 									<div class="filter" style="float: right">
 										<a class="icon" href="#" data-bs-toggle="dropdown">
@@ -623,14 +639,21 @@ $(document).ready(function() {
 								<span style="font-size: 22px;"><b>[[${t.ttl}]]</b></span><br>
 								<span th:text="${#dates.format(t.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
 								<hr style="color: gray;">
-								<div style="padding: 2em 5em;">
-									<div class="progress" style=" position: relative;">
+								<div style="padding: 0 5em;">
+									<div class="card-title">
+										<div class="proFrame">
+											<progress name="proBar" th:value="${t.percent}" max="100" style="width: 100%; height: 30px;"
+														th:text="${t.percent}"></progress>
+											<span name="perc">[[${t.percent}]]%</span>
+										</div>
+									</div>
+									<!-- <div class="progress" style="position: relative;">
 										<div class="progress-bar bg-info" role="progressbar"
 											 th:style="|width:${t.percent}%|" th:attr="aria-valuenow=${t.percent}" aria-valuemin="0"
 											 aria-valuemax="100">[[${t.percent}]]%</div>
-									</div>
+									</div> -->
 								</div>
-								<div style="padding: 0 5em;">
+								<div style="padding: 1em 5em;">
 									<table class="table table-borderless">
 										<tbody>
 											<tr th:each="detail : ${detailList}" th:if="${t.postNo} == ${detail.postNo}">
@@ -643,6 +666,7 @@ $(document).ready(function() {
 												<td>[[${detail.cntn}]]</td>
 												<td th:attr="data-yn=${detail.cmpltYn}" style="display : none;">
 													[[${detail.cmpltYn}]]</td>
+												<td style="display : none;">[[${detail.postNo}]]</td>
 											</tr>
 										</tbody>
 									</table>

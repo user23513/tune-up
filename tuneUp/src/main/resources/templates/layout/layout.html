@@ -128,6 +128,7 @@
   //toast생성 및 추가 (웹소켓으로 보낸 메세지 받는 함수)
   function onMessage(msg){
   	var data = msg.data;
+  	console.log(data)
   	
   	if(data.includes("공지")) {
   		//alert
@@ -135,6 +136,7 @@
   	    alert += "<i class='ri-alarm-warning-fill'></i><strong class='mr-auto'>"+data+"</strong>";
   	    alert += "<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button></div>";
   	    $("#alertNotice").append(alert);   
+  	    
   	}else if(data.includes("댓글")){
   		let bellCount = $("#bell").text();
   		$("#bell").text(Number(bellCount)+1);
@@ -146,7 +148,8 @@
   	    toast += "<div class='toast-body'>" + data + "</div></div>";
   	    $("#bellArea").append(toast);   // bellArea div에 생성한 toast 추가
   		$(".toast").toast({"animation": true, "autohide": false});
-          $('.toast').toast('show');
+        $('.toast').toast('show');
+          
   	}else if(data.includes("쪽지")){
   		let noteCount = $("#noteBell").text();
   		$("#noteBell").text(Number(noteCount)+1);
@@ -188,6 +191,24 @@
 			$("#bell").html(res);
 		}
 	});
+	
+	//쪽지 알림갯수
+	$.ajax({
+		url:'noteCount',
+		beforeSend:function(xhr){
+ 	  		xhr.setRequestHeader(header,token);  
+     	},
+     	type: 'post',
+     	data: {'rEmpNo':empNo},
+		dataType: 'json',
+		success: function(res){
+			if($("#noteBell").text() == null){
+				$("#noteBell").text('0');
+			}
+			$("#noteBell").html(res);
+		}
+	})
+	
 	//은지 개인정보 empNo 값
 	$("#pwCheck").on("click", e=>{
 	    $("#eNo").val()
@@ -236,24 +257,26 @@
 		<nav class="header-nav ms-auto">
 			<ul class="d-flex align-items-center">
 				<!-- 조직도 아이콘 -->
-				<li class="nav-item dropdown"><a class="nav-link nav-icon"
-					href="group"> <i class="bi bi-diagram-3"></i>
-				</a></li>
+				<li class="nav-item dropdown">
+					<a class="nav-link nav-icon" href="group"> 
+						<i class="bi bi-diagram-3"></i>
+					</a>
+				</li>
 
 				<li class="nav-item dropdown">
 					<!-- 메일 아이콘 --> 
 					<a class="nav-link nav-icon" href="noteHome"> 
 						<i class="bi bi-envelope"></i> 
 						<span id="noteBell" class="badge bg-success badge-number"></span>
-				</a>
+					</a>
 				</li>
 
 				<li class="nav-item dropdown">
 					<!-- 알림 아이콘 --> 
 					<a class="nav-link nav-icon" href="bellList"> 
-					<i class="bi bi-bell"></i> 
-					<span id="bell" class="badge bg-primary badge-number"></span>
-				</a>
+						<i class="bi bi-bell"></i> 
+						<span id="bell" class="badge bg-primary badge-number"></span>
+					</a>
 				</li>
 				<!-- End Notification Nav -->
 

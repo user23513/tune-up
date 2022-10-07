@@ -2,16 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.com.note.mapper.NoteMapper">
 
-	<select id="sNoteList" resultType="co.up.tune.com.vo.NoteVO">
-		select * from note
-		where s_Emp_No = #{sEmpNo}
-		order by note_No
+	<!-- 보낸 쪽지 리스트 -->
+	<select id="sNoteList" resultType="co.up.tune.com.vo.NoteVO" parameterType="string">
+		SELECT *
+		FROM NOTE
+		WHERE R_EMP_NO=#{empNo}
+		ORDER BY NOTE_NO DESC
 	</select>
 	
-	<select id="rNoteList" resultType="co.up.tune.com.vo.NoteVO">
-		select * from note
-		where r_Emp_No = #{rEmpNo}
-		order by note_No
+	<!-- 받은 쪽지 리스트 -->
+	<select id="rNoteList" resultType="co.up.tune.com.vo.NoteVO" parameterType="string">
+		SELECT *
+		FROM NOTE
+		WHERE S_EMP_NO=#{empNo}
+		ORDER BY NOTE_NO DESC
 	</select>
 	
 	<select id="kNoteList" resultType="co.up.tune.com.vo.NoteVO">
@@ -20,6 +24,7 @@
 		order by note_No
 	</select>
 	
+	<!-- 쪽지 보내기 -->
 	<insert id="sendNote" parameterType="co.up.tune.com.vo.NoteVO">
 		<selectKey keyProperty="noteNo" order="BEFORE" resultType="integer">
 			SELECT nvl(max(note_no)+1,1)
@@ -29,4 +34,17 @@
 			VALUES (#{noteNo}, #{sender}, #{sEmpNo}, #{receiver}, #{rEmpNo},
 					#{cntn}, sysdate, 'N')
 	</insert>
+	
+	<!-- 쪽지 갯수 -->
+	<select id="noteCount" parameterType="co.up.tune.com.vo.NoteVO" resultType="integer">
+		SELECT COUNT(*)
+		FROM NOTE
+		WHERE R_EMP_NO=#{rEmpNo}
+	</select>
+	
+	<!-- 쪽지 삭제 -->
+	<delete id="noteDelete" parameterType="co.up.tune.com.vo.NoteVO">
+		DELETE FROM NOTE
+		WHERE NOTE_NO=#{noteNo}
+	</delete>
 </mapper>

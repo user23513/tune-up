@@ -6,8 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+
 import co.up.tune.com.note.mapper.NoteMapper;
 import co.up.tune.com.vo.NoteVO;
+import co.up.tune.com.vo.SearchVO;
 
 @Service
 public class NoteServiceImpl implements NoteService {
@@ -16,13 +20,16 @@ public class NoteServiceImpl implements NoteService {
 	
 	
 	@Override
-	public List<NoteVO> sNoteList() {
-		return map.sNoteList();
+	public Page<NoteVO> sNoteList(String empNo, int pageNo) {
+		PageHelper.startPage(pageNo, 10);
+		return map.sNoteList(empNo);
 	}
 
+	//받은 쪽지 리스트
 	@Override
-	public List<NoteVO> rNoteList() {
-		return map.rNoteList();
+	public Page<NoteVO> rNoteList(String empNo, int pageNo) {
+		PageHelper.startPage(pageNo, 10);
+		return map.rNoteList(empNo); 
 	}
 
 	@Override
@@ -66,6 +73,12 @@ public class NoteServiceImpl implements NoteService {
 		}
 		
 		return send;
+	}
+
+	//쪽지 갯수
+	@Override
+	public int noteCount(NoteVO vo) {
+		return map.noteCount(vo);
 	}
 
 }

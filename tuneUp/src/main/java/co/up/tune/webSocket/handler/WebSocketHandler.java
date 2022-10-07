@@ -77,9 +77,16 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				}
 			//쪽지
 			}else if(strs != null && strs.length == 2) {
-				//작성자가 로그인 해서 있다면
-				//WebSocketSession boardWriterSession = userSessionsMap.get(receiverNo); //메세지를 받을 세션 조회
-				System.out.println(strs[1].split(" "));
+				System.out.println("==============="+strs[1]);
+				String[] receiverNoList = strs[1].split(" ");
+				for(String receiverNo:receiverNoList) {
+					WebSocketSession boardWriterSession = userSessionsMap.get(receiverNo); //메세지를 받을 세션 조회
+					System.out.println("==============="+boardWriterSession);
+					if(boardWriterSession != null) {
+						TextMessage tmpMsg = new TextMessage("쪽지");
+						boardWriterSession.sendMessage(tmpMsg);
+					}
+				}
 			}
 		}
 	}

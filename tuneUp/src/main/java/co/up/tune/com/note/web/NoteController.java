@@ -44,7 +44,7 @@ public class NoteController {
 	@GetMapping("/deptList")
 	public String deptList(Model model) {
 		// 부서조회
-		model.addAttribute("dept", ls.aprvDeptSearch());
+		model.addAttribute("dept", ls.aprvDeptList());
 		return "com/note/deptList";
 	}
 	
@@ -52,6 +52,6 @@ public class NoteController {
 	@ResponseBody
 	@PostMapping("/deptEmp")
 	public List<EmpVO> deptEmp(EmpVO vo){
-		return ls.aprvEmpSearch(vo);
+		return ls.aprvEmpList(vo);
 	}
 }

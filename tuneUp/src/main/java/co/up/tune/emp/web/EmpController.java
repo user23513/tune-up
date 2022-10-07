@@ -2,6 +2,7 @@ package co.up.tune.emp.web;
 
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,12 +97,12 @@ public class EmpController {
 
 
 	//인증확인
-//	@PostMapping("/sendCodeCheck")
-//	@ResponseBody
-//	public String mailCodeCheck(HttpSession session) {
-//		session.getAttribute(code);
-//		return "";
-//	}
+	/*
+	 * @PostMapping("/sendCodeCheck")
+	 * 
+	 * @ResponseBody public String mailCodeCheck( HttpServletRequest request) {
+	 * HttpSession session = request.getSession(); return ""; }
+	 */
 	
 	
 	//비밀번호 성공하면 

@@ -5,7 +5,8 @@
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 
 <title>TuneUp - Home</title>
 <meta content="" name="description">
@@ -52,6 +53,9 @@
   var header = $("meta[name='_csrf_header']").attr("content");
 
   $(document).ready(function(){
+	  
+	 
+	  
   	//웹소켓 연결
   	connectWs();
   	
@@ -149,6 +153,11 @@
           $('.toast').toast('show');
   	}
   }
+  
+ 
+  
+  
+  
   </script>
 <style>
 /* 긴급공지 헤더에 띄우는 css */
@@ -160,7 +169,8 @@
 	width: 45%;
 	min-width: 500px;
 }
-.teamMList{
+
+.teamMList {
 	font-size: 15px !important;
 }
 </style>
@@ -215,7 +225,7 @@
 	</form>
 	<!-- ======= Header ======= -->
 	<header id="header" class="header fixed-top d-flex align-items-center">
-		
+
 		<!-- Start Logo -->
 		<div class="d-flex align-items-center justify-content-between">
 			<a href="/main" class="logo d-flex align-items-center"> <img
@@ -232,73 +242,71 @@
 		<nav class="header-nav ms-auto">
 			<ul class="d-flex align-items-center">
 				<!-- 조직도 아이콘 -->
+				<li class="nav-item dropdown"><a class="nav-link nav-icon"
+					href="group"> <i class="bi bi-diagram-3"></i>
+				</a></li>
+
 				<li class="nav-item dropdown">
-					<a class="nav-link nav-icon" href="group"> 
-						<i class="bi bi-diagram-3"></i>
-					</a>
+					<!-- 메일 아이콘 --> <a class="nav-link nav-icon" href="noteHome"> <i
+						class="bi bi-envelope"></i> <span
+						class="badge bg-success badge-number">0</span>
+				</a>
 				</li>
 
 				<li class="nav-item dropdown">
-					<!-- 메일 아이콘 --> 
-					<a class="nav-link nav-icon" href="noteHome"> 
-						<i class="bi bi-envelope"></i> 
-						<span class="badge bg-success badge-number">0</span>
-					</a> 
-				</li>
-				
-				<li class="nav-item dropdown">
-					<!-- 알림 아이콘 --> 
-					<a class="nav-link nav-icon" href="bellList"> 
-						<i class="bi bi-bell"></i> 
-						<span id="bell" class="badge bg-primary badge-number"></span>
-					</a>
+					<!-- 알림 아이콘 --> <a class="nav-link nav-icon" href="bellList"> <i
+						class="bi bi-bell"></i> <span id="bell"
+						class="badge bg-primary badge-number"></span>
+				</a>
 				</li>
 				<!-- End Notification Nav -->
 
 
-				<li class="nav-item dropdown pe-3">
-				<a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown"> 
-					<img th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
-						 alt="Profile" class="rounded-circle">
-					<span class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
-				</a> 
-				<!-- 마이페이지 프로필 아이콘 눌렀을때-->
-					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+				<li class="nav-item dropdown pe-3"><a
+					class="nav-link nav-profile d-flex align-items-center pe-0"
+					href="#" data-bs-toggle="dropdown"> <img
+						th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
+						alt="Profile" class="rounded-circle"> <span
+						class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
+				</a> <!-- 마이페이지 프로필 아이콘 눌렀을때-->
+					<ul
+						class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 						<li class="dropdown-header">
-							<h6 th:text="${session.nm}"></h6> 
-							<span th:text="${session.position}"></span>
+							<h6 th:text="${session.nm}"></h6> <span
+							th:text="${session.position}"></span>
 						</li>
-						<li class="form-floating">
-							<select class="form-select" id="floatingSelect" aria-label="State">
-								<option value="1">온라인</option>
-								<option value="2">자리비움</option>
-							</select> 
-							<label for="floatingSelect"><i class="bi bi-person"></i>상태수정</label>
+						<li class="form-floating"><select class="form-select"
+							id="sessionSt" aria-label="State">
+								<option th:value="${session.st} == '온라인' ? '온라인' : '자리비움'"
+									th:text="${session.st} == '온라인' ? '온라인' : '자리비움'"></option>
+								<option th:value="${session.st} == '온라인' ? '자리비움' : '온라인'"
+									th:text="${session.st} == '온라인' ? '자리비움' : '온라인'"></option>
+						</select> <label for="sessionSt"><i class="bi bi-person"></i>상태수정</label>
 						</li>
 						<li>
 							<form id="pwFrm" method="get" action="profile">
 								<a id="pwCheck" class="dropdown-item d-flex align-items-center"
-									href="javascript:void(0);"> <i class="bi bi-gear"></i> <span>개인정보</span> 
+									href="javascript:void(0);"> <i class="bi bi-gear"></i> <span>개인정보</span>
 								</a>
 							</form>
 						</li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
-						<li>
-							<a class="dropdown-item d-flex align-items-center" href="empManage"> 
-								<i class="bi bi-question-circle"></i> 
-								<span>사원관리</span>
-							</a>
-						</li>
+						<li><a class="dropdown-item d-flex align-items-center"
+							href="empManage"> <i class="bi bi-question-circle"></i> <span>사원관리</span>
+						</a></li>
 						<li>
 							<hr class="dropdown-divider">
 						</li>
 						<li>
-							<form class="dropdown-item d-flex align-items-center" action="logout" method="post">
-								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-								<i class="bi bi-box-arrow-right"></i>
-								<button class="dropdown-item d-flex align-items-center" type="submit">로그아웃</button>
+							<form class="dropdown-item d-flex align-items-center"
+								action="logout" method="post">
+								<input type="hidden" th:name="${_csrf.parameterName}"
+									th:value="${_csrf.token}"> <i
+									class="bi bi-box-arrow-right"></i>
+								<button class="dropdown-item d-flex align-items-center"
+									type="submit">로그아웃</button>
 							</form>
 						</li>
 					</ul> <!-- End Profile Dropdown Items --></li>
@@ -311,23 +319,28 @@
 
 	<!-- ======= Sidebar ======= -->
 	<aside id="sidebar" class="sidebar">
-			<!-- 프로필사진  -->
-			<section class="section profile">
-				<div>
-					<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-						<img th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
-							 alt="Profile" class="rounded-circle">
-						<div style="position: relative; left: -8px;">
-							<i id="prev" class="bi bi-caret-left-fill" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
-							<h2 th:text="${session.nm}">kim</h2>
-							<i id="next" class="bi bi-caret-right-fill" style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i>
-						</div>
-						<!-- 팀원들? -->
-	                	<h3 style="position: relative; left: -10px;"></h3>
-	                	<ul class="list-group list-group-flush" id="teamMem" style="position: relative; left: -10px;">
-						</ul>
+		<!-- 프로필사진  -->
+		<section class="section profile">
+			<div>
+				<div
+					class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+					<img
+						th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
+						alt="Profile" class="rounded-circle">
+					<div style="position: relative; left: -8px;">
+						<i id="prev" class="bi bi-caret-left-fill"
+							style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
+						<h2 th:text="${session.nm}">kim</h2>
+						<i id="next" class="bi bi-caret-right-fill"
+							style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i>
 					</div>
+					<!-- 팀원들? -->
+					<h3 style="position: relative; left: -10px;"></h3>
+					<ul class="list-group list-group-flush" id="teamMem"
+						style="position: relative; left: -10px;">
+					</ul>
 				</div>
+			</div>
 		</section>
 		<br>
 		<ul class="sidebar-nav" id="sidebar-nav">
@@ -344,7 +357,8 @@
 					<li><a href="files"> <i class="bi bi-circle"></i><span>내
 								파일함</span>
 					</a></li>
-					<li><a href="myReply"> <i class="bi bi-circle"></i><span>내 댓글</span>
+					<li><a href="myReply"> <i class="bi bi-circle"></i><span>내
+								댓글</span>
 					</a></li>
 				</ul></li>
 			<!-- End Components Nav -->
@@ -411,8 +425,8 @@
 		class="back-to-top d-flex align-items-center justify-content-center"><i
 		class="bi bi-arrow-up-short"></i></a>
 
-  
-    <script>
+
+	<script>
   	/* 화살표 누르면 부서별 팀원 */
   	let depts = ['영업','기획','인사','회계','개발','재무'];
   	let idx = 2;
@@ -489,6 +503,15 @@
   	    var chatTop = 100;
   	    window.open('/chat', '', `width = ${chatWidth}px, height = ${chatHeight}px,left = ${chatLeft}%,top = ${chatTop}`)
   	})
+  	
+  	 $("#sessionSt").on("onchange", e=>{
+		  let st = ("#sessionSt").val();
+		  console.log(st);
+		  sessionStorage.setItem("st", st); 
+		  
+	  })
+  	
+  	
   	</script>
 
 	<!-- Vendor JS Files -->
@@ -500,7 +523,7 @@
 	<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
 	<script src="/assets/vendor/tinymce/tinymce.min.js"></script>
 	<script src="/assets/vendor/php-email-form/validate.js"></script>
-	
+
 	<!-- Template Main JS File -->
 	<script src="/assets/js/main.js"></script>
 

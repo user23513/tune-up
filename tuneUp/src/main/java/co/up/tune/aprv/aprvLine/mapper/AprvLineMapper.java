@@ -6,30 +6,43 @@ import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.ReferVO;
 import co.up.tune.emp.vo.EmpVO;
 
+/**
+* 전자결재 결재라인 Mapper
+* @author 윤정은
+* @date 2022.10.4
+* @version 1.3
+**/
+
 public interface AprvLineMapper {
+	
+	// 결재문서 결재자 목록
+	List<ApprovalVO> approvalList(ApprovalVO vo);
 
-	// 결재자
-	List<ApprovalVO> approvalList(ApprovalVO vo); // 조회
+	// 결재자 등록
+	int approvalIn(ApprovalVO vo); 
 
-	int approvalIn(ApprovalVO vo); // 등록
+	// 결재문서 참조인 목록
+	List<ReferVO> ReferList(ReferVO vo); 
+	
+	// 참조인 등록
+	int referIn(ReferVO vo);
+	
+	// 참조인 삭제
+	int referDel(ReferVO vo); 
 
-	// 참조인
-	List<ReferVO> ReferList(ReferVO vo); // 조회
+	// 결재선 조회
+	List<AprvLineVO> aprvLineList(AprvLineVO vo);
+	
+	// 결재선 등록
+	int aprvLineIn(AprvLineVO vo); 
+	
+	// 결재선 삭제
+	int aprvLineDel(AprvLineVO vo);
+	
+	// 결재선 사원목록
+	List<EmpVO> aprvEmpList(EmpVO vo);
 
-	int referIn(ReferVO vo); // 등록
-
-	int referDel(ReferVO vo); // 삭제
-
-	// 결재선
-	List<AprvLineVO> aprvLineList(AprvLineVO vo); // 조회
-
-	int aprvLineIn(AprvLineVO vo); // 등록
-
-	int aprvLineDel(AprvLineVO vo); // 삭제
-
-	// 사원목록
-	List<EmpVO> aprvEmpSearch(EmpVO vo);
-
-	// 부서검색
-	List<EmpVO> aprvDeptSearch();
+	// 결재선 부서목록
+	List<EmpVO> aprvDeptList();
+	
 }

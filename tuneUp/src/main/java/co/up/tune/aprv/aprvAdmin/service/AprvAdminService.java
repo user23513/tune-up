@@ -6,28 +6,25 @@ import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 
-public interface AprvAdminService { // 전자결재 관리자
+/**
+ * 전자결재 관리 Service
+ * @author 윤정은
+ * @date 2022.09.27
+ * @version 1.1
+ **/
+
+public interface AprvAdminService {
 
 	// 관리자 전체 결재문서 조회
 	List<AprvVO> aprvListAll(@Param("reqSt") String reqSt);
 
-	// 결재문서 단건 상세
-	AprvVO aprvSelect(AprvVO vo);
-
-	// 관리자 삭제
-	int aprvAdminDel(AprvVO vo);
-
 	// 관리자 전체 서식목록 조회
 	List<FormVO> aprvFormAll(@Param("formCat") String formCat);
-
-	// 서식 단건 상세
-	FormVO formSelect(FormVO vo);
-
-	// 관리자 서식 삭제
-	int formAdminDel(FormVO vo);
-
-	// 관리자 반려(결재인)
-	int aprvAdReject(ApprovalVO vo);
 	
+	// 관리자 결재 강제삭제
+	int aprvAdminDel(AprvVO vo);
+
+	// 관리자 결재 강제반려
+	int aprvAdReject(ApprovalVO vo);
 
 }

@@ -3,7 +3,6 @@
 <mapper namespace="co.up.tune.aprv.approval.mapper.ApprovalMapper">
 	
 	
-	
 	<select id="approvalList" 
 		resultType="co.up.tune.aprv.vo.AprvVO">
 		<if test="aprvSt == '전체' ">
@@ -176,14 +175,6 @@
 
 	</select>
 
-	<select id="approvalSelect" 
-		parameterType ="co.up.tune.aprv.vo.AprvVO" 
-		resultType="co.up.tune.aprv.vo.AprvVO">
-		SELECT *
-		FROM APRV
-		WHERE APRV_NO = #{aprvNo}
-	</select>
-
 
 	<update id="approvalSign"
 		parameterType="co.up.tune.aprv.vo.ApprovalVO">
@@ -202,6 +193,7 @@
 		WHERE APRV_NO = #{aprvNo}
 				AND APRV_ST = '진행'
 	</update>
+
 
 	<update id="aprvNext"
 		parameterType="co.up.tune.aprv.vo.ApprovalVO">
@@ -269,7 +261,8 @@
 		ORDER BY EDT DESC
 	</select>
 
-	<select id="trustSelect"
+
+	<select id="trustCheck"
 		parameterType="co.up.tune.aprv.vo.TrustVO"
 		resultType="co.up.tune.aprv.vo.TrustVO">
 		SELECT *
@@ -316,7 +309,7 @@
 		 WHERE EMP_NO = #{empNo}
 	</update>
 	
-	<select id="signSel" 
+	<select id="signSelect" 
 		parameterType="co.up.tune.emp.vo.EmpVO" 
 		resultType="co.up.tune.emp.vo.EmpVO">
 		SELECT 	SIGN, 

@@ -4,7 +4,7 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>전자결재 - 관리 기능</title>
+<title>TuneUp - 전자결재</title>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
 <script type="text/javascript"
@@ -22,8 +22,8 @@
 	<main id="main" class="main" layout:fragment="content">
 
 		<script>
-			loadin(); //로딩화면
-			function loadin(load) {
+			loading(); //로딩화면
+			function loading(load) {
 	 			LoadingWithMask("/assets/img/load.gif");
 	  			setTimeout("closeLoadingWithMask()", 500);
 			} 

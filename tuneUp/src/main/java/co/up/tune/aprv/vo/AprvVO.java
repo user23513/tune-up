@@ -4,6 +4,13 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 전자결재 VO
+ * @author 윤정은
+ * @date 2022.09.24
+ * @version 1.1
+ **/
+
 @Getter
 @Setter
 public class AprvVO { //전자결재
@@ -13,13 +20,14 @@ public class AprvVO { //전자결재
 	Date dttm; //작성일시
 	String cntn; //결재내용
 	String fNm;	//파일이름
-	String fPath;	//파일위치
+	String fPath; //파일위치
 	String reqSt; //신청상태
 	String aprvEtc; //상신의견
 	String deadline; //마감일
 	String impts; //중요
 	String nm;
-	//=========테이블X
+	
+	//테이블에 없는 필드
 	String aprvSt; 
 	String aprvr;
 	String refer;

@@ -23,6 +23,7 @@
 		order by post_no desc
 	</select>
 	
+	
 	<select id="todoSelect" resultType="co.up.tune.prj.vo.TodoVO">
 		select * from todo
 		where post_no = #{postNo}

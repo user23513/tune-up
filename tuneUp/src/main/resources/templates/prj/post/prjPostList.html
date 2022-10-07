@@ -110,7 +110,21 @@ $(document).ready(function() {
 		if ($(this).is(':checked')) {
 			console.log(todoNo + " 체크됨");
 			console.log(result);
+			
+			//cmpltYn 값을 Y로 변경
 			$.ajax({
+				url : "cmpltYnUpdate",
+				beforeSend:function(xhr){
+					xhr.setRequestHeader(header,token);  
+				},
+				type : "post",
+				data: {"cmpltYn" : "Y", "todoNo" : todoNo},
+				success:function(res){
+				}
+			})
+			
+			//상태바 모션 변경
+			/* $.ajax({
 				url : "cmpltYnUpdate",
 				beforeSend:function(xhr){
 					xhr.setRequestHeader(header,token);  
@@ -120,11 +134,10 @@ $(document).ready(function() {
 				success:function(res){
 					//this.closest("tr").lastElementChild.innerText = res;
 				}
-			})
+			}) */
 		}
 		else {
 			console.log(todoNo + " 체크 해제")
-			
 			$.ajax({
 				url : "cmpltYnUpdate",
 				beforeSend:function(xhr){
@@ -133,7 +146,6 @@ $(document).ready(function() {
 				type : "post",
 				data: {"cmpltYn" : "N", "todoNo" : todoNo},
 				success:function(res){
-					//this.closest("tr").lastElementChild.innerText = res;
 				}
 			})
 		}
@@ -608,19 +620,23 @@ $(document).ready(function() {
 									</div>
 								</div>
 								<span style="font-size: 22px;"><b>[[${t.ttl}]]</b></span><br>
+								<span th:text="${#dates.format(t.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
 								<hr style="color: gray;">
-								<div>
-									<div class="progress" style=" position: relative; top: 50px; left: -10px;">
+								<div style="padding: 2em 5em;">
+									<div class="progress" style=" position: relative;">
 										<div class="progress-bar bg-info" role="progressbar"
 											 th:style="|width:${t.percent}%|" th:attr="aria-valuenow=${t.percent}" aria-valuemin="0"
 											 aria-valuemax="100">[[${t.percent}]]%</div>
 									</div>
+								</div>
+								<div style="padding: 0 5em;">
 									<table class="table table-borderless">
 										<tbody>
 											<tr th:each="detail : ${detailList}" th:if="${t.postNo} == ${detail.postNo}">
-												<td>
-													<input	type="checkbox" name="todoCk"
-															th:checked="${detail.cmpltYn=='Y'}?checked">
+												<td style="width: 10%;">
+													<input  type="checkbox" name="todoCk"
+															th:checked="${detail.cmpltYn=='Y'}?checked"
+															style="width:20px;height:20px;">
 												</td>
 												<td style="display : none;">[[${detail.todoNo}]]</td>
 												<td>[[${detail.cntn}]]</td>

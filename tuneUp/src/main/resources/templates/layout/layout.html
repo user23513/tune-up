@@ -242,16 +242,16 @@
 					<!-- 메일 아이콘 --> 
 					<a class="nav-link nav-icon" href="noteHome"> 
 						<i class="bi bi-envelope"></i> 
-						<span class="badge bg-success badge-number">3</span>
-					</a> <!-- End Messages Icon -->
+						<span class="badge bg-success badge-number">0</span>
+					</a> 
 				</li>
-				<!-- End Messages Nav -->
+				
 				<li class="nav-item dropdown">
 					<!-- 알림 아이콘 --> 
 					<a class="nav-link nav-icon" href="bellList"> 
 						<i class="bi bi-bell"></i> 
 						<span id="bell" class="badge bg-primary badge-number"></span>
-					</a> <!-- End Notification Icon -->
+					</a>
 				</li>
 				<!-- End Notification Nav -->
 
@@ -261,13 +261,14 @@
 					<img th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
 						 alt="Profile" class="rounded-circle">
 					<span class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
-				</a> <!-- End Profile Iamge Icon --> <!-- 마이페이지 프로필 아이콘 눌렀을때-->
+				</a> 
+				<!-- 마이페이지 프로필 아이콘 눌렀을때-->
 					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 						<li class="dropdown-header">
 							<h6 th:text="${session.nm}"></h6> 
 							<span th:text="${session.position}"></span>
 						</li>
-						<li class="form-floating">`
+						<li class="form-floating">
 							<select class="form-select" id="floatingSelect" aria-label="State">
 								<option value="1">온라인</option>
 								<option value="2">자리비움</option>
@@ -289,18 +290,6 @@
 								<i class="bi bi-question-circle"></i> 
 								<span>사원관리</span>
 							</a>
-						</li>
-						<li>
-							<hr class="dropdown-divider">
-						</li>
-						<li>
-							<form id="replyFrm" method="post" action="myReply">
-								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-								<a class="dropdown-item d-flex align-items-center" href="javascript:void(0);"> 
-									<i class="bi bi-person-lines-fill"></i>
-									<span>나의댓글</span>
-								</a>
-							</form>
 						</li>
 						<li>
 							<hr class="dropdown-divider">
@@ -329,7 +318,6 @@
 						<img th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
 							 alt="Profile" class="rounded-circle">
 						<div style="position: relative; left: -8px;">
-							<!-- <h3 style="position: relative; top: 40px; left: 9px;" th:text="|${session.dept}팀|">Web Designer</h3> -->
 							<i id="prev" class="bi bi-caret-left-fill" style="font-size: 22px; position: relative; left: -30px; top: 42px;"></i>
 							<h2 th:text="${session.nm}">kim</h2>
 							<i id="next" class="bi bi-caret-right-fill" style="font-size: 22px; position: relative; left: 80px; top: -29px;"></i>
@@ -350,14 +338,13 @@
 			</a>
 				<ul id="components-nav" class="nav-content collapse "
 					data-bs-parent="#sidebar-nav">
-					<li><a href="/newproject"> <i class="bi bi-circle"></i><span>새
-								프로젝트</span>
-					</a></li>
-					<li><a href="/myProject"> <i class="bi bi-circle"></i><span>내
+					<li><a href="myProject"> <i class="bi bi-circle"></i><span>내
 								프로젝트</span>
 					</a></li>
 					<li><a href="files"> <i class="bi bi-circle"></i><span>내
 								파일함</span>
+					</a></li>
+					<li><a href="myReply"> <i class="bi bi-circle"></i><span>내 댓글</span>
 					</a></li>
 				</ul></li>
 			<!-- End Components Nav -->
@@ -424,21 +411,10 @@
 		class="back-to-top d-flex align-items-center justify-content-center"><i
 		class="bi bi-arrow-up-short"></i></a>
 
-	<!-- 내 프로젝트 form  -->
-	<!-- <form id="myPrjFrm" action="myProject" method="post">
-  	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-  	<input type="hidden" name="empNo" th:value="${session.empNo}">
-  </form>
-  
-  <script>
-  	$("#myPrjBtn").on("click", e=>{
-  		$("#myPrjFrm").submit();
-  	})
-  </script> -->
   
     <script>
   	/* 화살표 누르면 부서별 팀원 */
-  	let depts = ['영업','기획','인사','회계','개발'];
+  	let depts = ['영업','기획','인사','회계','개발','재무'];
   	let idx = 2;
   	dept = depts[idx];
   	

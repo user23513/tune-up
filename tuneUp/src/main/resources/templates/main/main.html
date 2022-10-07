@@ -6,19 +6,23 @@
 <head>
 <meta charset="UTF-8">
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
+<meta id="_csrf_header" name="_csrf_header"
+	th:content="${_csrf.headerName}" />
 <title>HOME</title>
 <link href='/fullcalendar-5.11.3/lib/main.css' rel='stylesheet' />
 <style>
 .attdBt {
 	text-align: center;
 }
+
 #stBtn {
 	display: inline-block;
 }
+
 #edBtn {
 	display: inline-block;
 }
+
 body {
 	margin: 40px 10px;
 	padding: 0;
@@ -26,6 +30,7 @@ body {
 	font-size: 14px;
 	color: black;
 }
+
 #calendar {
 	max-width: 1100px;
 	margin: 0 auto;
@@ -33,136 +38,145 @@ body {
 </style>
 </head>
 <body>
-<main layout:fragment="content">
-	<section class="section profile">
-		<div class="row">
-			<div class="col-xl-9">
-				<div class="card">
-					<div class="card-body">
-						<br> <br>
-						<div id='calendar'></div>
+	<main layout:fragment="content">
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-9">
+					<div class="card">
+						<div class="card-body">
+							<br> <br>
+							<div id='calendar'></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3">
+					<div class="card">
+						<div class="card-body pt-3">
+							<br>
+							<div class="card mb-3">
+								<div class="card-body">
+									<br> <span th:text="|${session.nm}님 환영합니다.|"></span>
+									<!-- 출근 시간 보여주기 -->
+									<hr>
+
+									<div class="list-group col-12">
+										<div class="list-group-item list-group-item-primary">
+											출근 시간 <span class="badge bg-secondary text-light"
+												th:text="${checkTime == null? '' :  #dates.format(checkTime, 'HH:mm')}"
+												style="margin-right: 20px;"></span> 퇴근 시간 <span
+												class="badge bg-secondary text-light"
+												th:text="${checkBTime == null? '' : #dates.format(checkBTime, 'HH:mm')}"></span>
+										</div>
+
+									</div>
+
+									<br>
+									<div class="list-group">
+
+
+										<!-- 출퇴근 버튼 찍기 -->
+										<div class="btn-group" role="group" aria-label="Basic example"
+											style="width: 100%;">
+											<button id="attdBtn" type="button" class="btn btn-primary">출근</button>
+											<button id="edBtn" type="button" class="btn btn-primary">퇴근</button>
+										</div>
+										<br>
+
+										<!-- 근태관리 버튼 -->
+										<div class="col-12 justify-content-end">
+											<button type="button" class="btn btn-primary"
+												style="width: 100%;" onclick="location.href='myAttdList'">근태
+												관리</button>
+										</div>
+									</div>
+								</div>
+								<div class="card mb-3">
+									<div class="card-body">
+										<div class="col-12">
+											<br>
+											<h5 class="text-center">NOTICE</h5>
+											<hr>
+											<table id="noticeTable" class="table table-hover">
+												<thead hidden="hidden">
+													<tr>
+														<th>제목</th>
+													</tr>
+												</thead>
+												<tbody id="tb">
+													<tr th:each="n : ${nList.getList()}"
+														th:attr="data-no=${n.postNo}">
+														<td>[[${n.ttl}]]</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<form id="noticeFrm" action="noticeSelect">
+								<input type="hidden" id="pn" name="postNo">
+							</form>
+							<form id="stFrm" method="post" action="startAttd">
+								<input type="hidden" th:name="${_csrf.parameterName}"
+									th:value="${_csrf.token}"> <input type="hidden"
+									name="empNo" th:value="${session.empNo}"> <input
+									type="hidden" name="nm" th:value="${session.nm}"> <input
+									type="hidden" name="dept" th:value="${session.dept}"> <input
+									type="hidden" name="position" th:value="${session.position}">
+							</form>
+							<form id="endFrm" method="post" action="endAttd">
+								<input type="hidden" class="inputToken"
+									th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+								<input type="hidden" class="inputEmpNo" name="empNo"
+									th:value="${session.empNo}">
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-xl-3">
-				<div class="card">
-					<div class="card-body pt-3">
-						<br>
-						<div class="card mb-3">
-							<div class="card-body">
-								<br>
-								<span th:text="|${session.nm}님 환영합니다.|"></span>
-								<hr>
-									<!-- 출근 시간 보여주기 -->
-									<div class="list-group col-2" style="float: left">
-										<div class="list-group-item list-group-item-primary"
-											style="width: 150px; height: 50px;">
-											출근 시간 <span class="badge bg-secondary text-light"
-												th:text="${checkTime == null? '' :  #dates.format(checkTime, 'HH:mm')}"></span>
-										</div>
-									</div>
-									<!-- 퇴근 시간 보여주기 -->
-									<div class="list-group col-3" style="float: right">
-										<div class="list-group-item list-group-item-primary "
-											style="width: 150px; height: 50px;">
-											퇴근 시간 <span class="badge bg-secondary text-light"
-												th:text="${checkBTime == null? '' : #dates.format(checkBTime, 'HH:mm')}"></span>
-										</div>
-									</div>
-									<br><br><br>
-									<!-- 출퇴근 버튼 찍기 -->
-								<div class="btn-group" role="group" aria-label="Basic example" style="width: 100%;">
-									<button id="attdBtn" type="button" class="btn btn-primary">출근</button>
-									<button id="edBtn" type="button" class="btn btn-primary">퇴근</button>
-								</div>
-								<br> 
-								<br>
-								<!-- 근태관리 버튼 -->
-								<div class="col-12 justify-content-end">
-									<button type="button" class="btn btn-primary"
-										style="width: 100%;" onclick="location.href='myAttdList'">근태 관리</button>
+		</section>
+
+		<!-- 모달 -->
+		<div id="createEventModal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4>Add an Event</h4>
+					</div>
+					<div id="modalBody" class="modal-body">
+						<div class="form-group">
+							<input class="form-control" type="text" placeholder="Event Name">
+						</div>
+
+						<div class="form-group form-inline">
+							<div class="input-group date" data-provide="datepicker">
+								<input type="text" class="form-control"
+									placeholder="Due Date mm/dd/yyyy">
+								<div class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
 								</div>
 							</div>
 						</div>
-						<div class="card mb-3">
-							<div class="card-body">
-								<div class="col-12">
-									<br>
-									<h5 class="text-center">NOTICE</h5>
-									<hr>
-									<table id="noticeTable" class="table table-hover">
-										<thead hidden="hidden">
-											<tr>
-												<th>제목</th>
-											</tr>
-										</thead>
-										<tbody id="tb">
-											<tr th:each="n : ${nList.getList()}" th:attr="data-no=${n.postNo}">
-												<td>[[${n.ttl}]]</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
+
+						<div class="form-group">
+							<textarea class="form-control" type="text" rows="4"
+								placeholder="Event Description"></textarea>
 						</div>
 					</div>
-				</div>
-				<div>
-					<form id="noticeFrm" action="noticeSelect">
-						<input type="hidden" id="pn" name="postNo">
-					</form>
-					<form id="stFrm" method="post" action="startAttd">
-						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-						<input type="hidden" name="empNo" th:value="${session.empNo}"> 
-						<input type="hidden" name="nm" th:value="${session.nm}"> 
-						<input type="hidden" name="dept" th:value="${session.dept}"> 
-						<input type="hidden" name="position" th:value="${session.position}">
-					</form>
-					<form id="endFrm" method="post" action="endAttd">
-						<input type="hidden" class="inputToken" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-						<input type="hidden" class="inputEmpNo" name="empNo" th:value="${session.empNo}">
-					</form>
+					<div class="modal-footer">
+						<button class="btn" data-dismiss="modal" aria-hidden="true"
+							id="cancel">Cancel</button>
+						<button type="submit" class="btn btn-primary" id="submitButton">Save</button>
+					</div>
 				</div>
 			</div>
 		</div>
-	</section>
 
-	<!-- 모달 -->
-	<div id="createEventModal" class="modal fade">
-	    <div class="modal-dialog">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <h4>Add an Event</h4>
-	            </div>
-	            <div id="modalBody" class="modal-body">
-	               <div class="form-group">
-	                    <input class="form-control" type="text" placeholder="Event Name">
-	                </div>
-	
-	                <div class="form-group form-inline">
-	                    <div class="input-group date" data-provide="datepicker">
-	                        <input type="text" class="form-control" placeholder="Due Date mm/dd/yyyy">
-	                        <div class="input-group-addon">
-	                            <span class="glyphicon glyphicon-calendar"></span>
-	                        </div>
-	                    </div>
-	                </div>
-	
-	                <div class="form-group">
-	                    <textarea class="form-control" type="text" rows="4" placeholder="Event Description"></textarea>
-	                </div>
-	            </div>
-	            <div class="modal-footer">
-	                <button class="btn" data-dismiss="modal" aria-hidden="true" id="cancel">Cancel</button>
-	                <button type="submit" class="btn btn-primary" id="submitButton">Save</button>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-
-	<script src="/js/jquery-3.6.1.min.js"></script>
-	<script src='/fullcalendar-5.11.3/lib/main.js'></script>
-	<script>
+		<script src="/js/jquery-3.6.1.min.js"></script>
+		<script src='/fullcalendar-5.11.3/lib/main.js'></script>
+		<script>
 	let msg = "[[${msg}]]";
 	if (msg != '') {
 		alert(msg);
@@ -318,6 +332,6 @@ body {
 		
 	})
 	</script>
-</main>
+	</main>
 </body>
 </html>

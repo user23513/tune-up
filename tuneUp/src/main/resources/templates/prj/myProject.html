@@ -4,7 +4,7 @@
 	layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
-<title>내 프로젝트 목록</title>
+<title>TuneUp - 내 프로젝트</title>
 <script>
 $(document).ready(function(){
 	/* $("#edBtn").on("click", e=>{
@@ -99,9 +99,10 @@ $(document).ready(function(){
 					<h1>프로젝트</h1>
 					<nav>
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item">새 프로젝트</li>
 							<li class="breadcrumb-item active">내 프로젝트</li>
+
 							<li class="breadcrumb-item">내 파일함</li>
+							<li class="breadcrumb-item">내 게시글</li>
 						</ol>
 					</nav>
 				</div>
@@ -118,9 +119,10 @@ $(document).ready(function(){
 					<li class="nav-item" role="presentation">
 						<button class="nav-link active" id="ongoing-tab"
 							data-bs-toggle="tab" data-bs-target="#ongoing" type="button"
-							role="tab" aria-controls="ongoing" aria-selected="true">내 프로젝트</button>
+							role="tab" aria-controls="ongoing" aria-selected="true">내
+							프로젝트</button>
 					</li>
-					
+
 				</ul>
 				<!-- 프로젝트 카드 -->
 				<div class="tab-content pt-2" id="borderedTabContent"
@@ -141,7 +143,7 @@ $(document).ready(function(){
 										</span> -->
 										<div class="card-body">
 											<div style="position: relative; top: 15px;">
-												<span class="round" 
+												<span class="round"
 													th:classappend="${prj.st} == '요청' ? 'select'">요청</span> <span
 													class="round" th:classappend="${prj.st} == '진행' ? 'select'">진행</span>
 												<span class="round"
@@ -202,7 +204,8 @@ $(document).ready(function(){
 					</div>
 				</div>
 			</div>
-			<script>
+		</div>
+		<script>
 		$(".prjSelect").on("click", e=>{ 
 			$(e.currentTarget).parent().submit();
 		})

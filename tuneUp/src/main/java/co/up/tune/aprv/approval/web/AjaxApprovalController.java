@@ -63,7 +63,7 @@ public class AjaxApprovalController {
 		String empNo = (String) session.getAttribute("empNo");
 		vo.setAprvr(empNo);
 		
-		//sign reject null값으로 상태 바뀜
+		//reject null값으로 상태 바뀜
 		return ap.approvalSign(vo);
 	}
 	

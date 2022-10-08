@@ -36,6 +36,7 @@ public class AprvAdminController {
 	AprvLineService ls;
 	@Autowired
 	ApprovalService ap;
+	
 
 	//관리자페이지
 	@GetMapping("/aprvAdmin")
@@ -75,4 +76,6 @@ public class AprvAdminController {
 
 	}
 
+	
+	
 }

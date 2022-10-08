@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.project.mapper.ProjectMapper;
+import co.up.tune.prj.vo.PostVO;
 import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.TeamVO;
 
@@ -28,7 +29,8 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 	
 	@Override
-	public List<ReplyVO> myReply(ReplyVO vo) {
-		return map.myReply(vo);
+	public List<PostVO> myPost(PostVO vo) {
+		
+		return map.myPost(vo);
 	}
 }

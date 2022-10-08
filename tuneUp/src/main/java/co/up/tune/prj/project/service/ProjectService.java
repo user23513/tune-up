@@ -9,6 +9,6 @@ import co.up.tune.prj.vo.ProjectVO;
 public interface ProjectService {
 
 	int newProjectInsert(ProjectVO vo); //새 프로젝트 등록
-	List<ReplyVO> myReply(ReplyVO vo);
+	List<PostVO> myPost(PostVO vo);
 	
 }

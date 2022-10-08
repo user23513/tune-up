@@ -7,7 +7,7 @@
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
 <meta id="_csrf_header" name="_csrf_header"
 	th:content="${_csrf.headerName}" />
-<title>Insert title here</title>
+<title>TuneUp - 근태 관리</title>
 
 <script src="/js/jquery-3.6.1.min.js"></script>
 <link rel="stylesheet" type="text/css"
@@ -150,12 +150,12 @@
 					<br>
 
 					<div class="pagetitle">
-						<h1>근태관리</h1>
+						<h1>근태 관리</h1>
 						<nav>
 							<ol class="breadcrumb">
-								<li class="breadcrumb-item ">출퇴근현황</li>
-								<li class="breadcrumb-item active">관리자 페이지</li>
-
+								<li class="breadcrumb-item ">HOME</li>
+								<li class="breadcrumb-item">나의 근태</li>
+								<li class="breadcrumb-item active">근태 관리</li>
 							</ol>
 						</nav>
 					</div>
@@ -284,7 +284,7 @@
 												<td class="dt-body-center"><span th:text="${at.ovtm}"></span>
 													<span th:if="${at.ovtmH != null}"
 													th:text="'('+${at.ovtmH}+'시간)'"></span></td>
-												
+
 												<td class="dt-body-center">
 													<!-- <span
 														th:if="${at.st} == '601'" th:text="'정상'"></span>
@@ -393,8 +393,7 @@
 												<td class="dt-body-center"><span th:text="${ab.ovtm}"></span>
 													<span th:if="${ab.ovtmH != null}"
 													th:text="'('+${ab.ovtmH}+'시간)'"></span></td>
-												<td class="dt-body-center"><span
-													th:text="'비정상'"></span></td>
+												<td class="dt-body-center"><span th:text="'비정상'"></span></td>
 
 												<!-- <td><span th:text="${at.st}"></span></td> -->
 											</tr>
@@ -471,7 +470,7 @@
 												<input type="hidden" id="empNo" name="empNo"
 													th:value="${aup.empNo}"> <input type="hidden"
 													id="atdcDt" name="atdcDt" th:value="${aup.atdcDt}">
-												<td><button id="okBtn">승인</button></td>
+												<td><button id="okBtn" class="btn btn-primary">승인</button></td>
 												<!-- <td><button type="button" id="delete" class="update btn btn-primary">승인</button></td> -->
 											</form>
 
@@ -482,7 +481,7 @@
 												<input type="hidden" id="atdcDt" name="atdcDt"
 													th:value="${aup.atdcDt}"> <input type="hidden"
 													id="st" name="st" th:value="${aup.st}">
-												<td><button id="delBtn">반려</button></td>
+												<td><button id="delBtn" class="btn btn-primary">반려</button></td>
 											</form>
 										</tr>
 									</tbody>

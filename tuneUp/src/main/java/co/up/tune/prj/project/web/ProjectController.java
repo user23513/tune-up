@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.project.service.ProjectService;
 import co.up.tune.prj.propost.service.PropostService;
+import co.up.tune.prj.vo.PostVO;
 import co.up.tune.prj.vo.ProjectVO;
 
 @Controller
@@ -47,13 +48,12 @@ public class ProjectController {
 		return "file/file";
 	}
 	
-	@RequestMapping("/myReply")
-	public String myReply(ReplyVO vo, Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		String empNo = (String) session.getAttribute("empNo");
+	@RequestMapping("/myPost")
+	public String myPost(PostVO vo, Model model, HttpSession session) {
+		String empNo = (String)(session.getAttribute("empNo"));
 		vo.setEmpNo(empNo);
-		model.addAttribute("reply", prjDao.myReply(vo));
-		return "prj/myReply";
+		model.addAttribute("post", prjDao.myPost(vo));
+		return "prj/myPost";
 	}
 
 }

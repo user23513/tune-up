@@ -16,6 +16,8 @@ public class PostVO {
 	 Date dttm;		//작성일시
 	 int atchNo;	//첨부파일 번호
 	 int prjNo;		//프로젝트 번호
+	 
+	 String nm;//게시글이름(조인용)
 
 	 
 

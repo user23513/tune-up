@@ -11,6 +11,8 @@
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
 <script>
 google.charts.load('current', {'packages':['gantt']});
 google.charts.setOnLoadCallback(drawChart);
@@ -63,50 +65,17 @@ $(document).ready(function() {
 	    } else {
 	       element.setAttribute("hidden", "hidden");
 	    } 
-	//==============댓글==============
-	
-	//댓글 등록 버튼 클릭시
-	$("#rBtn").on("click", e=>{
-		let postNo = $("#postNo").val(); //게시글 번호
-		let postTitle = $("#postTitle").val(); //게시글 제목
-		let cntn = $("#rCntn").val();    //댓글 내용
-		let empNo = $("#empNo").val();   //댓글 쓴 사원번호
-		let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
-		let rList = $("<div>").attr("id", "rList"); 
-		
-		//댓글 등록 처리
-		$.ajax({
-	         url:'ppReplyInsert',
-	         beforeSend:function(xhr){
-	 	  		xhr.setRequestHeader(header,token);  
-	     	  },
-	         type:'post',
-	         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr},
-	         dataType:'json',
-	         success:function(res){
-					let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
-										.append($("<span>").html(res.dttm))
-										.append($("<br>"))
-										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
-										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
-										.append($("<hr>"))
-					$("#rList").prepend(div);
-					
-					$("#rCntn").val("");
-			 
-	         }
-	    })
-	})
 	
 	
 	//=============  할 일  ====================
 	//todo 체크박스 이벤트
-	$('[name="todoCk"]').change(function() {
-		let todoNo = this.closest("td").nextElementSibling.innerText;
-		let postNo = this.closest("tr").lastElementChild.innerText;
-		if ($(this).is(':checked')) {
-			console.log(todoNo + " 체크됨");
+	$('[name="todoCk"]').on("change", e=>{
+		let postNo = $(e.target).closest("div").data("post");
+		let todoNo = $(e.target).closest("div").data("todo");
+		console.log(todoNo +"----");
+		console.log(postNo +"----");
+		if ($(e.target).is(':checked')) {
+			console.log(todoNo + "체크됨");
 			
 			//cmpltYn 값을 Y로 변경
 			$.ajax({
@@ -145,7 +114,7 @@ $(document).ready(function() {
 			})
 		}
 		else {
-			console.log(todoNo + " 체크 해제")
+			console.log(todoNo+ postNo + " 체크 해제")
 			$.ajax({
 				url : "cmpltYnUpdate",
 				beforeSend:function(xhr){
@@ -168,14 +137,17 @@ $(document).ready(function() {
 				}
 			})
 		}
+		
+		
+	
+		
 	});
 })
 </script>
 <style>
-.pagination {
+/* .pagination {
 	margin-left: 300px;
-}
-
+} */
 #ddbt {
 	color: gray;
 }
@@ -198,19 +170,19 @@ $(document).ready(function() {
 .round {
 	display: inline-block;
 	padding: 7px 30px;
-	border: 1px solid #dfdfdf;
-	color: #4e94ba;
+	border: 1px solid #9c91cf;
+	color: #9c91cf;
 	background-color: #ffffff;
 	text-align: center;
 	cursor: pointer;
-	border: solid 1px #4e94ba;
+	border: solid 1px #9c91cf;
 	border-radius: 20px;
 	margin-right: 5px;
 	margin-left: 5px;
 }
 
 .select {
-	background-color: #4e94ba;
+	background-color: #9c91cf;
 	color: #ffffff;
 }
 
@@ -219,11 +191,60 @@ $(document).ready(function() {
 	position: relative;
 	top: 7px;
 }
-
 </style>
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
+		<script>
+	$(document).ready(function() {
+		
+		
+	$('#pst-Table').DataTable({
+		"dom":'lftip',
+		"language": {
+	    "search": ""
+	  	},
+		lengthChange: false,
+		ordering: false,
+		info: false
+	});
+	
+	$('#sch-Table').DataTable({
+		"dom":'lftip',
+		"language": {
+	    "search": ""
+	  	},
+		lengthChange: false,
+		ordering: false,
+		info: false
+	});
+	
+	$('#bss-Table').DataTable({
+		"dom":'lftip',
+		"language": {
+	    "search": ""
+	  	},
+		lengthChange: false,
+		ordering: false,
+		info: false
+	});
+	
+	$('#todo-Table').DataTable({
+		"dom":'lftip',
+		"language": {
+	    "search": ""
+	  	},
+		lengthChange: false,
+		ordering: false,
+		info: false
+	});
+	
+	})
+	
+	</script>
+
+
+
 		<section class="section">
 			<div class="card">
 				<div class="card-body" style="min-height: 800px;">
@@ -242,15 +263,16 @@ $(document).ready(function() {
 						<!-- 관리자 메뉴 -->
 						<div style="display: inline-block; margin: 0 5px; float: right;">
 							<form action="teamList">
-								<input type="hidden" name="prjNo" th:value="${prjNo}">
-								<input type="hidden" name="auth" th:value="${auth}">
-							 <button type="submit" id="authBtn" class="btn btn-outline-primary">관리</button>
+								<input type="hidden" name="prjNo" th:value="${prjNo}"> <input
+									type="hidden" name="auth" th:value="${auth}">
+								<button type="submit" id="authBtn"
+									class="btn btn-outline-primary">관리</button>
 							</form>
 						</div>
 						<div style="display: inline-block; margin: 0 5px; float: right;">
 							<form action="postInsertForm" method="post">
 								<input type="hidden" th:name="${_csrf.parameterName}"
-									   th:value="${_csrf.token}">
+									th:value="${_csrf.token}">
 								<!-- 프로젝트 번호  -->
 								<input type="hidden" id="prjNo" name="prjNo" th:value="${prjNo}">
 								<button type="submit" class="btn btn-outline-primary">글쓰기</button>
@@ -258,477 +280,375 @@ $(document).ready(function() {
 						</div>
 						<br> <br>
 					</div>
-					
+
 					<!-- Default Tabs -->
 					<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
 						<li class="nav-item flex-fill" role="presentation">
 							<button class="nav-link w-100 active" id="home-tab"
-									data-bs-toggle="tab" data-bs-target="#home-justified"
-									type="button" role="tab" aria-controls="home"
-									aria-selected="false">Home</button>
+								data-bs-toggle="tab" data-bs-target="#home-justified"
+								type="button" role="tab" aria-controls="home"
+								aria-selected="false">Home</button>
 						</li>
 						<li class="nav-item flex-fill" role="presentation">
 							<button class="nav-link w-100" id="pst-tab" data-bs-toggle="tab"
-									data-bs-target="#pst" type="button" role="tab"
-									aria-controls="pst" aria-selected="true">글</button>
+								data-bs-target="#pst" type="button" role="tab"
+								aria-controls="pst" aria-selected="false">글</button>
 						</li>
 						<li class="nav-item flex-fill" role="presentation">
 							<button class="nav-link w-100" id="business-tab"
-									data-bs-toggle="tab" data-bs-target="#business" type="button"
-									role="tab" aria-controls="business" aria-selected="false">업무</button>
+								data-bs-toggle="tab" data-bs-target="#business" type="button"
+								role="tab" aria-controls="business" aria-selected="false">업무</button>
 						</li>
 						<li class="nav-item flex-fill" role="presentation">
 							<button class="nav-link w-100" id="schedule-tab"
-									data-bs-toggle="tab" data-bs-target="#schedule" type="button"
-									role="tab" aria-controls="schedule" aria-selected="false">일정</button>
+								data-bs-toggle="tab" data-bs-target="#schedule" type="button"
+								role="tab" aria-controls="schedule" aria-selected="false">일정</button>
 						</li>
 						<li class="nav-item flex-fill" role="presentation">
 							<button class="nav-link w-100" id="todo-tab" data-bs-toggle="tab"
-									data-bs-target="#todo" type="button" role="tab"
-									aria-controls="todo" aria-selected="false">할 일</button>
+								data-bs-target="#todo" type="button" role="tab"
+								aria-controls="todo" aria-selected="false">할 일</button>
 						</li>
 					</ul>
 					<!-- Default Tabs -->
-					
+
 					<div class="tab-content pt-2" id="myTabjustifiedContent">
 						<div class="tab-pane fade show active" id="home-justified"
-						role="tabpanel" aria-labelledby="home-tab">
+							role="tabpanel" aria-labelledby="home-tab">
+
+							<br>
 							<div id="chart_div"></div>
-							<br> <br>
+
 						</div>
-						
-						<br>
-						<!-- Start 간트차트  -->
-						<div id="chart_div"></div>
-						<!-- End 간트차트  -->
-						
+
 						<!-- start 글 목록 -->
 						<div class="tab-pane fade" id="pst" role="tabpanel"
-							 aria-labelledby="pst-tab">
+							aria-labelledby="pst-tab">
 							<!-- Default Card -->
-							<div>
-								<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}">
-								<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
-								<div class="card sc"
-									 style="width: 80%; position: relative; left: 10%; margin-top: 50px;"
-									 th:each="p :${postList}">
-									<div class="card-body">
-										<div class="card-title">
-											<span th:text="${p.wrtr}"></span>
-											<span th:text="${#dates.format(p.dttm, 'yyyy-MM-dd')}"></span>
-											<!-- 드롭다운 아이콘 -->
-											<div class="filter" style="float: right">
-												<a class="icon" href="#" data-bs-toggle="dropdown">
-													<i class="bi bi-three-dots"></i>
-												</a>
-												<!-- 드롭다운 수정삭제 펼치기 -->
-												<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-													<li class="dropdown-header text-start">
-														<i class="bi bi-gear"> settings</i>
-														<button class="dropdown-item" data-bs-toggle="modal"
-																data-bs-target="#staticBackdrop"
-																style="padding: 10px 0 0 0;"
-																th:attr="data-no=${p.postNo}" data-type="글">
-															<i class="ri-edit-2-line"></i>수정
-														</button>
-														<button class="dropdown-item" style="padding: 10px 0 0 0;"
-																th:attr="data-no=${p.postNo}" data-type="글">
-															<i class="ri-delete-bin-line"></i>삭제
-														</button>
-													</li>
-												</ul>
-											</div>
-										</div>
-										
-										<span style="font-size: large;"><h3>[[${p.ttl}]]</h3></span> <hr>
-										<div th:text="${p.cntn}"
-											 style="font-size: medium; min-height: 200px;">
-										</div> <br> <br>
-										<a	th:each="f:${postFiles}"
-											th:if="${f.atchNo}==${p.atchNo}"
-											th:attr="data-path=${f.fPath}"
-											th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}">
-										</a> <br> <br>
-										<div id="rList">
-											<div th:each="r : ${ppReplyList}">
-												<span th:text="${r.wrtr}">작성자</span>&nbsp;
-												<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; <br>
-												<!-- 수정아이콘 -->
-												<span> <i class="ri-edit-2-line update"
-														  th:attr="data-no=${r.replyNo}"
-														  th:if="${session.empNo == pj.empNo}">
-													  </i>
-												</span>&nbsp;
-												<!-- 삭제아이콘 -->
-												<span> <i class="ri-delete-bin-line delete"
-														  th:attr="data-no=${r.replyNo}"
-														  th:if="${session.empNo == pj.empNo}">
-													  </i>
-												</span> <hr>
-											</div>
-										</div>
-										
-										<div class="form-floating mb-3">
-											<textarea class="form-control"
-													  placeholder="Leave a comment here" id="rCntn"
-													  style="height: 100px; resize: none">
-											</textarea>
-											<label for="floatingTextarea">Comments</label>
-										</div>
-										<form id="rupFrm" action="ppReplyInsert" method="post">
-											<input	type="hidden" th:name="${_csrf.parameterName}"
-													th:value="${_csrf.token}">
-											<button id="rBtn" class="btn btn-primary btn-sm"
-													style="float: right" type="button">등록</button>
-										</form>
-										<!-- end 댓글 -->
-									</div>
-								</div>
-								<!-- End Default Card -->
-							</div>
+							<div class="col-xl-12">
+								<input type="hidden" id="empNo" name="empNo"
+									th:value="${session.empNo}"> <input type="hidden"
+									id="wrtr" name="wrtr" th:value="${session.nm}"> <br>
+								<table id="pst-Table" class="display center"
+									style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
+									<thead hidden="hidden">
+										<tr>
+											<th>내용</th>
+										</tr>
+									</thead>
+									<tbody id="psttb" class="list-group">
+										<tr th:each="p :${postList}">
+											<td class="list-group-item">
+												<div class="card sc " style="margin-top: 30px;">
+													<div class="card-body ">
+														<div class="card-title">
+															<span th:text="${p.wrtr}"></span> <span
+																th:text="${#dates.format(p.dttm, 'yyyy-MM-dd')}"></span>
+															<!-- 드롭다운 아이콘 -->
+															<div class="filter" style="float: right">
+																<a class="icon" href="#" data-bs-toggle="dropdown">
+																	<i class="bi bi-three-dots"></i>
+																</a>
+																<!-- 드롭다운 수정삭제 펼치기 -->
+																<ul
+																	class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+																	<li class="dropdown-header text-start"><i
+																		class="bi bi-gear"> settings</i>
+																		<button class="dropdown-item" data-bs-toggle="modal"
+																			data-bs-target="#staticBackdrop"
+																			style="padding: 10px 0 0 0;"
+																			th:attr="data-no=${p.postNo}" data-type="글">
+																			<i class="ri-edit-2-line"></i>수정
+																		</button>
+																		<button class="dropdown-item"
+																			style="padding: 10px 0 0 0;"
+																			th:attr="data-no=${p.postNo}" data-type="글">
+																			<i class="ri-delete-bin-line"></i>삭제
+																		</button></li>
+																</ul>
+															</div>
+														</div>
+														<span style="font-size: large;"><h3>[[${p.ttl}]]</h3></span>
+														<hr>
+														<div th:text="${p.cntn}"
+															style="font-size: medium; "></div>
+														<br> <br> <a th:each="f:${postFiles}"
+															th:if="${f.atchNo}==${p.atchNo}"
+															th:attr="data-path=${f.fPath}"
+															th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}">
+														</a> <br> <br>
+														<div id="rList">
+															<div th:each="r : ${ppReplyList}">
+																<span th:text="${r.wrtr}">작성자</span>&nbsp; <span
+																	th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; <br>
+																<!-- 수정아이콘 -->
+																<span> <i class="ri-edit-2-line update"
+																	th:attr="data-no=${r.replyNo}"
+																	th:if="${session.empNo == pj.empNo}"> </i>
+																</span>&nbsp;
+																<!-- 삭제아이콘 -->
+																<span> <i class="ri-delete-bin-line delete"
+																	th:attr="data-no=${r.replyNo}"
+																	th:if="${session.empNo == pj.empNo}"> </i>
+																</span>
+																<hr>
+															</div>
+														</div>
 							
-							<!-- Start 페이징 -->
-							<nav aria-label="Page navigation example">
-								<ul class="pagination">
-									<li class="page-item">
-										<a class="page-link" href="#" aria-label="Previous">
-											<span aria-hidden="true">&laquo;</span>
-										</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">1</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">2</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#">3</a>
-									</li>
-									<li class="page-item">
-										<a class="page-link" href="#" aria-label="Next">
-											<span aria-hidden="true">&raquo;</span>
-										</a>
-									</li>
-								</ul>
-							</nav>
-							<!-- End 페이징 -->
+													</div>
+												</div> <!-- End Default Card -->
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 						<!-- End 글 목록 -->
-						
+
 						<!-- Start 일정 목록 -->
 						<div class="tab-pane fade" id="schedule" role="tabpanel"
-							 aria-labelledby="schedule-tab">
-							<div class="card sc"
-								 style="width: 80%; position: relative; left: 10%; margin-top: 50px;"
-								 th:each="s,idx : ${scheduleList.getList()}"
-								 th:attr="data-no=${s.postNo}">
-								<div class="card-body">
-									<div class="card-title">
-									<span style="font-size: 16px;"><b>[[${s.wrtr}]]</b></span>
-									<!-- 드롭다운 아이콘 -->
-										<div class="filter" style="float: right">
-											<a class="icon" href="#" data-bs-toggle="dropdown">
-												<i class="bi bi-three-dots"></i>
-											</a>
-											<!-- 드롭다운 수정삭제 펼치기 -->
-											<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-												<li class="dropdown-header text-start">
-													<i class="bi bi-gear"> settings</i>
-													<button class="dropdown-item" style="padding: 10px 0 0 0;"
-															th:attr="data-no=${s.postNo}" data-type="일정">
-														<i class="ri-edit-2-line"></i>수정
-													</button>
-													<button class="dropdown-item" style="padding: 10px 0 0 0;"
-															th:attr="data-no=${s.postNo}" data-type="일정">
-														<i class="ri-delete-bin-line"></i>삭제
-													</button>
-												</li>
-											</ul>
-										</div>
-									</div>
-								<span style="font-size: 22px;"><b>[[${s.ttl}]]</b></span><br>
-								<span>[[${s.sdt}]] - [[${s.edt}]]</span>
-								<hr style="color: gray;">
-								<div>
-									<i class="bi bi-person"></i>
-									<span th:each="m : ${scheduleMember}"
-										  th:if="${s.postNo}==${m.postNo}">[[${m.nm}]]&nbsp;</span> <br> <br>
-									<i class="bi bi-geo-alt"></i>
-									<span th:id="${idx.count}"></span>
-									<div class="map"></div> <br>
-									<div th:text="${s.cntn}"
-										 style="font-size: medium; min-height: 100px; position: relative; left: 20px;"></div>
-								</div>
-								<br>
-								<div class="attendBtn" style="text-align: center;">
-									<button type="button" class="btn btn-outline-success attend">참석</button>
-									<button type="button" class="btn btn-outline-danger attend">불참</button>
-									<button type="button" class="btn btn-outline-secondary attend">미정</button>
-								</div>
-								<br>
-								<div class="form-floating mb-3">
-									<textarea class="form-control"
-											  placeholder="Leave a comment here"
-											  style="height: 100px; resize: none"></textarea>
-									<label for="floatingTextarea">Comments</label>
-								</div>
-								<button class="btn btn-primary btn-sm" style="float: right"
-								type="button">등록</button>
-								
-									<!-- 전체 댓글 -->
-									<div class="rList">
-										<div th:each="r : ${replyList}"
-											 th:if="${s.postNo}==${r.postNo}" th:attr="data-no=${s.empNo}">
-											<span th:text="${r.wrtr}">작성자</span>&nbsp;
-											<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">
-												  작성일시</span><br>
-											<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-											<span>
-												<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
-											</span>&nbsp;
-											<!-- 수정아이콘 -->
-											<span>
-												<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
-											</span>
-											<!-- 삭제아이콘 -->
-											<hr>
-										</div>
-									</div>
-									<!-- 전체 댓글 -->
-									
-								</div>
-							</div>
-							
-							<!-- Start 페이징 -->
-							<nav id="pagenationNav">
-								<ul class="pagination" style="float: none;">
-									<!-- getPrePage : 이전 페이지 -->
-									<li class="page-item"
-										th:classappend="${scheduleList.getPrePage() == 0} ? 'disabled'">
-										<!-- href: /page?pageNum=이전페이지&keyword=검색분류&search=검색어 --> <a
-										class="page-link"
-										th:href=@{/prjPostList(pageNum=${scheduleList.getPrePage()},prjNo=${prjNo})}>Previous</a>
-									</li>
-									<!-- getNavigateFirstPage() : 페이징의 처음 숫자 getNavigateLastPage : 페이징의 마지막 숫자를 이용해 페이징 숫자 출력 -->
-									<!-- href : /page?pageNum=선택한 페이지&keyword=검색분류&search=검색어 -->
-									<li class="page-item"
-										th:each="page: ${#numbers.sequence(scheduleList.getNavigateFirstPage(), scheduleList.getNavigateLastPage())}"
-										th:classappend="${page == scheduleList.getPageNum()} ? 'active'">
-										<a class="page-link" th:text="${page}"
-										th:href=@{/prjPostList(pageNum=${page},prjNo=${prjNo})}></a>
-									</li>
-									<!-- getPrePage : 다음 페이지 -->
-									<li class="page-item"
-										th:classappend="${scheduleList.getNextPage() == 0} ? 'disabled'">
-										<!--  href: /page?pageNum=다음페이지&keyword=검색분류&search=검색어 --> <a
-										class="page-link"
-										th:href=@{/prjPostList(pageNum=${scheduleList.getNextPage()},prjNo=${prjNo})}>Next</a>
-									</li>
-								</ul>
-							</nav>
-							<!-- End 페이징 -->
+							aria-labelledby="schedule-tab">
+							<br>
+							<table id="sch-Table" class="display center"
+								style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
+								<thead hidden="hidden">
+									<tr>
+										<th>내용</th>
+									</tr>
+								</thead>
+								<tbody id="schtb" class="list-group">
+									<tr th:each="s,idx : ${scheduleList.getList()}">
+										<td class="list-group-item">
+											<div class="card sc" style="margin-top: 30px;"
+												th:attr="data-no=${s.postNo}">
+												<div class="card-body">
+													<div class="card-title">
+														<span style="font-size: 16px;"><b>[[${s.wrtr}]]</b></span>
+														<!-- 드롭다운 아이콘 -->
+														<div class="filter" style="float: right">
+															<a class="icon" href="#" data-bs-toggle="dropdown"> <i
+																class="bi bi-three-dots"></i>
+															</a>
+															<!-- 드롭다운 수정삭제 펼치기 -->
+															<ul
+																class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+																<li class="dropdown-header text-start"><i
+																	class="bi bi-gear"> settings</i>
+																	<button class="dropdown-item"
+																		style="padding: 10px 0 0 0;"
+																		th:attr="data-no=${s.postNo}" data-type="일정">
+																		<i class="ri-edit-2-line"></i>수정
+																	</button>
+																	<button class="dropdown-item"
+																		style="padding: 10px 0 0 0;"
+																		th:attr="data-no=${s.postNo}" data-type="일정">
+																		<i class="ri-delete-bin-line"></i>삭제
+																	</button></li>
+															</ul>
+														</div>
+													</div>
+													<span style="font-size: 22px;"><b>[[${s.ttl}]]</b></span><br>
+													<span>[[${s.sdt}]] - [[${s.edt}]]</span>
+													<hr style="color: gray;">
+													<div>
+														<i class="bi bi-person"></i> <span
+															th:each="m : ${scheduleMember}"
+															th:if="${s.postNo}==${m.postNo}">[[${m.nm}]]&nbsp;</span>
+														<br> <br> <i class="bi bi-geo-alt"></i> <span
+															th:id="${idx.count}"></span>
+														<div class="map"></div>
+														<br>
+														<div th:text="${s.cntn}"
+															style="font-size: medium; min-height: 100px; position: relative; left: 20px;"></div>
+													</div>
+													<br>
+													<div class="attendBtn" style="text-align: center;">
+														<button type="button"
+															class="btn btn-outline-success attend">참석</button>
+														<button type="button"
+															class="btn btn-outline-danger attend">불참</button>
+														<button type="button"
+															class="btn btn-outline-secondary attend">미정</button>
+													</div>
+													<br>
+
+													<!-- 전체 댓글 -->
+													<div class="rList">
+														<div th:each="r : ${replyList}"
+															th:if="${s.postNo}==${r.postNo}"
+															th:attr="data-no=${s.empNo}">
+															<span th:text="${r.wrtr}">작성자</span>&nbsp; <span
+																th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">
+																작성일시</span><br> <span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
+															<span> <i class="ri-edit-2-line update"
+																th:attr="data-no=${r.replyNo}"></i>
+															</span>&nbsp;
+															<!-- 수정아이콘 -->
+															<span> <i class="ri-delete-bin-line delete"
+																th:attr="data-no=${r.replyNo}"></i>
+															</span>
+															<!-- 삭제아이콘 -->
+															<hr>
+														</div>
+													</div>
+													<!-- 전체 댓글 -->
+												</div>
+											</div>
+
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 						<!-- End 일정 목록 -->
-						
+
 						<!-- Start 업무 -->
 						<div class="tab-pane fade" id="business" role="tabpanel"
-							 aria-labelledby="business-tab">
-							<div class="card sc"
-								 style="width: 80%; position: relative; left: 10%; margin-top: 50px;"
-								 th:each="b : ${businessList}" th:attr="data-no=${b.postNo}">
-								<div class="card-body">
-									<div class="card-title">
-										<span style="font-size: 16px;"><b>[[${b.wrtr}]]</b></span>
-									<!-- 드롭다운 아이콘 -->
-										<div class="filter" style="float: right">
-											<a class="icon" href="#" data-bs-toggle="dropdown"> <i
-												class="bi bi-three-dots"></i>
-											</a>
-										<!-- 드롭다운 수정삭제 펼치기 -->
-										<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-											<li class="dropdown-header text-start">
-												<i class="bi bi-gear"> settings</i>
-												<button class="dropdown-item" style="padding: 10px 0 0 0;"
-														th:attr="data-no=${b.postNo}" data-type="업무">
-													<i class="ri-edit-2-line"></i>수정
-												</button>
-												<button class="dropdown-item" style="padding: 10px 0 0 0;"
-														th:attr="data-no=${b.postNo}" data-type="업무">
-													<i class="ri-delete-bin-line"></i>삭제
-												</button>
-											</li>
-										</ul>
-										</div>
-									</div>
-									<span style="font-size: 22px;"><b>[[${b.bussTtl}]]</b></span><br>
-									<span>[[${b.sdt}]] - [[${b.edt}]]</span>
-									<hr style="color: gray;">
-									<!-- 상태 -->
-									<span class="round" th:classappend="${b.st} == '요청' ? 'select'">요청</span> 
-									<span class="round" th:classappend="${b.st} == '진행' ? 'select'">진행</span>
-									<span class="round" th:classappend="${b.st} == '완료' ? 'select'">완료</span>
-									<br> <br>
-									<div th:text="${b.cntn}" style="font-size: medium; min-height: 200px; padding: 10px;"></div>
-									<br> <br> 
-									<a th:each="f:${postFiles}" th:if="${f.atchNo}==${b.atchNo}" th:attr="data-path=${f.fPath}"
-										th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a> 
-									<br>
-									
-									<!-- 댓글 -->
-									<br>
-									<div class="form-floating mb-3">
-										<textarea class="form-control" placeholder="Leave a comment here"
-												  style="height: 100px; resize: none"></textarea>
-										<label for="floatingTextarea">Comments</label>
-									</div>
-									<button class="btn btn-primary btn-sm" style="float: right" type="button">등록</button>
-									
-									<!-- 전체 댓글 -->
-									<div class="rList">
-										<div th:each="r : ${replyList}" th:if="${b.postNo}==${r.postNo}">
-											<span th:text="${r.wrtr}">작성자</span>&nbsp;
-											<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
-											<br>
-											<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-											<span>
-												<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
-											</span>&nbsp;
-											<!-- 수정아이콘 -->
-											<span>
-												<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
-											</span>
-											<!-- 삭제아이콘 -->
-											<hr>
-										</div>
-									</div>
-									<!-- 전체 댓글 -->
-								</div>
-							</div>
+							aria-labelledby="business-tab">
+							<br>
+							<table id="bss-Table" class="display center"
+								style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
+								<thead hidden="hidden">
+									<tr>
+										<th>내용</th>
+									</tr>
+								</thead>
+								<tbody id="bsstb" class="list-group">
+									<tr th:each="b : ${businessList}">
+										<td class="list-group-item">
+											<div class="card sc" style="margin-top: 30px;"
+												th:attr="data-no=${b.postNo}">
+												<div class="card-body">
+													<div class="card-title">
+														<span style="font-size: 16px;"><b>[[${b.wrtr}]]</b></span>
+														<!-- 드롭다운 아이콘 -->
+														<div class="filter" style="float: right">
+															<a class="icon" href="#" data-bs-toggle="dropdown"> <i
+																class="bi bi-three-dots"></i>
+															</a>
+															<!-- 드롭다운 수정삭제 펼치기 -->
+															<ul
+																class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+																<li class="dropdown-header text-start"><i
+																	class="bi bi-gear"> settings</i>
+																	<button class="dropdown-item"
+																		style="padding: 10px 0 0 0;"
+																		th:attr="data-no=${b.postNo}" data-type="업무">
+																		<i class="ri-edit-2-line"></i>수정
+																	</button>
+																	<button class="dropdown-item"
+																		style="padding: 10px 0 0 0;"
+																		th:attr="data-no=${b.postNo}" data-type="업무">
+																		<i class="ri-delete-bin-line"></i>삭제
+																	</button></li>
+															</ul>
+														</div>
+													</div>
+													<span style="font-size: 22px;"><b>[[${b.bussTtl}]]</b></span><br>
+													<span>[[${b.sdt}]] - [[${b.edt}]]</span>
+													<hr style="color: gray;">
+													<!-- 상태 -->
+													<span class="round"
+														th:classappend="${b.st} == '요청' ? 'select'">요청</span> <span
+														class="round" th:classappend="${b.st} == '진행' ? 'select'">진행</span>
+													<span class="round"
+														th:classappend="${b.st} == '완료' ? 'select'">완료</span> <br>
+													<br>
+													<div th:text="${b.cntn}"
+														style="font-size: medium; padding: 10px;"></div>
+													<br> <br> <a th:each="f:${postFiles}"
+														th:if="${f.atchNo}==${b.atchNo}"
+														th:attr="data-path=${f.fPath}"
+														th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a>
+													<br>
+											
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 						<!-- End 업무 -->
-						
+
 						<!-- Start 할일 목록 -->
-						<div class="tab-pane fade" id="todo" role="tabpanel" aria-labelledby="todo-tab">
-							<div class="card sc"
-								style="width: 80%; position: relative; left: 10%; margin-top: 50px;"
-								th:each="t :${todoList}">
-							<div class="card-body">
-								<div class="card-title">
-									<span style="font-size: 16px;"><b>[[${t.wrtr}]]</b></span>
-									<!-- 드롭다운 아이콘 -->
-									<div class="filter" style="float: right">
-										<a class="icon" href="#" data-bs-toggle="dropdown">
-											<i class="bi bi-three-dots"></i>
-										</a>
-										<!-- 드롭다운 수정삭제 펼치기 -->
-										<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-											<li class="dropdown-header text-start">
-												<i class="bi bi-gear"> settings</i>
-												<button class="dropdown-item" style="padding: 10px 0 0 0;"
-														th:attr="data-no=${t.postNo}" data-type="할일">
-													<i class="ri-edit-2-line"></i>수정
-												</button>
-												<button class="dropdown-item" style="padding: 10px 0 0 0;"
-														th:attr="data-no=${t.postNo}" data-type="할일">
-													<i class="ri-delete-bin-line"></i>삭제
-												</button>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<span style="font-size: 22px;"><b>[[${t.ttl}]]</b></span><br>
-								<span th:text="${#dates.format(t.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
-								<hr style="color: gray;">
-								<div style="padding: 0 5em;">
-									<div class="card-title">
-										<div class="proFrame">
-											<progress name="proBar" th:value="${t.percent}" max="100" style="width: 100%; height: 30px;"
-														th:text="${t.percent}"></progress>
-											<span name="perc">[[${t.percent}]]%</span>
-										</div>
-									</div>
-									<!-- <div class="progress" style="position: relative;">
-										<div class="progress-bar bg-info" role="progressbar"
-											 th:style="|width:${t.percent}%|" th:attr="aria-valuenow=${t.percent}" aria-valuemin="0"
-											 aria-valuemax="100">[[${t.percent}]]%</div>
-									</div> -->
-								</div>
-								<div style="padding: 1em 5em;">
-									<table class="table table-borderless">
-										<tbody>
-											<tr th:each="detail : ${detailList}" th:if="${t.postNo} == ${detail.postNo}">
-												<td style="width: 10%;">
-													<input  type="checkbox" name="todoCk"
-															th:checked="${detail.cmpltYn=='Y'}?checked"
-															style="width:20px;height:20px;">
-												</td>
-												<td style="display : none;">[[${detail.todoNo}]]</td>
-												<td>[[${detail.cntn}]]</td>
-												<td th:attr="data-yn=${detail.cmpltYn}" style="display : none;">
-													[[${detail.cmpltYn}]]</td>
-												<td style="display : none;">[[${detail.postNo}]]</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-								<br>
-								<div class="form-floating mb-3">
-									<textarea class="form-control" placeholder="Leave a comment here"
-											  style="height: 100px; resize: none"></textarea>
-									<label for="floatingTextarea">Comments</label>
-								</div>
-								<button class="btn btn-primary btn-sm" style="float: right"
-										type="button">등록</button>
-							</div>
-							
-							<!-- 전체 댓글 -->
-							<div class="rList">
-								<div th:each="r : ${replyList}" th:if="${t.postNo}==${r.postNo}">
-									<span th:text="${r.wrtr}">작성자</span>&nbsp;
-									<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span> <br>
-									<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-									<!-- 수정아이콘 -->
-									<span>
-										<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
-									</span>&nbsp;
-									<!-- 삭제아이콘 -->
-									<span>
-										<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
-									</span>
-									<hr>
-								</div>
-							</div>
-							<!-- 전체 댓글 -->
-							
-							</div>
-							<!-- Start 페이징 -->
-							<nav id="pagenationNav">
-								<ul class="pagination" style="float: none;">
-									<!-- getPrePage : 이전 페이지 -->
-									<li class="page-item"
-										th:classappend="${scheduleList.getPrePage() == 0} ? 'disabled'">
-										<!-- href: /page?pageNum=이전페이지&keyword=검색분류&search=검색어 -->
-										<a  class="page-link"
-											th:href=@{/prjPostList(pageNum=${scheduleList.getPrePage()},prjNo=${prjNo})}>Previous</a>
-									</li>
-									<!-- getNavigateFirstPage() : 페이징의 처음 숫자 getNavigateLastPage : 페이징의 마지막 숫자를 이용해 페이징 숫자 출력 -->
-									<!-- href : /page?pageNum=선택한 페이지&keyword=검색분류&search=검색어 -->
-									<li class="page-item"
-										th:each="page: ${#numbers.sequence(scheduleList.getNavigateFirstPage(), scheduleList.getNavigateLastPage())}"
-										th:classappend="${page == scheduleList.getPageNum()} ? 'active'">
-										<a  class="page-link" th:text="${page}"
-											th:href=@{/prjPostList(pageNum=${page},prjNo=${prjNo})}></a>
-									</li>
-									<!-- getPrePage : 다음 페이지 -->
-									<li class="page-item"
-										th:classappend="${scheduleList.getNextPage() == 0} ? 'disabled'">
-										<!--  href: /page?pageNum=다음페이지&keyword=검색분류&search=검색어 --> 
-										<a  class="page-link"
-											th:href=@{/prjPostList(pageNum=${scheduleList.getNextPage()},prjNo=${prjNo})}>Next</a>
-									</li>
-								</ul>
-							</nav>
-							<!-- End 페이징 -->
+						<div class="tab-pane fade" id="todo" role="tabpanel"
+							aria-labelledby="todo-tab">
+							<br>
+							<table id="todo-Table" class="display center"
+								style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
+								<thead hidden="hidden">
+									<tr>
+										<th>내용</th>
+									</tr>
+								</thead>
+								<tbody id="todotb" class="list-group">
+									<tr th:each="t :${todoList}">
+										<td class="list-group-item">
+											<div class="card sc" style="margin-top: 30px;">
+												<div class="card-body">
+													<div class="card-title">
+														<span style="font-size: 16px;"><b>[[${t.wrtr}]]</b></span>
+														<!-- 드롭다운 아이콘 -->
+														<div class="filter" style="float: right">
+															<a class="icon" href="#" data-bs-toggle="dropdown"> <i
+																class="bi bi-three-dots"></i>
+															</a>
+															<!-- 드롭다운 수정삭제 펼치기 -->
+															<ul
+																class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+																<li class="dropdown-header text-start"><i
+																	class="bi bi-gear"> settings</i>
+																	<button class="dropdown-item"
+																		style="padding: 10px 0 0 0;"
+																		th:attr="data-no=${t.postNo}" data-type="할일">
+																		<i class="ri-edit-2-line"></i>수정
+																	</button>
+																	<button class="dropdown-item"
+																		style="padding: 10px 0 0 0;"
+																		th:attr="data-no=${t.postNo}" data-type="할일">
+																		<i class="ri-delete-bin-line"></i>삭제
+																	</button></li>
+															</ul>
+														</div>
+													</div>
+													<span style="font-size: 22px;"><b>[[${t.ttl}]]</b></span><br>
+													<span
+														th:text="${#dates.format(t.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
+													<hr style="color: gray;">
+													<div style="padding: 0 5em;">
+														<div class="card-title">
+															<div class="proFrame">
+																<progress name="proBar" th:value="${t.percent}"
+																	max="100" style="width: 100%; height: 30px;"
+																	th:text="${t.percent}"></progress>
+																<span name="perc">[[${t.percent}]]%</span>
+															</div>
+														</div>
+													</div>
+													<div style="padding: 1em 5em;">
+
+														<ul class="list-group">
+															<li th:each="detail : ${detailList}"
+																th:if="${t.postNo} == ${detail.postNo}"
+																class="list-group-item list-group-item-action">
+																<div th:data-todo="${detail.todoNo}"
+																	th:data-post="${detail.postNo}">
+																	[[${detail.cntn}]] <input type="checkbox" name="todoCk"
+																		th:checked="${detail.cmpltYn=='Y'}?checked"
+																		style="width: 20px; height: 20px; float: right;"
+																		class="form-check-input">
+																</div>
+															</li>
+														</ul>
+													</div>
+													<br>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 						<!-- End 할일 목록 -->
 					</div>
@@ -909,9 +829,10 @@ $(document).ready(function() {
 		})
 	</script>
 
-	<!-- 지도 -->
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8979f5b92eaf5997a6ea3ade6a7e65f1&libraries=services"></script>
-	<script th:inline="javascript">
+		<!-- 지도 -->
+		<script type="text/javascript"
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8979f5b92eaf5997a6ea3ade6a7e65f1&libraries=services"></script>
+		<script th:inline="javascript">
 	let cnt = 0;
 	$("#schedule-tab").on("click", e=>{
 		cnt++;
@@ -974,10 +895,10 @@ $(document).ready(function() {
 	}
 	
 	</script>
-	<!-- 지도 -->
+		<!-- 지도 -->
 
-	<!-- 간트차트 -->
-	<script>
+		<!-- 간트차트 -->
+		<script>
     google.charts.load('current', {'packages':['gantt']});
     google.charts.setOnLoadCallback(drawChart);
 
@@ -1044,9 +965,9 @@ $(document).ready(function() {
 		      })
 	}
 	</script>
-	<!-- 간트차트 -->
+		<!-- 간트차트 -->
 
-	<script>
+		<script>
 	
 	/* $(document).ready(function() {
 	$("#delete").on("click", e=>{

@@ -72,17 +72,7 @@ public class AprvReqController {
 		return "aprv/aprvReq/aprvReq";
 	}
 	
-	// 결재선 추가
-	@PostMapping("/aprvLineIn")
-	public int aprvLineIn(AprvLineVO vo, HttpSession session) {
-		String empNo = (String) session.getAttribute("empNo");
-		String dept = (String) session.getAttribute("dept");
-		vo.setDept(dept);
-		vo.setEmpNo(empNo);
-		
-		return ls.aprvLineIn(vo);
-	}
-	
+
 	//서식 추가
 	@PostMapping("/formIn")
 	public String formIn(FormVO vo, HttpSession session) {

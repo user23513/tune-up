@@ -11,11 +11,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-<style>
-*:focus {
-	outline: 0;
-}
-</style>
+
 </head>
 <body>
 	<!-- ======= Main ======= -->
@@ -113,7 +109,7 @@
 			$("#deptSelect").on("change", e=>{
 				let dept = $(e.target).val();
 				$.ajax({
-					url:'lineDept',
+					url:'aprvLineList',
 					beforeSend:function(xhr){
 				 		xhr.setRequestHeader(header,token);  
 				    },
@@ -129,63 +125,47 @@
 									style="float: right;">삭제</button></li>`;
 					        
 				    			$(".lineList").append(li);
-				    			
+				    			delLine();
 				    			});
-				    			
-		
 				    }
 			    }) 
 			})
 			
-			//결재라인 부서검색
-		$("#deptSelect").on("change", e=>{
-			let dept = $(e.target).val();
-			$.ajax({
-				url:'lineDeptChange',
-				beforeSend:function(xhr){
-			 		xhr.setRequestHeader(header,token);  
-			    },
-			    type:"post",
-			    data:{'dept':dept},
-			    dataType:'json',
-			    success:function(obj){
-			    	$("#multi").html("");
-			    	 $.each (obj, (idx, o)=> {
-				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
-				        	$("#multi").append(option);
-				        	}); 
-			    }
-		    }) 
-		})
-					  
-			//결재선 삭제
-			$(".delLine").on("click", e=>{
-			let no = $(e.target).closest("li").data("no");
-			
-			if (confirm("삭제하시겠습니까?")){
-				$.ajax({
-					url:'lineDel',
-					beforeSend:function(xhr){
-				 		xhr.setRequestHeader(header,token);  
-				    },
-				    type:"post",
-				    data:{'lineNo':no},
-				    dataType:'json',
-				    success:function(obj){
-				    	$(e.target).closest("li").remove();
-				    }
-			    }) 
-			} else {
-				return;
+				delLine();
+				//결재선 삭제
+				function delLine(){
+				$(".delLine").on("click", e=>{
+					let no = $(e.target).closest("li").data("no");
+					
+					if (confirm("삭제하시겠습니까?")){
+						$.ajax({
+							url:'aprvLineDel',
+							beforeSend:function(xhr){
+						 		xhr.setRequestHeader(header,token);  
+						    },
+						    type:"post",
+						    data:{'lineNo':no},
+						    dataType:'json',
+						    success:function(obj){
+						    	$(e.target).closest("li").remove();
+						    }
+					    }) 
+					} else {
+						return;
+					}
+				})
+					
+				
 			}
-		})
+				
+		
 			
 			
 			//글상세
 				$("#aprvtb").on("click", "tr", e=>{
 					let aprvNo = $(e.target).data("no");
 					$.ajax({
-						url:'reqAdView',
+						url:'aprvView',
 						beforeSend:function(xhr){
 					 		xhr.setRequestHeader(header,token);  
 					    },
@@ -207,7 +187,7 @@
 					$("#formtb").on("click", "tr", e=>{
 						let formNo = $(e.target).data("no"); 
 						$.ajax({
-							url:'formAdView',
+							url:'formView',
 							beforeSend:function(xhr){
 						 		xhr.setRequestHeader(header,token);  
 						    },
@@ -243,11 +223,11 @@
 					    data:{'formNo':formNo},
 					    dataType:'json',
 					    success:function(obj){
+					    	
 					    	location.href="aprvAdmin";
 					    }
 				    }) 
-				}
-					
+					}
 				}
 				function rejectAd(){		
 				let aprvNo=$(".rjtBtn").data("no");

@@ -1,5 +1,7 @@
 package co.up.tune.aprv.aprvReq.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,7 @@ import co.up.tune.aprv.vo.FormVO;
 
 /**
  * 전자결재 신청 AjaxController
+ * 
  * @author 윤정은
  * @date 2022.09.22
  * @version 1.2
@@ -20,7 +23,7 @@ public class AjaxAprvReqController {
 
 	@Autowired
 	AprvReqService rs;
-	@Value("${file.dir}") 
+	@Value("${file.dir}")
 	private String fileDir;
 
 	// 문서 상세
@@ -35,8 +38,18 @@ public class AjaxAprvReqController {
 		return rs.formSelect(vo);
 	}
 
-
-
-
+	// 임시 저장
+	@PostMapping("/tempAprv")
+	public int tempAprv(FormVO vo, HttpSession session) {
+		String empNo = (String) session.getAttribute("empNo");
+		String nm = (String) session.getAttribute("nm");
+		
+		vo.setNm(nm);
+		vo.setEmpNo(empNo);
+		vo.setFormAuth("개인");
+		vo.setFormCat("임시저장");
+		
+		return rs.formIn(vo);
+	}
 
 }

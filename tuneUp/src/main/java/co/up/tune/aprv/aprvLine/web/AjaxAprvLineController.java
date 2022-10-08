@@ -27,7 +27,7 @@ public class AjaxAprvLineController {
 		return ls.aprvLineList(vo);
 	}
 
-	// 결재선 조회
+	// 사원 조회
 	@PostMapping("/aprvEmpList")
 	public List<EmpVO> aprvEmpList(EmpVO vo) {
 		return ls.aprvEmpList(vo);

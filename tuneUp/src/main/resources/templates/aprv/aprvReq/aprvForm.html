@@ -5,11 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>TuneUp - 전자결재</title>
-<style>
-*:focus {
-	outline: 0;
-}
-</style>
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
@@ -184,6 +179,43 @@ $(document).ready(function(){
 	        })
 
 		
+	        $("#temp").on("click", e=>{
+	        	
+	        	let content = tinymce.activeEditor.getContent();
+		        let ttl = "[임시저장]" + $("#ttl").val();
+		        $("#cntn").val(content);
+		        
+		        let form = $('#newfrm')[0];  	          
+		        let data = new FormData(form);  	   
+		        
+		        if (content != "" && ttl != ""){
+		        	$.ajax({
+						url:'tempAprv',
+						beforeSend:function(xhr){
+					 		xhr.setRequestHeader(header,token);  
+					    },
+					    type:"post",
+					    data: data,
+					    enctype: 'multipart/form-data', 
+					    processData: false,    
+				        contentType: false,      
+				        cache: false,     
+					    success:function(obj){  
+		        			alert("임시저장 완료되었습니다.")
+					    	
+					    }
+				    }) 
+		        	
+		        	
+		        } else {
+		        	alert("내용을 작성해주세요!");
+		        }
+	        	
+	        	
+	        })
+	        
+	        
+	        
 		
 		});	
 			
@@ -312,9 +344,10 @@ $(document).ready(function(){
 							<div>
 								<button type="button" id="save" class="btn btn-primary"
 									style="float: right;">저장</button>
-								<button type="button" class="btn btn-secondary float-right"
-									data-bs-dismiss="modal"
-									style="float: right; margin-right: 5px;">닫기</button>
+									<button type="button" id="temp" class="btn btn-primary"
+									style="float: right; margin-right: 5px;">임시저장</button>
+								<button type="button" class="btn btn-secondary" onclick="location.href='aprvReq'"
+									style="float: right; margin-right: 5px;" >목록</button>
 							</div>
 						</div>
 					</form>

@@ -181,8 +181,7 @@
 		UPDATE APPROVAL
 		<set>
 			APRV_DTTM = SYSTIMESTAMP,
-			<if test="sign != null and sign != '' ">
-				SIGN=#{sign},
+			<if test="reject == null and reject == ''">
 				APRV_ST = '완료',
 			</if>
 			<if test="reject != null and reject != ''">

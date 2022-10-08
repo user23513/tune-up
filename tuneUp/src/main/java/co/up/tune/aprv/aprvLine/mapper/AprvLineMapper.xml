@@ -12,9 +12,9 @@
 			A.APRV_DTTM, 
 			A.APRV_ST, 
 			A.REJECT, 
-			A.APRV_SEQ, 
-			E.SIGN, 
-			E.NM
+			A.APRV_SEQ,  
+			E.NM,
+			E.SIGN
 	FROM APPROVAL A, EMP E
 	WHERE A.APRVR = E.EMP_NO
 			AND A.APRV_NO = #{aprvNo}

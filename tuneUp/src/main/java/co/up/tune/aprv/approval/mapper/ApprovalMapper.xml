@@ -304,7 +304,7 @@
 	<update id="signUp" 
 		parameterType="co.up.tune.emp.vo.EmpVO">
 		UPDATE EMP
-		   set SIGN = #{sign}
+		   SET SIGN = #{sign}
 		 WHERE EMP_NO = #{empNo}
 	</update>
 	
@@ -317,6 +317,15 @@
 		FROM EMP
 		WHERE EMP_NO = #{empNo}
 	</select>
+	
+	<update id="trustUp" parameterType="co.up.tune.aprv.vo.TrustVO">
+		UPDATE TRUST
+		SET
+		RPTT = #{rptt},
+		RPTT_NM = #{rpttNm}
+		WHERE = TRUST_NO = #{trustNo}
+	</update>
+	
 	
 
 </mapper>

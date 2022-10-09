@@ -110,7 +110,7 @@ $(document).ready(function(){
 		$("#deptSelect").on("change", e=>{
 			let dept = $(e.target).val();
 			$.ajax({
-				url:'lineDeptChange',
+				url:'aprvLineList',
 				beforeSend:function(xhr){
 			 		xhr.setRequestHeader(header,token);  
 			    },

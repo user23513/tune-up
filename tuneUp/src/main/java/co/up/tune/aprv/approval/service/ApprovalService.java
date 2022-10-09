@@ -39,5 +39,8 @@ public interface ApprovalService {
 
 	// 서명인 조회
 	EmpVO signSelect(EmpVO vo);
-
+	
+	// 수임자 변경
+	int trustUp(TrustVO vo);
+	
 }

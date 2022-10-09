@@ -7,6 +7,7 @@
 		SELECT *
 		FROM NOTE
 		WHERE R_EMP_NO=#{empNo}
+		AND KEEP='N'
 		ORDER BY NOTE_NO DESC
 	</select>
 	
@@ -15,13 +16,17 @@
 		SELECT *
 		FROM NOTE
 		WHERE S_EMP_NO=#{empNo}
+		AND KEEP='N'
 		ORDER BY NOTE_NO DESC
 	</select>
 	
-	<select id="kNoteList" resultType="co.up.tune.com.vo.NoteVO">
-		select * from note
-		where keep = 'Y'
-		order by note_No
+	<!-- 쪽지 보관 리스트 -->
+	<select id="kNoteList" resultType="co.up.tune.com.vo.NoteVO" parameterType="string">
+		SELECT * 
+		FROM NOTE
+		WHERE KEEP='Y' 
+		AND (S_EMP_NO=#{empNo})
+		ORDER BY NOTE_NO DESC
 	</select>
 	
 	<!-- 쪽지 보내기 -->
@@ -39,12 +44,22 @@
 	<select id="noteCount" parameterType="co.up.tune.com.vo.NoteVO" resultType="integer">
 		SELECT COUNT(*)
 		FROM NOTE
-		WHERE R_EMP_NO=#{rEmpNo}
+		WHERE S_EMP_NO=#{rEmpNo}
 	</select>
 	
 	<!-- 쪽지 삭제 -->
 	<delete id="noteDelete" parameterType="co.up.tune.com.vo.NoteVO">
 		DELETE FROM NOTE
-		WHERE NOTE_NO=#{noteNo}
+		WHERE NOTE_NO in 
+		<foreach collection="noteNoList" item="no" open="(" separator="," close=")">
+			#{no}
+		</foreach>
 	</delete>
+	
+	<!-- 쪽지 보관 -->
+	<update id="noteKeep" parameterType="co.up.tune.com.vo.NoteVO">
+		UPDATE NOTE
+		SET KEEP = 'Y'
+		WHERE NOTE_NO = #{noteNo}
+	</update>
 </mapper>

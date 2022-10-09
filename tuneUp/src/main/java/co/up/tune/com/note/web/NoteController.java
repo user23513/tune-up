@@ -39,22 +39,45 @@ public class NoteController {
 		
 		PageInfo<NoteVO> rNoteList = new PageInfo<>(dao.rNoteList(empNo, pageNum),10);
 		PageInfo<NoteVO> sNoteList = new PageInfo<>(dao.sNoteList(empNo, pageNum),10);
+		PageInfo<NoteVO> kNoteList = new PageInfo<>(dao.kNoteList(empNo, pageNum),10);
 		
 		model.addAttribute("sList", sNoteList); //보낸쪽지
 		model.addAttribute("rList", rNoteList); //받는 쪽지
-		model.addAttribute("k", dao.kNoteList());
+		model.addAttribute("kList", kNoteList); //보관함
 		return "com/note/noteHome";
 	}
 	
 	//받는쪽지 페이징 ajax
 	@ResponseBody
-	@GetMapping("/ajaxNoteHome")
-	public PageInfo<NoteVO> ajaxNoteHome(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, HttpSession session, Model model) {
+	@GetMapping("/ajaxRNoteList")
+	public PageInfo<NoteVO> ajaxRNoteList(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, HttpSession session, Model model) {
 		String empNo = (String)session.getAttribute("empNo");
 		
 		PageInfo<NoteVO> rNoteList = new PageInfo<>(dao.rNoteList(empNo, pageNum),10);
 		
 		return rNoteList;
+	}
+	
+	//보낸쪽지 페이징 ajax
+	@ResponseBody
+	@GetMapping("/ajaxSNoteList")
+	public PageInfo<NoteVO> ajaxSNoteList(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, HttpSession session, Model model) {
+		String empNo = (String)session.getAttribute("empNo");
+		
+		PageInfo<NoteVO> sNoteList = new PageInfo<>(dao.sNoteList(empNo, pageNum),10);
+		
+		return sNoteList;
+	}
+	
+	//보관함 페이징 ajax
+	@ResponseBody
+	@GetMapping("/ajaxKNoteList")
+	public PageInfo<NoteVO> ajaxKNoteList(@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, HttpSession session, Model model) {
+		String empNo = (String)session.getAttribute("empNo");
+		
+		PageInfo<NoteVO> kNoteList = new PageInfo<>(dao.kNoteList(empNo, pageNum),10);
+		
+		return kNoteList;
 	}
 	
 	//쪽지 쓰기 팝업창
@@ -101,5 +124,12 @@ public class NoteController {
 	@PostMapping("/noteDelete")
 	public int noteDelete(NoteVO vo) {
 		return dao.noteDelete(vo);
+	}
+	
+	//쪽지 보관
+	@ResponseBody
+	@PostMapping("/noteKeep")
+	public int noteKeep(NoteVO vo) {
+		return dao.noteKeep(vo);
 	}
 }

@@ -21,4 +21,5 @@ public class NoteVO {
 	 
 	 String[] sEmpNoList; //받는사람들 사번
 	 int sendConut; //쪽지 보냈을때 받는 int
+	 int[] noteNoList;//삭제할 쪽지번호
 }

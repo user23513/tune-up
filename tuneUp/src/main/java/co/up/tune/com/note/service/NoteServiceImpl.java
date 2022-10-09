@@ -33,8 +33,9 @@ public class NoteServiceImpl implements NoteService {
 	}
 
 	@Override
-	public List<NoteVO> kNoteList() {
-		return map.kNoteList();
+	public Page<NoteVO> kNoteList(String empNo, int pageNo) {
+		PageHelper.startPage(pageNo, 10);
+		return map.kNoteList(empNo);
 	}
 
 	@Override
@@ -79,6 +80,12 @@ public class NoteServiceImpl implements NoteService {
 	@Override
 	public int noteCount(NoteVO vo) {
 		return map.noteCount(vo);
+	}
+
+	//쪽지 보관
+	@Override
+	public int noteKeep(NoteVO vo) {
+		return map.noteKeep(vo);
 	}
 
 }

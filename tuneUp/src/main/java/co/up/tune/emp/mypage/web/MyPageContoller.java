@@ -104,7 +104,7 @@ public class MyPageContoller {
 
 	// 프로필 업데이트+사진
 	@RequestMapping("/profileUpdate")
-	public String profileUpdate(EmpVO vo, Model model, 
+	public String profileUpdate(EmpVO vo, Model model, HttpSession session,  
 			                    @RequestParam("file") MultipartFile[] files)
 			throws IllegalStateException, IOException {
 		
@@ -114,6 +114,8 @@ public class MyPageContoller {
 			String folder = "profile";
 			list = fdao.fileUpload(files, folder);
 			vo.setPic(list.get(0).getFPath());
+			
+			session.setAttribute("pic", vo.getPic());
 		}
 
 		if (dao.profileUpdate(vo) != 0) {

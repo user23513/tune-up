@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +23,7 @@ public class FileService {
 		
 		for(MultipartFile file:files) {
 			FilesVO vo = new FilesVO();
+			
 			//원래 파일 이름 추출
 			String origName = file.getOriginalFilename();
 			

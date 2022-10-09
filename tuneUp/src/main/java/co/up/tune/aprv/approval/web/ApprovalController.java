@@ -11,6 +11,7 @@ import co.up.tune.aprv.approval.service.ApprovalService;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
 import co.up.tune.aprv.vo.TrustVO;
 import co.up.tune.common.service.CommonService;
+import co.up.tune.emp.vo.EmpVO;
 
 /**
 * 전자결재 승인 Controller
@@ -45,6 +46,10 @@ public class ApprovalController {
 		model.addAttribute("trust", ap.trustList(vo));
 		// 내가 위임 받은 사항이 있는지 확인
 		model.addAttribute("rptt", ap.trustCheck(vo));
+		// 나의 서명 조회
+		EmpVO emp = new EmpVO();
+		emp.setEmpNo(empNo);
+		model.addAttribute("sign", ap.signSelect(emp));
 		
 		// 부서조회
 		model.addAttribute("dept", ls.aprvDeptList());

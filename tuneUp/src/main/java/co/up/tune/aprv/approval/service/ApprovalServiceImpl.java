@@ -66,4 +66,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 		return map.signSelect(vo);
 	}
 
+	@Override
+	public int trustUp(TrustVO vo) {
+		return map.trustUp(vo);
+	}
+
 }

@@ -342,7 +342,7 @@
 				<li class="nav-item dropdown pe-3"><a
 					class="nav-link nav-profile d-flex align-items-center pe-0"
 					href="#" data-bs-toggle="dropdown"> <img
-						th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
+						th:src="${session.pic} == null ? 'assets/img/default_profile.png' : @{/attach(path=${session.pic})} "
 						alt="Profile" class="rounded-circle"> <span
 						class="d-none d-md-block dropdown-toggle ps-2">내프로필</span>
 				</a> <!-- 마이페이지 프로필 아이콘 눌렀을때-->
@@ -401,7 +401,7 @@
 				<div
 					class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 					<img
-						th:src="${session.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
+						th:src="${session.pic} == null ? 'assets/img/default_profile.png' : @{/attach(path=${session.pic})} "
 						alt="Profile" class="rounded-circle">
 					<div style="position: relative; left: -8px;">
 						<i id="prev" class="bi bi-caret-left-fill"

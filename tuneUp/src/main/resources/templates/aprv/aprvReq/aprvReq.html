@@ -535,8 +535,9 @@
 										<div class="card-body">
 											<br>
 											<h5 class="card-title">결재서식목록</h5>
-											<p class="card-text">결재문서 서식입니다. 서식을 클릭하시면 해당 양식으로 간편하게
-												작성할 수 있습니다.</p>
+											<p class="card-text">
+												나의 결재문서 서식입니다. <br> 서식을 클릭하시면 해당 양식으로 문서를 작성할 수 있습니다.
+											</p>
 											<button type="button" id="newBtn" class="btn btn-primary"
 												data-bs-toggle="modal" data-bs-target="#newModal">
 												<i class="ri-star-fill"> 새로운 서식 작성</i>
@@ -713,8 +714,8 @@
 						<div id="tnv" class=".txtA"></div>
 					</div>
 					<div class="modal-footer" id="viewFoot"></div>
-					<span class="badge bg-dark"><i class="bi bi-folder me-1"
-						id="savePdf"></i>PDF</span>
+					<span class="badge bg-primary" id="savePdf"><i
+						class="bi bi-folder me-1"></i>PDF</span>
 				</div>
 			</div>
 		</div>
@@ -731,8 +732,8 @@
 							aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="nCntn">
-						<form id="newfrm" class="row g-3" method="post"
-							action="formIn" enctype="multipart/form-data">
+						<form id="newfrm" class="row g-3" method="post" action="formIn"
+							enctype="multipart/form-data">
 							<input type="hidden" th:name="${_csrf.parameterName}"
 								th:value="${_csrf.token}">
 

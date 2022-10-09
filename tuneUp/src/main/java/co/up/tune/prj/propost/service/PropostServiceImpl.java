@@ -14,6 +14,7 @@ import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
+import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.ScheduleVO;
 import co.up.tune.prj.vo.TeamVO;
 
@@ -151,6 +152,11 @@ public class PropostServiceImpl implements PropostService {
 		vo.setPrjNo(prjNo);
 		
 		return map.isAuth(vo) > 0;
+	}
+
+	@Override
+	public ProjectVO projectSel(ProjectVO vo) {
+		return map.projectSel(vo);
 	}
 	
 	 

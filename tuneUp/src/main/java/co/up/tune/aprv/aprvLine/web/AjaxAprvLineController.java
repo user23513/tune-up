@@ -1,6 +1,9 @@
 package co.up.tune.aprv.aprvLine.web;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +13,7 @@ import co.up.tune.emp.vo.EmpVO;
 
 /**
  * 전자결재 결재라인 AjaxController
+ * 
  * @author 윤정은
  * @date 2022.09.30
  * @version 1.1
@@ -40,5 +44,7 @@ public class AjaxAprvLineController {
 		return ls.aprvLineDel(vo);
 
 	}
+
 	
+
 }

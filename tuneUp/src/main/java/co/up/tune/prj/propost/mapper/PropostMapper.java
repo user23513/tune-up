@@ -11,6 +11,7 @@ import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
+import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.ScheduleVO;
 import co.up.tune.prj.vo.TeamVO;
 
@@ -42,5 +43,8 @@ public interface PropostMapper {
 //	FilesVO filesSelect(FilesVO fvo); //파일 단건
 //	int filesInsert(FilesVO fvo); //파일등록
 //	int filesDelete(FilesVO fvo); //파일삭제
+	
+	//정은 프로젝트정보+ 
+	ProjectVO projectSel(ProjectVO vo);
 	
 }

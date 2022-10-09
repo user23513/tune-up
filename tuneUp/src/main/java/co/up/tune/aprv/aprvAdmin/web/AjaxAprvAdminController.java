@@ -7,7 +7,6 @@ import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
 import co.up.tune.aprv.aprvReq.service.AprvReqService;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
-import co.up.tune.aprv.vo.FormVO;
 
 /**
  * 전자결재 관리 AjaxController
@@ -37,11 +36,6 @@ public class AjaxAprvAdminController {
 		return as.aprvAdReject(vo);
 	}
 	
-	//서식 강제삭제
-	@PostMapping("/formAdDel")
-	public int formAdDel(FormVO vo) {
-		
-		return rs.formDel(vo);
-	}
+	
 
 }

@@ -223,4 +223,14 @@
 	<select id="isAuth" parameterType="co.up.tune.prj.vo.TeamVO" resultType="integer">
 		select count(*) from team where prj_no = #{prjNo} and emp_no = #{empNo}	and auth = '팀장'
 	</select>
+	
+	<select id="projectSel" 
+		parameterType="co.up.tune.prj.vo.ProjectVO" 
+		resultType="co.up.tune.prj.vo.ProjectVO">
+		SELECT *
+		FROM PROJECT
+		WHERE PRJ_NO = #{prjNo}
+	</select>
+	
+	
 </mapper>

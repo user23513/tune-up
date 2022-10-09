@@ -20,7 +20,7 @@ public class AprvLineController {
 
 	@Autowired
 	AprvLineService ls;
-	
+
 	// 결재선 추가
 	@PostMapping("/aprvLineIn")
 	public String aprvLineIn(AprvLineVO vo, HttpSession session) {
@@ -29,8 +29,6 @@ public class AprvLineController {
 		vo.setDept(dept);
 		vo.setEmpNo(empNo);
 
-		ls.aprvLineIn(vo);
-		
 		return "redirect:aprvReq";
 	}
 

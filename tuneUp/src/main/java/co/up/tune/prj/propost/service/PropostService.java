@@ -8,6 +8,7 @@ import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
+import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.ScheduleVO;
 
 public interface PropostService {
@@ -39,5 +40,7 @@ public interface PropostService {
 	
 	//관리버튼 관리자 권한 체크
 	boolean isAuth(String empNo, int prjNo);
- 
+	
+	//정은 프로젝트정보+ 
+	ProjectVO projectSel(ProjectVO vo);
 }

@@ -30,6 +30,7 @@ import co.up.tune.prj.todo.service.TodoDetailService;
 import co.up.tune.prj.todo.service.TodoService;
 import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.PostVO;
+import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.ScheduleVO;
 import co.up.tune.prj.vo.TodoVO;
 
@@ -109,6 +110,11 @@ public class PropostController {
 		 */
 		model.addAttribute("isAuth", dao.isAuth(empNo, prjNo));
 		
+		//프로젝트 상세정보 10.09 정은 추가
+		ProjectVO prjD = new ProjectVO();
+		prjD.setPrjNo(prjNo);
+		model.addAttribute("prjDetail", dao.projectSel(prjD));
+	
 		return "prj/post/prjPostList";
 	}
 	

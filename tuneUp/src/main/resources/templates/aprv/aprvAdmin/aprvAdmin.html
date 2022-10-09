@@ -18,7 +18,7 @@
 	<main id="main" class="main" layout:fragment="content">
 
 		<script>
-			loading(); //로딩화면
+			loading(); //로딩화면마스크
 			function loading(load) {
 	 			LoadingWithMask("/assets/img/load.gif");
 	  			setTimeout("closeLoadingWithMask()", 500);
@@ -76,7 +76,7 @@
 			}
 			
 			
-			//상태카테고리변경		       
+			//신청상태변경		       
 			$("#reqAdBtns").on("click", "button", e=>{
 								let reqSt = $(e.target).data("st"); 	
 								localStorage.setItem('reqAdBtn', reqSt)
@@ -90,7 +90,7 @@
 		    	$('[data-st="'+reqAdBtn+'"]').addClass("btn-primary");
 		    	localStorage.removeItem("reqAdBtn");
 			}
-			
+			//서식카테고리변경
 			$("#formAdBtns").on("click", "button", e=>{
 								let formCat = $(e.target).data("cat"); 
 								localStorage.setItem('formAdBtn', formCat)
@@ -105,7 +105,7 @@
 		    	localStorage.removeItem("formAdBtn");
 			}
 			
-			//결재라인 부서검색
+			//결재라인 사원검색
 			$("#deptSelect").on("change", e=>{
 				let dept = $(e.target).val();
 				$.ajax({
@@ -154,13 +154,9 @@
 						return;
 					}
 				})
-					
-				
 			}
 				
-		
-			
-			
+
 			//글상세
 				$("#aprvtb").on("click", "tr", e=>{
 					let aprvNo = $(e.target).data("no");
@@ -184,8 +180,9 @@
 					        }
 					    }) 
 					})
-					$("#formtb").on("click", "tr", e=>{
-						let formNo = $(e.target).data("no"); 
+			//서식상세
+				$("#formtb").on("click", "tr", e=>{
+						let formNo = $(e.target).data("frm"); 
 						$.ajax({
 							url:'formView',
 							beforeSend:function(xhr){
@@ -206,16 +203,14 @@
 						        }
 						    }) 
 						})
-			
-					
 			});
 			
 			//강제 삭제 반려
 			function delForm(){		
-				let formNo=$(".delBtn").data("no");
+				let formNo = $(".delFormBtn").data("no");
 				if(confirm("정말 삭제하시겠습니까?")){
 					$.ajax({
-						url:'formAdDel',
+						url:'formDel',
 						beforeSend:function(xhr){
 					 		xhr.setRequestHeader(header,token);  
 					    },
@@ -224,7 +219,10 @@
 					    dataType:'json',
 					    success:function(obj){
 					    	
-					    	location.href="aprvAdmin";
+					    	$("#formtb").find(`[data-frm='${formNo}']`).remove();
+					    	let myModal = bootstrap.Modal.getOrCreateInstance($("#viewModal"));
+					    	myModal.hide();
+					    	
 					    }
 				    }) 
 					}
@@ -445,9 +443,9 @@
 										<tbody id="formtb" class="list-group">
 											<tr th:each="f : ${form}"
 												class="list-group-item list-group-item-action"
-												th:data-no="${f.formNo}">
+												th:data-frm="${f.formNo}">
 												<td class="d-flex justify-content-between align-items-start"
-													th:data-no="${f.formNo}">
+													th:data-frm="${f.formNo}">
 													<div class="ms-2 me-auto">
 														<div class="fw-bold" th:text="${f.ttl}">제목</div>
 														Cras justo odio <small>And some small print.</small>

@@ -127,7 +127,7 @@ $(document).ready(function(){
 		    }) 
 		})						
 	
-		//참조선택
+		//참조인 선택
 		$("#multi").on("click", e=>{
 			let empNo = $(e.target).val();
 			let name = $(e.target).text();
@@ -150,12 +150,13 @@ $(document).ready(function(){
 	
 		})
 		
+		//참조인 비우기
 		$("#referNm").on("click", e=>{
 			$("#referNm").val("");
 			$("#refer").val("");
 		})
 	
-		
+		//문서 전송
 		$("#save").on("click", function() {
 			let content = tinymce.activeEditor.getContent();
 			let ttl = $("#ttl").val();
@@ -178,7 +179,7 @@ $(document).ready(function(){
 	           
 	        })
 
-		
+			// 임시저장
 	        $("#temp").on("click", e=>{
 	        	
 	        	let content = tinymce.activeEditor.getContent();

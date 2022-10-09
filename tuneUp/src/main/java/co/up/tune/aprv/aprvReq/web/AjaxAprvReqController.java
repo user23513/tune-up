@@ -52,4 +52,11 @@ public class AjaxAprvReqController {
 		return rs.formIn(vo);
 	}
 
+	//서식 삭제
+	@PostMapping("/formDel")
+	public int formDel(FormVO vo) {
+			
+	return rs.formDel(vo);
+	}
+	
 }

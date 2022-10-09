@@ -248,39 +248,57 @@ $(document).ready(function() {
 		<section class="section">
 			<div class="card">
 				<div class="card-body" style="min-height: 800px;">
-				<br>
+					<br>
 					<div class="pagetitle">
-						<h1>프로젝트</h1>
+						<h1 th:text="${prjDetail.nm}">프로젝트</h1>
 						<nav>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item active">내 프로젝트</li>
-								
+
 								<li class="breadcrumb-item">내 파일함</li>
 								<li class="breadcrumb-item">내 게시글</li>
 							</ol>
 						</nav>
 					</div>
-					<div class="pagetitle">
-						<!-- 관리자 메뉴 -->
-						<div style="display: inline-block; margin: 0 5px; float: right;">
-							<form action="teamList">
-								<input type="hidden" name="prjNo" th:value="${prjNo}"> <input
-									type="hidden" name="auth" th:value="${auth}">
-								<button type="submit" id="authBtn"
-									class="btn btn-outline-primary">관리</button>
-							</form>
+
+					<br>
+
+					<!-- Card with an image on left -->
+					<div class="card mb-3">
+						<div class="row g-0">
+							<div class="col-md-4">
+								<img src="assets/img/work.jpg" class="img-fluid rounded-start"
+									alt="..." style="width: 350px;">
+							</div>
+							<div class="col-md-8">
+								<div class="card-body">
+									<br> <span class="round" th:text="${prjDetail.st}"></span>
+									<h5 class="card-title" th:text="${prjDetail.cntn}"></h5>
+									<span th:text="|${prjDetail.sdt} ~ ${prjDetail.edt}|"></span>
+									<div
+										style="display: inline-block; margin: 0 5px; float: right;">
+										<form action="teamList">
+											<input type="hidden" name="prjNo" th:value="${prjNo}">
+											<input type="hidden" name="auth" th:value="${auth}">
+											<button type="submit" id="authBtn"
+												class="btn btn-outline-primary">관리</button>
+										</form>
+									</div>
+									<div
+										style="display: inline-block; margin: 0 5px; float: right;">
+										<form action="postInsertForm" method="post">
+											<input type="hidden" th:name="${_csrf.parameterName}"
+												th:value="${_csrf.token}"> <input type="hidden"
+												id="prjNo" name="prjNo" th:value="${prjNo}">
+											<button type="submit" class="btn btn-outline-primary">글쓰기</button>
+										</form>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div style="display: inline-block; margin: 0 5px; float: right;">
-							<form action="postInsertForm" method="post">
-								<input type="hidden" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}">
-								<!-- 프로젝트 번호  -->
-								<input type="hidden" id="prjNo" name="prjNo" th:value="${prjNo}">
-								<button type="submit" class="btn btn-outline-primary">글쓰기</button>
-							</form>
-						</div>
-						<br> <br>
 					</div>
+					<!-- End Card with an image on left -->
+					<br>
 
 					<!-- Default Tabs -->
 					<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
@@ -371,8 +389,7 @@ $(document).ready(function() {
 														</div>
 														<span style="font-size: large;"><h3>[[${p.ttl}]]</h3></span>
 														<hr>
-														<div th:text="${p.cntn}"
-															style="font-size: medium; "></div>
+														<div th:text="${p.cntn}" style="font-size: medium;"></div>
 														<br> <br> <a th:each="f:${postFiles}"
 															th:if="${f.atchNo}==${p.atchNo}"
 															th:attr="data-path=${f.fPath}"
@@ -395,7 +412,7 @@ $(document).ready(function() {
 																<hr>
 															</div>
 														</div>
-							
+
 													</div>
 												</div> <!-- End Default Card -->
 											</td>
@@ -562,7 +579,7 @@ $(document).ready(function() {
 														th:attr="data-path=${f.fPath}"
 														th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a>
 													<br>
-											
+
 												</div>
 											</div>
 										</td>

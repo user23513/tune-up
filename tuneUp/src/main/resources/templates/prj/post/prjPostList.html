@@ -82,7 +82,7 @@ $(document).ready(function() {
 }
 
 .map {
-	width: 700px;
+	width: 70%;
 	height: 300px;
 	position: relative;
 	left: 10px;
@@ -347,8 +347,7 @@ $(document).ready(function() {
 						<!-- End 글 목록 -->
 
 						<!-- Start 일정 목록 -->
-						<div class="tab-pane fade" id="schedule" role="tabpanel"
-							aria-labelledby="schedule-tab">
+						<div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
 							<br>
 							<table id="sch-Table" class="display center"
 								style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
@@ -360,43 +359,44 @@ $(document).ready(function() {
 								<tbody id="schtb" class="list-group">
 									<tr th:each="s,idx : ${scheduleList.getList()}">
 										<td class="list-group-item">
-											<div class="card sc" style="margin-top: 30px;"
-												th:attr="data-no=${s.postNo}">
+											<div class="card sc" style="margin-top: 30px;" th:attr="data-no=${s.postNo}">
 												<div class="card-body">
 													<div class="card-title">
 														<span style="font-size: 16px;"><b>[[${s.wrtr}]]</b></span>
 														<!-- 드롭다운 아이콘 -->
 														<div class="filter" style="float: right">
-															<a class="icon" href="#" data-bs-toggle="dropdown"> <i
-																class="bi bi-three-dots"></i>
+															<a class="icon" href="#" data-bs-toggle="dropdown"> 
+																<i class="bi bi-three-dots"></i>
 															</a>
 															<!-- 드롭다운 수정삭제 펼치기 -->
-															<ul
-																class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-																<li class="dropdown-header text-start"><i
-																	class="bi bi-gear"> settings</i>
-																	<button class="dropdown-item"
-																		style="padding: 10px 0 0 0;"
+															<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+																<li class="dropdown-header text-start">
+																	<i class="bi bi-gear"> settings</i>
+																	<button class="dropdown-item" style="padding: 10px 0 0 0;"
 																		th:attr="data-no=${s.postNo}" data-type="일정">
 																		<i class="ri-edit-2-line"></i>수정
 																	</button>
-																	<button class="dropdown-item"
-																		style="padding: 10px 0 0 0;"
+																	<button class="dropdown-item" style="padding: 10px 0 0 0;"
 																		th:attr="data-no=${s.postNo}" data-type="일정">
 																		<i class="ri-delete-bin-line"></i>삭제
-																	</button></li>
+																	</button>
+																</li>
 															</ul>
 														</div>
 													</div>
-													<span style="font-size: 22px;"><b>[[${s.ttl}]]</b></span><br>
+													<span style="font-size: 22px;">
+														<b>[[${s.ttl}]]</b>
+													</span>
+													<br>
 													<span>[[${s.sdt}]] - [[${s.edt}]]</span>
 													<hr style="color: gray;">
 													<div>
-														<i class="bi bi-person"></i> <span
-															th:each="m : ${scheduleMember}"
-															th:if="${s.postNo}==${m.postNo}">[[${m.nm}]]&nbsp;</span>
-														<br> <br> <i class="bi bi-geo-alt"></i> <span
-															th:id="${idx.count}"></span>
+														<i class="bi bi-person"></i> 
+														<span th:each="m : ${scheduleMember}" th:if="${s.postNo}==${m.postNo}">[[${m.nm}]]&nbsp;</span>
+														<br> 
+														<br> 
+														<i class="bi bi-geo-alt"></i> 
+														<span th:id="${idx.count}"></span>
 														<div class="map"></div>
 														<br>
 														<div th:text="${s.cntn}"
@@ -415,18 +415,18 @@ $(document).ready(function() {
 
 													<!-- 전체 댓글 -->
 													<div class="rList">
-														<div th:each="r : ${replyList}"
-															th:if="${s.postNo}==${r.postNo}"
+														<div th:each="r : ${replyList}" th:if="${s.postNo}==${r.postNo}"
 															th:attr="data-no=${s.empNo}">
-															<span th:text="${r.wrtr}">작성자</span>&nbsp; <span
-																th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">
-																작성일시</span><br> <span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-															<span> <i class="ri-edit-2-line update"
-																th:attr="data-no=${r.replyNo}"></i>
+															<span th:text="${r.wrtr}">작성자</span>&nbsp; 
+															<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
+															<br> 
+															<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
+															<span> 
+																<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
 															</span>&nbsp;
 															<!-- 수정아이콘 -->
-															<span> <i class="ri-delete-bin-line delete"
-																th:attr="data-no=${r.replyNo}"></i>
+															<span> 
+																<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
 															</span>
 															<!-- 삭제아이콘 -->
 															<hr>
@@ -714,7 +714,7 @@ $(document).ready(function() {
 											.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
 											.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
 											.append($("<hr>"))
-						$(e.target).parent().next().next().next().next().append(div);
+						$(e.target).parent().next().next().append(div);
 						$("#rCntn").val("");
 		         	}
 		      	})

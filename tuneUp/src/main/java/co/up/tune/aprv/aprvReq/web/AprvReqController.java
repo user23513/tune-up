@@ -113,7 +113,7 @@ public class AprvReqController {
 
 	//결재문서 입력
 	@PostMapping("/aprvReqIn")
-	public String aprvReqn(AprvVO vo, HttpSession session, @RequestParam("file") MultipartFile[] files)
+	public String aprvReqIn(AprvVO vo, HttpSession session, @RequestParam("file") MultipartFile[] files)
 			throws IllegalStateException, IOException {
 		
 		// 파일 처리

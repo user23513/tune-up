@@ -87,30 +87,17 @@ $(document).ready(function(){
 	$(".lineLi").on("click", e=>{
 		$(".list-group-item-primary").removeClass("list-group-item-primary");
 		$("#aprvr").val(""); 
-		let ap1 = $(e.target).data("ap1");
-		let ap2 = $(e.target).data("ap2");
-		let ap3 = $(e.target).data("ap3");
-		
-		let ap;
-		
-		if (ap3 != undefined){
-			ap = ap1 + ","+ ap2 +","+ap3;
-		} else if (ap2 != undefined ){
-			ap = ap1 + ","+ ap2;
-		} else {
-			ap = ap1;
-		}
-		
-		$("#aprvr").val(ap); 
+		let lineNo = $(e.target).data("no");
+		$("#lineNo").val(lineNo); 
 		$(e.target).addClass("list-group-item-primary");
 		
 	})
 							
-	//부서검색
+	//결재라인 부서검색
 		$("#deptSelect").on("change", e=>{
 			let dept = $(e.target).val();
 			$.ajax({
-				url:'aprvLineList',
+				url:'aprvEmpList',
 				beforeSend:function(xhr){
 			 		xhr.setRequestHeader(header,token);  
 			    },
@@ -125,7 +112,7 @@ $(document).ready(function(){
 				        	}); 
 			    }
 		    }) 
-		})						
+		})				
 	
 		//참조인 선택
 		$("#multi").on("click", e=>{
@@ -138,7 +125,7 @@ $(document).ready(function(){
 				$("#referNm").val(name);
 				$("#refer").val(empNo);
 			} else {
-				val += ", ";
+				val += ",";
 				val += name;
 				$("#referNm").val(val);
 				hval += ",";
@@ -245,7 +232,7 @@ $(document).ready(function(){
 					<!-- End Page Title -->
 					<hr>
 					<form id="newfrm" class="row g-3" method="post"
-						enctype="multipart/form-data" action="aprvInsert">
+						enctype="multipart/form-data" action="aprvReqIn">
 						<input type="hidden" th:name="${_csrf.parameterName}"
 							th:value="${_csrf.token}">
 
@@ -290,21 +277,17 @@ $(document).ready(function(){
 
 							<ol class="list-group list-group-numbered lineList">
 								<li class="list-group-item lineLi" th:each="n : ${line}"
-									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
-									th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+									th:data-no="${n.lineNo}"
 									th:if="${n.nm2} == null and ${n.nm3} == null"
 									th:text="|${n.nm1}|"></li>
 								<li class="list-group-item lineLi" th:each="n : ${line}"
-									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
-									th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+									th:data-no="${n.lineNo}"
 									th:if="${n.nm3} == null and ${n.nm2} != null"
 									th:text="|${n.nm1} → ${n.nm2}|"></li>
 								<li class="list-group-item lineLi" th:each="n : ${line}"
-									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
-									th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+									th:data-no="${n.lineNo}"
 									th:if="${n.nm3} != null"
 									th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></li>
-
 							</ol>
 
 						</div>
@@ -327,13 +310,13 @@ $(document).ready(function(){
 						</div>
 						<div class="col-md-12">
 							<div class="form-floating">
-								<input type="text" class="form-control aprvline" id="referNm"
+								<input type="text" class="form-control aprvline" id="referNm" name="referNm"
 									readonly="readonly"> <label for="referNm">참조인</label>
 							</div>
 						</div>
 
 						<input type="hidden" id="refer" name="refer"> <input
-							type="hidden" id="aprvr" name="aprvr">
+							type="hidden" id="lineNo" name="lineNo">
 
 						<div class="form-floating mb-3">
 							<textarea class="form-control" placeholder="상신의견" id="Etcarea"

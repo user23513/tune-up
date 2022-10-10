@@ -2,6 +2,7 @@ package co.up.tune.aprv.aprvReq.mapper;
 
 import java.util.List;
 import co.up.tune.aprv.vo.AprvVO;
+import co.up.tune.aprv.vo.AprvViewVO;
 import co.up.tune.aprv.vo.FormVO;
 
 /**
@@ -17,7 +18,7 @@ public interface AprvReqMapper {
 	List<AprvVO> aprvReqList(AprvVO vo);
 	
 	// 결재문서 단건 조회
-	AprvVO aprvSelect(AprvVO vo); 
+	AprvViewVO aprvSelect(AprvViewVO vo); 
 
 	// 새로운 문서 작성
 	int aprvReqIn(AprvVO vo);

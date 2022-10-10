@@ -4,16 +4,14 @@
 
 
 <select id="approvalList" 
-	parameterType="co.up.tune.aprv.vo.ApprovalVO" 
-	resultType="co.up.tune.aprv.vo.ApprovalVO">
-	SELECT 
-			A.APRVR, 
-			A.APRV_NO, 
+	parameterType="co.up.tune.aprv.vo.AprvViewVO" 
+	resultType="co.up.tune.aprv.vo.AprvViewVO">
+	SELECT  
 			A.APRV_DTTM, 
 			A.APRV_ST, 
 			A.REJECT, 
 			A.APRV_SEQ,  
-			E.NM,
+			E.NM APRVR_NM,
 			E.SIGN
 	FROM APPROVAL A, EMP E
 	WHERE A.APRVR = E.EMP_NO
@@ -44,9 +42,9 @@
 </insert>
 
 <select id="referList" 
-	parameterType="co.up.tune.aprv.vo.ReferVO" 
-	resultType="co.up.tune.aprv.vo.ReferVO">
-	SELECT *
+	parameterType="co.up.tune.aprv.vo.AprvViewVO" 
+	resultType="co.up.tune.aprv.vo.AprvViewVO">
+	SELECT NM REFER_NM
 	FROM REFER
 	WHERE APRV_NO = #{aprvNo}
 	ORDER BY REFER_NO DESC 
@@ -148,6 +146,13 @@
 	FROM EMP
 	WHERE DEPT IS NOT NULL
 	ORDER BY DEPT ASC
+</select>
+
+<select id="aprvLineSelect" 
+	resultType="co.up.tune.aprv.vo.AprvLineVO">
+	SELECT * 
+	FROM APRV_LINE
+	WHERE LINE_NO = #{lineNo}
 </select>
 
 

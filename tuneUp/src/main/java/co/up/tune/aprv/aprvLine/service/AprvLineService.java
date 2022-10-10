@@ -3,6 +3,7 @@ package co.up.tune.aprv.aprvLine.service;
 import java.util.List;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
+import co.up.tune.aprv.vo.AprvViewVO;
 import co.up.tune.aprv.vo.ReferVO;
 import co.up.tune.emp.vo.EmpVO;
 
@@ -16,13 +17,13 @@ import co.up.tune.emp.vo.EmpVO;
 public interface AprvLineService {
 
 	// 결재문서 결재자 목록
-	List<ApprovalVO> approvalList(ApprovalVO vo);
+	AprvViewVO approvalList(AprvViewVO vo);
 
 	// 결재자 등록
 	int approvalIn(ApprovalVO vo);
 
 	// 결재문서 참조인 목록
-	List<ReferVO> ReferList(ReferVO vo);
+	AprvViewVO ReferList(AprvViewVO vo);
 
 	// 참조인 등록
 	int referIn(ReferVO vo);
@@ -44,5 +45,8 @@ public interface AprvLineService {
 
 	// 결재선 부서목록
 	List<EmpVO> aprvDeptList();
+	
+	// 결재선 단건
+	AprvLineVO aprvLineSelect(AprvLineVO vo);
 	
 }

@@ -209,6 +209,7 @@ input.none {
 textarea.none {
 	resize: none;
 	border: none !important;
+	border-bottom: 1px solid #d9d9d9 !important;
 }
 
 span:hover {
@@ -225,7 +226,7 @@ i.bi-plus-square:hover {
 
 .test_obj input[type="radio"]+span {
 	display: inline-block;
-	padding: 5px 15px;
+	padding: 7px 20px;
 	border: 1px solid #9c91cf;;
 	color: #9c91cf;;
 	background-color: #ffffff;
@@ -404,74 +405,64 @@ function save(){
 								<input type="file" name="file" class="form-control"
 									aria-describedby="inputGroupFileAddon04" aria-label="Upload">
 								<br>
-								<button class="btn btn-primary" type="submit"
-									style="float: right;">글 등록</button>
+								<button class="btn btn-primary w-100" type="submit">글 등록</button>
 							</form>
 						</div>
 						<!-- 글 end -->
 
 						<!-- 업무 -->
-
-						<div class="tab-pane fade" id="business" role="tabpanel"
-							aria-labelledby="business-tab">
-							<form action="businessInsert" method="post"
-								enctype="multipart/form-data">
-								<input type="hidden" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}"> <input type="hidden"
-									name="prjNo" th:value="${prjNo}">
+						<div class="tab-pane fade" id="business" role="tabpanel" aria-labelledby="business-tab" style="padding: 15px;">
+							<form action="businessInsert" method="post" enctype="multipart/form-data">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+								<input type="hidden" name="prjNo" th:value="${prjNo}">
 								<div class="row mb-3">
-									<label for="inputText" class="col-sm-2 col-form-label">Project
-										Name</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" name="bussTtl">
+										<input type="text" class="form-control none" name="bussTtl" placeholder="제목을 입력하세요.">
 									</div>
 								</div>
+								<br>
 								<div class="row mb-3">
-									<label for="inputText" class="col-sm-2 col-form-label">진행상태</label>
 									<div class="col-sm-10">
 										<!--상태 버튼-->
 										<i class="bi bi-arrow-clockwise size"></i>
-										<div
-											style="display: inline-block; width: 80%; margin-left: 10px;">
-											<label class="test_obj"> <input type="radio"
-												name="st" value="요청"> <span>요청</span>
-											</label> &nbsp; <label class="test_obj"> <input type="radio"
-												name="st" value="진행"> <span>진행</span>
-											</label> &nbsp; <label class="test_obj"> <input type="radio"
-												name="st" value="완료"> <span>완료</span>
+										<div style="display: inline-block; width: 80%; margin-left: 10px;">
+											<label class="test_obj"> 
+												<input type="radio" name="st" value="요청"> 
+												<span>요청</span>
+											</label> &nbsp; 
+											<label class="test_obj"> 
+												<input type="radio" name="st" value="진행"> 
+												<span>진행</span>
+											</label> &nbsp; 
+											<label class="test_obj"> 
+												<input type="radio" name="st" value="완료"> 
+												<span>완료</span>
 											</label>
 										</div>
 										<!--상태 버튼-->
 									</div>
 								</div>
-								<div class="row mb-3">
-									<label for="inputDate" class="col-sm-2 col-form-label">시작일</label>
-									<div class="col-sm-10">
-										<input type="date" class="form-control" name="sdt">
-									</div>
+								<br>
+								<div class="col-sm-10">
+									<input type="date" class="form-control none" name="sdt"
+									style="width: 300px"> ~ <input type="date"
+									class="form-control none" name="edt" style="width: 300px">
 								</div>
-								<div class="row mb-3">
-									<label for="inputDate" class="col-sm-2 col-form-label">종료일</label>
-									<div class="col-sm-10">
-										<input type="date" class="form-control" name="edt">
-									</div>
+								<br>
+								<br>
+								<div class="col-sm-10">
+									<h4 style="padding-top: 10px; float: left;">
+										<i class="bi bi-layout-text-sidebar-reverse"></i>
+									</h4>
+									<textarea class="form-control none" style="min-height: 150px; width: 80%; padding-top: 15px;" 
+										name="cntn" placeholder="내용을 입력하세요."></textarea>
 								</div>
-								<div class="row mb-3">
-									<label for="inputPassword" class="col-sm-2 col-form-label">내용</label>
-									<div class="col-sm-10">
-										<textarea class="form-control" style="height: 100px"
-											name="cntn"></textarea>
-									</div>
+								<br>
+								<div class="col-sm-10">
+									<input class="form-control" type="file" name="file">
 								</div>
-								<div class="row mb-3">
-									<label for="inputNumber" class="col-sm-2 col-form-label">FileUpload</label>
-									<div class="col-sm-10">
-										<input class="form-control" type="file" name="file">
-									</div>
-								</div>
-								<div class="col-12">
-									<button class="btn btn-primary w-100" type="submit">프로젝트생성</button>
-								</div>
+								<br>
+								<button class="btn btn-primary w-100" type="submit">업무 등록</button>
 							</form>
 						</div>
 						<!-- 업무 end -->
@@ -480,11 +471,10 @@ function save(){
 						<div class="tab-pane fade" id="schedule" role="tabpanel"
 							aria-labelledby="schedule-tab" style="padding: 15px;">
 							<form id="scheduleFrm" action="scheduleInsert" method="post">
-								<input type="hidden" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}"> <input type="hidden"
-									name="empNo" th:value="${session.empNo}"> <input
-									type="hidden" name="wrtr" th:value=${session.nm}> <input
-									type="hidden" name="prjNo" th:value="${prjNo}">
+								<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+								<input type="hidden" name="empNo" th:value="${session.empNo}"> 
+								<input type="hidden" name="wrtr" th:value=${session.nm}> 
+								<input type="hidden" name="prjNo" th:value="${prjNo}">
 								<div class="row mb-3">
 									<div class="col-sm-10" style="width: 80%">
 										<input type="text" class="form-control none" name="ttl"
@@ -586,11 +576,11 @@ function save(){
 										<i class="bi bi-layout-text-sidebar-reverse"></i>
 									</h4>
 									<textarea class="form-control none"
-										style="min-height: 200px; width: 80%; padding-top: 15px;"
+										style="min-height: 150px; width: 80%; padding-top: 15px;"
 										name="cntn" placeholder="내용을 입력하세요."></textarea>
 								</div>
 								<br>
-								<button class="btn btn-primary" type="submit">일정 등록</button>
+								<button class="btn btn-primary w-100" type="submit">일정 등록</button>
 							</form>
 						</div>
 						<!-- 일정 -->
@@ -638,9 +628,10 @@ function save(){
 								</div>
 								<!-- todo 상세 Insert 끝 -->
 								<br>
-								<div class="col-md-8 col-lg-9">
-									<button id="btn" class="btn btn-primary" type="button"
-										onclick="save()">등록</button>
+								<!-- <div class="col-md-8 col-lg-9"> -->
+								<div>
+									<button id="btn" class="btn btn-primary w-100" type="button"
+										onclick="save()">일정 등록</button>
 								</div>
 							</form>
 						</div>

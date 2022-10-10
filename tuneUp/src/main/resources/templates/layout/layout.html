@@ -121,7 +121,7 @@
   	}
   	
   	//게시글 등록 버튼 눌렀을 때 소켓에 메세지 보내는 함수
-  	$("#noticeBtn").on("click", function(){
+  	/* $("#noticeBtn").on("click", function(){
           let content = tinymce.activeEditor.getContent();
           let title = $("#ttl").val();
           $("#cntn").val(content);
@@ -130,7 +130,7 @@
           if($('#emerg').is(':checked')){
           	socket.send('notice,'+title);
           }
-      });
+      }); */
       
   	//댓글 등록 버튼 클릭 시
   	$(".socket").on("click", e => {

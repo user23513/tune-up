@@ -28,5 +28,10 @@ public interface PrjMngService {
 	
 	TeamVO tmSelect(TeamVO vo);
 	///////////////
+	
+	
+	List<EmpVO> mEmpList(); //모든 사원정보
+	
+	
 	//int addTeam(TeamVO vo);
 }

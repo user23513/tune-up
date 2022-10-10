@@ -172,6 +172,10 @@
 
 									<form id="newPrjFrm" action="teamInsert" method="post">
 										<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+										<input type="hidden" name="empNo" th:value="${empNo}">
+										<input type="hidden" name="prjNo" th:value="${prjNo}">
+										<input type="hidden" name="auth" th:value="${nm}">
+										<input type="hidden" name="auth" th:value="${dept}">
 										<!--프로젝트 팀원 추가-->
 										<div id="rr">
 											<br> <i class="bi bi-person size" style="padding-top: 10px; padding-right: 15px; float: left;"></i>
@@ -191,27 +195,27 @@
 														<li id="depts"><span class="folder">Tune-Up</span>
 															<ul>
 																<li class="closed"><span class="folder">인사팀</span>
-																	<ul th:each="e:${empList}">
+																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='인사'"><span
 																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
 																	</ul></li>
 																<li class="closed"><span class="folder">기획팀</span>
-																	<ul th:each="e:${empList}">
+																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='기획'"><span
 																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
 																	</ul></li>
 																<li class="closed"><span class="folder">영업팀</span>
-																	<ul th:each="e:${empList}">
+																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='영업'"><span
 																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
 																	</ul></li>
 																<li class="closed"><span class="folder">회계팀</span>
-																	<ul th:each="e:${empList}">
+																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='회계'"><span
 																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
 																	</ul></li>
 																<li class="closed"><span class="folder">개발팀</span>
-																	<ul th:each="e:${empList}">
+																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='개발'"><span
 																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
 																	</ul></li>
@@ -223,6 +227,9 @@
 											<!-- 버튼클릭시 뜨는 부분  -->
 										</div>
 										<!-- 프로젝트 팀원 추가 -->
+										
+										
+			
 										<br> <br>
 										<div style="margin-top: 30px;">
 											<button class="btn btn-primary" type="submit">등록</button>
@@ -308,6 +315,10 @@
 			$(e.target).prev().prev().html("");
 			
 		})
+		
+		 
+		
+		
     </script>
 	</main>
 </body>

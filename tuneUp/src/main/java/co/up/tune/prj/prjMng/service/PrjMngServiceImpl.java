@@ -76,6 +76,13 @@ public class PrjMngServiceImpl implements PrjMngService {
 		return map.tmSelect(vo);
 	}
 
+
+	@Override
+	public List<EmpVO> mEmpList() {
+		// TODO Auto-generated method stub
+		return map.mEmpList();
+	}
+
 	 
 
 }

@@ -3,20 +3,20 @@
 <mapper namespace="co.up.tune.aprv.aprvLine.mapper.AprvLineMapper">
 
 
-<select id="approvalList" 
-	parameterType="co.up.tune.aprv.vo.AprvViewVO" 
-	resultType="co.up.tune.aprv.vo.AprvViewVO">
+<select id="aprvrList" 
+	parameterType="co.up.tune.aprv.vo.ApprovalVO" 
+	resultType="co.up.tune.aprv.vo.ApprovalVO">
 	SELECT  
 			A.APRV_DTTM, 
 			A.APRV_ST, 
 			A.REJECT, 
 			A.APRV_SEQ,  
-			E.NM APRVR_NM,
+			E.NM,
 			E.SIGN
 	FROM APPROVAL A, EMP E
 	WHERE A.APRVR = E.EMP_NO
 			AND A.APRV_NO = #{aprvNo}
-	ORDER BY A.APRV_SEQ ASC;
+	ORDER BY A.APRV_SEQ ASC
 </select>
 
 
@@ -34,28 +34,28 @@
 			#{aprvSeq}, 
 			#{nm},
 	<if test="aprvSeq == 1 ">
-			'진행'
+			'진행' )
 	</if>
 	<if test="aprvSeq != 1 " >
-			'대기'
-	</if> )
+			'대기' )
+	</if> 
 </insert>
 
-<select id="referList" 
-	parameterType="co.up.tune.aprv.vo.AprvViewVO" 
-	resultType="co.up.tune.aprv.vo.AprvViewVO">
-	SELECT NM REFER_NM
+<select id="referList"
+	parameterType="co.up.tune.aprv.vo.ReferVO" 
+	resultType="co.up.tune.aprv.vo.ReferVO">
+	SELECT NM
 	FROM REFER
 	WHERE APRV_NO = #{aprvNo}
-	ORDER BY REFER_NO DESC 
+	ORDER BY REFER_NO DESC
 </select>
 
-<insert id="referIn" 
+<insert id="referIn"
 	parameterType="co.up.tune.aprv.vo.ReferVO">
 	<selectKey keyProperty="referNo" order="BEFORE" resultType="int">
 			SELECT NVL(MAX(REFER_NO),0)+1 
 			FROM REFER
-		</selectKey>
+	</selectKey>
 	INSERT INTO REFER
 					(REFER_NO, 
 					APRV_NO, 

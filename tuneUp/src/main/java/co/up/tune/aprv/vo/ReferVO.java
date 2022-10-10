@@ -18,5 +18,7 @@ public class ReferVO {
 	int aprvNo; //결재번호
 	String empNo; //참조인
 	String nm;//참조인이름
+	
+	
 
 }

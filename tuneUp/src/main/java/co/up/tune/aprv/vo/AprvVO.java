@@ -1,11 +1,6 @@
 package co.up.tune.aprv.vo;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import java.sql.Date;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,8 +17,6 @@ public class AprvVO { //전자결재
 	int aprvNo; //결재번호
 	String empNo; //사번
 	String ttl; //제목
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	Date dttm; //작성일시
 	String cntn; //결재내용
 	String fNm;	//파일이름

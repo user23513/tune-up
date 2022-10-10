@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
+import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
+import co.up.tune.aprv.vo.ReferVO;
 import co.up.tune.emp.vo.EmpVO;
 
 /**

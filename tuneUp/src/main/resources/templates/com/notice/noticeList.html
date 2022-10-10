@@ -173,7 +173,8 @@ table.table .avatar {
 						</tr>
 					</tbody>
 				</table>
-				<a id="write" href="noticeInsertForm" class="btn" th:if="${session.mng} == 'board'">글쓰기</a>
+				<a id="write" href="noticeInsertForm" class="btn btn-primary" 
+					th:if="${session.mng} == 'board' or ${#strings.contains(#authentication.principal.authorities, 'ROLE_ADMIN')}">글쓰기</a>
 				<!-- Start 페이징 -->
 				<nav id="pagenationNav">
 				    <ul class="pagination" style="float: none;">
@@ -205,7 +206,6 @@ table.table .avatar {
 		</form>
 	</div>
 	
-	<script src="/js/jquery-3.6.1.min.js"></script>
 	<script>
 	//공지글 상세조회
 	$("#noticeTable").on("click", "tbody>tr", e=>{

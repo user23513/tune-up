@@ -52,13 +52,7 @@ public class TuneUpApplication {
 		return "main/main";
 	}
 	
-	@GetMapping("/aa")
-	public String aa() {return "aa";}
-	
 	@GetMapping("/chat")
 	public String chat() {return "chat";}
-	
-	@GetMapping("/chart")
-	public String chart() {return "chart";}
 	
 }

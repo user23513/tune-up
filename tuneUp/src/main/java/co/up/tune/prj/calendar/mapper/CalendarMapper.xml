@@ -3,13 +3,13 @@
 <mapper namespace="co.up.tune.prj.calendar.mapper.CalendarMapper">
 
 	<select id="CalendarList" resultType="co.up.tune.prj.vo.CalendarVO" parameterType="co.up.tune.prj.vo.CalendarVO">
-		SELECT 0 CAL_NO, CNTN, SDT, EDT, TO_CHAR(PRJ_NO) CAL_TYP, ST COLOR
+		SELECT 0 CAL_NO, CNTN, SDT, EDT, TO_CHAR(PRJ_NO) CAL_TYP, NM
 		FROM PROJECT
 		WHERE PRJ_NO IN (
 		    SELECT PRJ_NO FROM TEAM WHERE EMP_NO=#{empNo}
 		)
 		UNION
-		SELECT CAL_NO, CNTN, SDT, EDT, CAL_TYP, COLOR
+		SELECT CAL_NO, CNTN, SDT, EDT, CAL_TYP, NM
 		FROM CALENDAR
 	</select>
 	
@@ -22,7 +22,7 @@
 			FROM CALENDAR
 		</selectKey>
 		INSERT INTO CALENDAR
-		VALUES(#{calNo}, 999, #{cntn}, #{sdt}, #{edt}, '개인일정', #{color})
+		VALUES(#{calNo}, 999, #{cntn}, #{sdt}, #{edt}, #{calTyp}, #{nm})
 	</insert>
 	
 	<delete id="CalendarDelete" parameterType="co.up.tune.prj.vo.CalendarVO">

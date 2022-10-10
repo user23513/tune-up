@@ -59,6 +59,7 @@ public class NoitceController {
 	public CommunityVO noticeInsert(CommunityVO vo, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
 		//file upload 처리
 		List<FilesVO> list = new ArrayList<>();
+		
 		if(!files[0].isEmpty()) {
 			String folder = "com"; //Temp안에 폴더명
 			list = fdao.fileUpload(files, folder);

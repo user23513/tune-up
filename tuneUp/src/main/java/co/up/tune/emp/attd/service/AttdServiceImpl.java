@@ -320,6 +320,24 @@ public class AttdServiceImpl implements AttdService{
 		return dao.ovtmChart(empNo);
 	}
 
+	@Override
+	public String wkov(String empNo) {
+		// TODO Auto-generated method stub
+		return dao.wkov(empNo);
+	}
+
+	@Override
+	public String totalWktm(String empNo) {
+		// TODO Auto-generated method stub
+		return dao.totalWktm(empNo);
+	}
+
+	@Override
+	public String totalOvtm(String empNo) {
+		// TODO Auto-generated method stub
+		return dao.totalOvtm(empNo);
+	}
+
 
 
 

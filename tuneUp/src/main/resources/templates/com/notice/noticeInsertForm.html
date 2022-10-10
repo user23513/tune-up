@@ -27,7 +27,7 @@
 	resize: none;
 }
 .text-white{
-	background-color: #9c91cf; !important;
+	background-color: #9c91cf !important;
 }
 .card{
 	width: 100%; 
@@ -95,57 +95,26 @@
 				+ ' forecolor backcolor |'
 				+ ' bold italic underline strikethrough |'
 				+ ' alignjustify alignleft aligncenter alignright |'
-				+ ' bullist numlist |' + ' table tabledelete |' + ' link image';
 
-		tinymce
-				.init({
+		tinymce.init({
 					language : "ko_KR", //한글판으로 변경
 					selector : '#cntn',
 					height : 500,
 					menubar : false,
 					plugins : plugins,
 					toolbar : edit_toolbar,
-
-					/*** image upload ***/
-					image_title : true,
-					automatic_uploads : true,
-					file_picker_types : 'image',
-					file_picker_callback : function(cb, value, meta) {
-						var input = document.createElement('input');
-						input.setAttribute('type', 'file');
-						input.setAttribute('accept', 'image/*');
-						input.onchange = function() {
-							var file = this.files[0];
-							var reader = new FileReader();
-							reader.onload = function() {
-								var id = 'blobid' + (new Date()).getTime();
-								var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-								var base64 = reader.result.split(',')[1];
-								var blobInfo = blobCache.create(id, file,
-										base64);
-								blobCache.add(blobInfo);
-
-								cb(blobInfo.blobUri(), {
-									title : file.name
-								});
-							};
-							reader.readAsDataURL(file);
-						};
-						input.click();
-					},
-					/*** image upload ***/
 					content_style : 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
 				});
-
+		
 		//게시글 등록 버튼 눌렀을 때 submit도 하고 소켓에 메세지 보내는 함수
 		$("#noticeBtn").on("click", function() {
 			let formData = new FormData($("#noticeFrm")[0]);
 			formData.append('file', $('input[name=file]')[0].files[0]);
+			
 			//let empNo = [[${session.empNo}]];
 			//let wrtr = [[${session.nm}]];
 			//let emerg = 0;
 			let content = tinymce.activeEditor.getContent();
-			console.log(content)
 			let title = $("#ttl").val();
 			//let file
 			

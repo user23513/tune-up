@@ -209,6 +209,7 @@ input.none {
 textarea.none {
 	resize: none;
 	border: none !important;
+	border-bottom: 1px solid #d9d9d9 !important;
 }
 
 span:hover {
@@ -225,7 +226,7 @@ i.bi-plus-square:hover {
 
 .test_obj input[type="radio"]+span {
 	display: inline-block;
-	padding: 5px 15px;
+	padding: 7px 20px;
 	border: 1px solid #9c91cf;;
 	color: #9c91cf;;
 	background-color: #ffffff;
@@ -246,15 +247,8 @@ i.bi-plus-square:hover {
 </style>
 <link rel="stylesheet" href="/css/jquery.treeview.css" />
 <link rel="stylesheet" href="/css/screen.css" />
-<script>
-$(document).ready(function(){
-	$("#browser").treeview({}); 
-});
-</script>
 <script type="text/javascript">
 $(document).ready(function() {
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
 	let i = 0;
 	//창 시작시 demoDelete 실행
  	let empNo = $("#empNo").val();
@@ -270,6 +264,7 @@ $(document).ready(function() {
         	console.log("DB 삭제 완")
         }
 	})
+	
 	//할일 추가 버튼
 	$("#addTodo").on("click", e=>{
 		let cntn = $("#todoAdd").val(); //할일
@@ -327,591 +322,583 @@ function save(){
 </script>
 </head>
 <body>
-	<main layout:fragment="content">
-		<div class="card" style="min-height: 800px;">
-			<div class="card-body">
-				<br>
-				<div class="pagetitle">
-					<h1>프로젝트</h1>
-					<nav>
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item active">내 프로젝트</li>
+<main layout:fragment="content">
+	<div class="card" style="min-height: 800px;">
+		<div class="card-body">
+			<br>
+			<div class="pagetitle">
+				<h1>프로젝트</h1>
+				<nav>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item active">내 프로젝트</li>
 
-							<li class="breadcrumb-item">내 파일함</li>
-							<li class="breadcrumb-item">내 게시글</li>
-						</ol>
-					</nav>
+						<li class="breadcrumb-item">내 파일함</li>
+						<li class="breadcrumb-item">내 게시글</li>
+					</ol>
+				</nav>
+			</div>
+			<div style="padding: 20px;">
+				<div>
+					<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+
+						<li class="nav-item flex-fill" role="presentation">
+							<button class="nav-link w-100 active" id="pst-tab"
+								data-bs-toggle="tab" data-bs-target="#pst" type="button"
+								role="tab" aria-controls="pst" aria-selected="false">
+								<i class="bi bi-filter-square"></i>&nbsp;&nbsp;타임라인
+							</button>
+						</li>
+						<li class="nav-item flex-fill" role="presentation">
+							<button class="nav-link w-100" id="business-tab"
+								data-bs-toggle="tab" data-bs-target="#business" type="button"
+								role="tab" aria-controls="contact" aria-selected="false">업무</button>
+						</li>
+						<li class="nav-item flex-fill" role="presentation">
+							<button class="nav-link w-100" id="schedule-tab"
+								data-bs-toggle="tab" data-bs-target="#schedule" type="button"
+								role="tab" aria-controls="contact" aria-selected="false">
+								<i class="bi bi-calendar4"></i>&nbsp;&nbsp;일정
+							</button>
+						</li>
+						<li class="nav-item flex-fill" role="presentation">
+							<button class="nav-link w-100" id="todo-tab"
+								data-bs-toggle="tab" data-bs-target="#todo-justified"
+								type="button" role="tab" aria-controls="contact"
+								aria-selected="false">할일</button>
+						</li>
+					</ul>
 				</div>
-				<div style="padding: 20px;">
-					<div>
-						<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
+				<div class="tab-content pt-2" id="myTabjustifiedContent">
 
-							<li class="nav-item flex-fill" role="presentation">
-								<button class="nav-link w-100 active" id="pst-tab"
-									data-bs-toggle="tab" data-bs-target="#pst" type="button"
-									role="tab" aria-controls="pst" aria-selected="false">
-									<i class="bi bi-filter-square"></i>&nbsp;&nbsp;타임라인
-								</button>
-							</li>
-							<li class="nav-item flex-fill" role="presentation">
-								<button class="nav-link w-100" id="business-tab"
-									data-bs-toggle="tab" data-bs-target="#business" type="button"
-									role="tab" aria-controls="contact" aria-selected="false">업무</button>
-							</li>
-							<li class="nav-item flex-fill" role="presentation">
-								<button class="nav-link w-100" id="schedule-tab"
-									data-bs-toggle="tab" data-bs-target="#schedule" type="button"
-									role="tab" aria-controls="contact" aria-selected="false">
-									<i class="bi bi-calendar4"></i>&nbsp;&nbsp;일정
-								</button>
-							</li>
-							<li class="nav-item flex-fill" role="presentation">
-								<button class="nav-link w-100" id="todo-tab"
-									data-bs-toggle="tab" data-bs-target="#todo-justified"
-									type="button" role="tab" aria-controls="contact"
-									aria-selected="false">할일</button>
-							</li>
-						</ul>
+
+					<!-- 글 -->
+					<div class="tab-pane fade show active" id="pst" role="tabpanel"
+						aria-labelledby="pst-tab" style="padding: 15px;">
+						<form id="pstfrm" action="prjPostInsert" method="post"
+							enctype="multipart/form-data">
+							<input type="hidden" th:name="${_csrf.parameterName}"
+								th:value="${_csrf.token}"> <input type="hidden"
+								id="empNo" name="empNo" th:value="${session.empNo}"> <input
+								type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
+							<input type="hidden" name="prjNo" th:value="${prjNo}">
+							<div class="row mb-3">
+								<div class="col-sm-10 padding:10px">
+									<input type="text" class="form-control none" name="ttl"
+										placeholder="제목을 입력하세요." id="prjPostTitle">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-10" id="cntn">
+									<textarea class="form-control none" name="cntn"
+										placeholder="내용을 입력하세요."
+										style="resize: none; min-height: 200px; width: 80%; padding-top: 15px;"
+										id="cntn"></textarea>
+								</div>
+							</div>
+
+							<input type="file" name="file" class="form-control"
+								aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+							<br>
+							<button class="btn btn-primary w-100" type="submit">글 등록</button>
+						</form>
 					</div>
-					<div class="tab-content pt-2" id="myTabjustifiedContent">
+					<!-- 글 end -->
+
+					<!-- 업무 -->
+					<div class="tab-pane fade" id="business" role="tabpanel" aria-labelledby="business-tab" style="padding: 15px;">
+						<form action="businessInsert" method="post" enctype="multipart/form-data">
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+							<input type="hidden" name="prjNo" th:value="${prjNo}">
+							<div class="row mb-3">
+								<div class="col-sm-10">
+									<input type="text" class="form-control none" name="bussTtl" placeholder="제목을 입력하세요.">
+								</div>
+							</div>
+							<br>
+							<div class="row mb-3">
+								<div class="col-sm-10">
+									<!--상태 버튼-->
+									<i class="bi bi-arrow-clockwise size"></i>
+									<div style="display: inline-block; width: 80%; margin-left: 10px;">
+										<label class="test_obj"> 
+											<input type="radio" name="st" value="요청"> 
+											<span>요청</span>
+										</label> &nbsp; 
+										<label class="test_obj"> 
+											<input type="radio" name="st" value="진행"> 
+											<span>진행</span>
+										</label> &nbsp; 
+										<label class="test_obj"> 
+											<input type="radio" name="st" value="완료"> 
+											<span>완료</span>
+										</label>
+									</div>
+									<!--상태 버튼-->
+								</div>
+							</div>
+							<br>
+							<div class="col-sm-10">
+								<input type="date" class="form-control none" name="sdt"
+								style="width: 300px"> ~ <input type="date"
+								class="form-control none" name="edt" style="width: 300px">
+							</div>
+							<br>
+							<br>
+							<div class="col-sm-10">
+								<h4 style="padding-top: 10px; float: left;">
+									<i class="bi bi-layout-text-sidebar-reverse"></i>
+								</h4>
+								<textarea class="form-control none" style="min-height: 150px; width: 80%; padding-top: 15px;" 
+									name="cntn" placeholder="내용을 입력하세요."></textarea>
+							</div>
+							<br>
+							<div class="col-sm-10">
+								<input class="form-control" type="file" name="file">
+							</div>
+							<br>
+							<button class="btn btn-primary w-100" type="submit">업무 등록</button>
+						</form>
+					</div>
+					<!-- 업무 end -->
+
+					<!-- 일정 -->
+					<div class="tab-pane fade" id="schedule" role="tabpanel"
+						aria-labelledby="schedule-tab" style="padding: 15px;">
+						<form id="scheduleFrm" action="scheduleInsert" method="post">
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+							<input type="hidden" name="empNo" th:value="${session.empNo}"> 
+							<input type="hidden" name="wrtr" th:value=${session.nm}> 
+							<input type="hidden" name="prjNo" th:value="${prjNo}">
+							<div class="row mb-3">
+								<div class="col-sm-10" style="width: 80%">
+									<input type="text" class="form-control none" name="ttl"
+										placeholder="제목을 입력하세요.">
+								</div>
+							</div>
+							<br>
+							<div class="col-sm-10">
+								<input type="date" class="form-control none" name="sdt"
+									style="width: 300px"> ~ <input type="date"
+									class="form-control none" name="edt" style="width: 300px">
+							</div>
+
+							<!--프로젝트 팀원 추가-->
+							<div id="rr">
+								<br>
+								<h4
+									style="padding-top: 10px; padding-right: 15px; float: left;">
+									<i class="bi bi-person"></i>
+								</h4>
+								<!-- 추가된 인원 보여주기 -->
+								<div id="hello"></div>
+								&nbsp;
+								<button class="btn btn-outline-secondary" type="button"
+									data-bs-toggle="collapse" data-bs-target="#collapseExample"
+									aria-expanded="false" aria-controls="collapseExample"
+									style="position: relative; top: 10px;">참석자 추가</button>
+
+								<!-- 버튼클릭시 뜨는 부분 -->
+								<div class="collapse" id="collapseExample"
+									style="padding-top: 30px;">
+									<div style="min-height: 200px;">
+										<ul id="browser" class="filetree treeview-gray">
+											<li id="depts"><span class="folder">Tune-Up</span>
+												<ul>
+													<li class="closed"><span class="folder">인사팀</span>
+														<ul th:each="e:${empList}">
+															<li th:if="${e.dept}=='인사'"><span class="file name"
+																th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+														</ul></li>
+													<li class="closed"><span class="folder">기획팀</span>
+														<ul th:each="e:${empList}">
+															<li th:if="${e.dept}=='기획'"><span class="file name"
+																th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+														</ul></li>
+													<li class="closed"><span class="folder">영업팀</span>
+														<ul th:each="e:${empList}">
+															<li th:if="${e.dept}=='영업'"><span class="file name"
+																th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+														</ul></li>
+													<li class="closed"><span class="folder">회계팀</span>
+														<ul th:each="e:${empList}">
+															<li th:if="${e.dept}=='회계'"><span class="file name"
+																th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+														</ul></li>
+													<li class="closed"><span class="folder">개발팀</span>
+														<ul th:each="e:${empList}">
+															<li th:if="${e.dept}=='개발'"><span class="file name"
+																th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+														</ul></li>
+												</ul></li>
+										</ul>
+									</div>
+								</div>
+								<!-- 버튼클릭시 뜨는 부분  -->
+							</div>
+							<!-- 프로젝트 팀원 추가 -->
+
+							<!-- Start 카카오 지도 -->
+							<div style="clear: both;">
+								<br>
+								<h4 style="display: inline-block; padding-top: 20px;">
+									<i class="bi bi-geo-alt"></i>
+								</h4>
+								<input type="text" class="form-control none"
+									style="width: 400px;" id="keyword" name="" value=""
+									placeholder="장소를 입력하세요.">
+							</div>
+							<br>
+							<div class="map_wrap"
+								style="width: 700px; height: 250px; display: none">
+								<div id="map"
+									style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+
+								<div id="menu_wrap" class="bg_white">
+									<ul id="placesList"></ul>
+									<div id="pagination"></div>
+								</div>
+							</div>
+							<br> 선택한 장소: <input type="text" class="none"
+								style="color: blue;" id="result" name="place" value="">
+							<input type="hidden" id="lat" name="latitude" value="">
+							<input type="hidden" id="lon" name="longitude" value="">
+							<!-- End 카카오 지도 -->
+
+							<br> <br>
+							<div class="col-sm-10">
+								<h4 style="padding-top: 10px; float: left;">
+									<i class="bi bi-layout-text-sidebar-reverse"></i>
+								</h4>
+								<textarea class="form-control none"
+									style="min-height: 150px; width: 80%; padding-top: 15px;"
+									name="cntn" placeholder="내용을 입력하세요."></textarea>
+							</div>
+							<br>
+							<button class="btn btn-primary w-100" type="submit">일정 등록</button>
+						</form>
+					</div>
+					<!-- 일정 -->
 
 
-						<!-- 글 -->
-						<div class="tab-pane fade show active" id="pst" role="tabpanel"
-							aria-labelledby="pst-tab" style="padding: 15px;">
-							<form id="pstfrm" action="prjPostInsert" method="post"
-								enctype="multipart/form-data">
+					<!-- 할일 -->
+					<div class="tab-pane fade" id="todo-justified" role="tabpanel"
+						aria-labelledby="todo-tab" style="padding: 15px;">
+						<form id="todoFrm" action="todoInsert" method="post">
+							<div class="row mb-3">
+								<!-- todo insert -->
+								<div class="col-sm-10" style="width: 80%">
+									<input type="text" class="form-control none"
+										style="border-bottom: 1px solid blue;" id="ttl" name="ttl"
+										placeholder="제목을 입력하세요.">
+								</div>
 								<input type="hidden" th:name="${_csrf.parameterName}"
 									th:value="${_csrf.token}"> <input type="hidden"
 									id="empNo" name="empNo" th:value="${session.empNo}"> <input
 									type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
 								<input type="hidden" name="prjNo" th:value="${prjNo}">
-								<div class="row mb-3">
-									<div class="col-sm-10 padding:10px">
-										<input type="text" class="form-control none" name="ttl"
-											placeholder="제목을 입력하세요." id="prjPostTitle">
-									</div>
+							</div>
+							<br>
+
+							<!-- todo 상세 Insert -->
+							<div class="col-sm-10">
+								<div class="input-group mb-3">
+									<input type="text" id="todoAdd" name="todoAdd"
+										class="form-control" placeholder="할 일 입력"
+										aria-label="Recipient's username"
+										aria-describedby="basic-addon2">
+									<button id="addTodo" type="button"
+										class="btn btn-outline-secondary" style="right: auto;">
+										<i class="bi bi-plus-lg"></i>
+									</button>
 								</div>
-								<div class="row mb-3">
-									<div class="col-sm-10" id="cntn">
-										<textarea class="form-control none" name="cntn"
-											placeholder="내용을 입력하세요."
-											style="resize: none; min-height: 200px; width: 80%; padding-top: 15px;"
-											id="cntn"></textarea>
-									</div>
+								<hr>
+								<div>
+									<table class="table table-borderless">
+										<tbody id="tbd">
+										</tbody>
+									</table>
 								</div>
 
-								<input type="file" name="file" class="form-control"
-									aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-								<br>
-								<button class="btn btn-primary" type="submit"
-									style="float: right;">글 등록</button>
-							</form>
-						</div>
-						<!-- 글 end -->
-
-						<!-- 업무 -->
-
-						<div class="tab-pane fade" id="business" role="tabpanel"
-							aria-labelledby="business-tab">
-							<form action="businessInsert" method="post"
-								enctype="multipart/form-data">
-								<input type="hidden" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}"> <input type="hidden"
-									name="prjNo" th:value="${prjNo}">
-								<div class="row mb-3">
-									<label for="inputText" class="col-sm-2 col-form-label">Project
-										Name</label>
-									<div class="col-sm-10">
-										<input type="text" class="form-control" name="bussTtl">
-									</div>
-								</div>
-								<div class="row mb-3">
-									<label for="inputText" class="col-sm-2 col-form-label">진행상태</label>
-									<div class="col-sm-10">
-										<!--상태 버튼-->
-										<i class="bi bi-arrow-clockwise size"></i>
-										<div
-											style="display: inline-block; width: 80%; margin-left: 10px;">
-											<label class="test_obj"> <input type="radio"
-												name="st" value="요청"> <span>요청</span>
-											</label> &nbsp; <label class="test_obj"> <input type="radio"
-												name="st" value="진행"> <span>진행</span>
-											</label> &nbsp; <label class="test_obj"> <input type="radio"
-												name="st" value="완료"> <span>완료</span>
-											</label>
-										</div>
-										<!--상태 버튼-->
-									</div>
-								</div>
-								<div class="row mb-3">
-									<label for="inputDate" class="col-sm-2 col-form-label">시작일</label>
-									<div class="col-sm-10">
-										<input type="date" class="form-control" name="sdt">
-									</div>
-								</div>
-								<div class="row mb-3">
-									<label for="inputDate" class="col-sm-2 col-form-label">종료일</label>
-									<div class="col-sm-10">
-										<input type="date" class="form-control" name="edt">
-									</div>
-								</div>
-								<div class="row mb-3">
-									<label for="inputPassword" class="col-sm-2 col-form-label">내용</label>
-									<div class="col-sm-10">
-										<textarea class="form-control" style="height: 100px"
-											name="cntn"></textarea>
-									</div>
-								</div>
-								<div class="row mb-3">
-									<label for="inputNumber" class="col-sm-2 col-form-label">FileUpload</label>
-									<div class="col-sm-10">
-										<input class="form-control" type="file" name="file">
-									</div>
-								</div>
-								<div class="col-12">
-									<button class="btn btn-primary w-100" type="submit">프로젝트생성</button>
-								</div>
-							</form>
-						</div>
-						<!-- 업무 end -->
-
-						<!-- 일정 -->
-						<div class="tab-pane fade" id="schedule" role="tabpanel"
-							aria-labelledby="schedule-tab" style="padding: 15px;">
-							<form id="scheduleFrm" action="scheduleInsert" method="post">
-								<input type="hidden" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}"> <input type="hidden"
-									name="empNo" th:value="${session.empNo}"> <input
-									type="hidden" name="wrtr" th:value=${session.nm}> <input
-									type="hidden" name="prjNo" th:value="${prjNo}">
-								<div class="row mb-3">
-									<div class="col-sm-10" style="width: 80%">
-										<input type="text" class="form-control none" name="ttl"
-											placeholder="제목을 입력하세요.">
-									</div>
-								</div>
-								<br>
-								<div class="col-sm-10">
-									<input type="date" class="form-control none" name="sdt"
-										style="width: 300px"> ~ <input type="date"
-										class="form-control none" name="edt" style="width: 300px">
-								</div>
-
-								<!--프로젝트 팀원 추가-->
-								<div id="rr">
-									<br>
-									<h4
-										style="padding-top: 10px; padding-right: 15px; float: left;">
-										<i class="bi bi-person"></i>
-									</h4>
-									<!-- 추가된 인원 보여주기 -->
-									<div id="hello"></div>
-									&nbsp;
-									<button class="btn btn-outline-secondary" type="button"
-										data-bs-toggle="collapse" data-bs-target="#collapseExample"
-										aria-expanded="false" aria-controls="collapseExample"
-										style="position: relative; top: 10px;">참석자 추가</button>
-
-									<!-- 버튼클릭시 뜨는 부분 -->
-									<div class="collapse" id="collapseExample"
-										style="padding-top: 30px;">
-										<div style="min-height: 200px;">
-											<ul id="browser" class="filetree treeview-gray">
-												<li id="depts"><span class="folder">Tune-Up</span>
-													<ul>
-														<li class="closed"><span class="folder">인사팀</span>
-															<ul th:each="e:${empList}">
-																<li th:if="${e.dept}=='인사'"><span class="file name"
-																	th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
-															</ul></li>
-														<li class="closed"><span class="folder">기획팀</span>
-															<ul th:each="e:${empList}">
-																<li th:if="${e.dept}=='기획'"><span class="file name"
-																	th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
-															</ul></li>
-														<li class="closed"><span class="folder">영업팀</span>
-															<ul th:each="e:${empList}">
-																<li th:if="${e.dept}=='영업'"><span class="file name"
-																	th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
-															</ul></li>
-														<li class="closed"><span class="folder">회계팀</span>
-															<ul th:each="e:${empList}">
-																<li th:if="${e.dept}=='회계'"><span class="file name"
-																	th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
-															</ul></li>
-														<li class="closed"><span class="folder">개발팀</span>
-															<ul th:each="e:${empList}">
-																<li th:if="${e.dept}=='개발'"><span class="file name"
-																	th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
-															</ul></li>
-													</ul></li>
-											</ul>
-										</div>
-									</div>
-									<!-- 버튼클릭시 뜨는 부분  -->
-								</div>
-								<!-- 프로젝트 팀원 추가 -->
-
-								<!-- Start 카카오 지도 -->
-								<div style="clear: both;">
-									<br>
-									<h4 style="display: inline-block; padding-top: 20px;">
-										<i class="bi bi-geo-alt"></i>
-									</h4>
-									<input type="text" class="form-control none"
-										style="width: 400px;" id="keyword" name="" value=""
-										placeholder="장소를 입력하세요.">
-								</div>
-								<br>
-								<div class="map_wrap"
-									style="width: 700px; height: 250px; display: none">
-									<div id="map"
-										style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
-
-									<div id="menu_wrap" class="bg_white">
-										<ul id="placesList"></ul>
-										<div id="pagination"></div>
-									</div>
-								</div>
-								<br> 선택한 장소: <input type="text" class="none"
-									style="color: blue;" id="result" name="place" value="">
-								<input type="hidden" id="lat" name="latitude" value="">
-								<input type="hidden" id="lon" name="longitude" value="">
-								<!-- End 카카오 지도 -->
-
-								<br> <br>
-								<div class="col-sm-10">
-									<h4 style="padding-top: 10px; float: left;">
-										<i class="bi bi-layout-text-sidebar-reverse"></i>
-									</h4>
-									<textarea class="form-control none"
-										style="min-height: 200px; width: 80%; padding-top: 15px;"
-										name="cntn" placeholder="내용을 입력하세요."></textarea>
-								</div>
-								<br>
-								<button class="btn btn-primary" type="submit">일정 등록</button>
-							</form>
-						</div>
-						<!-- 일정 -->
-
-
-						<!-- 할일 -->
-						<div class="tab-pane fade" id="todo-justified" role="tabpanel"
-							aria-labelledby="todo-tab" style="padding: 15px;">
-							<form id="todoFrm" action="todoInsert" method="post">
-								<div class="row mb-3">
-									<!-- todo insert -->
-									<div class="col-sm-10" style="width: 80%">
-										<input type="text" class="form-control none"
-											style="border-bottom: 1px solid blue;" id="ttl" name="ttl"
-											placeholder="제목을 입력하세요.">
-									</div>
-									<input type="hidden" th:name="${_csrf.parameterName}"
-										th:value="${_csrf.token}"> <input type="hidden"
-										id="empNo" name="empNo" th:value="${session.empNo}"> <input
-										type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
-									<input type="hidden" name="prjNo" th:value="${prjNo}">
-								</div>
-								<br>
-
-								<!-- todo 상세 Insert -->
-								<div class="col-sm-10">
-									<div class="input-group mb-3">
-										<input type="text" id="todoAdd" name="todoAdd"
-											class="form-control" placeholder="할 일 입력"
-											aria-label="Recipient's username"
-											aria-describedby="basic-addon2">
-										<button id="addTodo" type="button"
-											class="btn btn-outline-secondary" style="right: auto;">
-											<i class="bi bi-plus-lg"></i>
-										</button>
-									</div>
-									<hr>
-									<div>
-										<table class="table table-borderless">
-											<tbody id="tbd">
-											</tbody>
-										</table>
-									</div>
-
-								</div>
-								<!-- todo 상세 Insert 끝 -->
-								<br>
-								<div class="col-md-8 col-lg-9">
-									<button id="btn" class="btn btn-primary" type="button"
-										onclick="save()">등록</button>
-								</div>
-							</form>
-						</div>
-
-						<!-- 할일 -->
-
-						<!-- End Default Tabs -->
+							</div>
+							<!-- todo 상세 Insert 끝 -->
+							<br>
+							<!-- <div class="col-md-8 col-lg-9"> -->
+							<div>
+								<button id="btn" class="btn btn-primary w-100" type="button"
+									onclick="save()">일정 등록</button>
+							</div>
+						</form>
 					</div>
+
+					<!-- 할일 -->
+
+					<!-- End Default Tabs -->
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<script
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8979f5b92eaf5997a6ea3ade6a7e65f1&libraries=services"></script>
-		<script src="/js/jquery.cookie.js"></script>
-		<script src="/js/jquery.treeview.js"></script>
-		<script>
-		/* 카카오 지도 자바스크립트 */
-		$("#keyword").on("keyup", e=>{  
-			if(e.keyCode==13) {
-				$(".map_wrap").css("display","block");
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8979f5b92eaf5997a6ea3ade6a7e65f1&libraries=services"></script>
+	<script src="/js/jquery.cookie.js"></script>
+	<script src="/js/jquery.treeview.js"></script>
+	<script>
+	//트리뷰
+	$("#browser").treeview({});
+	
+	/* 카카오 지도 자바스크립트 */
+	$("#keyword").on("keyup", e=>{  
+		if(e.keyCode==13) {
+			$(".map_wrap").css("display","block");
+	
+		// 마커를 담을 배열입니다
+		var markers = [];
 		
-			// 마커를 담을 배열입니다
-			var markers = [];
-			
-			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-			    mapOption = {
-			        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			        level: 1 // 지도의 확대 레벨
-			    };  
-			
-			// 지도를 생성합니다    
-			var map = new kakao.maps.Map(mapContainer, mapOption); 
-			
-			// 장소 검색 객체를 생성합니다
-			var ps = new kakao.maps.services.Places();  
-			
-			// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-			var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-			
-			// 키워드로 장소를 검색합니다
-			searchPlaces();
-			
-			// 키워드 검색을 요청하는 함수입니다
-			function searchPlaces() {
-			
-			    var keyword = document.getElementById('keyword').value;
-			
-			    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-			        alert('키워드를 입력해주세요!');
-			        return false;
-			    }
-			
-			    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-			    ps.keywordSearch( keyword, placesSearchCB); 
-			}
-			
-			// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-			function placesSearchCB(data, status, pagination) {
-			    if (status === kakao.maps.services.Status.OK) {
-			
-			        // 정상적으로 검색이 완료됐으면
-			        // 검색 목록과 마커를 표출합니다
-			        displayPlaces(data);
-			
-			        // 페이지 번호를 표출합니다
-			        displayPagination(pagination);
-			
-			    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-			
-			        alert('검색 결과가 존재하지 않습니다.');
-			        return;
-			
-			    } else if (status === kakao.maps.services.Status.ERROR) {
-			
-			        alert('검색 결과 중 오류가 발생했습니다.');
-			        return;
-			
-			    }
-			}
-			
-			// 검색 결과 목록과 마커를 표출하는 함수입니다
-			function displayPlaces(places) {
-			
-			    var listEl = document.getElementById('placesList'), 
-			    menuEl = document.getElementById('menu_wrap'),
-			    fragment = document.createDocumentFragment(), 
-			    bounds = new kakao.maps.LatLngBounds(), 
-			    listStr = '';
-			    
-			    // 검색 결과 목록에 추가된 항목들을 제거합니다
-			    removeAllChildNods(listEl);
-			
-			    // 지도에 표시되고 있는 마커를 제거합니다
-			    removeMarker();
-			    
-			    for ( var i=0; i<places.length; i++ ) {
-			
-			        // 마커를 생성하고 지도에 표시합니다
-			        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-			            marker = addMarker(placePosition, i), 
-			            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-			            
-			        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-			        // LatLngBounds 객체에 좌표를 추가합니다
-			        bounds.extend(placePosition);
-			            
-			        (function(marker, title) {
-			            kakao.maps.event.addListener(marker, 'click', function() {
-			                displayInfowindow(marker, title);
-			            });
-			
-			            itemEl.onmouseover =  function () {
-			                displayInfowindow(marker, title);
-			            };
-			
-			            itemEl.onmouseout =  function () {
-			                infowindow.close();
-			            };
-			        })(marker, places[i].place_name);
-			
-			        fragment.appendChild(itemEl);
-			    }
-			    
-			    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-			    listEl.appendChild(fragment);
-			    menuEl.scrollTop = 0;
-			
-			    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-			    map.setBounds(bounds);
-			}
-			
-			// 검색결과 항목을 Element로 반환하는 함수입니다
-			function getListItem(index, places) {
-			
-			    var el = document.createElement('li'),
-			    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-			                '<div class="info">' +
-			                '   <h5>' + places.place_name + '</h5>';
-			
-			    if (places.road_address_name) {
-			        itemStr += '    <span>' + places.road_address_name + '</span>' +
-			                    '   <span class="jibun gray cc">' +  places.address_name  + '</span>';
-			    } else {
-			        itemStr += '    <span>' +  places.address_name  + '</span>'; 
-			    }
-			                 
-			      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-			                '</div>';           
-			
-			    el.innerHTML = itemStr;
-			    el.className = 'item';
-			
-			    return el;
-			}
-			
-			// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-			function addMarker(position, idx, title) {
-			    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-			        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-			        imgOptions =  {
-			            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-			            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-			            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-			        },
-			        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-			            marker = new kakao.maps.Marker({
-			            position: position, // 마커의 위치
-			            image: markerImage 
-			        });
-			
-			    marker.setMap(map); // 지도 위에 마커를 표출합니다
-			    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-			    
-			    return marker;
-			}
-			
-			// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-			function removeMarker() {
-			    for ( var i = 0; i < markers.length; i++ ) {
-			        markers[i].setMap(null);
-			    }   
-			    markers = [];
-			}
-			
-			// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-			function displayPagination(pagination) {
-			    var paginationEl = document.getElementById('pagination'),
-			        fragment = document.createDocumentFragment(),
-			        i; 
-			
-			    // 기존에 추가된 페이지번호를 삭제합니다
-			    while (paginationEl.hasChildNodes()) {
-			        paginationEl.removeChild (paginationEl.lastChild);
-			    }
-			
-			    for (i=1; i<=pagination.last; i++) {
-			        var el = document.createElement('a');
-			        el.href = "#";
-			        el.innerHTML = i;
-			
-			        if (i===pagination.current) {
-			            el.className = 'on';
-			        } else {
-			            el.onclick = (function(i) {
-			                return function() {
-			                    pagination.gotoPage(i);
-			                }
-			            })(i);
-			        }
-			
-			        fragment.appendChild(el);
-			    }
-			    paginationEl.appendChild(fragment);
-			}
-			
-			// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-			// 인포윈도우에 장소명을 표시합니다
-			function displayInfowindow(marker, title) {
-				let latitude = marker.getPosition().getLat();
-				let longitude = marker.getPosition().getLng();
-			    var content = `<div style='padding:5px;'>${title}<br><a href='https://map.kakao.com/link/to/${title},${latitude},${longitude}' style='color:blue' target='_blank'>길찾기</a>  <button type='button' class='placeSelect btn btn-secondary'>선택</button></div>`;
-			    	
-			    infowindow.setContent(content);
-			    infowindow.open(map, marker);
-			    
-			    $(".placeSelect").on("click", e=>{
-					$("#result").val(title); //지도에서 선택한 곳 이름
-					$("#lat").val(latitude);
-					$("#lon").val(longitude);
-				})
-			}
-			
-			 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-			function removeAllChildNods(el) {   
-			    while (el.hasChildNodes()) {
-			        el.removeChild (el.lastChild);
-			    }
-			}
-		  }    
-		});
-		</script>
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+		        level: 1 // 지도의 확대 레벨
+		    };  
+		
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+		// 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places();  
+		
+		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
+		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+		
+		// 키워드로 장소를 검색합니다
+		searchPlaces();
+		
+		// 키워드 검색을 요청하는 함수입니다
+		function searchPlaces() {
+		
+		    var keyword = document.getElementById('keyword').value;
+		
+		    if (!keyword.replace(/^\s+|\s+$/g, '')) {
+		        alert('키워드를 입력해주세요!');
+		        return false;
+		    }
+		
+		    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+		    ps.keywordSearch( keyword, placesSearchCB); 
+		}
+		
+		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+		function placesSearchCB(data, status, pagination) {
+		    if (status === kakao.maps.services.Status.OK) {
+		
+		        // 정상적으로 검색이 완료됐으면
+		        // 검색 목록과 마커를 표출합니다
+		        displayPlaces(data);
+		
+		        // 페이지 번호를 표출합니다
+		        displayPagination(pagination);
+		
+		    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+		
+		        alert('검색 결과가 존재하지 않습니다.');
+		        return;
+		
+		    } else if (status === kakao.maps.services.Status.ERROR) {
+		
+		        alert('검색 결과 중 오류가 발생했습니다.');
+		        return;
+		
+		    }
+		}
+		
+		// 검색 결과 목록과 마커를 표출하는 함수입니다
+		function displayPlaces(places) {
+		
+		    var listEl = document.getElementById('placesList'), 
+		    menuEl = document.getElementById('menu_wrap'),
+		    fragment = document.createDocumentFragment(), 
+		    bounds = new kakao.maps.LatLngBounds(), 
+		    listStr = '';
+		    
+		    // 검색 결과 목록에 추가된 항목들을 제거합니다
+		    removeAllChildNods(listEl);
+		
+		    // 지도에 표시되고 있는 마커를 제거합니다
+		    removeMarker();
+		    
+		    for ( var i=0; i<places.length; i++ ) {
+		
+		        // 마커를 생성하고 지도에 표시합니다
+		        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
+		            marker = addMarker(placePosition, i), 
+		            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
+		            
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+		        // LatLngBounds 객체에 좌표를 추가합니다
+		        bounds.extend(placePosition);
+		            
+		        (function(marker, title) {
+		            kakao.maps.event.addListener(marker, 'click', function() {
+		                displayInfowindow(marker, title);
+		            });
+		
+		            itemEl.onmouseover =  function () {
+		                displayInfowindow(marker, title);
+		            };
+		
+		            itemEl.onmouseout =  function () {
+		                infowindow.close();
+		            };
+		        })(marker, places[i].place_name);
+		
+		        fragment.appendChild(itemEl);
+		    }
+		    
+		    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
+		    listEl.appendChild(fragment);
+		    menuEl.scrollTop = 0;
+		
+		    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		    map.setBounds(bounds);
+		}
+		
+		// 검색결과 항목을 Element로 반환하는 함수입니다
+		function getListItem(index, places) {
+		
+		    var el = document.createElement('li'),
+		    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+		                '<div class="info">' +
+		                '   <h5>' + places.place_name + '</h5>';
+		
+		    if (places.road_address_name) {
+		        itemStr += '    <span>' + places.road_address_name + '</span>' +
+		                    '   <span class="jibun gray cc">' +  places.address_name  + '</span>';
+		    } else {
+		        itemStr += '    <span>' +  places.address_name  + '</span>'; 
+		    }
+		                 
+		      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
+		                '</div>';           
+		
+		    el.innerHTML = itemStr;
+		    el.className = 'item';
+		
+		    return el;
+		}
+		
+		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+		function addMarker(position, idx, title) {
+		    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+		        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+		        imgOptions =  {
+		            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+		            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+		            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+		        },
+		        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+		            marker = new kakao.maps.Marker({
+		            position: position, // 마커의 위치
+		            image: markerImage 
+		        });
+		
+		    marker.setMap(map); // 지도 위에 마커를 표출합니다
+		    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+		    
+		    return marker;
+		}
+		
+		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+		function removeMarker() {
+		    for ( var i = 0; i < markers.length; i++ ) {
+		        markers[i].setMap(null);
+		    }   
+		    markers = [];
+		}
+		
+		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
+		function displayPagination(pagination) {
+		    var paginationEl = document.getElementById('pagination'),
+		        fragment = document.createDocumentFragment(),
+		        i; 
+		
+		    // 기존에 추가된 페이지번호를 삭제합니다
+		    while (paginationEl.hasChildNodes()) {
+		        paginationEl.removeChild (paginationEl.lastChild);
+		    }
+		
+		    for (i=1; i<=pagination.last; i++) {
+		        var el = document.createElement('a');
+		        el.href = "#";
+		        el.innerHTML = i;
+		
+		        if (i===pagination.current) {
+		            el.className = 'on';
+		        } else {
+		            el.onclick = (function(i) {
+		                return function() {
+		                    pagination.gotoPage(i);
+		                }
+		            })(i);
+		        }
+		
+		        fragment.appendChild(el);
+		    }
+		    paginationEl.appendChild(fragment);
+		}
+		
+		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
+		// 인포윈도우에 장소명을 표시합니다
+		function displayInfowindow(marker, title) {
+			let latitude = marker.getPosition().getLat();
+			let longitude = marker.getPosition().getLng();
+		    var content = `<div style='padding:5px;'>${title}<br><a href='https://map.kakao.com/link/to/${title},${latitude},${longitude}' style='color:blue' target='_blank'>길찾기</a>  <button type='button' class='placeSelect btn btn-secondary'>선택</button></div>`;
+		    	
+		    infowindow.setContent(content);
+		    infowindow.open(map, marker);
+		    
+		    $(".placeSelect").on("click", e=>{
+				$("#result").val(title); //지도에서 선택한 곳 이름
+				$("#lat").val(latitude);
+				$("#lon").val(longitude);
+			})
+		}
+		
+		 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
+		function removeAllChildNods(el) {   
+		    while (el.hasChildNodes()) {
+		        el.removeChild (el.lastChild);
+		    }
+		}
+	  }    
+	});
+	</script>
 
-		<!-- 일정 -->
-		<script>
-			//추가된 사원 삭제
-			$("#rr").on("click", ".bi-x", e=>{
-				let deleteNo = $(e.target).prev().data("no"); //삭제클릭한 사원의 사원번호
-				$("#scheduleFrm").find("#"+deleteNo+"").remove();
-				$(e.target).parent().remove();
-			})
+	<!-- 일정 -->
+	<script>
+		//추가된 사원 삭제
+		$("#rr").on("click", ".bi-x", e=>{
+			let deleteNo = $(e.target).prev().data("no"); //삭제클릭한 사원의 사원번호
+			$("#scheduleFrm").find("#"+deleteNo+"").remove();
+			$(e.target).parent().remove();
+		})
+		
+		//추가한 사원모두 추가되는 기능 (등록버튼)
+		$("#depts").on("click", ".name", e=>{
+			let empName = $(e.target).text(); //클릭한 사원의 이름
+			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
 			
-			//추가한 사원모두 추가되는 기능 (등록버튼)
-			$("#depts").on("click", ".name", e=>{
-				let empName = $(e.target).text(); //클릭한 사원의 이름
-				let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
-				
-				$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+empNo+"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
-				
-				//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
-				$("#scheduleFrm").append("<input type='hidden' id='"+empNo+"' name='teamEmpNo' value='"+empNo+"'>")
-				
-			})
+			$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+empNo+"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
 			
-			//input창 enter키 누르면 submit되는거 방지
-			$('input[type="text"]').keydown(function() {
-			    if (event.keyCode === 13) {
-			        event.preventDefault();
-			    }
-			});
-		</script>
-	</main>
+			//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
+			$("#scheduleFrm").append("<input type='hidden' id='"+empNo+"' name='teamEmpNo' value='"+empNo+"'>")
+			
+		})
+		
+		//input창 enter키 누르면 submit되는거 방지
+		$('input[type="text"]').keydown(function() {
+		    if (event.keyCode === 13) {
+		        event.preventDefault();
+		    }
+		});
+	</script>
+</main>
 </body>
 </html>

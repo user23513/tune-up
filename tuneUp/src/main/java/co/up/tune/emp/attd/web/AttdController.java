@@ -101,7 +101,7 @@ public class AttdController {
 		HttpSession session =  request.getSession();
 		AttdVO vo = new AttdVO();
 		String empNo = (String)session.getAttribute("empNo");
-		
+		System.out.println("empNo : " + empNo );
 		model.addAttribute("wktmChart", dao.wktmChart(empNo));
 		model.addAttribute("ovtmChart", dao.ovtmChart(empNo));
 		
@@ -110,12 +110,45 @@ public class AttdController {
 		model.addAttribute("checkTime", (dao.checkTime(vo) == null || dao.checkTime(vo).getAtdcDttm() == null) ? null : dao.checkTime(vo).getAtdcDttm());
 		// 퇴근시간을 찍지 않았다면
 		model.addAttribute("checkBTime", (dao.checkBTime(vo) == null || dao.checkBTime(vo).getAfwkDttm() == null) ? null : dao.checkBTime(vo).getAfwkDttm());
+
+		// 총 근무시간
+		String totalWktm = dao.totalWktm(empNo);
+		model.addAttribute("totalWktm", totalWktm);
+		// 총 초과근무
+		String totalOvtm = dao.totalOvtm(empNo);
+		model.addAttribute("totalOvtm", totalOvtm);
 		
+		
+		System.out.println("totalWktm : " + totalWktm + "totalOvtm : " + totalOvtm);
+		// 총 근무시간 + 총 초과근무시간
+		int wkov = Integer.parseInt(totalOvtm) +  Integer.parseInt(totalWktm);
+		model.addAttribute("wkov", wkov);
+		
+
+	
 		return "emp/attd/myAttdList";
 		
 	}
+	 /*
+	 @GetMapping("/wkov")
+	 public String wkov(AttdVO vo, Model model) {
+		 model.addAttribute("wkov", dao.wkov(vo));
+		return "emp/attd/myAttdList";
+	 }
 	 
- 
+	 @GetMapping("/totalWktm")
+	 public String totalWktm(AttdVO vo, Model model) {
+		 model.addAttribute("totalWktm", dao.totalWktm(vo));
+		return "emp/attd/myAttdList";
+	 }
+	 
+	 @GetMapping("/totalOvtm")
+	 public String totalOvtm(AttdVO vo, Model model) {
+		 model.addAttribute("totalOvtm", dao.totalOvtm(vo));
+		return "emp/attd/myAttdList";
+	 }
+	 
+ */
 	// ===================================
 	
 	

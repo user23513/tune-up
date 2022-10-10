@@ -45,31 +45,6 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public List<ReplyVO> replyList() {
-		return map.replyList();
-	}
-
-	@Override
-	public ReplyVO replySelect(ReplyVO vo) {
-		return map.replySelect(vo);
-	}
-
-	@Override
-	public int replyInsert(ReplyVO vo) {
-		return map.replyInsert(vo);
-	}
-
-	@Override
-	public int replyUpdate(ReplyVO vo) {
-		return map.replyUpdate(vo);
-	}
-
-	@Override
-	public int replyDelete(ReplyVO vo) {
-		return map.replyDelete(vo);
-	}
-
-	@Override
 	public int todoPercent(TodoVO vo) {
 		return map.todoPercent(vo);
 	}

@@ -18,7 +18,6 @@ import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.com.vo.SearchVO;
 import co.up.tune.file.service.FileService;
-import co.up.tune.paging.vo.pagingVO;
 
 @Controller
 public class FreeController {

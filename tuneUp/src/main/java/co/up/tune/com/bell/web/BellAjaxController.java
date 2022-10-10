@@ -1,7 +1,6 @@
 package co.up.tune.com.bell.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,11 +13,6 @@ public class BellAjaxController {
 	@Autowired
 	BellService dao;
 	
-//	@PostMapping("/bellList")
-//	public BellVO bellList(BellVO vo) {
-//		return dao.bellList(vo);
-//	}
-
 	@PostMapping("/bellInsert")
 	public String bellInsert(BellVO vo) {
 		dao.bellInsert(vo);

@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header"
-	th:content="${_csrf.headerName}" />
+<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>TuneUp - 자유게시판</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <style>
@@ -35,200 +34,199 @@
 </style>
 </head>
 <body>
-	<main layout:fragment="content">
-		<div class="card">
-			<div class="card-body">
-				<br>
-				<div>
-					<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
-					<input type="hidden" id="receiverNo" name="receiverNo" th:value="${f.empNo}">
-					<table class="table">
-						<tbody>
-							<tr>
-								<td colspan="6" class="textSize" id="postTitle"><b>[[${f.ttl}]]</b></td>
-							</tr>
-							<tr>
-								<th>작성자</th>
-								<td id="receiverNm" th:text="${f.wrtr}"></td>
-								<th>작성일자</th>
-								<td th:text="${f.writeDt}"></td>
-								<th>조회수</th>
-								<td th:text="${f.hit}"></td>
-							</tr>
-							<tr>
-								<td colspan="6" th:utext="${f.cntn}" class=".txtA" style="height: 500px">내용들어가는곳</td>
-							</tr>
-							<tr th:if="${f.fNm != null}">
-								<th style="width: 100px">첨부파일</th>
-								<td colspan="6">
-									<a th:href="|/attach/${f.postNo}|" th:text="${f.fNm}"></a>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+<main layout:fragment="content">
+	<div class="card">
+		<div class="card-body">
+			<br>
+			<div>
+				<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
+				<input type="hidden" id="receiverNo" name="receiverNo" th:value="${f.empNo}">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td colspan="6" class="textSize" id="postTitle"><b>[[${f.ttl}]]</b></td>
+						</tr>
+						<tr>
+							<th>작성자</th>
+							<td id="receiverNm" th:text="${f.wrtr}"></td>
+							<th>작성일자</th>
+							<td th:text="${f.writeDt}"></td>
+							<th>조회수</th>
+							<td th:text="${f.hit}"></td>
+						</tr>
+						<tr>
+							<td colspan="6" th:utext="${f.cntn}" class=".txtA" style="height: 500px">내용들어가는곳</td>
+						</tr>
+						<tr th:if="${f.fNm != null}">
+							<th style="width: 100px">첨부파일</th>
+							<td colspan="6">
+								<a th:href="|/attach/${f.postNo}|" th:text="${f.fNm}"></a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 
-					<!-- start 댓글 -->
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요"> 
-						<span id="rBtn" class="input-group-text socket">등록</span>
-					</div>
-					<!-- 전체 댓글 -->
-					<div id="rList">
-						<div th:each="r : ${replyList}">
-							<span th:text="${r.wrtr}">작성자</span>&nbsp; 
-							<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
-							<br> 
-							<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; 
-							<span>
-								<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == f.empNo}"></i>
-							</span>&nbsp;
-							<!-- 수정아이콘 -->
-							<span> 
-								<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == f.empNo}"></i>
-							</span>
-							<!-- 삭제아이콘 -->
-							<hr>
-						</div>
-					</div>
-					<!-- end 댓글 -->
-
-					<!-- 게시글 버튼 -->
-					<hr>
-					<div>
+				<!-- start 댓글 -->
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" id="rCntn" name="cntn" placeholder="댓글을 입력하세요"> 
+					<span id="rBtn" class="input-group-text socket">등록</span>
+				</div>
+				<!-- 전체 댓글 -->
+				<div id="rList">
+					<div th:each="r : ${replyList}">
+						<span th:text="${r.wrtr}">작성자</span>&nbsp; 
+						<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
+						<br> 
+						<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; 
+						<span>
+							<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == r.empNo}"></i>
+						</span>&nbsp;
+						<!-- 수정아이콘 -->
 						<span> 
-							<a href="freeList" class="btn text-white">목록</a>
+							<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == r.empNo}"></i>
 						</span>
-						<div class="btn-group right" role="group" aria-label="Basic example">
-							<button type="button" class="btn text-white" id="uBtn" th:if="${session.empNo == f.empNo}">수정</button>
-							<button type="button" class="btn text-white" id="dBtn" th:if="${session.empNo == f.empNo}">삭제</button>
-						</div>
+						<!-- 삭제아이콘 -->
+						<hr>
+					</div>
+				</div>
+				<!-- end 댓글 -->
+
+				<!-- 게시글 버튼 -->
+				<hr>
+				<div>
+					<span> 
+						<a href="freeList" class="btn text-white">목록</a>
+					</span>
+					<div class="btn-group right" role="group" aria-label="Basic example">
+						<button type="button" class="btn text-white" id="uBtn" th:if="${session.empNo == f.empNo}">수정</button>
+						<button type="button" class="btn text-white" id="dBtn" th:if="${session.empNo == f.empNo}">삭제</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div>
-			<form id="uFrm" action="freeUpdateForm" method="post">
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-				<input type="hidden" name="postNo" th:value="${f.postNo}">
-			</form>
-		</div>
-		<div>
-			<form id="dFrm" action="freeDelete" method="post">
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-				<input type="hidden" id="postNo" name="postNo" th:value="${f.postNo}">
-			</form>
-		</div>
+	</div>
+	<div>
+		<form id="uFrm" action="freeUpdateForm" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+			<input type="hidden" name="postNo" th:value="${f.postNo}">
+		</form>
+	</div>
+	<div>
+		<form id="dFrm" action="freeDelete" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+			<input type="hidden" id="postNo" name="postNo" th:value="${f.postNo}">
+		</form>
+	</div>
 
-		<script th:inline="javascript">
-		//게시글 수정버튼
-		$("#uBtn").on("click", e=>{
-			$("#uFrm").submit();
-		})
+	<script th:inline="javascript">
+	//게시글 수정버튼
+	$("#uBtn").on("click", e=>{
+		$("#uFrm").submit();
+	})
+	
+	//게시글 삭제버튼
+	$("#dBtn").on("click", e=>{
+		$("#dFrm").submit();
+	})
+	
+	//==============댓글==============
+	//댓글 등록 버튼 클릭시
+	$("#rBtn").on("click", e=>{
+		let postNo = $("#postNo").val(); //게시글 번호
+		let postTitle = $("#postTitle").text(); //게시글 제목
+		let cntn = $("#rCntn").val();    //댓글 내용
+		let empNo = $("#eNo").val();   //댓글 쓴 사원번호
+		let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
+		let replyCat = "커뮤니티"; //댓글 등록하는 카테고리
+		let rList = $("<div>").attr("id", "rList"); 
 		
-		//게시글 삭제버튼
-		$("#dBtn").on("click", e=>{
-			$("#dFrm").submit();
-		})
+		//댓글 등록 처리
+		$.ajax({
+	         url:'replyInsert',
+	         beforeSend:function(xhr){
+	 	  		xhr.setRequestHeader(header,token);  
+	     	  },
+	         type:'post',
+	         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr, 'replyCat':replyCat},
+	         dataType:'json',
+	         success:function(res){
+					let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
+										.append($("<span>").html(res.dttm))
+										.append($("<br>"))
+										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
+										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
+										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
+										.append($("<hr>"))
+					$("#rList").prepend(div);
+					
+					$("#rCntn").val("");
+	         }
+	      })
+	})
+	
+	//댓글 수정 아이콘 클릭했을 때 이벤트위임 (상위 div에 이벤트 걸었음)
+	$("#rList").on("click", ".update", e=>{
+		let cntnTag = $(e.target).parent().prev() //댓글내용있는 태그
+		let replyNo = $(e.target).data("no"); //댓글 번호
+		let cntn = cntnTag.text();
+		cntnTag.html("");
 		
-		//==============댓글==============
-		//댓글 등록 버튼 클릭시
-		$("#rBtn").on("click", e=>{
-			let postNo = $("#postNo").val(); //게시글 번호
-			let postTitle = $("#postTitle").text(); //게시글 제목
-			let cntn = $("#rCntn").val();    //댓글 내용
-			let empNo = $("#eNo").val();   //댓글 쓴 사원번호
-			let wrtr = $("#wrtr").val();     //댓글 쓴 사원이름
-			let replyCat = "커뮤니티"; //댓글 등록하는 카테고리
-			let rList = $("<div>").attr("id", "rList"); 
-			
-			//댓글 등록 처리
+		//수정(up), 삭제(de) 아이콘
+		let de = $(e.target).parent().next().hide();
+		let up = $(e.target).parent().hide();
+		
+		//댓글 수정폼 뜨게
+		cntnTag
+			   .append($("<textarea>").addClass("form-control auto txtA").val(cntn))
+			   .append($("<br>"))
+			   .append($("<button>").addClass("btn btn-secondary").attr("id", "replyUp").attr("type","button").html("수정"));
+		
+		//수정할 내용 입력하고 수정 클릭했을 때 db에 수정처리
+		$("#replyUp").on("click", e=>{
+			e.stopPropagation();
+			let cntn = $(e.target).prev().prev().val();
+			cntn = cntn.replaceAll(/(\n|\r\n)/g, "<br>"); //enter키 적용
 			$.ajax({
-		         url:'replyInsert',
-		         beforeSend:function(xhr){
-		 	  		xhr.setRequestHeader(header,token);  
-		     	  },
-		         type:'post',
-		         data:{'postNo':postNo, 'cntn':cntn, 'empNo':empNo, 'wrtr':wrtr, 'replyCat':replyCat},
-		         dataType:'json',
-		         success:function(res){
-						let div = $("<div>").append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
-											.append($("<span>").html(res.dttm))
-											.append($("<br>"))
-											.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-											.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
-											.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
-											.append($("<hr>"))
-						$("#rList").prepend(div);
-						
-						$("#rCntn").val("");
-		         }
-		      })
-		})
-		
-		//댓글 수정 아이콘 클릭했을 때 이벤트위임 (상위 div에 이벤트 걸었음)
-		$("#rList").on("click", ".update", e=>{
-			let cntnTag = $(e.target).parent().prev() //댓글내용있는 태그
-			let replyNo = $(e.target).data("no"); //댓글 번호
-			let cntn = cntnTag.text();
-			cntnTag.html("");
+				url:'replyUpdate',
+				beforeSend:function(xhr){
+			  		xhr.setRequestHeader(header,token);  
+		    	  },
+				type:'post',
+				data:{'replyNo':replyNo, 'cntn':cntn},
+				dataType:'json',
+				success:function(res){
+					$(e.target).parent().prev().prev().html(res);
+					$(e.target).prev().remove();
+					$(e.target).remove();
+					cntnTag.html(cntn).appendTo(cntnTag);
+					
+					//수정, 삭제 아이콘 보이게
+					up.show();
+					de.show();
+				}
+			}) 
 			
-			//수정(up), 삭제(de) 아이콘
-			let de = $(e.target).parent().next().hide();
-			let up = $(e.target).parent().hide();
-			
-			//댓글 수정폼 뜨게
-			cntnTag
-				   .append($("<textarea>").addClass("form-control auto txtA").val(cntn))
-				   .append($("<br>"))
-				   .append($("<button>").addClass("btn btn-secondary").attr("id", "replyUp").attr("type","button").html("수정"));
-			
-			//수정할 내용 입력하고 수정 클릭했을 때 db에 수정처리
-			$("#replyUp").on("click", e=>{
-				e.stopPropagation();
-				let cntn = $(e.target).prev().prev().val();
-				cntn = cntn.replaceAll(/(\n|\r\n)/g, "<br>"); //enter키 적용
-				$.ajax({
-					url:'replyUpdate',
-					beforeSend:function(xhr){
-				  		xhr.setRequestHeader(header,token);  
-			    	  },
-					type:'post',
-					data:{'replyNo':replyNo, 'cntn':cntn},
-					dataType:'json',
-					success:function(res){
-						$(e.target).parent().prev().prev().html(res);
-						$(e.target).prev().remove();
-						$(e.target).remove();
-						cntnTag.html(cntn).appendTo(cntnTag);
-						
-						//수정, 삭제 아이콘 보이게
-						up.show();
-						de.show();
-					}
-				}) 
-				
-			})
 		})
-		
-		
-		//댓글 삭제 이벤트위임 (상위 div에 이벤트 걸었음)
-		$("#rList").on("click", ".delete", e=>{
-			let replyNo = $(e.target).data("no"); //댓글 번호
-			//댓글 삭제처리
-			$.ajax({
-		         url:'replyDelete',
-		         beforeSend:function(xhr){
-		 	  		xhr.setRequestHeader(header,token);  
-		     	  },
-		         type:'post',
-		         data:{'replyNo':replyNo},
-		         dataType:'json',
-		         success:function(res){
-		         	$(e.target).parent().parent().remove();
-		         }
-		      })
-		})
-		</script>
-	</main>
+	})
+	
+	//댓글 삭제 이벤트위임 (상위 div에 이벤트 걸었음)
+	$("#rList").on("click", ".delete", e=>{
+		let replyNo = $(e.target).data("no"); //댓글 번호
+		//댓글 삭제처리
+		$.ajax({
+	         url:'replyDelete',
+	         beforeSend:function(xhr){
+	 	  		xhr.setRequestHeader(header,token);  
+	     	  },
+	         type:'post',
+	         data:{'replyNo':replyNo},
+	         dataType:'json',
+	         success:function(res){
+	         	$(e.target).parent().parent().remove();
+	         }
+	      })
+	})
+	</script>
+</main>
 </body>
 </html>

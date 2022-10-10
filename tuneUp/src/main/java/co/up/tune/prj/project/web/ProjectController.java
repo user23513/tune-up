@@ -1,6 +1,5 @@
 package co.up.tune.prj.project.web;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.project.service.ProjectService;
 import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.vo.PostVO;
@@ -28,8 +26,9 @@ public class ProjectController {
 
 	//새 프로젝트 Form으로 이동
 	@GetMapping("/newproject")
-	public String newProjectForm(Model model) {
-		model.addAttribute("empList", postDao.empList());
+	public String newProjectForm(HttpSession session, Model model) {
+		String empNo = (String)session.getAttribute("empNo");
+		model.addAttribute("empList", postDao.empList(empNo));
 		return "prj/newProject";
 	}
 	

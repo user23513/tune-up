@@ -37,4 +37,9 @@ public class HrServiceImpl implements HrService {
 	public int authUpdate(EmpVO vo) {
 		return map.authUpdate(vo);
 	}
+
+	@Override
+	public int mngUpdate(EmpVO vo) {
+		return map.mngUpdate(vo);
+	}
 }

@@ -57,6 +57,10 @@ $(document).ready(function() {
 	   			alert("등록된 이미지가 없습니다.")
 	   		}
 	})
+		$("#reset").on("click", e=>{
+			location.href="profile";
+		})
+		
 	
 })
 </script>
@@ -167,12 +171,12 @@ $(document).ready(function() {
 								<label for="gender" class="col-md-4 col-lg-3 col-form-label">성별</label>
 								<div class="col-md-8 col-lg-9">
 									<input class="form-check-input" type="radio" name="gridRadios"
-										id="gridRadios1" value="option1"> <label
-										class="form-check-label" for="gridRadios1"> 남 </label>
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input class="form-check-input"
-										type="radio" name="gridRadios" id="gridRadios2"
-										value="option2"> <label class="form-check-label"
-										for="gridRadios2"> 여 </label>
+											id="gridRadios1" value="option1">
+									<label class="form-check-label" for="gridRadios1"> 남 </label>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<input class="form-check-input" type="radio" name="gridRadios"
+											id="gridRadios2" value="option2">
+									<label class="form-check-label" for="gridRadios2"> 여 </label>
 								</div>
 							</div>
 							<br>
@@ -182,13 +186,13 @@ $(document).ready(function() {
 								<label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
 								<div class="col-md-4 col-lg-3">
 									<input name="dept" type="text" class="form-control" id="dept"
-										th:value="${e.dept}" disabled>
+											th:value="${e.dept}" disabled>
 								</div>
 
 								<label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
 								<div class="col-md-4 col-lg-3">
 									<input name="position" type="email" class="form-control"
-										id="position" th:value="${e.position}" disabled>
+											id="position" th:value="${e.position}" disabled>
 								</div>
 							</div>
 
@@ -196,7 +200,7 @@ $(document).ready(function() {
 								<label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
 								<div class="col-md-8 col-lg-9">
 									<input name="zip" type="text" class="form-control" id="zip"
-										th:value="${e.zip}" disabled>
+											th:value="${e.zip}" disabled>
 								</div>
 							</div>
 
@@ -204,7 +208,7 @@ $(document).ready(function() {
 								<label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
 								<div class="col-md-8 col-lg-9">
 									<input name="addr" type="text" class="form-control" id="addr"
-										th:value="${e.addr}" disabled>
+											th:value="${e.addr}" disabled>
 								</div>
 							</div>
 
@@ -212,23 +216,21 @@ $(document).ready(function() {
 								<label for="hDate" class="col-md-4 col-lg-3 col-form-label">입사일</label>
 								<div class="col-md-8 col-lg-9">
 									<input type="date" id="hDate" name="hDate" class="form-control"
-										th:value="${e.hDate}" disabled>
+											th:value="${e.hDate}" disabled>
 								</div>
 							</div>
 
 							<div class="text-center">
 								<button id="reset" name="reset" type="button"
-									class="btn btn-secondary">취소</button>
+										class="btn btn-secondary">취소</button>
 								<button id="save" name="save" type="button"
-									class="btn btn-primary">저장</button>
+										class="btn btn-primary">저장</button>
 							</div>
 						</form>
 						<!-- End Profile Edit Form -->
 					</div>
 				</div>
 			</div>
-		</div>
-		</div>
 		</div>
 	</main>
 </body>

@@ -131,8 +131,8 @@ public class PropostController {
 	
 	// 내 프로젝트 - 게시글 작성 폼으로 이동
 	@PostMapping("/postInsertForm")
-	public String prjPostInsertForm(@RequestParam("prjNo")int prjNo, Model model) {
-		model.addAttribute("empList", dao.empList());
+	public String prjPostInsertForm(@RequestParam("prjNo")int prjNo, HttpSession session, Model model) {
+		model.addAttribute("empList", dao.empList((String)session.getAttribute("empNo")));
 		model.addAttribute("prjNo", prjNo);
 		return "prj/post/postInsertForm";
 	}
@@ -187,21 +187,27 @@ public class PropostController {
 		return "redirect:prjPostList";
 	}
 	
-	//내 프로젝트 - 글 수정 폼 post
-//	@PostMapping("/postUpdateForm")
-//	public String prjPostUpdateForm(PostVO vo, Model model) {
-//		model.addAttribute("pj", dao.prjPostSelect(vo));
-//		//dao.prjPostUpdate(vo);
-//		return "prj/post/postUpdateForm";
-//	}
-	  
-	//내 프로젝트 - 글 수정 post
-//	@PostMapping("/prjPostUpdate")
-//	public String prjPostUpdate(PostVO vo) {
-//		dao.prjPostUpdate(vo);
-//		return "redirect:/prjPostList";
-//	}
-	  
+	//내프로젝트 업무 수정
+	@PostMapping("/prjBusinessUpdate")
+	public String prjBusinessUpdate(PostVO vo, @RequestParam("file") MultipartFile[] files, RedirectAttributes re) throws IllegalStateException, IOException {
+		//file upload 처리
+		FilesVO fvo = new FilesVO();
+		List<FilesVO> list = new ArrayList<>();
+		if(!files[0].isEmpty()) {
+			String folder = "prj"; //Temp안에 폴더명
+			list = fileDao.fileUpload(files, folder);
+			fvo.setFNm(list.get(0).getFNm());
+			fvo.setFPath(list.get(0).getFPath());
+			fvo.setFType(list.get(0).getFType());
+			fvo.setFCat("PROJECT");
+			fvo.setPNm(vo.getTtl());
+		}
+		
+		re.addAttribute("prjNo", vo.getPrjNo());
+		
+		return "redirect:prjPostList";
+	}
+	
 	// 내 프로젝트 - 관리자
 	@GetMapping("/prjMng")
 	public String prjMng() {

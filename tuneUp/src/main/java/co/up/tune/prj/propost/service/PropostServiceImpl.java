@@ -80,8 +80,8 @@ public class PropostServiceImpl implements PropostService {
 	
 	//모든 사원정보
 	@Override
-	public List<EmpVO> empList() {
-		return map.empList();
+	public List<EmpVO> empList(String empNo) {
+		return map.empList(empNo);
 	}
 
 	//프로젝트 일정 => 멤버 리스트

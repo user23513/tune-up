@@ -2,11 +2,10 @@ package co.up.tune.aprv.aprvReq.web;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.up.tune.aprv.aprvReq.service.AprvReqService;
-import co.up.tune.aprv.vo.AprvViewVO;
+import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 
 /**
@@ -22,14 +21,7 @@ public class AjaxAprvReqController {
 
 	@Autowired
 	AprvReqService rs;
-	@Value("${file.dir}")
-	private String fileDir;
 
-	// 문서 상세
-	@PostMapping("/aprvView")
-	public AprvViewVO aprvView(AprvViewVO vo) {
-		return rs.aprvSelect(vo);
-	}
 
 	// 서식 상세
 	@PostMapping("/formView")
@@ -54,8 +46,13 @@ public class AjaxAprvReqController {
 	//서식 삭제
 	@PostMapping("/formDel")
 	public int formDel(FormVO vo) {
-			
 	return rs.formDel(vo);
+	}
+	
+	
+	@PostMapping("/aprvShow")
+	public AprvVO aprvShow(AprvVO vo) {
+	return rs.aprvSelect(vo);
 	}
 	
 }

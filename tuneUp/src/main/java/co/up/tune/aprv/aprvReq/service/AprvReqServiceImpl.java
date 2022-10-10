@@ -9,7 +9,6 @@ import co.up.tune.aprv.aprvReq.mapper.AprvReqMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.AprvVO;
-import co.up.tune.aprv.vo.AprvViewVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.ReferVO;
 
@@ -34,11 +33,8 @@ public class AprvReqServiceImpl implements AprvReqService {
 	}
 
 	@Override
-	public AprvViewVO aprvSelect(AprvViewVO vo) {
-		map.aprvSelect(vo);
-		lmap.approvalList(vo);
-		lmap.ReferList(vo);
-		return vo;
+	public AprvVO aprvSelect(AprvVO vo) {
+		return map.aprvSelect(vo);
 	}
 
 	@Override
@@ -95,12 +91,7 @@ public class AprvReqServiceImpl implements AprvReqService {
 			
 			String refers = vo.getRefer();
 			String referNms = vo.getReferNm();
-			if (!refers.contains(",")) {
-				rf.setEmpNo(refers);
-				rf.setNm(referNms);
-				lmap.referIn(rf);
-
-			} else {
+			if (refers.contains(",")){
 				String[] arrRf = refers.split(",");
 				String[] arrRfNm = referNms.split(",");
 				for (int i = 0; i<arrRf.length; i++) {
@@ -108,6 +99,11 @@ public class AprvReqServiceImpl implements AprvReqService {
 					rf.setNm(arrRfNm[i]);
 					lmap.referIn(rf);
 				}
+			} else if (refers != null && refers != "" && refers != " ") {
+				rf.setEmpNo(refers);
+				rf.setNm(referNms);
+				lmap.referIn(rf);
+
 			}
 			
 			

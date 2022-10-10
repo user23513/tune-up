@@ -33,6 +33,10 @@ public interface AttdService {
 	AttdVO checkTime(AttdVO vo); //출근시간 띄우기
 	AttdVO checkBTime(AttdVO vo); //퇴근시간 띄우기
 	
+	String wkov(String empNo);	//총근무 wktm+ovtm
+	String totalWktm(String empNo); //근무 wktm
+	String totalOvtm(String empNo);	//연장근무 ovtm
+	
 	//엑셀
 	void excel(AttdVO attdVO, HttpServletResponse res) throws Exception;
 	 

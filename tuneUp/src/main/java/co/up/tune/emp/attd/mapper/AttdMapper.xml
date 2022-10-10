@@ -106,14 +106,33 @@
 	SELECT round(OVTM/60) 
 	FROM ATTD 
 	WHERE EMP_NO=#{empNo} 
-	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE, 'IW') - 7, 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE, 'IW') - 1, 'YYYYMMDD')
+	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') - 7, 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') - 1, 'YYYYMMDD')
  	</select>
 	
 	<select id="wktmChart" parameterType="String" resultType="String">
 	SELECT round(WKTM/60)
 	FROM ATTD 
 	WHERE EMP_NO=#{empNo} 
-	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE, 'IW') - 7, 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE, 'IW') - 1, 'YYYYMMDD')
+	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') - 7, 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') - 1, 'YYYYMMDD')
  	</select>
+ 	
+ 	<select id="wkov" resultType="String" parameterType="String">
+	SELECT NVL(SUM (WKTM+OVTM),0)
+	FROM ATTD WHERE EMP_NO=#{empNo} 
+	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW'), 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') +4, 'YYYYMMDD')
+	</select>
+	
+	<select id="totalWktm" resultType="String" parameterType="String">
+	SELECT NVL(SUM(WKTM),0)
+   	FROM ATTD WHERE EMP_NO=#{empNo}  
+   	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW'), 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') +4, 'YYYYMMDD')
+	</select>
+	
+	<select id="totalOvtm" resultType="String" parameterType="String">
+	SELECT NVL(SUM(OVTM),0)
+   	FROM ATTD WHERE EMP_NO=#{empNo}  
+   	AND ATDC_DT BETWEEN (TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW'), 'YYYYMMDD')) AND TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') +4, 'YYYYMMDD')
+	</select>
+	
 	 
 </mapper>

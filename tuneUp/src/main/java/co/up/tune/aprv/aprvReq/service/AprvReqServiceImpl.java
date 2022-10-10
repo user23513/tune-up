@@ -11,6 +11,7 @@ import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.ReferVO;
+import co.up.tune.com.bell.mapper.BellMapper;
 
 /**
  * 전자결재 신청 ServiceImpl
@@ -26,6 +27,8 @@ public class AprvReqServiceImpl implements AprvReqService {
 	AprvReqMapper map;
 	@Autowired
 	AprvLineMapper lmap;
+	@Autowired
+	BellMapper bmap;
 
 	@Override
 	public List<AprvVO> aprvReqList(AprvVO vo) {

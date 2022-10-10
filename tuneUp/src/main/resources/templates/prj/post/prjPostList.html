@@ -7,7 +7,7 @@
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
 <meta id="_csrf_header" name="_csrf_header"
 	th:content="${_csrf.headerName}" />
-<title>TuneUp - 내 프로젝트</title>
+<title>내프로젝트</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -81,7 +81,7 @@ $(document).ready(function() {
 }
 
 .map {
-	width: 70%;
+	width: 700px;
 	height: 300px;
 	position: relative;
 	left: 10px;
@@ -211,6 +211,7 @@ $(document).ready(function() {
 								</div>
 							</div>
 						</div>
+						<br> <br>
 					</div>
 				</div>
 				<!-- End Card with an image on left -->
@@ -253,7 +254,6 @@ $(document).ready(function() {
 
 						<br>
 						<div id="chart_div"></div>
-
 					</div>
 
 					<!-- start 글 목록 -->
@@ -328,7 +328,6 @@ $(document).ready(function() {
 															<hr>
 														</div>
 													</div>
-
 												</div>
 											</div> <!-- End Default Card -->
 										</td>
@@ -505,82 +504,75 @@ $(document).ready(function() {
 					</div>
 					<!-- End 업무 -->
 
-					<!-- Start 할일 목록 -->
-					<div class="tab-pane fade" id="todo" role="tabpanel"
-						aria-labelledby="todo-tab">
-						<br>
-						<table id="todo-Table" class="display center"
-							style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
-							<thead hidden="hidden">
-								<tr>
-									<th>내용</th>
-								</tr>
-							</thead>
-							<tbody id="todotb" class="list-group">
-								<tr th:each="t :${todoList}">
-									<td class="list-group-item">
-										<div class="card sc" style="margin-top: 30px;">
-											<div class="card-body">
-												<div class="card-title">
-													<span style="font-size: 16px;"><b>[[${t.wrtr}]]</b></span>
-													<!-- 드롭다운 아이콘 -->
-													<div class="filter" style="float: right">
-														<a class="icon" href="#" data-bs-toggle="dropdown"> <i
-															class="bi bi-three-dots"></i>
-														</a>
-														<!-- 드롭다운 수정삭제 펼치기 -->
-														<ul
-															class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-															<li class="dropdown-header text-start"><i
-																class="bi bi-gear"> settings</i>
-																<button class="dropdown-item"
-																	style="padding: 10px 0 0 0;"
-																	th:attr="data-no=${t.postNo}" data-type="할일">
-																	<i class="ri-edit-2-line"></i>수정
-																</button>
-																<button class="dropdown-item"
-																	style="padding: 10px 0 0 0;"
-																	th:attr="data-no=${t.postNo}" data-type="할일">
-																	<i class="ri-delete-bin-line"></i>삭제
-																</button></li>
-														</ul>
-													</div>
-												</div>
-												<span style="font-size: 22px;"><b>[[${t.ttl}]]</b></span><br>
-												<span
-													th:text="${#dates.format(t.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
-												<hr style="color: gray;">
-												<div style="padding: 0 5em;">	
-													<div class="card-title">
-														<div class="progress"
-															style="position: relative;">
-															<div class="progress-bar bg-primary" role="progressbar"
-																th:style="|width:${t.percent}%|"
-																th:attr="aria-valuenow=${t.percent}" aria-valuemin="0"
-																aria-valuemax="100">[[${t.percent}]]%</div>
-														</div>
-													
-														<!-- <div class="proFrame">
-															<progress name="proBar" th:value="${t.percent}"
-																max="100" style="width: 100%; height: 30px;"
-																th:text="${t.percent}"></progress>
-															<span name="perc">[[${t.percent}]]%</span>
-														</div> -->
-													</div>
-												</div>
-												<div style="padding: 1em 5em;">
-													<ul class="list-group list-group-flush">
-														<li th:each="detail : ${detailList}"
-															th:if="${t.postNo} == ${detail.postNo}"
-															class="list-group-item list-group-item-action">
-															<input type="checkbox" name="todoCk"
-																th:checked="${detail.cmpltYn=='Y'}?checked"
-																style="width: 20px; height: 20px; float: left; margin-right: 20px"
-																class="form-check-input">
-															<div th:data-todo="${detail.todoNo}"
-																th:data-post="${detail.postNo}">
-																[[${detail.cntn}]]
-															</div>
+          <!-- Start 할일 목록 -->
+          <div class="tab-pane fade" id="todo" role="tabpanel"
+            aria-labelledby="todo-tab">
+            <br>
+            <table id="todo-Table" class="display center"
+              style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
+              <thead hidden="hidden">
+                <tr>
+                  <th>내용</th>
+                </tr>
+              </thead>
+              <tbody id="todotb">
+                <tr th:each="t :${todoList}">
+                  <td class="list-group-item">
+                    <div class="card sc" style="margin-top: 30px;">
+                      <div class="card-body">
+                        <div class="card-title">
+                          <span style="font-size: 16px;"><b>[[${t.wrtr}]]</b></span>
+                          <!-- 드롭다운 아이콘 -->
+                          <div class="filter" style="float: right">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"> <i
+                              class="bi bi-three-dots"></i>
+                            </a>
+                            <!-- 드롭다운 수정삭제 펼치기 -->
+                            <ul
+                              class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                              <li class="dropdown-header text-start"><i
+                                class="bi bi-gear"> settings</i>
+                                <button class="dropdown-item"
+                                  style="padding: 10px 0 0 0;"
+                                  th:attr="data-no=${t.postNo}" data-type="할일">
+                                  <i class="ri-edit-2-line"></i>수정
+                                </button>
+                                <button class="dropdown-item"
+                                  style="padding: 10px 0 0 0;"
+                                  th:attr="data-no=${t.postNo}" data-type="할일">
+                                  <i class="ri-delete-bin-line"></i>삭제
+                                </button></li>
+                            </ul>
+                          </div>
+                        </div>
+                        <span style="font-size: 22px;"><b>[[${t.ttl}]]</b></span><br>
+                        <span
+                          th:text="${#dates.format(t.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
+                        <hr style="color: gray;">
+                        <div style="padding: 0 5em;">	
+                          <div class="card-title">
+                            <div class="progress"
+                              style="position: relative;">
+                              <div class="progress-bar bg-primary" role="progressbar"
+                                th:style="|width:${t.percent}%|"
+                                th:attr="aria-valuenow=${t.percent}" aria-valuemin="0"
+                                aria-valuemax="100">[[${t.percent}]]%</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div style="padding: 1em 5em;">
+                          <ul class="list-group list-group-flush">
+                            <li th:each="detail : ${detailList}"
+                              th:if="${t.postNo} == ${detail.postNo}"
+                              class="list-group-item list-group-item-action">
+                              <input type="checkbox" name="todoCk"
+                                th:checked="${detail.cmpltYn=='Y'}?checked"
+                                style="width: 20px; height: 20px; float: left; margin-right: 20px"
+                                class="form-check-input">
+                              <div th:data-todo="${detail.todoNo}"
+                                th:data-post="${detail.postNo}">
+                                [[${detail.cntn}]]
+                              </div>
 														</li>
 													</ul>
 												</div>
@@ -802,63 +794,52 @@ $('[name="todoCk"]').on("change", e=>{
 	if ($(e.target).is(':checked')) {
 		console.log(todoNo + "체크됨");
 		
-		replyCntn = wrtr+"님이 '"+cntn+"'을(를) 완료했습니다.";
-		//cmpltYn 값을 Y로 변경
-		$.ajax({
-			url : "cmpltYnUpdate",
-			beforeSend:function(xhr){
-				xhr.setRequestHeader(header,token);  
-			},
-			type : "post",
-			data: {"cmpltYn" : "Y", "todoNo" : todoNo},
-			success:function(res){
-				//상태바 퍼센트 변경
-	  			$.ajax({
-					url : "todoPercent",
-					beforeSend:function(xhr){
-						xhr.setRequestHeader(header,token);  
-					},
-					type : "post",
-					data: {"postNo" : postNo},
-					success:function(res){
-						perc.innerText = res+"%";
-						perc.style.width = res+"%";
-					}
-				})
-			}
-		})
-		//=============할 일 댓글==================
-		//댓글 등록
-		$.ajax({
-	         url:'replyInsert',
-	         beforeSend:function(xhr){
-	 	  		xhr.setRequestHeader(header,token);  
-	     	 },
-	         type:'post',
-	         data:{'postNo':postNo, 'cntn':replyCntn, 'empNo':empNo, 'wrtr':wrtr, 'replyCat': replyCat},
-	         dataType:'json',
-	         success:function(res){
-				let div = $("<div>").attr("data-no", empNo).append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
-									.append($("<span>").html(res.dttm))
-									.append($("<br>"))
-									.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-									.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
-									.append($("<hr>"))
-									
-									
-		/* 							
-				let test = `<div th:attr="data-no=${res.empNo}"> <span th:text="${res.wrtr}">작성자</span>&nbsp; <span
-				th:text="${#dates.format(res.dttm, 'yyyy-MM-dd HH:mm:ss')}"> 작성일시</span><br>
-				<span th:text="${res.cntn}">댓글내용</span>&nbsp;&nbsp; <span>
-				<i class="ri-delete-bin-line delete" th:attr="data-no=${res.replyNo}"></i></span><div><hr>` */
-									
-				$(e.target).closest("div").next().append(div);
-				$("#rCntn").val("");
-         	}
-      	})
-	}
-	else {
-		console.log(todoNo+ postNo + " 체크 해제")
+    replyCntn = wrtr+"님이 '"+cntn+"'을(를) 완료했습니다.";
+    //cmpltYn 값을 Y로 변경
+    $.ajax({
+      url : "cmpltYnUpdate",
+      beforeSend:function(xhr){
+        xhr.setRequestHeader(header,token);  
+      },
+      type : "post",
+      data: {"cmpltYn" : "Y", "todoNo" : todoNo},
+      success:function(res){
+        //상태바 퍼센트 변경
+          $.ajax({
+          url : "todoPercent",
+          beforeSend:function(xhr){
+            xhr.setRequestHeader(header,token);  
+          },
+          type : "post",
+          data: {"postNo" : postNo},
+          success:function(res){
+            perc.innerText = res+"%";
+            perc.style.width = res+"%";
+            //댓글 등록
+             $.ajax({
+                   url:'replyInsert',
+                   beforeSend:function(xhr){
+                  xhr.setRequestHeader(header,token);  
+                 },
+                   type:'post',
+                   data:{'postNo':postNo, 'cntn':replyCntn, 'empNo':empNo, 'wrtr':wrtr, 'replyCat': replyCat},
+                   dataType:'json',
+                   success:function(res){
+                    let rList= e.target.closest("div").parentElement.childNodes[18];
+                let str = "<div><span>"+res.wrtr+"</span>&nbsp;"
+                str += "<span>"+res.dttm+"</span><br><span>"+res.cntn+"</span>&nbsp;&nbsp;"
+                str += "<span> <i class='ri-delete-bin-line delete' data-no='"+res.replyNo+" data-empNo='"+res.empNo+"></i>"
+                str += "</span><hr> </div>"
+                $(rList).append(str);
+                  }
+                }) 
+          }
+        })
+      }
+    })
+  }
+  else {
+    console.log(todoNo+", " + postNo + " 체크 해제")
 		$.ajax({
 			url : "cmpltYnUpdate",
 			beforeSend:function(xhr){

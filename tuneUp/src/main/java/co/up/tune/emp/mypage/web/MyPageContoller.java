@@ -110,7 +110,7 @@ public class MyPageContoller {
 		
 		// profile 사진 upload
 		List<FilesVO> list = null;
-		if (files.length != 0) {
+		if (!files[0].isEmpty()) {
 			String folder = "profile";
 			list = fdao.fileUpload(files, folder);
 			vo.setPic(list.get(0).getFPath());

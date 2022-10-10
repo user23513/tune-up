@@ -18,6 +18,7 @@ public class CalendarVO {
 	 Date sdt;	//시작일
 	 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	 Date edt;	//종료일
+	 
 	 String calTyp;	//캘린더유형
 	 String nm; //일정명
 }

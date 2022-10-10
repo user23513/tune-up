@@ -55,24 +55,6 @@
 		END; 	
 	</update> 
 	
-	 <!-- <update id="prjPostUpdate" parameterType="co.up.tune.prj.vo.PostVO">
-	 <![CDATA[
-            UPDATE 
-                POST 
-            SET
-                ttl = #{ttl},
-                cntn = #{cntn},
-                dttm = sysdate
-            WHERE
-                post_no = 126
-        ]]>
-	</update> -->
-	
-	
-	<!-- <delete id="prjPostDelete" parameterType="co.up.tune.prj.vo.PostVO">
-	DELETE FROM POST WHERE POST_NO = #{postNo}
-	</delete> -->
-	
 	<select id="prjPostSelect" resultType="co.up.tune.prj.vo.PostVO" parameterType="co.up.tune.prj.vo.PostVO">
 		SELECT * 
 		FROM POST
@@ -81,7 +63,7 @@
 	
 	<!-- 댓 -->
 	
-<select id="pjReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
+	<select id="pjReplyList" parameterType="co.up.tune.com.vo.ReplyVO" resultType="co.up.tune.com.vo.ReplyVO">
 		SELECT REPLY_NO, 
 			   POST_NO, 
 			   EMP_NO, 
@@ -130,17 +112,11 @@
 		WHERE REPLY_NO = #{replyNo}
 	</delete>
 	
-	<!-- 파일  -->
-	<!-- <select id="filesInsert" parameterType="co.up.tune.prj.vo.FilesVO" >
-	INSERT INTO FILES
-	VALUES (PNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, 'PROJECT', #{pNm})
-	
-	</select>  -->
-	
 	<!-- 현지 수정 -->
 	<select id="empList" resultType="co.up.tune.emp.vo.EmpVO">
 		SELECT *
 		FROM EMP
+		where emp_no != #{empNo}
 	</select>
 	
 	<!-- 프로젝트 일정 => 멤버 리스트 -->

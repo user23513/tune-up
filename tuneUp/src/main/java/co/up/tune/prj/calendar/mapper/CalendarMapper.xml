@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.up.tune.prj.calendar.mapper.CalendarMapper">
 
+	<!-- 캘린더 전체 리스트(개인일정+프로젝트) -->
 	<select id="CalendarList" resultType="co.up.tune.prj.vo.CalendarVO" parameterType="co.up.tune.prj.vo.CalendarVO">
 		SELECT 0 CAL_NO, CNTN, SDT, EDT, TO_CHAR(PRJ_NO) CAL_TYP, NM
 		FROM PROJECT
@@ -13,6 +14,7 @@
 		FROM CALENDAR
 	</select>
 	
+	<!-- 개인일정 등록 -->
 	<insert id="CalendarInsert" parameterType="co.up.tune.prj.vo.CalendarVO">
 		<selectKey keyProperty="calNo" order="BEFORE" resultType="int">
 			SELECT
@@ -25,10 +27,18 @@
 		VALUES(#{calNo}, 999, #{cntn}, #{sdt}, #{edt}, #{calTyp}, #{nm})
 	</insert>
 	
+	<!-- 개인일정 삭제 -->
 	<delete id="CalendarDelete" parameterType="co.up.tune.prj.vo.CalendarVO">
 		DELETE FROM CALENDAR
 		WHERE CAL_NO = #{calNo}
 	</delete>
+	
+	<!-- 개인일정 수정 -->
+	<update id="calendarUpdate" parameterType="co.up.tune.prj.vo.CalendarVO">
+		UPDATE CALENDAR
+		SET NM=#{nm}, CNTN=#{cntn}
+		WHERE CAL_NO=#{calNo}
+	</update>
 
 
 </mapper>

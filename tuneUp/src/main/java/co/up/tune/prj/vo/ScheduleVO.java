@@ -20,5 +20,5 @@ public class ScheduleVO {
 	 String latitude; //지도 위도
 	 String longitude; //지도 경도
 	 
-	 List<Integer> teamEmpNo; //팀원들 사원번호
+	 List<String> teamEmpNo; //팀원들 사원번호
 }

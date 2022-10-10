@@ -2,6 +2,8 @@ package co.up.tune.prj.schedule.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,11 @@ public class ScheduleController {
 	
 	//일정 등록
 	@PostMapping("/scheduleInsert")
-	public String scheduleInsert(ScheduleVO vo, RedirectAttributes re) {
+	public String scheduleInsert(ScheduleVO vo, HttpSession session, RedirectAttributes re) {
+		List<String> list = vo.getTeamEmpNo();
+		list.add((String)session.getAttribute("empNo"));
+		vo.setTeamEmpNo(list);
+		
 		dao.scheduleInsert(vo);
 		re.addAttribute("prjNo", vo.getPrjNo());
 		

@@ -131,8 +131,8 @@ public class PropostController {
 	
 	// 내 프로젝트 - 게시글 작성 폼으로 이동
 	@PostMapping("/postInsertForm")
-	public String prjPostInsertForm(@RequestParam("prjNo")int prjNo, Model model) {
-		model.addAttribute("empList", dao.empList());
+	public String prjPostInsertForm(@RequestParam("prjNo")int prjNo, HttpSession session, Model model) {
+		model.addAttribute("empList", dao.empList((String)session.getAttribute("empNo")));
 		model.addAttribute("prjNo", prjNo);
 		return "prj/post/postInsertForm";
 	}

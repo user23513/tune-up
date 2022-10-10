@@ -43,4 +43,13 @@ public class CalendarAjaxController {
 		return yn;
 	}
 	
+	@PostMapping("/calendarUpdate")
+	public String calendarUpdate(CalendarVO vo) {
+		String yn = "false";
+		int cnt = dao.calendarUpdate(vo);
+		if(cnt == 1) {yn = "true";}
+		
+		return yn;
+	}
+	
 }

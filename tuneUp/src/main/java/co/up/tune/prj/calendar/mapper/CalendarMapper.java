@@ -9,6 +9,6 @@ public interface CalendarMapper {
 	List<CalendarVO> CalendarList(CalendarVO vo); //캘린더 전체 리스트(개인일정+프로젝트)
 	int CalendarInsert(CalendarVO vo); //개인일정 등록
 	int CalendarDelete(CalendarVO vo); //개인일정 삭제
-	
+	int calendarUpdate(CalendarVO vo); //개인일정 수정
 	
 }

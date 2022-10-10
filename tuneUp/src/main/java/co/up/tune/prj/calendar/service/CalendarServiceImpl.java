@@ -14,22 +14,28 @@ public class CalendarServiceImpl implements CalendarService {
 	@Autowired
 	CalendarMapper map;
 
+	//캘린더 전체 리스트(개인일정+프로젝트)
 	@Override
 	public List<CalendarVO> CalendarList(CalendarVO vo) {
-		//캘린더 전체 리스트(개인일정+프로젝트)
 		return map.CalendarList(vo);
 	}
 
+	//개인일정 등록
 	@Override
 	public int CalendarInsert(CalendarVO vo) {
-		//개인일정 등록
 		return map.CalendarInsert(vo);
 	}
 
+	//개인일정 삭제
 	@Override
 	public int CalendarDelete(CalendarVO vo) {
-		//개인일정 삭제
 		return map.CalendarDelete(vo);
+	}
+
+	//개인일정 수정
+	@Override
+	public int calendarUpdate(CalendarVO vo) {
+		return map.calendarUpdate(vo);
 	}
 
 }

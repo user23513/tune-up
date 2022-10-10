@@ -79,11 +79,11 @@
 						<br> 
 						<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; 
 						<span>
-							<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == f.empNo}"></i>
+							<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == r.empNo}"></i>
 						</span>&nbsp;
 						<!-- 수정아이콘 -->
 						<span> 
-							<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == f.empNo}"></i>
+							<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}" th:if="${session.empNo == r.empNo}"></i>
 						</span>
 						<!-- 삭제아이콘 -->
 						<hr>

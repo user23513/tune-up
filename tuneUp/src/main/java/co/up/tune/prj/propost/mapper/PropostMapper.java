@@ -19,18 +19,17 @@ public interface PropostMapper {
 	List<PostVO> prjPostList(int prjNo);	//내 프로젝트 글 모아보기(전체조회)
 	int prjPostInsert(PostVO vo); //프로젝트-글 등록
 	int prjPostUpdate(@Param("pvo")PostVO pvo, @Param("fvo")FilesVO fvo); //프로젝트-글 수정
-	//int prjPostDelete(PostVO vo); //프로젝트-글 삭제
 	PostVO prjPostSelect(PostVO vo); // 프로젝트-글 단건
 	
 	//댓글
-		List<ReplyVO> pjReplyList(ReplyVO vo); //댓글 리스트
-		ReplyVO pjReplySelect(ReplyVO vo); //댓글 조회
-		int pjReplyInsert(ReplyVO vo); //댓글 등록
-		int pjReplyUpdate(ReplyVO vo); //댓글 수정
-		int pjReplyDelete(ReplyVO vo); //댓글 삭제
+	List<ReplyVO> pjReplyList(ReplyVO vo); //댓글 리스트
+	ReplyVO pjReplySelect(ReplyVO vo); //댓글 조회
+	int pjReplyInsert(ReplyVO vo); //댓글 등록
+	int pjReplyUpdate(ReplyVO vo); //댓글 수정
+	int pjReplyDelete(ReplyVO vo); //댓글 삭제
 	
 	/* 현지 수정 */
-	List<EmpVO> empList(); //모든 사원정보
+	List<EmpVO> empList(String empNo); //모든 사원정보
 	List<MemberVO> scheduleMemberList(int prjNo); //프로젝트 일정 => 멤버 리스트
 	int prjFileInsert(FilesVO vo); //프로젝트 파일 등록
 	List<ReplyVO> prjReplyList(); //프로젝트 전체 댓글
@@ -39,10 +38,6 @@ public interface PropostMapper {
 	List<BusinessVO> businessList(int prjNo); //프로젝트 업무 리스트
 	
 	int isAuth(TeamVO vo);
-	
-//	FilesVO filesSelect(FilesVO fvo); //파일 단건
-//	int filesInsert(FilesVO fvo); //파일등록
-//	int filesDelete(FilesVO fvo); //파일삭제
 	
 	//정은 프로젝트정보+ 
 	ProjectVO projectSel(ProjectVO vo);

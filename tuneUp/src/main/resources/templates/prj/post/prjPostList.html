@@ -13,42 +13,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
 <script>
-google.charts.load('current', {'packages':['gantt']});
-google.charts.setOnLoadCallback(drawChart);
 
-function drawChart() {
-	var data = new google.visualization.DataTable();//아작스 디비 받아와서 
-	data.addColumn('string', 'Task ID');
-	data.addColumn('string', 'Task Name');
-	data.addColumn('string', 'Resource');
-	data.addColumn('date', 'Start Date');
-	data.addColumn('date', 'End Date');
-	data.addColumn('number', 'Duration');
-	data.addColumn('number', 'Percent Complete');
-	data.addColumn('string', 'Dependencies');
-
-function drawChart(){
-	var jsonData = $.ajax({
-		url:"/chart/chart02_money",
-		dataType:"json",
-		async:false
-	}).responseText;
-  		
-   var data = data.addRows(jsonData);
-   var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
-
-	var options = {
-	  height: 400,
-	  gantt: {
-	    trackHeight: 30
-	  }
-	};
-	//그려주는 부분 div안에 넣어줌
-    var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
-
-    chart.draw(data, options);
-  }
- }
 </script>
 <script th:inline="javascript">
 $(document).ready(function() {
@@ -285,10 +250,9 @@ $(document).ready(function() {
 																<i class="bi bi-three-dots"></i>
 															</a>
 															<!-- 드롭다운 수정삭제 펼치기 -->
-															<ul
-																class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-																<li class="dropdown-header text-start"><i
-																	class="bi bi-gear"> settings</i>
+															<ul th:if="${session.empNo == p.empNo}" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+																<li class="dropdown-header text-start">
+																<i class="bi bi-gear"> settings</i>
 																	<button class="dropdown-item" data-bs-toggle="modal"
 																		data-bs-target="#staticBackdrop"
 																		style="padding: 10px 0 0 0;"
@@ -362,7 +326,7 @@ $(document).ready(function() {
 															<i class="bi bi-three-dots"></i>
 														</a>
 														<!-- 드롭다운 수정삭제 펼치기 -->
-														<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+														<ul th:if="${session.empNo == s.empNo}" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 															<li class="dropdown-header text-start">
 																<i class="bi bi-gear"> settings</i>
 																<button class="dropdown-item" style="padding: 10px 0 0 0;"
@@ -415,11 +379,11 @@ $(document).ready(function() {
 														<br> 
 														<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
 														<span> 
-															<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
+															<i th:if="${session.empNo == r.empNo}" class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
 														</span>&nbsp;
 														<!-- 수정아이콘 -->
 														<span> 
-															<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
+															<i th:if="${session.empNo == r.empNo}" class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
 														</span>
 														<!-- 삭제아이콘 -->
 														<hr>
@@ -461,8 +425,7 @@ $(document).ready(function() {
 															class="bi bi-three-dots"></i>
 														</a>
 														<!-- 드롭다운 수정삭제 펼치기 -->
-														<ul
-															class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+														<ul th:if="${session.empNo == b.empNo}" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 															<li class="dropdown-header text-start"><i
 																class="bi bi-gear"> settings</i>
 																<button class="dropdown-item"
@@ -650,6 +613,8 @@ $(document).ready(function() {
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script th:inline="javascript">
+	var count = 0;
+	
 	//모달창
 	const Toast = Swal.mixin({
 		  toast: true,
@@ -661,7 +626,45 @@ $(document).ready(function() {
 		    toast.addEventListener('mouseleave', Swal.resumeTimer)
 		 }
 	})
-	var count = 0;
+	
+	/* ===== 간트차트 ===== */
+	google.charts.load('current', {'packages':['gantt']});
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+		var data = new google.visualization.DataTable();//아작스 디비 받아와서 
+		data.addColumn('string', 'Task ID');
+		data.addColumn('string', 'Task Name');
+		data.addColumn('string', 'Resource');
+		data.addColumn('date', 'Start Date');
+		data.addColumn('date', 'End Date');
+		data.addColumn('number', 'Duration');
+		data.addColumn('number', 'Percent Complete');
+		data.addColumn('string', 'Dependencies');
+
+	function drawChart(){
+		var jsonData = $.ajax({
+			url:"/chart/chart02_money",
+			dataType:"json",
+			async:false
+		}).responseText;
+	  		
+	   var data = data.addRows(jsonData);
+	   var chart = new google.visualization.ColumnChart(document.getElementById("chart_div"));
+
+		var options = {
+		  height: 400,
+		  gantt: {
+		    trackHeight: 30
+		  }
+		};
+		//그려주는 부분 div안에 넣어줌
+	    var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+	    chart.draw(data, options);
+	  }
+	 }
+	
 	/*===== 일정 참석 댓글 =====*/
 	$(".attendBtn").on("click", ".attend", e=>{
 		$.each($(".rList").children(), (idx, reply)=>{
@@ -758,7 +761,7 @@ $(document).ready(function() {
 		  				  icon: 'success',
 		  				  title: '게시글이 삭제되었습니다!'
 		  				}).then(function(){
-		  					$(e.target).closest(".sc").remove();
+		  					$(e.target).closest("tr").remove();
 		   				});
 		     			
 		     		}else{

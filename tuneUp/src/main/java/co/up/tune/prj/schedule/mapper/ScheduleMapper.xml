@@ -16,8 +16,8 @@
 		</selectKey>
 		begin
 			insert into schedule
-				values(${postNo}, #{ttl}, #{empNo}, #{wrtr}, #{sdt}, #{edt},
-					   #{place}, #{cntn}, 0, #{prjNo}, #{latitude}, #{longitude});
+			values(${postNo}, #{ttl}, #{empNo}, #{wrtr}, #{sdt}, #{edt},
+				   #{place}, #{cntn}, 0, #{prjNo}, #{latitude}, #{longitude});
 			
 			<foreach collection="teamEmpNo" item="no">
 				insert into member(emp_no, post_no)

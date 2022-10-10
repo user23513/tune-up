@@ -120,9 +120,11 @@ $(document).ready(function(){
 											<ul>
 												<li class="closed"><span class="folder">인사팀</span>
 													<ul th:each="e:${empList}">
-														<li th:if="${e.dept}=='인사'"><span class="file name"
-															th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
-													</ul></li>
+														<li th:if="${e.dept}=='인사'">
+															<span class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span>
+														</li>
+													</ul>
+												</li>
 												<li class="closed"><span class="folder">기획팀</span>
 													<ul th:each="e:${empList}">
 														<li th:if="${e.dept}=='기획'"><span class="file name"

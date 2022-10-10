@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import co.up.tune.aprv.approval.service.ApprovalService;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
 import co.up.tune.aprv.vo.TrustVO;
@@ -33,14 +32,17 @@ public class ApprovalController {
 	
 	//승인페이지
 	@GetMapping("/approval")
-	public String approval(TrustVO vo, Model model, HttpSession session,
-			@RequestParam(required = false, defaultValue = "전체") String aprvSt) {
+	public String approval(TrustVO vo, Model model, HttpSession session) {
 
 		String empNo = (String) session.getAttribute("empNo");
 
 		// 승인문서목록
-		model.addAttribute("approval", ap.approvalList(empNo, aprvSt));
-
+		model.addAttribute("approval", ap.approvalList(empNo, "진행"));
+		// 완료문서목록
+		model.addAttribute("approved", ap.approvalList(empNo, "완료"));
+		// 참조문서목록
+		model.addAttribute("refer", ap.approvalList(empNo, "참조"));
+		
 		vo.setEmpNo(empNo);
 		// 내가 위임한 리스트
 		model.addAttribute("trust", ap.trustList(vo));

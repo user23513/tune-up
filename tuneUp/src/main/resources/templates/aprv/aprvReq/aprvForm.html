@@ -148,12 +148,35 @@ $(document).ready(function(){
 			let content = tinymce.activeEditor.getContent();
 			let ttl = $("#ttl").val();
 			let aprvr = $("#aprvr").val();
+			let refers = $("#refer").val();
 			$("#cntn").val(content);
 			
 			if (!confirm("문서를 상신하시겠습니까?")) {
 				return;
 	        
 			} else if (content != "" && ttl != "" && aprvr != ""){
+				
+				
+				//결재 알림
+				if(aprvr.includes(',')){
+					let aprvrArr = aprvr.split(',');
+					for(let receiverNo of aprvrArr){
+						socket.send('request,caller,'+receiverNo+','+ttl);
+					}
+				} else if (aprvr != null && !=""){
+					socket.send('request,caller,'+aprvr+','+ttl);
+				}
+				
+				//참조 알림
+				if(refers.includes(',')){
+					let referArr = refers.split(',');
+					for(let receiverNo of referArr){
+						socket.send('refer,caller,'+receiverNo+','+ttl);
+					}
+				} else if (refers != null && !=""){
+					socket.send('refer,caller,'+refers+','+ttl);
+				}
+				
 	        	$("#newfrm").submit();
 				
 	        } else {
@@ -224,7 +247,6 @@ $(document).ready(function(){
 						enctype="multipart/form-data" action="aprvReqIn">
 						<input type="hidden" th:name="${_csrf.parameterName}"
 							th:value="${_csrf.token}">
-
 						<div class="col-md-12">
 							<div class="form-floating">
 								<input type="text" class="form-control" id="ttl" name="ttl"

@@ -26,5 +26,8 @@ public interface AprvAdminService {
 
 	// 관리자 결재 강제반려
 	int aprvAdReject(ApprovalVO vo);
+	
+	// 관리자 결재 강제승인
+	int aprvAdOk(ApprovalVO vo);
 
 }

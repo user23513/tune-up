@@ -12,6 +12,7 @@ import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.ReferVO;
 import co.up.tune.com.bell.mapper.BellMapper;
+import co.up.tune.com.vo.BellVO;
 
 /**
  * 전자결재 신청 ServiceImpl
@@ -68,6 +69,12 @@ public class AprvReqServiceImpl implements AprvReqService {
 			lvo.setLineNo(vo.getLineNo());
 			lvo = lmap.aprvLineSelect(lvo);
 			
+			//알림
+			BellVO bvo = new BellVO();
+			bvo.setSender("발신인");
+			bvo.setReceiver("수신인");
+			bvo.setCntn("<a type='external' href='/approval'>" + vo.getTtl() + "</a> 문서가 대기중입니다.");
+			
 			String[] arrAp;
 			String[] arrNm;
 			if (lvo.getAp3() != null) {
@@ -86,31 +93,41 @@ public class AprvReqServiceImpl implements AprvReqService {
 				aprv.setNm(arrNm[i]);
 				aprv.setAprvSeq(i+1);//결재순서
 				lmap.approvalIn(aprv);
+				
+				bvo.setEmpNo(Integer.parseInt(arrAp[i]));
+				bmap.bellInsert(bvo);
 			}
 		
 			// 참조인 목록 처리
 			ReferVO rf = new ReferVO();
 			rf.setAprvNo(aprvNo);
+			bvo.setCntn("<a type='external' href='/approval'>" + vo.getTtl() + "</a> 문서의 참조인에 추가되었습니다.");
 			
 			String refers = vo.getRefer();
 			String referNms = vo.getReferNm();
+			
 			if (refers.contains(",")){
 				String[] arrRf = refers.split(",");
 				String[] arrRfNm = referNms.split(",");
+				
 				for (int i = 0; i<arrRf.length; i++) {
 					rf.setEmpNo(arrRf[i]);
 					rf.setNm(arrRfNm[i]);
 					lmap.referIn(rf);
+					
+					bvo.setEmpNo(Integer.parseInt(arrRf[i]));
+					bmap.bellInsert(bvo);
+					
 				}
 			} else if (refers != null && refers != "" && refers != " ") {
 				rf.setEmpNo(refers);
 				rf.setNm(referNms);
 				lmap.referIn(rf);
+				
+				bvo.setEmpNo(Integer.parseInt(refers));
+				bmap.bellInsert(bvo);
 
 			}
-			
-			
-			
 			
 			
 		}

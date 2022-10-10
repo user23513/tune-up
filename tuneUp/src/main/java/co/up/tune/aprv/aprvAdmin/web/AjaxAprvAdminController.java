@@ -10,6 +10,7 @@ import co.up.tune.aprv.vo.AprvVO;
 
 /**
  * 전자결재 관리 AjaxController
+ * 
  * @author 윤정은
  * @date 2022.09.27
  * @version 1.1
@@ -22,20 +23,23 @@ public class AjaxAprvAdminController {
 	AprvAdminService as;
 	@Autowired
 	AprvReqService rs;
-	
-	//결재문서 강제삭제
+
+	// 결재문서 강제삭제
 	@PostMapping("/aprvDel")
 	public int aprvDel(AprvVO vo) {
 		return as.aprvAdminDel(vo);
 	}
-	
-	
-	//결재문서 강제반려
+
+	// 결재문서 강제반려
 	@PostMapping("/aprvAdRjt")
 	public int aprvAdRjt(ApprovalVO vo) {
 		return as.aprvAdReject(vo);
 	}
-	
-	
+
+	// 결재문서 강제승인
+	@PostMapping("/aprvAdOk")
+	public int aprvAdOk(ApprovalVO vo) {
+		return as.aprvAdOk(vo);
+	}
 
 }

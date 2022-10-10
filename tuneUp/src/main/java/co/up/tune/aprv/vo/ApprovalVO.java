@@ -26,5 +26,7 @@ public class ApprovalVO {
 	////테이블에 없는 필드
 	List<Integer> valueArr; //체크박스 번호
 	String sign; //file path
-	
+	String empNo; //문서주인
+	String ttl; //문서제목
+	List<String> empArr; //문서작성자
 }

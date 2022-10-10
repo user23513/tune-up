@@ -4,17 +4,22 @@ import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.up.tune.aprv.approval.service.ApprovalService;
 import co.up.tune.aprv.aprvAdmin.service.AprvAdminService;
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
+import co.up.tune.aprv.aprvReq.service.AprvReqService;
+import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
+import co.up.tune.aprv.vo.ReferVO;
 import co.up.tune.aprv.vo.TrustVO;
 import co.up.tune.common.service.CommonService;
 
@@ -36,6 +41,10 @@ public class AprvAdminController {
 	AprvLineService ls;
 	@Autowired
 	ApprovalService ap;
+	@Autowired
+	AprvReqService rs;
+	@Value("${file.dir}")
+	private String fileDir;
 	
 
 	//관리자페이지
@@ -76,6 +85,18 @@ public class AprvAdminController {
 
 	}
 
-	
+	@PostMapping("/aprvAdminView")
+	public String aprvAdminView(AprvVO vo, Model model) {
+		int aprvNo = vo.getAprvNo();
+		ApprovalVO avo = new ApprovalVO();
+		avo.setAprvNo(aprvNo);
+		ReferVO rvo = new ReferVO();
+		rvo.setAprvNo(aprvNo);
+		
+		model.addAttribute("aprv", rs.aprvSelect(vo));
+		model.addAttribute("approval", ls.aprvrList(avo));
+		model.addAttribute("refer", ls.referList(rvo));
+		return "/aprv/aprvAdmin/aprvAdminView";
+	}
 	
 }

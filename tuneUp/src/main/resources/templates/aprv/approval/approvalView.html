@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>TuneUp - 전자결재</title>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+</head>
+<body>
+	<main id="main" class="main" layout:fragment="content">
+<script>
+
+
+$(document).ready(function() {	
+
+	//pdf
+	$('#savePdf').click(function() {
+		let ttl = $("#ttl").text();
+		
+	    html2canvas($('#cntn')[0]).then(function(canvas) {
+	       
+	        let imgData = canvas.toDataURL('image/png');
+
+	        let margin = 10; // 출력 페이지 여백설정
+	        let imgWidth = 210 - (10 * 2); // 이미지 가로 길이(mm) A4 기준
+	        let pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+	        let imgHeight = canvas.height * imgWidth / canvas.width;
+	        let heightLeft = imgHeight;
+
+	        let doc = new jsPDF('p', 'mm');
+	        let position = margin;
+
+	        // 첫 페이지
+	        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+	        heightLeft -= pageHeight;
+
+	        // 루프 출력
+	        while (heightLeft >= 20) {
+	            position = heightLeft - imgHeight;
+	            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+	            doc.addPage();
+	            heightLeft -= pageHeight;
+	        }
+
+	        // 파일 저장
+	        doc.save(ttl+'.pdf');
+	    });
+	}); 
+	
+	
+})
+
+//승인 반려
+	function aprvBtn() {
+		if (confirm("문서를 승인하시겠습니까?")) {
+			let no = $("#apBtn").data("no");
+			$.ajax({
+			type : 'post',
+			url : 'approved',
+			beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);},
+			data : { 'aprvNo' : no },
+			dataType : 'json',
+			success : function(data) {
+				alert('결재가 완료되었습니다!');
+				location.href = "approval";
+
+				}
+			})
+		}
+	}
+
+	function rejectBtn() {
+		if (confirm("문서를 반려하시겠습니까?")) {
+			let no = $("#apBtn").data("no");
+			let reject = $("#reject").val();
+			$.ajax({
+				type : 'post',
+				url : 'rejectIn',
+				beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);},
+				data : { 'aprvNo' : no,
+						'reject' : reject },
+				dataType : 'json',
+				success : function(data) {
+					alert('문서가 반려 처리되었습니다.');
+					location.href = "approval";
+				}
+			})
+		}
+	}
+
+</script>
+
+		<section class="section">
+
+			<!-- card -->
+			<div class="card">
+				<div class="card-body">
+
+					<br>
+
+
+
+					<table class="table" id="cntn">
+						<tbody>
+							<tr>
+								<th>상태</th>
+								<td th:text="${aprv.reqSt}"></td>
+								<td colspan="4" class="textSize"><b id="ttl"><span
+										th:if="${aprv.impts}=='Y'">[중요]</span>[[${aprv.ttl}]]</b></td>
+							</tr>
+							<tr>
+								<th>상신인</th>
+								<td th:text="${aprv.nm}"></td>
+								<th>작성일자</th>
+								<td th:text="${aprv.dttm}"></td>
+								<th colspan="1" th:if="${aprv.deadline != null}">마감일자</th>
+								<td colspan="5" th:if="${aprv.deadline != null}"
+									th:text="${aprv.deadline}"></td>
+							</tr>
+							<tr>
+								<th colspan="1">참조인</th>
+								<td colspan="5">
+									<div th:if="${refer != null}">
+										<span th:each="r : ${refer}" th:if="${r.nm != null}"
+											th:text="${r.nm}"></span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6" th:utext="${aprv.cntn}" style="height: 500px"></td>
+							</tr>
+							<tr>
+								<th colspan="1">첨부파일</th>
+								<td colspan="5"><a th:href=@{/attach(path=${aprv.fPath})}
+									th:text="${aprv.fNm}" th:if="${aprv.fNm != null}"></a></td>
+							</tr>
+							<tr th:if="${aprv.aprvEtc != null}">
+								<th colspan="1">상신 의견</th>
+								<td colspan="5" th:text="${aprv.aprvEtc}"></td>
+							</tr>
+							<tr>
+								<th colspan="6">결재 상태</th>
+							</tr>
+
+						</tbody>
+
+						<tfoot th:each="a : ${approval}">
+							<tr th:if="${a.nm != null}">
+								<th colspan="1" th:text="${a.nm}"></th>
+								<td colspan="5" th:if="${a.aprvSt == '완료'}"><img
+									th:src="${a.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${a.sign})} "
+									style="width: 150px; height: 150px;"></td>
+								<td colspan="5" th:if="${a.aprvSt == '반려'}"><img
+									th:src="$assets/img/reject.png"
+									style="width: 150px; height: 150px;"></td>
+								<td th:if="${a.aprvSt =='진행' }" colspan="5"></td>
+								<td th:if="${a.aprvSt =='대기' }" colspan="5"></td>
+							</tr>
+							<tr th:if="${a.reject != null}">
+								<th colspan="1">반려 사유</th>
+								<td colspan="5" th:text="${a.reject}"></td>
+							</tr>
+						</tfoot>
+
+					</table>
+
+					<div>
+						<div>
+							<form>
+								<input type="text" class="form-control" id="reject"
+									name="reject" placeholder="반려 사유" style="float: left;">
+							</form>
+						</div>
+						<br>
+						<br>
+						
+						<span>
+							<button id="apBtn" type="button" class="btn btn-primary"
+								data-no="${aprv.aprvNo}" onclick="aprvBtn()"
+								style="float: right;">승인</button>
+							<button id="rjtBtn" type="button" class="btn btn-secondary"
+								data-no="${aprv.aprvNo}" onclick="rejectBtn()"
+								style="float: right; margin-right: 5px;">반려</button>
+							<button id="savePdf" class="btn btn-primary"
+								style="float: right; margin-right: 5px;">
+								<i class="bi bi-folder me-1"></i>PDF
+							</button>
+							<button onclick="location.href='approval'"
+								class="btn btn-secondary"
+								style="float: right; margin-right: 5px;">목록</button>
+						</span>
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+	</main>
+</body>
+</html>

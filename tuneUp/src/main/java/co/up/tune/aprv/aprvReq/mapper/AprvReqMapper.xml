@@ -44,7 +44,7 @@
 		(#{aprvNo},
 		#{empNo},
 		#{ttl},
-		SYSTIMESTAMP,
+		SYSDATE,
 		#{cntn},
 		'전송',
 		#{aprvEtc},
@@ -56,8 +56,8 @@
 	</insert>
 
 	<select id="aprvSelect"
-		parameterType="co.up.tune.aprv.vo.AprvViewVO"
-		resultType="co.up.tune.aprv.vo.AprvViewVO">
+		parameterType="co.up.tune.aprv.vo.AprvVO"
+		resultType="co.up.tune.aprv.vo.AprvVO">
 		SELECT *
 		FROM APRV
 		WHERE APRV_NO = #{aprvNo}

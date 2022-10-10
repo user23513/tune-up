@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import co.up.tune.aprv.aprvLine.mapper.AprvLineMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvLineVO;
-import co.up.tune.aprv.vo.AprvViewVO;
 import co.up.tune.aprv.vo.ReferVO;
 import co.up.tune.emp.vo.EmpVO;
 
 /**
  * 전자결재 결재라인 ServiceImpl
+ * 
  * @author 윤정은
  * @date 2022.09.30
  * @version 1.3
@@ -23,10 +23,9 @@ public class AprvLineServiceImpl implements AprvLineService {
 	@Autowired
 	AprvLineMapper map;
 
-	
 	@Override
-	public AprvViewVO approvalList(AprvViewVO vo) {
-		return map.approvalList(vo);
+	public List<ApprovalVO> aprvrList(ApprovalVO vo) {
+		return map.aprvrList(vo);
 	}
 
 	@Override
@@ -36,8 +35,8 @@ public class AprvLineServiceImpl implements AprvLineService {
 	}
 
 	@Override
-	public AprvViewVO ReferList(AprvViewVO vo) {
-		return map.ReferList(vo);
+	public List<ReferVO> referList(ReferVO vo) {
+		return map.referList(vo);
 	}
 
 	@Override

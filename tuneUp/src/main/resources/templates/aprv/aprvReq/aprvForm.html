@@ -151,63 +151,52 @@ $(document).ready(function(){
 			$("#cntn").val(content);
 			
 			if (!confirm("문서를 상신하시겠습니까?")) {
-	            
 				return;
 	        
 			} else if (content != "" && ttl != "" && aprvr != ""){
-	        
 	        	$("#newfrm").submit();
 				
-	        	} else {
-	        		
-					alert("필수 내용을 작성해주세요.");
+	        } else {
+				alert("필수 내용을 작성해주세요.");
 				
-	        	}
+	        }
 	           
-	        })
+	  	})
 
-			// 임시저장
-	        $("#temp").on("click", e=>{
+		// 임시저장
+	 	 $("#temp").on("click", e=>{
 	        	
-	        	let content = tinymce.activeEditor.getContent();
-		        let ttl = "[임시저장]" + $("#ttl").val();
-		        $("#cntn").val(content);
+	        let content = tinymce.activeEditor.getContent();
+		    let ttl = "[임시저장]" + $("#ttl").val();
+		    $("#cntn").val(content);
 		        
-		        let form = $('#newfrm')[0];  	          
-		        let data = new FormData(form);  	   
+		    let form = $('#newfrm')[0];  	          
+		    let data = new FormData(form);  	   
 		        
-		        if (content != "" && ttl != ""){
-		        	$.ajax({
-						url:'tempAprv',
-						beforeSend:function(xhr){
-					 		xhr.setRequestHeader(header,token);  
-					    },
-					    type:"post",
-					    data: data,
-					    enctype: 'multipart/form-data', 
-					    processData: false,    
-				        contentType: false,      
-				        cache: false,     
-					    success:function(obj){  
-		        			alert("임시저장 완료되었습니다.")
-					    	
-					    }
-				    }) 
-		        	
-		        	
-		        } else {
-		        	alert("내용을 작성해주세요!");
-		        }
-	        	
-	        	
-	        })
-	        
-	        
+		    if (content != "" && ttl != ""){
+		       $.ajax({
+					url:'tempAprv',
+					beforeSend:function(xhr){
+					xhr.setRequestHeader(header,token);  },
+					type:"post",
+					data: data,
+					enctype: 'multipart/form-data', 
+					processData: false,    
+				    contentType: false,      
+				    cache: false,     
+					success:function(obj){  
+		        		alert("임시저장 완료되었습니다.")
+					}
+				}) 
+		   	} else {
+			alert("내용을 작성해주세요!");
+		    }
+	    })
 	        
 		
-		});	
+	});	
 			
-		</script>
+	</script>
 
 		<section class="section">
 

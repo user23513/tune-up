@@ -33,4 +33,7 @@ public interface AttdMapper {
 	
 	Date selectAtdcTmByEmpNo(String empNo); // 특정 사원의 출근시간 조회 
 	
+	String wkov(String empNo);	//총근무 wktm+ovtm
+	String totalWktm(String empNo); //근무 wktm
+	String totalOvtm(String empNo);	//연장근무 ovtm
 }

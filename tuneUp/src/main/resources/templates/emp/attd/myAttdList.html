@@ -174,7 +174,7 @@
 				<div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-							 <h5 class="card-title">7days</h5>
+							 <h5 class="card-title">지난 일주일</h5>
 							<!-- Stacked Bar Chart -->
               <canvas id="stakedBarChart" style="max-height: 400px;"></canvas>
               <script th:inline="javascript">
@@ -240,13 +240,89 @@
 				 <div class="col-lg-12">
 					<div class="card">
 						<div class="card-body">
-              				<h5 class="card-title">총 근무시간</h5>
+              				<h5 class="card-title">이번주 </h5>
 				        <!-- Radial Bar Chart -->
 				              <div id="radialBarChart"></div>
-			              <script>
+			           <script th:inline="javascript">
+			             /*<![CDATA[*/
+					      var wkov = [[${wkov}]]; //120
+		              	console.log(wkov);
+					    
+					    var totalWktm = [[${totalWktm}]]; //122
+					    console.log(totalWktm);
+
+					    var totalOvtm = [[${totalOvtm}]]; // 0
+					    console.log(totalOvtm);
+					    /*]]>*/
 			                document.addEventListener("DOMContentLoaded", () => {
-			                  new ApexCharts(document.querySelector("#radialBarChart"), {
-			                    series: [43,5],
+			                	  var options = {
+			                	          series: [totalWktm, totalOvtm ],
+			                	          chart: {
+			                	          height: 350,
+			                	          type: 'radialBar',
+			                	        },
+			                	        plotOptions: {
+			                	          radialBar: {
+			                	            dataLabels: {
+			                	              name: {
+			                	                fontSize: '22px',
+			                	              },
+			                	              value: {
+			                	                fontSize: '16px',
+			                	                formatter: function (w) {
+			                	                	return w
+			                	                /* 	var res = w
+				                	            	 if(res.indexOf('%')==0){
+				                	            		res = w.replace('%','')
+				                	            	 }
+				                	            	 return res */
+				                	            }
+			                	              },
+			                	             
+			                	              total: {
+			                	                show: true,
+			                	                label: '전체',
+			                	                formatter: function (w) {
+			                	                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+			                	                  return wkov+'분';
+			                	                }
+			                	              }
+			                	            }
+			                	          }
+			                	        },
+			                	        
+			                /* 	        dataLabels: {
+			                	              show: true,
+			                	              name: {
+			                	                offsetY: -10,
+			                	                show: true,
+			                	                color: '#888',
+			                	                fontSize: '17px'
+			                	              },
+			                	              value: {
+			                	                formatter: function(val) {
+			                	                  return parseInt(val);
+			                	                },
+			                	                color: '#111',
+			                	                fontSize: '36px',
+			                	                show: true,
+			                	              }
+			                	            } 
+			                	        ,*/
+			                	        labels: ['근무 시간', '야근 시간'],
+			                	/*         legend: {
+			                	            show: true,
+			                	            formatter: function(seriesName, opts) {
+			                	              return seriesName + ":  " + opts.w
+			                	            },
+			                	          }, */
+			                	        };
+
+			                	        var chart = new ApexCharts(document.querySelector("#radialBarChart"), options);
+			                	        chart.render();
+			                	
+			                /*   new ApexCharts(document.querySelector("#radialBarChart"), {
+			                    series: {totalWktm,totalOvtm},
 			                    chart: {
 			                      height: 350,
 			                      type: 'radialBar',
@@ -268,16 +344,16 @@
 			                            label: '전체',
 			                            formatter: function(w) {
 			                              // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-			                              return 52
+			                              return wkov
 			                            }
 			                          }
 			                        }
 			                      }
 			                    },
-			                    labels: ['잔여 근무', '연장 근무',''],
-			                  }).render();
+			                    labels: ['잔여 근무', '연장 근무'],
+			                  }).render(); */
 			                });
-			              </script>
+			              </script> 
               <!-- End Radial Bar Chart -->
 
             </div>

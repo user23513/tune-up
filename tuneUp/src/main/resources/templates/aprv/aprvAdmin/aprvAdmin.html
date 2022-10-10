@@ -131,155 +131,118 @@
 			    }) 
 			})
 			
-				delLine();
-				//결재선 삭제
-				function delLine(){
-				$(".delLine").on("click", e=>{
-					let no = $(e.target).closest("li").data("no");
-					
-					if (confirm("삭제하시겠습니까?")){
-						$.ajax({
-							url:'aprvLineDel',
-							beforeSend:function(xhr){
-						 		xhr.setRequestHeader(header,token);  
-						    },
-						    type:"post",
-						    data:{'lineNo':no},
-						    dataType:'json',
-						    success:function(obj){
-						    	$(e.target).closest("li").remove();
-						    }
-					    }) 
-					} else {
-						return;
-					}
-				})
-			}
+		delLine();
+		//결재선 삭제
+		function delLine(){
+			$(".delLine").on("click", e=>{
+				let no = $(e.target).closest("li").data("no");
 				
-
-			//글상세
-				$("#aprvtb").on("click", "tr", e=>{
-					let aprvNo = $(e.target).data("no");
+				if (confirm("삭제하시겠습니까?")){
 					$.ajax({
-						url:'aprvView',
+						url:'aprvLineDel',
 						beforeSend:function(xhr){
-					 		xhr.setRequestHeader(header,token);  
-					    },
-					    type:"post",
-					    data:{'aprvNo':aprvNo},
-					    dataType:'json',
-					    success:function(obj){    	
-					        $("#vttl").html(obj.ttl);
-							$("#tnv").html(obj.cntn);
-							$("#viewFoot").html("");
-							let clBtn = `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>`;
-							let rjtBtn = `<button type="button" class="btn btn-primary rjtBtn" data-no="${obj.aprvNo}"  onclick="rejectAd()">강제 반려</button>`;
-							$("#viewFoot").append(clBtn, rjtBtn);
-							$("#viewModal").modal('show');
-							
-					        }
-					    }) 
-					})
-			//서식상세
-				$("#formtb").on("click", "tr", e=>{
-					let formNo = $(e.target).data("frm"); 
-					$.ajax({
-							url:'formView',
-							beforeSend:function(xhr){
-						 		xhr.setRequestHeader(header,token);  
-						    },
-						    type:"post",
-						    data:{'formNo':formNo},
-						    dataType:'json',
-						    success:function(obj){
-						        $("#vttl").html(obj.ttl);
-								$("#tnv").html(obj.cntn);
-								$("#viewFoot").html("");
-								let clBtn = `<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">닫기</button>`;
-								let delBtn = `<button type="button" class="btn btn-primary delFormBtn" data-no="${obj.formNo}" onclick="delForm()">삭제</button>`;
-								$("#viewFoot").append(clBtn, delBtn);
-								$("#viewModal").modal('show');
-						        }
+						xhr.setRequestHeader(header,token);  
+						},
+						type:"post",
+						data:{'lineNo':no},
+						dataType:'json',
+						success:function(obj){
+						   $(e.target).closest("li").remove();
+						}
 					}) 
-				})
-						
-				//pdf
-				$('#savePdf').click(function() {
-				    html2canvas($('#vCntn')[0]).then(function(canvas) {
-				       
-				        let imgData = canvas.toDataURL('image/png');
-
-				        let margin = 10; // 출력 페이지 여백설정
-				        let imgWidth = 210 - (10 * 2); // 이미지 가로 길이(mm) A4 기준
-				        let pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
-				        let imgHeight = canvas.height * imgWidth / canvas.width;
-				        let heightLeft = imgHeight;
-
-				        let doc = new jsPDF('p', 'mm');
-				        let position = margin;
-
-				        // 첫 페이지
-				        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-				        heightLeft -= pageHeight;
-
-				        // 루프 출력
-				        while (heightLeft >= 20) {
-				            position = heightLeft - imgHeight;
-				            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-				            doc.addPage();
-				            heightLeft -= pageHeight;
-				        }
-
-				        // 파일 저장
-				        doc.save('sample.pdf');
-				    });
-				}); 
+				} else {
+					return;
+				}
+			})
+		}
 				
-						
-			});
-			
-			//강제 삭제 반려
-			function delForm(){		
-				let formNo = $(".delFormBtn").data("no");
-				if(confirm("정말 삭제하시겠습니까?")){
-					$.ajax({
-						url:'formDel',
-						beforeSend:function(xhr){
-					 		xhr.setRequestHeader(header,token);  
-					    },
-					    type:"post",
-					    data:{'formNo':formNo},
-					    dataType:'json',
-					    success:function(obj){
-					    	
-					    	$("#formtb").find(`[data-frm='${formNo}']`).remove();
-					    	let myModal = bootstrap.Modal.getOrCreateInstance($("#viewModal"));
-					    	myModal.hide();
-					    	
-					    }
-				    }) 
-					}
-				}
-				function rejectAd(){		
-				let aprvNo=$(".rjtBtn").data("no");
-				if(confirm("정말 반려하시겠습니까?")){
-					$.ajax({
-						url:'aprvAdRjt',
-						beforeSend:function(xhr){
-					 		xhr.setRequestHeader(header,token);  
-					    },
-					    type:"post",
-					    data:{'aprvNo':aprvNo},
-					    dataType:'json',
-					    success:function(obj){
-	
-					    	location.href="aprvAdmin";
 
-					    }
-				    }) 
-					}
+		//글상세
+		$("#aprvtb").on("click", "tr", e=>{
+			let no = $(e.target).data("no");
+			$("#aprvFrmNo").val(no)
+			$("#aprvFrm").submit();		
+		})
+		//서식상세
+		$("#formtb").on("click", "tr", e=>{
+			let formNo = $(e.target).data("frm"); 
+			$.ajax({
+				url:'formView',
+				beforeSend:function(xhr){
+				xhr.setRequestHeader(header,token);  
+				},
+				type:"post",
+				data:{'formNo':formNo},
+				dataType:'json',
+				success:function(obj){
+					$("#vttl").html(obj.ttl);
+					$("#tnv").html(obj.cntn);
+					$("#viewFoot").html("");
+					let clBtn = `<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">닫기</button>`;
+					let delBtn = `<button type="button" class="btn btn-primary delFormBtn" data-no="${obj.formNo}" onclick="delForm()">삭제</button>`;
+					$("#viewFoot").append(clBtn, delBtn);
+					$("#viewModal").modal('show');
 				}
+			}) 
+		})
+						
+		//pdf
+		$('#savePdf').click(function() {
+			let ttl = $("#vttl").text();
+					
+			html2canvas($('#vCntn')[0]).then(function(canvas) {       
+				let imgData = canvas.toDataURL('image/png');
+			
+				let margin = 10; // 출력 페이지 여백설정
+				let imgWidth = 210 - (10 * 2); // 이미지 가로 길이(mm) A4 기준
+				let pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+				let imgHeight = canvas.height * imgWidth / canvas.width;
+				let heightLeft = imgHeight;
+
+				let doc = new jsPDF('p', 'mm');
+				let position = margin;
+
+				// 첫 페이지
+				doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+				heightLeft -= pageHeight;
+
+				// 루프 출력
+				while (heightLeft >= 20) {
+					position = heightLeft - imgHeight;
+					doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+					doc.addPage();
+					heightLeft -= pageHeight;
+				}
+
+				// 파일 저장
+				doc.save(ttl+'.pdf');
+				});
+			}); 
+		});
+			
+		//강제 삭제
+		function delForm(){		
+			let formNo = $(".delFormBtn").data("no");
+			if(confirm("정말 삭제하시겠습니까?")){
+				$.ajax({
+					url:'formDel',
+					beforeSend:function(xhr){
+					xhr.setRequestHeader(header,token); },
+					type:"post",
+					data:{'formNo':formNo},
+					dataType:'json',
+					success:function(obj){
+					    	
+						$("#formtb").find(`[data-frm='${formNo}']`).remove();
+						let myModal = bootstrap.Modal.getOrCreateInstance($("#viewModal"));
+						myModal.hide();
+					    	
+					}
+				}) 
+			}
+		}
+				
 			
 					
 	</script>
@@ -394,10 +357,13 @@
 												<td class="d-flex justify-content-between align-items-start"
 													th:data-no="${p.aprvNo}">
 													<div class="ms-2 me-auto">
-														<i th:if="${p.impts}=='Y'" class="ri-alert-fill" style="float: left;"></i>
-														<div class="fw-bold" th:text="${p.ttl}" style="float: left;">제목</div>
-														<br>
-														<span th:if="${p.deadline} != ' '" th:text="|${p.deadline}까지|"></span><small th:text="| ${p.nm}"></small>
+														<i th:if="${p.impts}=='Y'" class="ri-alert-fill"
+															style="float: left;"></i>
+														<div class="fw-bold" th:text="${p.ttl}"
+															style="float: left;">제목</div>
+														<br> <span th:if="${p.deadline} != ' '"
+															th:text="|${p.deadline}까지|"></span><small
+															th:text="| ${p.nm}"></small>
 													</div> <span th:if="${p.reqSt == '전송' or p.reqSt =='검토'  }"
 													th:text="${p.reqSt}"
 													class="badge bg-secondary rounded-pill"
@@ -414,13 +380,13 @@
 								</div>
 							</div>
 
-							<!-- <div>
-								<form id="aprvfrm" method="post" action="aprvReq">
+							<div>
+								<form id="aprvFrm" action="aprvAdminView" method="post">
 									<input type="hidden" th:name="${_csrf.parameterName}"
 										th:value="${_csrf.token}"> <input type="hidden"
-										id="aprvNo" name="aprvNo">
+										id="aprvFrmNo" name="aprvNo">
 								</form>
-							</div> -->
+							</div>
 						</div>
 
 						<!-- Tabs Gap -->
@@ -483,10 +449,11 @@
 												<td class="d-flex justify-content-between align-items-start"
 													th:data-frm="${f.formNo}">
 													<div class="ms-2 me-auto">
-														<i th:if="${f.formAuth == '개인'}" class="ri-lock-2-line" style="float: left;"></i>
-														<div class="fw-bold " th:text="${f.ttl}" style="float: left;">제목</div>
-														<br>
-														<small th:text="${f.nm}"></small>
+														<i th:if="${f.formAuth == '개인'}" class="ri-lock-2-line"
+															style="float: left;"></i>
+														<div class="fw-bold " th:text="${f.ttl}"
+															style="float: left;">제목</div>
+														<br> <small th:text="${f.nm}"></small>
 													</div> <span th:if="${f.formAuth == '개인'}" th:text="${f.formCat}"
 													class="badge bg-primary rounded-pill" style="height: 25px"></span>
 													<span th:unless="${f.formAuth == '개인'}"
@@ -498,7 +465,7 @@
 										</tbody>
 									</table>
 								</div>
-							
+
 							</div>
 						</div>
 					</div>
@@ -565,8 +532,8 @@
 							<ul class="list-group trustList">
 								<li class="list-group-item trustli" th:each="t : ${trust}"
 									th:data-no="${t.trustNo}"><b
-									th:text="|${t.nm} → ${t.rpttNm}|"></b> &nbsp;&nbsp;&nbsp;
-									<span th:text="|${t.sdt} ~ ${t.edt}|"></span></li>
+									th:text="|${t.nm} → ${t.rpttNm}|"></b> &nbsp;&nbsp;&nbsp; <span
+									th:text="|${t.sdt} ~ ${t.edt}|"></span></li>
 							</ul>
 						</div>
 					</div>

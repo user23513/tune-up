@@ -22,7 +22,7 @@ $(document).ready(function() {
 	
 	//사원 테이블 tr태그 클릭 이벤트
 	$("#tb").on("click", "tr", e=>{
-		let tg = e.target.closest('tr').children[1].innerText;
+		let tg = e.target.closest('tr').children[0].innerText;
 		console.log(tg);
 		$("#empNo").val(tg);
 		console.log($("#empNo").val());
@@ -31,7 +31,7 @@ $(document).ready(function() {
    
 	//관리자 tr태그 클릭 이벤트
 	$("#tbd").on("click", "tr", e=>{
-		let tg = e.target.closest('tr').children[1].innerText;
+		let tg = e.target.closest('tr').children[0].innerText;
 		console.log(tg)
 		$("#empNo").val(tg);
 		$("#frm").submit();
@@ -41,6 +41,7 @@ $(document).ready(function() {
 	$(".ok").on("click", e=>{
 		e.stopPropagation(); //tr태그 클릭이벤트 발생X
 		let auth = e.target.closest('td').previousElementSibling.innerText;
+		console.log(auth);
 		if(auth=='GUEST'){
 			let really = confirm("권한을 USER로 바꾸시겠습니까?");
 			if(really){
@@ -49,7 +50,7 @@ $(document).ready(function() {
 				var header = $("meta[name='_csrf_header']").attr("content");
 				
 				//권한
-				let tg = e.target.closest('tr').children[1].innerText;
+				let tg = e.target.closest('tr').children[0].innerText;
 				//$("#auth").val(tg);
 				      
 				$.ajax({
@@ -125,12 +126,10 @@ $(document).ready(function() {
 									<table class="table table-hover" id="empList">
 										<thead>
 											<tr>
-												<th scope="col">NO</th>
 												<th scope="col">사원번호</th>
 												<th scope="col">성명</th>
 												<th scope="col">부서</th>
 												<th scope="col">직위</th>
-												<th scope="col">생년월일</th>
 												<th scope="col">입사일</th>
 												<th scope="col">휴대폰</th>
 												<th scope="col">이메일</th>
@@ -140,13 +139,10 @@ $(document).ready(function() {
 										</thead>
 										<tbody id="tb">
 											<tr th:each="e : ${empList}">
-												<th scope="row"><input id="ck" name="ck"
-													type="checkbox"></th>
 												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}">HR100</td>
 												<td th:text="${e.nm}">김인사</td>
 												<td th:text="${e.dept}">인사</td>
 												<td th:text="${e.position}">대리</td>
-												<td th:text="${e.birth}">1980-02-25</td>
 												<td th:text="${e.hDate}">2010-01-01</td>
 												<td th:text="${e.phone}">010-0000-0000</td>
 												<td th:text="${e.email}">aaa1234@gmail.com</td>
@@ -171,12 +167,10 @@ $(document).ready(function() {
 									<table class="table table-hover" id="managerList">
 										<thead>
 											<tr>
-												<th scope="col">NO</th>
 												<th scope="col">사원번호</th>
 												<th scope="col">성명</th>
 												<th scope="col">부서</th>
 												<th scope="col">직위</th>
-												<th scope="col">생년월일</th>
 												<th scope="col">입사일</th>
 												<th scope="col">휴대폰</th>
 												<th scope="col">이메일</th>
@@ -185,13 +179,10 @@ $(document).ready(function() {
 										</thead>
 										<tbody id="tbd">
 											<tr th:each="m : ${managerList}" th:if="m.auth">
-												<th scope="row"></th>
-												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}">
-												</td>
+												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"></td>
 												<td th:text="${m.nm}">김인사</td>
 												<td th:text="${m.dept}">인사</td>
 												<td th:text="${m.position}">대리</td>
-												<td th:text="${m.birth}">1980-02-25</td>
 												<td th:text="${m.hDate}">2010-01-01</td>
 												<td th:text="${m.phone}">010-0000-0000</td>
 												<td th:text="${m.email}">aaa1234@gmail.com</td>

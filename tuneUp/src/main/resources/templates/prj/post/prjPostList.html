@@ -7,7 +7,7 @@
 <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
 <meta id="_csrf_header" name="_csrf_header"
 	th:content="${_csrf.headerName}" />
-<title>TuneUp - 내 프로젝트</title>
+<title>내프로젝트</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -82,7 +82,7 @@ $(document).ready(function() {
 }
 
 .map {
-	width: 70%;
+	width: 700px;
 	height: 300px;
 	position: relative;
 	left: 10px;
@@ -119,109 +119,87 @@ $(document).ready(function() {
 <body>
 	<main id="main" class="main" layout:fragment="content">
 		<script>
-	$(document).ready(function() {
-		
-		
-	$('#pst-Table').DataTable({
-		"dom":'lftip',
-		"language": {
-	    "search": ""
-	  	},
-		lengthChange: false,
-		ordering: false,
-		info: false
-	});
-	
-	$('#sch-Table').DataTable({
-		"dom":'lftip',
-		"language": {
-	    "search": ""
-	  	},
-		lengthChange: false,
-		ordering: false,
-		info: false
-	});
-	
-	$('#bss-Table').DataTable({
-		"dom":'lftip',
-		"language": {
-	    "search": ""
-	  	},
-		lengthChange: false,
-		ordering: false,
-		info: false
-	});
-	
-	$('#todo-Table').DataTable({
-		"dom":'lftip',
-		"language": {
-	    "search": ""
-	  	},
-		lengthChange: false,
-		ordering: false,
-		info: false
-	});
-	
-	})
-	
-	</script>
-
-
-
+			$(document).ready(function() {
+				
+				
+			$('#pst-Table').DataTable({
+				"dom":'lftip',
+				"language": {
+			    "search": ""
+			  	},
+				lengthChange: false,
+				ordering: false,
+				info: false
+			});
+			
+			$('#sch-Table').DataTable({
+				"dom":'lftip',
+				"language": {
+			    "search": ""
+			  	},
+				lengthChange: false,
+				ordering: false,
+				info: false
+			});
+			
+			$('#bss-Table').DataTable({
+				"dom":'lftip',
+				"language": {
+			    "search": ""
+			  	},
+				lengthChange: false,
+				ordering: false,
+				info: false
+			});
+			
+			$('#todo-Table').DataTable({
+				"dom":'lftip',
+				"language": {
+			    "search": ""
+			  	},
+				lengthChange: false,
+				ordering: false,
+				info: false
+			});
+			
+			})
+			
+		</script>
 		<section class="section">
 			<div class="card">
 				<div class="card-body" style="min-height: 800px;">
-					<br>
 					<div class="pagetitle">
-						<h1 th:text="${prjDetail.nm}">프로젝트</h1>
+						<br>
+						<h1>프로젝트</h1>
 						<nav>
 							<ol class="breadcrumb">
+								<li class="breadcrumb-item">새 프로젝트</li>
 								<li class="breadcrumb-item active">내 프로젝트</li>
-
 								<li class="breadcrumb-item">내 파일함</li>
-								<li class="breadcrumb-item">내 게시글</li>
 							</ol>
 						</nav>
 					</div>
-
-					<br>
-
-					<!-- Card with an image on left -->
-					<div class="card mb-3">
-						<div class="row g-0">
-							<div class="col-md-4">
-								<img src="assets/img/work.jpg" class="img-fluid rounded-start"
-									alt="..." style="width: 350px;">
-							</div>
-							<div class="col-md-8">
-								<div class="card-body">
-									<br> <span class="round" th:text="${prjDetail.st}"></span>
-									<h5 class="card-title" th:text="${prjDetail.cntn}"></h5>
-									<span th:text="|${prjDetail.sdt} ~ ${prjDetail.edt}|"></span>
-									<div
-										style="display: inline-block; margin: 0 5px; float: right;">
-										<form action="teamList">
-											<input type="hidden" name="prjNo" th:value="${prjNo}">
-											<input type="hidden" name="auth" th:value="${auth}">
-											<button type="submit" id="authBtn"
-												class="btn btn-outline-primary">관리</button>
-										</form>
-									</div>
-									<div
-										style="display: inline-block; margin: 0 5px; float: right;">
-										<form action="postInsertForm" method="post">
-											<input type="hidden" th:name="${_csrf.parameterName}"
-												th:value="${_csrf.token}"> <input type="hidden"
-												id="prjNo" name="prjNo" th:value="${prjNo}">
-											<button type="submit" class="btn btn-outline-primary">글쓰기</button>
-										</form>
-									</div>
-								</div>
-							</div>
+					<div class="pagetitle">
+						<!-- 관리자 메뉴 -->
+						<div style="display: inline-block; margin: 0 5px; float: right;">
+							<form action="teamList">
+								<input type="hidden" name="prjNo" th:value="${prjNo}"> <input
+									type="hidden" name="auth" th:value="${auth}">
+								<button type="submit" id="authBtn"
+									class="btn btn-outline-primary">관리</button>
+							</form>
 						</div>
+						<div style="display: inline-block; margin: 0 5px; float: right;">
+							<form action="postInsertForm" method="post">
+								<input type="hidden" th:name="${_csrf.parameterName}"
+									th:value="${_csrf.token}">
+								<!-- 프로젝트 번호  -->
+								<input type="hidden" id="prjNo" name="prjNo" th:value="${prjNo}">
+								<button type="submit" class="btn btn-outline-primary">글쓰기</button>
+							</form>
+						</div>
+						<br> <br>
 					</div>
-					<!-- End Card with an image on left -->
-					<br>
 
 					<!-- Default Tabs -->
 					<ul class="nav nav-tabs d-flex" id="myTabjustified" role="tablist">
@@ -278,7 +256,7 @@ $(document).ready(function() {
 											<th>내용</th>
 										</tr>
 									</thead>
-									<tbody id="psttb" class="list-group">
+									<tbody id="psttb">
 										<tr th:each="p :${postList}">
 											<td class="list-group-item">
 												<div class="card sc " style="margin-top: 30px;">
@@ -312,7 +290,8 @@ $(document).ready(function() {
 														</div>
 														<span style="font-size: large;"><h3>[[${p.ttl}]]</h3></span>
 														<hr>
-														<div th:text="${p.cntn}" style="font-size: medium;"></div>
+														<div th:text="${p.cntn}"
+															style="font-size: medium; "></div>
 														<br> <br> <a th:each="f:${postFiles}"
 															th:if="${f.atchNo}==${p.atchNo}"
 															th:attr="data-path=${f.fPath}"
@@ -335,7 +314,7 @@ $(document).ready(function() {
 																<hr>
 															</div>
 														</div>
-
+							
 													</div>
 												</div> <!-- End Default Card -->
 											</td>
@@ -347,7 +326,8 @@ $(document).ready(function() {
 						<!-- End 글 목록 -->
 
 						<!-- Start 일정 목록 -->
-						<div class="tab-pane fade" id="schedule" role="tabpanel" aria-labelledby="schedule-tab">
+						<div class="tab-pane fade" id="schedule" role="tabpanel"
+							aria-labelledby="schedule-tab">
 							<br>
 							<table id="sch-Table" class="display center"
 								style="width: 100%; margin-bottom: 10px; margin-top: 10px;">
@@ -356,47 +336,46 @@ $(document).ready(function() {
 										<th>내용</th>
 									</tr>
 								</thead>
-								<tbody id="schtb" class="list-group">
+								<tbody id="schtb">
 									<tr th:each="s,idx : ${scheduleList.getList()}">
 										<td class="list-group-item">
-											<div class="card sc" style="margin-top: 30px;" th:attr="data-no=${s.postNo}">
+											<div class="card sc" style="margin-top: 30px;"
+												th:attr="data-no=${s.postNo}">
 												<div class="card-body">
 													<div class="card-title">
 														<span style="font-size: 16px;"><b>[[${s.wrtr}]]</b></span>
 														<!-- 드롭다운 아이콘 -->
 														<div class="filter" style="float: right">
-															<a class="icon" href="#" data-bs-toggle="dropdown"> 
-																<i class="bi bi-three-dots"></i>
+															<a class="icon" href="#" data-bs-toggle="dropdown"> <i
+																class="bi bi-three-dots"></i>
 															</a>
 															<!-- 드롭다운 수정삭제 펼치기 -->
-															<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-																<li class="dropdown-header text-start">
-																	<i class="bi bi-gear"> settings</i>
-																	<button class="dropdown-item" style="padding: 10px 0 0 0;"
+															<ul
+																class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+																<li class="dropdown-header text-start"><i
+																	class="bi bi-gear"> settings</i>
+																	<button class="dropdown-item"
+																		style="padding: 10px 0 0 0;"
 																		th:attr="data-no=${s.postNo}" data-type="일정">
 																		<i class="ri-edit-2-line"></i>수정
 																	</button>
-																	<button class="dropdown-item" style="padding: 10px 0 0 0;"
+																	<button class="dropdown-item"
+																		style="padding: 10px 0 0 0;"
 																		th:attr="data-no=${s.postNo}" data-type="일정">
 																		<i class="ri-delete-bin-line"></i>삭제
-																	</button>
-																</li>
+																	</button></li>
 															</ul>
 														</div>
 													</div>
-													<span style="font-size: 22px;">
-														<b>[[${s.ttl}]]</b>
-													</span>
-													<br>
+													<span style="font-size: 22px;"><b>[[${s.ttl}]]</b></span><br>
 													<span>[[${s.sdt}]] - [[${s.edt}]]</span>
 													<hr style="color: gray;">
 													<div>
-														<i class="bi bi-person"></i> 
-														<span th:each="m : ${scheduleMember}" th:if="${s.postNo}==${m.postNo}">[[${m.nm}]]&nbsp;</span>
-														<br> 
-														<br> 
-														<i class="bi bi-geo-alt"></i> 
-														<span th:id="${idx.count}"></span>
+														<i class="bi bi-person"></i> <span
+															th:each="m : ${scheduleMember}"
+															th:if="${s.postNo}==${m.postNo}">[[${m.nm}]]&nbsp;</span>
+														<br> <br> <i class="bi bi-geo-alt"></i> <span
+															th:id="${idx.count}"></span>
 														<div class="map"></div>
 														<br>
 														<div th:text="${s.cntn}"
@@ -415,18 +394,18 @@ $(document).ready(function() {
 
 													<!-- 전체 댓글 -->
 													<div class="rList">
-														<div th:each="r : ${replyList}" th:if="${s.postNo}==${r.postNo}"
+														<div th:each="r : ${replyList}"
+															th:if="${s.postNo}==${r.postNo}"
 															th:attr="data-no=${s.empNo}">
-															<span th:text="${r.wrtr}">작성자</span>&nbsp; 
-															<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
-															<br> 
-															<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-															<span> 
-																<i class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
+															<span th:text="${r.wrtr}">작성자</span>&nbsp; <span
+																th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">
+																작성일시</span><br> <span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
+															<span> <i class="ri-edit-2-line update"
+																th:attr="data-no=${r.replyNo}"></i>
 															</span>&nbsp;
 															<!-- 수정아이콘 -->
-															<span> 
-																<i class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
+															<span> <i class="ri-delete-bin-line delete"
+																th:attr="data-no=${r.replyNo}"></i>
 															</span>
 															<!-- 삭제아이콘 -->
 															<hr>
@@ -454,7 +433,7 @@ $(document).ready(function() {
 										<th>내용</th>
 									</tr>
 								</thead>
-								<tbody id="bsstb" class="list-group">
+								<tbody id="bsstb">
 									<tr th:each="b : ${businessList}">
 										<td class="list-group-item">
 											<div class="card sc" style="margin-top: 30px;"
@@ -502,7 +481,7 @@ $(document).ready(function() {
 														th:attr="data-path=${f.fPath}"
 														th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a>
 													<br>
-
+											
 												</div>
 											</div>
 										</td>
@@ -523,7 +502,7 @@ $(document).ready(function() {
 										<th>내용</th>
 									</tr>
 								</thead>
-								<tbody id="todotb" class="list-group">
+								<tbody id="todotb">
 									<tr th:each="t :${todoList}">
 										<td class="list-group-item">
 											<div class="card sc" style="margin-top: 30px;">
@@ -566,13 +545,6 @@ $(document).ready(function() {
 																	th:attr="aria-valuenow=${t.percent}" aria-valuemin="0"
 																	aria-valuemax="100">[[${t.percent}]]%</div>
 															</div>
-														
-															<!-- <div class="proFrame">
-																<progress name="proBar" th:value="${t.percent}"
-																	max="100" style="width: 100%; height: 30px;"
-																	th:text="${t.percent}"></progress>
-																<span name="perc">[[${t.percent}]]%</span>
-															</div> -->
 														</div>
 													</div>
 													<div style="padding: 1em 5em;">
@@ -600,8 +572,9 @@ $(document).ready(function() {
 															<span th:text="${r.wrtr}">작성자</span>&nbsp; <span
 																th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">
 																작성일시</span><br> <span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-															<span> <i class="ri-delete-bin-line delete"
-																th:attr="data-no=${r.replyNo}"></i>
+															<span th:style="${r.empNo} != ${session.empNo} ? 'visibility:hidden'">
+																<i class="ri-delete-bin-line delete"
+																	th:attr="data-no=${r.replyNo}" th:data-empNo="${r.empNo}"></i>
 															</span>
 															<!-- 삭제아이콘 -->
 															<hr>
@@ -714,7 +687,7 @@ $(document).ready(function() {
 											.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
 											.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
 											.append($("<hr>"))
-						$(e.target).parent().next().next().append(div);
+						$(e.target).parent().next().next().next().next().append(div);
 						$("#rCntn").val("");
 		         	}
 		      	})
@@ -831,42 +804,31 @@ $(document).ready(function() {
 						success:function(res){
 							perc.innerText = res+"%";
 							perc.style.width = res+"%";
+							//댓글 등록
+							 $.ajax({
+						         url:'replyInsert',
+						         beforeSend:function(xhr){
+						 	  		xhr.setRequestHeader(header,token);  
+						     	 },
+						         type:'post',
+						         data:{'postNo':postNo, 'cntn':replyCntn, 'empNo':empNo, 'wrtr':wrtr, 'replyCat': replyCat},
+						         dataType:'json',
+						         success:function(res){
+						        	let rList= e.target.closest("div").parentElement.childNodes[18];
+									let str = "<div><span>"+res.wrtr+"</span>&nbsp;"
+									str += "<span>"+res.dttm+"</span><br><span>"+res.cntn+"</span>&nbsp;&nbsp;"
+									str += "<span> <i class='ri-delete-bin-line delete' data-no='"+res.replyNo+" data-empNo='"+res.empNo+"></i>"
+									str += "</span><hr> </div>"
+									$(rList).append(str);
+					         	}
+					      	}) 
 						}
 					})
 				}
 			})
-			//=============할 일 댓글==================
-			//댓글 등록
-			$.ajax({
-		         url:'replyInsert',
-		         beforeSend:function(xhr){
-		 	  		xhr.setRequestHeader(header,token);  
-		     	 },
-		         type:'post',
-		         data:{'postNo':postNo, 'cntn':replyCntn, 'empNo':empNo, 'wrtr':wrtr, 'replyCat': replyCat},
-		         dataType:'json',
-		         success:function(res){
-					let div = $("<div>").attr("data-no", empNo).append($("<span>").html(res.wrtr)).append("\u00A0\u00A0")
-										.append($("<span>").html(res.dttm))
-										.append($("<br>"))
-										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
-										.append($("<hr>"))
-										
-										
-			/* 							
-					let test = `<div th:attr="data-no=${res.empNo}"> <span th:text="${res.wrtr}">작성자</span>&nbsp; <span
-					th:text="${#dates.format(res.dttm, 'yyyy-MM-dd HH:mm:ss')}"> 작성일시</span><br>
-					<span th:text="${res.cntn}">댓글내용</span>&nbsp;&nbsp; <span>
-					<i class="ri-delete-bin-line delete" th:attr="data-no=${res.replyNo}"></i></span><div><hr>` */
-										
-					$(e.target).closest("div").next().append(div);
-					$("#rCntn").val("");
-	         	}
-	      	})
 		}
 		else {
-			console.log(todoNo+ postNo + " 체크 해제")
+			console.log(todoNo+", " + postNo + " 체크 해제")
 			$.ajax({
 				url : "cmpltYnUpdate",
 				beforeSend:function(xhr){

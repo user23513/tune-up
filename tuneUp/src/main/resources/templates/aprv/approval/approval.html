@@ -75,12 +75,12 @@
 				checkVals.push($(this).val()); 
 			});
 			let titles = []; //문서제목
-			$(".check:checked").closest("div").data("ttl").each(function(i) {
-				titles.push($(this).val()); 
+			$(".check:checked").each(function(i) {
+				titles.push($(this).data("ttl")); 
 			});
 			let emps = [];	//작성자사번
-			$(".check:checked").closest("div").data("emp").each(function(i) {
-				emps.push($(this).val()); 
+			$(".check:checked").each(function(i) {
+				emps.push($(this).data("emp")); 
 			});
 			if(checkVals.length == 0){
 				alert("선택된 문서가 없습니다.");
@@ -96,7 +96,7 @@
 								'empArr': emps},
 						success : function(data) {
 							
-							for(let i=0; i<checkVals.length; i++){
+							for(let i=0; i<titles.length; i++){
 								socket.send('approved,발신자,'+emps[i]+','+titles[i]);
 							};
 							
@@ -548,9 +548,9 @@
 																	class="d-flex justify-content-between align-items-start"
 																	th:data-no="${p.aprvNo}">
 																	<div class="ms-2 me-auto">
-																		<div class="form-check" th:data-ttl="${p.ttl}" th:data-emp="${p.empNo}">
+																		<div class="form-check" >
 																			<input class="form-check-input check" type="checkbox"
-																				name="aprvNo" th:value="${p.aprvNo}"
+																				name="aprvNo" th:value="${p.aprvNo}" th:data-ttl="${p.ttl}" th:data-emp="${p.empNo}"
 																				style="float: left;">
 																		</div>
 																		<i th:if="${p.impts =='Y'}" class="ri-alert-fill"

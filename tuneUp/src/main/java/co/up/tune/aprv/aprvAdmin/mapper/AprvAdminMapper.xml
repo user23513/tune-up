@@ -60,7 +60,7 @@
 		UPDATE APPROVAL
 		SET
 		APRV_ST = '반려',
-		REJECT = '관리자에 의해 강제 반려됨'
+		REJECT = '관리자에 의해 반려됨'
 		WHERE APRV_NO = #{aprvNo}
 	</update>
 
@@ -78,8 +78,7 @@
 		parameterType="co.up.tune.aprv.vo.ApprovalVO">
 		UPDATE APPROVAL
 		SET
-		APRV_ST = '완료',
-		REJECT = '관리자에 의해 강제 승인됨'
+		APRV_ST = '완료'
 		WHERE APRV_NO = #{aprvNo}
 	</update>
 

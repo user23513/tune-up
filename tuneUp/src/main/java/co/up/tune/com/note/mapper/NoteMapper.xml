@@ -45,6 +45,7 @@
 		SELECT COUNT(*)
 		FROM NOTE
 		WHERE S_EMP_NO=#{rEmpNo}
+		AND KEEP='N'
 	</select>
 	
 	<!-- 쪽지 삭제 -->

@@ -21,14 +21,13 @@ public class PrjMngController {
 	@Autowired
 	PrjMngService dao;
  
-
 	// 프로젝트 팀 리스트
 	@GetMapping("/teamList")
 	public String teamList(@RequestParam("prjNo") int prjNo, HttpSession session, Model model) {
 		ProjectVO vo = new ProjectVO();
 		vo.setPrjNo(prjNo);
 
-		model.addAttribute("empList", postDao.empList((String)session.getAttribute("empNo")));
+		
 		model.addAttribute("teamList", dao.teamList(prjNo));
 		model.addAttribute("authList", dao.authList(prjNo));
 		model.addAttribute("prj", dao.pjSelect(vo));

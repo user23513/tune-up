@@ -50,6 +50,9 @@
 		
 		$("#adReject").on("click", e=>{	
 			let aprvNo=$("#adReject").data("no");
+			let ttl = $("#ttl").text();
+	    	let empNo = $("#wrtr").val();
+	    	
 			if(confirm("강제로 반려 처리하시겠습니까?")){
 				$.ajax({
 					url:'aprvAdRjt',
@@ -57,10 +60,39 @@
 				 		xhr.setRequestHeader(header,token);  
 				    },
 				    type:"post",
-				    data:{'aprvNo':aprvNo},
+				    data:{'aprvNo':aprvNo,
+				    		'empNo':empNo,
+				    		'ttl':ttl},
 				    dataType:'json',
 				    success:function(obj){
+				    	
+				    	socket.send('reject,관리자,'+empNo+','+ttl);
+				    	location.href="aprvAdmin";
 
+				    }
+			    }) 
+				}
+		})
+		
+		$("#adOk").on("click", e=>{	
+			let aprvNo=$("#adOk").data("no");
+			let ttl = $("#ttl").text();
+	    	let empNo = $("#wrtr").val();
+	    	
+			if(confirm("강제로 승인 처리하시겠습니까?")){
+				$.ajax({
+					url:'aprvAdOk',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'aprvNo':aprvNo,
+				    		'empNo':empNo,
+				    		'ttl':ttl},
+				    dataType:'json',
+				    success:function(obj){
+				    	
+				    	socket.send('approved,관리자,'+empNo+','+ttl);
 				    	location.href="aprvAdmin";
 
 				    }
@@ -77,12 +109,9 @@
 			<div class="card">
 				<div class="card-body">
 
-					<br>
-
-
-
-
+					<br> <input type="hidden" id="wrtr" th:value="${aprv.empNo}">
 					<table class="table" id="cntn">
+
 						<tbody>
 							<tr>
 								<th>상태</th>
@@ -126,7 +155,7 @@
 
 						</tbody>
 
-					<tfoot th:each="a : ${approval}">
+						<tfoot th:each="a : ${approval}">
 							<tr th:if="${a.nm != null}">
 								<th colspan="1" th:text="${a.nm}"></th>
 								<td colspan="5" th:if="${a.aprvSt == '완료'}"><img
@@ -149,8 +178,10 @@
 
 					<div>
 						<span>
+						<button th:data-no="${aprv.aprvNo}" class="btn btn-primary"
+								id="adOk" style="float: right;">강제 승인</button>
 							<button th:data-no="${aprv.aprvNo}" class="btn btn-primary"
-								id="adReject" style="float: right;">강제 반려</button>
+								id="adReject" style="float: right;  margin-right: 5px;">강제 반려</button>
 							<button id="savePdf" class="btn btn-primary"
 								style="float: right; margin-right: 5px;">
 								<i class="bi bi-folder me-1"></i>PDF

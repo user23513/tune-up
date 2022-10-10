@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import co.up.tune.aprv.aprvLine.mapper.AprvLineMapper;
 import co.up.tune.aprv.aprvReq.mapper.AprvReqMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
+import co.up.tune.aprv.vo.AprvLineVO;
 import co.up.tune.aprv.vo.AprvVO;
+import co.up.tune.aprv.vo.AprvViewVO;
 import co.up.tune.aprv.vo.FormVO;
 import co.up.tune.aprv.vo.ReferVO;
 
@@ -32,8 +34,11 @@ public class AprvReqServiceImpl implements AprvReqService {
 	}
 
 	@Override
-	public AprvVO aprvSelect(AprvVO vo) {
-		return map.aprvSelect(vo);
+	public AprvViewVO aprvSelect(AprvViewVO vo) {
+		map.aprvSelect(vo);
+		lmap.approvalList(vo);
+		lmap.ReferList(vo);
+		return vo;
 	}
 
 	@Override
@@ -53,50 +58,62 @@ public class AprvReqServiceImpl implements AprvReqService {
 		// 입력 완료시
 		
 		if (cnt != 0) {
-			// 문서번호 가져와서 참조 결재자 입력
+			// 문서번호 가져와서 참조인 테이블 결재자 테이블 입력
 			int aprvNo = vo.getAprvNo();
 
 			ApprovalVO aprv = new ApprovalVO();
 			aprv.setAprvNo(aprvNo);
 
 			// 결재자 목록 처리
-			String aprvrs = vo.getAprvr();
-
-			if (!aprvrs.contains(",")) {
-				aprv.setAprvr(aprvrs);
-				aprv.setAprvSeq(1);
-				lmap.approvalIn(aprv);
-
+			AprvLineVO lvo = new AprvLineVO();
+			lvo.setLineNo(vo.getLineNo());
+			lvo = lmap.aprvLineSelect(lvo);
+			
+			String[] arrAp;
+			String[] arrNm;
+			if (lvo.getAp3() != null) {
+				arrAp =  new String[]{lvo.getAp1(),lvo.getAp2(),lvo.getAp3()}; 
+				arrNm =  new String[]{lvo.getNm1(),lvo.getNm2(),lvo.getNm3()}; 
+			} else if (lvo.getAp2() != null) {
+				arrAp = new String[]{lvo.getAp1(),lvo.getAp2()}; 
+				arrNm = new String[]{lvo.getNm1(),lvo.getNm2()}; 
 			} else {
-				String[] arrAp = aprvrs.split(",");
-				cnt = 1; // 결재순서
-
-				for (String ap : arrAp) {
-					aprv.setAprvr(ap);
-					aprv.setAprvSeq(cnt);//결재순서
-					lmap.approvalIn(aprv);
-					cnt++;
-				}
-
+				arrAp = new String[]{lvo.getAp1()}; 
+				arrNm = new String[]{lvo.getNm1()}; 
 			}
-
+			
+			for(int i = 0; i<arrAp.length; i++) {
+				aprv.setAprvr(arrAp[i]);
+				aprv.setNm(arrNm[i]);
+				aprv.setAprvSeq(i+1);//결재순서
+				lmap.approvalIn(aprv);
+			}
+		
 			// 참조인 목록 처리
 			ReferVO rf = new ReferVO();
 			rf.setAprvNo(aprvNo);
-
+			
 			String refers = vo.getRefer();
+			String referNms = vo.getReferNm();
 			if (!refers.contains(",")) {
 				rf.setEmpNo(refers);
+				rf.setNm(referNms);
 				lmap.referIn(rf);
 
 			} else {
 				String[] arrRf = refers.split(",");
-				for (String emp : arrRf) {
-					rf.setEmpNo(emp);
+				String[] arrRfNm = referNms.split(",");
+				for (int i = 0; i<arrRf.length; i++) {
+					rf.setEmpNo(arrRf[i]);
+					rf.setNm(arrRfNm[i]);
 					lmap.referIn(rf);
-
 				}
 			}
+			
+			
+			
+			
+			
 		}
 		;
 		return cnt;

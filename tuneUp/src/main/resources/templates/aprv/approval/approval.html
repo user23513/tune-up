@@ -11,23 +11,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript"
 	src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-<style>
-*:focus {
-	outline: 0;
-}
-
-.container {
-	position: absolute;
-	left: 50px;
-	top: 50px;
-}
-
-#canvas {
-	width: 300px;
-	height: 240px;
-	border: 1px solid black;
-}
-</style>
 </head>
 
 <body>
@@ -37,7 +20,7 @@
 		<script>
 		
 		loading(); //로딩마스크
-		btnShow();
+		
 		function loading(load) {
  			LoadingWithMask("/assets/img/load.gif");
   			setTimeout("closeLoadingWithMask()", 500);
@@ -59,47 +42,66 @@
 			$("#mask").empty();
 		}	
 		
-		function btnShow(){
-			let aprvStBtn = localStorage.getItem('aprvStBtn');
-			if(aprvStBtn){ 
-				$(".aprvSt.btn-primary").addClass("btn-outline-primary");
-				$(".aprvSt.btn-primary").removeClass("btn-primary");
-				$('[data-st="'+aprvStBtn+'"]').removeClass("btn-outline-primary");
-				$('[data-st="'+aprvStBtn+'"]').addClass("btn-primary");
-				localStorage.removeItem("aprvStBtn"); }
-		} 
+		
 		
 		
 	//로딩 후
 	$(document).ready(function() {
-	
-		aprvTable();
-		aprvSelect();
-		btnChange();
-		aprvEmpList();
+		//체크박스 전체선택
+		$(".checkAll").on("click", e => {
+			if($(".checkAll").is(":checked")){
+				$(".check").prop("checked", true);
+			} else{
+				$(".check").prop("checked", false);
+			}
+			
+		}) 
+		//전체선택 해제
+		$(".check").on("click", e=> {
+			e.stopPropagation();
+			let total = $(".check").length;
+			let checked = $(".check:checked").length;
+			if(total != checked){
+				$(".checkAll").prop("checked", false);
+			} else {
+				$(".checkAll").prop("checked", true); 
+			}
+			
+		});
+			
+		$("#checkAprvBtn").on("click", e=>{
+			let checkVals = [];    
+			$(".check:checked").each(function(i) {
+				checkVals.push($(this).val()); 
+			});
+			
+			if(checkVals.length == 0){
+				alert("선택된 문서가 없습니다.");
+			} else {
+				if(confirm("선택한 문서를 승인하시겠습니까?")){
+					$.ajax({
+						url : 'checkApproved',
+						beforeSend : function(xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						type : 'post',
+						data : {'valueArr' : checkVals},
+						success : function(data) {
+							alert("승인이 완료되었습니다.");
+							location.href="approval";
+							
+						}
+					});
+					
+					
+				}
+				
+			}
+			
+			
+			
+		})
 		
-		//위임 - 부서별 사원검색
-		function aprvEmpList(){
-			$("#deptSelect").on("change", e=>{
-				let dept = $(e.target).val();
-				$.ajax({
-					url:'aprvEmpList',
-					beforeSend:function(xhr){
-				 		xhr.setRequestHeader(header,token);  
-				    },
-				    type:"post",
-				    data:{'dept':dept},
-				    dataType:'json',
-				    success:function(obj){
-				    	$("#multi").html("");
-				    	 $.each (obj, (idx, o)=> {
-					        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
-					        	$("#multi").append(option);
-					        	}); 
-				    }
-			    }) 
-			})
-		}
 		
 		
 		//위임자 선택
@@ -117,11 +119,12 @@
 				$("#rptt").val("");
 				
 				})
+				
 		//위임 삭제
 		$(".delTrust").on("click", e=>{
 			let no = $(e.target).closest("li").data("no");
 			
-			if (confirm("삭제하시겠습니까?")){
+			if (confirm("위임을 해제하시겠습니까?")){
 				$.ajax({
 					url:'trustDel',
 					beforeSend:function(xhr){
@@ -142,10 +145,13 @@
 		//수임자변경
 		$(".upTrust").on("click", e=>{
 			let no = $(e.target).closest("li").data("no");
-			let rptt = $("#rptt").val();
-			let rpttNm = $("rpttNm").val();
+			let rptt= $("#rptt").val();
+			let rpttNm= $("#rpttNm").val();
 			
-			if (confirm("위임 상태를 변경하시겠습니까?")){
+			console.log(no);
+			console.log(rptt);
+			console.log(rpttNm);
+			if (confirm("수임 상태를 변경하시겠습니까?")){
 				$.ajax({
 					url:'trustUp',
 					beforeSend:function(xhr){
@@ -244,7 +250,7 @@
 		    }
 		}
 		
-		
+		//서명 저장
 		$("#save").on("click", function(){            
             
 	         const canvas = $("#canvas")[0];
@@ -272,24 +278,77 @@
 	           processData: false,
 	           contentType: false,
 	           success: function (data) {
-	             alert('서명이 저장되었습니다.')
+	        	  
+	        	   const fileReader = new FileReader();
+	        	   fileReader.readAsDataURL(file);
+	        	   fileReader.onload = function () {
+	        	    	$("#previewImg").attr("src", fileReader.result);
+	        	   };
+	    
+	             alert('서명이 저장되었습니다.');
+	             
 	           }
 	         }) 
 	       	
 	   });  
+		
+		
+		//서명 삭제
+		$("#delSign").on("click", function(){            
+            
+			let sign="";
 			
+			if(confirm("정말 삭제하시겠습니까?")){
+				$.ajax({
+			           type: 'post',
+			           url: 'signDel',
+			           beforeSend:function(xhr){
+					 		xhr.setRequestHeader(header,token);  
+					    },
+			           cache: false,
+			           data: {'sign' : sign},
+			           dataType:'json',
+			           success: function (data) {
+			        	   $("#previewImg").attr("src", "assets/img/stamp.png");
+			           }
+			    })
+			}
+	   });  
 		
-		});
-				
-		//선택 버튼 저장
-		function btnChange(){
-			$("#approvalBtns").on("click", "button", e=>{
-				let aprvSt = $(e.target).data("st"); 	
-				localStorage.setItem('aprvStBtn', aprvSt)
-				location.href=`/approval?aprvSt=${aprvSt}`;
-			});
 		
-		}
+		aprvTable();
+		aprvSelect();
+		aprvEmpList();
+		approvedSelect();
+		referSelect();
+		
+});
+		
+	//위임 - 부서별 사원검색
+	function aprvEmpList(){
+		$("#deptSelect").on("change", e=>{
+			let dept = $(e.target).val();
+			$.ajax({
+				url:'aprvEmpList',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'dept':dept},
+			    dataType:'json',
+			    success:function(obj){
+			    	$("#multi").html("");
+			    	 $.each (obj, (idx, o)=> {
+				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+				        	$("#multi").append(option);
+				        	}); 
+			    }
+		    }) 
+		})
+	}
+	
+		
+		
 		
 		//상세조회
 		function aprvSelect() {
@@ -306,6 +365,63 @@
 			    success:function(obj){    	
 			        $("#vttl").html(obj.ttl);
 					$("#tnv").html(obj.cntn);
+					$("#viewFoot").html("");
+					let reject = `<input type="text" class="form-control" id="reject" name="reject" placeholder="반려 사유" style="float: left;">`;
+					let rbtn = `<button id="rjtBtn" class="btn btn-secondary" data-no="${obj.aprvNo}" onclick="rejectBtn()">반려</button>`;
+					let abtn = `<button id="apBtn" class="btn btn-primary" data-no="${obj.aprvNo}" onclick="aprvBtn()">승인</button>`;
+					$("#viewFoot").append(reject, rbtn, abtn);
+					$("#viewModal").modal('show');
+			        }
+			    }) 
+			})
+		}
+		
+		//상세조회
+		function approvedSelect() {
+		$("#approvedTable").on("click", "tr", e=>{
+			let aprvNo = $(e.target).data("no");
+			$.ajax({
+				url:'aprvView',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'aprvNo':aprvNo},
+			    dataType:'json',
+			    success:function(obj){    	
+			        $("#vttl").html(obj.ttl);
+					$("#tnv").html(obj.cntn);
+					$("#viewFoot").html("");
+					let clBtn = `<button type="button" class="btn btn-secondary float-right"
+						data-bs-dismiss="modal"
+						style="float: right; margin-right: 5px;">닫기</button>`;
+					$("#viewFoot").append(clBtn);
+					$("#viewModal").modal('show');
+			        }
+			    }) 
+			})
+		}
+		
+		//상세조회
+		function referSelect() {
+		$("#referTable").on("click", "tr", e=>{
+			let aprvNo = $(e.target).data("no");
+			$.ajax({
+				url:'aprvView',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'aprvNo':aprvNo},
+			    dataType:'json',
+			    success:function(obj){    	
+			        $("#vttl").html(obj.ttl);
+					$("#tnv").html(obj.cntn);
+					$("#viewFoot").html("");
+					let clBtn = `<button type="button" class="btn btn-secondary float-right"
+						data-bs-dismiss="modal"
+						style="float: right; margin-right: 5px;">닫기</button>`;
+					$("#viewFoot").append(clBtn);
 					$("#viewModal").modal('show');
 			        }
 			    }) 
@@ -323,8 +439,69 @@
 				ordering: false,
 				info: false
 			});
+			$('#approvedTable').DataTable({
+				"dom":'lftip',
+				"language": {
+			    "search": ""
+			  	},
+				lengthChange: false,
+				ordering: false,
+				info: false
+			});
+			$('#referTable').DataTable({
+				"dom":'lftip',
+				"language": {
+			    "search": ""
+			  	},
+				lengthChange: false,
+				ordering: false,
+				info: false
+			});
 		}
 		
+		//승인 반려
+		function aprvBtn(){
+			if(confirm("문서를 승인하시겠습니까?")){
+				let no = $("#apBtn").data("no");
+				$.ajax({
+	          		type: 'post',
+	           		url: 'approved',
+	           		beforeSend:function(xhr){
+			 			xhr.setRequestHeader(header,token);  
+			    	},
+	           		data: {'aprvNo' : no},
+	           	 	dataType:'json',
+	           		success: function (data) {
+	        	   		alert('결재가 완료되었습니다!');
+	        	   		location.href="approval";
+	        	   
+	           		}
+	    		})
+			
+			}
+		}
+		
+	function rejectBtn(){
+		if(confirm("문서를 반려하시겠습니까?")){
+			let no = $("#apBtn").data("no");
+			let reject = $("#reject").val();
+			$.ajax({
+	           type: 'post',
+	           url: 'rejectIn',
+	           beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+	           data: {'aprvNo' : no,
+	        	   'reject':reject},
+	           dataType:'json',
+	           success: function (data) {
+	        	   alert('문서가 반려 처리되었습니다.');
+	        	   location.href="approval";
+	           }
+	    	})
+			
+		}
+	}
 		
 		
 	</script>
@@ -396,55 +573,175 @@
 
 							<div class="card">
 								<div class="card-body">
-									<!-- btns -->
-									<div class="row">
-										<div class="col text-center">
-											<br>
-											<div class="btn-group" role="group" id="approvalBtns"
-												aria-label="Approval List" style="width: 100%;">
-												<button type="button" th:each="s:${st}"
-													th:if="${s.cdNm == '전체'}" class="btn btn-primary aprvSt"
-													th:text="${s.cdNm}" th:data-st="${s.cdNm}">전체</button>
-												<button type="button" th:each="s:${st}"
-													th:unless="${s.cdNm == '전체'}"
-													class="btn btn-outline-primary aprvSt" th:text="${s.cdNm}"
-													th:data-st="${s.cdNm}">전체</button>
+
+									<br>
+									<!-- Default Accordion -->
+									<div class="accordion" id="accordion">
+										<div class="accordion-item">
+											<h2 class="accordion-header" id="headingOne">
+												<button class="accordion-button" type="button"
+													data-bs-toggle="collapse" data-bs-target="#collapseOne"
+													aria-expanded="true" aria-controls="collapseOne">
+													승인 대기 목록</button>
+											</h2>
+											<div id="collapseOne"
+												class="accordion-collapse collapse show"
+												aria-labelledby="headingOne" data-bs-parent="#accordion">
+												<div class="accordion-body">
+													<div class="form-check">
+														<input class="form-check-input checkAll" type="checkbox">
+														<button type="button" class="btn btn-outline-primary" id="checkAprvBtn">선택 승인</button>
+													</div>
+													<!-- approvalTable -->
+													<table id="approvalTable" class="display center"
+														style="width: 100%">
+														<thead hidden="hidden">
+															<tr>
+																<th>내용</th>
+															</tr>
+														</thead>
+														<tbody id="aprvtb" class="list-group">
+															<tr th:each="p : ${approval}"
+																class="list-group-item list-group-item-action"
+																th:data-no="${p.aprvNo}">
+																<td
+																	class="d-flex justify-content-between align-items-start"
+																	th:data-no="${p.aprvNo}">
+																	<div class="ms-2 me-auto">
+																		<div class="form-check">
+																			<input class="form-check-input check" type="checkbox"
+																				name="aprvNo" th:value="${p.aprvNo}" style="float: left;">
+																		</div>
+																		<i th:if="${p.impts}=='Y'" class="ri-alert-fill"
+																			style="float: left;"></i>
+																		<div class="fw-bold" th:text="${p.ttl}"
+																			style="float: left;">제목</div>
+																		<br> <span th:if="${p.deadline} != ' '"
+																			th:text="|${p.deadline}까지|"></span><small
+																			th:text="| ${p.nm}"></small>
+																	</div> <span th:if="${p.aprvSt} == '진행'"
+																	class="badge bg-outline-primary rounded-pill"
+																	style="height: 25px">진행</span> <span
+																	th:unless="${p.aprvSt} == '진행'"
+																	class="badge bg-primary rounded-pill"
+																	style="height: 25px">위임</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+													<!-- End approvalTable -->
+
+												</div>
+											</div>
+										</div>
+										<div class="accordion-item">
+											<h2 class="accordion-header" id="headingTwo">
+												<button class="accordion-button collapsed" type="button"
+													data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+													aria-expanded="false" aria-controls="collapseTwo">
+													참조 문서 목록</button>
+											</h2>
+											<div id="collapseTwo" class="accordion-collapse collapse"
+												aria-labelledby="headingTwo" data-bs-parent="#accordion">
+												<div class="accordion-body">
+
+													<!-- referTable -->
+													<table id="referTable" class="display center"
+														style="width: 100%">
+														<thead hidden="hidden">
+															<tr>
+																<th>내용</th>
+															</tr>
+														</thead>
+														<tbody id="refertb" class="list-group">
+															<tr th:each="r : ${refer}"
+																class="list-group-item list-group-item-action"
+																th:data-no="${r.aprvNo}">
+																<td
+																	class="d-flex justify-content-between align-items-start"
+																	th:data-no="${r.aprvNo}">
+																	<div class="ms-2 me-auto">
+																		<i th:if="${p.impts}=='Y'" class="ri-alert-fill"
+																			style="float: left;"></i>
+																		<div class="fw-bold" th:text="${r.ttl}"
+																			style="float: left;">제목</div>
+																		<br> <span th:if="${r.deadline} != ' '"
+																			th:text="|${r.deadline}까지|"></span><small
+																			th:text="| ${r.nm}"></small>
+																	</div> <span th:if="${r.reqSt == '반려' or r.reqSt =='완료'}"
+																	class="badge bg-secondary rounded-pill"
+																	style="height: 25px">참조</span> <span
+																	th:unless="${r.reqSt == '반려' or r.reqSt =='완료'}"
+																	th:text="진행" class="badge bg-primary rounded-pill"
+																	style="height: 25px">참조</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+													<!-- End referTable -->
+
+
+												</div>
+											</div>
+										</div>
+										<div class="accordion-item">
+											<h2 class="accordion-header" id="headingThree">
+												<button class="accordion-button collapsed" type="button"
+													data-bs-toggle="collapse" data-bs-target="#collapseThree"
+													aria-expanded="false" aria-controls="collapseThree">
+													승인 완료 목록</button>
+											</h2>
+											<div id="collapseThree" class="accordion-collapse collapse"
+												aria-labelledby="headingThree" data-bs-parent="#accordion">
+												<div class="accordion-body">
+
+													<!-- approvedTable -->
+													<table id="approvedTable" class="display center"
+														style="width: 100%">
+														<thead hidden="hidden">
+															<tr>
+																<th>내용</th>
+															</tr>
+														</thead>
+														<tbody id="approvedtb" class="list-group">
+															<tr th:each="d : ${approved}"
+																class="list-group-item list-group-item-action"
+																th:data-no="${d.aprvNo}">
+																<td
+																	class="d-flex justify-content-between align-items-start"
+																	th:data-no="${d.aprvNo}">
+																	<div class="ms-2 me-auto">
+																		<i th:if="${d.impts}=='Y'" class="ri-alert-fill"
+																			style="float: left;"></i>
+																		<div class="fw-bold" th:text="${d.ttl}"
+																			style="float: left;">제목</div>
+																		<br> <span th:if="${d.deadline} != ' '"
+																			th:text="|${d.deadline}까지|"></span><small
+																			th:text="| ${d.nm}"></small>
+																	</div> <span th:if="${d.reqSt == '반려'}"
+																	class="badge bg-secondary rounded-pill"
+																	style="height: 25px">반려</span> <span
+																	th:unless="${d.reqSt =='반려'}"
+																	class="badge bg-primary rounded-pill"
+																	style="height: 25px">완료</span>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+													<!-- End approvedTable -->
+
+
+												</div>
 											</div>
 										</div>
 									</div>
-									<!-- end btns -->
+									<!-- End Default Accordion  -->
 
-									<br>
 
-									<!-- approvaTable -->
-									<table id="approvalTable" class="display center"
-										style="width: 100%">
-										<thead hidden="hidden">
-											<tr>
-												<th>내용</th>
-											</tr>
-										</thead>
-										<tbody id="aprvtb" class="list-group">
-											<tr th:each="p : ${approval}"
-												class="list-group-item list-group-item-action"
-												th:data-no="${p.aprvNo}">
-												<td class="d-flex justify-content-between align-items-start"
-													th:data-no="${p.aprvNo}">
-													<div class="ms-2 me-auto">
-														<div class="fw-bold" th:text="${p.ttl}">제목</div>
-														Cras justo odio <small>And some small print.</small>
-													</div> <span th:if="${p.reqSt == '반려' or p.reqSt =='완료'}"
-													th:text="${p.reqSt}"
-													class="badge bg-secondary rounded-pill"
-													style="height: 25px">완료</span> <span
-													th:unless="${p.reqSt == '반려' or p.reqSt =='완료'}"
-													th:text="진행" class="badge bg-primary rounded-pill"
-													style="height: 25px">진행</span>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-									<!-- End approvaTable -->
+
+
+
+
 								</div>
 							</div>
 						</div>
@@ -459,20 +756,29 @@
 
 		<div class="modal fade" id="signModal" tabindex="-1"
 			data-bs-backdrop="true">
-			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
+						<b>나의 서명 등록</b>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
-					<div class="modal-body" id="sCntn"
-						style="width: 350px; height: 400px;">
-						<div class="container">
-							<canvas id="canvas" width="300" height="300"></canvas>
-
-							<button id="erase" class="btn btn-secondary">지우기</button>
+					<div class="modal-body row g-0">
+						<div class="modal-body col-md-12" id="sCntn">
+							<div class="container">
+								<canvas id="canvas" width="300" height="300"
+									style="border: 1px solid black; float: left;"></canvas>
+							</div>
+							<div>
+								<img id="previewImg"
+									th:src="${sign.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${sign.sign})} "
+									style="height: 40%; width: 40%; margin-left: 50px;">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button id="erase" class="btn btn-secondary">초기화</button>
+							<button type="button" id="delSign" class="btn btn-primary">삭제</button>
 							<button type="button" id="save" class="btn btn-primary">저장</button>
-
 						</div>
 
 					</div>
@@ -487,7 +793,7 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<b>전자결재 - 위임자 설정</b>
+						<b>결재 위임자 설정</b>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>
@@ -551,7 +857,7 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">닫기</button>
-							<button type="button" class="btn btn-primary trustInBtn">저장</button>
+							<button type="button" class="btn btn-primary trustInBtn">위임</button>
 						</div>
 
 
@@ -564,7 +870,7 @@
 		<!-- Scrolling Modal -->
 		<div class="modal fade" id="viewModal" tabindex="-1"
 			data-bs-backdrop="true">
-			<div class="modal-dialog modal-lg">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-header" id="vttl">
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -573,15 +879,9 @@
 					<div class="modal-body" id="vCntn">
 						<div id="tnv" class=".txtA">에디터</div>
 					</div>
-					<div class="modal-footer">
-						<div class="col-12">
-							<button type="button" class="btn btn-primary aprvBtn"
-								style="float: right;">승인</button>
-
-							<button type="button" class="btn btn-secondary rejectBtn"
-								style="float: right; margin-right: 5px;">반려</button>
-						</div>
-					</div>
+					<div class="modal-footer" id="viewFoot"></div>
+					<span class="badge bg-primary" id="savePdf"><i
+						class="bi bi-folder me-1"></i>PDF</span>
 				</div>
 			</div>
 		</div>

@@ -20,7 +20,10 @@ public interface ApprovalService {
 	List<AprvVO> approvalList(@Param("aprvr") String aprvr, @Param("aprvSt") String aprvSt);
 
 	// 문서 결재
-	int approvalSign(ApprovalVO vo);
+	int approved(ApprovalVO vo);
+	
+	// 문서 반려
+	int reject(ApprovalVO vo);
 
 	// 위임자 목록
 	List<TrustVO> trustList(TrustVO vo);
@@ -37,10 +40,12 @@ public interface ApprovalService {
 	// 서명 업로드
 	int signUp(EmpVO vo);
 
-	// 서명인 조회
+	// 서명 조회
 	EmpVO signSelect(EmpVO vo);
 	
 	// 수임자 변경
 	int trustUp(TrustVO vo);
 	
+	// 선택 결재
+	int checkApproved(ApprovalVO vo);
 }

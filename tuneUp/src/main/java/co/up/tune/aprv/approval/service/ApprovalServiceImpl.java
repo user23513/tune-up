@@ -30,9 +30,17 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	@Transactional
-	public int approvalSign(ApprovalVO vo) {
-		int cnt = map.approvalSign(vo);
-		cnt += map.aprvNext(vo);
+	public int approved(ApprovalVO vo) {
+		int cnt = map.approved(vo);
+		map.aprvNext(vo);
+		return cnt;
+	}
+	
+	@Override
+	@Transactional
+	public int reject(ApprovalVO vo) {
+		int cnt = map.reject(vo);
+		map.aprvNext(vo);
 		return cnt;
 	}
 
@@ -70,5 +78,21 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int trustUp(TrustVO vo) {
 		return map.trustUp(vo);
 	}
+
+	@Override
+	public int checkApproved(ApprovalVO vo) {
+		 List<Integer> numbers = vo.getValueArr();
+		 int cnt = 0;
+		 for(int aprvNo : numbers) {
+			 vo.setAprvNo(aprvNo);
+			 map.approved(vo);
+			 map.aprvNext(vo);
+			 cnt ++;
+		  }
+		
+		return cnt;
+	}
+	
+	
 
 }

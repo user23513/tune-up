@@ -81,10 +81,10 @@
 		
 		//카테고리변경		       
 		$("#reqStBtns").on("click", "button", e=>{
-							let reqSt = $(e.target).data("st"); 	
-							localStorage.setItem('reqStBtn', reqSt)
-							location.href=`/aprvReq?reqSt=${reqSt}`;
-					});
+			let reqSt = $(e.target).data("st"); 	
+			localStorage.setItem('reqStBtn', reqSt)
+			location.href=`/aprvReq?reqSt=${reqSt}`;
+			});
 		let reqStBtn = localStorage.getItem('reqStBtn');
 		if(reqStBtn){//버튼색
 			$(".reqSt.btn-primary").addClass("btn-outline-primary");
@@ -93,6 +93,7 @@
 	    	$('[data-st="'+reqStBtn+'"]').addClass("btn-primary");
 	    	localStorage.removeItem("reqStBtn");
 		}
+		
 		$("#formCatBtns").on("click", "button", e=>{
 							let formCat = $(e.target).data("cat"); 
 							localStorage.setItem('formCatBtn', formCat)
@@ -232,11 +233,13 @@
 			if($("#nm1").val() == ""){
 				alert("첫번째 결재자는 필수 지정입니다.");
 			} else{
+		
 				$("#lineFrm").submit();
 			}
 			
 		})
 		
+		//pdf
 		$('#savePdf').click(function() {
 		    html2canvas($('#vCntn')[0]).then(function(canvas) {
 		       
@@ -499,8 +502,11 @@
 												<td class="d-flex justify-content-between align-items-start"
 													th:data-no="${p.aprvNo}">
 													<div class="ms-2 me-auto">
-														<div class="fw-bold" th:text="${p.ttl}">제목</div>
-														Cras justo odio <small>And some small print.</small>
+														<i th:if="${p.impts}=='Y'" class="ri-alert-fill" style="float: left;"></i>
+														
+														<div class="fw-bold" th:text="${p.ttl}" style="float: left;">제목</div>
+														<br>
+														<span th:if="${p.deadline} != ' '" th:text="|${p.deadline}까지|"></span><small th:text="| ${p.nm}"></small>
 													</div> <span th:if="${p.reqSt == '전송' or p.reqSt =='검토'  }"
 													th:text="${p.reqSt}"
 													class="badge bg-secondary rounded-pill"
@@ -584,8 +590,10 @@
 												<td class="d-flex justify-content-between align-items-start"
 													th:data-frm="${f.formNo}">
 													<div class="ms-2 me-auto">
-														<div class="fw-bold" th:text="${f.ttl}">제목</div>
-														Cras justo odio <small>And some small print.</small>
+														<i th:if="${f.formAuth == '개인'}" class="ri-lock-2-line" style="float: left;"></i>
+														<div class="fw-bold " th:text="${f.ttl}" style="float: left;">제목</div>
+														<br>
+														<small th:text="${f.nm}"></small>
 													</div> <span th:if="${f.formAuth == '개인'}" th:text="${f.formCat}"
 													class="badge bg-primary rounded-pill" style="height: 25px"></span>
 													<span th:unless="${f.formAuth == '개인'}"
@@ -703,7 +711,7 @@
 		<!--View Modal -->
 		<div class="modal fade" id="viewModal" tabindex="-1"
 			data-bs-backdrop="true">
-			<div class="modal-dialog modal-lg">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-header" id="vttl">
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -724,10 +732,10 @@
 		<!-- Scrolling Modal -->
 		<div class="modal fade" id="newModal" tabindex="-1"
 			data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<b>새로운 서식</b>
+						<b>새로운 서식 작성</b>
 						<button type="button" class="btn-close" data-bs-dismiss="modal"
 							aria-label="Close"></button>
 					</div>

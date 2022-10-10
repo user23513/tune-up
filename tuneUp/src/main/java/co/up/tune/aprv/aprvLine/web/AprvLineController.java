@@ -28,6 +28,7 @@ public class AprvLineController {
 		String dept = (String) session.getAttribute("dept");
 		vo.setDept(dept);
 		vo.setEmpNo(empNo);
+		ls.aprvLineIn(vo);
 
 		return "redirect:aprvReq";
 	}

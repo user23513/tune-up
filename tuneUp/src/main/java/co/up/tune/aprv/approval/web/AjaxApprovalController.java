@@ -42,7 +42,7 @@ public class AjaxApprovalController {
 
 	// 사인 업로드
 	@PostMapping("/signUp")
-	public int signUp(EmpVO vo, HttpSession session, @RequestParam("file") MultipartFile[] files)
+	public String signUp(EmpVO vo, HttpSession session, @RequestParam("file") MultipartFile[] files)
 			throws IllegalStateException, IOException {
 
 		String empNo = (String) session.getAttribute("empNo");
@@ -55,25 +55,49 @@ public class AjaxApprovalController {
 
 			vo.setSign(list.get(0).getFPath());
 		}
-
-		return ap.signUp(vo);
+		ap.signUp(vo);
+		return vo.getSign();
 	}
 
 	// 결재 -> 문서상태 변경 + 다음 결재자
-	@PostMapping("/signReject")
-	public int signReject(ApprovalVO vo, HttpSession session) {
+	@PostMapping("/rejectIn")
+	public int rejectIn(ApprovalVO vo, HttpSession session) {
 
 		String empNo = (String) session.getAttribute("empNo");
-		vo.setAprvr(empNo);
-
-		// reject null값으로 상태 바뀜
-		return ap.approvalSign(vo);
+		vo.setAprvr(empNo); //결재자 본인
+		return ap.reject(vo);
 	}
 
+	// 결재 -> 문서상태 변경 + 다음 결재자
+		@PostMapping("/approved")
+		public int approved(ApprovalVO vo, HttpSession session) {
+
+			String empNo = (String) session.getAttribute("empNo");
+			vo.setAprvr(empNo); //결재자 본인
+			return ap.approved(vo);
+		}
+	
 	// 수임자 변경
-	@PostMapping("/tustUp")
-	public int trustUp(TrustVO vo) {
+	@PostMapping("/trustUp")
+	public int trustUp(TrustVO vo, HttpSession session) {
 		return ap.trustUp(vo);
 	}
+
+	// 서명 삭제
+	@PostMapping("/signDel")
+	public int signDel(EmpVO vo, HttpSession session) {
+		String empNo = (String) session.getAttribute("empNo");
+		vo.setEmpNo(empNo);
+		vo.setSign("");
+		return ap.signUp(vo);
+	}
+	
+	 @PostMapping("/checkApproved") 
+	  public int checkApproved(ApprovalVO vo, HttpSession session){
+		 String empNo = (String) session.getAttribute("empNo");
+		 vo.setAprvr(empNo); //결재자 본인
+		  
+		  return ap.checkApproved(vo); 
+	  }
 
 }

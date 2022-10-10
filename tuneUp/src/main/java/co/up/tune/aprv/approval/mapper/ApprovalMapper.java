@@ -19,8 +19,11 @@ public interface ApprovalMapper {
 	// 결재대기 목록 (aprvr = empNo)
 	List<AprvVO> approvalList(@Param("aprvr") String aprvr, @Param("aprvSt") String aprvSt);
 
-	// 문서 승인반려
-	int approvalSign(ApprovalVO vo);
+	// 문서 승인
+	int approved(ApprovalVO vo);
+	
+	// 문서 반려
+	int reject(ApprovalVO vo);
 
 	// 처리문서 다음결재자 
 	int aprvNext(ApprovalVO vo);
@@ -40,7 +43,7 @@ public interface ApprovalMapper {
 	// 서명 업로드
 	int signUp(EmpVO vo);
 
-	// 서명인 조회
+	// 서명 조회
 	EmpVO signSelect(EmpVO vo);
 	
 	// 수임자 변경

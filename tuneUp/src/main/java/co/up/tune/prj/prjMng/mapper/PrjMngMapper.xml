@@ -18,7 +18,7 @@
 		WHERE PRJ_NO = #{prjNo}
 	</select>
 	
-	<select id="tmSelect" resultType="co.up.tune.prj.vo.TeamVO" parameterType="co.up.tune.prj.vo.TeamVO">
+	<select id="tmSelect" resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
 		SELECT * FROM TEAM
 		WHERE PRJ_NO = #{prjNo}
 	</select>
@@ -69,42 +69,23 @@
 	
 	<!-- 트리뷰 부서별 주소록 리스트-->
 	<select id="tdeptList" resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
-		SELECT EMP_NO, NM
+		SELECT *
 		FROM EMP
-		WHERE DEPT = #{dept}
 	</select>
  
  	<!-- 멤버 추가 -->
 	<insert id="teamInsert" parameterType="co.up.tune.prj.vo.TeamVO">
 	INSERT INTO TEAM
 	VALUES (#{empNo},#{prjNo},'팀원',#{nm},#{dept})
-	WHERE PRJ_NO = #{prjNo}
 	</insert>
 	
 	
-	<!--  팀 테이블에 멤버 추가 
-	 새 프로젝트에서 입력한 사원들 정보 가져오기 
-	<select id="addTeamList" parameterType="integer" resultType="co.up.tune.prj.vo.TeamVO">
-		SELECT EMP_NO, NM, DEPT
+	<select id="mEmpList" resultType="co.up.tune.emp.vo.EmpVO">
+		SELECT *
 		FROM EMP
-		WHERE EMP_NO IN
-		<foreach collection="teamEmpNo" item="no" index="index" separator="," open="(" close=")">
-			#{no}
-		</foreach>
 	</select>
+	
+	
 
- 새로운 멤버 추가 
-	<insert id="addTeamList">
-			
-			INSERT INTO TEAM
-			VALUES (#{prjNo},#{vo.empNo},#{vo.prjNo},#{vo.auth},#{vo.nm})
-			
-			<foreach collection="addTeamList" item="list">
-				insert into team
-				values(#{list.empNo}, #{prjNo}, '팀원', #{list.nm}, #{list.dept}
-				);
-			</foreach>
-	</insert>
-	-->
 	
 </mapper>

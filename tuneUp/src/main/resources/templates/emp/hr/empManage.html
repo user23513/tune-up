@@ -41,7 +41,6 @@ $(document).ready(function() {
 	$(".ok").on("click", e=>{
 		e.stopPropagation(); //tr태그 클릭이벤트 발생X
 		let auth = e.target.closest('td').previousElementSibling.innerText;
-		console.log(auth);
 		if(auth=='GUEST'){
 			let really = confirm("권한을 USER로 바꾸시겠습니까?");
 			if(really){
@@ -69,12 +68,6 @@ $(document).ready(function() {
 			}
 		}
 	})
-
-	//체크박스 이벤트
-	$("#ck").on("click", e=>{
-		e.stopPropagation(); //tr태그 클릭이벤트 발생X
-	})
-
 });
 </script>
 </head>
@@ -82,125 +75,118 @@ $(document).ready(function() {
 	<main id="main" class="main" layout:fragment="content">
 		<section class="section">
 			<div class="row">
-				<div>
-
-					<div class="card">
-						<div class="card-body">
-							<!-- Page Title -->
-							<br>
-							<div class="pagetitle">
-								<h1>사원 관리</h1>
-								<nav>
-									<ol class="breadcrumb">
-										<li class="breadcrumb-item ">HOME</li>
-										<li class="breadcrumb-item active">사원관리</li>
-									
-									</ol>
-								</nav>
-							</div>
-							<!-- End Page Title -->
-							<br>
-							<!-- Default Tabs -->
-							<ul class="nav nav-tabs" id="myTab" role="tablist">
-								<li class="nav-item" role="presentation">
-									<button class="nav-link active" id="home-tab"
-										data-bs-toggle="tab" data-bs-target="#home" type="button"
-										role="tab" aria-controls="home" aria-selected="true">전체사원관리</button>
-								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-										data-bs-target="#contact" type="button" role="tab"
-										aria-controls="contact" aria-selected="false">관리자</button>
-								</li>
-							</ul>
-
-
-							<div class="tab-content pt-2" id="myTabContent">
-								<div class="tab-pane fade show active" id="home" role="tabpanel"
-									aria-labelledby="home-tab">
-
-									<!-- End Default Table Example -->
-									<br>
-									<!-- 전체사원목록 보이는 곳 -->
-									<!-- Table with hoverable rows -->
-									<table class="table table-hover" id="empList">
-										<thead>
-											<tr>
-												<th scope="col">사원번호</th>
-												<th scope="col">성명</th>
-												<th scope="col">부서</th>
-												<th scope="col">직위</th>
-												<th scope="col">입사일</th>
-												<th scope="col">휴대폰</th>
-												<th scope="col">이메일</th>
-												<th scope="col">권한</th>
-												<th scope="col">승인</th>
-											</tr>
-										</thead>
-										<tbody id="tb">
-											<tr th:each="e : ${empList}">
-												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}">HR100</td>
-												<td th:text="${e.nm}">김인사</td>
-												<td th:text="${e.dept}">인사</td>
-												<td th:text="${e.position}">대리</td>
-												<td th:text="${e.hDate}">2010-01-01</td>
-												<td th:text="${e.phone}">010-0000-0000</td>
-												<td th:text="${e.email}">aaa1234@gmail.com</td>
-												<td th:attr="data-no=${e.auth}" class="eAuth">[[${e.auth}]]</td>
-												<td>
-													<button id="ok" name="ok" type="button"
-														class="btn btn-primary btn-sm ok"
-														th:disabled="${e.auth != 'GUEST'}?disabled">승인</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-									<!-- End Table with hoverable rows -->
-								</div>
-
-
-								<div class="tab-pane fade" id="contact" role="tabpanel"
-									aria-labelledby="contact-tab">
-									<br>
-									<!-- 관리자 목록 보이는 곳 -->
-									<!-- Table with hoverable rows -->
-									<table class="table table-hover" id="managerList">
-										<thead>
-											<tr>
-												<th scope="col">사원번호</th>
-												<th scope="col">성명</th>
-												<th scope="col">부서</th>
-												<th scope="col">직위</th>
-												<th scope="col">입사일</th>
-												<th scope="col">휴대폰</th>
-												<th scope="col">이메일</th>
-												<th scope="col">권한</th>
-											</tr>
-										</thead>
-										<tbody id="tbd">
-											<tr th:each="m : ${managerList}" th:if="m.auth">
-												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"></td>
-												<td th:text="${m.nm}">김인사</td>
-												<td th:text="${m.dept}">인사</td>
-												<td th:text="${m.position}">대리</td>
-												<td th:text="${m.hDate}">2010-01-01</td>
-												<td th:text="${m.phone}">010-0000-0000</td>
-												<td th:text="${m.email}">aaa1234@gmail.com</td>
-												<td th:text="${m.auth}"></td>
-											</tr>
-										</tbody>
-									</table>
-									<!-- End Table with hoverable rows -->
-								</div>
-								<h6 class="card-title"></h6>
-							</div>
-							<!-- End Default Tabs -->
-
+				<div class="card">
+					<div class="card-body">
+						<!-- Page Title -->
+						<br>
+						<div class="pagetitle">
+							<h1>사원 관리</h1>
+							<nav>
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item ">HOME</li>
+									<li class="breadcrumb-item active">사원관리</li>
+								
+								</ol>
+							</nav>
 						</div>
+						<!-- End Page Title -->
+						<br>
+						<!-- Default Tabs -->
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button class="nav-link active" id="home-tab"
+									data-bs-toggle="tab" data-bs-target="#home" type="button"
+									role="tab" aria-controls="home" aria-selected="true">전체사원관리</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+									data-bs-target="#contact" type="button" role="tab"
+									aria-controls="contact" aria-selected="false">관리자</button>
+							</li>
+						</ul>
+
+						<div class="tab-content pt-2" id="myTabContent">
+							<div class="tab-pane fade show active" id="home" role="tabpanel"
+								aria-labelledby="home-tab">
+
+								<!-- End Default Table Example -->
+								<br>
+								<!-- 전체사원목록 보이는 곳 -->
+								<!-- Table with hoverable rows -->
+								<table class="table table-hover" id="empList">
+									<thead>
+										<tr>
+											<th scope="col">사원번호</th>
+											<th scope="col">성명</th>
+											<th scope="col">부서</th>
+											<th scope="col">직위</th>
+											<th scope="col">입사일</th>
+											<th scope="col">휴대폰</th>
+											<th scope="col">이메일</th>
+											<th scope="col">권한</th>
+											<th scope="col">승인</th>
+										</tr>
+									</thead>
+									<tbody id="tb">
+										<tr th:each="e : ${empList}">
+											<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}">HR100</td>
+											<td th:text="${e.nm}">김인사</td>
+											<td th:text="${e.dept}">인사</td>
+											<td th:text="${e.position}">대리</td>
+											<td th:text="${e.hDate}">2010-01-01</td>
+											<td th:text="${e.phone}">010-0000-0000</td>
+											<td th:text="${e.email}">aaa1234@gmail.com</td>
+											<td th:attr="data-no=${e.auth}" class="eAuth">[[${e.auth}]]</td>
+											<td>
+												<button name="ok" type="button"class="btn btn-primary btn-sm"
+														th:disabled="${e.auth != 'GUEST'}?disabled">승인</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<!-- End Table with hoverable rows -->
+							</div>
+
+
+							<div class="tab-pane fade" id="contact" role="tabpanel"
+								aria-labelledby="contact-tab">
+								<br>
+								<!-- 관리자 목록 보이는 곳 -->
+								<!-- Table with hoverable rows -->
+								<table class="table table-hover" id="managerList">
+									<thead>
+										<tr>
+											<th scope="col">사원번호</th>
+											<th scope="col">성명</th>
+											<th scope="col">부서</th>
+											<th scope="col">직위</th>
+											<th scope="col">입사일</th>
+											<th scope="col">휴대폰</th>
+											<th scope="col">이메일</th>
+											<th scope="col">권한</th>
+										</tr>
+									</thead>
+									<tbody id="tbd">
+										<tr th:each="m : ${managerList}" th:if="m.auth">
+											<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"></td>
+											<td th:text="${m.nm}">김인사</td>
+											<td th:text="${m.dept}">인사</td>
+											<td th:text="${m.position}">대리</td>
+											<td th:text="${m.hDate}">2010-01-01</td>
+											<td th:text="${m.phone}">010-0000-0000</td>
+											<td th:text="${m.email}">aaa1234@gmail.com</td>
+											<td th:text="${m.auth}"></td>
+										</tr>
+									</tbody>
+								</table>
+								<!-- End Table with hoverable rows -->
+							</div>
+							<h6 class="card-title"></h6>
+						</div>
+						<!-- End Default Tabs -->
+
 					</div>
-
 				</div>
-
 			</div>
 		</section>
 		<div>

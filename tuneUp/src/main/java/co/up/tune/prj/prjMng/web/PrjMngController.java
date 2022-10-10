@@ -23,7 +23,7 @@ public class PrjMngController {
 	PrjMngService dao;
 	
 	@Autowired
-	PropostService postDao;
+	PropostService postDao;   
 
 	// 프로젝트 팀 리스트
 	@GetMapping("/teamList")

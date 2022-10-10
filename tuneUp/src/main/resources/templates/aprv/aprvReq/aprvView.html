@@ -11,48 +11,75 @@
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-<script>
-$(document).ready(function() {
-	
-	//pdf
-	$('#savePdf').click(function() {
-		let ttl = $("#ttl").text();
-		
-	    html2canvas($('#cntn')[0]).then(function(canvas) {
-	       
-	        let imgData = canvas.toDataURL('image/png');
+		<script>
+			$(document)
+					.ready(
+							function() {
 
-	        let margin = 10; // 출력 페이지 여백설정
-	        let imgWidth = 210 - (10 * 2); // 이미지 가로 길이(mm) A4 기준
-	        let pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
-	        let imgHeight = canvas.height * imgWidth / canvas.width;
-	        let heightLeft = imgHeight;
+								//pdf
+								$('#savePdf')
+										.click(
+												function() {
+													let ttl = $("#ttl").text();
 
-	        let doc = new jsPDF('p', 'mm');
-	        let position = margin;
+													html2canvas($('#cntn')[0])
+															.then(
+																	function(
+																			canvas) {
 
-	        // 첫 페이지
-	        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-	        heightLeft -= pageHeight;
+																		let imgData = canvas
+																				.toDataURL('image/png');
 
-	        // 루프 출력
-	        while (heightLeft >= 20) {
-	            position = heightLeft - imgHeight;
-	            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-	            doc.addPage();
-	            heightLeft -= pageHeight;
-	        }
+																		let margin = 10; // 출력 페이지 여백설정
+																		let imgWidth = 210 - (10 * 2); // 이미지 가로 길이(mm) A4 기준
+																		let pageHeight = imgWidth * 1.414; // 출력 페이지 세로 길이 계산 A4 기준
+																		let imgHeight = canvas.height
+																				* imgWidth
+																				/ canvas.width;
+																		let heightLeft = imgHeight;
 
-	        // 파일 저장
-	        doc.save(ttl+'.pdf');
-	    });
-	}); 
-	
-	
-	
-	
-})
-</script>
+																		let doc = new jsPDF(
+																				'p',
+																				'mm');
+																		let position = margin;
+
+																		// 첫 페이지
+																		doc
+																				.addImage(
+																						imgData,
+																						'PNG',
+																						margin,
+																						position,
+																						imgWidth,
+																						imgHeight);
+																		heightLeft -= pageHeight;
+
+																		// 루프 출력
+																		while (heightLeft >= 20) {
+																			position = heightLeft
+																					- imgHeight;
+																			doc
+																					.addImage(
+																							imgData,
+																							'PNG',
+																							0,
+																							position,
+																							imgWidth,
+																							imgHeight);
+																			doc
+																					.addPage();
+																			heightLeft -= pageHeight;
+																		}
+
+																		// 파일 저장
+																		doc
+																				.save(ttl
+																						+ '.pdf');
+																	});
+												});
+
+							})
+		</script>
 
 		<section class="section">
 
@@ -67,18 +94,18 @@ $(document).ready(function() {
 					<table class="table" id="cntn">
 						<tbody>
 							<tr>
-								<th>상태</th>
-								<td th:text="${aprv.reqSt}"></td>
+								<th colspan="1">상태</th>
+								<td colspan="1" th:text="${aprv.reqSt}"></td>
 								<td colspan="4" class="textSize"><b id="ttl"><span
 										th:if="${aprv.impts}=='Y'">[중요]</span>[[${aprv.ttl}]]</b></td>
 							</tr>
 							<tr>
-								<th>상신인</th>
-								<td th:text="${aprv.nm}"></td>
-								<th>작성일자</th>
-								<td th:text="${aprv.dttm}"></td>
+								<th colspan="1" >상신인</th>
+								<td colspan="1" th:text="${aprv.nm}"></td>
+								<th colspan="1">작성일자</th>
+								<td colspan="1" th:text="${aprv.dttm}"></td>
 								<th colspan="1" th:if="${aprv.deadline != null}">마감일자</th>
-								<td colspan="5" th:if="${aprv.deadline != null}"
+								<td colspan="1" th:if="${aprv.deadline != null}"
 									th:text="${aprv.deadline}"></td>
 							</tr>
 							<tr>
@@ -108,22 +135,36 @@ $(document).ready(function() {
 
 						</tbody>
 
-						<tfoot th:each="a : ${approval}">
-							<tr th:if="${a.nm != null}">
-								<th colspan="1" th:text="${a.nm}"></th>
-								<td colspan="5" th:if="${a.aprvSt == '완료'}"><img
+						<tfoot>
+							<tr>
+								<th colspan="2" th:each="a : ${approval}"
+									th:if="${a.nm} == null ? ' ' : ${a.nm} "></th>
+							<tr>
+							<tr>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt == '완료'}"><img
 									th:src="${a.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${a.sign})} "
 									style="width: 150px; height: 150px;"></td>
-								<td colspan="5" th:if="${a.aprvSt == '반려'}"><img
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt == '반려'}"><img
 									th:src="$assets/img/reject.png"
 									style="width: 150px; height: 150px;"></td>
-								<td th:if="${a.aprvSt =='진행' }" colspan="5"></td>
-								<td th:if="${a.aprvSt =='대기' }" colspan="5"></td>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt =='진행' }"><span
+									style="width: 150px; height: 150px;"></span></td>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt =='대기' }"><span
+									style="width: 150px; height: 150px;"></span></td>
+
 							</tr>
-							<tr th:if="${a.reject != null}">
-								<th colspan="1">반려 사유</th>
-								<td colspan="5" th:text="${a.reject}"></td>
+							<tr>
+								<th colspan="6">반려 사유</th>
 							</tr>
+							<tr th:each="a : ${approval}" th:if="${a.reject} != null">
+								<td colspan="6" th:if="${a.reject} == null ? ' ' : ${a.reject} "
+									style="border: 0px;"></td>
+							</tr>
+
 						</tfoot>
 					</table>
 

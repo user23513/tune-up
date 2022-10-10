@@ -123,8 +123,8 @@ public class AprvReqServiceImpl implements AprvReqService {
 				rf.setEmpNo(refers);
 				rf.setNm(referNms);
 				lmap.referIn(rf);
-				
-				bvo.setEmpNo(Integer.parseInt(refers));
+				int no = Integer.parseInt(refers);
+				bvo.setEmpNo(no);
 				bmap.bellInsert(bvo);
 
 			}

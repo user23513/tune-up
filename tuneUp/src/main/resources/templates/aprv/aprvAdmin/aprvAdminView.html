@@ -114,18 +114,18 @@
 
 						<tbody>
 							<tr>
-								<th>상태</th>
-								<td th:text="${aprv.reqSt}"></td>
+								<th colspan="1">상태</th>
+								<td colspan="1" th:text="${aprv.reqSt}"></td>
 								<td colspan="4" class="textSize"><b id="ttl"><span
 										th:if="${aprv.impts}=='Y'">[중요]</span>[[${aprv.ttl}]]</b></td>
 							</tr>
 							<tr>
-								<th>상신인</th>
-								<td th:text="${aprv.nm}"></td>
-								<th>작성일자</th>
-								<td th:text="${aprv.dttm}"></td>
+								<th colspan="1">상신인</th>
+								<td colspan="1" th:text="${aprv.nm}"></td>
+								<th colspan="1">작성일자</th>
+								<td colspan="1" th:text="${aprv.dttm}"></td>
 								<th colspan="1" th:if="${aprv.deadline != null}">마감일자</th>
-								<td colspan="5" th:if="${aprv.deadline != null}"
+								<td colspan="1" th:if="${aprv.deadline != null}"
 									th:text="${aprv.deadline}"></td>
 							</tr>
 							<tr>
@@ -155,22 +155,36 @@
 
 						</tbody>
 
-						<tfoot th:each="a : ${approval}">
-							<tr th:if="${a.nm != null}">
-								<th colspan="1" th:text="${a.nm}"></th>
-								<td colspan="5" th:if="${a.aprvSt == '완료'}"><img
+						<tfoot>
+							<tr>
+								<th colspan="2" th:each="a : ${approval}"
+									th:if="${a.nm} == null ? ' ' : ${a.nm} "></th>
+							<tr>
+							<tr>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt == '완료'}"><img
 									th:src="${a.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${a.sign})} "
 									style="width: 150px; height: 150px;"></td>
-								<td colspan="5" th:if="${a.aprvSt == '반려'}"><img
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt == '반려'}"><img
 									th:src="$assets/img/reject.png"
 									style="width: 150px; height: 150px;"></td>
-								<td th:if="${a.aprvSt =='진행' }" colspan="5"></td>
-								<td th:if="${a.aprvSt =='대기' }" colspan="5"></td>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt =='진행' }"><span
+									style="width: 150px; height: 150px;"></span></td>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt =='대기' }"><span
+									style="width: 150px; height: 150px;"></span></td>
+
 							</tr>
-							<tr th:if="${a.reject != null}">
-								<th colspan="1">반려 사유</th>
-								<td colspan="5" th:text="${a.reject}"></td>
+							<tr>
+								<th colspan="6">반려 사유</th>
 							</tr>
+							<tr th:each="a : ${approval}" th:if="${a.reject} != null">
+								<td colspan="6" th:if="${a.reject} == null ? ' ' : ${a.reject} "
+									style="border: 0px;"></td>
+							</tr>
+
 						</tfoot>
 
 					</table>
@@ -178,10 +192,10 @@
 
 					<div>
 						<span>
-						<button th:data-no="${aprv.aprvNo}" class="btn btn-primary"
-								id="adOk" style="float: right;">강제 승인</button>
 							<button th:data-no="${aprv.aprvNo}" class="btn btn-primary"
-								id="adReject" style="float: right;  margin-right: 5px;">강제 반려</button>
+								id="adOk" style="float: right;">승인</button>
+							<button th:data-no="${aprv.aprvNo}" class="btn btn-primary"
+								id="adReject" style="float: right; margin-right: 5px;">반려</button>
 							<button id="savePdf" class="btn btn-primary"
 								style="float: right; margin-right: 5px;">
 								<i class="bi bi-folder me-1"></i>PDF

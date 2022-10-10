@@ -11,7 +11,7 @@
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-<script>
+		<script>
 
 
 $(document).ready(function() {	
@@ -113,25 +113,23 @@ $(document).ready(function() {
 			<div class="card">
 				<div class="card-body">
 
-					<br>
-
-						<input type="hidden" id = "myname" th:value="${session.nm}">
-						<input type="hidden" id = "wrtr" th:value="${aprv.empNo}">
+					<br> <input type="hidden" id="myname" th:value="${session.nm}">
+					<input type="hidden" id="wrtr" th:value="${aprv.empNo}">
 					<table class="table" id="cntn">
 						<tbody>
 							<tr>
-								<th>상태</th>
-								<td th:text="${aprv.reqSt}"></td>
+								<th colspan="1" >상태</th>
+								<td colspan="1" th:text="${aprv.reqSt}"></td>
 								<td colspan="4" class="textSize"><b id="ttl"><span
 										th:if="${aprv.impts}=='Y'">[중요]</span>[[${aprv.ttl}]]</b></td>
 							</tr>
 							<tr>
-								<th>상신인</th>
-								<td th:text="${aprv.nm}"></td>
-								<th>작성일자</th>
-								<td th:text="${aprv.dttm}"></td>
+								<th colspan="1">상신인</th>
+								<td colspan="1" th:text="${aprv.nm}"></td>
+								<th colspan="1" >작성일자</th>
+								<td colspan="1" th:text="${aprv.dttm}"></td>
 								<th colspan="1" th:if="${aprv.deadline != null}">마감일자</th>
-								<td colspan="5" th:if="${aprv.deadline != null}"
+								<td colspan="1" th:if="${aprv.deadline != null}"
 									th:text="${aprv.deadline}"></td>
 							</tr>
 							<tr>
@@ -161,24 +159,30 @@ $(document).ready(function() {
 
 						</tbody>
 
-						<tfoot th:each="a : ${approval}">
-							<tr th:if="${a.nm != null}">
-								<th colspan="1" th:text="${a.nm}"></th>
-								<td colspan="5" th:if="${a.aprvSt == '완료'}"><img
+						<tfoot>
+							<tr>
+								<th colspan="2" th:each="a : ${approval}"
+									th:if="${a.nm} == null ? ' ' : ${a.nm} "></th>
+							<tr>
+							<tr>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt == '완료'}"><img
 									th:src="${a.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${a.sign})} "
 									style="width: 150px; height: 150px;"></td>
-								<td colspan="5" th:if="${a.aprvSt == '반려'}"><img
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt == '반려'}"><img
 									th:src="$assets/img/reject.png"
 									style="width: 150px; height: 150px;"></td>
-								<td th:if="${a.aprvSt =='진행' }" colspan="5"></td>
-								<td th:if="${a.aprvSt =='대기' }" colspan="5"></td>
-							</tr>
-							<tr th:if="${a.reject != null}">
-								<th colspan="1">반려 사유</th>
-								<td colspan="5" th:text="${a.reject}"></td>
-							</tr>
-						</tfoot>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt =='진행' }"><span
+									style="width: 150px; height: 150px;"></span></td>
+								<td colspan="2" th:each="a : ${approval}"
+									th:if="${a.aprvSt =='대기' }"><span
+									style="width: 150px; height: 150px;"></span></td>
 
+							</tr>
+							
+						</tfoot>
 					</table>
 
 					<div>
@@ -188,10 +192,7 @@ $(document).ready(function() {
 									name="reject" placeholder="반려 사유" style="float: left;">
 							</form>
 						</div>
-						<br>
-						<br>
-						
-						<span>
+						<br> <br> <span>
 							<button id="apBtn" type="button" class="btn btn-primary"
 								data-no="${aprv.aprvNo}" onclick="aprvBtn()"
 								style="float: right;">승인</button>

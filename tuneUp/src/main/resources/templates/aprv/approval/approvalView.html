@@ -12,13 +12,15 @@
 <body>
 	<main id="main" class="main" layout:fragment="content">
 <script>
+
+
 $(document).ready(function() {	
 
 	//pdf
 	$('#savePdf').click(function() {
-		let ttl = $("#vttl").text();
+		let ttl = $("#ttl").text();
 		
-	    html2canvas($('#vCntn')[0]).then(function(canvas) {
+	    html2canvas($('#cntn')[0]).then(function(canvas) {
 	       
 	        let imgData = canvas.toDataURL('image/png');
 
@@ -49,7 +51,9 @@ $(document).ready(function() {
 	}); 
 	
 	
-	//승인 반려
+})
+
+//승인 반려
 	function aprvBtn() {
 		if (confirm("문서를 승인하시겠습니까?")) {
 			let no = $("#apBtn").data("no");
@@ -88,7 +92,7 @@ $(document).ready(function() {
 			})
 		}
 	}
-})
+
 </script>
 
 		<section class="section">
@@ -155,6 +159,7 @@ $(document).ready(function() {
 									th:src="$assets/img/reject.png"
 									style="width: 150px; height: 150px;"></td>
 								<td th:if="${a.aprvSt =='진행' }" colspan="5"></td>
+								<td th:if="${a.aprvSt =='대기' }" colspan="5"></td>
 							</tr>
 							<tr th:if="${a.reject != null}">
 								<th colspan="1">반려 사유</th>
@@ -176,10 +181,10 @@ $(document).ready(function() {
 						
 						<span>
 							<button id="apBtn" type="button" class="btn btn-primary"
-								data-no="${obj.aprvNo}" onclick="aprvBtn()"
+								data-no="${aprv.aprvNo}" onclick="aprvBtn()"
 								style="float: right;">승인</button>
 							<button id="rjtBtn" type="button" class="btn btn-secondary"
-								data-no="${obj.aprvNo}" onclick="rejectBtn()"
+								data-no="${aprv.aprvNo}" onclick="rejectBtn()"
 								style="float: right; margin-right: 5px;">반려</button>
 							<button id="savePdf" class="btn btn-primary"
 								style="float: right; margin-right: 5px;">

@@ -16,9 +16,9 @@
 		
 		//pdf
 		$('#savePdf').click(function() {
-			let ttl = $("#vttl").text();
+			let ttl = $("#ttl").text();
 			
-		    html2canvas($('#vCntn')[0]).then(function(canvas) {
+		    html2canvas($('#cntn')[0]).then(function(canvas) {
 		       
 		        let imgData = canvas.toDataURL('image/png');
 
@@ -136,6 +136,7 @@
 									th:src="$assets/img/reject.png"
 									style="width: 150px; height: 150px;"></td>
 								<td th:if="${a.aprvSt =='진행' }" colspan="5"></td>
+								<td th:if="${a.aprvSt =='대기' }" colspan="5"></td>
 							</tr>
 							<tr th:if="${a.reject != null}">
 								<th colspan="1">반려 사유</th>

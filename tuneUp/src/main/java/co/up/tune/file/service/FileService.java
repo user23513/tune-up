@@ -46,7 +46,11 @@ public class FileService {
 			vo.setFType(extension);
 			
 			//실제 로컬에 uuid를 파일명으로 저장
-			file.transferTo(new File(savePath));
+			File saveDir = new File(savePath);
+			if(!saveDir.exists()) {
+				saveDir.mkdirs();
+			}
+			file.transferTo(saveDir);
 			
 		}
 		

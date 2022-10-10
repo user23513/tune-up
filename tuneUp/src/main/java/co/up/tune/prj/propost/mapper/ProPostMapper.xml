@@ -75,8 +75,8 @@
 	
 	<select id="prjPostSelect" resultType="co.up.tune.prj.vo.PostVO" parameterType="co.up.tune.prj.vo.PostVO">
 		SELECT * 
-			FROM POST
-				WHERE POST_NO = #{postNo}
+		FROM POST
+		WHERE POST_NO = #{postNo}
 	</select>
 	
 	<!-- 댓 -->

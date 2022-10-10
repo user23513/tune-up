@@ -2,6 +2,8 @@ package co.up.tune.prj.prjMng.web;
 
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,10 +26,10 @@ public class PrjMngController {
 
 	// 프로젝트 팀 리스트
 	@GetMapping("/teamList")
-	public String teamList(@RequestParam("prjNo") int prjNo, Model model) {
+	public String teamList(@RequestParam("prjNo") int prjNo, HttpSession session, Model model) {
 		ProjectVO vo = new ProjectVO();
 		vo.setPrjNo(prjNo);
-		model.addAttribute("empList", postDao.empList());
+		model.addAttribute("empList", postDao.empList((String)session.getAttribute("empNo")));
 		model.addAttribute("teamList", dao.teamList(prjNo));
 		model.addAttribute("authList", dao.authList(prjNo));
 		model.addAttribute("prj", dao.pjSelect(vo));

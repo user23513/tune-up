@@ -26,53 +26,58 @@ $(document).ready(function() {
 		} */
 	})
 	
-	//profile img change event
-	
 	//프로필 사진 삭제 이벤트
-	$("#deletePic").on("click",e=>{
-	   let pic = '[[${e.pic}]]';
- 		   if(pic !='assets/img/default_profile.png'){
-/* 	    	  	//토큰
- 				var token = $("meta[name='_csrf']").attr("content");
-				var header = $("meta[name='_csrf_header']").attr("content");
-				
-				//프로필 이미지
-				let tg = e.target.closest('tr').children[1].innerText;
-		        $("#auth").val(tg)
-		        
-				$.ajax({
-					url : "picUpdate",
-					beforeSend:function(xhr){
-			 	  		xhr.setRequestHeader(header,token);  
-			     	  },
-					type : "post",
-					data: {"auth" : "USER", "empNo" : tg},
-					
-					success:function(res){
-						console.log(res)
-						e.target.closest('td').previousElementSibling.innerText = res;
-					}
-				}) */
-	   		}else{
-	   			alert("등록된 이미지가 없습니다.")
-	   		}
-	})
-		$("#reset").on("click", e=>{
-			location.href="profile";
-		})
-		
+/* 	$("#deletePic").on("click",e=>{
+		let pic = $("#file").val();
+		if(pic != null){
+    	  	//토큰
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			//프로필 이미지
+			let pic = e.target.closest('tr').children[1].innerText;
+	        
+			$.ajax({
+				url : "picUpdate",
+				progressData : false,
+				contentType : false,
+				beforeSend:function(xhr){
+		 	  		xhr.setRequestHeader(header,token);  
+		     	  },
+				type : "post",
+				data: null,
+				success:function(res){
+					$("#pic").attr(src,res.pic);
+				}
+			})
+   		}else{
+   			alert("등록된 이미지가 없습니다.");
+   		}
+	}) */
 	
+	$("#reset").on("click", e=>{
+		location.href="profile";
+	})
+	
+	$(function() {
+	    $("#file").on('change', function(){
+	    readURL(this);
+	    });
+	});
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	        $('#pic').attr('src', e.target.result);
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
 })
 </script>
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-		<script>
-	function changePic(){
-		let myPic = document.getElementById("file");
-		myPic.click();
-	}
-</script>
 
 		<div class="card">
 			<div class="card-body pt-3">
@@ -104,15 +109,13 @@ $(document).ready(function() {
 							<div class="row mb-3">
 								<label for="profileImage"
 									class="col-md-4 col-lg-3 col-form-label">사진</label>
-								<div class="col-md-8 col-lg-9">
-									<img th:src=@{/attach(path=${e.pic})} style="width: 120px;"
-										alt="Profile">
+								<div class="col-md-8 col-lg-9" id="profilePic">
+									<img id="pic" th:src="${session.pic} == null ? 'assets/img/default_profile.png' : @{/attach(path=${session.pic})} "
+										style="width: 120px;" alt="Profile">
 									<div class="pt-2">
 										<div class="col-md-8 col-lg-9">
-											<input type="button" id="picBtn" name="picBtn"
-												class="btn btn-primary" value="사진변경" onclick="changePic();">
-											<input type="file" id="file" name="file" class="form-control"
-												style="display: none">
+											<input type="file" id="file" name="file" class="form-control" onchange="readImage(this)"
+												th:value="${e.pic}">
 										</div>
 										&nbsp;&nbsp;&nbsp;
 										<!--  <a id="deletePic" name="deletePic" href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a> -->

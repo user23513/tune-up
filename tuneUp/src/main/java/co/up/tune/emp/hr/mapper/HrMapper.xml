@@ -3,7 +3,8 @@
 <mapper namespace="co.up.tune.emp.hr.mapper.HrMapper">
 	<select id="empList" resultType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
-		<!-- order by (dept||empNo) -->
+		<!-- order by DECODE (auth,'GUEST',1), emp_no; -->
+		order by emp_no
 	</select>
 	
 	<select id="empSelect" resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">
@@ -14,6 +15,7 @@
 	<select resultType="co.up.tune.emp.vo.EmpVO" id="managerList">
 		select * from emp
 		where auth = 'ADMIN'
+		order by emp_no
 	</select>
 	
 	<update id="empUpdate" parameterType="co.up.tune.emp.vo.EmpVO">

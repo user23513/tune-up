@@ -873,11 +873,10 @@ textarea.none {
 	})
 	
 //=============  할 일  ====================
-//todo 체크박스 이벤트
+//todo 체크박스 이벤트 
 $('[name="todoCk"]').on("change", e=>{
 	let postNo = $(e.target).next().data("post");
 	let todoNo = $(e.target).next().data("todo");
-	
 	let empNo = [[${session.empNo}]];
 	let replyCat = "프로젝트";
 	let cntn = e.target.nextElementSibling.innerText;

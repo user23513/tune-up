@@ -9,7 +9,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(document).ready(function() {
-		//저장 버튼 클릭 시
 		$("#save").on("click", e=>{
 			$("#empNo").val();
 			$("#dept").val();
@@ -23,81 +22,45 @@
 			}
 		})
 		
-		//되돌리기 클릭 시
 		$("#rollback").on("click", e=>{
 			location.href="empManage";
 		})
+		
+		
+        //선택된 mng
+		const query = 'input[name="mng"]:checked';
+		const selectedEls = document.querySelectorAll(query);
+		console.log("selectedEls = " +selectedEls);
+		console.log("query="+query);
+		
+		 // 선택된 목록에서 value 찾기
+		 let result = '';
+		 selectedEls.forEach((el) => {
+		 	result += el.value + ' ';
+		  });
+		 
+		 console.log(result)
+		 
+		 //DB에 mng 값 넣기
+		 $("#mng").val(result);
 		
 		//관리자 체크박스
 		$('#mngCk').change(function() {
 			if ($(this).is(':checked')) {
 	            $("#view").css("display", "block")
-	   			$("#auth").val("ADMIN");
-	            console.log("test")
-	            let result = "";
-
- 	            //선택된 mng
-	            
-	    		const query = 'input[name="mng"]:checked';
-	    		const selectedEls = document.querySelectorAll(query);
-	    		console.log("selectedEls = "+selectedEls);
-	    		console.log("query="+query);
-	    		
-	    		console.log(selectedEls[0]);	
-	    		 // 선택된 목록에서 value 찾기
-	    		 let result = '';
-	    		 
-	    		 selectedEls.forEach((el) => {
-	    	 		result += el.value + ' ';
-	    	 		console.log(el.value);
-	    		  }); 
-	    		 console.log(result)
-	    		 
-	    		 let empNo = $("#empNo").val();
-	    		 console.log("=============empNo" + empNo);
-	    		 
-/*  	    		 $.ajax({
-					url : "mngUpdate",
-					beforeSend:function(xhr){
-						xhr.setRequestHeader(header,token);  
-					},
-					type : "post",
-					data: {"mng" : result, "empNo" : tg},
-					success:function(res){
-					}
-				}) */
-	    		  //DB에 mng 값 넣기
-	    		 $("#mng").val(result); 
+				$("#auth").val("ADMIN");
 	        }
 	        else {
-	        	$("#mng").val();
 	        	$("#view").css("display", "none")
 	        	$("#auth").val("USER");
+	        	$("#mng").val("");
 	        }
 		});
 		
-/* 		//관리자 권한
-        $('[name="mng"]').change(function() {
-        	if($("#hrCk").is(':checked')){
-        		result += $("#hrCk").val() + " ";
-        		console.log($("#hrCk").val());
-        	}else{
-        		result -= $("#hrCk").val() + " ";
-        	}
-        	
-        	if($("#attdCk").is(':checked')){
-        		result += $("#attdCk").val() + " ";
-        	}else{
-        		result -= $("#attdCk").val() + " ";
-        	}
-        	
-        	if($("#boardCk").is(':checked')){
-        		result += $("#boardCk").val() + " ";
-        	}else{
-        		result -= $("#boardCk").val() + " ";
-        	}
-        	console.log("============ result"+result);
-        }) */
+		/* if($("#hrCk").is(':checked') || $("#attdCk").is(':checked') || $("#boardCk").is(':checked')){
+	    	$("#auth").val("MANAGER");
+	    } */
+	
 	});
 	
 	//주소 API
@@ -306,17 +269,17 @@
 							</div>
 
 							<div th:style="${emp.auth == 'USER'} or ${emp.auth == 'GUEST'}?'display:none'"
-								 id="view">
-								<input th:checked="${#strings.contains(emp.mng,'hr')}?checked" class="form-check-input"
-										type="checkbox" name="mng" value="hr" id="hrCk">
+								id="view">
+								<input th:checked="${emp.mng=='hr'}?checked" class="form-check-input"
+										type="radio" name="mng" value="hr" id="hrCk">
 								<label class="form-check-label" for="gridCheck1"> 인사 관리자 </label>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input th:checked="${#strings.contains(emp.mng,'attd')}?checked" class="form-check-input"
-										type="checkbox" name="mng" value="attd" id="attdCk">
+								<input th:checked="${emp.mng=='attd'}?checked" class="form-check-input"
+										type="radio" name="mng" value="attd" id="attdCk">
 								<label class="form-check-label" for="gridCheck1"> 근태 관리자 </label>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input th:checked="${#strings.contains(emp.mng,'board')}?checked" class="form-check-input"
-										type="checkbox" name="mng" value="board" id="boardCk">
+								<input th:checked="${emp.mng=='board'}?checked" class="form-check-input"
+									type="radio" name="mng" value="board" id="boardCk">
 								<label class="form-check-label" for="gridCheck1"> 게시판 관리자 </label>
 							</div>
 						</div>

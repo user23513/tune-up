@@ -147,9 +147,10 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-				</configuration>
+				</configuration>				
 			</plugin>
 		</plugins>
+
 		
 		<resources>
 			<resource>
@@ -166,4 +167,17 @@
 		</resources>
 	</build>
 
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>

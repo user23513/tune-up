@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.up.tune.prj.prjMng.service.PrjMngService;
+import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.TeamVO;
 
@@ -20,7 +21,9 @@ import co.up.tune.prj.vo.TeamVO;
 public class PrjMngController {
 	@Autowired
 	PrjMngService dao;
- 
+	@Autowired
+	PropostService postDao;   
+
 	// 프로젝트 팀 리스트
 	@GetMapping("/teamList")
 	public String teamList(@RequestParam("prjNo") int prjNo, HttpSession session, Model model) {

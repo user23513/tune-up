@@ -1,8 +1,5 @@
 package co.up.tune.emp.mypage.service;
 
-import java.util.List;
-
-import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.vo.PostVO;
 

@@ -202,6 +202,8 @@ button {
 			}
 		}
 	}
+	
+	
 </script>
 </head>
 <body>
@@ -243,7 +245,7 @@ button {
 							role="tabpanel" aria-labelledby="home-tab">
 							<!-- 내 보관함 -->
 							<br>
-							<form class="search-form d-flex align-items-center" method="get"
+	<!-- 						<form class="search-form d-flex align-items-center" method="get"
 								action="">
 								<select class="form-select form-select-sm w-auto h-auto" 
 									 name="keyword">
@@ -254,7 +256,7 @@ button {
 								<button type="submit" title="Search">
 									<i class="bi bi-search"></i>
 								</button>
-							</form>
+							</form> -->
 							<div>
 								<button type="button"
 									class="btn btn btn-outline-secondary btn-sm"
@@ -280,7 +282,7 @@ button {
 										<td></td>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="tb">
 									<tr th:each="m : ${myFileList}">
 										<th scope="row"><input th:value="${m.fileNo}"
 											class="form-check-input" type="checkbox" name="RowCheck1"></th>
@@ -301,19 +303,7 @@ button {
 							<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
 							
 							<br>
-							<form class="search-form d-flex align-items-center" method="get" action="">
-								<select class="form-select form-select-sm w-auto h-auto" 
-									 name="keyword">
-									<option value="all">전체</option>
-									<option value="ttl">제목</option>
-									<option value="wrtr">작성자</option>
-									<option value="cntn">내용</option>
-								</select>
-								<input type="text" name="query" placeholder="Search" title="Enter search keyword">
-								<button type="submit" title="Search">
-									<i class="bi bi-search"></i>
-								</button>
-							</form>
+							
 							<div>
 								<button type="button" class="btn btn-outline-secondary btn-sm"
 									onclick="deleteValue();">선택삭제</button>
@@ -326,7 +316,6 @@ button {
 											type="checkbox" name="allCheck" id="allCheck"></th>
 										<th scope="col">프로젝트 이름</th>
 										<th scope="col">파일이름</th>
-										<th scope="col"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -336,7 +325,6 @@ button {
 										<td th:text="${f.pNm}"></td>
 										<td><a class="filePath" th:attr="data-path=${f.fPath}"
 											th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a></td>
-										<td></td>
 									</tr>
 								</tbody>
 							</table>

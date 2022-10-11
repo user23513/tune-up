@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import co.up.tune.com.vo.CommunityVO;
 import co.up.tune.prj.vo.FilesVO;
 
 public interface FileMapper {
@@ -18,7 +17,7 @@ public interface FileMapper {
 	
 	int proPostFileUpdate(FilesVO vo);
 	
-	List<CommunityVO> fileSearch(@Param("key") String key, @Param("val") String val);
+	List<FilesVO> fileSearch(@Param("key") String key, @Param("val") String val);
 	
 
 }

@@ -16,8 +16,25 @@
 <script>
 $(document).ready(function() {
 	//datatables
-	$('#empList').DataTable();
-	$('#managerList').DataTable();
+	$('#empList').DataTable({
+		"dom":'lftip',
+		"language": {
+	    "search": ""
+	  	},
+		lengthChange: false,
+		ordering: false,
+		info: false
+	});
+	
+	$('#managerList').DataTable({
+		"dom":'lftip',
+		"language": {
+	    "search": ""
+	  	},
+		lengthChange: false,
+		ordering: false,
+		info: false
+	});
 	
 	//사원 테이블 tr태그 클릭 이벤트
  	$("#tb").on("click", "tr", e=>{
@@ -114,24 +131,24 @@ $(document).ready(function() {
 									<br>
 									<!-- 전체사원목록 보이는 곳 -->
 									<!-- Table with hoverable rows -->
-									<table class="table table-hover" id="empList">
+									<table class="display center" id="empList" style="margin : 0px;">
 										<thead>
 											<tr>
-												<th scope="col" style="display : none">NO</th>
-												<th scope="col">사원번호</th>
-												<th scope="col">성명</th>
-												<th scope="col">부서</th>
-												<th scope="col">직위</th>
-												<th scope="col">입사일</th>
-												<th scope="col">휴대폰</th>
-												<th scope="col">이메일</th>
-												<th scope="col">권한</th>
-												<th scope="col">승인</th>
+												<th style="display : none">NO</th>
+												<th >사원번호</th>
+												<th>성명</th>
+												<th>부서</th>
+												<th>직위</th>
+												<th>입사일</th>
+												<th>휴대폰</th>
+												<th>이메일</th>
+												<th>권한</th>
+												<th>승인</th>
 											</tr>
 										</thead>
-										<tbody id="tb">
+										<tbody id="tb" >
 											<tr th:each="e : ${empList}">
-												<th scope="row" style="display : none"></th>
+												<th style="display : none"></th>
 												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}">HR100</td>
 												<td th:text="${e.nm}">김인사</td>
 												<td th:text="${e.dept}">인사</td>
@@ -149,29 +166,29 @@ $(document).ready(function() {
 									</table>
 									<!-- End Table with hoverable rows -->
 								</div>
-
+	
 								<div class="tab-pane fade" id="contact" role="tabpanel"
 									aria-labelledby="contact-tab">
 									<br>
 									<!-- 관리자 목록 보이는 곳 -->
 									<!-- Table with hoverable rows -->
-									<table class="table table-hover" id="managerList">
+									<table class="display center" id="managerList" style="width : 100%;">
 										<thead>
 											<tr>
-												<th scope="col" style="display : none">NO</th>
-												<th scope="col">사원번호</th>
-												<th scope="col">성명</th>
-												<th scope="col">부서</th>
-												<th scope="col">직위</th>
-												<th scope="col">입사일</th>
-												<th scope="col">휴대폰</th>
-												<th scope="col">이메일</th>
-												<th scope="col">권한</th>
+												<th style="display : none">NO</th>
+												<th>사원번호</th>
+												<th>성명</th>
+												<th>부서</th>
+												<th>직위</th>
+												<th>입사일</th>
+												<th>휴대폰</th>
+												<th>이메일</th>
+												<th>권한</th>
 											</tr>
 										</thead>
 										<tbody id="tbd">
 											<tr th:each="m : ${managerList}" th:if="m.auth">
-												<th scope="row" style="display : none"></th>
+												<th style="display : none"></th>
 												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"></td>
 												<td th:text="${m.nm}">김인사</td>
 												<td th:text="${m.dept}">인사</td>
@@ -180,9 +197,9 @@ $(document).ready(function() {
 												<td th:text="${m.phone}">010-0000-0000</td>
 												<td th:text="${m.email}">aaa1234@gmail.com</td>
 												<td th:switch="${m.mng}">
-													<span th:case="hr">인사</span>
-													<span th:case="attd">근태</span>
-													<span th:case="board">게시판</span>
+													<div th:case="hr">인사</div>
+													<div th:case="attd">근태</div>
+													<div th:case="board">게시판</div>
 												</td>
 											</tr>
 										</tbody>

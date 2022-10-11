@@ -39,7 +39,7 @@
 		 	result += el.value + ' ';
 		  });
 		 
-		 console.log(result)
+		 console.log(result);
 		 
 		 //DB에 mng 값 넣기
 		 $("#mng").val(result);
@@ -56,11 +56,6 @@
 	        	$("#mng").val("");
 	        }
 		});
-		
-		/* if($("#hrCk").is(':checked') || $("#attdCk").is(':checked') || $("#boardCk").is(':checked')){
-	    	$("#auth").val("MANAGER");
-	    } */
-	
 	});
 	
 	//주소 API
@@ -274,11 +269,11 @@
 										type="radio" name="mng" value="hr" id="hrCk">
 								<label class="form-check-label" for="gridCheck1"> 인사 관리자 </label>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input th:checked="${emp.mng=='attd'}?checked" class="form-check-input"
+								<input th:checked="${emp.mng =='attd'}?checked" class="form-check-input"
 										type="radio" name="mng" value="attd" id="attdCk">
 								<label class="form-check-label" for="gridCheck1"> 근태 관리자 </label>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<input th:checked="${emp.mng=='board'}?checked" class="form-check-input"
+								<input th:checked="${emp.mng =='board'}?checked" class="form-check-input"
 									type="radio" name="mng" value="board" id="boardCk">
 								<label class="form-check-label" for="gridCheck1"> 게시판 관리자 </label>
 							</div>

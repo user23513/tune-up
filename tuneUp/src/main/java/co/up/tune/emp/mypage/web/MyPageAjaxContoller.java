@@ -21,10 +21,8 @@ public class MyPageAjaxContoller {
 	@PostMapping("/picUpdate")
 	public String picUpdate(EmpVO vo) {
 		dao.picUpdate(vo);
-
 		String pic = vo.getPic();
-		System.out.println(pic);
-
+		System.out.println("====================="+pic);
 		return pic;
 	}
 

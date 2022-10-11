@@ -8,15 +8,13 @@
 		where emp_no = #{empNo}
 	</select>
 
-	<update id="profileUpdate"
-		parameterType="co.up.tune.emp.vo.EmpVO">
+	<update id="profileUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
 		<set>
 			<if test="pw != null">pw = #{pw},</if>
 			<if test="phone != null">phone = #{phone},</if>
 			<if test="email != null">email = #{email},</if>
-			<if test="birth != null">birth = #{birth},</if>
-			<if test="pic != null"> pic = #{pic}</if>
+			<if test="birth != null">birth = #{birth}</if>
 		</set>
 		where emp_no = #{empNo}
 	</update>
@@ -26,9 +24,7 @@
 		   set	pic = #{pic}
 		 where	emp_no = #{empNo}
 	</update>
-
 	
-
 	<select id="postLook" parameterType="co.up.tune.prj.vo.PostVO" resultType="co.up.tune.prj.vo.PostVO">
 		SELECT 
 				TTL,

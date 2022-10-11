@@ -301,7 +301,7 @@ textarea.none {
 														th:attr="data-path=${f.fPath}"
 														th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}">
 													</a> <br> <br>
-													<div id="rList">
+													<div class="rList">
 														<div th:each="r : ${ppReplyList}">
 															<span th:text="${r.wrtr}">작성자</span>&nbsp; <span
 																th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp; <br>
@@ -396,7 +396,7 @@ textarea.none {
 												<br>
 
 												<!-- 전체 댓글 -->
-												<div class="rList">
+												<div id="businessRList" class="rList">
 													<div th:each="r : ${replyList}" th:if="${s.postNo}==${r.postNo}"
 														th:attr="data-no=${s.empNo}">
 														<span th:text="${r.wrtr}">작성자</span>&nbsp; 
@@ -737,7 +737,7 @@ textarea.none {
 	
 	/*===== 일정 참석 댓글 =====*/
 	$(".attendBtn").on("click", ".attend", e=>{
-		$.each($(".rList").children(), (idx, reply)=>{
+		$.each($("#businessRList").children(), (idx, reply)=>{
 			if([[${session.empNo}]] == $(reply).data("no")){
 				count = 1;
 				return false;

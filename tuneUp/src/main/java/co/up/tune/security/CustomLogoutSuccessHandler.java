@@ -29,10 +29,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 		vo.setSt("로그아웃");
 		mapper.loginStUp(vo);
 		
-		
 		session.invalidate();
-		
-		
 		
 		request.setAttribute("logout", "logout");
 		//request.getRequestDispatcher("/login").forward(request, response);

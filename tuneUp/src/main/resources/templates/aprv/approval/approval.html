@@ -47,27 +47,10 @@
 		
 	//로딩 후
 	$(document).ready(function() {
-		//체크박스 전체선택
-		$(".checkAll").on("click", e => {
-			if($(".checkAll").is(":checked")){
-				$(".check").prop("checked", true);
-			} else{
-				$(".check").prop("checked", false);
-			}
-			
-		}) 
-		//전체선택 해제
-		$(".check").on("click", e=> {
-			e.stopPropagation();
-			let total = $(".check").length;
-			let checked = $(".check:checked").length;
-			if(total != checked){
-				$(".checkAll").prop("checked", false);
-			} else {
-				$(".checkAll").prop("checked", true); 
-			}
-			
-		});
+		checkAll();
+		
+		
+		
 		//선택 승인
 		$("#checkAprvBtn").on("click", e=>{
 			let checkVals = [];  //문서번호
@@ -441,6 +424,33 @@
 				info: false
 			});
 		}
+	
+	//체크박스 전체 선택 해제
+	function checkAll(){
+		$(".checkAll").on("click", e => {
+			if($(".checkAll").is(":checked")){
+				$(".check").prop("checked", true);
+			} else{
+				$(".check").prop("checked", false);
+			}
+			
+		}) 
+		
+		$(".check").on("click", e=> {
+			e.stopPropagation();
+			let total = $(".check").length;
+			let checked = $(".check:checked").length;
+			if(total != checked){
+				$(".checkAll").prop("checked", false);
+			} else {
+				$(".checkAll").prop("checked", true); 
+			}
+			
+		});
+		
+	}
+	
+	
 		
 		
 	</script>

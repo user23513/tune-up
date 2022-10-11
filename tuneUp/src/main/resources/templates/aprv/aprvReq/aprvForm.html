@@ -163,7 +163,7 @@ $(document).ready(function(){
 					for(let receiverNo of aprvrArr){
 						socket.send('request,caller,'+receiverNo+','+ttl);
 					}
-				} else if (aprvr != null && !=""){
+				} else if (aprvr != null && aprvr != ""){
 					socket.send('request,caller,'+aprvr+','+ttl);
 				}
 				
@@ -173,7 +173,7 @@ $(document).ready(function(){
 					for(let receiverNo of referArr){
 						socket.send('refer,caller,'+receiverNo+','+ttl);
 					}
-				} else if (refers != null && !=""){
+				} else if (refers != null && refers !=""){
 					socket.send('refer,caller,'+refers+','+ttl);
 				}
 				

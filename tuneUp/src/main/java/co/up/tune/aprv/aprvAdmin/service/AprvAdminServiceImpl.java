@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import co.up.tune.aprv.aprvAdmin.mapper.AprvAdminMapper;
+import co.up.tune.aprv.aprvLine.mapper.AprvLineMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
+import co.up.tune.aprv.vo.ReferVO;
 import co.up.tune.com.bell.mapper.BellMapper;
 import co.up.tune.com.vo.BellVO;
 
@@ -25,6 +27,8 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	AprvAdminMapper map;
 	@Autowired
 	BellMapper bmap;
+	@Autowired
+	AprvLineMapper lmap;
 	
 	@Override
 	public List<AprvVO> aprvListAll(String reqSt) {
@@ -35,6 +39,9 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	@Transactional
 	public int aprvAdminDel(AprvVO vo) {
 		int cnt = map.approvalAdminDel(vo);
+		ReferVO rvo = new ReferVO();
+		rvo.setAprvNo(vo.getAprvNo());
+		cnt+=lmap.referDel(rvo);
 		cnt += map.aprvAdminDel(vo);
 		return cnt;
 	}

@@ -21,7 +21,6 @@ import co.up.tune.prj.vo.TeamVO;
 public class PrjMngController {
 	@Autowired
 	PrjMngService dao;
-	
 	@Autowired
 	PropostService postDao;   
 
@@ -31,7 +30,7 @@ public class PrjMngController {
 		ProjectVO vo = new ProjectVO();
 		vo.setPrjNo(prjNo);
 
-		model.addAttribute("empList", postDao.empList((String)session.getAttribute("empNo")));
+		
 		model.addAttribute("teamList", dao.teamList(prjNo));
 		model.addAttribute("authList", dao.authList(prjNo));
 		model.addAttribute("prj", dao.pjSelect(vo));

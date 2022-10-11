@@ -5,9 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import co.up.tune.aprv.aprvAdmin.mapper.AprvAdminMapper;
+import co.up.tune.aprv.aprvLine.mapper.AprvLineMapper;
 import co.up.tune.aprv.vo.ApprovalVO;
 import co.up.tune.aprv.vo.AprvVO;
 import co.up.tune.aprv.vo.FormVO;
+import co.up.tune.aprv.vo.ReferVO;
+import co.up.tune.com.bell.mapper.BellMapper;
+import co.up.tune.com.vo.BellVO;
 
 /**
  * 전자결재 관리 ServiceImpl
@@ -21,7 +25,10 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 
 	@Autowired
 	AprvAdminMapper map;
-	
+	@Autowired
+	BellMapper bmap;
+	@Autowired
+	AprvLineMapper lmap;
 	
 	@Override
 	public List<AprvVO> aprvListAll(String reqSt) {
@@ -32,6 +39,9 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	@Transactional
 	public int aprvAdminDel(AprvVO vo) {
 		int cnt = map.approvalAdminDel(vo);
+		ReferVO rvo = new ReferVO();
+		rvo.setAprvNo(vo.getAprvNo());
+		cnt+=lmap.referDel(rvo);
 		cnt += map.aprvAdminDel(vo);
 		return cnt;
 	}
@@ -44,8 +54,30 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	@Override
 	@Transactional
 	public int aprvAdReject(ApprovalVO vo) {
+		BellVO bvo = new BellVO();
+		bvo.setCntn("관리자님이 <a type='external' href='/aprvReq'>" + vo.getTtl() + "</a> 문서를 반려하셨습니다.");
+		bvo.setEmpNo(Integer.parseInt(vo.getEmpNo()));
+		bvo.setReceiver("수신인");
+		bvo.setSender("관리자");
+		bmap.bellInsert(bvo);
+		
 		int cnt = map.aprvAdReject(vo);
 		cnt = map.reqAdReject(vo);
+		return cnt;
+	}
+
+	@Override
+	@Transactional
+	public int aprvAdOk(ApprovalVO vo) {
+		BellVO bvo = new BellVO();
+		bvo.setCntn("관리자님이 <a type='external' href='/aprvReq'>" + vo.getTtl() + "</a> 문서를 승인하셨습니다.");
+		bvo.setEmpNo(Integer.parseInt(vo.getEmpNo()));
+		bvo.setReceiver("수신인");
+		bvo.setSender("관리자");
+		bmap.bellInsert(bvo);
+		
+		int cnt = map.aprvAdOk(vo);
+		cnt = map.reqAdOk(vo);
 		return cnt;
 	}
 

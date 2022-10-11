@@ -47,34 +47,24 @@
 		
 	//로딩 후
 	$(document).ready(function() {
-		//체크박스 전체선택
-		$(".checkAll").on("click", e => {
-			if($(".checkAll").is(":checked")){
-				$(".check").prop("checked", true);
-			} else{
-				$(".check").prop("checked", false);
-			}
-			
-		}) 
-		//전체선택 해제
-		$(".check").on("click", e=> {
-			e.stopPropagation();
-			let total = $(".check").length;
-			let checked = $(".check:checked").length;
-			if(total != checked){
-				$(".checkAll").prop("checked", false);
-			} else {
-				$(".checkAll").prop("checked", true); 
-			}
-			
-		});
+		checkAll();
+		
+		
+		
 		//선택 승인
 		$("#checkAprvBtn").on("click", e=>{
-			let checkVals = [];    
+			let checkVals = [];  //문서번호
 			$(".check:checked").each(function(i) {
 				checkVals.push($(this).val()); 
 			});
-			
+			let titles = []; //문서제목
+			$(".check:checked").each(function(i) {
+				titles.push($(this).data("ttl")); 
+			});
+			let emps = [];	//작성자사번
+			$(".check:checked").each(function(i) {
+				emps.push($(this).data("emp")); 
+			});
 			if(checkVals.length == 0){
 				alert("선택된 문서가 없습니다.");
 			} else {
@@ -85,8 +75,14 @@
 							xhr.setRequestHeader(header, token);
 						},
 						type : 'post',
-						data : {'valueArr' : checkVals},
+						data : {'valueArr' : checkVals,
+								'empArr': emps},
 						success : function(data) {
+							
+							for(let i=0; i<titles.length; i++){
+								socket.send('approved,발신자,'+emps[i]+','+titles[i]);
+							};
+							
 							alert("승인이 완료되었습니다.");
 							location.href="approval";
 							
@@ -138,9 +134,6 @@
 			let rptt= $("#rptt").val();
 			let rpttNm= $("#rpttNm").val();
 			
-			console.log(no);
-			console.log(rptt);
-			console.log(rpttNm);
 			if (confirm("수임 상태를 변경하시겠습니까?")){
 				$.ajax({
 					url:'trustUp',
@@ -153,6 +146,9 @@
 				    		'rpttNm':rpttNm},
 				    dataType:'json',
 				    success:function(obj){
+				    	
+				    	let nm = $("#myname").val();
+				    	socket.send('trust,'+nm+','+rptt+','+'위임');
 				    	$(e.target).closest("li").remove();
 				    }
 			    }) 
@@ -177,6 +173,11 @@
 				alert("시작일은 종료일보다 늦을 수 없습니다.");
 				return;
 			} else {
+				
+				let nm = $("#myname").val();
+				let rptt = $("#rptt").val();
+				socket.send('trust,'+nm+','+rptt+','+'위임');
+				
 				$("#trustFrm").submit();
 			}
 			
@@ -371,7 +372,7 @@
 	}
 		
 		
-	//승인 상세조회
+	//승인문서 상세조회
 	function aprvSelect() {
 		$("#approvalTable").on("click", "tr", e=>{
 			let no = $(e.target).data("no");
@@ -380,7 +381,7 @@
 		})
 	}
 		
-	//참조 상세조회
+	//참조문서 상세조회
 	function referSelect() {
 		$("#referTable").on("click", "tr", e=>{
 			let aprvNo = $(e.target).data("no");
@@ -423,6 +424,33 @@
 				info: false
 			});
 		}
+	
+	//체크박스 전체 선택 해제
+	function checkAll(){
+		$(".checkAll").on("click", e => {
+			if($(".checkAll").is(":checked")){
+				$(".check").prop("checked", true);
+			} else{
+				$(".check").prop("checked", false);
+			}
+			
+		}) 
+		
+		$(".check").on("click", e=> {
+			e.stopPropagation();
+			let total = $(".check").length;
+			let checked = $(".check:checked").length;
+			if(total != checked){
+				$(".checkAll").prop("checked", false);
+			} else {
+				$(".checkAll").prop("checked", true); 
+			}
+			
+		});
+		
+	}
+	
+	
 		
 		
 	</script>
@@ -446,7 +474,7 @@
 						</nav>
 					</div>
 					<!-- End Page Title -->
-
+					<input type="hidden" id = "myname" th:value="${session.nm}">
 					<!-- Tabs nav -->
 					<ul class="nav nav-tabs nav-tabs-bordered" id="aprvTab"
 						role="tablist">
@@ -530,9 +558,9 @@
 																	class="d-flex justify-content-between align-items-start"
 																	th:data-no="${p.aprvNo}">
 																	<div class="ms-2 me-auto">
-																		<div class="form-check">
+																		<div class="form-check" >
 																			<input class="form-check-input check" type="checkbox"
-																				name="aprvNo" th:value="${p.aprvNo}"
+																				name="aprvNo" th:value="${p.aprvNo}" th:data-ttl="${p.ttl}" th:data-emp="${p.empNo}"
 																				style="float: left;">
 																		</div>
 																		<i th:if="${p.impts =='Y'}" class="ri-alert-fill"

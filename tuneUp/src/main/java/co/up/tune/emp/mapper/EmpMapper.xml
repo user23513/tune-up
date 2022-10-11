@@ -3,7 +3,7 @@
 <mapper namespace="co.up.tune.emp.mapper.EmpMapper">
 
 	<select id="empSelect" parameterType="co.up.tune.emp.vo.EmpVO"
-			resultType="co.up.tune.emp.vo.EmpVO">
+		resultType="co.up.tune.emp.vo.EmpVO">
 		SELECT  NM,
 				ID,
 				PW,

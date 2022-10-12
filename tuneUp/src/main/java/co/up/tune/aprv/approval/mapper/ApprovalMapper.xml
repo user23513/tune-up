@@ -21,7 +21,8 @@
 								WHERE APRVR = #{aprvr}
 								AND APRV_ST = '진행')
 			UNION 
-			SELECT '위임', 	APRV_NO, 
+			SELECT '위임' APRV_ST,
+							APRV_NO, 
 							EMP_NO, 
 							TTL, 
 							DTTM,

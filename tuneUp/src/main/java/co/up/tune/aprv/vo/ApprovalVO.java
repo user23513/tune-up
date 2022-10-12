@@ -27,6 +27,7 @@ public class ApprovalVO {
 	List<Integer> valueArr; //체크박스 번호
 	String sign; //file path
 	String empNo; //문서주인
-	String ttl; //문서제목
+	String ttl; //제목
+	List<String> ttls; //문서제목
 	List<String> empArr; //문서작성자
 }

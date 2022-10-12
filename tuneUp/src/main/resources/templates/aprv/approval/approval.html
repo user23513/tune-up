@@ -13,7 +13,7 @@
 	<!-- ======= Main ======= -->
 	<main id="main" class="main" layout:fragment="content">
 
-		<script>
+		<script th:inline="javascript">
 		
 		loading(); //로딩마스크
 		
@@ -51,6 +51,7 @@
 		getCanvas();//그리기영역
 		trustSys();//위임자
 		checkAprv();// 체크박스승인
+		changeRptt();//수임자변경
 	});
 	
 	//선택 승인
@@ -80,7 +81,8 @@
 						},
 						type : 'post',
 						data : {'valueArr' : checkVals,
-								'empArr': emps},
+								'empArr': emps,
+								'ttls':titles},
 						success : function(data) {
 							for(let i=0; i<titles.length; i++){
 								socket.send('approved,발신자,'+emps[i]+','+titles[i]);
@@ -163,40 +165,7 @@
 			}
 		})
 		
-		//수임자변경
-		$(".upTrust").on("click", e=>{
-			let no = $(e.target).closest("li").data("no");
-			let rptt= $("#rptt").val();
-			let rpttNm= $("#rpttNm").val();
-			
-			if (confirm("수임 상태를 변경하시겠습니까?")){
-				if (rptt){
-					$.ajax({
-						url:'trustUp',
-						beforeSend:function(xhr){
-					 		xhr.setRequestHeader(header,token);  
-					    },
-					    type:"post",
-					    data:{'trustNo':no,
-					    		'rptt':rptt,
-					    		'rpttNm':rpttNm},
-					    dataType:'json',
-					    success:function(obj){
-					    	
-					    	let nm = $("#myname").val();
-					    	socket.send('trust,'+nm+','+rptt+','+'위임');
-					    	$(e.target).closest("li").remove();
-					    }
-				    }) 
-					
-				} else {
-					alert("수임자를 선택해주세요.");
-				}
-			
-			} else {
-				return;
-			}
-		})
+		
 		
 		//사원검색
 		$("#deptSelect").on("change", e=>{
@@ -245,10 +214,51 @@
 		})
 	}
 	
+	//수임자변경
+	/*<![CDATA[*/
+	function changeRptt(){
+		$(".upTrust").on("click", e=>{
+			let no = $(e.target).closest("li").data("no");
+			let rptt= $("#rptt").val();
+			let rpttNm= $("#rpttNm").val();
+			let nm = [[${session.nm}]];
+			
+			if (confirm("수임 상태를 변경하시겠습니까?")){
+				if (rptt){
+					$.ajax({
+						url:'trustUp',
+						beforeSend:function(xhr){
+					 		xhr.setRequestHeader(header,token);  
+					    },
+					    type:"post",
+					    data:{'trustNo':no,
+					    		'rptt':rptt,
+					    		'rpttNm':rpttNm},
+					    dataType:'json',
+					    success:function(obj){
+					    	
+					    	let nm = $("#myname").val();
+					    	socket.send('trust,'+nm+','+rptt+','+'위임');
+					    	$(e.target).closest("li").remove();
+					    }
+				    }) 
+					
+				} else {
+					alert("수임자를 선택해주세요.");
+				}
+			
+			} else {
+				return;
+			}
+		})
+	}
+	/*]]>*/
+	
+	
 
 	//승인문서 상세조회
 	function aprvSelect() {
-		$("#aprvtb").on("click", "aprvTr", e=>{
+		$("#aprvtb").on("click", "tr", e=>{
 			let no = $(e.target).data("no");
 			$("#aprvFrmNo").val(no)
 			$("#aprvFrm").submit();
@@ -536,7 +546,7 @@
 														</thead>
 														<tbody id="aprvtb" class="list-group">
 															<tr th:each="p : ${approval}" class="list-group-item list-group-item-action aprvTr" th:data-no="${p.aprvNo}">
-																<td class="d-flex justify-content-between align-items-start" th:data-no="${p.aprvNo}">
+																<td class="d-flex justify-content-between align-items-start aprvTr" th:data-no="${p.aprvNo}">
 																	<div class="ms-2 me-auto">
 																		<div class="form-check">
 																			<input class="form-check-input check" type="checkbox" name="aprvNo" th:value="${p.aprvNo}"
@@ -550,8 +560,8 @@
 																		<small th:text="| ${p.nm}|"></small>
 																	</div>
 																	
-																	<span th:if="${p.aprvSt} == '진행'" class="badge bg-outline-primary rounded-pill" style="height: 25px">진행</span>
-																	<span th:unless="${p.aprvSt} == '진행'" class="badge bg-primary rounded-pill" style="height: 25px">위임</span>
+																	<span th:if="${p.aprvSt  == '진행'}" class="badge bg-primary rounded-pill" style="height: 25px">대기</span>
+																	<span th:unless="${p.aprvSt == '진행'} " class="badge bg-secondary rounded-pill" style="height: 25px">위임</span>
 																</td>
 															</tr>
 														</tbody>
@@ -713,9 +723,10 @@
 						<hr>
 						<div class="col-md-12" th:if="${rptt}">
 							<ul class="list-group">
-								<li class="list-group-item list-group-item-primary" th:data-no="${rptt.trustNo}">
-								<span th:text="|${rptt.nm}님에게 ${rptt.edt}까지 결재 위임 받는중.|"></span>
-									<button type="button" class="btn btn-secondary upTrust" style="float: right;">변경</button></li>
+								<li class="list-group-item list-group-item-primary" th:each="t : ${rptt}" th:data-no="${t.trustNo}">
+								<span th:text="|${t.nm}님에게 ${t.edt}까지 결재 위임 받는중.|"></span>
+									<button type="button" class="btn btn-secondary upTrust" style="float: right;">변경</button>
+								</li>
 							</ul>
 						</div>
 						<div class="modal-footer">

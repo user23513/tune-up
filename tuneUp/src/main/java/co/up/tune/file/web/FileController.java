@@ -126,12 +126,4 @@ public class FileController {
 		}
 		return new ResponseEntity<UrlResource>(rs, header, HttpStatus.OK);
 	}
-	
-	@RequestMapping("/filesearch")
-	@ResponseBody
-	public List<FilesVO> fileSearch(@RequestParam("key") String key, @RequestParam("val") String val, FilesVO vo, HttpServletRequest request) {
-		return myService.fileSearch(key, val);
-	}
-
-	
 }

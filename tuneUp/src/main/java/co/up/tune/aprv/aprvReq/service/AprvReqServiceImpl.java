@@ -94,7 +94,7 @@ public class AprvReqServiceImpl implements AprvReqService {
 				aprv.setAprvSeq(i+1);//결재순서
 				lmap.approvalIn(aprv);
 				
-				bvo.setEmpNo(Integer.parseInt(arrAp[i]));
+				bvo.setEmpNo(arrAp[i]);
 				bmap.bellInsert(bvo);
 			}
 		
@@ -115,16 +115,15 @@ public class AprvReqServiceImpl implements AprvReqService {
 					rf.setNm(arrRfNm[i]);
 					lmap.referIn(rf);
 					
-					bvo.setEmpNo(Integer.parseInt(arrRf[i]));
+					bvo.setEmpNo(arrRf[i]);
 					bmap.bellInsert(bvo);
 					
 				}
-			} else if (refers != null && refers != "" && refers != " ") {
+			} else if (refers != null && refers != "") {
 				rf.setEmpNo(refers);
 				rf.setNm(referNms);
 				lmap.referIn(rf);
-				int no = Integer.parseInt(refers);
-				bvo.setEmpNo(no);
+				bvo.setEmpNo(refers);
 				bmap.bellInsert(bvo);
 
 			}

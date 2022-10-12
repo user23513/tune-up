@@ -474,7 +474,7 @@
 						</nav>
 					</div>
 					<!-- End Page Title -->
-					<input type="hidden" id = "myname" th:value="${session.nm}">
+					<input type="hidden" id="myname" th:value="${session.nm}">
 					<!-- Tabs nav -->
 					<ul class="nav nav-tabs nav-tabs-bordered" id="aprvTab"
 						role="tablist">
@@ -558,9 +558,10 @@
 																	class="d-flex justify-content-between align-items-start"
 																	th:data-no="${p.aprvNo}">
 																	<div class="ms-2 me-auto">
-																		<div class="form-check" >
+																		<div class="form-check">
 																			<input class="form-check-input check" type="checkbox"
-																				name="aprvNo" th:value="${p.aprvNo}" th:data-ttl="${p.ttl}" th:data-emp="${p.empNo}"
+																				name="aprvNo" th:value="${p.aprvNo}"
+																				th:data-ttl="${p.ttl}" th:data-emp="${p.empNo}"
 																				style="float: left;">
 																		</div>
 																		<i th:if="${p.impts =='Y'}" class="ri-alert-fill"
@@ -596,7 +597,8 @@
 												<button class="accordion-button collapsed" type="button"
 													data-bs-toggle="collapse" data-bs-target="#collapseTwo"
 													aria-expanded="false" aria-controls="collapseTwo">
-													<b>참조 문서 목록</b></button>
+													<b>참조 문서 목록</b>
+												</button>
 											</h2>
 											<div id="collapseTwo" class="accordion-collapse collapse"
 												aria-labelledby="headingTwo" data-bs-parent="#accordion">
@@ -668,15 +670,23 @@
 					</div>
 					<div class="modal-body row g-0">
 						<div class="modal-body col-md-12" id="sCntn">
-							<div class="container">
-								<canvas id="canvas" width="300" height="300"
-									style="border: 1px solid black; float: left;"></canvas>
-							</div>
-							<div>
-								<img id="previewImg"
-									th:src="${sign.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${sign.sign})} "
-									style="height: 40%; width: 40%; margin-left: 50px;">
-							</div>
+							<table>
+								<tr>
+									<td>
+										<div class="container">
+											<canvas id="canvas" width="300" height="300"
+												style="border: 1px solid black;"></canvas>
+										</div>
+									</td>
+									<td>
+										<div style="border: 1px solid black; width: 300px; height: 300px; text-align:center; display: flex; justify-content: center;">
+											<img id="previewImg"
+												th:src="${sign.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${sign.sign})}"
+												style="margin:auto; ">
+										</div>
+									</td>
+								</tr>
+							</table>
 						</div>
 						<div class="modal-footer">
 							<button id="erase" class="btn btn-secondary">초기화</button>

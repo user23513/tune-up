@@ -148,7 +148,6 @@ public class AprvReqController {
 		model.addAttribute("aprv", rs.aprvSelect(vo));
 		model.addAttribute("approval", ls.aprvrList(avo));
 		model.addAttribute("refer", ls.referList(rvo));
-
 		return "/aprv/aprvReq/aprvView";
 	}
 

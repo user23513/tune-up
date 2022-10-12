@@ -83,6 +83,11 @@ public class PrjMngServiceImpl implements PrjMngService {
 		return map.mEmpList();
 	}
 
-	 
+	@Override
+	public List<EmpVO> mEmpListByPrj(String prjNo) {
+		// TODO Auto-generated method stub
+		return map.mEmpListByPrj(prjNo);
+	}
+
 
 }

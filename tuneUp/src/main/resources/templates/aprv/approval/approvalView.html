@@ -135,9 +135,9 @@ $(document).ready(function() {
 							<tr>
 								<th colspan="1">참조인</th>
 								<td colspan="5">
-									<div th:if="${refer != null}">
-										<span th:each="r : ${refer}" th:if="${r.nm != null}"
-											th:text="${r.nm}"></span>
+									<div th:if = "${not #lists.isEmpty(refer)}" th:each="r : ${refer}">
+										<span th:text="${r?.nm}">
+										</span>
 									</div>
 								</td>
 							</tr>
@@ -164,21 +164,17 @@ $(document).ready(function() {
 								<th colspan="2" th:each="a : ${approval}"
 									th:if="${a.nm} == null ? ' ' : ${a.nm} "></th>
 							<tr>
-							<tr>
+							<tr style="text-align:center; display: flex; justify-content: center;">
 								<td colspan="2" th:each="a : ${approval}"
-									th:if="${a.aprvSt == '완료'}"><img
-									th:src="${a.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${a.sign})} "
-									style="width: 150px; height: 150px;"></td>
+									th:if="${a.aprvSt == '완료'}" style="width: 150px; height: 150px;"><img
+									th:src="${a.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${a.sign})} "></td>
 								<td colspan="2" th:each="a : ${approval}"
-									th:if="${a.aprvSt == '반려'}"><img
-									th:src="$assets/img/reject.png"
-									style="width: 150px; height: 150px;"></td>
+									th:if="${a.aprvSt == '반려'}" style="width: 150px; height: 150px;"><img
+									th:src="$assets/img/reject.png"></td>
 								<td colspan="2" th:each="a : ${approval}"
-									th:if="${a.aprvSt =='진행' }"><span
-									style="width: 150px; height: 150px;"></span></td>
+									th:if="${a.aprvSt =='진행' }" style="width: 150px; height: 150px;"></td>
 								<td colspan="2" th:each="a : ${approval}"
-									th:if="${a.aprvSt =='대기' }"><span
-									style="width: 150px; height: 150px;"></span></td>
+									th:if="${a.aprvSt =='대기' }" style="width: 150px; height: 150px;"></td>
 
 							</tr>
 							

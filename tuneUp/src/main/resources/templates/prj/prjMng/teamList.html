@@ -46,7 +46,7 @@
 					</div>
 					<!-- End Page Title -->
 					<br>
-
+					<button type="button" class="btn btn-outline-primary" onclick="location.href='myProject' " style=" margin-left:80%;">목록</button>
 					<!--상태변경 모달 -->
 					<button type="button" class="btn btn-outline-primary"
 						data-bs-toggle="modal" data-bs-target="#basicModal"
@@ -172,10 +172,11 @@
 
 									<form id="newPrjFrm" action="teamInsert" method="post">
 										<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-										<input type="hidden" name="empNo" th:value="${empNo}">
-										<input type="hidden" name="prjNo" th:value="${prjNo}">
+										<input type="hidden" name="prjNo" th:value="${prj.prjNo}">
+										<!-- <input type="hidden" name="empNo" th:value="${empNo}">
 										<input type="hidden" name="auth" th:value="${nm}">
-										<input type="hidden" name="auth" th:value="${dept}">
+										<input type="hidden" name="auth" th:value="${dept}"> -->
+										
 										<!--프로젝트 팀원 추가-->
 										<div id="rr">
 											<br> <i class="bi bi-person size" style="padding-top: 10px; padding-right: 15px; float: left;"></i>
@@ -197,27 +198,27 @@
 																<li class="closed"><span class="folder">인사팀</span>
 																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='인사'"><span
-																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+																			class="file name" th:attr="data-no=${e.empNo}" th:value="${e.dept}">[[${e.nm}]]</span></li>
 																	</ul></li>
 																<li class="closed"><span class="folder">기획팀</span>
 																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='기획'"><span
-																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+																			class="file name" th:attr="data-no=${e.empNo}" th:value="${e.dept}">[[${e.nm}]]</span></li>
 																	</ul></li>
 																<li class="closed"><span class="folder">영업팀</span>
 																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='영업'"><span
-																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+																			class="file name" th:attr="data-no=${e.empNo}" th:value="${e.dept}">[[${e.nm}]]</span></li>
 																	</ul></li>
 																<li class="closed"><span class="folder">회계팀</span>
 																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='회계'"><span
-																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+																			class="file name" th:attr="data-no=${e.empNo}"  th:value="${e.dept}">[[${e.nm}]]</span></li>
 																	</ul></li>
 																<li class="closed"><span class="folder">개발팀</span>
 																	<ul th:each="e:${mEmpList}">
 																		<li th:if="${e.dept}=='개발'"><span
-																			class="file name" th:attr="data-no=${e.empNo}">[[${e.nm}]]</span></li>
+																			class="file name" th:attr="data-no=${e.empNo}" th:value="${e.dept}">[[${e.nm}]]</span></li>
 																	</ul></li>
 															</ul></li>
 													</ul>
@@ -306,9 +307,18 @@
 		$("#depts").on("click", ".name", e=>{
 			let empName = $(e.target).text(); //클릭한 사원의 이름
 			let empNo = $(e.target).data("no"); //클릭한 사원의 사원번호
-			
-				$("#hello").append("<div style='display:inline-block; float:left; position:relative; top:15px;'><span data-no='"+ empNo +"'><b>"+empName+"</b></span><i class='bi bi-x' style='color: red;'></i></div>");
-			
+		 	let dept = $(e.target).attr('value')
+					 	
+				$("#hello").append(
+						"<div style='display:inline-block; "
+						+ "float:left; position:relative; top:15px;'> "
+						+ "<span data-no='"+ empNo +"'> "
+						+ "<b>"+empName+"</b></span> "
+						+ "<i class='bi bi-x' style='color: red;'></i></div>"
+					 	+ "<input type='hidden' name='empNo' value='"+empNo+"'> "
+						+ "<input type='hidden' name='nm' value='"+empName+"'> "		
+						+ "<input type='hidden' name='dept' value='"+dept+"'> "		 
+				);
 				//등록하면 hidden input창에 추가되도록(데이터를 보내기 위해서)
 				$("#newPrjFrm").append("<input type='hidden' id='"+empNo+"' name='teamEmpNo' value='"+empNo+"'>")
 			

@@ -29,7 +29,7 @@ public interface ApprovalService {
 	List<TrustVO> trustList(TrustVO vo);
 
 	// 수임자 조회 (rptt = empNo)
-	TrustVO trustCheck(TrustVO vo);
+	List<TrustVO> trustCheck(TrustVO vo);
 
 	// 위임자 등록
 	int trustIn(TrustVO vo);

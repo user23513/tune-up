@@ -115,12 +115,12 @@
 }
 
 .bg-primary{
-	background: #9c91cf !important
+	background: #9c91cf !important;
 }
 
 .form-check-input:checked {
-    background-color: #8b80bf;
-    border-color: #8b80bf;
+    background-color: #969696;
+    border-color: #969696;
 
 }
 </style>
@@ -240,7 +240,7 @@
   	}else if(data.includes("쪽지")){
   		let noteCount = $("#noteBell").text();
   		$("#noteBell").text(Number(noteCount)+1);
-  	} else if (data.inclued("문서")){
+  	} else if (data.includes("문서")){
   		let bellCount = $("#bell").text();
   		$("#bell").text(Number(bellCount)+1);
   		

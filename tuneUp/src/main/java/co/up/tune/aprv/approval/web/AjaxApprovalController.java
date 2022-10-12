@@ -76,6 +76,7 @@ public class AjaxApprovalController {
 	// 수임자 변경
 	@PostMapping("/trustUp")
 	public int trustUp(TrustVO vo, HttpSession session) {
+		vo.setNm((String)session.getAttribute("nm"));
 		return ap.trustUp(vo);
 	}
 

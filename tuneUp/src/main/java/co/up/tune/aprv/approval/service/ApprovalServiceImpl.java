@@ -66,7 +66,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	}
 
 	@Override
-	public TrustVO trustCheck(TrustVO vo) {
+	public List<TrustVO> trustCheck(TrustVO vo) {
 		return map.trustCheck(vo);
 	};
 
@@ -116,14 +116,16 @@ public class ApprovalServiceImpl implements ApprovalService {
 		//체크박스 번호 리스트 & 알림용 사번 리스트
 		 List<Integer> numbers = vo.getValueArr();
 		 List<String> emps = vo.getEmpArr();
-		 
+		 List<String> ttls = vo.getTtls();
+		
 		 BellVO bvo = new BellVO();
-			bvo.setCntn("<a type='external' href='/aprvReq'>" + vo.getTtl() + "</a> 문서가 승인되었습니다.");
 			bvo.setReceiver("수신인");
 			bvo.setSender("발신인");
 			
-		for (String emp : emps) {
-			bvo.setEmpNo(emp);
+		for (int i=0; i<emps.size(); i++) {
+			
+			bvo.setCntn("<a type='external' href='/aprvReq'>" + ttls.get(i) + "</a> 문서가 승인되었습니다.");
+			bvo.setEmpNo(emps.get(i));
 			bmap.bellInsert(bvo);
 		}
 			

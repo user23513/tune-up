@@ -29,22 +29,6 @@ public class ProPostFileController {
 	@Value("${file.dir}")
 	private String fileDir;
 	
-//	@PostMapping("/proPostFileInsert")
-//	public FilesVO proPostFileInsert(@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
-//		FilesVO fvo = new FilesVO();
-//		String saveFolder = fileDir;
-//		File sfile = new File(saveFolder);
-//		String oFileName = file.getOriginalFilename();
-//		
-//		String sFileName = UUID.randomUUID().toString() + oFileName.substring(oFileName.lastIndexOf("."));
-//		String savePath = fileDir + File.separator + sFileName;
-//		
-//			file.transferTo(new File(sfile,sFileName));
-//			
-//
-//		return null;
-//}
-	
 	@PostMapping("/fileUpload")
 	public String fileUpload(FilesVO vo, MultipartFile file) throws IllegalStateException, IOException {
 		return "prj/post/prjPostList";

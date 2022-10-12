@@ -20,7 +20,6 @@ public class ProPostFileServiceImpl implements ProPostFileService {
 	@Autowired
 	FileMapper map;
 	
-	
 	@Value("${file.dir}")
 	private String fileDir;
 	
@@ -29,9 +28,6 @@ public class ProPostFileServiceImpl implements ProPostFileService {
 		// TODO Auto-generated method stub
 		return map.proPostFileList(vo);
 	}
-	
-	
-	
 
 	@Override
 	public FilesVO fileUpload(FilesVO vo,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
@@ -64,54 +60,17 @@ public class ProPostFileServiceImpl implements ProPostFileService {
 		
 	}
 
-
-
-
 	@Override
 	public int proPostFileInsert(FilesVO vo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
-
-
 	@Override
 	public int proPostFileDelete(FilesVO vo) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-
-
-	
-//	public FilesVO ppfileUpload (FilesVO fvo,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
-//		//FilesVO fvo = new FilesVO();
-//		String oFileName = file.getOriginalFilename();
-//		String sFileName = UUID.randomUUID().toString() + oFileName.substring(oFileName.lastIndexOf("."));
-//		String savePath = fileDir + File.separator + sFileName;
-//		fvo.setFNm(oFileName);
-//		fvo.setFPath(savePath);
-//		file.transferTo(new File(savePath));
-//		
-//		
-//		return fvo;
-//			
-//	}
-
-//	@Override
-//	public FilesVO ppfileUpload(@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
-//		FilesVO fvo = new FilesVO();
-//		String oFileName = file.getOriginalFilename();
-//		String sFileName = UUID.randomUUID().toString() + oFileName.substring(oFileName.lastIndexOf("."));
-//		String savePath = fileDir + File.separator + sFileName;
-//		fvo.setFNm(oFileName);
-//		fvo.setFPath(savePath);
-//		file.transferTo(new File(savePath));
-//		
-//		
-//		return fvo;
-			
 	}
 
 	

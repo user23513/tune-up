@@ -16,15 +16,13 @@ import org.springframework.stereotype.Service;
 public class RegisterMail implements MailServiceInter {
 
 	@Autowired
-	JavaMailSender emailSender; // Bean 등록해둔 MailConfig 를 emailsender 라는 이름으로 autowired
+	JavaMailSender emailSender;
 
 	private String ePw; // 인증번호
 
 	// 메일 내용 작성
 	@Override
 	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
-//		System.out.println("보내는 대상 : " + to);
-//		System.out.println("인증 번호 : " + ePw);
 		
 		MimeMessage message = emailSender.createMimeMessage();
 

@@ -85,7 +85,15 @@
 		FROM EMP
 	</select>
 	
-	
-
+	<select id="mEmpListByPrj" resultType="co.up.tune.emp.vo.EmpVO" parameterType="String">
+		SELECT  e.*
+		FROM    emp e
+		WHERE   NOT EXISTS
+	        (
+	        SELECT  t.emp_no
+	        FROM   team t
+	        WHERE   t.emp_no = e.emp_no and t.prj_no = #{prjNo}
+	        )
+	</select>
 	
 </mapper>

@@ -51,6 +51,8 @@
 			reqSelect(); 	//문서상세
 			formSelect(); 	//서식확인
 			formInsert(); 	//서식만들기
+			getAprvr(); 	//결재자폼값
+			empSearch();	//사원검색
 		});
 		
 		//서식선택 -> 작성폼
@@ -101,7 +103,7 @@
 		//서식상세
 		/*<![CDATA[*/
 		function formSelect(){
-			$("#formtb").on("click", "tr", e=>{
+			$("#formtb").on("click", ".formTr", e=>{
 				let formNo = $(e.target).data("frm"); 
 				$.ajax({
 					url:'formView',
@@ -115,7 +117,7 @@
 				        $("#vttl").html(obj.ttl);
 						$("#tnv").html(obj.cntn);
 						$("#viewFoot").html("");
-						if(/*[[${session.empNo}]]*/ == obj.empNo){
+						if([[${session.empNo}]] == obj.empNo){
 							let delBtn = `<button type="button" class="btn btn-secondary delFormBtn" data-no="${obj.formNo}" onclick="aprvFormDel()">삭제</button>`;
 							$("#viewFoot").append(delBtn);		
 						}
@@ -254,32 +256,37 @@
 				
 		}  
 		
-		//결재라인관리
-		function createLine(){
+		
+		function getAprvr(){
+			
 			//선택사원정보
-			$("#multi").on("click", e=>{
+			$(".lineOp").on("click", e=>{
 				let empNo = $(e.target).val();
 				let name = $(e.target).text();	
-				let ap1= $("#nm1").val();
-				let ap2= $("#nm2").val();
-				let ap3= $("#nm3").val();
+				let ap1= $("#ap1").val();
+				let ap2= $("#ap2").val();
+				let ap3= $("#ap3").val();
 					
-				if ( ap1 == ""){
-					$("#nm1").val(name);
-					$("#ap1").val(empNo);
-						
-				} else if (ap2 == "" && name != $("#nm1").val()){
-					$("#nm2").val(name);
-					$("#ap2").val(empNo);
-						
-				} else if(ap3 == "" && name != $("#nm1").val() && name != $("#nm2").val()) {
+				if ( ap3 != ""){
+					
+					alert("결재라인은 최대 세명까지 설정 가능합니다.");
+					
+				} else if (ap2 != "" && empNo != ap2 && empNo != ap1 ){
+					
 					$("#nm3").val(name);
 					$("#ap3").val(empNo);
+						
+				} else if(ap1 != "" && empNo != ap1) {
+					$("#nm2").val(name);
+					$("#ap2").val(empNo);
+				} else {
+					$("#nm1").val(name);
+					$("#ap1").val(empNo);
 				}
 				
 			})
 					
-			//히든폼값
+			//클릭후 값비우기 +히든
 			$(".aprvline").on("click", e=>{
 				let no =  $(e.target).data("no");
 				$(e.target).val("");
@@ -292,8 +299,11 @@
 					$("#ap3").val("");
 				}
 			})
-			
-			//결재선 삭제
+		}
+		
+
+		//결재선 삭제
+		function delLine(){
 			$(".delLine").on("click", e=>{
 				let no = $(e.target).closest("li").data("no");
 				let result = confirm("삭제하시겠습니까?");
@@ -315,17 +325,25 @@
 					return;
 				}
 			})	
-			
-			//결재선 추가
+		}
+		
+		//결재선 추가
+		function createLine(){
 			$(".lineInsertBtn").on("click", e=>{
-				if($("#nm1").val() == ""){
-					alert("첫번째 결재자는 필수 지정입니다.");
-				} else{			
-					$("#lineFrm").submit();
-				}	
+				if(confirm("결재라인을 추가하시겠습니까?")){
+					if($("#ap1").val() == ""){
+						alert("첫번째 결재자는 필수 지정입니다.");
+					} else{			
+						$("#lineFrm").submit();
+					}	
+				}
+				
 			})
 			
-			//부서검색
+		}
+		
+		//부서검색
+		function empSearch(){
 			$("#deptSelect").on("change", e=>{
 					
 				let dept = $(e.target).val();
@@ -339,15 +357,14 @@
 					dataType:'json',
 					success:function(obj){
 						$("#multi").html("");
-					   	
 						$.each (obj, (idx, o)=> {
-							let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+							let option = `<option class="lineOp" value='${o.empNo}'>${o.nm} ${o.position}</option>`;
 						    $("#multi").append(option);
+						    getAprvr();
 						}); 
 					}
 				}) 
 			})
-			
 		}
 			
 		function getPdf(){
@@ -567,7 +584,7 @@
 											</tr>
 										</thead>
 										<tbody id="formtb" class="list-group">
-											<tr th:each="f : ${form}" class="list-group-item list-group-item-action" th:data-frm="${f.formNo}">
+											<tr th:each="f : ${form}" class="list-group-item list-group-item-action formTr" th:data-frm="${f.formNo}">
 												<td class="d-flex justify-content-between align-items-start" th:data-frm="${f.formNo}">
 													<div class="ms-2 me-auto">
 														<i th:if="${f.formAuth == '개인'}" class="ri-lock-2-line" style="float: left;"></i>
@@ -662,7 +679,9 @@
 										<label for="nm3">3rd</label>
 									</div>
 								</div>
-								<input type="hidden" id="ap1" name="ap1"> <input type="hidden" name="ap2" id="ap2"> <input type="hidden" name="ap3" id="ap3">
+								<input type="hidden" name="ap1" id="ap1">
+								<input type="hidden" name="ap2" id="ap2">
+								<input type="hidden" name="ap3" id="ap3">
 							</div>
 							<br>
 							

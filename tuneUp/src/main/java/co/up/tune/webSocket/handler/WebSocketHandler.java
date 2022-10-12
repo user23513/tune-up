@@ -108,7 +108,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 					TextMessage tmpMsg = new TextMessage("<a type='external' href='/approval'>" + aprvTtl + "</a> 문서의 참조인에 추가되었습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("trust".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(caller + "님이 <a type='external' href='/approval'>문서 결재권을 위임</a>하셨습니다.");
+					TextMessage tmpMsg = new TextMessage(caller + "님이 문서 결재권을 <a type='external' href='/approval'>위임</a>하셨습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				}
 				

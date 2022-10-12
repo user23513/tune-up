@@ -26,8 +26,17 @@ $(document).ready(function() {
 		} */
 	})
 	
+	//성별 지정
+	$("#male").on("click", e=>{
+		$("#gender").val("M")
+	})
+	
+	$("#female").on("click", e=>{
+		$("#gender").val("W")
+	})
+	
 	//프로필 사진 삭제 이벤트
-/* 	$("#deletePic").on("click",e=>{
+	$("#deletePic").on("click",e=>{
 		let pic = $("#file").val();
 		if(pic != null){
     	  	//토큰
@@ -36,7 +45,7 @@ $(document).ready(function() {
 			
 			//프로필 이미지
 			let pic = e.target.closest('tr').children[1].innerText;
-	        
+	        /* 
 			$.ajax({
 				url : "picUpdate",
 				progressData : false,
@@ -49,11 +58,11 @@ $(document).ready(function() {
 				success:function(res){
 					$("#pic").attr(src,res.pic);
 				}
-			})
+			}) */
    		}else{
    			alert("등록된 이미지가 없습니다.");
    		}
-	}) */
+	})
 	
 	$("#reset").on("click", e=>{
 		location.href="profile";
@@ -69,6 +78,20 @@ $(document).ready(function() {
 	        var reader = new FileReader();
 	        reader.onload = function (e) {
 	        $('#pic').attr('src', e.target.result);
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+
+    $("#deletePic").on('click', function(){
+    	deletePic($("#file"));
+    });
+	
+	function deletePic(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	        $('#pic').attr('src', null);
 	        }
 	        reader.readAsDataURL(input.files[0]);
 	    }
@@ -116,10 +139,11 @@ $(document).ready(function() {
 									<div class="pt-2">
 										<div class="col-md-8 col-lg-9">
 											<input type="file" id="file" name="file" class="form-control" onchange="readImage(this)"
-												th:value="${e.pic}">
+													th:value="${e.pic}">&nbsp;&nbsp;&nbsp;
+											<button id="deletePic" name="deletePic" class="btn btn-danger btn-sm"
+													title="Remove my profile image"><i class="bi bi-trash"></i></button>
 										</div>
-										&nbsp;&nbsp;&nbsp;
-										<!--  <a id="deletePic" name="deletePic" href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a> -->
+										
 									</div>
 								</div>
 							</div>
@@ -180,13 +204,14 @@ $(document).ready(function() {
 								<label for="gender" class="col-md-4 col-lg-3 col-form-label"
 										style="padding-left: 2em;">성별</label>
 								<div class="col-md-8 col-lg-9">
-									<input class="form-check-input" type="radio" name="gridRadios"
-											id="gridRadios1" value="option1">
+									<input class="form-check-input" type="radio" name="MW"
+											id="male" th:checked="${e.gender} =='M'?checked">
 									<label class="form-check-label" for="gridRadios1"> 남 </label>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input class="form-check-input" type="radio" name="gridRadios"
-											id="gridRadios2" value="option2">
+									<input class="form-check-input" type="radio" name="MW"
+											id="female" th:checked="${e.gender} =='W'?checked">
 									<label class="form-check-label" for="gridRadios2"> 여 </label>
+									<input type="hidden" name="gender" id="gender" th:value="${e.gender}">
 								</div>
 							</div>
 							<br>

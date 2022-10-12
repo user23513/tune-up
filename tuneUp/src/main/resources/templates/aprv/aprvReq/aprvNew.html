@@ -47,6 +47,7 @@
 			getLine();//결재라인
 			getRefer();//참조인
 			getAprv();//문서전송
+			empSearch();//부서검색
 		});
 		
 		//에디터
@@ -93,12 +94,39 @@
 						
 		}
 		
+		
+	function empSearch(){
+		//참조부서검색
+		$("#deptSelect").on("change", e=>{
+			let dept = $(e.target).val();
+			$.ajax({
+				url:'aprvEmpList',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'dept':dept},
+			    dataType:'json',
+			    success:function(obj){
+			    	$("#multi").html("");
+			    	 $.each (obj, (idx, o)=> {
+				        	let option = `<option class="empOp" value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+				        	$("#multi").append(option);
+				        	getRefer();
+				        	
+				     }); 
+			    }
+		    }) 
+		})				
+		
+	}
+		
+		
 	//결재라인
 	function getLine(){
 		//라인 선택
 		$(".lineLi").on("click", e=>{
 			$(".list-group-item-primary").removeClass("list-group-item-primary");
-			
 			//알림 보낼 empNo(hidden)
 			$("#ap1").val("");
 			$("#ap2").val("");
@@ -109,38 +137,17 @@
 			//라인번호
 			let lineNo = $(e.target).data("no");
 			$("#lineNo").val(lineNo); 
-			
 			$(e.target).addClass("list-group-item-primary");
 			
-		})
-								
-		//결재라인 부서검색
-			$("#deptSelect").on("change", e=>{
-				let dept = $(e.target).val();
-				$.ajax({
-					url:'aprvEmpList',
-					beforeSend:function(xhr){
-				 		xhr.setRequestHeader(header,token);  
-				    },
-				    type:"post",
-				    data:{'dept':dept},
-				    dataType:'json',
-				    success:function(obj){
-				    	$("#multi").html("");
-				    	 $.each (obj, (idx, o)=> {
-					        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
-					        	$("#multi").append(option);
-					        	}); 
-				    }
-			    }) 
-			})				
+		})	
 		
 	}
+	
 	
 	//참조인
 	function getRefer(){
 		//참조인 선택
-		$("#multi").on("click", e=>{
+		$(".empOp").on("click", e=>{
 			let empNo = $(e.target).val();
 			let name = $(e.target).text();
 			let val = $("#referNm").val();

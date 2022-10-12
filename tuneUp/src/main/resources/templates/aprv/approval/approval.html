@@ -49,9 +49,12 @@
 		delSign(); //서명삭제
 		createSign();//서명저장
 		getCanvas();//그리기영역
-		trustSys();//위임자
 		checkAprv();// 체크박스승인
 		changeRptt();//수임자변경
+		empSearch();//사원검색
+		getTrust();//위임자히든폼값
+		delTrust();//위임해제
+		trustSubmit();//위임자추가
 	});
 	
 	//선택 승인
@@ -130,9 +133,9 @@
 	}
 	
 	//위임자
-	function trustSys(){
+	function getTrust(){
 		//위임자 선택
-		$("#multi").on("click", e=>{
+		$(".lineOp").on("click", e=>{
 			let empNo = $(e.target).val();
 			let name = $(e.target).text();	
 			$("#rpttNm").val(name);
@@ -143,8 +146,10 @@
 			$(e.target).val("");
 			$("#rptt").val("");
 		})
-				
-		//위임 삭제
+	}
+	
+	//위임 삭제
+	function delTrust(){
 		$(".delTrust").on("click", e=>{
 			let no = $(e.target).closest("li").data("no");
 			if (confirm("위임을 해제하시겠습니까?")){
@@ -164,9 +169,33 @@
 				return;
 			}
 		})
-		
-		
-		
+	}
+	
+	
+	/*<![CDATA[*/
+	function trustSubmit(){
+		//위임자 추가
+		$(".trustInBtn").on("click", e=>{
+			if($("#rptt").val() == ""){
+				alert("위임자를 지정해주세요");
+				return;
+			} else if ($("#sdt").val() == ""){
+				alert("시작일을 지정해주세요.");
+				return;
+			}else if ($("#edt").val() == ""){
+				alert("종료일을 지정해주세요.");
+				return;
+			} else {
+				let rptt = $("#rptt").val();
+				socket.send('trust,'+[[${session.nm}]]+','+rptt+','+'위임');
+				$("#trustFrm").submit();
+			}
+			
+		})
+	}
+	/*]]>*/
+	
+	function empSearch(){
 		//사원검색
 		$("#deptSelect").on("change", e=>{
 			let dept = $(e.target).val();
@@ -181,38 +210,15 @@
 			    success:function(obj){
 			    	$("#multi").html("");
 			    	 $.each (obj, (idx, o)=> {
-				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+				        	let option = `<option class="lineOp" value='${o.empNo}'>${o.nm} ${o.position}</option>`;
 				        	$("#multi").append(option);
-				        	}); 
+				        	getTrust();
+				     }); 
 			    }
 		    }) 
 		})
-		
-		//위임자 추가
-		$(".trustInBtn").on("click", e=>{
-			if($("#rptt").val() == ""){
-				alert("위임자를 지정해주세요");
-				return;
-			} else if ($("#sdt").val() == ""){
-				alert("시작일을 지정해주세요.");
-				return;
-			}else if ($("#edt").val() == ""){
-				alert("종료일을 지정해주세요.");
-				return;
-			} else if ($("#sdt").val() >= $("#edt").val){
-				alert("시작일은 종료일보다 늦을 수 없습니다.");
-				return;
-			} else {
-				
-				let nm = $("#myname").val();
-				let rptt = $("#rptt").val();
-				socket.send('trust,'+nm+','+rptt+','+'위임');
-				
-				$("#trustFrm").submit();
-			}
-			
-		})
 	}
+	
 	
 	//수임자변경
 	/*<![CDATA[*/
@@ -236,8 +242,6 @@
 					    		'rpttNm':rpttNm},
 					    dataType:'json',
 					    success:function(obj){
-					    	
-					    	let nm = $("#myname").val();
 					    	socket.send('trust,'+nm+','+rptt+','+'위임');
 					    	$(e.target).closest("li").remove();
 					    }
@@ -254,11 +258,10 @@
 	}
 	/*]]>*/
 	
-	
 
 	//승인문서 상세조회
 	function aprvSelect() {
-		$("#aprvtb").on("click", "tr", e=>{
+		$("#aprvtb").on("click", ".aprvTr", e=>{
 			let no = $(e.target).data("no");
 			$("#aprvFrmNo").val(no)
 			$("#aprvFrm").submit();
@@ -267,7 +270,7 @@
 		
 	//참조문서 상세조회
 	function referSelect() {
-		$("#refertb").on("click", "tr", e=>{
+		$("#refertb").on("click", ".referTr", e=>{
 			let aprvNo = $(e.target).data("no");
 			$.ajax({
 				url:'aprvShow',

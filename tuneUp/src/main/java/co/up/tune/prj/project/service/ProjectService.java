@@ -2,7 +2,6 @@ package co.up.tune.prj.project.service;
 
 import java.util.List;
 
-import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.vo.PostVO;
 import co.up.tune.prj.vo.ProjectVO;
 

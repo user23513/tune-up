@@ -22,7 +22,7 @@
 
 	<update id="picUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update  emp
-		   set	pic = #{pic}
+		   set	pic = null
 		 where	emp_no = #{empNo}
 	</update>
 	

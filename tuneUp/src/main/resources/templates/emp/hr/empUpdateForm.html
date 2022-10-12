@@ -48,11 +48,9 @@
 		$('#mngCk').change(function() {
 			if ($(this).is(':checked')) {
 	            $("#view").css("display", "block")
-				$("#auth").val("ADMIN");
 	        }
 	        else {
 	        	$("#view").css("display", "none")
-	        	$("#auth").val("USER");
 	        	$("#mng").val("");
 	        }
 		});

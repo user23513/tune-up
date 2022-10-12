@@ -634,11 +634,11 @@
 								<ul class="list-group lineList">
 									<li class="list-group-item lineLi" th:each="n : ${line}"
 										th:data-no="${n.lineNo}"><b
-										th:if="${n.nm2} == null and ${n.nm3} == null"
+										th:if="${n.nm2 == null and n.nm3 == null}"
 										th:text="|${n.nm1}|"></b> <b
-										th:if="${n.nm3} == null and ${n.nm2} != null"
+										th:if="${n.nm3 == null and n.nm2 != null}"
 										th:text="|${n.nm1} → ${n.nm2}|"></b> <b
-										th:if="${n.nm3} != null"
+										th:if="${n.nm3 != null}"
 										th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></b>
 										<button type="button" class="btn btn-primary delLine"
 											style="float: right;">삭제</button></li>

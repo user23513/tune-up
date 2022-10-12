@@ -36,7 +36,7 @@ $(document).ready(function() {
 	})
 	
 	//프로필 사진 삭제 이벤트
-	$("#deletePic").on("click",e=>{
+/* 	$("#deletePic").on("click",e=>{
 		let pic = $("#file").val();
 		if(pic != null){
     	  	//토큰
@@ -70,7 +70,7 @@ $(document).ready(function() {
    		}else{
    			alert("등록된 이미지가 없습니다.");
    		}
-	})
+	}) */
 	
 	$("#reset").on("click", e=>{
 		location.href="profile";
@@ -133,8 +133,9 @@ $(document).ready(function() {
 										style="width: 120px;" alt="Profile">
 									<div class="pt-2">
 										<div class="col-md-8 col-lg-9">
-											<input type="file" id="file" name="file" class="form-control" onchange="readImage(this)"
-													th:value="${e.pic}">&nbsp;&nbsp;&nbsp;
+											<input type="file" id="file" name="file" class="form-control" onchange="readURL(this)"
+													th:value="${e.pic}">
+											&nbsp;&nbsp;&nbsp;
 											<button type="button" id="deletePic" class="btn btn-danger btn-sm"
 													title="Remove my profile image"><i class="bi bi-trash"></i></button>
 										</div>

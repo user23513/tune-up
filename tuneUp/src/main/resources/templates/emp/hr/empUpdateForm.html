@@ -26,7 +26,6 @@
 			location.href="empManage";
 		})
 		
-		
         //선택된 mng
 		const query = 'input[name="mng"]:checked';
 		const selectedEls = document.querySelectorAll(query);
@@ -51,7 +50,7 @@
 	        }
 	        else {
 	        	$("#view").css("display", "none")
-	        	$("#mng").val("");
+	        	$("#mng").val();
 	        }
 		});
 	});

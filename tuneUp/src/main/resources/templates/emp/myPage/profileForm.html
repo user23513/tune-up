@@ -10,20 +10,11 @@ $(document).ready(function() {
 	//저장 버튼 클릭 시 이벤트
 	$("#save").on("click", e=>{
 		let birth = $("#birth").val();
-		let pic = $("#file").val();
-		$("#empNo").val();
-		console.log($("#empNo").val());
-		console.log(pic)
-		$("#proFrm").submit();
-/* 		if(!birth){
-			//console.log("생일입력")
+ 		if(!birth){
 			alert("생년월일을 입력해주세요.")
-			//console.log(pic);
-			//console.log(sign);
 		}else{
-			console.log(pic);
 			$("#proFrm").submit();
-		} */
+		}
 	})
 	
 	//성별 지정
@@ -36,21 +27,17 @@ $(document).ready(function() {
 	})
 	
 	//프로필 사진 삭제 이벤트
-/* 	$("#deletePic").on("click",e=>{
-		let pic = $("#file").val();
-		if(pic != null){
-    	  	//토큰
-    	  	/* var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#pic').attr('src', null);
-                }
-                reader.readAsDataURL(input.files[0]); */
+/*  	$("#deletePic").on("click", e=>{
+		let pic = $("#pic").attr('src');
+ 		console.log("pic=========== : " + pic);
+ 		let file = $("#file").val();
+ 		console.log("file================ : " + file)
+ 		let empNo = $("#empNo").val();
+		if(pic != null && file != null){
+     	  	//토큰
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
-			
 			//프로필 이미지
-			 let pic = e.target.closest('tr').children[1].innerText; */
-
 			$.ajax({
 				url : "picUpdate",
 				progressData : false,
@@ -59,12 +46,15 @@ $(document).ready(function() {
 		 	  		xhr.setRequestHeader(header,token);  
 		     	  },
 				type : "post",
-				data: {"empNo" : empNo},
+				data: {"empNo" : empNo, "pic" : null},
 				success:function(res){
-					$("#pic").remove();
-					let img = "<img id='pic' th:src='assets/img/default_profile.png'"
-					img += "style='width: 120px;' alt='Profile'>"
-					$("#profilePic").append(img)
+					console.log("성공" + res);
+					$("#pic").attr('src','assets/img/default_profile.png');
+					$("#file").val() = null;
+					console.log($("#file").val());
+				},
+				error : function(err){
+					console.log("실패")
 				}
 			})
    		}else{
@@ -86,7 +76,28 @@ $(document).ready(function() {
 	    if (input.files && input.files[0]) {
 	        var reader = new FileReader();
 	        reader.onload = function (e) {
-	        $('#pic').attr('src', e.target.result);
+/* 	        	let pic = $("#pic").attr('src');
+	        	//토큰
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+				//프로필 이미지
+				$.ajax({
+					url : "picUpdate",
+					progressData : false,
+					contentType : false,
+					beforeSend:function(xhr){
+			 	  		xhr.setRequestHeader(header,token);  
+			     	  },
+					type : "post",
+					data: {"empNo" : empNo, "pic" : pic},
+					success:function(res){
+						console.log("성공");
+					},
+					error : function(err){
+						console.log("실패")
+					}
+				}) */
+						$('#pic').attr('src', e.target.result);
 	        }
 	        reader.readAsDataURL(input.files[0]);
 	    }
@@ -136,8 +147,8 @@ $(document).ready(function() {
 											<input type="file" id="file" name="file" class="form-control" onchange="readURL(this)"
 													th:value="${e.pic}">
 											&nbsp;&nbsp;&nbsp;
-											<button type="button" id="deletePic" class="btn btn-danger btn-sm"
-													title="Remove my profile image"><i class="bi bi-trash"></i></button>
+											<!-- <button type="button" id="deletePic" class="btn btn-danger btn-sm"
+													title="Remove my profile image"><i class="bi bi-trash"></i></button> -->
 										</div>
 										
 									</div>

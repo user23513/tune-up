@@ -79,8 +79,8 @@ $(document).ready(function() {
 					data: {"auth" : "USER", "empNo" : tg},
 					
 					success:function(res){
-						console.log(res)
 						e.target.closest('td').previousElementSibling.innerText = res;
+						e.target.style.disabled = "disabled";
 					}
 				})
 			}

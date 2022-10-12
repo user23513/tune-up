@@ -15,14 +15,15 @@
 			<if test="phone != null">phone = #{phone},</if>
 			<if test="gender != null">gender = #{gender},</if>
 			<if test="email != null">email = #{email},</if>
-			<if test="birth != null">birth = #{birth}</if>
+			<if test="birth != null">birth = #{birth},</if>
+			pic = #{pic}
 		</set>
 		where emp_no = #{empNo}
 	</update>
 
 	<update id="picUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update  emp
-		   set	pic = null
+		   set	pic = #{pic}
 		 where	emp_no = #{empNo}
 	</update>
 	

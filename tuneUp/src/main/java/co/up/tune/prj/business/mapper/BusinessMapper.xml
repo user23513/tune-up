@@ -21,8 +21,12 @@
 					#{term}, #{cntn}, #{sub}, #{prog}, #{atchNo}, #{prjNo})
 	</insert>
 	
-	<update id="businessUpdate" parameterType="co.up.tune.prj.vo.BusinessVO">
-		
+	<!-- 업무 상태 수정 -->
+	<update id="busStUpdate" parameterType="co.up.tune.prj.vo.BusinessVO">
+		UPDATE BUSINESS
+		SET ST = #{st}
+		WHERE POST_NO = #{postNo}
 	</update>
+	
 
 </mapper>

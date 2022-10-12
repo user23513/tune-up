@@ -356,10 +356,6 @@ textarea.none {
 																<i class="bi bi-gear"> settings</i>
 																<button class="dropdown-item" style="padding: 10px 0 0 0;"
 																	th:attr="data-no=${s.postNo}" data-type="일정">
-																	<i class="ri-edit-2-line"></i>수정
-																</button>
-																<button class="dropdown-item" style="padding: 10px 0 0 0;"
-																	th:attr="data-no=${s.postNo}" data-type="일정">
 																	<i class="ri-delete-bin-line"></i>삭제
 																</button>
 															</li>
@@ -453,12 +449,6 @@ textarea.none {
 														<ul th:if="${session.empNo == b.empNo}" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 															<li class="dropdown-header text-start"><i
 																class="bi bi-gear"> settings</i>
-																<button class="dropdown-item" data-bs-toggle="modal"
-																	data-bs-target="#businessBackdrop"
-																	style="padding: 10px 0 0 0;"
-																	th:attr="data-no=${b.postNo}" data-type="업무">
-																	<i class="ri-edit-2-line"></i>수정
-																</button>
 																<button class="dropdown-item"
 																	style="padding: 10px 0 0 0;"
 																	th:attr="data-no=${b.postNo}" data-type="업무">
@@ -471,11 +461,9 @@ textarea.none {
 												<span>[[${b.sdt}]] - [[${b.edt}]]</span>
 												<hr style="color: gray;">
 												<!-- 상태 -->
-												<span class="round"
-													th:classappend="${b.st} == '요청' ? 'select'">요청</span> <span
-													class="round" th:classappend="${b.st} == '진행' ? 'select'">진행</span>
-												<span class="round"
-													th:classappend="${b.st} == '완료' ? 'select'">완료</span> <br>
+												<span class="round bSt" th:classappend="${b.st} == '요청' ? 'select'">요청</span> 
+												<span class="round bSt" th:classappend="${b.st} == '진행' ? 'select'">진행</span>
+												<span class="round bSt" th:classappend="${b.st} == '완료' ? 'select'">완료</span> <br>
 												<br>
 												<div class="businessCntn" th:text="${b.cntn}"
 													style="font-size: medium; padding: 10px;"></div>
@@ -622,59 +610,6 @@ textarea.none {
 		</div>
 	</div>
 	<!-- 글 모달창 -->
-	
-	<!-- 업무 모달창 -->
-	<div class="modal fade" id="businessBackdrop" data-bs-backdrop="static"
-		data-bs-keyboard="false" tabindex="-1"
-		aria-labelledby="staticBackdropLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">업무 수정</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<form action="prjBusinessUpdate" method="post" enctype="multipart/form-data">
-					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
-					<input type="hidden" name="prjNo" th:value="${prjNo}">
-					<div class="modal-body">
-						<input id="bNo" class="form-control" type="hidden" name="postNo">
-						<input id="bTtl" class="form-control none" placeholder="제목을 입력하세요." type="text" name="bussTtl">
-						<br>
-						<br>
-						<div style="display: inline-block; width: 80%; margin-left: 10px;">
-							<label class="test_obj"> 
-								<input type="radio" name="st" value="요청"> 
-								<span>요청</span>
-							</label> &nbsp; 
-							<label class="test_obj"> 
-								<input type="radio" name="st" value="진행"> 
-								<span>진행</span>
-							</label> &nbsp; 
-							<label class="test_obj"> 
-								<input type="radio" name="st" value="완료"> 
-								<span>완료</span>
-							</label>
-						</div>
-						<br>
-						<br>
-						<input type="date" class="form-control none" name="sdt"
-								style="width: 300px"> ~ <input type="date"
-								class="form-control none" name="edt" style="width: 300px">
-						<br>
-						<br>		
-						<textarea id="bCntn" class="form-control none" placeholder="내용을 입력하세요." name="cntn"></textarea>
-						<br>
-						<input class="form-control" type="file" name="file">
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-						<button type="submit" class="btn btn-primary">수정</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- 업무 모달창 -->
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script th:inline="javascript">
@@ -729,6 +664,38 @@ textarea.none {
 	    chart.draw(data, options);
 	  }
 	 }
+	
+	/*===== 업무 변경 =====*/
+	$(".bSt").on("click", e=>{
+		let stUp = confirm("상태를 변경하시겠습니까?");
+		if(stUp){
+			let st = $(e.target).text();
+			let no = $(e.target).closest(".sc").data("no");
+			$.ajax({
+				url:'stUpdate',
+				beforeSend:function(xhr){
+		 	  		xhr.setRequestHeader(header,token);  
+		     	 },
+		         type:'post',
+		         data:{'postNo':no, 'st':st},
+		         dataType:'json',
+		         success:function(res){
+		        	 //수정완료되면
+		        	 if(res>0){
+		        		 let stList = $(".bSt");
+		        		 $.each(stList, (idx, stSpan)=>{
+		        			 if($(stSpan).hasClass("select")){
+		        				 $(stSpan).removeClass("select");
+		        			 }
+		        			 if($(stSpan).text() == st) {
+		        				 $(stSpan).addClass("select");
+		        			 }
+		        		 })
+		        	 }
+		         }
+			})
+		}
+	})
 	
 	/*===== 일정 참석 댓글 =====*/
 	$(".attendBtn").on("click", ".attend", e=>{

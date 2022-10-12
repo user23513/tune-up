@@ -81,6 +81,7 @@ public class ApprovalController {
 	
 	}
 	
+	//승인문서상세
 	@PostMapping("/approvalView")
 	public String approvalView(AprvVO vo, Model model) {
 		int aprvNo = vo.getAprvNo();

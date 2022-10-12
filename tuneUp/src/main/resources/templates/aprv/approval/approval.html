@@ -1,20 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 <head>
 <meta charset="UTF-8">
 <title>TuneUp - 전자결재</title>
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
-<script type="text/javascript"
-	src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.css" />
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 </head>
-
 <body>
+
 	<!-- ======= Main ======= -->
 	<main id="main" class="main" layout:fragment="content">
 
@@ -42,16 +37,24 @@
 			$("#mask").remove();
 			$("#mask").empty();
 		}	
-		
-		
+	
 		
 	//로딩 후
 	$(document).ready(function() {
-		checkAll();
-		
-		
-		
-		//선택 승인
+		checkAll(); //체크박스전체선택
+		getTables(); //테이블
+		aprvSelect();//문서상세
+		referSelect();//참조글상세
+		getPdf();//pdf
+		delSign(); //서명삭제
+		createSign();//서명저장
+		getCanvas();//그리기영역
+		trustSys();//위임자
+		checkAprv();// 체크박스승인
+	});
+	
+	//선택 승인
+	function checkAprv(){
 		$("#checkAprvBtn").on("click", e=>{
 			let checkVals = [];  //문서번호
 			$(".check:checked").each(function(i) {
@@ -65,6 +68,7 @@
 			$(".check:checked").each(function(i) {
 				emps.push($(this).data("emp")); 
 			});
+			
 			if(checkVals.length == 0){
 				alert("선택된 문서가 없습니다.");
 			} else {
@@ -78,7 +82,6 @@
 						data : {'valueArr' : checkVals,
 								'empArr': emps},
 						success : function(data) {
-							
 							for(let i=0; i<titles.length; i++){
 								socket.send('approved,발신자,'+emps[i]+','+titles[i]);
 							};
@@ -92,8 +95,40 @@
 			}
 		})
 		
-		
-		
+	}
+	
+	//pdf
+	function getPdf(){
+		$('#savePdf').click(function() {
+			let ttl = $("#vttl").text();
+				
+			html2canvas($('#vCntn')[0]).then(function(canvas) {
+				let imgData = canvas.toDataURL('image/png');
+				
+				let margin = 10;
+			    let imgWidth = 210 - (10 * 2); //가로길이(mm) A4 기준
+			    let pageHeight = imgWidth * 1.414;  //세로길이 A4 기준
+			    let imgHeight = canvas.height * imgWidth / canvas.width;
+			    let heightLeft = imgHeight;
+			    let doc = new jsPDF('p', 'mm');
+			    let position = margin;
+			    
+			    // 첫 페이지
+			    doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+			    heightLeft -= pageHeight;
+			    while (heightLeft >= 20) {
+					position = heightLeft - imgHeight;
+			       	doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+			       	doc.addPage();
+			       	heightLeft -= pageHeight;
+			  	}
+			   	doc.save(ttl+'.pdf');
+			});
+		}); 
+	}
+	
+	//위임자
+	function trustSys(){
 		//위임자 선택
 		$("#multi").on("click", e=>{
 			let empNo = $(e.target).val();
@@ -135,28 +170,54 @@
 			let rpttNm= $("#rpttNm").val();
 			
 			if (confirm("수임 상태를 변경하시겠습니까?")){
-				$.ajax({
-					url:'trustUp',
-					beforeSend:function(xhr){
-				 		xhr.setRequestHeader(header,token);  
-				    },
-				    type:"post",
-				    data:{'trustNo':no,
-				    		'rptt':rptt,
-				    		'rpttNm':rpttNm},
-				    dataType:'json',
-				    success:function(obj){
-				    	
-				    	let nm = $("#myname").val();
-				    	socket.send('trust,'+nm+','+rptt+','+'위임');
-				    	$(e.target).closest("li").remove();
-				    }
-			    }) 
+				if (rptt){
+					$.ajax({
+						url:'trustUp',
+						beforeSend:function(xhr){
+					 		xhr.setRequestHeader(header,token);  
+					    },
+					    type:"post",
+					    data:{'trustNo':no,
+					    		'rptt':rptt,
+					    		'rpttNm':rpttNm},
+					    dataType:'json',
+					    success:function(obj){
+					    	
+					    	let nm = $("#myname").val();
+					    	socket.send('trust,'+nm+','+rptt+','+'위임');
+					    	$(e.target).closest("li").remove();
+					    }
+				    }) 
+					
+				} else {
+					alert("수임자를 선택해주세요.");
+				}
+			
 			} else {
 				return;
 			}
 		})
 		
+		//사원검색
+		$("#deptSelect").on("change", e=>{
+			let dept = $(e.target).val();
+			$.ajax({
+				url:'aprvEmpList',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    type:"post",
+			    data:{'dept':dept},
+			    dataType:'json',
+			    success:function(obj){
+			    	$("#multi").html("");
+			    	 $.each (obj, (idx, o)=> {
+				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+				        	$("#multi").append(option);
+				        	}); 
+			    }
+		    }) 
+		})
 		
 		//위임자 추가
 		$(".trustInBtn").on("click", e=>{
@@ -182,9 +243,84 @@
 			}
 			
 		})
+	}
+	
+
+	//승인문서 상세조회
+	function aprvSelect() {
+		$("#aprvtb").on("click", "aprvTr", e=>{
+			let no = $(e.target).data("no");
+			$("#aprvFrmNo").val(no)
+			$("#aprvFrm").submit();
+		})
+	}
 		
+	//참조문서 상세조회
+	function referSelect() {
+		$("#refertb").on("click", "tr", e=>{
+			let aprvNo = $(e.target).data("no");
+			$.ajax({
+				url:'aprvShow',
+				beforeSend:function(xhr){
+				xhr.setRequestHeader(header,token);},
+				type:"post",
+				data:{'aprvNo':aprvNo},
+				dataType:'json',
+				success:function(obj){    	
+			  	 	$("#vttl").html(obj.ttl);
+					$("#tnv").html(obj.cntn); 
+					$("#viewModal").modal('show');
+				}
+			}) 
+		})
+	}
 		
-		//서명 그리기 영역
+	//데이터테이블
+	function getTables(){
+		$('#approvalTable').DataTable({
+			"dom":'lftip',
+			"language": { "search": "" },
+			lengthChange: false,
+			ordering: false,
+			info: false
+		});
+			
+		$('#referTable').DataTable({
+			"dom":'lftip',
+			"language": { "search": "" },
+				lengthChange: false,
+				ordering: false,
+				info: false
+		});
+	}
+	
+	//체크박스 전체 선택 해제
+	function checkAll(){
+		$(".checkAll").on("click", e => {
+			if($(".checkAll").is(":checked")){
+				$(".check").prop("checked", true);
+			} else{
+				$(".check").prop("checked", false);
+			}
+			
+		}) 
+		
+		$(".check").on("click", e=> {
+			e.stopPropagation();
+			let total = $(".check").length;
+			let checked = $(".check:checked").length;
+			if(total != checked){
+				$(".checkAll").prop("checked", false);
+			} else {
+				$(".checkAll").prop("checked", true); 
+			}
+			
+		});
+		
+	}
+	
+	//서명 영역
+	function getCanvas(){
 		var isDrawing = false;
 		var x = 0;
 		var y = 0;
@@ -226,24 +362,50 @@
 		        ctx.clearRect(0, 0, canvas.width, canvas.height);
 		    }
 		})
-
-		function drawSign(ctx, x1, y1, x2, y2) {
-		    if (ctx != null) {
-		        ctx.save();
-		        ctx.beginPath();
-		        ctx.strokeStyle = "#111111";
-		        ctx.lineWidth = 1;
-		        ctx.moveTo(x1, y1);
-		        ctx.lineTo(x2, y2);
-		        ctx.stroke();
-		        ctx.closePath();
-		        ctx.restore();
-		    }
-		}
-		
-		//서명 저장
-		$("#save").on("click", function(){            
+	}
+	
+	//그리기
+	function drawSign(ctx, x1, y1, x2, y2) {
+	    if (ctx != null) {
+	        ctx.save();
+	        ctx.beginPath();
+	        ctx.strokeStyle = "#111111";
+	        ctx.lineWidth = 1;
+	        ctx.moveTo(x1, y1);
+	        ctx.lineTo(x2, y2);
+	        ctx.stroke();
+	        ctx.closePath();
+	        ctx.restore();
+	    }
+	}
+	
+	//서명 삭제
+	function delSign(){
+		$("#delSign").on("click", function(){            
             
+			let sign="";
+			if(confirm("정말 삭제하시겠습니까?")){
+				$.ajax({
+			 		type: 'post',
+			        url: 'signDel',
+			        beforeSend:function(xhr){
+						xhr.setRequestHeader(header,token);  
+					},
+			        cache: false,
+			       	data: {'sign' : sign},
+			        dataType:'json',
+			        success: function (data) {
+			      		$("#previewImg").attr("src", "assets/img/stamp.png");
+			       	}
+			   	})
+			}
+	   });  
+		
+	}
+	
+	//서명 저장
+	function createSign(){
+		$("#save").on("click", function(){            
 	         const canvas = $("#canvas")[0];
 	         const imgBase64 = canvas.toDataURL('image/png', 'image/octet-stream');
 	         const decodImg = atob(imgBase64.split(',')[1]);
@@ -269,7 +431,6 @@
 	           processData: false,
 	           contentType: false,
 	           success: function (data) {
-	        	  
 	        	   const fileReader = new FileReader();
 	        	   fileReader.readAsDataURL(file);
 	        	   fileReader.onload = function () {
@@ -282,176 +443,8 @@
 	         }) 
 	       	
 	   });  
-		
-		
-		//서명 삭제
-		$("#delSign").on("click", function(){            
-            
-			let sign="";
-			
-			if(confirm("정말 삭제하시겠습니까?")){
-				$.ajax({
-			           type: 'post',
-			           url: 'signDel',
-			           beforeSend:function(xhr){
-					 		xhr.setRequestHeader(header,token);  
-					    },
-			           cache: false,
-			           data: {'sign' : sign},
-			           dataType:'json',
-			           success: function (data) {
-			        	   $("#previewImg").attr("src", "assets/img/stamp.png");
-			           }
-			    })
-			}
-	   });  
-		
-
-		//pdf
-		$('#savePdf').click(function() {
-			let ttl = $("#vttl").text();
-			
-		    html2canvas($('#vCntn')[0]).then(function(canvas) {
-		       
-		        let imgData = canvas.toDataURL('image/png');
-
-		        let margin = 10; // 출력 페이지 여백설정
-		        let imgWidth = 210 - (10 * 2); // 이미지 가로 길이(mm) A4 기준
-		        let pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
-		        let imgHeight = canvas.height * imgWidth / canvas.width;
-		        let heightLeft = imgHeight;
-
-		        let doc = new jsPDF('p', 'mm');
-		        let position = margin;
-
-		        // 첫 페이지
-		        doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-		        heightLeft -= pageHeight;
-
-		        // 루프 출력
-		        while (heightLeft >= 20) {
-		            position = heightLeft - imgHeight;
-		            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-		            doc.addPage();
-		            heightLeft -= pageHeight;
-		        }
-
-		        // 파일 저장
-		        doc.save(ttl+'.pdf');
-		    });
-		}); 
-		
-		aprvTable();
-		aprvSelect();
-		aprvEmpList();
-		referSelect();
-		
-});
-		
-	//위임 - 부서별 사원검색
-	function aprvEmpList(){
-		$("#deptSelect").on("change", e=>{
-			let dept = $(e.target).val();
-			$.ajax({
-				url:'aprvEmpList',
-				beforeSend:function(xhr){
-			 		xhr.setRequestHeader(header,token);  
-			    },
-			    type:"post",
-			    data:{'dept':dept},
-			    dataType:'json',
-			    success:function(obj){
-			    	$("#multi").html("");
-			    	 $.each (obj, (idx, o)=> {
-				        	let option = `<option value='${o.empNo}'>${o.nm} ${o.position}</option>`;
-				        	$("#multi").append(option);
-				        	}); 
-			    }
-		    }) 
-		})
-	}
-		
-		
-	//승인문서 상세조회
-	function aprvSelect() {
-		$("#approvalTable").on("click", "tr", e=>{
-			let no = $(e.target).data("no");
-			$("#aprvFrmNo").val(no)
-			$("#aprvFrm").submit();
-		})
-	}
-		
-	//참조문서 상세조회
-	function referSelect() {
-		$("#referTable").on("click", "tr", e=>{
-			let aprvNo = $(e.target).data("no");
-			$.ajax({
-				url:'aprvShow',
-				beforeSend:function(xhr){
-				xhr.setRequestHeader(header,token);},
-				type:"post",
-				data:{'aprvNo':aprvNo},
-				dataType:'json',
-				success:function(obj){    	
-			  	 	$("#vttl").html(obj.ttl);
-					$("#tnv").html(obj.cntn);
-					$("#viewFoot").html("");
-					let clBtn = `<button type="button" class="btn btn-secondary float-right"
-						  		data-bs-dismiss="modal"
-								style="float: right; margin-right: 5px;">닫기</button>`;
-					$("#viewFoot").append(clBtn);
-					$("#viewModal").modal('show');
-				}
-			}) 
-		})
-	}
-		
-	//데이터테이블
-	function aprvTable(){
-		$('#approvalTable').DataTable({
-			"dom":'lftip',
-			"language": { "search": "" },
-			lengthChange: false,
-			ordering: false,
-			info: false
-		});
-			
-		$('#referTable').DataTable({
-			"dom":'lftip',
-			"language": { "search": "" },
-				lengthChange: false,
-				ordering: false,
-				info: false
-			});
-		}
-	
-	//체크박스 전체 선택 해제
-	function checkAll(){
-		$(".checkAll").on("click", e => {
-			if($(".checkAll").is(":checked")){
-				$(".check").prop("checked", true);
-			} else{
-				$(".check").prop("checked", false);
-			}
-			
-		}) 
-		
-		$(".check").on("click", e=> {
-			e.stopPropagation();
-			let total = $(".check").length;
-			let checked = $(".check:checked").length;
-			if(total != checked){
-				$(".checkAll").prop("checked", false);
-			} else {
-				$(".checkAll").prop("checked", true); 
-			}
-			
-		});
-		
 	}
 	
-	
-		
 		
 	</script>
 
@@ -468,50 +461,46 @@
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="aprvReq">나의 신청</a></li>
 								<li class="breadcrumb-item active">나의 승인</li>
-								<li class="breadcrumb-item" th:if="${session.auth == 'ADMIN'}"><a
-									href="aprvAdmin">관리 기능</a></li>
+								<li class="breadcrumb-item" th:if="${session.auth == 'ADMIN'}">
+									<a href="aprvAdmin">관리 기능</a>
+								</li>
 							</ol>
 						</nav>
 					</div>
 					<!-- End Page Title -->
 					<input type="hidden" id="myname" th:value="${session.nm}">
 					<!-- Tabs nav -->
-					<ul class="nav nav-tabs nav-tabs-bordered" id="aprvTab"
-						role="tablist">
+					<ul class="nav nav-tabs nav-tabs-bordered" id="aprvTab" role="tablist">
 						<li class="nav-item" role="presentation">
-							<button class="nav-link active" id="aprv-tab"
-								data-bs-toggle="tab" data-bs-target="#aprv-list" type="button"
-								role="tab" aria-controls="list" aria-selected="true">승인하기</button>
+							<button class="nav-link active" id="aprv-tab" data-bs-toggle="tab" data-bs-target="#aprv-list" type="button" role="tab" aria-controls="list" aria-selected="true">승인하기</button>
 						</li>
 					</ul>
 					<!-- End nav -->
 
 					<!-- Tabs -->
 					<div class="tab-content pt-2" id="aprvTabContent">
-						<div class="tab-pane fade show active" id="aprv-list"
-							role="tabpanel" aria-labelledby="aprv-tab">
+						<div class="tab-pane fade show active" id="aprv-list" role="tabpanel" aria-labelledby="aprv-tab">
 
 							<br>
 							<!-- Card with an image on left -->
 							<div class="card mb-3">
 								<div class="row g-0">
 									<div class="col-md-4">
-										<img src="assets/img/approval.jpg"
-											class="img-fluid rounded-start" alt="..."
-											style="width: 350px;">
+										<img src="assets/img/approval.jpg" class="img-fluid rounded-start" alt="..." style="width: 350px;">
 									</div>
 									<div class="col-md-8">
 										<div class="card-body">
 											<br>
 											<h5 class="card-title">결재대기목록</h5>
-											<p class="card-text">나에게 참조 또는 상신된 결재목록입니다. 문서를 검토하여
-												승인하거나 반려할 수 있습니다. 일정 기간 동안 결재를 위임을 설정할 수 있습니다.</p>
-											<button type="button" class="btn btn-primary"
-												data-bs-toggle="modal" data-bs-target="#signModal">
+												<p class="card-text">
+													나에게 상신 또는 참조된 문서 목록입니다. 
+													문서를 검토하여 승인하거나 반려할 수 있습니다. <br>
+													내 고유의 서명을 등록하거나 일정 기간 동안 결재 위임자를 설정할 수 있습니다.
+												</p>
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signModal">
 												<i class="ri-pencil-fill"> 나의 서명 등록</i>
 											</button>
-											<button type="button" class="btn btn-primary"
-												data-bs-toggle="modal" data-bs-target="#trustModal">
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#trustModal">
 												<i class="ri-account-pin-circle-fill"> 결재 위임자 설정</i>
 											</button>
 										</div>
@@ -528,55 +517,41 @@
 									<div class="accordion" id="accordion">
 										<div class="accordion-item">
 											<h2 class="accordion-header" id="headingOne">
-												<button class="accordion-button" type="button"
-													data-bs-toggle="collapse" data-bs-target="#collapseOne"
-													aria-expanded="true" aria-controls="collapseOne">
+												<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 													<b>승인 대기 문서</b>
 												</button>
 											</h2>
-											<div id="collapseOne"
-												class="accordion-collapse collapse show"
-												aria-labelledby="headingOne" data-bs-parent="#accordion">
+											<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion">
 												<div class="accordion-body">
 													<div class="form-check">
 														<input class="form-check-input checkAll" type="checkbox">
 														<span id="checkAprvBtn" class="badge bg-primary">승인</span>
 													</div>
 													<!-- approvalTable -->
-													<table id="approvalTable" class="display center"
-														style="width: 100%">
+													<table id="approvalTable" class="display center" style="width: 100%">
 														<thead hidden="hidden">
 															<tr>
 																<th>내용</th>
 															</tr>
 														</thead>
 														<tbody id="aprvtb" class="list-group">
-															<tr th:each="p : ${approval}"
-																class="list-group-item list-group-item-action"
-																th:data-no="${p.aprvNo}">
-																<td
-																	class="d-flex justify-content-between align-items-start"
-																	th:data-no="${p.aprvNo}">
+															<tr th:each="p : ${approval}" class="list-group-item list-group-item-action aprvTr" th:data-no="${p.aprvNo}">
+																<td class="d-flex justify-content-between align-items-start" th:data-no="${p.aprvNo}">
 																	<div class="ms-2 me-auto">
 																		<div class="form-check">
-																			<input class="form-check-input check" type="checkbox"
-																				name="aprvNo" th:value="${p.aprvNo}"
-																				th:data-ttl="${p.ttl}" th:data-emp="${p.empNo}"
-																				style="float: left;">
+																			<input class="form-check-input check" type="checkbox" name="aprvNo" th:value="${p.aprvNo}"
+																				th:data-ttl="${p.ttl}" th:data-emp="${p.empNo}" style="float: left;">
 																		</div>
-																		<i th:if="${p.impts =='Y'}" class="ri-alert-fill"
-																			style="float: left;"></i>
-																		<div class="fw-bold" th:text="${p.ttl}"
-																			style="float: left;">제목</div>
-																		<br> <span th:if="${p.deadline} != ' '"
-																			th:text="|${p.deadline}까지|"></span><small
-																			th:text="| ${p.nm}"></small>
-																	</div> <span th:if="${p.aprvSt} == '진행'"
-																	class="badge bg-outline-primary rounded-pill"
-																	style="height: 25px">진행</span> <span
-																	th:unless="${p.aprvSt} == '진행'"
-																	class="badge bg-primary rounded-pill"
-																	style="height: 25px">위임</span>
+																		<i th:if="${p.impts =='Y'}" class="ri-alert-fill" style="float: left;"></i>
+																		<div class="fw-bold" th:text="${p.ttl}" style="float: left;">제목</div>
+																		<br> 
+																		
+																		<span th:if="${p.deadline} != ' '" th:text="|${p.deadline}까지|"></span>
+																		<small th:text="| ${p.nm}|"></small>
+																	</div>
+																	
+																	<span th:if="${p.aprvSt} == '진행'" class="badge bg-outline-primary rounded-pill" style="height: 25px">진행</span>
+																	<span th:unless="${p.aprvSt} == '진행'" class="badge bg-primary rounded-pill" style="height: 25px">위임</span>
 																</td>
 															</tr>
 														</tbody>
@@ -584,9 +559,8 @@
 													<!-- End approvalTable -->
 													<div>
 														<form id="aprvFrm" action="approvalView" method="post">
-															<input type="hidden" th:name="${_csrf.parameterName}"
-																th:value="${_csrf.token}"> <input type="hidden"
-																id="aprvFrmNo" name="aprvNo">
+															<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+															<input type="hidden" id="aprvFrmNo" name="aprvNo">
 														</form>
 													</div>
 												</div>
@@ -594,14 +568,12 @@
 										</div>
 										<div class="accordion-item">
 											<h2 class="accordion-header" id="headingTwo">
-												<button class="accordion-button collapsed" type="button"
-													data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+												<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
 													aria-expanded="false" aria-controls="collapseTwo">
 													<b>참조 문서 목록</b>
 												</button>
 											</h2>
-											<div id="collapseTwo" class="accordion-collapse collapse"
-												aria-labelledby="headingTwo" data-bs-parent="#accordion">
+											<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion">
 												<div class="accordion-body">
 
 													<!-- referTable -->
@@ -613,26 +585,17 @@
 															</tr>
 														</thead>
 														<tbody id="refertb" class="list-group">
-															<tr th:each="r : ${refer}"
-																class="list-group-item list-group-item-action"
-																th:data-no="${r.aprvNo}">
-																<td
-																	class="d-flex justify-content-between align-items-start"
-																	th:data-no="${r.aprvNo}">
+															<tr th:each="r : ${refer}" class="list-group-item list-group-item-action referTr" th:data-no="${r.aprvNo}">
+																<td class="d-flex justify-content-between align-items-start" th:data-no="${r.aprvNo}">
 																	<div class="ms-2 me-auto">
-																		<i th:if="${r.impts == 'Y' }" class="ri-alert-fill"
-																			style="float: left;"></i>
-																		<div class="fw-bold" th:text="${r.ttl}"
-																			style="float: left;">제목</div>
-																		<br> <span th:if="${r.deadline} != ' '"
-																			th:text="|${r.deadline}까지|"></span><small
-																			th:text="| ${r.nm}"></small>
-																	</div> <span th:if="${r.reqSt == '반려' or r.reqSt =='완료'}"
-																	class="badge bg-secondary rounded-pill"
-																	style="height: 25px">참조</span> <span
-																	th:unless="${r.reqSt == '반려' or r.reqSt =='완료'}"
-																	th:text="진행" class="badge bg-primary rounded-pill"
-																	style="height: 25px">참조</span>
+																		<i th:if="${r.impts == 'Y' }" class="ri-alert-fill" style="float: left;"></i>
+																		<div class="fw-bold" th:text="${r.ttl}" style="float: left;">제목</div>
+																		<br> 
+																		<span th:if="${r.deadline != ' '}" th:text="|${r.deadline}까지|"></span>
+																		<small th:text="| ${r.nm}|"></small>
+																	</div> 
+																	<span th:if="${r.reqSt == '반려' or r.reqSt =='완료'}" class="badge bg-secondary rounded-pill" style="height: 25px">참조</span>
+																	<span th:unless="${r.reqSt == '반려' or r.reqSt =='완료'}" th:text="진행" class="badge bg-primary rounded-pill" style="height: 25px">참조</span>
 																</td>
 															</tr>
 														</tbody>
@@ -665,8 +628,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<b>나의 서명 등록</b>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body row g-0">
 						<div class="modal-body col-md-12" id="sCntn">
@@ -674,23 +636,20 @@
 								<tr>
 									<td>
 										<div class="container">
-											<canvas id="canvas" width="300" height="300"
-												style="border: 1px solid black;"></canvas>
+											<canvas id="canvas" width="300" height="300" style="border: 1px solid black;"></canvas>
 										</div>
 									</td>
 									<td>
 										<div style="border: 1px solid black; width: 300px; height: 300px; text-align:center; display: flex; justify-content: center;">
-											<img id="previewImg"
-												th:src="${sign.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${sign.sign})}"
-												style="margin:auto; ">
+											<img id="previewImg" th:src="${sign.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${sign.sign})}" style="margin:auto; ">
 										</div>
 									</td>
 								</tr>
 							</table>
 						</div>
 						<div class="modal-footer">
-							<button id="erase" class="btn btn-secondary">초기화</button>
-							<button type="button" id="delSign" class="btn btn-primary">삭제</button>
+							<button id="erase" class="btn btn-primary">리셋</button>
+							<button type="button" id="delSign" class="btn btn-secondary">삭제</button>
 							<button type="button" id="save" class="btn btn-primary">저장</button>
 						</div>
 
@@ -707,45 +666,39 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<b>결재 위임자 설정</b>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="lCntn">
 						<div class="row g-3">
 							<div class="col-md-12">
 								<ul class="list-group trustList" th:if="${trust}">
-									<li class="list-group-item trustli" th:each="t : ${trust}"
-										th:data-no="${t.trustNo}"><b th:text="|${t.rpttNm}|"></b>&nbsp;&nbsp;&nbsp;<span
-										th:text="|${t.sdt} ~ ${t.edt}|"></span>
-										<button type="button" class="btn btn-primary delTrust"
-											style="float: right;">해제</button></li>
+									<li class="list-group-item trustli" th:each="t : ${trust}" th:data-no="${t.trustNo}">
+										<b th:text="|${t.rpttNm}|"></b>&nbsp;&nbsp;&nbsp;
+										<span th:text="|${t.sdt} ~ ${t.edt}|"></span>
+										<button type="button" class="btn btn-secondary delTrust" style="float: right;">해제</button></li>
 								</ul>
 							</div>
 						</div>
 						<hr>
 						<form id="trustFrm" action="trustIn" method="post">
-							<input type="hidden" th:name="${_csrf.parameterName}"
-								th:value="${_csrf.token}">
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 							<div class="row g-3">
 								<div class="col-md-4">
 									<div class="form-floating">
 										<select class="form-select" id="deptSelect" aria-label="State">
 											<option>선택</option>
-											<option th:each="d : ${dept}" th:value="${d.dept}"
-												th:text="${d.dept}">부서</option>
-										</select> <label for="deptSelect">부서</label>
+											<option th:each="d : ${dept}" th:value="${d.dept}" th:text="${d.dept}">부서</option>
+										</select> 
+										<label for="deptSelect">부서</label>
 										<div class="form-floating">
-											<input type="text" class="form-control trustrptt" id="rpttNm"
-												name="rpttNm" placeholder="수임자" readonly="readonly"
-												required="required" style="margin-top: 5px"> <label
-												for="rpttNm">수임자</label>
+											<input type="text" class="form-control trustrptt" id="rpttNm" name="rpttNm" 
+												placeholder="수임자" readonly="readonly" required="required" style="margin-top: 5px">
+											<label for="rpttNm">수임자</label>
 										</div>
 									</div>
 								</div>
 								<div class="col-md-8">
-									<select class="form-select" id="multi" multiple
-										aria-label="multiple select example" style="height: 120px;">
-									</select>
+									<select class="form-select" id="multi" multiple aria-label="multiple select example" style="height: 120px;"></select>
 								</div>
 								<div class="col-md-5">
 									<input type="date" id="sdt" name="sdt" class="form-control">
@@ -760,16 +713,12 @@
 						<hr>
 						<div class="col-md-12" th:if="${rptt}">
 							<ul class="list-group">
-								<li class="list-group-item list-group-item-primary"
-									th:data-no="${rptt.trustNo}"><span
-									th:text="|${rptt.nm}님에게 ${rptt.edt}까지 결재 위임 받는중.|"></span>
-									<button type="button" class="btn btn-primary upTrust"
-										style="float: right;">변경</button></li>
+								<li class="list-group-item list-group-item-primary" th:data-no="${rptt.trustNo}">
+								<span th:text="|${rptt.nm}님에게 ${rptt.edt}까지 결재 위임 받는중.|"></span>
+									<button type="button" class="btn btn-secondary upTrust" style="float: right;">변경</button></li>
 							</ul>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">닫기</button>
 							<button type="button" class="btn btn-primary trustInBtn">위임</button>
 						</div>
 
@@ -786,15 +735,15 @@
 			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-header" id="vttl">
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="vCntn">
 						<div id="tnv" class=".txtA">에디터</div>
 					</div>
 					<div class="modal-footer" id="viewFoot"></div>
-					<span class="badge bg-primary" id="savePdf"><i
-						class="bi bi-folder me-1"></i>PDF</span>
+					<span class="badge bg-primary" id="savePdf">
+						<i class="bi bi-folder me-1">PDF</i>
+					</span>
 				</div>
 			</div>
 		</div>

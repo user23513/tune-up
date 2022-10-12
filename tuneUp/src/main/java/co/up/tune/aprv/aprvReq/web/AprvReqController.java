@@ -150,5 +150,20 @@ public class AprvReqController {
 		model.addAttribute("refer", ls.referList(rvo));
 		return "/aprv/aprvReq/aprvView";
 	}
+	
+	@GetMapping("/aprvNew")
+	public String aprvNew(Model model, HttpSession session) {
+
+		String empNo = (String) session.getAttribute("empNo");
+		// 결재선 조회
+		AprvLineVO line = new AprvLineVO();
+		line.setEmpNo(empNo); // (부서 있으면 안됨, 사번만)
+		model.addAttribute("line", ls.aprvLineList(line));
+		// 부서목록
+		model.addAttribute("dept", ls.aprvDeptList());	
+
+		return "aprv/aprvReq/aprvNew";
+	}
+	
 
 }

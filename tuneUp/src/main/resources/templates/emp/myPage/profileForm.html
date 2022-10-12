@@ -108,7 +108,8 @@ $(document).ready(function() {
 								th:value="${e.empNo}" id="empNo" name="empNo">
 							<div class="row mb-3">
 								<label for="profileImage"
-									class="col-md-4 col-lg-3 col-form-label">사진</label>
+									class="col-md-4 col-lg-3 col-form-label"
+									style="padding-left: 2em;">사진</label>
 								<div class="col-md-8 col-lg-9" id="profilePic">
 									<img id="pic" th:src="${session.pic} == null ? 'assets/img/default_profile.png' : @{/attach(path=${session.pic})} "
 										style="width: 120px;" alt="Profile">
@@ -124,16 +125,18 @@ $(document).ready(function() {
 							</div>
 
 							<div class="row mb-3">
-								<label for="name" class="col-md-4 col-lg-3 col-form-label">이름</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="name" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">이름</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="text" id="name" name="name" class="form-control"
 										th:value="${e.nm}" disabled>
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<div class="col-md-4 col-lg-3 col-form-label">ID</div>
-								<div class="col-md-8 col-lg-9">
+								<div class="col-md-4 col-lg-3 col-form-label"
+									style="padding-left: 2em;">ID</div>
+								<div class="col-md-7 col-lg-8">
 									<input type="text" id="id" name="id" class="form-control"
 										th:value="${e.id}">
 								</div>
@@ -147,31 +150,35 @@ $(document).ready(function() {
 							</div>
 
 							<div class="row mb-3">
-								<label for="phone" class="col-md-4 col-lg-3 col-form-label">휴대폰</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="phone" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">휴대폰</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="text" id="phone" name="phone" class="form-control"
 										th:value="${e.phone}">
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="Email" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">Email</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="email" id="email" name="email"
 										class="form-control" th:value="${e.email}">
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="birth" class="col-md-4 col-lg-3 col-form-label">생년월일</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="birth" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">생년월일</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="date" id="birth" name="birth" class="form-control"
 										th:value="${e.birth}">
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="gender" class="col-md-4 col-lg-3 col-form-label">성별</label>
+								<label for="gender" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">성별</label>
 								<div class="col-md-8 col-lg-9">
 									<input class="form-check-input" type="radio" name="gridRadios"
 											id="gridRadios1" value="option1">
@@ -186,13 +193,15 @@ $(document).ready(function() {
 							<hr>
 							<br>
 							<div class="row mb-3">
-								<label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
+								<label for="dept" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">부서</label>
 								<div class="col-md-4 col-lg-3">
 									<input name="dept" type="text" class="form-control" id="dept"
 											th:value="${e.dept}" disabled>
 								</div>
 
-								<label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
+								<label for="position" class="col-md-3 col-lg-2 col-form-label"
+									 	style="padding-left: 2em;">직위</label>
 								<div class="col-md-4 col-lg-3">
 									<input name="position" type="email" class="form-control"
 											id="position" th:value="${e.position}" disabled>
@@ -200,24 +209,27 @@ $(document).ready(function() {
 							</div>
 
 							<div class="row mb-3">
-								<label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="zip" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">우편번호</label>
+								<div class="col-md-7 col-lg-8">
 									<input name="zip" type="text" class="form-control" id="zip"
 											th:value="${e.zip}" disabled>
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="addr" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">자택주소</label>
+								<div class="col-md-7 col-lg-8">
 									<input name="addr" type="text" class="form-control" id="addr"
 											th:value="${e.addr}" disabled>
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="hDate" class="col-md-4 col-lg-3 col-form-label">입사일</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="hDate" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">입사일</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="date" id="hDate" name="hDate" class="form-control"
 											th:value="${e.hDate}" disabled>
 								</div>

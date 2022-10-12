@@ -11,6 +11,5 @@ public interface ProPostFileService {
 	List<FilesVO> proPostFileList(FilesVO vo);
 	int proPostFileInsert(FilesVO vo);
 	int proPostFileDelete(FilesVO vo);
-	//FilesVO fileUpload();
 	FilesVO fileUpload(FilesVO vo, MultipartFile file) throws IllegalStateException, IOException;
 }

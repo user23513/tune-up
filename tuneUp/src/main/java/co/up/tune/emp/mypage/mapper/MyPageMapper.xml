@@ -13,6 +13,7 @@
 		<set>
 			<if test="pw != null">pw = #{pw},</if>
 			<if test="phone != null">phone = #{phone},</if>
+			<if test="gender != null">gender = #{gender},</if>
 			<if test="email != null">email = #{email},</if>
 			<if test="birth != null">birth = #{birth}</if>
 		</set>
@@ -21,7 +22,7 @@
 
 	<update id="picUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update  emp
-		   set	pic = #{pic}
+		   set	pic = null
 		 where	emp_no = #{empNo}
 	</update>
 	

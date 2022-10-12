@@ -26,17 +26,31 @@ $(document).ready(function() {
 		} */
 	})
 	
+	//성별 지정
+	$("#male").on("click", e=>{
+		$("#gender").val("M")
+	})
+	
+	$("#female").on("click", e=>{
+		$("#gender").val("W")
+	})
+	
 	//프로필 사진 삭제 이벤트
-/* 	$("#deletePic").on("click",e=>{
+	$("#deletePic").on("click",e=>{
 		let pic = $("#file").val();
 		if(pic != null){
     	  	//토큰
+    	  	/* var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#pic').attr('src', null);
+                }
+                reader.readAsDataURL(input.files[0]); */
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
 			
 			//프로필 이미지
-			let pic = e.target.closest('tr').children[1].innerText;
-	        
+			 let pic = e.target.closest('tr').children[1].innerText; */
+
 			$.ajax({
 				url : "picUpdate",
 				progressData : false,
@@ -45,20 +59,24 @@ $(document).ready(function() {
 		 	  		xhr.setRequestHeader(header,token);  
 		     	  },
 				type : "post",
-				data: null,
+				data: {"empNo" : empNo},
 				success:function(res){
-					$("#pic").attr(src,res.pic);
+					$("#pic").remove();
+					let img = "<img id='pic' th:src='assets/img/default_profile.png'"
+					img += "style='width: 120px;' alt='Profile'>"
+					$("#profilePic").append(img)
 				}
 			})
    		}else{
    			alert("등록된 이미지가 없습니다.");
    		}
-	}) */
+	})
 	
 	$("#reset").on("click", e=>{
 		location.href="profile";
 	})
 	
+	//사진 미리보기
 	$(function() {
 	    $("#file").on('change', function(){
 	    readURL(this);
@@ -108,32 +126,36 @@ $(document).ready(function() {
 								th:value="${e.empNo}" id="empNo" name="empNo">
 							<div class="row mb-3">
 								<label for="profileImage"
-									class="col-md-4 col-lg-3 col-form-label">사진</label>
+									class="col-md-4 col-lg-3 col-form-label"
+									style="padding-left: 2em;">사진</label>
 								<div class="col-md-8 col-lg-9" id="profilePic">
 									<img id="pic" th:src="${session.pic} == null ? 'assets/img/default_profile.png' : @{/attach(path=${session.pic})} "
 										style="width: 120px;" alt="Profile">
 									<div class="pt-2">
 										<div class="col-md-8 col-lg-9">
 											<input type="file" id="file" name="file" class="form-control" onchange="readImage(this)"
-												th:value="${e.pic}">
+													th:value="${e.pic}">&nbsp;&nbsp;&nbsp;
+											<button type="button" id="deletePic" class="btn btn-danger btn-sm"
+													title="Remove my profile image"><i class="bi bi-trash"></i></button>
 										</div>
-										&nbsp;&nbsp;&nbsp;
-										<!--  <a id="deletePic" name="deletePic" href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a> -->
+										
 									</div>
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="name" class="col-md-4 col-lg-3 col-form-label">이름</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="name" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">이름</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="text" id="name" name="name" class="form-control"
 										th:value="${e.nm}" disabled>
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<div class="col-md-4 col-lg-3 col-form-label">ID</div>
-								<div class="col-md-8 col-lg-9">
+								<div class="col-md-4 col-lg-3 col-form-label"
+									style="padding-left: 2em;">ID</div>
+								<div class="col-md-7 col-lg-8">
 									<input type="text" id="id" name="id" class="form-control"
 										th:value="${e.id}">
 								</div>
@@ -147,52 +169,59 @@ $(document).ready(function() {
 							</div>
 
 							<div class="row mb-3">
-								<label for="phone" class="col-md-4 col-lg-3 col-form-label">휴대폰</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="phone" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">휴대폰</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="text" id="phone" name="phone" class="form-control"
 										th:value="${e.phone}">
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="Email" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">Email</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="email" id="email" name="email"
 										class="form-control" th:value="${e.email}">
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="birth" class="col-md-4 col-lg-3 col-form-label">생년월일</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="birth" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">생년월일</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="date" id="birth" name="birth" class="form-control"
 										th:value="${e.birth}">
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="gender" class="col-md-4 col-lg-3 col-form-label">성별</label>
+								<label for="gender" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">성별</label>
 								<div class="col-md-8 col-lg-9">
-									<input class="form-check-input" type="radio" name="gridRadios"
-											id="gridRadios1" value="option1">
+									<input class="form-check-input" type="radio" name="MW"
+											id="male" th:checked="${e.gender} =='M'?checked">
 									<label class="form-check-label" for="gridRadios1"> 남 </label>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input class="form-check-input" type="radio" name="gridRadios"
-											id="gridRadios2" value="option2">
+									<input class="form-check-input" type="radio" name="MW"
+											id="female" th:checked="${e.gender} =='W'?checked">
 									<label class="form-check-label" for="gridRadios2"> 여 </label>
+									<input type="hidden" name="gender" id="gender" th:value="${e.gender}">
 								</div>
 							</div>
 							<br>
 							<hr>
 							<br>
 							<div class="row mb-3">
-								<label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
+								<label for="dept" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">부서</label>
 								<div class="col-md-4 col-lg-3">
 									<input name="dept" type="text" class="form-control" id="dept"
 											th:value="${e.dept}" disabled>
 								</div>
 
-								<label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
+								<label for="position" class="col-md-3 col-lg-2 col-form-label"
+									 	style="padding-left: 2em;">직위</label>
 								<div class="col-md-4 col-lg-3">
 									<input name="position" type="email" class="form-control"
 											id="position" th:value="${e.position}" disabled>
@@ -200,24 +229,27 @@ $(document).ready(function() {
 							</div>
 
 							<div class="row mb-3">
-								<label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="zip" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">우편번호</label>
+								<div class="col-md-7 col-lg-8">
 									<input name="zip" type="text" class="form-control" id="zip"
 											th:value="${e.zip}" disabled>
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="addr" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">자택주소</label>
+								<div class="col-md-7 col-lg-8">
 									<input name="addr" type="text" class="form-control" id="addr"
 											th:value="${e.addr}" disabled>
 								</div>
 							</div>
 
 							<div class="row mb-3">
-								<label for="hDate" class="col-md-4 col-lg-3 col-form-label">입사일</label>
-								<div class="col-md-8 col-lg-9">
+								<label for="hDate" class="col-md-4 col-lg-3 col-form-label"
+										style="padding-left: 2em;">입사일</label>
+								<div class="col-md-7 col-lg-8">
 									<input type="date" id="hDate" name="hDate" class="form-control"
 											th:value="${e.hDate}" disabled>
 								</div>

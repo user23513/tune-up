@@ -26,7 +26,7 @@
 			location.href="empManage";
 		})
 		
-        //선택된 mng
+       //선택된 mng
 		const query = 'input[name="mng"]:checked';
 		const selectedEls = document.querySelectorAll(query);
 		console.log("selectedEls = " +selectedEls);
@@ -37,7 +37,7 @@
 		 selectedEls.forEach((el) => {
 		 	result += el.value + ' ';
 		  });
-		 
+		  
 		 console.log(result);
 		 
 		 //DB에 mng 값 넣기
@@ -46,7 +46,7 @@
 		//관리자 체크박스
 		$('#mngCk').change(function() {
 			if ($(this).is(':checked')) {
-	            $("#view").css("display", "block")
+	            $("#view").css("display", "block");
 	        }
 	        else {
 	        	$("#view").css("display", "none")
@@ -127,65 +127,74 @@
 				<form id="frm" action="empUpdate" method="post">
 					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 					<div class="row mb-3">
-						<label for="profileImage" class="col-md-4 col-lg-3 col-form-label">프로필 사진</label>
-						<div class="col-md-8 col-lg-9">
-							<img th:src="${emp.pic} == null ? 'assets/img/default_profile.png' : '@{/attach(path=${session.pic})}'"
+						<label for="profileImage" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">프로필 사진</label>
+						<div class="col-md-7 col-lg-8">
+							<img th:src="${emp.pic} == null ? 'assets/img/default_profile.png' : @{/attach(path=${emp.pic})} "
 								 alt="Profile" style="width: 120px;">
 						</div>
 					</div>
 
 					<div class="row" style="display: none;">
-						<div class="col-lg-3 col-md-4 label">사번</div>
+						<div class="col-lg-3 col-md-4 label" style="padding-left: 2em;">사번</div>
 						<input type="text" name="empNo" class="form-control" id="empNo" th:value="${emp.empNo}">
 					</div>
 
 					<div class="row mb-3">
-						<label for="name" class="col-md-4 col-lg-3 col-form-label">성명</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="name" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">성명</label>
+						<div class="col-md-7 col-lg-8">
 							<input name="nm" type="text" class="form-control" id="nm" th:value="${emp.nm}" disabled>
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="company" class="col-md-4 col-lg-3 col-form-label">휴대폰</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="company" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">휴대폰</label>
+						<div class="col-md-7 col-lg-8">
 							<input name="phone" type="text" class="form-control" id="phone" 
 								   th:value="${emp.phone}" disabled>
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="email" class="col-md-4 col-lg-3 col-form-label">이메일</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="email" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">이메일</label>
+						<div class="col-md-7 col-lg-8">
 							<input name="email" type="email" class="form-control" id="email"
 								   th:value="${emp.email}" disabled>
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="birth" class="col-md-4 col-lg-3 col-form-label">생년월일</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="birth" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">생년월일</label>
+						<div class="col-md-7 col-lg-8">
 							<input name="birth" type="date" class="form-control" id="birth"
 								   th:value="${emp.birth}" disabled>
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="gender" class="col-md-4 col-lg-3 col-form-label">성별</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="gender" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">성별</label>
+						<div class="col-md-7 col-lg-8">
 							<input class="form-check-input" type="radio" name="gridRadios"
-								   id="gridRadios1" value="option1" checked disabled>
+								   id="gridRadios1" value="option1" th:checked="${emp.gender} == 'M'?checked"
+								   disabled>
 							<label class="form-check-label" for="gridRadios1"> 남 </label>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input class="form-check-input" type="radio" name="gridRadios"
-								   id="gridRadios2" value="option2" disabled>
+								   id="gridRadios2" value="option2" th:checked="${emp.gender} == 'W'?checked"
+								   disabled>
 							<label class="form-check-label" for="gridRadios2"> 여 </label>
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="dept" class="col-md-4 col-lg-3 col-form-label">부서</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="dept" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">부서</label>
+						<div class="col-md-7 col-lg-8">
 							<select id="dept" name="dept" th:value="${emp.dept}"
 									class="form-select" aria-label="Default select example">
 								<option selected th:value="${emp.dept}">--부서--</option>
@@ -196,8 +205,9 @@
 					</div>
 
 					<div class="row mb-3">
-						<label for="position" class="col-md-4 col-lg-3 col-form-label">직위</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="position" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">직위</label>
+						<div class="col-md-7 col-lg-8">
 							<select id="position" name="position" th:value="${emp.position}"
 									class="form-select" aria-label="Default select example">
 								<option selected th:value="${emp.position}">--직위--</option>
@@ -208,29 +218,33 @@
 					</div>
 	
 					<div class="row mb-3">
-						<label for="zip" class="col-md-4 col-lg-3 col-form-label">우편번호</label>
-						<div class="col-md-8 col-lg-9">
-							<input type="text" id="sample6_postcode" name="zip"
-									th:value="${emp.zip}" placeholder="우편번호"> <input
-									type="button" onclick="sample6_execDaumPostcode()"
-									value="우편번호 찾기"><br>
+						<label for="zip" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">우편번호</label>
+						<div class="col-md-5 col-lg-6">
+							<input type="text" id="sample6_postcode" name="zip" class="form-control"
+									th:value="${emp.zip}" placeholder="우편번호">
+							<input type="button" onclick="sample6_execDaumPostcode()" class="btn btn-primary"
+									value="우편번호 찾기">
+							<br>
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label for="addr" class="col-md-4 col-lg-3 col-form-label">자택주소</label>
-						<div class="col-md-8 col-lg-9">
-							<input type="text" id="sample6_address" name="ad1"
+						<label for="addr" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">자택주소</label>
+						<div class="col-md-7 col-lg-8">
+							<input type="text" id="sample6_address" name="ad1" class="form-control"
 									th:value="${emp.ad1}" placeholder="주소"><br>
-							<input type="text" id="sample6_detailAddress" name="ad2"
+							<input type="text" id="sample6_detailAddress" name="ad2" class="form-control"
 									th:value="${emp.ad2}" placeholder="상세주소">
-							<input type="hidden" id="sample6_extraAddress" name="ad3"
+							<input type="hidden" id="sample6_extraAddress" name="ad3" class="form-control"
 									th:value="${emp.ad3}" placeholder="참고항목">
 						</div>
 					</div>
 					<div class="row mb-3">
-						<label for="hDate" class="col-md-4 col-lg-3 col-form-label">입사일</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="hDate" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">입사일</label>
+						<div class="col-md-7 col-lg-8">
 							<input name="hDate" type="date" class="form-control" id="hDate"
 									th:value="${emp.hDate}">
 						</div>
@@ -238,29 +252,30 @@
 
 					<!--               <div class="row mb-3">
                 <label for="fDate" class="col-md-4 col-lg-3 col-form-label">퇴사일</label>
-                <div class="col-md-8 col-lg-9">
+                <div class="col-md-7 col-lg-8">
                   <input name="fDate" type="date" class="form-control" id="fDate">
                 </div>
               </div>
                -->
 					<div class="row mb-3" style="display: none;">
-						<label for="auth" class="col-md-4 col-lg-3 col-form-label">권한</label>
-						<div class="col-md-8 col-lg-9">
+						<label for="auth" class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">권한</label>
+						<div class="col-md-7 col-lg-8">
 							<input name="auth" type="text" class="form-control" id="auth"
 								th:value="${emp.auth}">
 						</div>
 					</div>
 
 					<div class="row mb-3">
-						<label class="col-md-4 col-lg-3 col-form-label">관리자</label>
-						<div class="col-md-8 col-lg-9">
+						<label class="col-md-4 col-lg-3 col-form-label"
+								style="padding-left: 2em;">관리자</label>
+						<div class="col-md-7 col-lg-8">
 							<div class="form-check">
-								<input th:checked="${emp.auth == 'ADMIN'}?checked"
-										class="form-check-input" type="checkbox" id="mngCk">
+								<input class="form-check-input" type="checkbox" id="mngCk">
 								<label class="form-check-label" for=""> 관리자 권한 </label>
 							</div>
 
-							<div th:style="${emp.auth == 'USER'} or ${emp.auth == 'GUEST'}?'display:none'"
+							<div th:style="${emp.auth == 'GUEST'}?'display:none'"
 								id="view">
 								<input th:checked="${emp.mng=='hr'}?checked" class="form-check-input"
 										type="radio" name="mng" value="hr" id="hrCk">

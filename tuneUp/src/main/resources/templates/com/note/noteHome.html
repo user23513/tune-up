@@ -132,7 +132,7 @@ hr {margin: 7px;}
 									<thead>
 										<tr>
 											<th scope="col" style="width: 10%">
-												<input type="checkbox">
+												<input type="checkbox" class="form-check-input">
 											</th>
 											<th scope="col" style="width: 15%">보낸 사람</th>
 											<th scope="col" style="width: 55%">내용</th>
@@ -145,7 +145,7 @@ hr {margin: 7px;}
 										</tr>
 										<tr th:if="${#lists.size(rList.getList()) != 0}" th:each="r : ${rList.getList()}" th:attr="data-no=${r.noteNo}">
 											<th scope="row">
-												<input type="checkbox" th:value="${r.noteNo}">
+												<input type="checkbox" th:value="${r.noteNo}" class="form-check-input">
 											</th>
 											<td th:text="${r.receiver}">보낸 사람</td>
 											<td th:text="${r.cntn}" class="word">쪽지 내용</td>
@@ -185,7 +185,7 @@ hr {margin: 7px;}
 									<thead>
 										<tr>
 											<th scope="col" style="width: 10%">
-												<input type="checkbox">
+												<input type="checkbox" class="form-check-input">
 											</th>
 											<th scope="col" style="width: 15%">받는사람</th>
 											<th scope="col" style="width: 55%">내용</th>
@@ -198,7 +198,7 @@ hr {margin: 7px;}
 										</tr>
 										<tr th:if="${#lists.size(sList.getList()) != 0}" th:each="s : ${sList.getList()}" th:attr="data-no=${s.noteNo}">
 											<th scope="row">
-												<input type="checkbox" th:value="${s.noteNo}">
+												<input type="checkbox" th:value="${s.noteNo}" class="form-check-input">
 											</th>
 											<td th:text="${s.receiver}">보낸 사람</td>
 											<td th:text="${s.cntn}" class="word">쪽지 내용</td>
@@ -238,7 +238,7 @@ hr {margin: 7px;}
 									<thead>
 										<tr>
 											<th scope="col" style="width: 10%">
-												<input type="checkbox">
+												<input type="checkbox" class="form-check-input">
 											</th>
 											<th scope="col" style="width: 15%">받는사람</th>
 											<th scope="col" style="width: 55%">내용</th>
@@ -251,7 +251,7 @@ hr {margin: 7px;}
 										</tr>
 										<tr th:if="${#lists.size(kList.getList()) != 0}" th:each="k : ${kList.getList()}" th:attr="data-no=${k.noteNo}">
 											<th scope="row">
-												<input type="checkbox" th:value="${k.noteNo}">
+												<input type="checkbox" th:value="${k.noteNo}" class="form-check-input">
 											</th>
 											<td th:text="${k.receiver}">보낸 사람</td>
 											<td th:text="${k.cntn}" class="word">쪽지 내용</td>

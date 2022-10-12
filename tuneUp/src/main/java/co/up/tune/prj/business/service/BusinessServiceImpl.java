@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.business.mapper.BusinessMapper;
 import co.up.tune.prj.propost.mapper.PropostMapper;
 import co.up.tune.prj.vo.BusinessVO;
@@ -37,28 +36,14 @@ public class BusinessServiceImpl implements BusinessService{
 	}
 
 	@Override
-	public int businessUpdate(BusinessVO vo) {
-		return map.businessUpdate(vo);
-	}
-
-	@Override
 	public int businessDelete(BusinessVO vo) {
 		return map.businessDelete(vo);
 	}
 
+	//업무 상태 수정
 	@Override
-	public List<ReplyVO> bReplyList(ReplyVO vo) {
-		return null;
-	}
-
-	@Override
-	public int bReplyInsert(ReplyVO vo) {
-		return 0;
-	}
-
-	@Override
-	public int bReplyDelete(ReplyVO vo) {
-		return 0;
+	public int busStUpdate(BusinessVO vo) {
+		return map.busStUpdate(vo);
 	}
 
 }

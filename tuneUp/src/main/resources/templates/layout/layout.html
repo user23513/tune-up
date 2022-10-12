@@ -648,7 +648,7 @@
   	let depts = ['영업','기획','인사','회계','개발','재무'];
   	let idx = 2;
   	dept = depts[idx];
-  	
+  	$("#teamMem").prev().text("인사팀");
 	//기본은 부서=>인사
 	$.ajax({
 		url: 'prjTeamMembers',

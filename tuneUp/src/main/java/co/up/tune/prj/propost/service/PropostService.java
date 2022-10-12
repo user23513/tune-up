@@ -9,7 +9,6 @@ import co.up.tune.prj.vo.FilesVO;
 import co.up.tune.prj.vo.MemberVO;
 import co.up.tune.prj.vo.PostVO;
 import co.up.tune.prj.vo.ProjectVO;
-import co.up.tune.prj.vo.ScheduleVO;
 
 public interface PropostService {
 	
@@ -17,7 +16,6 @@ public interface PropostService {
 	PostVO prjPostSelect(PostVO vo); // 프로젝트-글 단건
 	int prjPostInsert(PostVO pvo, FilesVO fvo); //프로젝트-글 등록
 	int prjPostUpdate(PostVO vo, FilesVO fvo); //프로젝트-글 수정
-	//int prjPostDelete(PostVO vo); //프로젝트-글 삭제
 
 	//댓글
 	List<ReplyVO> pjReplyList(ReplyVO vo); //댓글 리스트
@@ -26,10 +24,6 @@ public interface PropostService {
 	int pjReplyUpdate(ReplyVO vo); //댓글 수정
 	int pjReplyDelete(ReplyVO vo); //댓글 삭제
 
-	FilesVO filesSelect(FilesVO fvo); //파일 단건
-	int filesInsert(FilesVO fvo); //파일등록
-	int filesDelete(FilesVO fvo); //파일삭제
-	
 	/* 현지 수정 */
 	List<EmpVO> empList(String empNo); //모든 사원정보
 	List<MemberVO> scheduleMemberList(int prjNo); //프로젝트 일정 => 멤버 리스트

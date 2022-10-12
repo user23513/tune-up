@@ -47,8 +47,8 @@
 					    	
 					    	if(obj.length != 0){
 					    		
-					    		$("#vttl").html("제목 : "+obj.ttl);
-									$("#tnv").html("내용 : "+obj.cntn);
+					    		$("#vttl").html(obj.ttl);
+									$("#tnv").html(obj.cntn);
 									$("#viewModal").modal('show');
 							        }
 					    	}
@@ -98,7 +98,7 @@
 			<!--View Modal -->
 			<div class="modal fade" id="viewModal" tabindex="-1"
 				data-bs-backdrop="true">
-				<div class="modal-dialog modal-lg">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
 					<div class="modal-content">
 						<div class="modal-header" id="vttl">
 							<button type="button" class="btn-close" data-bs-dismiss="modal"

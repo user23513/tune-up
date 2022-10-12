@@ -152,41 +152,25 @@
 							<tr>
 								<th colspan="6">결재 상태</th>
 							</tr>
-
 						</tbody>
-
-						<tfoot>
+							
+						<tfoot th:if = "${not #lists.isEmpty(approval)}" >
 							<tr>
-								<th colspan="2" th:each="a : ${approval}"
-									th:if="${a.nm} == null ? ' ' : ${a.nm} "></th>
-							<tr>
-							<tr>
-								<td colspan="2" th:each="a : ${approval}"
-									th:if="${a.aprvSt == '완료'}"><img
-									th:src="${a.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${a.sign})} "
-									style="width: 150px; height: 150px;"></td>
-								<td colspan="2" th:each="a : ${approval}"
-									th:if="${a.aprvSt == '반려'}"><img
-									th:src="$assets/img/reject.png"
-									style="width: 150px; height: 150px;"></td>
-								<td colspan="2" th:each="a : ${approval}"
-									th:if="${a.aprvSt =='진행' }"><span
-									style="width: 150px; height: 150px;"></span></td>
-								<td colspan="2" th:each="a : ${approval}"
-									th:if="${a.aprvSt =='대기' }"><span
-									style="width: 150px; height: 150px;"></span></td>
-
+								<th colspan="2" th:each="a : ${approval}" th:text="${a.nm} == null ? ' ' : ${a.nm} " style="border: 0px;">
+								</th>
 							</tr>
+							
 							<tr>
-								<th colspan="6">반려 사유</th>
+								<td colspan="2" th:each="a : ${approval}" style="border: 0px;">
+										<img th:if="${a.aprvSt == '완료'}" th:src="${a.sign} == null ? 'assets/img/stamp.png' : @{/attach(path=${a.sign})} " width="150px">
+										<img th:if="${a.aprvSt == '반려'}" src="assets/img/reject.png" width="150px">
+								</td>
 							</tr>
-							<tr th:each="a : ${approval}" th:if="${a.reject} != null">
-								<td colspan="6" th:if="${a.reject} == null ? ' ' : ${a.reject} "
-									style="border: 0px;"></td>
+							
+							<tr th:each="a : ${approval}" style="border: 0px;">
+								<td colspan="6" th:text="${a?.reject}" style="border: 0px;"></td>
 							</tr>
-
 						</tfoot>
-
 					</table>
 
 
@@ -194,7 +178,7 @@
 						<span>
 							<button th:data-no="${aprv.aprvNo}" class="btn btn-primary"
 								id="adOk" style="float: right;">승인</button>
-							<button th:data-no="${aprv.aprvNo}" class="btn btn-primary"
+							<button th:data-no="${aprv.aprvNo}" class="btn btn-secondary"
 								id="adReject" style="float: right; margin-right: 5px;">반려</button>
 							<button id="savePdf" class="btn btn-primary"
 								style="float: right; margin-right: 5px;">

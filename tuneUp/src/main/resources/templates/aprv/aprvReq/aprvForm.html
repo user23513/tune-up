@@ -86,9 +86,18 @@ $(document).ready(function(){
 	//라인선택				
 	$(".lineLi").on("click", e=>{
 		$(".list-group-item-primary").removeClass("list-group-item-primary");
-		$("#aprvr").val(""); 
+		
+		//알림 보낼 empNo(hidden)
+		$("#ap1").val("");
+		$("#ap2").val("");
+		$("#ap3").val("");
+		$("#ap1").val($(e.target).data("ap1"));
+		$("#ap2").val($(e.target).data("ap2"));
+		$("#ap3").val($(e.target).data("ap3"));
+		//라인번호
 		let lineNo = $(e.target).data("no");
 		$("#lineNo").val(lineNo); 
+		
 		$(e.target).addClass("list-group-item-primary");
 		
 	})
@@ -130,7 +139,6 @@ $(document).ready(function(){
 				$("#referNm").val(val);
 				hval += ",";
 				hval += empNo;
-			
 				$("#refer").val(hval);
 				
 			}
@@ -147,13 +155,29 @@ $(document).ready(function(){
 		$("#save").on("click", function() {
 			let content = tinymce.activeEditor.getContent();
 			let ttl = $("#ttl").val();
+			let lineNo = $("#lineNo").val();
 			let refers = $("#refer").val();
 			$("#cntn").val(content);
 			
 			if (!confirm("문서를 상신하시겠습니까?")) {
 				return;
 	        
-			} else if (content != "" && ttl != ""){
+			} else if (content != "" && ttl != "" && lineNo != ""  ){
+				
+				//결재알림
+				let ap1 = $("#ap1").val();
+				let ap2 = $("#ap2").val();
+				let ap3 = $("#ap3").val();
+				if (ap3){
+					socket.send('request,caller,'+ap1+','+ttl);
+					socket.send('request,caller,'+ap2+','+ttl);
+					socket.send('request,caller,'+ap3+','+ttl);
+				} else if (ap2){
+					socket.send('request,caller,'+ap1+','+ttl);
+					socket.send('request,caller,'+ap2+','+ttl);
+				} else {
+					socket.send('request,caller,'+ap1+','+ttl);
+				}
 				
 				//참조 알림
 				if(refers.indexOf(',') != -1){
@@ -179,6 +203,7 @@ $(document).ready(function(){
 	        	
 	        let content = tinymce.activeEditor.getContent();
 		    let ttl = "[임시저장]" + $("#ttl").val();
+		    $("#ttl").val(ttl);
 		    $("#cntn").val(content);
 		        
 		    let form = $('#newfrm')[0];  	          
@@ -276,15 +301,15 @@ $(document).ready(function(){
 
 							<ol class="list-group list-group-numbered lineList">
 								<li class="list-group-item lineLi" th:each="n : ${line}"
-									th:data-no="${n.lineNo}"
+									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
 									th:if="${n.nm2} == null and ${n.nm3} == null"
 									th:text="|${n.nm1}|"></li>
 								<li class="list-group-item lineLi" th:each="n : ${line}"
-									th:data-no="${n.lineNo}"
+									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}" th:data-ap2="${n.ap2}"
 									th:if="${n.nm3} == null and ${n.nm2} != null"
 									th:text="|${n.nm1} → ${n.nm2}|"></li>
 								<li class="list-group-item lineLi" th:each="n : ${line}"
-									th:data-no="${n.lineNo}"
+									th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}" th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
 									th:if="${n.nm3} != null"
 									th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></li>
 							</ol>
@@ -304,9 +329,13 @@ $(document).ready(function(){
 						<div class="col-md-8">
 							<select class="form-select" id="multi" multiple
 								aria-label="multiple select example" style="height: 100px;">
-
 							</select>
 						</div>
+						
+						<input type="hidden" id="ap1">
+						<input type="hidden" id="ap2">
+						<input type="hidden" id="ap3">
+						
 						<div class="col-md-12">
 							<div class="form-floating">
 								<input type="text" class="form-control aprvline" id="referNm" name="referNm"

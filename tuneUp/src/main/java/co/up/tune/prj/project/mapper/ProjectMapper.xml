@@ -44,14 +44,20 @@
 	<select id="myPost" parameterType="co.up.tune.prj.vo.PostVO"
 		resultType="co.up.tune.prj.vo.PostVO">
 		SELECT	p.POST_NO,
-				p.CNTN,
 				p.TTL,
-				p.DTTM,
 				j.NM
 		FROM POST p, PROJECT j
 		WHERE p.EMP_NO = #{empNo}
 			AND p.PRJ_NO = j.PRJ_NO
 		ORDER BY p.POST_NO DESC
+	</select>
+	
+	<select id="myReply" parameterType="co.up.tune.com.vo.ReplyVO"
+		resultType="co.up.tune.com.vo.ReplyVO">
+		SELECT	CNTN
+		FROM REPLY
+		WHERE EMP_NO = #{empNo}
+		ORDER BY POST_NO DESC
 	</select>
 
 </mapper>

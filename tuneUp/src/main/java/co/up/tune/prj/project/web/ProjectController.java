@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.project.service.ProjectService;
 import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.vo.PostVO;
@@ -48,10 +49,12 @@ public class ProjectController {
 	}
 	
 	@RequestMapping("/myPost")
-	public String myPost(PostVO vo, Model model, HttpSession session) {
+	public String myPost(PostVO vo, ReplyVO rvo, Model model, HttpSession session) {
 		String empNo = (String)(session.getAttribute("empNo"));
 		vo.setEmpNo(empNo);
+		rvo.setEmpNo(empNo);
 		model.addAttribute("post", prjDao.myPost(vo));
+		model.addAttribute("reply", prjDao.myReply(rvo));		
 		return "prj/myPost";
 	}
 

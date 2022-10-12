@@ -667,34 +667,44 @@ textarea.none {
 	
 	/*===== 업무 변경 =====*/
 	$(".bSt").on("click", e=>{
-		let stUp = confirm("상태를 변경하시겠습니까?");
-		if(stUp){
-			let st = $(e.target).text();
-			let no = $(e.target).closest(".sc").data("no");
-			$.ajax({
-				url:'stUpdate',
-				beforeSend:function(xhr){
-		 	  		xhr.setRequestHeader(header,token);  
-		     	 },
-		         type:'post',
-		         data:{'postNo':no, 'st':st},
-		         dataType:'json',
-		         success:function(res){
-		        	 //수정완료되면
-		        	 if(res>0){
-		        		 let stList = $(".bSt");
-		        		 $.each(stList, (idx, stSpan)=>{
-		        			 if($(stSpan).hasClass("select")){
-		        				 $(stSpan).removeClass("select");
-		        			 }
-		        			 if($(stSpan).text() == st) {
-		        				 $(stSpan).addClass("select");
-		        			 }
-		        		 })
-		        	 }
-		         }
-			})
-		}
+		Toast.fire({
+			icon: 'warning',
+			title: '상태를 변경하시겠습니까?',
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'OK',
+			showCancelButton: true,
+			cancelButtonText: 'Cancle'
+		})
+		.then((result)=>{
+			if(result.isConfirmed) {
+				let st = $(e.target).text();
+				let no = $(e.target).closest(".sc").data("no");
+				$.ajax({
+					url:'stUpdate',
+					beforeSend:function(xhr){
+			 	  		xhr.setRequestHeader(header,token);  
+			     	 },
+			         type:'post',
+			         data:{'postNo':no, 'st':st},
+			         dataType:'json',
+			         success:function(res){
+			        	 //수정완료되면
+			        	 if(res>0){
+			        		 let stList = $(".bSt");
+			        		 $.each(stList, (idx, stSpan)=>{
+			        			 if($(stSpan).hasClass("select")){
+			        				 $(stSpan).removeClass("select");
+			        			 }
+			        			 if($(stSpan).text() == st) {
+			        				 $(stSpan).addClass("select");
+			        			 }
+			        		 })
+			        	 }
+			         }
+				})
+			}
+		})
 	})
 	
 	/*===== 일정 참석 댓글 =====*/

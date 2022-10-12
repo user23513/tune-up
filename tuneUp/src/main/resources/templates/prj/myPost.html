@@ -29,6 +29,16 @@
 					info: false
 				});
 				
+				$('#replyTable').DataTable({
+					"dom":'lftip',
+					"language": {
+				    "search": ""
+				  	},
+					lengthChange: false,
+					ordering: false,
+					info: false
+				});
+				
 
 				 $(".postTr").on("click", e=>{
 					 let postNo = $(e.target).data("no");
@@ -74,25 +84,69 @@
 						</nav>
 					</div>
 					<!-- End Page Title -->
-					<hr>
 
-					<table id="postTable" class="display center" style="width: 100%">
-						<thead hidden="hidden">
-							<tr>
-								<th>내용</th>
-							</tr>
-						</thead>
-						<tbody id="posttb" class="list-group">
-							<tr th:each="p : ${post}"
-								class="list-group-item list-group-item-action postTr"
-								th:data-no="${p.postNo}">
-								<td class="d-flex justify-content-between align-items-start"
-									th:if="${p.ttl} != ''" th:text="|${p.nm} : ${p.ttl}|"
-									th:data-no="${p.postNo}"></td>
-							</tr>
-						</tbody>
-					</table>
-					
+
+					<!-- Bordered Tabs -->
+					<ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab"
+						role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="home-tab"
+								data-bs-toggle="tab" data-bs-target="#bordered-home"
+								type="button" role="tab" aria-controls="home"
+								aria-selected="true">게시글</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+								data-bs-target="#bordered-profile" type="button" role="tab"
+								aria-controls="profile" aria-selected="false">댓글</button>
+						</li>
+					</ul>
+					<div class="tab-content pt-2" id="borderedTabContent">
+						<div class="tab-pane fade show active" id="bordered-home"
+							role="tabpanel" aria-labelledby="home-tab">
+							<table id="postTable" class="display center" style="width: 100%">
+								<thead hidden="hidden">
+									<tr>
+										<th>내용</th>
+									</tr>
+								</thead>
+								<tbody id="posttb" class="list-group">
+									<tr th:each="p : ${post}"
+										class="list-group-item list-group-item-action postTr"
+										th:data-no="${p.postNo}">
+										<td class="d-flex justify-content-between align-items-start"
+											th:if="${p.ttl} != ''" th:text="|${p.nm} : ${p.ttl}|"
+											th:data-no="${p.postNo}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="bordered-profile" role="tabpanel"
+							aria-labelledby="profile-tab">
+							<table id="replyTable" class="display center" style="width: 100%">
+								<thead hidden="hidden">
+									<tr>
+										<th>내용</th>
+									</tr>
+								</thead>
+								<tbody id="replytb" class="list-group">
+									<tr th:each="r : ${reply}"
+										class="list-group-item list-group-item-action replyTr">
+										<td class="d-flex justify-content-between align-items-start"
+											th:text="|${r.cntn}|"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+					<!-- End Bordered Tabs -->
+
+
+
+
+
+
 				</div>
 			</div>
 			<!--View Modal -->

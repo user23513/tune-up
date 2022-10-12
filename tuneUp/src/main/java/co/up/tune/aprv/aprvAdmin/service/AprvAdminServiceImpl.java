@@ -56,7 +56,7 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	public int aprvAdReject(ApprovalVO vo) {
 		BellVO bvo = new BellVO();
 		bvo.setCntn("관리자님이 <a type='external' href='/aprvReq'>" + vo.getTtl() + "</a> 문서를 반려하셨습니다.");
-		bvo.setEmpNo(Integer.parseInt(vo.getEmpNo()));
+		bvo.setEmpNo(vo.getEmpNo());
 		bvo.setReceiver("수신인");
 		bvo.setSender("관리자");
 		bmap.bellInsert(bvo);
@@ -71,7 +71,7 @@ public class AprvAdminServiceImpl implements AprvAdminService {
 	public int aprvAdOk(ApprovalVO vo) {
 		BellVO bvo = new BellVO();
 		bvo.setCntn("관리자님이 <a type='external' href='/aprvReq'>" + vo.getTtl() + "</a> 문서를 승인하셨습니다.");
-		bvo.setEmpNo(Integer.parseInt(vo.getEmpNo()));
+		bvo.setEmpNo(vo.getEmpNo());
 		bvo.setReceiver("수신인");
 		bvo.setSender("관리자");
 		bmap.bellInsert(bvo);

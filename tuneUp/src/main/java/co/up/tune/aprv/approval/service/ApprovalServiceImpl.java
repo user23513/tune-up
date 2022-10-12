@@ -37,7 +37,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int approved(ApprovalVO vo) {
 		BellVO bvo = new BellVO();
 		bvo.setCntn("<a type='external' href='/aprvReq'>" + vo.getTtl() + "</a> 문서가 승인되었습니다.");
-		bvo.setEmpNo(Integer.parseInt(vo.getEmpNo()));
+		bvo.setEmpNo(vo.getEmpNo());
 		bvo.setReceiver("수신인");
 		bvo.setSender("발신인");
 		bmap.bellInsert(bvo);
@@ -51,7 +51,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int reject(ApprovalVO vo) {
 		BellVO bvo = new BellVO();
 		bvo.setCntn("<a type='external' href='/aprvReq'>" + vo.getTtl() + "</a> 문서가 반려되었습니다.");
-		bvo.setEmpNo(Integer.parseInt(vo.getEmpNo()));
+		bvo.setEmpNo(vo.getEmpNo());
 		bvo.setReceiver("수신인");
 		bvo.setSender("발신인");
 		bmap.bellInsert(bvo);
@@ -75,7 +75,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int trustIn(TrustVO vo) {
 		BellVO bvo = new BellVO();
 		bvo.setCntn(vo.getNm()+ "님이 <a type='external' href='/approval'>문서 결재권을 위임</a>하셨습니다.");
-		bvo.setEmpNo(Integer.parseInt(vo.getRptt()));
+		bvo.setEmpNo(vo.getRptt());
 		bvo.setReceiver("수신인");
 		bvo.setSender("발신인");
 		bmap.bellInsert(bvo);
@@ -102,7 +102,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public int trustUp(TrustVO vo) {
 		BellVO bvo = new BellVO();
 		bvo.setCntn(vo.getNm()+ "님이 <a type='external' href='/approval'>문서 결재권을 위임</a>하셨습니다.");
-		bvo.setEmpNo(Integer.parseInt(vo.getRptt()));
+		bvo.setEmpNo(vo.getRptt());
 		bvo.setReceiver("수신인");
 		bvo.setSender("발신인");
 		bmap.bellInsert(bvo);
@@ -123,7 +123,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 			bvo.setSender("발신인");
 			
 		for (String emp : emps) {
-			bvo.setEmpNo(Integer.parseInt(emp));
+			bvo.setEmpNo(emp);
 			bmap.bellInsert(bvo);
 		}
 			

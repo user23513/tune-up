@@ -20,7 +20,7 @@ public class BellController {
 	public String bellList(HttpSession session, Model model) {
 		BellVO vo = new BellVO();
 		String empNo = (String)session.getAttribute("empNo");
-		vo.setEmpNo(Integer.parseInt(empNo));
+		vo.setEmpNo(empNo);
 		model.addAttribute("bellList", dao.bellList(vo));
 		return "com/bell/bellList";
 	}

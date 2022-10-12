@@ -16,7 +16,7 @@ public class BellVO {
 	 String cntn;	//내용
 	 String readYn;		//확인여부
 
-	 int empNo; //알림받을 사원번호
+	 String empNo; //알림받을 사원번호
 	 
 }	
 

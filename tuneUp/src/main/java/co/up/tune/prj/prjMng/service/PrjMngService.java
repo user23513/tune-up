@@ -31,7 +31,7 @@ public interface PrjMngService {
 	
 	
 	List<EmpVO> mEmpList(); //모든 사원정보
-	
+	List<EmpVO> mEmpListByPrj(String prjNo); //프로젝트 내 사원정보
 	
 	//int addTeam(TeamVO vo);
 }

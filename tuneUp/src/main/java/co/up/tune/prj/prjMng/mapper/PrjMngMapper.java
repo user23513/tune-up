@@ -29,6 +29,7 @@ public interface PrjMngMapper {
 	TeamVO tmSelect(TeamVO vo);
 	/////////아래는 테스트용/////////////
 	List<EmpVO> mEmpList(); //모든 사원정보
+	List<EmpVO> mEmpListByPrj(String prjNo);
 	
 	
 	

@@ -79,9 +79,9 @@
 							<tr>
 								<th colspan="1">참조인</th>
 								<td colspan="5">
-									<div th:if="${refer != null}">
-										<span th:each="r : ${refer}" th:if="${r.nm != null}"
-											th:text="${r.nm}"></span>
+									<div th:if = "${not #lists.isEmpty(refer)}" th:each="r : ${refer}">
+										<span th:text="${r?.nm}">
+										</span>
 									</div>
 								</td>
 							</tr>

@@ -16,8 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.up.tune.file.service.FileService;
 import co.up.tune.prj.business.service.BusinessService;
+import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.vo.BusinessVO;
 import co.up.tune.prj.vo.FilesVO;
+import co.up.tune.prj.vo.ProjectVO;
 
 @Controller
 public class BusinessController {
@@ -28,6 +30,9 @@ public class BusinessController {
 	@Autowired
 	FileService fileDao;
 	
+	@Autowired
+	PropostService pdao;
+	
 	//업무 등록
 	@PostMapping("/businessInsert")
 	public String businessInsert(BusinessVO vo, @RequestParam("file") MultipartFile[] files,
@@ -37,17 +42,25 @@ public class BusinessController {
 		//file upload 처리
 		FilesVO fvo = new FilesVO();
 		List<FilesVO> list = new ArrayList<>();
-		if(!files[0].isEmpty()) {
+		if(files.length != 0 && files[0] != null && files[0].getSize() > 0) {
 			String folder = "prj"; //Temp안에 폴더명
 			list = fileDao.fileUpload(files, folder);
+			
 			fvo.setFNm(list.get(0).getFNm());
 			fvo.setFPath(list.get(0).getFPath());
 			fvo.setFType(list.get(0).getFType());
 			fvo.setFCat("PROJECT");
-			fvo.setPNm(vo.getBussTtl());
+			
+			//프로젝트 제목
+			ProjectVO prjD = new ProjectVO();
+			prjD.setPrjNo(vo.getPrjNo());
+			prjD = pdao.projectSel(prjD);
+			
+			fvo.setPNm(prjD.getNm());
 			fvo.setEmpNo(vo.getEmpNo());
 			
 		}
+		
 		dao.businessInsert(vo, fvo);
 		re.addAttribute("prjNo", vo.getPrjNo());
 		

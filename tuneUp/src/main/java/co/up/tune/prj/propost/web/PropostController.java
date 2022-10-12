@@ -99,8 +99,6 @@ public class PropostController {
 		 * 2022.10.05
 		 */
 		model.addAttribute("todoList", tServ.todoList(prjNo));
-		System.out.println(tServ.todoList(prjNo));
-		System.out.println("=============================================" + vo.getPostNo());
 		model.addAttribute("detailList", detail.detailList());
 		
 		//프로젝트 관리버튼 권한체크
@@ -153,10 +151,15 @@ public class PropostController {
 			fvo.setFPath(list.get(0).getFPath());
 			fvo.setFType(list.get(0).getFType());
 			
+			//프로젝트 제목
+			ProjectVO prjD = new ProjectVO();
+			prjD.setPrjNo(vo.getPrjNo());
+			prjD = dao.projectSel(prjD);
+			
+			fvo.setFCat("PROJECT");
+			fvo.setPNm(prjD.getNm());
+			fvo.setEmpNo(vo.getEmpNo());
 		}
-		fvo.setFCat("PROJECT");
-		fvo.setPNm(vo.getTtl());
-		fvo.setEmpNo(vo.getEmpNo());
 		
 		dao.prjPostInsert(vo, fvo);
 		re.addAttribute("prjNo", vo.getPrjNo());
@@ -218,86 +221,6 @@ public class PropostController {
 	public String aaa() {
 		return"prj/post/test";
 	}
-	
-	//내 프로젝트 - 글 작성 백업
-		/*
-		 * @PostMapping("/prjPostInsert") public String prjPostInsert(PostVO
-		 * vo, @RequestParam("file") MultipartFile file) throws IllegalStateException,
-		 * IOException { if (!file.isEmpty()) {
-		 * 
-		 * } dao.prjPostInsert(vo); //fdao.proPostFileInsert(fvo); return
-		 * "redirect:/prjPostList"; }
-		 */
-		
-			//파일 등록은 이거로 백업
-//		@PostMapping("/prjPostInsert")
-//		public String proPostFileInsert(PostVO vo,@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException{
-//			FilesVO fvo = new FilesVO();
-//			String oFileName = file.getOriginalFilename();
-//			String sFileName = UUID.randomUUID().toString() + oFileName.substring(oFileName.lastIndexOf("."));
-//			String savePath = fileDir + File.separator + sFileName;
-//			if(!oFileName.isEmpty()) {
-//				fvo.setFNm(oFileName);
-//				fvo.setFPath(savePath);
-//			}
-//			dao.prjPostInsert(vo);
-//			return "redirect:/prjPostList";
-//		}
-		
-//		@PostMapping("/prjPostInsert")
-//		public String prjPostInsert(PostVO vo, @RequestParam("file") MultipartFile file) 
-//		throws IllegalStateException, IOException{
-//			FilesVO fvo = new FilesVO();
-//			String saveFolder = fileDir;
-//			File sfile = new File(saveFolder);
-//			String oFileName = file.getOriginalFilename();
-//			
-//			 
-//			if(!oFileName.isEmpty()) {
-//				String sFileName = UUID.randomUUID().toString() + oFileName.substring(oFileName.lastIndexOf("."));
-//				String savePath = saveFolder + File.separator + sFileName;
-//			file.transferTo(new File(sfile,sFileName));
-//			//vo.setAtchNo(savePath);
-//			}
-//			System.out.println();
-//			ffdao.ppfileUpload(fvo);
-//			dao.prjPostInsert(vo);
-//			System.out.println("================="+vo);
-//			System.out.println("================="+fvo);
-//			return "redirect:/prjPostList";
-//			
-//		}
-	
-//	   //게시판 게시글 수정
-//    @RequestMapping(value = "/prjPostUpdate")
-//    public String boardUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-// 
-//        return "board/boardUpdate";
-//    }
-  
-//  @RequestMapping("/prjPostDelete")
-//  public String prjPostDelete(PostVO vo, Model model) {
-//	  dao.prjPostDelete(vo);
-//	return "redirect:/prjPostList";
-//  }
-  
-// @RequestMapping("prjPostDelete")
-// public String prjPostDelete(PostVO vo, Model model) {
-//	 int n = dao.prjPostDelete(vo);
-//	 if( n != 0) {
-//		 model.addAttribute("message", "삭제 되었습니다.");
-//	 }
-//	 return "redirect:/prjPostList"; 
-// }
-	
-//	  @PostMapping("/ppReplyInsert") 
-//	  public String ppReplyInsert(ReplyVO vo) {
-//	  dao.ppReplyInsert(vo); 
-//	  return "redirect:/prjPostList";
-//	  
-//	  }
-	
-	
 	
 }
 

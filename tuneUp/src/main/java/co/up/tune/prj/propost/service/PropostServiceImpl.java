@@ -31,9 +31,12 @@ public class PropostServiceImpl implements PropostService {
 	public int prjPostInsert(PostVO pvo, FilesVO fvo) {
 		//프로젝트 글 등록
 		int a = map.prjPostInsert(pvo);
-		fvo.setAtchNo(pvo.getAtchNo());
+		int b = 0;
 		//프로젝트 파일 등록
-		int b = map.prjFileInsert(fvo);
+		if(fvo.getFNm() != null) {
+			fvo.setAtchNo(pvo.getAtchNo());
+			b = map.prjFileInsert(fvo);
+		}
 		return a+b;
 	}
 

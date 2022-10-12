@@ -29,9 +29,12 @@ public class BusinessServiceImpl implements BusinessService{
 	public int businessInsert(BusinessVO bvo, FilesVO fvo) {
 		//프로젝트 업무 등록
 		int a = map.businessInsert(bvo);
-		fvo.setAtchNo(bvo.getAtchNo());
+		int b = 0;
 		//프로젝트 파일 등록
-		int b = postMap.prjFileInsert(fvo);
+		if(fvo.getFNm() != null) {
+			fvo.setAtchNo(bvo.getAtchNo());
+			b = postMap.prjFileInsert(fvo);
+		}
 		return a+b;
 	}
 

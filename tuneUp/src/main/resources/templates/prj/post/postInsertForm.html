@@ -376,10 +376,9 @@ function save(){
 						aria-labelledby="pst-tab" style="padding: 15px;">
 						<form id="pstfrm" action="prjPostInsert" method="post"
 							enctype="multipart/form-data">
-							<input type="hidden" th:name="${_csrf.parameterName}"
-								th:value="${_csrf.token}"> <input type="hidden"
-								id="empNo" name="empNo" th:value="${session.empNo}"> <input
-								type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
+							<input type="hidden" id="empNo" name="empNo" th:value="${session.empNo}"> 
+							<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
 							<input type="hidden" name="prjNo" th:value="${prjNo}">
 							<div class="row mb-3">
 								<div class="col-sm-10 padding:10px">

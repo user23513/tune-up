@@ -18,7 +18,6 @@ import co.up.tune.prj.vo.FilesVO;
 
 /**
  * 전자결재 승인 AjaxController
- * 
  * @author 윤정은
  * @date 2022.10.4
  * @version 1.4
@@ -42,8 +41,7 @@ public class AjaxApprovalController {
 
 	// 사인 업로드
 	@PostMapping("/signUp")
-	public String signUp(EmpVO vo, HttpSession session, @RequestParam("file") MultipartFile[] files)
-			throws IllegalStateException, IOException {
+	public String signUp(EmpVO vo, HttpSession session, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
 
 		String empNo = (String) session.getAttribute("empNo");
 		vo.setEmpNo(empNo);
@@ -62,20 +60,18 @@ public class AjaxApprovalController {
 	// 결재 -> 문서상태 변경 + 다음 결재자
 	@PostMapping("/rejectIn")
 	public int rejectIn(ApprovalVO vo, HttpSession session) {
-
 		String empNo = (String) session.getAttribute("empNo");
 		vo.setAprvr(empNo); //결재자 본인
 		return ap.reject(vo);
 	}
 
 	// 결재 -> 문서상태 변경 + 다음 결재자
-		@PostMapping("/approved")
-		public int approved(ApprovalVO vo, HttpSession session) {
-
-			String empNo = (String) session.getAttribute("empNo");
-			vo.setAprvr(empNo); //결재자 본인
-			return ap.approved(vo);
-		}
+	@PostMapping("/approved")
+	public int approved(ApprovalVO vo, HttpSession session) {
+		String empNo = (String) session.getAttribute("empNo");
+		vo.setAprvr(empNo); //결재자 본인
+		return ap.approved(vo);
+	}
 	
 	// 수임자 변경
 	@PostMapping("/trustUp")
@@ -92,12 +88,12 @@ public class AjaxApprovalController {
 		return ap.signUp(vo);
 	}
 	
-	 @PostMapping("/checkApproved") 
-	  public int checkApproved(ApprovalVO vo, HttpSession session){
-		 String empNo = (String) session.getAttribute("empNo");
-		 vo.setAprvr(empNo); //결재자 본인
-		  
-		  return ap.checkApproved(vo); 
-	  }
+	// 체크박스 일괄승인
+	@PostMapping("/checkApproved") 
+	public int checkApproved(ApprovalVO vo, HttpSession session){
+		String empNo = (String) session.getAttribute("empNo");
+		vo.setAprvr(empNo); //결재자 본인
+		return ap.checkApproved(vo); 
+	}
 
 }

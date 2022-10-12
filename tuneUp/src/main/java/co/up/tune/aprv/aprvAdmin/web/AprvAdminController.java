@@ -84,7 +84,8 @@ public class AprvAdminController {
 		}
 
 	}
-
+	
+	//문서상세
 	@PostMapping("/aprvAdminView")
 	public String aprvAdminView(AprvVO vo, Model model) {
 		int aprvNo = vo.getAprvNo();

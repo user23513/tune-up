@@ -3,7 +3,6 @@
 <mapper namespace="co.up.tune.emp.hr.mapper.HrMapper">
 	<select id="empList" resultType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
-		<!-- order by DECODE (auth,'GUEST',1), emp_no; -->
 		order by emp_no
 	</select>
 	
@@ -38,12 +37,6 @@
 		<set>
 			<if test="auth != null">auth = #{auth}</if>
 		</set>
-		where emp_no = #{empNo}
-	</update>
-	
-	<update id="mngUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
-		update emp
-		set mng = #{mng}
 		where emp_no = #{empNo}
 	</update>
 </mapper>

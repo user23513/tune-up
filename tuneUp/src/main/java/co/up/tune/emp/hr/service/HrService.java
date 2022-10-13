@@ -1,7 +1,6 @@
 package co.up.tune.emp.hr.service;
 
 import java.util.List;
-
 import co.up.tune.emp.vo.EmpVO;
 
 public interface HrService {
@@ -11,5 +10,4 @@ public interface HrService {
 	int empUpdate(EmpVO vo); //사원정보 수정
 	List<EmpVO> managerList(); //전체 관리자리스트
 	int authUpdate(EmpVO vo); //사원 권한 수정
-	int mngUpdate(EmpVO vo); //관리자 권한 수정
 }

@@ -1,6 +1,7 @@
 package co.up.tune.prj.todo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,14 +47,12 @@ public class TodoAjaxController {
 	public String cmpltYnUpdate(TodoDetailVO vo) {
 		ddao.cmpltYnUpdate(vo);
 		String yn = vo.getCmpltYn();
-		System.out.println("수정 완 : " + yn);
 		return yn; 
 	}
 	
 	@PostMapping("/todoPercent")
 	public int todoPercent(TodoVO vo) {
 		int perc = tdao.todoPercent(vo);
-		System.out.println("현재 진행상황 : " + perc+"%");
 		return perc;
 	}
 }

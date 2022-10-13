@@ -5,5 +5,5 @@ ENV LANG ko_KR.UTF-8
 ENV LC_ALL ko_KR.UTF-8 
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
-COPY Wallet_tuneup /home/wallet_tuneup
+COPY Wallet_tuneup/* /home/wallet_tuneup/
 ENTRYPOINT ["java","-jar", "/app.jar"]

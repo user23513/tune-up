@@ -179,13 +179,13 @@
 		function showView(){
 			//글상세
 			$("#aprvtb").on("click", ".aprvTr", e=>{
-				let no = $(e.target).data("no");
+				let no = $(e.target).closest("tr").data("no");
 				$("#aprvFrmNo").val(no)
 				$("#aprvFrm").submit();		
 			})
 			//서식상세
 			$("#formtb").on("click", ".formTr", e=>{
-				let formNo = $(e.target).data("frm"); 
+				let formNo = $(e.target).closest("tr").data("frm"); 
 				$.ajax({
 					url:'formView',
 					beforeSend:function(xhr){

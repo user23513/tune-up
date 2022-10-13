@@ -198,7 +198,7 @@
 		END IF;
 		COMMIT;
 		END;
-	<selectKey keyColumn="APRVR" keyProperty="aprvr" resultType="java.lang.String" order="AFTER">
+	<selectKey keyColumn="APRVR" keyProperty="aprvr" resultType="string" order="AFTER">
 		SELECT 	APRVR
 		FROM	APPROVAL
 		WHERE	APRV_NO = #{aprvNo}

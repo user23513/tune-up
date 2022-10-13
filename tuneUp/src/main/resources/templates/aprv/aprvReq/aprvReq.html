@@ -104,7 +104,7 @@
 		/*<![CDATA[*/
 		function formSelect(){
 			$("#formtb").on("click", ".formTr", e=>{
-				let formNo = $(e.target).data("frm"); 
+				let formNo = $(e.target).closest("tr").data("frm"); 
 				$.ajax({
 					url:'formView',
 					beforeSend:function(xhr){
@@ -135,7 +135,7 @@
 		//문서상세
 		function reqSelect(){
 			$("#aprvtb").on("click", ".reqTr", e=>{
-				let no = $(e.target).data("no");
+				let no = $(e.target).closest("tr").data("no");
 				$("#aprvFrmNo").val(no)
 				$("#aprvFrm").submit();
 

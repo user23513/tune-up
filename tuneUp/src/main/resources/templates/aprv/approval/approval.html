@@ -315,7 +315,7 @@
 	//승인문서 상세조회
 	function aprvSelect() {
 		$("#aprvtb").on("click", ".aprvTr", e=>{
-			let no = $(e.target).data("no");
+			let no = $(e.target).closest("tr").data("no");
 			$("#aprvFrmNo").val(no)
 			$("#aprvFrm").submit();
 		})
@@ -324,7 +324,7 @@
 	//참조문서 상세조회
 	function referSelect() {
 		$("#refertb").on("click", ".referTr", e=>{
-			let aprvNo = $(e.target).data("no");
+			let aprvNo = $(e.target).closest("tr").data("no");
 			$.ajax({
 				url:'aprvShow',
 				beforeSend:function(xhr){

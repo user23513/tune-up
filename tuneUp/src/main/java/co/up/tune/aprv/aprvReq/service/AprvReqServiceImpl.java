@@ -64,19 +64,13 @@ public class AprvReqServiceImpl implements AprvReqService {
 			ApprovalVO aprv = new ApprovalVO();
 			aprv.setAprvNo(aprvNo);
 
-			// 결재자 목록 처리
+			// 결재라인
 			AprvLineVO lvo = new AprvLineVO();
 			lvo.setLineNo(vo.getLineNo());
 			lvo = lmap.aprvLineSelect(lvo);
 			
-			//알림
-			BellVO bvo = new BellVO();
-			bvo.setSender("발신인");
-			bvo.setReceiver("수신인");
-			bvo.setCntn("<a type='external' href='/approval'>" + vo.getTtl() + "</a> 문서가 대기중입니다.");
-			
-			String[] arrAp;
-			String[] arrNm;
+			String[] arrAp;//사번
+			String[] arrNm;//이름
 			if (lvo.getAp3() != null) {
 				arrAp =  new String[]{lvo.getAp1(),lvo.getAp2(),lvo.getAp3()}; 
 				arrNm =  new String[]{lvo.getNm1(),lvo.getNm2(),lvo.getNm3()}; 
@@ -88,20 +82,26 @@ public class AprvReqServiceImpl implements AprvReqService {
 				arrNm = new String[]{lvo.getNm1()}; 
 			}
 			
+			// 알림설정
+			BellVO bvo = new BellVO();
+			bvo.setSender("발신인");
+			bvo.setReceiver("수신인");
+			bvo.setCntn("<a type='external' href='/approval'>새로운 결재 문서</a>가 도착했습니다.");
+			bvo.setEmpNo(arrAp[0]);
+			bmap.bellInsert(bvo);
+			
+			//결재자 입력
 			for(int i = 0; i<arrAp.length; i++) {
 				aprv.setAprvr(arrAp[i]);
 				aprv.setNm(arrNm[i]);
 				aprv.setAprvSeq(i+1);//결재순서
 				lmap.approvalIn(aprv);
-				
-				bvo.setEmpNo(arrAp[i]);
-				bmap.bellInsert(bvo);
 			}
 		
 			// 참조인 목록 처리
 			ReferVO rf = new ReferVO();
 			rf.setAprvNo(aprvNo);
-			bvo.setCntn("<a type='external' href='/approval'>" + vo.getTtl() + "</a> 문서의 참조인에 추가되었습니다.");
+			bvo.setCntn("<a type='external' href='/approval'>" + vo.getTtl() + "</a> 결재 문서의 참조인에 추가되었습니다.");
 			
 			String refers = vo.getRefer();
 			String referNms = vo.getReferNm();

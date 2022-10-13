@@ -62,7 +62,6 @@ public class PrjMngController {
 	// 관리자 추가
 	@PostMapping("/teamAuth")
 	public String teamAuth(TeamVO vo, RedirectAttributes rttr) {
-		System.out.println("teamAuth vo:" + vo);
 		dao.teamAuth(vo);
 		rttr.addAttribute("prjNo", vo.getPrjNo());
 		return "redirect:/teamList";
@@ -90,7 +89,6 @@ public class PrjMngController {
 	@PostMapping("/teamInsert")
 	public String teamInsert(TeamVO vo, RedirectAttributes rttr) {
 		//vo.setPrjNo(vo.getPrjNo());
-		System.out.println("teamInsert vo : " +vo);
 		TeamVO addVo = new TeamVO();
 		
 		// 여러 사원을 추가할 경우

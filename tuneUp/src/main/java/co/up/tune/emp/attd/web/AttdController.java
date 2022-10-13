@@ -101,7 +101,6 @@ public class AttdController {
 		HttpSession session =  request.getSession();
 		AttdVO vo = new AttdVO();
 		String empNo = (String)session.getAttribute("empNo");
-		System.out.println("empNo : " + empNo );
 		model.addAttribute("wktmChart", dao.wktmChart(empNo));
 		model.addAttribute("ovtmChart", dao.ovtmChart(empNo));
 		
@@ -119,7 +118,6 @@ public class AttdController {
 		model.addAttribute("totalOvtm", totalOvtm);
 		
 		
-		System.out.println("totalWktm : " + totalWktm + "totalOvtm : " + totalOvtm);
 		// 총 근무시간 + 총 초과근무시간
 		int wkov = Integer.parseInt(totalOvtm) +  Integer.parseInt(totalWktm);
 		model.addAttribute("wkov", wkov);

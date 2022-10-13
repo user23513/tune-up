@@ -55,6 +55,7 @@
 		getTrust();//위임자히든폼값
 		delTrust();//위임해제
 		trustSubmit();//위임자추가
+		checkReject();//선택반려
 	});
 	
 	//선택 승인
@@ -86,10 +87,12 @@
 						data : {'valueArr' : checkVals,
 								'empArr': emps,
 								'ttls':titles},
+						dataType : 'json',
 						success : function(data) {
-							for(let i=0; i<titles.length; i++){
-								socket.send('approved,발신자,'+emps[i]+','+titles[i]);
-							};
+							$.each (data, (idx, aprvr)=> {
+								socket.send('approved,발신자,'+emps[idx]+','+titles[idx]);
+								socket.send('request,발신자,'+aprvr+','+titles[idx]);
+							});
 							
 							alert("승인이 완료되었습니다.");
 							location.href="approval";
@@ -101,6 +104,54 @@
 		})
 		
 	}
+	
+	//선택 반려
+	function checkReject(){
+		$("#rejectAprvBtn").on("click", e=>{
+			let checkVals = [];  //문서번호
+			$(".check:checked").each(function(i) {
+				checkVals.push($(this).val()); 
+			});
+			let titles = []; //문서제목
+			$(".check:checked").each(function(i) {
+				titles.push($(this).data("ttl")); 
+			});
+			let emps = [];	//작성자사번
+			$(".check:checked").each(function(i) {
+				emps.push($(this).data("emp")); 
+			});
+			
+			if(checkVals.length == 0){
+				alert("선택된 문서가 없습니다.");
+			} else {
+				if(confirm("선택한 문서를 반려하시겠습니까?")){
+					$.ajax({
+						url : 'checkReject',
+						beforeSend : function(xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						type : 'post',
+						data : {'valueArr' : checkVals,
+								'empArr': emps,
+								'ttls':titles},
+						dataType : 'json',
+						success : function(data) {
+							$.each (data, (idx, aprvr)=> {
+								socket.send('reject,발신자,'+emps[idx]+','+titles[idx]);
+						
+							});
+							
+							alert("반려가 완료되었습니다.");
+							location.href="approval";
+							
+						}
+					});
+				}
+			}
+		})
+		
+	}
+	
 	
 	//pdf
 	function getPdf(){
@@ -176,6 +227,8 @@
 	function trustSubmit(){
 		//위임자 추가
 		$(".trustInBtn").on("click", e=>{
+			
+			let nm = [[${session.nm}]];
 			if($("#rptt").val() == ""){
 				alert("위임자를 지정해주세요");
 				return;
@@ -187,7 +240,7 @@
 				return;
 			} else {
 				let rptt = $("#rptt").val();
-				socket.send('trust,'+[[${session.nm}]]+','+rptt+','+'위임');
+				socket.send('trust,'+nm+','+rptt+','+'위임');
 				$("#trustFrm").submit();
 			}
 			
@@ -481,7 +534,7 @@
 						</nav>
 					</div>
 					<!-- End Page Title -->
-					<input type="hidden" id="myname" th:value="${session.nm}">
+
 					<!-- Tabs nav -->
 					<ul class="nav nav-tabs nav-tabs-bordered" id="aprvTab" role="tablist">
 						<li class="nav-item" role="presentation">
@@ -538,7 +591,9 @@
 												<div class="accordion-body">
 													<div class="form-check">
 														<input class="form-check-input checkAll" type="checkbox">
-														<span id="checkAprvBtn" class="badge bg-primary">승인</span>
+														<span id="checkAprvBtn" class="badge bg-primary">선택 승인</span>
+														<span id="rejectAprvBtn" class="badge bg-secondary">선택 반려</span>
+														
 													</div>
 													<!-- approvalTable -->
 													<table id="approvalTable" class="display center" style="width: 100%">

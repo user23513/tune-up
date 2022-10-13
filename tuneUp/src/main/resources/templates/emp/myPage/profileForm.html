@@ -5,6 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>TuneUp - 내 프로필 수정</title>
+<style>
+
+.pagination{
+	 justify-content: center; 
+}
+.dataTables_empty{
+	text-align: center;
+	padding: 10% 0;
+}
+</style>
 <script>
 $(document).ready(function() {
 	//저장 버튼 클릭 시 이벤트
@@ -25,42 +35,6 @@ $(document).ready(function() {
 	$("#female").on("click", e=>{
 		$("#gender").val("W")
 	})
-	
-	//프로필 사진 삭제 이벤트
-/*  	$("#deletePic").on("click", e=>{
-		let pic = $("#pic").attr('src');
- 		console.log("pic=========== : " + pic);
- 		let file = $("#file").val();
- 		console.log("file================ : " + file)
- 		let empNo = $("#empNo").val();
-		if(pic != null && file != null){
-     	  	//토큰
-			var token = $("meta[name='_csrf']").attr("content");
-			var header = $("meta[name='_csrf_header']").attr("content");
-			//프로필 이미지
-			$.ajax({
-				url : "picUpdate",
-				progressData : false,
-				contentType : false,
-				beforeSend:function(xhr){
-		 	  		xhr.setRequestHeader(header,token);  
-		     	  },
-				type : "post",
-				data: {"empNo" : empNo, "pic" : null},
-				success:function(res){
-					console.log("성공" + res);
-					$("#pic").attr('src','assets/img/default_profile.png');
-					$("#file").val() = null;
-					console.log($("#file").val());
-				},
-				error : function(err){
-					console.log("실패")
-				}
-			})
-   		}else{
-   			alert("등록된 이미지가 없습니다.");
-   		}
-	}) */
 	
 	//생일을 오늘 이후로 설정X
 	let now = Date.now() // 지금 날짜를 밀리초로
@@ -87,28 +61,7 @@ $(document).ready(function() {
 	    if (input.files && input.files[0]) {
 	        var reader = new FileReader();
 	        reader.onload = function (e) {
-/* 	        	let pic = $("#pic").attr('src');
-	        	//토큰
-				var token = $("meta[name='_csrf']").attr("content");
-				var header = $("meta[name='_csrf_header']").attr("content");
-				//프로필 이미지
-				$.ajax({
-					url : "picUpdate",
-					progressData : false,
-					contentType : false,
-					beforeSend:function(xhr){
-			 	  		xhr.setRequestHeader(header,token);  
-			     	  },
-					type : "post",
-					data: {"empNo" : empNo, "pic" : pic},
-					success:function(res){
-						console.log("성공");
-					},
-					error : function(err){
-						console.log("실패")
-					}
-				}) */
-						$('#pic').attr('src', e.target.result);
+				$('#pic').attr('src', e.target.result);
 	        }
 	        reader.readAsDataURL(input.files[0]);
 	    }

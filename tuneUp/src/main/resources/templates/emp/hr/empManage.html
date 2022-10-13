@@ -9,17 +9,45 @@
 	th:content="${_csrf.headerName}" />
 <title>TuneUp - 사원 관리</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
-<script
-	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+<style>
+.pagination{
+	margin-top: 10px;
+	justify-content: center; 
+}
+
+.dataTables_empty{
+	text-align: center;
+	padding: 10% 0;
+}
+
+.dataTables_filter{
+	float:right;
+	text-align:right;
+	padding-right: 2em;
+	margin : 10px 0;
+}
+
+table{
+	width: 100%;
+}
+
+th {
+	text-align: center;
+}
+
+td {
+	text-align: center;
+}
+</style>
 <script>
 $(document).ready(function() {
 	//datatables
 	$('#empList').DataTable({
 		"dom":'lftip',
 		"language": {
-	    "search": ""
+	    "search": "",
+	    "emptyTable": "사원이 없습니다."
 	  	},
 		lengthChange: false,
 		ordering: false,
@@ -29,7 +57,8 @@ $(document).ready(function() {
 	$('#managerList').DataTable({
 		"dom":'lftip',
 		"language": {
-	    "search": ""
+	    "search": "",
+	    "emptyTable": "지정된 관리자가 없습니다."
 	  	},
 		lengthChange: false,
 		ordering: false,
@@ -124,39 +153,36 @@ $(document).ready(function() {
 							<div class="tab-content pt-2" id="myTabContent">
 								<div class="tab-pane fade show active" id="home" role="tabpanel"
 									aria-labelledby="home-tab">
-
 									<!-- End Default Table Example -->
-									<br>
+									
 									<!-- 전체사원목록 보이는 곳 -->
 									<!-- Table with hoverable rows -->
-									<table class="display center" id="empList" style="margin : 0px;">
+									<table id="empList">
 										<thead>
 											<tr>
 												<th style="display : none">NO</th>
-												<th style="text-align: center;">사원번호</th>
-												<th style="text-align: center;">성명</th>
-												<th style="text-align: center;">부서</th>
-												<th style="text-align: center;">직위</th>
-												<th style="text-align: center;">입사일</th>
-												<th style="text-align: center;">휴대폰</th>
-												<th style="text-align: center;">이메일</th>
-												<th style="text-align: center;">권한</th>
-												<th style="text-align: center;">승인</th>
+												<th>사원번호</th>
+												<th>성명</th>
+												<th>부서</th>
+												<th>직위</th>
+												<th>입사일</th>
+												<th>휴대폰</th>
+												<th>이메일</th>
+												<th>권한</th>
+												<th>승인</th>
 											</tr>
 										</thead>
 										<tbody id="tb" >
 											<tr th:each="e : ${empList}">
 												<th style="display : none"></th>
-												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}"
-													style="text-align: center;">HR100</td>
-												<td th:text="${e.nm}" style="text-align: center;">김인사</td>
-												<td th:text="${e.dept}" style="text-align: center;">인사</td>
-												<td th:text="${e.position}" style="text-align: center;">대리</td>
+												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}">HR100</td>
+												<td th:text="${e.nm}">김인사</td>
+												<td th:text="${e.dept}">인사</td>
+												<td th:text="${e.position}">대리</td>
 												<td th:text="${e.hDate}">2010-01-01</td>
 												<td th:text="${e.phone}">010-0000-0000</td>
 												<td th:text="${e.email}">aaa1234@gmail.com</td>
-												<td th:attr="data-no=${e.auth}" class="eAuth"
-													style="text-align: center;">[[${e.auth}]]</td>
+												<td th:attr="data-no=${e.auth}" class="eAuth">[[${e.auth}]]</td>
 												<td><button id="ok" name="ok" type="button"
 															class="btn btn-primary btn-sm ok"
 															th:disabled="${e.auth != 'GUEST'}?disabled">승인</button>
@@ -169,35 +195,33 @@ $(document).ready(function() {
 	
 								<div class="tab-pane fade" id="contact" role="tabpanel"
 									aria-labelledby="contact-tab">
-									<br>
 									<!-- 관리자 목록 보이는 곳 -->
 									<!-- Table with hoverable rows -->
-									<table class="display center" id="managerList" style="width : 100%;">
+									<table id="managerList" style="width: 100%;">
 										<thead>
 											<tr>
 												<th style="display : none">NO</th>
-												<th style="text-align: center;">사원번호</th>
-												<th style="text-align: center;">성명</th>
-												<th style="text-align: center;">부서</th>
-												<th style="text-align: center;">직위</th>
-												<th style="text-align: center;">입사일</th>
-												<th style="text-align: center;">휴대폰</th>
-												<th style="text-align: center;">이메일</th>
-												<th style="text-align: center;">권한</th>
+												<th>사원번호</th>
+												<th>성명</th>
+												<th>부서</th>
+												<th>직위</th>
+												<th>입사일</th>
+												<th>휴대폰</th>
+												<th>이메일</th>
+												<th>권한</th>
 											</tr>
 										</thead>
 										<tbody id="tbd">
-											<tr th:each="m : ${managerList}" th:if="m.auth">
+											<tr th:each="m : ${managerList}">
 												<th style="display : none"></th>
-												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"
-													style="text-align: center;"></td>
-												<td th:text="${m.nm}" style="text-align: center;">김인사</td>
-												<td th:text="${m.dept}" style="text-align: center;">인사</td>
-												<td th:text="${m.position}" style="text-align: center;">대리</td>
+												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"></td>
+												<td th:text="${m.nm}">김인사</td>
+												<td th:text="${m.dept}">인사</td>
+												<td th:text="${m.position}">대리</td>
 												<td th:text="${m.hDate}">2010-01-01</td>
 												<td th:text="${m.phone}">010-0000-0000</td>
 												<td th:text="${m.email}">aaa1234@gmail.com</td>
-												<td th:switch="${m.mng}" style="text-align: center;">
+												<td th:switch="${m.mng}">
 													<div th:case="hr">인사</div>
 													<div th:case="attd">근태</div>
 													<div th:case="board">게시판</div>
@@ -208,7 +232,6 @@ $(document).ready(function() {
 									</table>
 									<!-- End Table with hoverable rows -->
 								</div>
-								<h6 class="card-title"></h6>
 							</div>
 							<!-- End Default Tabs -->
 						</div>

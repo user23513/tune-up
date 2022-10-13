@@ -999,12 +999,10 @@ function getAddr(lat, lng, idx){
 }
 
 </script>
-	<!-- 지도 -->
-
-	<!-- 간트차트 -->
-	<script>
-   google.charts.load('current', {'packages':['gantt']});
-   google.charts.setOnLoadCallback(drawChart);
+<!-- 간트차트 -->
+<script>
+google.charts.load('current', {'packages':['gantt']});
+google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
    let prjNo = $("#prjNo").val();

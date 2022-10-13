@@ -27,10 +27,7 @@ public class HrController {
 			vo.setPic("");
 		}
 		
-		
-		System.out.println("================"+vo.getEmpNo());
 		//주소
-		System.out.println(emp);
 		String addr = emp.getAddr();
 		if(addr == null) {
 			emp.setAddr("//");

@@ -15,6 +15,7 @@
 	<select resultType="co.up.tune.emp.vo.EmpVO" id="managerList">
 		select * from emp
 		where auth = 'ADMIN'
+		or mng is not null
 		order by emp_no
 	</select>
 	
@@ -26,7 +27,8 @@
 			<if test="zip != null">zip = #{zip},</if>
 			<if test="addr != null">addr = #{addr},</if>
 			<if test="hDate != null">h_date = #{hDate},</if>
-			<if test="auth != null">auth = #{auth}</if>
+			<if test="auth != null">auth = #{auth},</if>
+			<if test="mng != null">mng = #{mng}</if>
 		</set>
 		where emp_no = #{empNo}
 	</update>
@@ -34,7 +36,7 @@
 	<update id="authUpdate" parameterType="co.up.tune.emp.vo.EmpVO">
 		update emp
 		<set>
-			<if test="auth != null">auth = 'USER'</if>
+			<if test="auth != null">auth = #{auth}</if>
 		</set>
 		where emp_no = #{empNo}
 	</update>

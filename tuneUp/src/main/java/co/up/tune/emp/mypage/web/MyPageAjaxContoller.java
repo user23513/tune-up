@@ -22,7 +22,6 @@ public class MyPageAjaxContoller {
 	public String picUpdate(EmpVO vo) {
 		dao.picUpdate(vo);
 		String pic = vo.getPic();
-		System.out.println("====================="+pic);
 		return pic;
 	}
 

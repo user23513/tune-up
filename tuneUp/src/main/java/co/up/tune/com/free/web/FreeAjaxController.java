@@ -26,7 +26,6 @@ public class FreeAjaxController {
 	@PostMapping("/replyUpdate")
 	public Date replyUpdate(ReplyVO vo) {
 		dao.replyUpdate(vo);
-		System.out.println(vo.getDttm());
 		return vo.getDttm();
 	}
 	

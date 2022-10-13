@@ -125,7 +125,6 @@ public class AttdServiceImpl implements AttdService{
 					}
 				}
 			}
-			System.out.println("attdListVO :" + vo);
 		}
 		return list;
 	}
@@ -218,7 +217,6 @@ public class AttdServiceImpl implements AttdService{
 		// 야근시간은 9시간 초과 시간
 		// 상태는 근무시간 9시간 미만일 경우엔 '이상'으로, 9시간 이상일 경우엔 '정상'으로
 		
-		System.out.println("Attd ServiceImple endAttd vo :"+ vo);
 		
 		long commonWkTm = 540;
 		
@@ -237,15 +235,12 @@ public class AttdServiceImpl implements AttdService{
 		try {
 			atdcDttm = dateFormat.parse(dateFormat.format(atdcDttm));
 			curDate = dateFormat.parse(dateFormat.format(curDate));
-			System.out.println("format atdcDttm : " + atdcDttm + "curDate: " + curDate);
 			
 			// 2-3 차이 구하기
 			long diff = curDate.getTime() - atdcDttm.getTime();
-			System.out.println("atdcDttm : " + atdcDttm.getTime() + "curDate: " + curDate.getTime());
 			
 			long diffMinutes = diff / 60000 ;   
 				
-			System.out.println("diffMinutes : " + diffMinutes);
 			
 			// 2-4 set wktm 
 			vo.setWktm(diffMinutes);

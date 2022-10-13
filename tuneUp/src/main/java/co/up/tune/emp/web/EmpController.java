@@ -2,7 +2,6 @@ package co.up.tune.emp.web;
 
 
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +75,6 @@ public class EmpController {
 	@ResponseBody
 	@PostMapping("/findid")
 	public String findId(EmpVO vo){
-		//System.out.println(ss.findId(vo));
 		return ss.findId(vo);
 	}
 	
@@ -87,23 +85,11 @@ public class EmpController {
 		String code = "";
 		try {
 			code = rm.sendSimpleMessage(email);
-//			session.setAttribute(email, code);
 		}catch (Exception e ){
 			e.printStackTrace();
 		}
-	    //System.out.println("인증코드 : " + code);
 	   return code;
 	}
-
-
-	//인증확인
-	/*
-	 * @PostMapping("/sendCodeCheck")
-	 * 
-	 * @ResponseBody public String mailCodeCheck( HttpServletRequest request) {
-	 * HttpSession session = request.getSession(); return ""; }
-	 */
-	
 	
 	//비밀번호 성공하면 
 	@PostMapping(value = "/pwUpdate")
@@ -112,15 +98,6 @@ public class EmpController {
 		return "redirect:/login";
 	}
 	
-	/*
-	 * @PostMapping("/valid-recaptcha") public @ResponseBody String
-	 * validRecaptcha(HttpServletRequest request){ String result = null; String
-	 * response = request.getParameter("g-recaptcha-response"); boolean isRecaptcha
-	 * = homeService.verifyRecaptcha(response); //인증 메소드 서비스로 분리
-	 * 
-	 * if(isRecaptcha) { result = "success"; }else { result = "false"; } return
-	 * result; }
-	 */
 
 }
 	

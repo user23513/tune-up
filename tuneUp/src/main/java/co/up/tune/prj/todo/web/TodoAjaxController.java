@@ -38,7 +38,6 @@ public class TodoAjaxController {
 	@PostMapping("/demoDeleteAll")
 	public int demoDeleteAll(DemoTodoVO vo) {
 		int r = dao.demoDeleteAll(vo);
-		System.out.println("삭제완" + r);
 		return r;
 	}
 	
@@ -46,14 +45,12 @@ public class TodoAjaxController {
 	public String cmpltYnUpdate(TodoDetailVO vo) {
 		ddao.cmpltYnUpdate(vo);
 		String yn = vo.getCmpltYn();
-		System.out.println("수정 완 : " + yn);
 		return yn; 
 	}
 	
 	@PostMapping("/todoPercent")
 	public int todoPercent(TodoVO vo) {
 		int perc = tdao.todoPercent(vo);
-		System.out.println("현재 진행상황 : " + perc+"%");
 		return perc;
 	}
 }

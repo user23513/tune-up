@@ -73,7 +73,6 @@ public class MyPageContoller {
 
 		// 비밀번호 일치 시
 		if (ps.matches(vo.getPw(), DBpw)) {
-			System.out.println("일치");
 			session.setAttribute("ckeck", "y");
 			return "redirect:profileForm";
 		}

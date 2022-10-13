@@ -17,7 +17,7 @@ import co.up.tune.emp.vo.EmpVO;
 * 전자결재 승인 ServiceImpl
 * @author 윤정은
 * @date 2022.10.1
-* @version 1.3
+* @version 1.4
 **/
 
 @Service
@@ -43,14 +43,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 		bvo.setSender("발신인");
 		bmap.bellInsert(bvo);
 		map.approved(vo);
-		String aprvr = map.aprvNext(vo);
-		
-		//다음 결재자 알림
-		bvo.setEmpNo(aprvr);
-		bvo.setCntn("<a type='external' href='/approval'>새로운 결재 문서</a>가 도착했습니다.");
-		bmap.bellInsert(bvo);
-		
-		return aprvr;
+		map.aprvNext(vo);
+		return map.whoBell(vo);
+
 	}
 	
 	@Override
@@ -82,7 +77,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Transactional
 	public int trustIn(TrustVO vo) {
 		BellVO bvo = new BellVO();
-		bvo.setCntn(vo.getNm()+ "님이 <a type='external' href='/approval'>문서 결재권을 위임</a>하셨습니다.");
+		bvo.setCntn(vo.getNm()+ "님이 문서 결재를 <a type='external' href='/approval'>위임</a>하셨습니다.");
 		bvo.setEmpNo(vo.getRptt());
 		bvo.setReceiver("수신인");
 		bvo.setSender("발신인");
@@ -109,7 +104,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Transactional
 	public int trustUp(TrustVO vo) {
 		BellVO bvo = new BellVO();
-		bvo.setCntn(vo.getNm()+ "님이 <a type='external' href='/approval'>문서 결재권을 위임</a>하셨습니다.");
+		bvo.setCntn(vo.getNm()+ "님이 문서 결재를 <a type='external' href='/approval'>위임</a>하셨습니다.");
 		bvo.setEmpNo(vo.getRptt());
 		bvo.setReceiver("수신인");
 		bvo.setSender("발신인");
@@ -122,7 +117,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 	@Transactional
 	public List<String> checkApproved(ApprovalVO vo) {
 		//체크박스 번호 리스트 & 알림용 사번 리스트
-		 List<Integer> numbers = vo.getValueArr();
+		 List<Integer> numbers = vo.getNumArr();
 		 List<String> emps = vo.getEmpArr();
 		 List<String> ttls = vo.getTtls();
 		
@@ -137,29 +132,22 @@ public class ApprovalServiceImpl implements ApprovalService {
 			bmap.bellInsert(bvo);
 		}
 		
-		
-		List<String> aprvrs = new ArrayList<String>();
-		for(int aprvNo : numbers) {
+		 List<String> aprvrs = new ArrayList<>();
+		 for(int aprvNo : numbers) {
 			 vo.setAprvNo(aprvNo);
 			 map.approved(vo);
-			 String aprvr = map.aprvNext(vo);
-			 
-			 //다음결재자알림
-			 bvo.setEmpNo(aprvr);
-			 bvo.setCntn("<a type='external' href='/approval'>새로운 결재 문서</a>가 도착했습니다.");
-			 bmap.bellInsert(bvo);
-			 aprvrs.add(aprvr);
-			 
+			 map.aprvNext(vo);
+			 aprvrs.add(map.whoBell(vo));
 		  }
-		//다음결재자들 사번
+		
 		return aprvrs;
 	}
-	
+
 	@Override
 	@Transactional
 	public int checkReject(ApprovalVO vo) {
 		//체크박스 번호 리스트 & 알림용 사번 리스트
-		 List<Integer> numbers = vo.getValueArr();
+		 List<Integer> numbers = vo.getNumArr();
 		 List<String> emps = vo.getEmpArr();
 		 List<String> ttls = vo.getTtls();
 		
@@ -173,13 +161,13 @@ public class ApprovalServiceImpl implements ApprovalService {
 			bvo.setEmpNo(emps.get(i));
 			bmap.bellInsert(bvo);
 		}
-		
-		int cnt = 0;
-		for(int aprvNo : numbers) {
+			
+		 int cnt = 0;
+		 for(int aprvNo : numbers) {
 			 vo.setAprvNo(aprvNo);
 			 map.reject(vo);
 			 map.aprvNext(vo);
-			 cnt++;
+			 cnt ++;
 		  }
 		
 		return cnt;

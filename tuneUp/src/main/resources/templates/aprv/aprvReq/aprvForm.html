@@ -8,8 +8,9 @@
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-		<script>
-			
+		
+		<script th:inline="javascript">
+		
 		//로딩화면
 		loading();
 		function loading(load) {
@@ -95,31 +96,32 @@
 		}
 		
 		
-	function empSearch(){
-		//참조부서검색
-		$("#deptSelect").on("change", e=>{
-			let dept = $(e.target).val();
-			$.ajax({
-				url:'aprvEmpList',
-				beforeSend:function(xhr){
-			 		xhr.setRequestHeader(header,token);  
-			    },
-			    type:"post",
-			    data:{'dept':dept},
-			    dataType:'json',
-			    success:function(obj){
-			    	$("#multi").html("");
-			    	 $.each (obj, (idx, o)=> {
-				        	let option = `<option class="empOp" value='${o.empNo}'>${o.nm} ${o.position}</option>`;
-				        	$("#multi").append(option);
-				        	getRefer();
-				        	
-				     }); 
-			    }
-		    }) 
-		})				
-		
-	}
+		function empSearch(){
+			//참조부서검색
+			$("#deptSelect").on("change", e=>{
+				let dept = $(e.target).val();
+				$.ajax({
+					url:'aprvEmpList',
+					beforeSend:function(xhr){
+				 		xhr.setRequestHeader(header,token);  
+				    },
+				    type:"post",
+				    data:{'dept':dept},
+				    dataType:'json',
+				    success:function(obj){
+				    	$("#multi").html("");
+				    	 $.each (obj, (idx, o)=> {
+				    		 	/*<![CDATA[*/
+				    		 	if(o.empNo != [[${session.empNo}]]){
+				    		 		let option = `<option class="empOp" value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+						        	$("#multi").append(option);
+				    		 	}/*]]>*/
+					     }); getRefer();
+				    }
+			    }) 
+			})				
+			
+		}
 		
 		
 	//결재라인
@@ -129,14 +131,10 @@
 			$(".list-group-item-primary").removeClass("list-group-item-primary");
 			//알림 보낼 empNo(hidden)
 			$("#ap1").val("");
-			$("#ap2").val("");
-			$("#ap3").val("");
 			$("#ap1").val($(e.target).data("ap1"));
-			$("#ap2").val($(e.target).data("ap2"));
-			$("#ap3").val($(e.target).data("ap3"));
+			
 			//라인번호
-			let lineNo = $(e.target).data("no");
-			$("#lineNo").val(lineNo); 
+			$("#lineNo").val($(e.target).data("no")); 
 			$(e.target).addClass("list-group-item-primary");
 			
 		})	
@@ -148,21 +146,23 @@
 	function getRefer(){
 		//참조인 선택
 		$(".empOp").on("click", e=>{
+			//선택값
 			let empNo = $(e.target).val();
 			let name = $(e.target).text();
-			let val = $("#referNm").val();
-			let hval = $("#refer").val();
+			//폼값
+			let nmVal = $("#referNm").val();
+			let empVal = $("#refer").val();
 			
-			if(val == ""){
+			if(empVal == ""){
 				$("#referNm").val(name);
 				$("#refer").val(empNo);
-			} else {
-				val += ",";
-				val += name;
-				$("#referNm").val(val);
-				hval += ",";
-				hval += empNo;
-				$("#refer").val(hval);
+			} else if (!nmVal.includes(name)){
+				nmVal += ",";
+				nmVal += name;
+				$("#referNm").val(nmVal);
+				empVal += ",";
+				empVal += empNo;
+				$("#refer").val(empVal);
 				
 			}
 	
@@ -190,10 +190,9 @@
 	        
 			} else if (content != "" && ttl != "" && lineNo != ""  ){
 				
-				//결재알림
+				//첫번째 결재알림
 				let ap1 = $("#ap1").val();
 				socket.send('request,caller,'+ap1+','+ttl);
-				
 				
 				//참조 알림
 				if(refers.indexOf(',') != -1){
@@ -201,7 +200,7 @@
 					for(let receiverNo of referArr){
 						socket.send('refer,caller,'+receiverNo+','+ttl);
 					}
-				} else if (refers != null && refers !=""){
+				} else if (refers != null && refers != ""){
 					socket.send('refer,caller,'+refers+','+ttl);
 				}
 				
@@ -315,14 +314,16 @@
 							<ol class="list-group list-group-numbered lineList">
 								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}" 
 									th:if="${n.nm2 == null and n.nm3 == null}" th:text="|${n.nm1}|"></li>
-								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}" th:data-ap2="${n.ap2}"
+								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
 									th:if="${n.nm3 == null and n.nm2 != null}" th:text="|${n.nm1} → ${n.nm2}|"></li>
-								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}" th:data-ap2="${n.ap2}" th:data-ap3="${n.ap3}"
+								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}" 
 									th:if="${n.nm3 != null}" th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></li>
 							</ol>
-
+							
 						</div>
-
+						
+						<input type="hidden" id="ap1">
+						
 						<div class="col-md-4">
 							<div class="form-floating">
 								<select class="form-select" id="deptSelect" aria-label="State" style="height: 100px;">
@@ -336,9 +337,7 @@
 							<select class="form-select" id="multi" multiple aria-label="multiple select example" style="height: 100px;"></select>
 						</div>
 						
-						<input type="hidden" id="ap1">
-						<input type="hidden" id="ap2">
-						<input type="hidden" id="ap3">
+						
 						
 						<div class="col-md-12">
 							<div class="form-floating">

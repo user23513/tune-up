@@ -24,10 +24,10 @@ public class ApprovalVO {
 	String nm;//결재자이름
 	
 	////테이블에 없는 필드
-	List<Integer> valueArr; //체크박스 번호
+	List<Integer> numArr; //체크박스 문서번호
 	String sign; //file path
 	String empNo; //문서주인
 	String ttl; //제목
-	List<String> ttls; //문서제목
-	List<String> empArr; //문서작성자
+	List<String> ttls; //체크박스 문서제목
+	List<String> empArr; //체크박스 문서작성자
 }

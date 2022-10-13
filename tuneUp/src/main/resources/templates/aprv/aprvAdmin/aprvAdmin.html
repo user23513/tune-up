@@ -178,13 +178,13 @@
 				
 		function showView(){
 			//글상세
-			$("#aprvtb").on("click", ".aprvTr", e=>{
+			$(".aprvTd").on("click", e=>{
 				let no = $(e.target).closest("tr").data("no");
 				$("#aprvFrmNo").val(no)
 				$("#aprvFrm").submit();		
 			})
 			//서식상세
-			$("#formtb").on("click", ".formTr", e=>{
+			$(".formTd").on("click", e=>{
 				let formNo = $(e.target).closest("tr").data("frm"); 
 				$.ajax({
 					url:'formView',
@@ -213,29 +213,29 @@
 				let ttl = $("#vttl").text();
 				
 				html2canvas($('#vCntn')[0]).then(function(canvas) {
-				let imgData = canvas.toDataURL('image/png');
-				
-				let margin = 10;
-			    let imgWidth = 210 - (10 * 2); //가로길이(mm) A4 기준
-			    let pageHeight = imgWidth * 1.414;  //세로길이 A4 기준
-			    let imgHeight = canvas.height * imgWidth / canvas.width;
-			    let heightLeft = imgHeight;
-			    let doc = new jsPDF('p', 'mm');
-			    let position = margin;
-			    
-			    // 첫 페이지
-			    doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
-			    heightLeft -= pageHeight;
-			    while (heightLeft >= 20) {
-					position = heightLeft - imgHeight;
-			       	doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-			       	doc.addPage();
-			       	heightLeft -= pageHeight;
-			  	}
-			   	doc.save(ttl+'.pdf');
-			});
-		}); 
-	}
+					let imgData = canvas.toDataURL('image/png');
+					
+					let margin = 10;
+				    let imgWidth = 210 - (10 * 2); //가로길이(mm) A4 기준
+				    let pageHeight = imgWidth * 1.414;  //세로길이 A4 기준
+				    let imgHeight = canvas.height * imgWidth / canvas.width;
+				    let heightLeft = imgHeight;
+				    let doc = new jsPDF('p', 'mm');
+				    let position = margin;
+				    
+				    // 첫 페이지
+				    doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+				    heightLeft -= pageHeight;
+				    while (heightLeft >= 20) {
+						position = heightLeft - imgHeight;
+				       	doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+				       	doc.addPage();
+				       	heightLeft -= pageHeight;
+				  	}
+				   	doc.save(ttl+'.pdf');
+				});
+			}); 
+		}
 			
 		//강제 삭제
 		function delForm(){		
@@ -351,14 +351,14 @@
 											</tr>
 										</thead>
 										<tbody id="aprvtb" class="list-group">
-											<tr th:each="p : ${aprv}" class="list-group-item list-group-item-action aprvTr" th:data-no="${p.aprvNo}">
-												<td class="d-flex justify-content-between align-items-start" th:data-no="${p.aprvNo}">
+											<tr th:each="p : ${aprv}" class="list-group-item list-group-item-action" th:data-no="${p.aprvNo}">
+												<td class="d-flex justify-content-between align-items-start aprvTd">
 													<div class="ms-2 me-auto">
-														<i th:if="${p.impts}=='Y'" class="ri-alert-fill" style="float: left;"></i>
+														<i th:if="${p.impts =='Y'}" class="ri-alert-fill" style="float: left;"></i>
 														<div class="fw-bold" th:text="${p.ttl}" style="float: left;">제목</div>
 														<br> 
 														
-														<span th:if="${p.deadline} != ' ' " th:text="|${p.deadline}까지|"></span>
+														<span th:if="${p.deadline != ' '} " th:text="|${p.deadline}까지|"></span>
 														<small th:text="| ${p.nm}|"></small>
 													</div> 
 														<span th:if="${p.reqSt == '전송' or p.reqSt =='검토'  }" th:text="${p.reqSt}" class="badge bg-secondary rounded-pill" style="height: 25px"></span>
@@ -426,8 +426,8 @@
 											</tr>
 										</thead>
 										<tbody id="formtb" class="list-group">
-											<tr th:each="f : ${form}" class="list-group-item list-group-item-action formTr" th:data-frm="${f.formNo}">
-												<td class="d-flex justify-content-between align-items-start" th:data-frm="${f.formNo}">
+											<tr th:each="f : ${form}" class="list-group-item list-group-item-action" th:data-frm="${f.formNo}">
+												<td class="d-flex justify-content-between align-items-start formTd">
 													<div class="ms-2 me-auto">
 														<i th:if="${f.formAuth == '개인'}" class="ri-lock-2-line" style="float: left;"></i>
 														<div class="fw-bold " th:text="${f.ttl}" style="float: left;">제목</div>

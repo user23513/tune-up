@@ -18,6 +18,5 @@ public class EmpMapperClient {
 	@Test
 	public void findAllTest() {
 		List<EmpVO> list = mapper.findAll();
-		System.out.println(list.get(1).getFirstName());
 	}
 }

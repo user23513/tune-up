@@ -47,7 +47,6 @@ public class PropostAjaxController {
 		@PostMapping("/pjReplyUpdate")
 		public Date pjReplyUpdate(ReplyVO vo) {
 			dao.pjReplyUpdate(vo);
-			System.out.println(vo.getDttm());
 			return vo.getDttm();
 		}
 		

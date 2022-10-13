@@ -400,10 +400,6 @@ textarea.none {
 														<br> 
 														<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
 														<span> 
-															<i th:if="${session.empNo == r.empNo}" class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
-														</span>&nbsp;
-														<!-- 수정아이콘 -->
-														<span> 
 															<i th:if="${session.empNo == r.empNo}" class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
 														</span>
 														<!-- 삭제아이콘 -->
@@ -748,7 +744,6 @@ textarea.none {
 										.append($("<span>").html(res.dttm))
 										.append($("<br>"))
 										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
 										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
 										.append($("<hr>"))
 					$(e.target).parent().next().next().append(div);
@@ -999,12 +994,10 @@ function getAddr(lat, lng, idx){
 }
 
 </script>
-	<!-- 지도 -->
-
-	<!-- 간트차트 -->
-	<script>
-   google.charts.load('current', {'packages':['gantt']});
-   google.charts.setOnLoadCallback(drawChart);
+<!-- 간트차트 -->
+<script>
+google.charts.load('current', {'packages':['gantt']});
+google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
    let prjNo = $("#prjNo").val();

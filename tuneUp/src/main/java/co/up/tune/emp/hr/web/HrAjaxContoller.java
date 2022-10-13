@@ -3,7 +3,6 @@ package co.up.tune.emp.hr.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import co.up.tune.emp.hr.service.HrService;
 import co.up.tune.emp.vo.EmpVO;
 
@@ -17,12 +16,4 @@ public class HrAjaxContoller {
 		dao.authUpdate(vo);
 		return vo.getAuth();
 	}
-	
-	@PostMapping("/mngUpdate")
-	public String mngUpdate(EmpVO vo) {
-		dao.authUpdate(vo);
-		return vo.getAuth();
-	}
-	
-	
 }

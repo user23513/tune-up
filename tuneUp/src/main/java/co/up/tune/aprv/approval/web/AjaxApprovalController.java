@@ -58,11 +58,12 @@ public class AjaxApprovalController {
 	}
 
 	// 결재 -> 문서상태 변경 + 다음 결재자
-	@PostMapping("/rejectIn")
-	public int rejectIn(ApprovalVO vo, HttpSession session) {
+	@PostMapping("/reject")
+	public int reject(ApprovalVO vo, HttpSession session) {
 		String empNo = (String) session.getAttribute("empNo");
 		vo.setAprvr(empNo); //결재자 본인
-		return ap.reject(vo);
+		int cnt = ap.reject(vo);
+		return cnt;
 	}
 
 	// 결재 -> 문서상태 변경 + 다음 결재자
@@ -70,6 +71,7 @@ public class AjaxApprovalController {
 	public String approved(ApprovalVO vo, HttpSession session) {
 		String empNo = (String) session.getAttribute("empNo");
 		vo.setAprvr(empNo); //결재자 본인
+		//다음결재자 사번
 		return ap.approved(vo);
 	}
 	
@@ -104,5 +106,6 @@ public class AjaxApprovalController {
 		vo.setAprvr(empNo); //결재자 본인
 		return ap.checkReject(vo); 
 	}
+
 
 }

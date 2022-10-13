@@ -45,7 +45,7 @@ public class AprvReqController {
 	@Value("${file.dir}")
 	private String fileDir;
 
-	// 결재신청상태
+	// 결재신청상태조회
 	@GetMapping("/aprvReq")
 	public String aprvReq(Model model, HttpSession session,
 			@RequestParam(required = false, defaultValue = "전체") String reqSt,
@@ -97,7 +97,7 @@ public class AprvReqController {
 		return "redirect:aprvReq";
 	}
 
-	// 서식적용 결재문서 작성화면
+	// 서식적용 작성폼 이동
 	@PostMapping("/aprvForm")
 	public String aprvForm(FormVO vo, Model model, HttpSession session) {
 
@@ -138,6 +138,7 @@ public class AprvReqController {
 		return "redirect:aprvReq";
 	}
 
+	// 문서상세
 	@PostMapping("/aprvView")
 	public String aprvView(AprvVO vo, Model model) {
 		int aprvNo = vo.getAprvNo();
@@ -152,6 +153,7 @@ public class AprvReqController {
 		return "/aprv/aprvReq/aprvView";
 	}
 	
+	//서식 없는 작성폼 이동
 	@GetMapping("/aprvNew")
 	public String aprvNew(Model model, HttpSession session) {
 

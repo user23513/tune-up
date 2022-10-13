@@ -5,10 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.todo.mapper.DemoTodoMapper;
 import co.up.tune.prj.todo.mapper.TodoMapper;
-//import co.up.tune.prj.vo.DemoTodoVO;
 import co.up.tune.prj.vo.TodoVO;
 
 @Service
@@ -48,5 +46,4 @@ public class TodoServiceImpl implements TodoService {
 	public int todoPercent(TodoVO vo) {
 		return map.todoPercent(vo);
 	}
-
 }

@@ -1,8 +1,6 @@
 package co.up.tune.prj.vo;
 
 import java.sql.Timestamp;
-//import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 @Getter
@@ -15,7 +13,5 @@ public class TodoVO {
 	 Timestamp dttm; 	//작성일시
 	 int prjNo;		//프로젝트번호
 	 int percent;
-//	 List<DemoTodoVO> demoList;
 	 String cntn;
-	 
 }

@@ -57,7 +57,6 @@ public class AttdUpServiceImpl implements AttdUpService{
 	public int attdUpOk(AttdUpVO vo) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("attdUpOk :"+ vo);
 		
 		Map<String, Object> paramMap = new HashMap<>();
 		
@@ -78,7 +77,6 @@ public class AttdUpServiceImpl implements AttdUpService{
 			
 			try {
 				
-				System.out.println("atdcDttmStr : "+ dateFormat.format(atdcDttm));
 				atdcDttm = dateFormat.parse(dateFormat.format(atdcDttm));
 				afwkDttm = dateFormat.parse(dateFormat.format(afwkDttm));
 			

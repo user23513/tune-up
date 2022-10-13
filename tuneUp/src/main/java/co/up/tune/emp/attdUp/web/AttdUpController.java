@@ -58,7 +58,6 @@ public class AttdUpController {
 	// 근태 수정요청 리스트 승인
 	@PostMapping("/attdUpOk")
 	public String attdUpOk(AttdUpVO vo) {
-		System.out.println("attdUpOk VO "+ vo);
 		dao.attdUpOk(vo);
 		return "redirect:/attdList";
 	}

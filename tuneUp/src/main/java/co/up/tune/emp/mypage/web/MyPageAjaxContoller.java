@@ -22,23 +22,18 @@ public class MyPageAjaxContoller {
 	public String picUpdate(EmpVO vo) {
 		dao.picUpdate(vo);
 		String pic = vo.getPic();
-		System.out.println("====================="+pic);
 		return pic;
 	}
 
 	@PostMapping("/postView")
 	public PostVO postView(PostVO vo) {
-
 		return dao.postLook(vo);
 	}
-	
 
 	@PostMapping("/empStChange")
 	public int empStChange(EmpVO vo, HttpSession session) {
-		
 		vo.setEmpNo((String)(session.getAttribute("empNo")));
 		session.setAttribute("st", vo.getSt());
 		return map.loginStUp(vo);
 	}
-
 }

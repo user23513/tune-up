@@ -58,7 +58,6 @@ $(document).ready(function() {
 		console.log("승인 버튼 클릭")
 		e.stopPropagation(); //tr태그 클릭이벤트 발생X
 		let auth = e.target.closest('td').previousElementSibling.innerText;
-		console.log("===================auth : "+auth);
 		if(auth=='GUEST'){
 			let really = confirm("권한을 USER로 바꾸시겠습니까?");
 			if(really){
@@ -80,7 +79,6 @@ $(document).ready(function() {
 					
 					success:function(res){
 						e.target.closest('td').previousElementSibling.innerText = res;
-						e.target.style.disabled = "disabled";
 					}
 				})
 			}
@@ -135,28 +133,30 @@ $(document).ready(function() {
 										<thead>
 											<tr>
 												<th style="display : none">NO</th>
-												<th >사원번호</th>
-												<th>성명</th>
-												<th>부서</th>
-												<th>직위</th>
-												<th>입사일</th>
-												<th>휴대폰</th>
-												<th>이메일</th>
-												<th>권한</th>
-												<th>승인</th>
+												<th style="text-align: center;">사원번호</th>
+												<th style="text-align: center;">성명</th>
+												<th style="text-align: center;">부서</th>
+												<th style="text-align: center;">직위</th>
+												<th style="text-align: center;">입사일</th>
+												<th style="text-align: center;">휴대폰</th>
+												<th style="text-align: center;">이메일</th>
+												<th style="text-align: center;">권한</th>
+												<th style="text-align: center;">승인</th>
 											</tr>
 										</thead>
 										<tbody id="tb" >
 											<tr th:each="e : ${empList}">
 												<th style="display : none"></th>
-												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}">HR100</td>
-												<td th:text="${e.nm}">김인사</td>
-												<td th:text="${e.dept}">인사</td>
-												<td th:text="${e.position}">대리</td>
+												<td th:text="${e.empNo}" th:attr="data-no=${e.empNo}"
+													style="text-align: center;">HR100</td>
+												<td th:text="${e.nm}" style="text-align: center;">김인사</td>
+												<td th:text="${e.dept}" style="text-align: center;">인사</td>
+												<td th:text="${e.position}" style="text-align: center;">대리</td>
 												<td th:text="${e.hDate}">2010-01-01</td>
 												<td th:text="${e.phone}">010-0000-0000</td>
 												<td th:text="${e.email}">aaa1234@gmail.com</td>
-												<td th:attr="data-no=${e.auth}" class="eAuth">[[${e.auth}]]</td>
+												<td th:attr="data-no=${e.auth}" class="eAuth"
+													style="text-align: center;">[[${e.auth}]]</td>
 												<td><button id="ok" name="ok" type="button"
 															class="btn btn-primary btn-sm ok"
 															th:disabled="${e.auth != 'GUEST'}?disabled">승인</button>
@@ -176,30 +176,32 @@ $(document).ready(function() {
 										<thead>
 											<tr>
 												<th style="display : none">NO</th>
-												<th>사원번호</th>
-												<th>성명</th>
-												<th>부서</th>
-												<th>직위</th>
-												<th>입사일</th>
-												<th>휴대폰</th>
-												<th>이메일</th>
-												<th>권한</th>
+												<th style="text-align: center;">사원번호</th>
+												<th style="text-align: center;">성명</th>
+												<th style="text-align: center;">부서</th>
+												<th style="text-align: center;">직위</th>
+												<th style="text-align: center;">입사일</th>
+												<th style="text-align: center;">휴대폰</th>
+												<th style="text-align: center;">이메일</th>
+												<th style="text-align: center;">권한</th>
 											</tr>
 										</thead>
 										<tbody id="tbd">
 											<tr th:each="m : ${managerList}" th:if="m.auth">
 												<th style="display : none"></th>
-												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"></td>
-												<td th:text="${m.nm}">김인사</td>
-												<td th:text="${m.dept}">인사</td>
-												<td th:text="${m.position}">대리</td>
+												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"
+													style="text-align: center;"></td>
+												<td th:text="${m.nm}" style="text-align: center;">김인사</td>
+												<td th:text="${m.dept}" style="text-align: center;">인사</td>
+												<td th:text="${m.position}" style="text-align: center;">대리</td>
 												<td th:text="${m.hDate}">2010-01-01</td>
 												<td th:text="${m.phone}">010-0000-0000</td>
 												<td th:text="${m.email}">aaa1234@gmail.com</td>
-												<td th:switch="${m.mng}">
+												<td th:switch="${m.mng}" style="text-align: center;">
 													<div th:case="hr">인사</div>
 													<div th:case="attd">근태</div>
 													<div th:case="board">게시판</div>
+													<div th:case=null>관리자</div>
 												</td>
 											</tr>
 										</tbody>

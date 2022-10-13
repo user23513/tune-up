@@ -192,18 +192,8 @@
 				
 				//결재알림
 				let ap1 = $("#ap1").val();
-				let ap2 = $("#ap2").val();
-				let ap3 = $("#ap3").val();
-				if (ap3){
-					socket.send('request,caller,'+ap1+','+ttl);
-					socket.send('request,caller,'+ap2+','+ttl);
-					socket.send('request,caller,'+ap3+','+ttl);
-				} else if (ap2){
-					socket.send('request,caller,'+ap1+','+ttl);
-					socket.send('request,caller,'+ap2+','+ttl);
-				} else {
-					socket.send('request,caller,'+ap1+','+ttl);
-				}
+				socket.send('request,caller,'+ap1+','+ttl);
+				
 				
 				//참조 알림
 				if(refers.indexOf(',') != -1){

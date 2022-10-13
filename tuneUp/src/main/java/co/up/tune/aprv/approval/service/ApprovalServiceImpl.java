@@ -1,5 +1,6 @@
 package co.up.tune.aprv.approval.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,16 +35,22 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	@Transactional
-	public int approved(ApprovalVO vo) {
+	public String approved(ApprovalVO vo) {
 		BellVO bvo = new BellVO();
 		bvo.setCntn("<a type='external' href='/aprvReq'>" + vo.getTtl() + "</a> 문서가 승인되었습니다.");
 		bvo.setEmpNo(vo.getEmpNo());
 		bvo.setReceiver("수신인");
 		bvo.setSender("발신인");
 		bmap.bellInsert(bvo);
-		int cnt = map.approved(vo);
-		map.aprvNext(vo);
-		return cnt;
+		map.approved(vo);
+		String aprvr = map.aprvNext(vo);
+		
+		//다음 결재자 알림
+		bvo.setEmpNo(aprvr);
+		bvo.setCntn("<a type='external' href='/approval'>새로운 결재 문서</a>가 도착했습니다.");
+		bmap.bellInsert(bvo);
+		
+		return aprvr;
 	}
 	
 	@Override
@@ -57,6 +64,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		bmap.bellInsert(bvo);
 		int cnt = map.reject(vo);
 		map.aprvNext(vo);
+		
 		return cnt;
 	}
 
@@ -112,7 +120,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
 	@Override
 	@Transactional
-	public int checkApproved(ApprovalVO vo) {
+	public List<String> checkApproved(ApprovalVO vo) {
 		//체크박스 번호 리스트 & 알림용 사번 리스트
 		 List<Integer> numbers = vo.getValueArr();
 		 List<String> emps = vo.getEmpArr();
@@ -128,13 +136,50 @@ public class ApprovalServiceImpl implements ApprovalService {
 			bvo.setEmpNo(emps.get(i));
 			bmap.bellInsert(bvo);
 		}
-			
-		 int cnt = 0;
-		 for(int aprvNo : numbers) {
+		
+		
+		List<String> aprvrs = new ArrayList<String>();
+		for(int aprvNo : numbers) {
 			 vo.setAprvNo(aprvNo);
 			 map.approved(vo);
+			 String aprvr = map.aprvNext(vo);
+			 
+			 //다음결재자알림
+			 bvo.setEmpNo(aprvr);
+			 bvo.setCntn("<a type='external' href='/approval'>새로운 결재 문서</a>가 도착했습니다.");
+			 bmap.bellInsert(bvo);
+			 aprvrs.add(aprvr);
+			 
+		  }
+		//다음결재자들 사번
+		return aprvrs;
+	}
+	
+	@Override
+	@Transactional
+	public int checkReject(ApprovalVO vo) {
+		//체크박스 번호 리스트 & 알림용 사번 리스트
+		 List<Integer> numbers = vo.getValueArr();
+		 List<String> emps = vo.getEmpArr();
+		 List<String> ttls = vo.getTtls();
+		
+		 BellVO bvo = new BellVO();
+			bvo.setReceiver("수신인");
+			bvo.setSender("발신인");
+			
+		for (int i=0; i<emps.size(); i++) {
+			
+			bvo.setCntn("<a type='external' href='/aprvReq'>" + ttls.get(i) + "</a> 문서가 반려되었습니다.");
+			bvo.setEmpNo(emps.get(i));
+			bmap.bellInsert(bvo);
+		}
+		
+		int cnt = 0;
+		for(int aprvNo : numbers) {
+			 vo.setAprvNo(aprvNo);
+			 map.reject(vo);
 			 map.aprvNext(vo);
-			 cnt ++;
+			 cnt++;
 		  }
 		
 		return cnt;

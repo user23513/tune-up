@@ -96,19 +96,19 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				WebSocketSession boardWriterSession = userSessionsMap.get(receiverNo); 
 				
 				if ("reject".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage("<a type='external' href='/aprvReq'>" + aprvTtl + "</a> 문서가 반려되었습니다.");
+					TextMessage tmpMsg = new TextMessage("<a type='external' href='/aprvReq'>" + aprvTtl + "</a> 결재 문서가 반려되었습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("approved".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage("<a type='external' href='/aprvReq'>" + aprvTtl + "</a> 문서가 승인되었습니다.");
+					TextMessage tmpMsg = new TextMessage("<a type='external' href='/aprvReq'>" + aprvTtl + "</a> 결재 문서가 승인되었습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("request".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage("<a type='external' href='/approval'>" + aprvTtl + "</a> 문서가 대기중입니다.");
+					TextMessage tmpMsg = new TextMessage("<a type='external' href='/approval'>새로운 결재 문서</a>가 도착했습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("refer".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage("<a type='external' href='/approval'>" + aprvTtl + "</a> 문서의 참조인에 추가되었습니다.");
+					TextMessage tmpMsg = new TextMessage("<a type='external' href='/approval'>" + aprvTtl + "</a> 결재 문서의 참조인에 추가되었습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("trust".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(caller + "님이 문서 결재권을 <a type='external' href='/approval'>위임</a>하셨습니다.");
+					TextMessage tmpMsg = new TextMessage(caller + "님이 문서 결재를 <a type='external' href='/approval'>위임</a>하셨습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				}
 				

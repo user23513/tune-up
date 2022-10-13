@@ -1,8 +1,6 @@
 package co.up.tune.prj.todo.service;
 
 import java.util.List;
-
-import co.up.tune.prj.vo.DemoTodoVO;
 import co.up.tune.prj.vo.TodoDetailVO;
 
 public interface TodoDetailService {

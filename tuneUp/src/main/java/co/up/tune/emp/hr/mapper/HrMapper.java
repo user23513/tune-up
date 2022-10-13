@@ -1,9 +1,6 @@
 package co.up.tune.emp.hr.mapper;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import co.up.tune.emp.vo.EmpVO;
 
 public interface HrMapper {
@@ -13,5 +10,4 @@ public interface HrMapper {
 	int empUpdate(EmpVO vo); //사원정보 수정
 	List<EmpVO> managerList(); //전체 관리자리스트
 	int authUpdate(EmpVO vo); //사원 권한 승인
-	int mngUpdate(EmpVO vo); //관리자 권한 승인
 }

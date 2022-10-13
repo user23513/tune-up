@@ -18,8 +18,4 @@ public class CommunityVO {
 	 String typ;	//게시글유형
 	 String empNo;	//사번
 	 
-	 //페이징 처리 변수
-	 //int startNum; //시작하는 게시글 번호
-	 //int endNum;   //끝나는 게시글 번호
-	 //int rn;   //게시글 순서
 }

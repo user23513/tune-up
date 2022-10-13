@@ -55,6 +55,7 @@
 		getTrust();//위임자히든폼값
 		delTrust();//위임해제
 		trustSubmit();//위임자추가
+		checkReject(); //체크박스반려
 	});
 	
 	//선택 승인
@@ -83,13 +84,19 @@
 							xhr.setRequestHeader(header, token);
 						},
 						type : 'post',
-						data : {'valueArr' : checkVals,
+						data : {'numArr' : checkVals,
 								'empArr': emps,
 								'ttls':titles},
+						dataType:'json',
 						success : function(data) {
+							//승인알림
 							for(let i=0; i<titles.length; i++){
 								socket.send('approved,발신자,'+emps[i]+','+titles[i]);
 							};
+							//요청알림
+							$.each(data, function(index, item) { 
+								socket.send('request,발신자,'+item+',다음알림');		
+							});
 							
 							alert("승인이 완료되었습니다.");
 							location.href="approval";
@@ -101,6 +108,54 @@
 		})
 		
 	}
+	
+	//선택 반려
+	function checkReject(){
+		$("#checkRejectBtn").on("click", e=>{
+			let checkVals = [];  //문서번호
+			$(".check:checked").each(function(i) {
+				checkVals.push($(this).val()); 
+			});
+			let titles = []; //문서제목
+			$(".check:checked").each(function(i) {
+				titles.push($(this).data("ttl")); 
+			});
+			let emps = [];	//작성자사번
+			$(".check:checked").each(function(i) {
+				emps.push($(this).data("emp")); 
+			});
+			
+			if(checkVals.length == 0){
+				alert("선택된 문서가 없습니다.");
+			} else {
+				if(confirm("선택한 문서를 반려하시겠습니까?")){
+					$.ajax({
+						url : 'checkReject',
+						beforeSend : function(xhr) {
+							xhr.setRequestHeader(header, token);
+						},
+						type : 'post',
+						data : {'valueArr' : checkVals,
+								'empArr': emps,
+								'ttls':titles},
+						dataType:'json',
+						success : function(data) {
+							for(let i=0; i<titles.length; i++){
+								socket.send('reject,발신자,'+emps[i]+','+titles[i]);
+							};
+							
+							alert("반려가 완료되었습니다.");
+							location.href="approval";
+							
+						}
+					});
+				}
+			}
+		})
+		
+	}
+	
+	
 	
 	//pdf
 	function getPdf(){
@@ -195,6 +250,7 @@
 	}
 	/*]]>*/
 	
+	/*<![CDATA[*/
 	function empSearch(){
 		//사원검색
 		$("#deptSelect").on("change", e=>{
@@ -210,10 +266,14 @@
 			    success:function(obj){
 			    	$("#multi").html("");
 			    	 $.each (obj, (idx, o)=> {
-				        	let option = `<option class="lineOp" value='${o.empNo}'>${o.nm} ${o.position}</option>`;
-				        	$("#multi").append(option);
-				        	getTrust();
-				     }); 
+			    		 	if (o.empNo != [[${session.empNo}]]){
+			    		 		let option = `<option class="lineOp" value='${o.empNo}'>${o.nm} ${o.position}</option>`;
+					        	$("#multi").append(option);
+			    		 	}
+				        	
+				     });/*]]>*/
+			    	 getTrust();
+			    	 
 			    }
 		    }) 
 		})
@@ -261,8 +321,8 @@
 
 	//승인문서 상세조회
 	function aprvSelect() {
-		$("#aprvtb").on("click", ".aprvTr", e=>{
-			let no = $(e.target).data("no");
+		$(".aprvTd").on("click", e=>{
+			let no = $(e.target).closest("tr").data("no");
 			$("#aprvFrmNo").val(no)
 			$("#aprvFrm").submit();
 		})
@@ -270,8 +330,8 @@
 		
 	//참조문서 상세조회
 	function referSelect() {
-		$("#refertb").on("click", ".referTr", e=>{
-			let aprvNo = $(e.target).data("no");
+		$(".referTd").on("click", e=>{
+			let aprvNo = $(e.target).closest("tr").data("no");
 			$.ajax({
 				url:'aprvShow',
 				beforeSend:function(xhr){
@@ -481,7 +541,7 @@
 						</nav>
 					</div>
 					<!-- End Page Title -->
-					<input type="hidden" id="myname" th:value="${session.nm}">
+					
 					<!-- Tabs nav -->
 					<ul class="nav nav-tabs nav-tabs-bordered" id="aprvTab" role="tablist">
 						<li class="nav-item" role="presentation">
@@ -538,7 +598,8 @@
 												<div class="accordion-body">
 													<div class="form-check">
 														<input class="form-check-input checkAll" type="checkbox">
-														<span id="checkAprvBtn" class="badge bg-primary">승인</span>
+														<span id="checkAprvBtn" class="badge bg-primary">선택 승인</span>
+														<span id="checkRejectBtn" class="badge bg-secondary">선택 반려</span>
 													</div>
 													<!-- approvalTable -->
 													<table id="approvalTable" class="display center" style="width: 100%">
@@ -548,8 +609,8 @@
 															</tr>
 														</thead>
 														<tbody id="aprvtb" class="list-group">
-															<tr th:each="p : ${approval}" class="list-group-item list-group-item-action aprvTr" th:data-no="${p.aprvNo}">
-																<td class="d-flex justify-content-between align-items-start aprvTr" th:data-no="${p.aprvNo}">
+															<tr th:each="p : ${approval}" class="list-group-item list-group-item-action" th:data-no="${p.aprvNo}">
+																<td class="d-flex justify-content-between align-items-start aprvTd">
 																	<div class="ms-2 me-auto">
 																		<div class="form-check">
 																			<input class="form-check-input check" type="checkbox" name="aprvNo" th:value="${p.aprvNo}"
@@ -559,7 +620,7 @@
 																		<div class="fw-bold" th:text="${p.ttl}" style="float: left;">제목</div>
 																		<br> 
 																		
-																		<span th:if="${p.deadline} != ' '" th:text="|${p.deadline}까지|"></span>
+																		<span th:if="${p.deadline != ' '}" th:text="|${p.deadline}까지|"></span>
 																		<small th:text="| ${p.nm}|"></small>
 																	</div>
 																	
@@ -598,8 +659,8 @@
 															</tr>
 														</thead>
 														<tbody id="refertb" class="list-group">
-															<tr th:each="r : ${refer}" class="list-group-item list-group-item-action referTr" th:data-no="${r.aprvNo}">
-																<td class="d-flex justify-content-between align-items-start" th:data-no="${r.aprvNo}">
+															<tr th:each="r : ${refer}" class="list-group-item list-group-item-action" th:data-no="${r.aprvNo}">
+																<td class="d-flex justify-content-between align-items-start referTd">
 																	<div class="ms-2 me-auto">
 																		<i th:if="${r.impts == 'Y' }" class="ri-alert-fill" style="float: left;"></i>
 																		<div class="fw-bold" th:text="${r.ttl}" style="float: left;">제목</div>

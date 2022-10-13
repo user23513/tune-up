@@ -17,7 +17,7 @@ import co.up.tune.com.vo.BellVO;
  * 전자결재 관리 ServiceImpl
  * @author 윤정은
  * @date 2022.09.28
- * @version 1.1
+ * @version 1.2
  **/
 
 @Service

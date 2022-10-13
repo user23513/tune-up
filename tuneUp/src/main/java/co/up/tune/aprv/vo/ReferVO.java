@@ -10,6 +10,7 @@ import lombok.Setter;
  * @version 1.2
  **/
 
+
 @Getter
 @Setter
 public class ReferVO { 

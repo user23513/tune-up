@@ -11,7 +11,7 @@ import co.up.tune.aprv.vo.FormVO;
  * 
  * @author 윤정은
  * @date 2022.09.25
- * @version 1.1
+ * @version 1.2
  **/
 
 public interface AprvAdminMapper {

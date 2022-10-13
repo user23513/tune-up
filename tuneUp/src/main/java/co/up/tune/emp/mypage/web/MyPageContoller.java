@@ -1,6 +1,7 @@
 package co.up.tune.emp.mypage.web;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.emp.mypage.service.MypageService;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.file.service.FileService;
@@ -105,7 +105,7 @@ public class MyPageContoller {
 	@RequestMapping("/profileUpdate")
 	public String profileUpdate(EmpVO vo, Model model, HttpSession session,  
 			                    @RequestParam("file") MultipartFile[] files)
-			throws IllegalStateException, IOException {
+			                    throws IllegalStateException, IOException {
 		
 		// profile 사진 upload
 		List<FilesVO> list = null;
@@ -113,10 +113,8 @@ public class MyPageContoller {
 			String folder = "profile";
 			list = fdao.fileUpload(files, folder);
 			vo.setPic(list.get(0).getFPath());
-			
 			session.setAttribute("pic", vo.getPic());
 		}
-
 		if (dao.profileUpdate(vo) != 0) {
 			return "redirect:profile";
 		} else {
@@ -124,10 +122,6 @@ public class MyPageContoller {
 		}
 	}
 
-	
-	
-	
-	
 	@RequestMapping("/group")
 	public String myReply(Model model, HttpServletRequest request) {
 		return "emp/group/group";

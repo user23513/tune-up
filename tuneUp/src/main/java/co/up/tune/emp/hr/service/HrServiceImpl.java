@@ -1,10 +1,8 @@
 package co.up.tune.emp.hr.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import co.up.tune.emp.hr.mapper.HrMapper;
 import co.up.tune.emp.vo.EmpVO;
 
@@ -36,10 +34,5 @@ public class HrServiceImpl implements HrService {
 	@Override
 	public int authUpdate(EmpVO vo) {
 		return map.authUpdate(vo);
-	}
-
-	@Override
-	public int mngUpdate(EmpVO vo) {
-		return map.mngUpdate(vo);
 	}
 }

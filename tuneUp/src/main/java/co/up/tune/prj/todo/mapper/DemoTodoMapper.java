@@ -1,7 +1,6 @@
 package co.up.tune.prj.todo.mapper;
 
 import java.util.List;
-
 import co.up.tune.prj.vo.DemoTodoVO;
 
 public interface DemoTodoMapper {

@@ -1,8 +1,6 @@
 package co.up.tune.prj.vo;
 
 import java.sql.Date;
-import java.util.List;
-
 import lombok.Data;
 
 @Data

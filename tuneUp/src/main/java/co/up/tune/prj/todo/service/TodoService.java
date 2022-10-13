@@ -1,8 +1,6 @@
 package co.up.tune.prj.todo.service;
 
 import java.util.List;
-
-import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.vo.TodoVO;
 
 public interface TodoService {
@@ -13,7 +11,5 @@ public interface TodoService {
 	int todoInsert(TodoVO vo); //할일 추가
 	int todoUpdate(TodoVO vo); // 할일 수정
 	int todoDelete(TodoVO vo); //할일 삭제
-	
 	int todoPercent(TodoVO vo); //완료 퍼센트 조회
-	
 }

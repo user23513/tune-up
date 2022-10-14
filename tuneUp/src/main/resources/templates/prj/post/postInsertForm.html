@@ -252,7 +252,6 @@ $(document).ready(function() {
 	let i = 0;
 	//창 시작시 demoDelete 실행
  	let empNo = $("#empNo").val();
-	console.log("empNo : " + empNo);
 	$.ajax({
         url: "demoDeleteAll",
         beforeSend:function(xhr){
@@ -261,14 +260,12 @@ $(document).ready(function() {
     	 type : "post",
         data:{"empNo" : empNo },
         success:function(res){
-        	console.log("DB 삭제 완")
         }
 	})
 	
 	//할일 추가 버튼
 	$("#addTodo").on("click", e=>{
 		let cntn = $("#todoAdd").val(); //할일
-		console.log(cntn);
 		i++
 		if(cntn == ""){
 			alert("할 일을 입력해주세요");
@@ -282,7 +279,6 @@ $(document).ready(function() {
 		     	 type : "post",
 		         data:{"cntn" : cntn , "empNo" : empNo},
 		         success:function(res){
-		        	 console.log(res);
 		        	let str = "<tr><td name='no' class='no' style='display: none'>"+ res.no +"</td><td class='col-sm-1'></td>";
 		     		str += "<td><input type='hidden' name='cntn' class='col-sm-8 cntn' value='"+ res.cntn+"'>"+ res.cntn +"</td>"
 		     		str += "<td class='col-sm-1'><button name='remove' type='button' class='btn btn-outline-danger btn-sm' style='right: auto;'>";
@@ -296,9 +292,7 @@ $(document).ready(function() {
 
 	//todo 삭제버튼 클릭 시 
 	$("#tbd").on("click","[name='remove']", e=>{
-		console.log("test")
 		let no = e.target.closest('tr').firstChild.innerText;
-		console.log(no);
 		
 		//todo 삭제 이벤트
 		$.ajax({
@@ -309,7 +303,6 @@ $(document).ready(function() {
 			type : "post",
 			data:{"no" : no },
 			success:function(res){
-				console.log(res);
 				e.target.closest('tr').remove();
 			}
 		})

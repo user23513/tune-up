@@ -215,7 +215,6 @@ textarea {resize: none;}
 									},
 									dataType : 'json',
 									success : function(res) {
-										console.log(res)
 										//db에 insert가 되면 res에 calenderVO가 넘어오도록 설정
 											Toast.fire({
 							  					icon: 'success',
@@ -311,7 +310,6 @@ textarea {resize: none;}
 							
 							//수정
 							$("#calUpdateBtn").on("click", e=>{
-								console.log("===",arg)
 								let calNo = arg.event._def.publicId;
 								$.ajax({
 									url : 'calendarUpdate',

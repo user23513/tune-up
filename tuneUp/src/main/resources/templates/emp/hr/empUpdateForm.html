@@ -18,7 +18,6 @@
 			//입사일 입력 여부 확인
 			let hd = $("#hDate").val();
 			if(!hd){
-				console.log("입사일X");
 				alert ("입사일을 입력해주세요");
 			}else{
 				$("#frm").submit(); 
@@ -43,12 +42,8 @@
 		//관리자 권한 부여
 		 $('[name="mng"]').change(function() {
 			let result = '';
-			console.log($("#hrCk").val());
-			console.log($("#attdCk").val());
-			console.log($("#boardCk").val());
 			if($("#hrCk").is(':checked')){
 				result = $("#hrCk").val();
-				console.log($("#hrCk").val());
 			}else if($("#attdCk").is(':checked')){
 				result = $("#attdCk").val();
 			}else if($("#boardCk").is(':checked')){

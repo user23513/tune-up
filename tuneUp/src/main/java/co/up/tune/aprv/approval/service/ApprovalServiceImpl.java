@@ -45,7 +45,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 		map.approved(vo);
 		map.aprvNext(vo);
 		return map.whoBell(vo);
-
 	}
 	
 	@Override
@@ -59,7 +58,6 @@ public class ApprovalServiceImpl implements ApprovalService {
 		bmap.bellInsert(bvo);
 		int cnt = map.reject(vo);
 		map.aprvNext(vo);
-		
 		return cnt;
 	}
 

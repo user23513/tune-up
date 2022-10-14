@@ -352,7 +352,8 @@
 	function getTables(){
 		$('#approvalTable').DataTable({
 			"dom":'lftip',
-			"language": { "search": "" },
+			"language": { "search": "",
+				    	"emptyTable": "문서가 존재하지 않습니다."},
 			lengthChange: false,
 			ordering: false,
 			info: false
@@ -360,7 +361,8 @@
 			
 		$('#referTable').DataTable({
 			"dom":'lftip',
-			"language": { "search": "" },
+			"language": { "search": "",
+				     "emptyTable": "문서가 존재하지 않습니다." },
 				lengthChange: false,
 				ordering: false,
 				info: false

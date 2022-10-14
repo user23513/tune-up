@@ -3,6 +3,7 @@
 <mapper namespace="co.up.tune.aprv.aprvLine.mapper.AprvLineMapper">
 
 
+
 <select id="aprvrList" 
 	parameterType="co.up.tune.aprv.vo.ApprovalVO" 
 	resultType="co.up.tune.aprv.vo.ApprovalVO">

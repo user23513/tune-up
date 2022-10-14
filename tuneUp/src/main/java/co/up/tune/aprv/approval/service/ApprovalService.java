@@ -11,7 +11,7 @@ import co.up.tune.emp.vo.EmpVO;
 * 전자결재 승인 Service
 * @author 윤정은
 * @date 2022.10.1
-* @version 1.3
+* @version 1.4
 **/
 
 public interface ApprovalService {
@@ -48,7 +48,7 @@ public interface ApprovalService {
 	
 	// 선택 결재
 	List<String> checkApproved(ApprovalVO vo);
-	
+
 	// 선택 반려
 	int checkReject(ApprovalVO vo);
 }

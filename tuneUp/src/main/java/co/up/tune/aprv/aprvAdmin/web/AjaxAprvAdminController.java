@@ -13,9 +13,9 @@ import co.up.tune.aprv.vo.AprvVO;
  * 
  * @author 윤정은
  * @date 2022.09.27
- * @version 1.1
+ * @version 1.2
  **/
-
+ 
 @RestController
 public class AjaxAprvAdminController {
 

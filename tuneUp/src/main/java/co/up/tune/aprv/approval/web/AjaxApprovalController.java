@@ -20,7 +20,7 @@ import co.up.tune.prj.vo.FilesVO;
  * 전자결재 승인 AjaxController
  * @author 윤정은
  * @date 2022.10.4
- * @version 1.4
+ * @version 1.5
  **/
 
 @RestController
@@ -106,6 +106,6 @@ public class AjaxApprovalController {
 		vo.setAprvr(empNo); //결재자 본인
 		return ap.checkReject(vo); 
 	}
-	
+
 
 }

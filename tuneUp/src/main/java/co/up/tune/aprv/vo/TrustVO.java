@@ -11,6 +11,7 @@ import lombok.Setter;
  * @version 1.1
  **/
 
+
 @Getter
 @Setter
 public class TrustVO { 

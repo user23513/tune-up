@@ -50,7 +50,7 @@ public class AjaxAprvReqController {
 	return rs.formDel(vo);
 	}
 	
-	// 참조문서 상세
+	
 	@PostMapping("/aprvShow")
 	public AprvVO aprvShow(AprvVO vo) {
 	return rs.aprvSelect(vo);

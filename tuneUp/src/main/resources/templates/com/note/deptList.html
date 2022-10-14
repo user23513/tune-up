@@ -99,7 +99,6 @@ $("#selectEmp").on("mouseup", "option", e=>{
 
 //확인 버튼 클릭시 쪽지 폼에 들어가게
 function empBook(){
-	console.log($("#selectEmp").find("option"));
 	let emps = $("#selectEmp").find("option");
 	let arr = {}
 	$.each(emps, (idx, emp)=>{

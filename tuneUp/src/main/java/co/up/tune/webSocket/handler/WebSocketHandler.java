@@ -88,7 +88,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				
 			} else if(strs != null && strs.length == 4) {
 				String aprvSt = strs[0]; //반려인지 완료인지 진행인지(필수)
-				String caller = strs[1]; //보낸 사람 이름(안씀)
+				String caller = strs[1]; //보낸 사람 이름(위임)
 				String receiverNo = strs[2]; //메세지 받는 사람 사원번호(필수)
 				String aprvTtl = strs[3]; //결재문서 제목(승인반려)
 						

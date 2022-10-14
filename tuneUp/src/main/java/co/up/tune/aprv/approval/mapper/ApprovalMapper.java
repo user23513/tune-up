@@ -26,7 +26,7 @@ public interface ApprovalMapper {
 	int reject(ApprovalVO vo);
 
 	// 처리문서 다음결재자 
-	String aprvNext(ApprovalVO vo);
+	int aprvNext(ApprovalVO vo);
 
 	// 위임자 목록
 	List<TrustVO> trustList(TrustVO vo);
@@ -52,3 +52,4 @@ public interface ApprovalMapper {
 	// 다음 결재 알림 사번
 	String whoBell(ApprovalVO vo);
 }
+

@@ -68,23 +68,19 @@ $(document).ready(function() {
 	//사원 테이블 tr태그 클릭 이벤트
  	$("#tb").on("click", "tr", e=>{
 		let tg = e.target.closest('tr').children[1].innerText;
-		console.log(tg);
 		$("#empNo").val(tg);
-		console.log($("#empNo").val());
 		$("#frm").submit();
 	})
    
 	//관리자 tr태그 클릭 이벤트
 	$("#tbd").on("click", "tr", e=>{
 		let tg = e.target.closest('tr').children[1].innerText;
-		console.log(tg)
 		$("#empNo").val(tg);
 		$("#frm").submit();
 	})
    
 	//승인버튼 이벤트 
 	$(".ok").on("click", e=>{
-		console.log("승인 버튼 클릭")
 		e.stopPropagation(); //tr태그 클릭이벤트 발생X
 		let auth = e.target.closest('td').previousElementSibling.innerText;
 		if(auth=='GUEST'){

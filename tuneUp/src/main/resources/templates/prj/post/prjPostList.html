@@ -20,7 +20,6 @@ $(document).ready(function() {
 	// 관리자 버튼 권한 체크
 	let element = document.getElementById("authBtn");
 	let hidden = element.getAttribute("hidden");
-	console.log([[${isAuth}]])
 	    if ([[${isAuth}]]) {
 	       element.removeAttribute("hidden");
 	    } else {
@@ -917,7 +916,6 @@ $('[name="todoCk"]').on("change", e=>{
     })
   }
   else {
-    console.log(todoNo+", " + postNo + " 체크 해제")
 		$.ajax({
 			url : "cmpltYnUpdate",
 			beforeSend:function(xhr){
@@ -1047,10 +1045,8 @@ function drawChart() {
 	    			  
 	    			  arr.push(a);
 	    			  let aa = new Date(2014, 2, 22)
-	    			  console.log(aa)
 	    			  
 	    		  })
-	    		  console.log(arr)
 	    		  
 	    		  var data = new google.visualization.DataTable();
 	    	      data.addColumn('string', 'Task ID');

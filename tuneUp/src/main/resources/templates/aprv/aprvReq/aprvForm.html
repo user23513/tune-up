@@ -8,9 +8,8 @@
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-		
 		<script th:inline="javascript">
-		
+			
 		//로딩화면
 		loading();
 		function loading(load) {
@@ -278,13 +277,13 @@
 						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 						<div class="col-md-12">
 							<div class="form-floating">
-								<input type="text" class="form-control" id="ttl" name="ttl" placeholder="문서 제목" required="required" th:value="${form.ttl}">
+								<input type="text" class="form-control" id="ttl" name="ttl" placeholder="문서 제목" required="required">
 								<label for="ttl">문서 제목</label>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-floating">
-								<textarea class="line" id="cntn" name="cntn" th:utext="${form.cntn}" required="required"></textarea>
+								<textarea class="line" id="cntn" name="cntn" required="required"></textarea>
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -316,14 +315,14 @@
 									th:if="${n.nm2 == null and n.nm3 == null}" th:text="|${n.nm1}|"></li>
 								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
 									th:if="${n.nm3 == null and n.nm2 != null}" th:text="|${n.nm1} → ${n.nm2}|"></li>
-								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}" 
+								<li class="list-group-item lineLi" th:each="n : ${line}" th:data-no="${n.lineNo}" th:data-ap1="${n.ap1}"
 									th:if="${n.nm3 != null}" th:text="|${n.nm1} → ${n.nm2} → ${n.nm3}|"></li>
 							</ol>
-							
+
 						</div>
-						
+
 						<input type="hidden" id="ap1">
-						
+
 						<div class="col-md-4">
 							<div class="form-floating">
 								<select class="form-select" id="deptSelect" aria-label="State" style="height: 100px;">
@@ -336,8 +335,6 @@
 						<div class="col-md-8">
 							<select class="form-select" id="multi" multiple aria-label="multiple select example" style="height: 100px;"></select>
 						</div>
-						
-						
 						
 						<div class="col-md-12">
 							<div class="form-floating">

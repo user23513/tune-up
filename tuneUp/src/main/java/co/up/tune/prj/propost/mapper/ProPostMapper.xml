@@ -7,7 +7,7 @@
 	<insert id="prjFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
 		<selectKey keyProperty="atchNo" order="BEFORE" resultType="integer">
 			select nvl(max(atch_no)+1, 1) 
-			from files;
+			from files
 		</selectKey>
 		INSERT INTO FILES
 		VALUES (FNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, #{fCat}, #{pNm}, #{empNo})
@@ -144,6 +144,7 @@
 		WHERE ATCH_NO in(
 			SELECT ATCH_NO FROM POST WHERE PRJ_NO=#{prjNo}
 			)
+		AND ATCH_NO != 0
 	</select>
 	
 	<!-- 프로젝트 게시글 삭제 -->

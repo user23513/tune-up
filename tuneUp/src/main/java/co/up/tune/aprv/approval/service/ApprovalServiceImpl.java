@@ -78,7 +78,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		bvo.setCntn(vo.getNm()+ "님이 문서 결재를 <a type='external' href='/approval'>위임</a>하셨습니다.");
 		bvo.setEmpNo(vo.getRptt());
 		bvo.setReceiver("수신인");
-		bvo.setSender("발신인");
+		bvo.setSender(vo.getNm());
 		bmap.bellInsert(bvo);
 		return map.trustIn(vo);
 	}
@@ -105,7 +105,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 		bvo.setCntn(vo.getNm()+ "님이 문서 결재를 <a type='external' href='/approval'>위임</a>하셨습니다.");
 		bvo.setEmpNo(vo.getRptt());
 		bvo.setReceiver("수신인");
-		bvo.setSender("발신인");
+		bvo.setSender(vo.getNm());
 		bmap.bellInsert(bvo);
 		
 		return map.trustUp(vo);

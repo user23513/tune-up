@@ -252,7 +252,6 @@ $(document).ready(function() {
 	let i = 0;
 	//창 시작시 demoDelete 실행
  	let empNo = $("#empNo").val();
-	console.log("empNo : " + empNo);
 	$.ajax({
         url: "demoDeleteAll",
         beforeSend:function(xhr){
@@ -261,14 +260,12 @@ $(document).ready(function() {
     	 type : "post",
         data:{"empNo" : empNo },
         success:function(res){
-        	console.log("DB 삭제 완")
         }
 	})
 	
 	//할일 추가 버튼
 	$("#addTodo").on("click", e=>{
 		let cntn = $("#todoAdd").val(); //할일
-		console.log(cntn);
 		i++
 		if(cntn == ""){
 			alert("할 일을 입력해주세요");
@@ -282,10 +279,10 @@ $(document).ready(function() {
 		     	 type : "post",
 		         data:{"cntn" : cntn , "empNo" : empNo},
 		         success:function(res){
-		        	 console.log(res);
-		        	let str = "<tr><td name='no' class='no' style='display: none'>"+ res.no +"</td>";
-		     		str += "<td><input type='hidden' name='cntn' class='cntn' value='"+ res.cntn+"'>"+ res.cntn +"</td><td><button name='remove' type='button' class='btn btn-outline-danger btn-sm' href='javascript:void(0);' style='right: auto;'>";
-		     		str += "<i class='bi bi-x-lg'></i></button> </td> </tr>";
+		        	let str = "<tr><td name='no' class='no' style='display: none'>"+ res.no +"</td><td class='col-sm-1'></td>";
+		     		str += "<td><input type='hidden' name='cntn' class='col-sm-8 cntn' value='"+ res.cntn+"'>"+ res.cntn +"</td>"
+		     		str += "<td class='col-sm-1'><button name='remove' type='button' class='btn btn-outline-danger btn-sm' style='right: auto;'>";
+		     		str += "<i class='bi bi-x-lg'></i></button> </td><td class='col-sm-1'></td> </tr>";
 		     		$("#tbd").append(str);
 		     		$("#todoAdd").val("");
 		         }
@@ -295,9 +292,7 @@ $(document).ready(function() {
 
 	//todo 삭제버튼 클릭 시 
 	$("#tbd").on("click","[name='remove']", e=>{
-		console.log("test")
 		let no = e.target.closest('tr').firstChild.innerText;
-		console.log(no);
 		
 		//todo 삭제 이벤트
 		$.ajax({
@@ -308,7 +303,6 @@ $(document).ready(function() {
 			type : "post",
 			data:{"no" : no },
 			success:function(res){
-				console.log(res);
 				e.target.closest('tr').remove();
 			}
 		})
@@ -381,24 +375,30 @@ function save(){
 							<input type="hidden" id="wrtr" name="wrtr" th:value="${session.nm}">
 							<input type="hidden" name="prjNo" th:value="${prjNo}">
 							<div class="row mb-3">
-								<div class="col-sm-10 padding:10px">
+								<div>
 									<input type="text" class="form-control none" name="ttl"
 										placeholder="제목을 입력하세요." id="prjPostTitle">
 								</div>
 							</div>
 							<div class="row mb-3">
-								<div class="col-sm-10" id="cntn">
+								<div id="cntn">
 									<textarea class="form-control none" name="cntn"
 										placeholder="내용을 입력하세요."
-										style="resize: none; min-height: 200px; width: 80%; padding-top: 15px;"
+										style="resize: none; min-height: 200px; padding-top: 15px;"
 										id="cntn"></textarea>
 								</div>
 							</div>
-
-							<input type="file" name="file" class="form-control"
+							<div class="row mb-3">
+								<div>
+									<input type="file" name="file" class="form-control"
 								aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-							<br>
-							<button class="btn btn-primary w-100" type="submit">글 등록</button>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div>
+									<button class="btn btn-primary w-100 col-sm-10" type="submit">글 등록</button>
+								</div>
+							</div>
 						</form>
 					</div>
 					<!-- 글 end -->
@@ -409,13 +409,13 @@ function save(){
 							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"> 
 							<input type="hidden" name="prjNo" th:value="${prjNo}">
 							<div class="row mb-3">
-								<div class="col-sm-10">
+								<div>
 									<input type="text" class="form-control none" name="bussTtl" placeholder="제목을 입력하세요.">
 								</div>
 							</div>
 							<br>
 							<div class="row mb-3">
-								<div class="col-sm-10">
+								<div>
 									<!--상태 버튼-->
 									<i class="bi bi-arrow-clockwise size"></i>
 									<div style="display: inline-block; width: 80%; margin-left: 10px;">
@@ -436,22 +436,22 @@ function save(){
 								</div>
 							</div>
 							<br>
-							<div class="col-sm-10">
+							<div>
 								<input type="date" class="form-control none" name="sdt"
 								style="width: 300px"> ~ <input type="date"
 								class="form-control none" name="edt" style="width: 300px">
 							</div>
 							<br>
 							<br>
-							<div class="col-sm-10">
+							<div>
 								<h4 style="padding-top: 10px; float: left;">
 									<i class="bi bi-layout-text-sidebar-reverse"></i>
 								</h4>
-								<textarea class="form-control none" style="min-height: 150px; width: 80%; padding-top: 15px;" 
+								<textarea class="form-control none" style="min-height: 150px; padding-top: 15px;" 
 									name="cntn" placeholder="내용을 입력하세요."></textarea>
 							</div>
 							<br>
-							<div class="col-sm-10">
+							<div>
 								<input class="form-control" type="file" name="file">
 							</div>
 							<br>
@@ -469,13 +469,13 @@ function save(){
 							<input type="hidden" name="wrtr" th:value=${session.nm}> 
 							<input type="hidden" name="prjNo" th:value="${prjNo}">
 							<div class="row mb-3">
-								<div class="col-sm-10" style="width: 80%">
+								<div>
 									<input type="text" class="form-control none" name="ttl"
 										placeholder="제목을 입력하세요.">
 								</div>
 							</div>
 							<br>
-							<div class="col-sm-10">
+							<div>
 								<input type="date" class="form-control none" name="sdt"
 									style="width: 300px"> ~ <input type="date"
 									class="form-control none" name="edt" style="width: 300px">
@@ -564,7 +564,7 @@ function save(){
 							<!-- End 카카오 지도 -->
 
 							<br> <br>
-							<div class="col-sm-10">
+							<div>
 								<h4 style="padding-top: 10px; float: left;">
 									<i class="bi bi-layout-text-sidebar-reverse"></i>
 								</h4>
@@ -578,14 +578,13 @@ function save(){
 					</div>
 					<!-- 일정 -->
 
-
 					<!-- 할일 -->
 					<div class="tab-pane fade" id="todo-justified" role="tabpanel"
 						aria-labelledby="todo-tab" style="padding: 15px;">
 						<form id="todoFrm" action="todoInsert" method="post">
 							<div class="row mb-3">
 								<!-- todo insert -->
-								<div class="col-sm-10" style="width: 80%">
+								<div>
 									<input type="text" class="form-control none"
 										style="border-bottom: 1px solid blue;" id="ttl" name="ttl"
 										placeholder="제목을 입력하세요.">
@@ -599,7 +598,7 @@ function save(){
 							<br>
 
 							<!-- todo 상세 Insert -->
-							<div class="col-sm-10">
+							<div>
 								<div class="input-group mb-3">
 									<input type="text" id="todoAdd" name="todoAdd"
 										class="form-control" placeholder="할 일 입력"
@@ -611,17 +610,15 @@ function save(){
 									</button>
 								</div>
 								<hr>
-								<div>
+								<div style="min-height: 150px;">
 									<table class="table table-borderless">
 										<tbody id="tbd">
 										</tbody>
 									</table>
 								</div>
-
 							</div>
 							<!-- todo 상세 Insert 끝 -->
 							<br>
-							<!-- <div class="col-md-8 col-lg-9"> -->
 							<div>
 								<button id="btn" class="btn btn-primary w-100" type="button"
 									onclick="save()">할일 등록</button>

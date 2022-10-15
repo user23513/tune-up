@@ -11,7 +11,7 @@ import co.up.tune.aprv.vo.FormVO;
  * 
  * @author 윤정은
  * @date 2022.09.25
- * @version 1.1
+ * @version 1.2
  **/
 
 public interface AprvAdminMapper {
@@ -31,13 +31,13 @@ public interface AprvAdminMapper {
 	// 관리자 결재자 강제반려
 	int aprvAdReject(ApprovalVO vo);
 
-	// 관리자 결재문서 강제반려 (결재자 먼저 지워야함)
+	// 관리자 결재문서 강제반려 (결재자 먼저)
 	int reqAdReject(ApprovalVO vo);
 
 	// 관리자 결재자 강제승인
 	int aprvAdOk(ApprovalVO vo);
 
-	// 관리자 결재문서 강제승인 (결재자 먼저 지워야함)
+	// 관리자 결재문서 강제승인 (결재자 먼저)
 	int reqAdOk(ApprovalVO vo);
 
 }

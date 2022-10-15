@@ -21,7 +21,7 @@ import co.up.tune.emp.vo.EmpVO;
 * 전자결재 승인 Controller
 * @author 윤정은
 * @date 2022.10.4
-* @version 1.3
+* @version 1.4
 **/
 
 @Controller
@@ -100,3 +100,4 @@ public class ApprovalController {
 	
 
 }
+

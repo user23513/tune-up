@@ -69,12 +69,6 @@ public class AprvReqServiceImpl implements AprvReqService {
 			lvo.setLineNo(vo.getLineNo());
 			lvo = lmap.aprvLineSelect(lvo);
 			
-			//알림
-			BellVO bvo = new BellVO();
-			bvo.setSender("발신인");
-			bvo.setReceiver("수신인");
-			bvo.setCntn("<a type='external' href='/approval'>" + vo.getTtl() + "</a> 문서가 대기중입니다.");
-			
 			String[] arrAp;
 			String[] arrNm;
 			if (lvo.getAp3() != null) {
@@ -94,14 +88,20 @@ public class AprvReqServiceImpl implements AprvReqService {
 				aprv.setAprvSeq(i+1);//결재순서
 				lmap.approvalIn(aprv);
 				
-				bvo.setEmpNo(arrAp[i]);
-				bmap.bellInsert(bvo);
 			}
 		
+			//결재자알림
+			BellVO bvo = new BellVO();
+			bvo.setSender("발신인");
+			bvo.setReceiver("수신인");
+			bvo.setCntn("<a type='external' href='/approval'>새로운 결재 문서</a>가 대기중입니다.");
+			bvo.setEmpNo(arrAp[0]);
+			bmap.bellInsert(bvo);
+			
 			// 참조인 목록 처리
 			ReferVO rf = new ReferVO();
 			rf.setAprvNo(aprvNo);
-			bvo.setCntn("<a type='external' href='/approval'>" + vo.getTtl() + "</a> 문서의 참조인에 추가되었습니다.");
+			bvo.setCntn("새로운 결재 문서의 <a type='external' href='/approval'>참조인</a>에 추가되었습니다.");
 			
 			String refers = vo.getRefer();
 			String referNms = vo.getReferNm();
@@ -119,6 +119,7 @@ public class AprvReqServiceImpl implements AprvReqService {
 					bmap.bellInsert(bvo);
 					
 				}
+				
 			} else if (refers != null && refers != "") {
 				rf.setEmpNo(refers);
 				rf.setNm(referNms);

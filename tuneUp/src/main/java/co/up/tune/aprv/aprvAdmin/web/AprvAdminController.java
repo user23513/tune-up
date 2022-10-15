@@ -27,7 +27,7 @@ import co.up.tune.common.service.CommonService;
  * 전자결재 관리 Controller
  * @author 윤정은
  * @date 2022.09.27
- * @version 1.1
+ * @version 1.2
  **/
 
 @Controller
@@ -101,3 +101,4 @@ public class AprvAdminController {
 	}
 	
 }
+

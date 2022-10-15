@@ -8,17 +8,13 @@
 <style>
 .right {
 	position: relative;
-	left: 87%;
+	left: 85%;
 }
 .textSize {
-	font-size: 25px;
+	font-size: 20px;
 }
 .text-white{
 	background-color: #9c91cf !important;
-}
-.card{
-	width: 100%; 
-	
 }
 </style>
 </head>
@@ -50,7 +46,6 @@
 						<tr th:if="${n.fNm != null}">
 							<td colspan="6"><a th:href=@{/attach(path=${n.fPath})}
 								th:text="${n.fNm}"></a></td>
-							<!-- <img src="/attach" th:text="${n.fNm}"/> -->
 						</tr>
 					</tbody>
 				</table>

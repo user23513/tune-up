@@ -11,11 +11,11 @@ import co.up.tune.emp.vo.EmpVO;
 * 전자결재 승인 Mapper
 * @author 윤정은
 * @date 2022.09.25
-* @version 1.3
+* @version 1.4
 **/
 
 public interface ApprovalMapper {
-
+		
 	// 결재대기 목록 (aprvr = empNo)
 	List<AprvVO> approvalList(@Param("aprvr") String aprvr, @Param("aprvSt") String aprvSt);
 
@@ -48,5 +48,8 @@ public interface ApprovalMapper {
 	
 	// 수임자 변경
 	int trustUp(TrustVO vo);
-
+	
+	// 다음 결재 알림 사번
+	String whoBell(ApprovalVO vo);
 }
+

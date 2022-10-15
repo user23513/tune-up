@@ -9,17 +9,45 @@
 	th:content="${_csrf.headerName}" />
 <title>TuneUp - 사원 관리</title>
 <script src="/js/jquery-3.6.1.min.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
-<script
-	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+<style>
+.pagination{
+	margin-top: 10px;
+	justify-content: center; 
+}
+
+.dataTables_empty{
+	text-align: center;
+	padding: 10% 0;
+}
+
+.dataTables_filter{
+	float:right;
+	text-align:right;
+	padding-right: 2em;
+	margin : 10px 0;
+}
+
+table{
+	width: 100%;
+}
+
+th {
+	text-align: center;
+}
+
+td {
+	text-align: center;
+}
+</style>
 <script>
 $(document).ready(function() {
 	//datatables
 	$('#empList').DataTable({
 		"dom":'lftip',
 		"language": {
-	    "search": ""
+	    "search": "",
+	    "emptyTable": "사원이 없습니다."
 	  	},
 		lengthChange: false,
 		ordering: false,
@@ -29,7 +57,8 @@ $(document).ready(function() {
 	$('#managerList').DataTable({
 		"dom":'lftip',
 		"language": {
-	    "search": ""
+	    "search": "",
+	    "emptyTable": "지정된 관리자가 없습니다."
 	  	},
 		lengthChange: false,
 		ordering: false,
@@ -39,26 +68,21 @@ $(document).ready(function() {
 	//사원 테이블 tr태그 클릭 이벤트
  	$("#tb").on("click", "tr", e=>{
 		let tg = e.target.closest('tr').children[1].innerText;
-		console.log(tg);
 		$("#empNo").val(tg);
-		console.log($("#empNo").val());
 		$("#frm").submit();
 	})
    
 	//관리자 tr태그 클릭 이벤트
 	$("#tbd").on("click", "tr", e=>{
 		let tg = e.target.closest('tr').children[1].innerText;
-		console.log(tg)
 		$("#empNo").val(tg);
 		$("#frm").submit();
 	})
    
 	//승인버튼 이벤트 
 	$(".ok").on("click", e=>{
-		console.log("승인 버튼 클릭")
 		e.stopPropagation(); //tr태그 클릭이벤트 발생X
 		let auth = e.target.closest('td').previousElementSibling.innerText;
-		console.log("===================auth : "+auth);
 		if(auth=='GUEST'){
 			let really = confirm("권한을 USER로 바꾸시겠습니까?");
 			if(really){
@@ -80,7 +104,6 @@ $(document).ready(function() {
 					
 					success:function(res){
 						e.target.closest('td').previousElementSibling.innerText = res;
-						e.target.style.disabled = "disabled";
 					}
 				})
 			}
@@ -126,16 +149,15 @@ $(document).ready(function() {
 							<div class="tab-content pt-2" id="myTabContent">
 								<div class="tab-pane fade show active" id="home" role="tabpanel"
 									aria-labelledby="home-tab">
-
 									<!-- End Default Table Example -->
-									<br>
+									
 									<!-- 전체사원목록 보이는 곳 -->
 									<!-- Table with hoverable rows -->
-									<table class="display center" id="empList" style="margin : 0px;">
+									<table id="empList">
 										<thead>
 											<tr>
 												<th style="display : none">NO</th>
-												<th >사원번호</th>
+												<th>사원번호</th>
 												<th>성명</th>
 												<th>부서</th>
 												<th>직위</th>
@@ -169,10 +191,9 @@ $(document).ready(function() {
 	
 								<div class="tab-pane fade" id="contact" role="tabpanel"
 									aria-labelledby="contact-tab">
-									<br>
 									<!-- 관리자 목록 보이는 곳 -->
 									<!-- Table with hoverable rows -->
-									<table class="display center" id="managerList" style="width : 100%;">
+									<table id="managerList" style="width: 100%;">
 										<thead>
 											<tr>
 												<th style="display : none">NO</th>
@@ -187,7 +208,7 @@ $(document).ready(function() {
 											</tr>
 										</thead>
 										<tbody id="tbd">
-											<tr th:each="m : ${managerList}" th:if="m.auth">
+											<tr th:each="m : ${managerList}">
 												<th style="display : none"></th>
 												<td th:text="${m.empNo}" th:attr="data-no=${m.empNo}"></td>
 												<td th:text="${m.nm}">김인사</td>
@@ -200,13 +221,13 @@ $(document).ready(function() {
 													<div th:case="hr">인사</div>
 													<div th:case="attd">근태</div>
 													<div th:case="board">게시판</div>
+													<div th:case=null>관리자</div>
 												</td>
 											</tr>
 										</tbody>
 									</table>
 									<!-- End Table with hoverable rows -->
 								</div>
-								<h6 class="card-title"></h6>
 							</div>
 							<!-- End Default Tabs -->
 						</div>

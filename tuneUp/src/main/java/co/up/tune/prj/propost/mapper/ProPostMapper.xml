@@ -5,6 +5,10 @@
 	
 	<!-- 프로젝트 file 등록  -->
 	<insert id="prjFileInsert" parameterType="co.up.tune.prj.vo.FilesVO">
+		<selectKey keyProperty="atchNo" order="BEFORE" resultType="integer">
+			select nvl(max(atch_no)+1, 1) 
+			from files
+		</selectKey>
 		INSERT INTO FILES
 		VALUES (FNO_SEQ.NEXTVAL, #{fNm}, #{fPath}, #{fType}, #{atchNo}, #{fCat}, #{pNm}, #{empNo})
 	</insert>
@@ -17,13 +21,6 @@
 	</select>
 	
 	<insert id="prjPostInsert" parameterType="co.up.tune.prj.vo.PostVO">
-		<selectKey keyProperty="atchNo" order="BEFORE" resultType="INTEGER">
-			SELECT 
-			    CASE WHEN MAX(ATCH_NO)IS NULL THEN 1
-			    ELSE MAX(ATCH_NO)+1
-			    END AS ATCH_NO
-			FROM FILES
-		</selectKey>
 		INSERT INTO POST
 		VALUES (PNO_SEQ.NEXTVAL,#{empNo},#{wrtr},#{ttl},#{cntn},sysdate,#{atchNo},#{prjNo}) 
 	</insert>
@@ -147,6 +144,7 @@
 		WHERE ATCH_NO in(
 			SELECT ATCH_NO FROM POST WHERE PRJ_NO=#{prjNo}
 			)
+		AND ATCH_NO != 0
 	</select>
 	
 	<!-- 프로젝트 게시글 삭제 -->

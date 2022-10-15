@@ -12,9 +12,6 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
-<script>
-
-</script>
 <script th:inline="javascript">
 $(document).ready(function() {
 	var token = $("meta[name='_csrf']").attr("content");
@@ -23,7 +20,6 @@ $(document).ready(function() {
 	// 관리자 버튼 권한 체크
 	let element = document.getElementById("authBtn");
 	let hidden = element.getAttribute("hidden");
-	console.log([[${isAuth}]])
 	    if ([[${isAuth}]]) {
 	       element.removeAttribute("hidden");
 	    } else {
@@ -32,9 +28,6 @@ $(document).ready(function() {
 })
 </script>
 <style>
-/* .pagination {
-	margin-left: 300px;
-} */
 #ddbt {
 	color: gray;
 }
@@ -106,6 +99,27 @@ textarea.none {
 	background-color: #9c91cf;;
 	color: #ffffff;
 }
+
+.pagination{
+	 justify-content: center; 
+}
+
+.dataTables_empty{
+	text-align: center;
+	padding: 10% 0;
+}
+
+#chart_div{
+	text-align: center;
+	padding: 10% 0;
+}
+
+.dataTables_filter{
+	float:right;
+	text-align:right;
+	padding-right: 2em;
+	
+}
 </style>
 </head>
 <body>
@@ -115,17 +129,19 @@ textarea.none {
 		$('#pst-Table').DataTable({
 			"dom":'lftip',
 			"language": {
-		    "search": ""
+		    "search": "",
+		    "emptyTable": "등록된 글이 없습니다."
 		  	},
 			lengthChange: false,
 			ordering: false,
-			info: false
+			info: false,
 		});
 		
 		$('#sch-Table').DataTable({
 			"dom":'lftip',
 			"language": {
-		    "search": ""
+		    "search": "",
+		    "emptyTable": "등록된 일정이 없습니다."
 		  	},
 			lengthChange: false,
 			ordering: false,
@@ -135,7 +151,8 @@ textarea.none {
 		$('#bss-Table').DataTable({
 			"dom":'lftip',
 			"language": {
-		    "search": ""
+		    "search": "",
+		    "emptyTable": "등록된 업무가 없습니다."
 		  	},
 			lengthChange: false,
 			ordering: false,
@@ -145,7 +162,8 @@ textarea.none {
 		$('#todo-Table').DataTable({
 			"dom":'lftip',
 			"language": {
-		    "search": ""
+		    "search": "",
+		    "emptyTable": "등록된 할 일이 없습니다."
 		  	},
 			lengthChange: false,
 			ordering: false,
@@ -366,7 +384,7 @@ textarea.none {
 													<b>[[${s.ttl}]]</b>
 												</span>
 												<br>
-												<span>[[${s.sdt}]] - [[${s.edt}]]</span>
+												<span>[[${s.sdt}]] ~ [[${s.edt}]]</span>
 												<hr style="color: gray;">
 												<div>
 													<i class="bi bi-person"></i> 
@@ -399,10 +417,6 @@ textarea.none {
 														<span th:text="${#dates.format(r.dttm, 'yyyy-MM-dd HH:mm:ss')}">작성일시</span>
 														<br> 
 														<span th:text="${r.cntn}">댓글내용</span>&nbsp;&nbsp;
-														<span> 
-															<i th:if="${session.empNo == r.empNo}" class="ri-edit-2-line update" th:attr="data-no=${r.replyNo}"></i>
-														</span>&nbsp;
-														<!-- 수정아이콘 -->
 														<span> 
 															<i th:if="${session.empNo == r.empNo}" class="ri-delete-bin-line delete" th:attr="data-no=${r.replyNo}"></i>
 														</span>
@@ -748,7 +762,6 @@ textarea.none {
 										.append($("<span>").html(res.dttm))
 										.append($("<br>"))
 										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
 										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
 										.append($("<hr>"))
 					$(e.target).parent().next().next().append(div);
@@ -903,7 +916,6 @@ $('[name="todoCk"]').on("change", e=>{
     })
   }
   else {
-    console.log(todoNo+", " + postNo + " 체크 해제")
 		$.ajax({
 			url : "cmpltYnUpdate",
 			beforeSend:function(xhr){
@@ -999,12 +1011,10 @@ function getAddr(lat, lng, idx){
 }
 
 </script>
-	<!-- 지도 -->
-
-	<!-- 간트차트 -->
-	<script>
-   google.charts.load('current', {'packages':['gantt']});
-   google.charts.setOnLoadCallback(drawChart);
+<!-- 간트차트 -->
+<script>
+google.charts.load('current', {'packages':['gantt']});
+google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
    let prjNo = $("#prjNo").val();
@@ -1035,10 +1045,8 @@ function drawChart() {
 	    			  
 	    			  arr.push(a);
 	    			  let aa = new Date(2014, 2, 22)
-	    			  console.log(aa)
 	    			  
 	    		  })
-	    		  console.log(arr)
 	    		  
 	    		  var data = new google.visualization.DataTable();
 	    	      data.addColumn('string', 'Task ID');

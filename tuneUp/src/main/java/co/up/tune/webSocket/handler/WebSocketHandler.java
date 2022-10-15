@@ -87,28 +87,28 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				}
 				
 			} else if(strs != null && strs.length == 4) {
-				String aprvSt = strs[0]; //반려인지 완료인지 진행인지
-				String caller = strs[1]; //보낸 사람 이름(안씀)
-				String receiverNo = strs[2]; //메세지 받는 사람 사원번호
-				String aprvTtl = strs[3]; //결재문서 제목
+				String aprvSt = strs[0]; //반려인지 완료인지 진행인지(필수)
+				String caller = strs[1]; //보낸 사람 이름(위임)
+				String receiverNo = strs[2]; //메세지 받는 사람 사원번호(필수)
+				String aprvTtl = strs[3]; //결재문서 제목(승인반려)
 						
 				//로그인 해서 있다면
 				WebSocketSession boardWriterSession = userSessionsMap.get(receiverNo); 
 				
 				if ("reject".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage("<a type='external' href='/aprvReq'>" + aprvTtl + "</a> 문서가 반려되었습니다.");
+					TextMessage tmpMsg = new TextMessage("<a type='external' href='/aprvReq'>" + aprvTtl + "</a> 결재 문서가 반려되었습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("approved".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage("<a type='external' href='/aprvReq'>" + aprvTtl + "</a> 문서가 승인되었습니다.");
+					TextMessage tmpMsg = new TextMessage("<a type='external' href='/aprvReq'>" + aprvTtl + "</a> 결재 문서가 승인되었습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("request".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage("<a type='external' href='/approval'>" + aprvTtl + "</a> 문서가 대기중입니다.");
+					TextMessage tmpMsg = new TextMessage("<a type='external' href='/approval'>새로운 결재 문서</a>가 도착했습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("refer".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage("<a type='external' href='/approval'>" + aprvTtl + "</a> 문서의 참조인에 추가되었습니다.");
+					TextMessage tmpMsg = new TextMessage("새로운 결재 문서의 <a type='external' href='/approval'>참조인</a>에 추가되었습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				} else if ("trust".equals(aprvSt) && boardWriterSession != null) {
-					TextMessage tmpMsg = new TextMessage(caller + "님이 문서 결재권을 <a type='external' href='/approval'>위임</a>하셨습니다.");
+					TextMessage tmpMsg = new TextMessage(caller + "님이 문서 결재를 <a type='external' href='/approval'>위임</a>하셨습니다.");
 					boardWriterSession.sendMessage(tmpMsg);
 				}
 				

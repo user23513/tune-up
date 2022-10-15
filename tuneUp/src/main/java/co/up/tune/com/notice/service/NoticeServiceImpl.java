@@ -41,7 +41,6 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public int noticeUpdate(CommunityVO vo) {
 		// 공지사항 수정
-		System.out.println("no:"+vo.getPostNo());
 		return map.noticeUpdate(vo);
 	}
 

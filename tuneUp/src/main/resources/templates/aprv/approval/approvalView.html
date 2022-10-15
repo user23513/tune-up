@@ -61,8 +61,8 @@
 					'empNo':empNo},
 			dataType : 'json',
 			success : function(data) {
-				let nm = $("#myname").val();
-				socket.send('approved,'+nm+','+empNo+','+ttl);
+				socket.send('request,발신인,'+data+','+ttl);
+				socket.send('approved,발신인,'+empNo+','+ttl);
 				alert('결재가 완료되었습니다!');
 				location.href = "approval";
 
@@ -88,8 +88,7 @@
 						'empNo':empNo},
 				dataType : 'json',
 				success : function(data) {
-					let nm = $("#myname").val();
-					socket.send('reject,'+nm+','+empNo+','+ttl);
+					socket.send('reject,발신인,'+empNo+','+ttl);
 					alert('문서가 반려 처리되었습니다.');
 					location.href = "approval";
 				}
@@ -105,7 +104,7 @@
 			<div class="card">
 				<div class="card-body">
 
-					<br> <input type="hidden" id="myname" th:value="${session.nm}">
+					<br> 
 					<input type="hidden" id="wrtr" th:value="${aprv.empNo}">
 					<table class="table" id="cntn">
 						<tbody>
@@ -113,7 +112,7 @@
 								<th colspan="1" >상태</th>
 								<td colspan="1" th:text="${aprv.reqSt}"></td>
 								<td colspan="4" class="textSize"><b id="ttl">
-									<span th:if="${aprv.impts}=='Y'">[중요]</span>[[${aprv.ttl}]]</b>
+									<span th:if="${aprv.impts=='Y'}">[중요]</span>[[${aprv.ttl}]]</b>
 								</td>
 							</tr>
 							<tr>

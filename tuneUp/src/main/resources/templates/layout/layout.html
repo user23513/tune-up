@@ -209,13 +209,12 @@
   	socket = sock;
   	
   	//이벤트 리스너(커넥션이 연결되었을 때 서버 호출된다)
-  	sock.onopen = function(){console.log("connect!")}
+  	sock.onopen = function(){}
   };
 
   //toast생성 및 추가 (웹소켓으로 보낸 메세지 받는 함수)
   function onMessage(msg){
   	var data = msg.data;
-  	console.log(data)
   	
   	if(data.includes("공지")) {
   		//alert
@@ -240,7 +239,7 @@
   	}else if(data.includes("쪽지")){
   		let noteCount = $("#noteBell").text();
   		$("#noteBell").text(Number(noteCount)+1);
-  	} else if (data.includes("문서")){
+  	} else if (data.includes("결재")){
   		let bellCount = $("#bell").text();
   		$("#bell").text(Number(bellCount)+1);
   		
@@ -325,7 +324,6 @@
 
   function freeTitle() {
 	let postNo = $("#freeTitle").data("no");
-	console.log(postNo)
 	$("#alarmPostNo").val(postNo);
 	$("#bellFrm").submit();
   };
@@ -522,9 +520,11 @@
 		<div class="col-xl-12">
 			<div class="col-xl-10">
 				<!-- ======= Main ======= -->
-				<main id="main" class="main" layout:fragment="content"></main>
+				<main id="main" class="main" layout:fragment="content" style="min-height: 750px;">
+				</main>
 			</div>
 			<!-- End #main -->
+			
 			<div class="col-xl-2 visible-lg"
 				style="position: fixed; right: 0px; top: 80px; padding-right: 30px;"
 				id="mainBar">
@@ -532,7 +532,7 @@
 					<div class="card">
 						<div class="card-body pt-3">
 							<br>
-							<div class="card mb-3">
+							<div class="card mb-3" >
 								<div class="card-body">
 									<br> <span th:text="|${session.nm}님 환영합니다.|"></span>
 									<!-- 출근 시간 보여주기 -->
@@ -676,7 +676,6 @@
 	  	  		data:{'dept':dept},
 	  	  		dataType: 'json',
 	  	  		success: function(res){
-	  	  		console.log(res)
 	  	  			if(res.length != 0){
 			  	  		$.each(res, (idx,team)=>{
 			  	  			$("#teamMem").append(`<li class="list-group-item teamMList">${team.nm}&nbsp;&nbsp;${team.position}&nbsp;&nbsp;<span class="badge rounded-pill bg-primary">${team.st}</span></li>`)
@@ -700,7 +699,6 @@
 	  	  		data:{'dept':dept},
 	  	  		dataType: 'json',
 	  	  		success: function(res){
-	  	  			console.log(res)
 	  	  			if(res.length != 0){
 			  	  		$.each(res, (idx,team)=>{
 			  	  			$("#teamMem").append(`<li class="list-group-item teamMList">${team.nm}&nbsp;&nbsp;${team.position}&nbsp;&nbsp;<span class="badge rounded-pill bg-primary">${team.st}</span></li>`)

@@ -73,8 +73,8 @@
 					</div>
 				</div>
 
-				<div class="list-group col-3" style="float: left">
-					<div class="list-group-item list-group-item-primary "
+				<div class="list-group col-3" style="margin-left: 20%">
+					<div class="list-group-item list-group-item-primary " 
 						style="width: 200px;">
 						퇴근 시간 <span class="badge bg-secondary text-light"
 							th:text="${checkBTime == null? '' : #dates.format(checkBTime, 'HH:mm')}"></span>
@@ -85,8 +85,10 @@
 						data-bs-toggle="modal" data-bs-target="#largeModal"
 						style="float: right;">수정신청</button>
 					<button onclick="location.href='attdList'" class="btn btn-primary"
-						style="float: right; margin-right: 5px;" th:if="${session.mng}=='attd'">관리자 페이지</button>
-				</div>
+						style="float: right; margin-right: 5px;" th:if="${session.mng}=='attd' or ${session.auth}=='ADMIN'">관리자 페이지</button>
+				</div>											      
+
+				
 
 				<br> <br> <br>
 
@@ -183,10 +185,8 @@
 			    /*<![CDATA[*/
 			    
 			    var wktmChart = [[${wktmChart}]];
-			    console.log(wktmChart);
 			    
 			    var ovtmChart = [[${ovtmChart}]];
-			    console.log(ovtmChart);
 			    
 			    /*]]>*/
 			    
@@ -246,13 +246,10 @@
 			           <script th:inline="javascript">
 			             /*<![CDATA[*/
 					      var wkov = [[${wkov}]]; //120
-		              	console.log(wkov);
 					    
 					    var totalWktm = [[${totalWktm}]]; //122
-					    console.log(totalWktm);
 
 					    var totalOvtm = [[${totalOvtm}]]; // 0
-					    console.log(totalOvtm);
 					    /*]]>*/
 			                document.addEventListener("DOMContentLoaded", () => {
 			                	  var options = {

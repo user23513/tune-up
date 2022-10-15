@@ -15,7 +15,7 @@
 	left: 85%;
 }
 .textSize {
-	font-size: 25px;
+	font-size: 20px;
 }
 .auto {
 	display: inline-block;
@@ -27,9 +27,9 @@
 .text-white{
 	background-color: #9c91cf; 
 }
-.card{
-	width: 100%; 
-
+img{
+	max-width: 100%;
+	object-fit:contain;
 }
 </style>
 </head>
@@ -55,7 +55,7 @@
 							<td th:text="${f.hit}"></td>
 						</tr>
 						<tr>
-							<td colspan="6" th:utext="${f.cntn}" class=".txtA" style="height: 500px">내용들어가는곳</td>
+							<td colspan="6" th:utext="${f.cntn}" class=".txtA" style="height: 500px;">내용들어가는곳</td>
 						</tr>
 						<tr th:if="${f.fNm != null}">
 							<th style="width: 100px">첨부파일</th>

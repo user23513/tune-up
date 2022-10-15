@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import co.up.tune.common.service.CommonService;
 import co.up.tune.emp.hr.service.HrService;
 import co.up.tune.emp.vo.EmpVO;
@@ -27,10 +26,7 @@ public class HrController {
 			vo.setPic("");
 		}
 		
-		
-		System.out.println("================"+vo.getEmpNo());
 		//주소
-		System.out.println(emp);
 		String addr = emp.getAddr();
 		if(addr == null) {
 			emp.setAddr("//");

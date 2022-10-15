@@ -106,7 +106,6 @@ public class FileController {
 		//파일 다운로드
 		vo.setFileNo(no);
 		String filePath = vo.getFPath();
-		System.out.println("-------------------"+filePath);
 		File target = new File(filePath);
 		HttpHeaders header = new HttpHeaders();
 		UrlResource rs = null;

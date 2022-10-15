@@ -1,8 +1,6 @@
 package co.up.tune.prj.todo.mapper;
 
 import java.util.List;
-
-import co.up.tune.com.vo.ReplyVO;
 import co.up.tune.prj.vo.TodoVO;
 
 public interface TodoMapper {

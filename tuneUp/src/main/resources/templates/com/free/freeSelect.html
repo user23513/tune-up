@@ -12,7 +12,7 @@
 <style>
 .right {
 	position: relative;
-	left: 85%;
+	left: 80%;
 }
 .textSize {
 	font-size: 20px;
@@ -154,8 +154,10 @@ img{
 										.append($("<span>").html(res.dttm))
 										.append($("<br>"))
 										.append($("<span>").html(res.cntn)).append("\u00A0\u00A0\u00A0")
-										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update").attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
-										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete").attr("data-no", res.replyNo)))
+										.append($("<span>").append($("<i>").addClass("ri-edit-2-line update")
+														   .attr("data-no", res.replyNo)).append("\u00A0\u00A0\u00A0"))
+										.append($("<span>").append($("<i>").addClass("ri-delete-bin-line delete")
+																	       .attr("data-no", res.replyNo)))
 										.append($("<hr>"))
 					$("#rList").prepend(div);
 					
@@ -195,6 +197,7 @@ img{
 				data:{'replyNo':replyNo, 'cntn':cntn},
 				dataType:'json',
 				success:function(res){
+					console.log(res)
 					$(e.target).parent().prev().prev().html(res);
 					$(e.target).prev().remove();
 					$(e.target).remove();

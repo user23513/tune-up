@@ -481,12 +481,10 @@ textarea.none {
 												<br>
 												<div class="businessCntn" th:text="${b.cntn}"
 													style="font-size: medium; padding: 10px;"></div>
-												<br> <br> <a th:each="f:${postFiles}"
-													th:if="${f.atchNo}==${b.atchNo}"
-													th:attr="data-path=${f.fPath}"
-													th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a>
+												<br> <br> 
+												<a th:each="f:${postFiles}" th:if="${f.atchNo}==${b.atchNo}"
+													th:attr="data-path=${f.fPath}" th:href=@{/attach(path=${f.fPath})} th:text="${f.fNm}"></a>
 												<br>
-
 											</div>
 										</div>
 									</td>

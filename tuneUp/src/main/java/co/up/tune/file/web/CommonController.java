@@ -31,8 +31,9 @@ public class CommonController {
 			
 			File file = new File(dir,path);
 			
+			// 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
 			HttpHeaders headers = new HttpHeaders();
-			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());  // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(file.getName()).build());  
 			
 			return new ResponseEntity<Object>(resource ,headers, HttpStatus.OK);
 		} catch(Exception e) {

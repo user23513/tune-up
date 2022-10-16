@@ -142,7 +142,13 @@
 		SELECT * 
 		FROM FILES 
 		WHERE ATCH_NO in(
-			SELECT ATCH_NO FROM POST WHERE PRJ_NO=#{prjNo}
+			SELECT ATCH_NO 
+            FROM POST
+            WHERE PRJ_NO=#{prjNo}
+            UNION
+            SELECT ATCH_NO
+            FROM BUSINESS
+            WHERE PRJ_NO=#{prjNo}
 			)
 		AND ATCH_NO != 0
 	</select>

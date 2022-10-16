@@ -82,7 +82,6 @@
 	</select>
 	
 	<insert id="replyInsert" parameterType="co.up.tune.com.vo.ReplyVO">
-		<!-- before:insert하기전에 -->
 		<selectKey keyProperty="replyNo" order="BEFORE" resultType="int">
 			SELECT 
 			    CASE WHEN MAX(REPLY_NO) IS NULL THEN 1

@@ -18,7 +18,8 @@ public class FileService {
 	@Value("${file.dir}")
 	private String fileDir;
 	
-	public List<FilesVO> fileUpload( @RequestParam("file") MultipartFile[] files, String folder) throws IllegalStateException, IOException {
+	public List<FilesVO> fileUpload( @RequestParam("file") MultipartFile[] files, String folder) 
+			throws IllegalStateException, IOException {
 		List<FilesVO> list = new ArrayList<FilesVO>();
 		
 		for(MultipartFile file:files) {

@@ -9,13 +9,6 @@
 	
 	<!-- 업무 등록 -->
 	<insert id="businessInsert" parameterType="co.up.tune.prj.vo.BusinessVO">
-		<selectKey keyProperty="atchNo" order="BEFORE" resultType="INTEGER">
-			SELECT 
-			    CASE WHEN MAX(ATCH_NO)IS NULL THEN 1
-			    ELSE MAX(ATCH_NO)+1
-			    END AS ATCH_NO
-			FROM FILES
-		</selectKey>
 		INSERT INTO BUSINESS
 		VALUES (PNO_SEQ.NEXTVAL, #{bussTtl}, #{empNo}, #{wrtr}, #{st}, #{sdt}, #{edt}, 
 					#{term}, #{cntn}, #{sub}, #{prog}, #{atchNo}, #{prjNo})

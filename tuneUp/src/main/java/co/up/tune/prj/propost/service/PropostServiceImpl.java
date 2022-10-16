@@ -39,7 +39,6 @@ public class PropostServiceImpl implements PropostService {
 			b = map.prjFileInsert(fvo);
 		}
 		pvo.setAtchNo(fvo.getAtchNo());
-		System.out.println("======"+pvo.getAtchNo());
 		map.prjPostInsert(pvo);
 		return a+b;
 	}

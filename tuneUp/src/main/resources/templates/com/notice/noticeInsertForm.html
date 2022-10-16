@@ -111,12 +111,8 @@
 			let formData = new FormData($("#noticeFrm")[0]);
 			formData.append('file', $('input[name=file]')[0].files[0]);
 			
-			//let empNo = [[${session.empNo}]];
-			//let wrtr = [[${session.nm}]];
-			//let emerg = 0;
 			let content = tinymce.activeEditor.getContent();
 			let title = $("#ttl").val();
-			//let file
 			
 			$("#cntn").val(content);
 

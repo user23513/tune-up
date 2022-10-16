@@ -34,7 +34,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	/* 소켓에 메세지를 보냈을 때 */
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		//protocol : cmd , 댓글작성자, 게시글 작성자 , seq (reply , user2 , user1 , 12)
 		String senderId = getId(session);
 		
 		//자바스크립트에서 넘어온 msg

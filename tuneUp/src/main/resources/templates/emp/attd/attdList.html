@@ -16,7 +16,7 @@
 	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <script>
 	$(document).ready(function() {
-		$('#attdTable,#attdTable2,#attdTable3').DataTable({
+		$('#attdTable,#attdTable2,#attdTable3,#attdTable4').DataTable({
 			//컬럼 갯수
 			colums : [ {
 				data : "atdcDt"
@@ -187,7 +187,7 @@
 									<h5 class="card-title"></h5>
 									<p class="card-text" style="text-align: center"></p>
 									<div id="cid">
-										<button type="button" class="btn btn-light mb-2"
+										<button type="button" class="btn btn-light mb-2" data-bs-toggle="modal" data-bs-target="#largeModal"
 											style="width: 30%; padding: 55px 10px; margin: 4px 12px;">
 											오늘 출근 인원 <span class="badge bg-secondary text-light"><span
 												th:text="${checkGood}"></span> </span>
@@ -205,6 +205,67 @@
 									</div>
 								</div>
 							</div>
+							
+							
+											<!-- Large Modal -->
+				<form id="pstfrm" action="attdUpInsert" name="pstfrm" method="post">
+					<input type="hidden" th:name="${_csrf.parameterName}"
+						th:value="${_csrf.token}">
+					<div class="modal fade" id="largeModal" tabindex="-1">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">오늘의 출근</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+
+									<!-- 모달 오늘 출근상황 -->
+									
+									<table id="attdTable4" class="table table-hover"
+										style="text-align: center;">
+										<thead>
+											<tr>
+												<th class="dt-head-center" data-priority="1">출근 날짜</th>
+												<th class="dt-head-center" data-priority="2">사번</th>
+												<th class="dt-head-center" data-priority="3">이름</th>
+												<th class="dt-head-center" data-priority="4">부서명</th>
+												<th class="dt-head-center" data-priority="5">직위</th>
+												<th class="dt-head-center" data-priority="6">출근시간</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="ta : ${todayAttdList}">
+												<td class="dt-body-center"><span th:text="${ta.atdcDt}"></span></td>
+												<td class="dt-body-center"><span th:text="${ta.empNo}"></span></td>
+												<td class="dt-body-center"><span th:text="${ta.nm}"></span></td>
+												<td class="dt-body-center"><span th:text="${ta.dept}"></span></td>
+												<td class="dt-body-center"><span
+													th:text="${ta.position}"></span></td>
+
+												<td class="dt-body-center"><span
+													th:text="${#dates.format(ta.atdcDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
+											</tr>
+										</tbody>
+									</table>
+									
+									
+																		<!-- 바디 끝 -->
+
+
+								</div>
+								<div class="modal-footer">
+									
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</form>
+							
+							
 
 							<!-- 출퇴근 현황 하단탭 + 엑셀버튼 -->
 							<ul class="nav nav-tabs" id="myTab1" role="tablist">
@@ -272,9 +333,9 @@
 													th:text="${at.position}"></span></td>
 
 												<td class="dt-body-center"><span
-													th:text="${#dates.format(at.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													th:text="${#dates.format(at.atdcDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
 												<td class="dt-body-center"><span
-													th:text="${#dates.format(at.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													th:text="${#dates.format(at.afwkDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
 
 
 												<td class="dt-body-center"><span th:text="${at.wktm}"></span>
@@ -336,9 +397,9 @@
 												<td class="dt-body-center"><span
 													th:text="${ag.position}"></span></td>
 												<td class="dt-body-center"><span
-													th:text="${#dates.format(ag.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													th:text="${#dates.format(ag.atdcDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
 												<td class="dt-body-center"><span
-													th:text="${#dates.format(ag.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													th:text="${#dates.format(ag.afwkDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
 												<td class="dt-body-center"><span th:text="${ag.wktm}"></span>
 													<span th:if="${ag.wktmH != null}"
 													th:text="'('+${ag.wktmH}+'시간)'"></span></td>
@@ -383,9 +444,9 @@
 												<td class="dt-body-center"><span
 													th:text="${ab.position}"></span></td>
 												<td class="dt-body-center"><span
-													th:text="${#dates.format(ab.atdcDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													th:text="${#dates.format(ab.atdcDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
 												<td class="dt-body-center"><span
-													th:text="${#dates.format(ab.afwkDttm, 'yyyy-MM-dd hh:mm')}"></span></td>
+													th:text="${#dates.format(ab.afwkDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
 												<td class="dt-body-center"><span th:text="${ab.wktm}"></span>
 													<span th:if="${ab.wktmH != null}"
 													th:text="'('+${ab.wktmH}+'시간)'"></span></td>

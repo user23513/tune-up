@@ -62,5 +62,10 @@ public class AttdUpController {
 		return "redirect:/attdList";
 	}
 
-
+	@GetMapping("/myAttdUpList")
+	public String myAttdUpList(Model model, String empNo) {
+		model.addAttribute("myAttdUpList", dao.myAttdUpList(empNo));
+		return "attd/attdList";
+		
+	}
 }

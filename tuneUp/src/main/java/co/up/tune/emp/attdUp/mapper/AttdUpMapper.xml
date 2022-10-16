@@ -6,7 +6,7 @@
 		parameterType="co.up.tune.emp.vo.AttdUpVO">
 		INSERT INTO ATTDUP
 		VALUES (PNO_SEQ.NEXTVAL, #{empNo}, #{nm}, #{atdcDt}, #{atdcDttm},
-		#{afwkDttm}, #{aContent}, '701', (sysdate + 9/24))
+		#{afwkDttm}, #{aContent}, '701', sysdate)
 	</insert>
 
 	<select id="attdUpList" resultType="co.up.tune.emp.vo.AttdUpVO">
@@ -14,6 +14,14 @@
 		FROM
 		ATTDUP
 		WHERE ST = '701'
+		ORDER BY ATDC_DT DESC
+	</select>
+	
+	<select id="myAttdUpList" resultType="co.up.tune.emp.vo.AttdUpVO" >
+		SELECT *
+		FROM
+		ATTDUP
+		WHERE EMP_NO = #{empNo}
 		ORDER BY ATDC_DT DESC
 	</select>
 	

@@ -23,12 +23,7 @@ public class AttdUpServiceImpl implements AttdUpService{
 		return dao.attdUpList();
 	}
 
-	@Override
-	public List<AttdUpVO> myAttdUpList() {
-		// TODO Auto-generated method stub
-		return dao.myAttdUpList();
-	}
-
+	
 	@Override
 	public AttdUpVO attdUpSelect(AttdUpVO vo) {
 		// TODO Auto-generated method stub
@@ -129,6 +124,15 @@ public class AttdUpServiceImpl implements AttdUpService{
 		// 수정요청 몇명
 		return dao.checkModi(vo);
 	}
+
+	@Override
+	public List<AttdUpVO> myAttdUpList(String empNo) {
+		// TODO Auto-generated method stub
+		return dao.myAttdUpList(empNo);
+	}
+
+
+ 
 	
 	
 }

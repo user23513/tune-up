@@ -10,7 +10,7 @@ public interface AttdUpMapper {
 	int attdUpUpdate(AttdUpVO vo); // 근태 업데이트 - 관리자
 	AttdUpVO attdUpSelect(AttdUpVO vo); // 수정 상세조회 - 관리자 
 	
-	List<AttdUpVO> myAttdUpList(); //나의 근태 수정리스트
+	List<AttdUpVO> myAttdUpList(String empNo); //나의 근태 수정리스트
 	int attdUpInsert(AttdUpVO vo); // 근태 수정 신청 - 사원
 	int attdUpDel(int attdUpNo);	//근태 수정 반려
 	int attdUpOk(Map<String, Object> paramMap);	//근태 수정 승인

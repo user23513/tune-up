@@ -8,6 +8,18 @@
     	ORDER BY ATDC_DT DESC
 	</select>	
 	
+	<select id="todayAttdList" resultType="co.up.tune.emp.vo.AttdVO">
+    	<!-- SELECT * 
+    	FROM ATTD
+    	WHERE atdc_dt = to_date(TO_CHAR(SYSDATE,'YYYYMMDD'), 'YYYYMMDD')
+    	ORDER BY ATDC_DT DESC -->
+    	<![CDATA[
+		SELECT *
+		FROM ATTD
+		WHERE ST IS NULL
+		 ]]>
+	</select>	
+	
 	<!-- <select id="checkGood" resultType="Integer">
 		<![CDATA[ ]]>
 		SELECT COUNT(*)
@@ -21,7 +33,7 @@
 		SELECT ATDC_DTTM
 		FROM ATTD
 		WHERE EMP_NO= #{empNo}
-		and atdc_dt = to_date(TO_CHAR(SYSDATE+ 9/24,'YYYYMMDD'), 'YYYYMMDD')
+		and atdc_dt = to_date(TO_CHAR(SYSDATE,'YYYYMMDD'), 'YYYYMMDD')
 		]]>
 	</select>
 	
@@ -30,7 +42,7 @@
 		SELECT AFWK_DTTM
 		FROM ATTD
 		WHERE EMP_NO= #{empNo}
-		and atdc_dt = to_date(TO_CHAR(SYSDATE+ 9/24,'YYYYMMDD'), 'YYYYMMDD')
+		and atdc_dt = to_date(TO_CHAR(SYSDATE,'YYYYMMDD'), 'YYYYMMDD')
 		]]>
 	</select>
 	
@@ -75,7 +87,7 @@
 	
 	<insert id="startAttd" parameterType="co.up.tune.emp.vo.AttdVO">
 		INSERT INTO ATTD (atdc_dt,emp_no, nm, dept, position,atdc_dttm)
-		VALUES (to_date(TO_CHAR(SYSDATE+ 9/24,'YYYYMMDD'),'YYYYMMDD'), #{empNo}, #{nm}, #{dept}, #{position},(systimestamp + 9/24))
+		VALUES (to_date(TO_CHAR(SYSDATE,'RRRR/MM/DD'),'RRRR/MM/DD'), #{empNo}, #{nm}, #{dept}, #{position},systimestamp )
 	</insert>
 	
 	<select id="alreadyAttd" resultType="int" parameterType="map">
@@ -86,12 +98,12 @@
 	<update id="endAttd" parameterType="co.up.tune.emp.vo.AttdVO">
 		<![CDATA[ 
 		 UPDATE ATTD 
-		 SET afwk_dttm = (systimestamp + 9/24)
+		 SET afwk_dttm = systimestamp 
         , wktm = #{wktm}
         , ovtm = #{ovtm}
         , st = #{st}
 		WHERE EMP_NO = #{empNo}
-		AND ATDC_DT = to_date(TO_CHAR(SYSDATE+ 9/24,'RRRR/MM/DD'), 'RRRR/MM/DD')
+		AND ATDC_DT = to_date(TO_CHAR(SYSDATE,'RRRR/MM/DD'), 'RRRR/MM/DD')
 		]]>	
 	</update>
 	
@@ -99,39 +111,39 @@
 		SELECT ATDC_DTTM
 		FROM ATTD
 		WHERE EMP_NO= #{empNo}
-		AND ATDC_DT = to_date(TO_CHAR(SYSDATE+ 9/24,'RRRR/MM/DD'), 'RRRR/MM/DD')
+		AND ATDC_DT = to_date(TO_CHAR(SYSDATE,'RRRR/MM/DD'), 'RRRR/MM/DD')
 	</select>
 	
 	<select id="ovtmChart" parameterType="String" resultType="String">
 	SELECT round(OVTM/60) 
 	FROM ATTD 
 	WHERE EMP_NO=#{empNo} 
-	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') - 7, 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') - 1, 'RRRR/MM/DD'), 'RRRR/MM/DD')
+	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE, 'IW') - 7, 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE, 'IW') - 1, 'RRRR/MM/DD'), 'RRRR/MM/DD')
  	</select>
 	
 	<select id="wktmChart" parameterType="String" resultType="String">
 	SELECT round(WKTM/60)
 	FROM ATTD 
 	WHERE EMP_NO=#{empNo} 
-	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') - 7, 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') - 1, 'RRRR/MM/DD'), 'RRRR/MM/DD')
+	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE, 'IW') - 7, 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE, 'IW') - 1, 'RRRR/MM/DD'), 'RRRR/MM/DD')
  	</select>
  	
  	<select id="wkov" resultType="String" parameterType="String">
 	SELECT NVL(SUM (WKTM+OVTM),0)
 	FROM ATTD WHERE EMP_NO=#{empNo} 
-	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW'), 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') +4, 'RRRR/MM/DD'), 'RRRR/MM/DD')
+	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE, 'IW'), 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE, 'IW') +4, 'RRRR/MM/DD'), 'RRRR/MM/DD')
 	</select>
 	
 	<select id="totalWktm" resultType="String" parameterType="String">
 	SELECT NVL(SUM(WKTM),0)
    	FROM ATTD WHERE EMP_NO=#{empNo}  
-   	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW'), 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') +4, 'RRRR/MM/DD'), 'RRRR/MM/DD')
+   	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE, 'IW'), 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE, 'IW') +4, 'RRRR/MM/DD'), 'RRRR/MM/DD')
 	</select>
 	
 	<select id="totalOvtm" resultType="String" parameterType="String">
 	SELECT NVL(SUM(OVTM),0)
    	FROM ATTD WHERE EMP_NO=#{empNo}  
-   	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW'), 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE+ 9/24, 'IW') +4, 'RRRR/MM/DD'), 'RRRR/MM/DD')
+   	AND ATDC_DT BETWEEN to_date(TO_CHAR(TRUNC(SYSDATE, 'IW'), 'RRRR/MM/DD'), 'RRRR/MM/DD') AND to_date(TO_CHAR(TRUNC(SYSDATE, 'IW') +4, 'RRRR/MM/DD'), 'RRRR/MM/DD')
 	</select>
 	
 	 

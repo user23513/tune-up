@@ -184,11 +184,6 @@ public class AttdServiceImpl implements AttdService{
 		return dao.myAttdList(vo);
 	}
 
-	@Override
-	public List<AttdVO> attdListSearch(String key, String val) {
-		// TODO Auto-generated method stub
-		return dao.attdListSearch(key, val);
-	}
  
 
 	@Override
@@ -331,6 +326,12 @@ public class AttdServiceImpl implements AttdService{
 	public String totalOvtm(String empNo) {
 		// TODO Auto-generated method stub
 		return dao.totalOvtm(empNo);
+	}
+
+	@Override
+	public List<AttdVO> todayAttdList() {
+		// TODO Auto-generated method stub
+		return dao.todayAttdList();
 	}
 
 

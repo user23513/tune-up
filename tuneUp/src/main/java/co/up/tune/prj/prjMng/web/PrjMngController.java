@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.up.tune.prj.prjMng.service.PrjMngService;
+import co.up.tune.prj.propost.service.PropostService;
 import co.up.tune.prj.vo.ProjectVO;
 import co.up.tune.prj.vo.TeamVO;
 
@@ -20,6 +21,8 @@ public class PrjMngController {
 	@Autowired
 	PrjMngService dao;
 
+	@Autowired
+	PropostService qdao;
 	// 프로젝트 팀 리스트
 	@GetMapping("/teamList")
 	public String teamList(@RequestParam("prjNo") int prjNo, Model model) {
@@ -29,6 +32,9 @@ public class PrjMngController {
 		model.addAttribute("authList", dao.authList(prjNo));
 		model.addAttribute("prj", dao.pjSelect(vo));
 		model.addAttribute("mEmpList", dao.mEmpListByPrj(Integer.toString(prjNo)));
+		ProjectVO prjD = new ProjectVO();
+		prjD.setPrjNo(prjNo);
+		model.addAttribute("prjDetail", qdao.projectSel(prjD));
 		return "prj/prjMng/teamList";
 	}
 
@@ -86,28 +92,36 @@ public class PrjMngController {
 
 	}
 	
+	// (teamList.html 316행과 이어짐)
 	@PostMapping("/teamInsert")
 	public String teamInsert(TeamVO vo, RedirectAttributes rttr) {
 		//vo.setPrjNo(vo.getPrjNo());
 		TeamVO addVo = new TeamVO();
 		
-		// 여러 사원을 추가할 경우
+		// 여러 사원을 추가했을 경우 밸류값에 따옴표가 포함되어있음
 		if(vo.getEmpNo().contains(",")) {
-			String empNoArr[] = vo.getEmpNo().split(",");
+			// 따옴표가 들어있는 밸류값을 꺼내어
+			// 따옴표를 기준으로 나눔
+			// split메서드를 쓰면 지정한 문자열을 기준으로 array를 반환함
+			String empNoArr[] = vo.getEmpNo().split(","); 
 			String nmArr[] = vo.getNm().split(",");
-			String deptArr[] = vo.getDept().split(",");
+			String deptArr[] = vo.getDept().split(","); // 개발팀 회계팀 회계팀 운영팀 총 네개의 값이 들어있는 array
 			
-			// empNoArr갯수 == nmArr갯수 == deptArr갯수
-			for(int i=0; i<empNoArr.length; i++) {
+			// 사원을 추가 count == empNoArr, nmArr, deptArr length
+			// 추가한 만큼 들어옴
+			// (세 값 모두 같은 length이므로 empNoArr값으로 length체크하였음)
+			for(int i=0; i< empNoArr.length; i++) {
 				addVo.setEmpNo(empNoArr[i]);
 				addVo.setNm(nmArr[i]);
 				addVo.setDept(deptArr[i]);
 				addVo.setPrjNo(vo.getPrjNo());
-				dao.teamInsert(addVo);
+				
+				dao.teamInsert(addVo); // 사원 추가한 만큼 Insert
 			}
 		}else {
-			dao.teamInsert(vo);
+			dao.teamInsert(vo); // 단일 사원 Insert
 		}
+		
 		rttr.addAttribute("prjNo", vo.getPrjNo());
 		
 		return "redirect:/teamList";

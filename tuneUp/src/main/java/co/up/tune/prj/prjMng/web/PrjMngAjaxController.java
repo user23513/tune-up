@@ -7,10 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.up.tune.aprv.aprvLine.service.AprvLineService;
 import co.up.tune.emp.vo.EmpVO;
 import co.up.tune.prj.prjMng.service.PrjMngService;
+import co.up.tune.prj.vo.TeamVO;
 
 @RestController
 public class PrjMngAjaxController {
@@ -41,7 +43,13 @@ public class PrjMngAjaxController {
 //			return "prj/prjMng/t	eamList";
 //		}
 		
-	 
+//	 @PostMapping("/removeTeam")
+//		public String removeTeam(TeamVO vo, Model model, RedirectAttributes rttr) {
+//		 pServ.removeTeam(vo);
+//			rttr.addAttribute("prjNo", vo.getPrjNo());
+//			return "redirect:/teamList";
+//
+//		}
 	}
 
  

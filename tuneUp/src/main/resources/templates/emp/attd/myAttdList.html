@@ -172,6 +172,41 @@
 						</div>
 					</div>
 				</form>
+				
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-body">
+						<h5 class="card-title">나의 수정신청</h5>
+									<table id="attdTable2" class="table table-hover"
+										style="text-align: center; width: 100%;">
+										<thead>
+											<tr>
+												<th class="dt-head-center" data-priority="1">신청 번호</th>
+												<th class="dt-head-center" data-priority="2">출근 시간</th>
+												<th class="dt-head-center" data-priority="3">퇴근 시간</th>
+												<th class="dt-head-center" data-priority="4">사유</th>
+												<th class="dt-head-center" data-priority="6">신청일자</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="maul : ${myAttdUpList}">
+												<td class="dt-body-center"><span th:text="${maul.attdupNo}"></span></td>
+												<td class="dt-body-center"><span
+													th:text="${#dates.format(maul.atdcDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
+												<td class="dt-body-center"><span
+													th:text="${#dates.format(maul.afwkDttm, 'yyyy-MM-dd HH:mm')}"></span></td>
+												<td class="dt-body-center"><span th:text="${maul.aContent}"></span>
+												<td class="dt-body-center"><span th:text="${maul.aDate}"></span></td>
+											</tr>
+										</tbody>
+									</table>
+						
+						
+						
+						</div></div>
+						</div>
+						
+						<!-- 수정리스트 끝 -->
 
 				<div class="col-lg-12">
 					<div class="card">

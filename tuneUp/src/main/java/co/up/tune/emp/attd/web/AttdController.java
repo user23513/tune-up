@@ -39,6 +39,7 @@ public class AttdController {
 	public String attdList(Model model) {
 		AttdUpVO vo = new AttdUpVO();
 		model.addAttribute("attdList",dao.attdList());
+		model.addAttribute("todayAttdList",dao.todayAttdList());
 		model.addAttribute("attdGoodList",dao.attdGoodList());
 		model.addAttribute("attdBadList",dao.attdBadList());
 		model.addAttribute("attdUpList", udao.attdUpList());
@@ -100,6 +101,7 @@ public class AttdController {
 	public String myAttdList(Model model, HttpServletRequest request){
 		HttpSession session =  request.getSession();
 		AttdVO vo = new AttdVO();
+		AttdUpVO uvo = new AttdUpVO();
 		String empNo = (String)session.getAttribute("empNo");
 		model.addAttribute("wktmChart", dao.wktmChart(empNo));
 		model.addAttribute("ovtmChart", dao.ovtmChart(empNo));
@@ -121,7 +123,7 @@ public class AttdController {
 		// 총 근무시간 + 총 초과근무시간
 		int wkov = Integer.parseInt(totalOvtm) +  Integer.parseInt(totalWktm);
 		model.addAttribute("wkov", wkov);
-		
+		model.addAttribute("myAttdUpList", udao.myAttdUpList(empNo));
 
 	
 		return "emp/attd/myAttdList";

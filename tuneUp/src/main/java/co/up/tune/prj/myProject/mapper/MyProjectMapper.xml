@@ -4,15 +4,15 @@
 
 	<!-- 내프로젝트 리스트 -->
 	<select id="myPrjList" resultType="co.up.tune.prj.vo.ProjectVO" parameterType="int">
-    	SELECT p.prj_no,p.nm,p.cntn,(select nvl(ROUND((select count(*)*100 
-	        from business 
-	        where prj_no=p.prj_no 
-	        and st='완료')/
-       (select nullif(count(*),0) 
-        from business 
-        where prj_no=p.prj_no)),0) prog
-from dual) prog ,p.st,p.dt,p.sdt,p.edt, (select count(*) from team t where t.prj_no = p.prj_no) as cnt
-		FROM PROJECT p
+    	SELECT P.PRJ_NO,P.NM,P.CNTN,(SELECT NVL(ROUND((SELECT COUNT(*)*100 
+	        FROM BUSINESS 
+	        WHERE PRJ_NO=P.PRJ_NO 
+	        AND ST='완료')/
+       (SELECT NULLIF(COUNT(*),0) 
+        FROM BUSINESS 
+        WHERE PRJ_NO=P.PRJ_NO)),0) PROG
+        FROM DUAL) PROG ,P.ST,P.DT,P.SDT,P.EDT, (SELECT COUNT(*) FROM TEAM T WHERE T.PRJ_NO = P.PRJ_NO) AS CNT
+		FROM PROJECT P
         WHERE PRJ_NO IN (
     		SELECT PRJ_NO 
     		FROM TEAM 

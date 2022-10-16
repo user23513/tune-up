@@ -56,7 +56,8 @@ public class NoitceController {
 	//공지사항 등록(파일까지)
 	@ResponseBody
 	@PostMapping("/noticeInsert")
-	public CommunityVO noticeInsert(CommunityVO vo, @RequestParam("file") MultipartFile[] files) throws IllegalStateException, IOException {
+	public CommunityVO noticeInsert(CommunityVO vo, @RequestParam("file") MultipartFile[] files) 
+				throws IllegalStateException, IOException {
 		//file upload 처리
 		List<FilesVO> list = new ArrayList<>();
 		
@@ -104,10 +105,16 @@ public class NoitceController {
 	
 	//공지사항 수정
 	@PostMapping("/noticeUpdate")
-	public String noticeUpdate(CommunityVO vo, @RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
+	public String noticeUpdate(CommunityVO vo, @RequestParam("file") MultipartFile[] files) 
+			throws IllegalStateException, IOException {
 		//file upload 처리
-		if(!file.isEmpty()) {
-			//vo = fdao.fileUpload(vo, file);
+		List<FilesVO> list = new ArrayList<>();
+		
+		if(!files[0].isEmpty()) {
+			String folder = "com"; //Temp안에 폴더명
+			list = fdao.fileUpload(files, folder);
+			vo.setFNm(list.get(0).getFNm());
+			vo.setFPath(list.get(0).getFPath());
 		}
 				
 		//긴급공지 체크되었을때 "1", 안되었을때 "0"

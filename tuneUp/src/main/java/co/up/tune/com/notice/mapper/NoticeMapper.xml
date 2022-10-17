@@ -57,7 +57,6 @@
 		WHERE POST_NO = #{postNo}
 	</delete>
 	
-	<!-- ///////// -->
 	<select id="ganttList" parameterType="co.up.tune.prj.vo.BusinessVO" resultType="co.up.tune.prj.vo.BusinessVO">
 		SELECT *
 		FROM BUSINESS

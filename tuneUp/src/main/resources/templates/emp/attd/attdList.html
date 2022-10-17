@@ -8,7 +8,6 @@
 <meta id="_csrf_header" name="_csrf_header"
 	th:content="${_csrf.headerName}" />
 <title>TuneUp - 근태 관리</title>
-
 <script src="/js/jquery-3.6.1.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.css" />
@@ -16,7 +15,7 @@
 	src="https://cdn.datatables.net/v/dt/dt-1.11.4/r-2.2.9/datatables.min.js"></script>
 <script>
 	$(document).ready(function() {
-		$('#attdTable,#attdTable2,#attdTable3,#attdTable4').DataTable({
+		$('#attdTable,#attdTable2,#attdTable3').DataTable({
 			//컬럼 갯수
 			colums : [ {
 				data : "atdcDt"
@@ -63,10 +62,10 @@
 				width : 50
 			}, {
 				targets : 7,
-				width : 50
+				width : 70
 			}, {
 				targets : 8,
-				width : 50
+				width : 70
 			}, {
 				targets : 9,
 				width : 50
@@ -78,7 +77,12 @@
 			//정보 표시 숨기기
 			info : false
 		});
+		
+		
 	})
+	
+	
+	
 </script>
 
 
@@ -109,7 +113,7 @@
 </head>
 <body>
 	<main id="main" class="main" layout:fragment="content">
-		<script type="text/javascript">
+		<!-- <script type="text/javascript">
 		 $(document).ready(function() {
 	 
 	
@@ -140,7 +144,7 @@
 					}})
 				}) */
 			
- </script>
+ </script> -->
 
 		<section class="section">
 
@@ -484,6 +488,7 @@
 								<!-- 수정요청 리스트 -->
 								<table id="upTable" class="table table-hover"
 									style="text-align: center;">
+									
 									<thead>
 										<tr>
 											<th>신청번호</th>
@@ -546,6 +551,9 @@
 										</tr>
 									</tbody>
 								</table>
+								<div th:if="${attdUpList.empty}">
+									<span id="nomem">수정 신청한 사원이 없습니다. </span>
+								</div>
 
 
 
@@ -559,11 +567,21 @@
 
 				</div>
 			</div>
-			</div>
 
 		</section>
 
-
+<script>
+$(document).ready(function(){
+	//승인 버튼 클릭 이벤트
+	 $("#okBtn").on("click", e=>{
+		$("#okFrm").submit();
+	 	alert("승인 되었습니다.");
+	 }
+	 )
+ 	 
+	 
+})
+</script>
 	</main>
 	<!-- End #main -->
 </body>

@@ -545,12 +545,12 @@
 									<div class="list-group col-12">
 										<div class="list-group-item list-group-item-primary">
 											<div>
-												출근 시간 <span class="badge bg-secondary text-light"
+												출근 시간 <span class="badge bg-secondary text-light" id="ckTmForAjax"
 													th:text="${session.checkTime == null? '' :  #dates.format(session.checkTime, 'HH:mm')}"
 													style="margin-left: 30px;"></span>
 											</div>
 											<div>
-												퇴근 시간 <span class="badge bg-secondary text-light"
+												퇴근 시간 <span class="badge bg-secondary text-light" id="ckbTmForAjax"
 													th:text="${session.checkBTime == null? '' : #dates.format(session.checkBTime, 'HH:mm')}"
 													style="margin-left: 30px;"></span>
 											</div>
@@ -609,15 +609,15 @@
 							<form id="noticeFrm" action="noticeSelect">
 								<input type="hidden" id="pn" name="postNo">
 							</form>
-							<form id="stFrm" method="post" action="startAttd">
+						 	<form id="stFrm" method="post"> 
 								<input type="hidden" th:name="${_csrf.parameterName}"
 									th:value="${_csrf.token}"> <input type="hidden"
 									name="empNo" th:value="${session.empNo}"> <input
 									type="hidden" name="nm" th:value="${session.nm}"> <input
 									type="hidden" name="dept" th:value="${session.dept}"> <input
 									type="hidden" name="position" th:value="${session.position}">
-							</form>
-							<form id="endFrm" method="post" action="endAttd">
+							 </form> 
+							<form id="endFrm" method="post">
 								<input type="hidden" class="inputToken"
 									th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 								<input type="hidden" class="inputEmpNo" name="empNo"
@@ -731,19 +731,80 @@
 		alert(msgs);
 	}
 	$(document).ready(function(){
-		//확인 버튼 클릭 이벤트
+		
 		 $("#attdBtn").on("click", e=>{
-			$("#stFrm").submit();
-		 	$(e.target).attr("disabled", true); 
-		 	alert("출근 처리 되었습니다!");
-			
-		});
-		$("#edBtn").on("click", e=>{
-			if(confirm("정말 퇴근하시겠습니까?")){
-				$("#endFrm").submit(); 
-				alert("퇴근 처리 되었습니다.");
-			} 
-		})
+				var form = $("#stFrm");
+				var nm = $('input[name=nm]').val()	
+				var empNo = $('input[name=empNo]').val()	
+				var dept = $('input[name=dept]').val()	
+				var position = $('input[name=position]').val()	
+				
+				var data = {
+					nm : nm,
+					empNo : empNo,
+					dept: dept,
+					position : position
+				}
+				
+				data = JSON.stringify(data) // json to string
+				
+			 	  $.ajax({
+				url:'startAttd/ajax',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    contentType:'application/json',
+			    type:"post",
+			    data: data,
+			    dataType:'text', //컨트롤러의 리턴 타입과 일치되어야함,리턴타입이 Map이라면 dataType:json으로 할것
+			    success:function(e){
+			    	console.log("success", e) // 리턴값 e의 값이 '년도/월/일 시간' 이므로
+			    	alert("출근하였습니다!")
+			    	var d = e.split(' ')[1] // 공백으로 스플릿 후 리턴받는 배열에서 두번째 값을 쓰도록함 (인덱스1 = 두번째값)
+			    	$('#ckTmForAjax').text(d) 
+					
+				},error:function(f){
+					console.log(f)
+					
+				}
+			})
+				
+			});
+		 
+
+		 $("#edBtn").on("click", e=>{
+				var form = $("#endFrm");
+				var empNo = $('input[name=empNo]').val()	
+				
+				var data = {
+					empNo : empNo,
+				}
+				
+				data = JSON.stringify(data) // json to string
+				
+			 	  $.ajax({
+				url:'endAttd/ajax',
+				beforeSend:function(xhr){
+			 		xhr.setRequestHeader(header,token);  
+			    },
+			    contentType:'application/json',
+			    type:"post",
+			    data: data,
+			    dataType:'text', 
+			    success:function(e){
+			    	console.log("success", e)  
+			    	alert("퇴근 하였습니다!")
+			    	var d = e.split(' ')[1]  
+			    	$('#ckbTmForAjax').text(d) 
+					
+				},error:function(f){
+					console.log(f)
+					
+				}
+			})
+				
+			});
+		
 		
 		 $("#sessionSt").on("change", e=>{
 		  let st = $("select[name=sessionSt]").val();

@@ -231,6 +231,8 @@ public class AttdServiceImpl implements AttdService{
 			atdcDttm = dateFormat.parse(dateFormat.format(atdcDttm));
 			curDate = dateFormat.parse(dateFormat.format(curDate));
 			
+			System.out.println("currentTime" + curDate.getTime() +" atdcdttm " +  atdcDttm.getTime()) ;
+			
 			// 2-3 차이 구하기
 			long diff = curDate.getTime() - atdcDttm.getTime();
 			

@@ -13,11 +13,12 @@
 		<script id="code">
 function init() {
 
+	
   
   const $ = go.GraphObject.make;  
 
   myDiagram =
-    $(go.Diagram, "myDiagramDiv", // must be the ID or reference to div
+    $(go.Diagram, "myDiagramDiv", 
       {
         allowCopy: false,
         allowDelete: false,
@@ -27,26 +28,25 @@ function init() {
             {
               treeStyle: go.TreeLayout.StyleLastParents,
               arrangement: go.TreeLayout.ArrangementHorizontal,
-              // properties for most of the tree:
+        
               angle: 90,
               layerSpacing: 35,
-              // properties for the "last parents":
+              
               alternateAngle: 90,
               alternateLayerSpacing: 35,
               alternateAlignment: go.TreeLayout.AlignmentBus,
               alternateNodeSpacing: 20
             }),
-        "undoManager.isEnabled": false // enable undo & redo
+        "undoManager.isEnabled": false 
       });
 
  
   const levelColors = ["#493E87", "#645FCE", "#40356F", "#645FCD"];
 
-  // override TreeLayout.commitNodes to also modify the background brush based on the tree depth level
+  
   myDiagram.layout.commitNodes = function() {
-    go.TreeLayout.prototype.commitNodes.call(this);  // do the standard behavior
-    // then go through all of the vertexes and set their corresponding node's Shape.fill
-    // to a brush dependent on the TreeVertex.level value
+    go.TreeLayout.prototype.commitNodes.call(this);  
+    
     myDiagram.layout.network.vertexes.each(v => {
       if (v.node) {
         const level = v.level % (levelColors.length);
@@ -57,19 +57,18 @@ function init() {
     });
   };
 
-  // This function provides a common style for most of the TextBlocks.
-  // Some of these values may be overridden in a particular TextBlock.
+ 
   function textStyle() {
     return { font: "9pt  Segoe UI,sans-serif", stroke: "white" };
   }
 
-  // This converter is used by the Picture.
+ 
   function findHeadShot(pic) {
-    if (!pic) return "images/HSnopic.png"; // There are only 16 images on the server
+    if (!pic) return "images/HSnopic.png";
     return "images/HS" + pic;
   }
 
-  // define the Node template
+  
   myDiagram.nodeTemplate =
     $(go.Node, "Spot",
       {
@@ -83,33 +82,33 @@ function init() {
           if (!mayWorkFor(selnode, node)) return;
           const shape = node.findObject("SHAPE");
           if (shape) {
-            shape._prevFill = shape.fill;  // remember the original brush
+            shape._prevFill = shape.fill;  
             shape.fill = "darkred";
           }
         },
         mouseDragLeave: (e, node, next) => {
           const shape = node.findObject("SHAPE");
           if (shape && shape._prevFill) {
-            shape.fill = shape._prevFill;  // restore the original brush
+            shape.fill = shape._prevFill; 
           }
         },
         mouseDrop: (e, node) => {
           const diagram = node.diagram;
-          const selnode = diagram.selection.first();  // assume just one Node in selection
+          const selnode = diagram.selection.first();  
           if (mayWorkFor(selnode, node)) {
-            // find any existing link into the selected node
+          
             const link = selnode.findTreeParentLink();
-            if (link !== null) {  // reconnect any existing link
+            if (link !== null) { 
               link.fromNode = node;
-            } else {  // else create a new link
+            } else { 
               diagram.toolManager.linkingTool.insertLink(node, node.port, selnode, selnode.port);
             }
           }
         }
       },
-      // for sorting, have the Node.text be the data.name
+    
       new go.Binding("text", "name"),
-      // bind the Part.layerName to control the Node's layer depending on whether it isSelected
+    
       new go.Binding("layerName", "isSelected", sel => sel ? "Foreground" : "").ofObject(),
       $(go.Panel, "Auto",
         { name: "BODY" },
@@ -162,14 +161,12 @@ function init() {
     );  // end Node, a Spot Panel
 
 
-  // define the Link template
   myDiagram.linkTemplate =
     $(go.Link, go.Link.Orthogonal,
       { layerName: "Background", corner: 5 },
-      $(go.Shape, { strokeWidth: 1.5, stroke: "#999999" }));  // the link shape
+      $(go.Shape, { strokeWidth: 1.5, stroke: "#999999" }));  
 
-      
-  // read in the JSON-format data from the "mySavedModel" element
+  
   load();
   myDiagram.commandHandler.zoomToFit();
 
@@ -180,7 +177,7 @@ function init() {
 // Show the diagram's model in JSON format
 function load() {
   myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
-  // make sure new data keys are unique positive integers
+ 
   let lastkey = 1;
   myDiagram.model.makeUniqueKeyFunction = (model, data) => {
     let k = data.key || lastkey;
@@ -228,18 +225,24 @@ window.addEventListener('DOMContentLoaded', init);
 
 					<textarea id="mySavedModel"  hidden="hiden" style="width: 100%; height: 270px; ">{ "class": "go.TreeModel",
   "nodeDataArray": [
-{"key":1, "name":"임원진", "title":"Board of directors"},
+{"key":1, "name":"김대표", "title":"사장"},
 {"key":2, "name":"인사팀", "title":"Personnel", "parent":1},
 {"key":3, "name":"회계팀", "title":"Account",  "parent":1},
 {"key":4, "name":"영업팀", "title":"Sales",  "parent":1},
 {"key":5, "name":"재무팀", "title":"Finance",  "parent":1},
 {"key":6, "name":"기획팀", "title":"Planning",  "parent":1},
-{"key":7, "name":"개발팀", "title":"Development",  "parent":1}
+{"key":7, "name":"개발팀", "title":"Development",  "parent":1},
+{"key":8, "name":"최영업", "title":"영업팀 주임",  "parent":4},
+{"key":9, "name":"박기획", "title":"기획팀 사원",  "parent":6},
+{"key":10, "name":"이인사", "title":"인사팀 과장",  "parent":2},
+{"key":12, "name":"이회계", "title":"회계팀 주임",  "parent":3},
+{"key":13, "name":"황개발", "title":"개발팀 사원",  "parent":7},
+{"key":14, "name":"장재무", "title":"재무팀 사원",  "parent":5}
  ]
 }
     </textarea>
     
-    <!-- emp 데이터 받아와서 function으로 조직도 for 문 돌려서 json 그리면됨 2022.10.07 윤정은-->
+
 				</div>
 			</div>
 			

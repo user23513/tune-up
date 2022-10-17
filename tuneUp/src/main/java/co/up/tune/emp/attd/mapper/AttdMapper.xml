@@ -87,7 +87,7 @@
 	
 	<insert id="startAttd" parameterType="co.up.tune.emp.vo.AttdVO">
 		INSERT INTO ATTD (atdc_dt,emp_no, nm, dept, position,atdc_dttm)
-		VALUES (to_date(TO_CHAR(SYSDATE+ 9/24,'YYYYMMDD'),'YYYYMMDD'), #{empNo}, #{nm}, #{dept}, #{position},(systimestamp + 9/24))
+		VALUES (to_date(TO_CHAR(SYSDATE+ 9/24,'RRRR/MM/DD'),'RRRR/MM/DD'), #{empNo}, #{nm}, #{dept}, #{position},(systimestamp + 9/24))
 	</insert>
 	
 	<select id="alreadyAttd" resultType="int" parameterType="map">
@@ -96,7 +96,7 @@
 	</select>
 	 
 	<update id="endAttd" parameterType="co.up.tune.emp.vo.AttdVO">
-		<![CDATA[ 
+		 <![CDATA[ 
 		 UPDATE ATTD 
 		 SET afwk_dttm = (systimestamp + 9/24)
         , wktm = #{wktm}

@@ -2,8 +2,6 @@ package co.up.tune.emp.attd.web;
 
 
 
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,6 +56,7 @@ public class AttdController {
 		return "redirect:main";
 
 	}
+	
 
 	// 퇴근기록 저장
 	@PostMapping("/endAttd")

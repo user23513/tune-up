@@ -50,8 +50,6 @@ public class AttdUpServiceImpl implements AttdUpService{
 
 	@Override
 	public int attdUpOk(AttdUpVO vo) {
-		// TODO Auto-generated method stub
-		
 		
 		Map<String, Object> paramMap = new HashMap<>();
 		

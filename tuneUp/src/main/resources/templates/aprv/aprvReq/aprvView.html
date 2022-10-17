@@ -55,6 +55,19 @@
 			<div class="card">
 				<div class="card-body">
 					<br>
+					<!-- Page Title -->
+					<div class="pagetitle">
+						<h1>전자결재</h1>
+						<nav>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item active"><a href="aprvReq">나의 신청</a></li>
+								<li class="breadcrumb-item"><a href="approval">나의 승인</a></li>
+								<li class="breadcrumb-item" th:if="${session.auth == 'ADMIN'}"><a href="aprvAdmin">관리 기능</a></li>
+							</ol>
+						</nav>
+					</div>
+					<!-- End Page Title -->
+					<hr>
 
 					<table class="table" id="cntn">
 						<tbody>

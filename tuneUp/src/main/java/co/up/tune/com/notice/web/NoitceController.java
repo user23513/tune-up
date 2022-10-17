@@ -40,7 +40,8 @@ public class NoitceController {
 	
 	//공지사항 리스트
 	@GetMapping("/noticeList")
-	public String noticeList(@ModelAttribute SearchVO search ,@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, Model model) {
+	public String noticeList(@ModelAttribute SearchVO search ,
+			@RequestParam(value="pageNum", required = false, defaultValue = "1") int pageNum, Model model) {
 		PageInfo<CommunityVO> p = new PageInfo<>(dao.noticeList(pageNum, search),10);
 		model.addAttribute("nList", p);
 		model.addAttribute("search", search);

@@ -89,13 +89,12 @@ public class FileController {
 	  //파일 삭제
 	  @ResponseBody
 	  @PostMapping("/filedelete") 
-	  public int filedelete(FilesVO vo, HttpServletRequest request) throws Exception{
+	  public int filedelete(FilesVO vo) throws Exception{
 		 List<String> paths = vo.getFPaths();
 		  for(String path :paths) {
 			  File file = new File(fileDir + "\\" +path);
 			  file.delete();
 		  }
-		  
 		  return prjService.fileDelete(vo); 
 	  }
 	

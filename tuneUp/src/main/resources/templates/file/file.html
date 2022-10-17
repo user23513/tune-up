@@ -131,7 +131,8 @@ button {
 					},
 					type : 'POST', // GET or POST 방식
 					data : {
-						'valueArr' : valueArr
+						'valueArr' : valueArr,
+						'fPaths' : fPaths
 					// 보내고자 하는 data 변수 설정
 					},
 					success : function(jdata) {
@@ -170,7 +171,7 @@ button {
 		};
 
 		if (valueArr.length == 0) {
-			alert("선택된 글이 없습니다.");
+			alert("선택된 파일이 없습니다.");
 		} else {
 			if (confirm("정말 삭제하시겠습니까?")) {
 

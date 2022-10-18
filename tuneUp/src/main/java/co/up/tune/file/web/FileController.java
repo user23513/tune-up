@@ -72,7 +72,7 @@ public class FileController {
 		 //file upload 처리 
 		 List<FilesVO> list = new ArrayList<>();
 			if(!files[0].isEmpty()) {
-				String folder = "prj"; //Temp안에 폴더명
+				String folder = "myFile"; //Temp안에 폴더명
 				list = fService.fileUpload(files, folder);
 				vo.setFNm(list.get(0).getFNm());
 				vo.setFPath(list.get(0).getFPath());

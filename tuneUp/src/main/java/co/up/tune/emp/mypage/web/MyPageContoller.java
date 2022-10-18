@@ -40,9 +40,9 @@ public class MyPageContoller {
 		// 주소
 		String addr = emp.getAddr();
 		if (addr == null) {
-			emp.setAddr("//");
-		} else if (!addr.equals("//")) {
-			String arr[] = addr.split("/");
+			emp.setAddr(",,");
+		} else if (!addr.equals(",,")) {
+			String arr[] = addr.split(",");
 			String ad1 = arr[0];
 			String ad2 = arr[1];
 			String ad3 = arr[2];

@@ -105,16 +105,13 @@ $(document).ready(function() {
 									style="padding-left: 2em;">사진</label>
 								<div class="col-md-8 col-lg-9" id="profilePic">
 									<img id="pic" th:src="${session.pic} == null ? 'assets/img/default_profile.png' : @{/attach(path=${session.pic})} "
-										style="width: 120px;" alt="Profile">
+										style="width: 120px;" alt="Profile" >
 									<div class="pt-2">
 										<div class="col-md-8 col-lg-9">
 											<input type="file" id="file" name="file" class="form-control" onchange="readURL(this)"
-													th:value="${e.pic}">
+													th:value="${e.pic}" accept="image/gif, image/jpeg, image/png" />
 											&nbsp;&nbsp;&nbsp;
-											<!-- <button type="button" id="deletePic" class="btn btn-danger btn-sm"
-													title="Remove my profile image"><i class="bi bi-trash"></i></button> -->
 										</div>
-										
 									</div>
 								</div>
 							</div>
@@ -136,12 +133,6 @@ $(document).ready(function() {
 										th:value="${e.id}">
 								</div>
 
-								<!-- <label for="password" class="col-md-4 col-lg-3 col-form-label">비밀번호</label>
-										비밀번호 버튼 클릭시 새 창으로 비밀번호 수정 폼
-										<div class="col-md-4 col-lg-3">
-											<input type="password" id="pw" name="pw" class="form-control"
-												value="">
-										</div> -->
 							</div>
 
 							<div class="row mb-3">

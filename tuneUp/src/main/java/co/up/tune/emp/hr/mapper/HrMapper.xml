@@ -3,7 +3,7 @@
 <mapper namespace="co.up.tune.emp.hr.mapper.HrMapper">
 	<select id="empList" resultType="co.up.tune.emp.vo.EmpVO">
 		select * from emp
-		order by emp_no
+		order by emp_no DESC
 	</select>
 	
 	<select id="empSelect" resultType="co.up.tune.emp.vo.EmpVO" parameterType="co.up.tune.emp.vo.EmpVO">

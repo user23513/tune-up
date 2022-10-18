@@ -29,9 +29,9 @@ public class HrController {
 		//주소
 		String addr = emp.getAddr();
 		if(addr == null) {
-			emp.setAddr("//");
-		}else if(!addr.equals("//") ) {
-			String arr[] = addr.split("/");
+			emp.setAddr(",,");
+		}else if(!addr.equals(",,") ) {
+			String arr[] = addr.split(",");
 			String ad1 = arr[0];
 			String ad2 = arr[1];
 			String ad3 = arr[2];
@@ -62,7 +62,8 @@ public class HrController {
 		String ad1 = vo.getAd1();
 		String ad2 = vo.getAd2();
 		String ad3 = vo.getAd3();
-		String addr = ad1+ "/" + ad2+ "/" +ad3;
+		String addr = ad1+ "," + ad2+ "," +ad3;
+		vo.setAddr(addr);
 		if (hrService.empUpdate(vo) != 0) {
 			return "redirect:empManage";
 		} else {

@@ -97,7 +97,7 @@ public class AprvAdminController {
 		model.addAttribute("aprv", rs.aprvSelect(vo));
 		model.addAttribute("approval", ls.aprvrList(avo));
 		model.addAttribute("refer", ls.referList(rvo));
-		return "/aprv/aprvAdmin/aprvAdminView";
+		return "aprv/aprvAdmin/aprvAdminView";
 	}
 	
 }

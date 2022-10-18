@@ -61,7 +61,9 @@
 					'empNo':empNo},
 			dataType : 'json',
 			success : function(data) {
-				socket.send('request,발신인,'+data+','+ttl);
+				if(data != null != ''){
+					socket.send('request,발신인,'+data+','+ttl);
+				}
 				socket.send('approved,발신인,'+empNo+','+ttl);
 				alert('결재가 완료되었습니다!');
 				location.href = "approval";

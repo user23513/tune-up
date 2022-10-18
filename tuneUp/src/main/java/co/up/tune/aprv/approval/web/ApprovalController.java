@@ -94,7 +94,7 @@ public class ApprovalController {
 		model.addAttribute("approval", ls.aprvrList(avo));
 		model.addAttribute("refer", ls.referList(rvo));
 		
-		return "/aprv/approval/approvalView";
+		return "aprv/approval/approvalView";
 	}
 
 	

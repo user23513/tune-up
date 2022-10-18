@@ -245,95 +245,103 @@ textarea {resize: none;}
 							calendar.unselect();
 						},
 						eventClick : function(arg) {
-							// GMT 시간은 9시간 빨라서 9시간 빼줘야됨
-							var start = arg.event._instance.range.start;
-							if(start.getHours() == 9) {
-								start = moment(start).format('YYYY-MM-DD');
-							}
-							else {
-								start = start.setHours(start.getHours() - 9);
-								start = moment(start).format('YYYY-MM-DD');
-							}
-							
-							var end = arg.event._instance.range.end;
-							if(end.getHours() == 9) {
-								end = moment(end).format('YYYY-MM-DD');
-							}
-							else {
-								end = end.setHours(end.getHours() - 9);
-								end = moment(end).format('YYYY-MM-DD');
-							}
-							
-							// 삭제
-							let calNo = arg.event._def.publicId; //캘린더 번호
-							let title = arg.event._def.title; //캘린더 일정명
-							let cntn = arg.event._def.extendedProps.cntn; //캘린더 내용
-							let type = arg.event._def.extendedProps.type; //Type 개인일정/프로젝트
-							
-							$("#calUpNm").val(title);
-							$("#calUpCntn").val(cntn);
-							$("#calUpSdt").val(start);
-							$("#calUpEdt").val(end);
-							
-							if(type != '개인일정') {
-								$("#calUpdateBtn").css("display", "none");
-								$("#calDeleteBtn").css("display", "none");
-							}
-							
-							$("#calSelectModal").modal("show");
-							
-							$("#calDeleteBtn").on("click", e=>{
-								$.ajax({
-									url : 'calendarDelete',
-									beforeSend : function(xhr) {
-										xhr.setRequestHeader(header, token);
-									},
-									type : 'post',
-									data : {'calNo' : calNo},
-									dataType : 'json',
-									success : function(res) {
-										//db에 삭제가 되면 res값이 true가 나오도록 함
-										if (res) {
-											Toast.fire({
-								  				  icon: 'success',
-								  				  title: '일정이 삭제되었습니다!'
-								  				}).then(function(){
-								  					$("#calSelectModal").modal("hide");
-													arg.event.remove();
-								   				});
-											
+							let type = arg.event._def.publicId;
+							if(type != 0) {
+								// GMT 시간은 9시간 빨라서 9시간 빼줘야됨
+								var start = arg.event._instance.range.start;
+								if(start.getHours() == 9) {
+									start = moment(start).format('YYYY-MM-DD');
+								}
+								else {
+									start = start.setHours(start.getHours() - 9);
+									start = moment(start).format('YYYY-MM-DD');
+								}
+								
+								var end = arg.event._instance.range.end;
+								if(end.getHours() == 9) {
+									end = moment(end).format('YYYY-MM-DD');
+								}
+								else {
+									end = end.setHours(end.getHours() - 9);
+									end = moment(end).format('YYYY-MM-DD');
+								}
+								
+								// 삭제
+								let calNo = arg.event._def.publicId; //캘린더 번호
+								let title = arg.event._def.title; //캘린더 일정명
+								let cntn = arg.event._def.extendedProps.cntn; //캘린더 내용
+								let type = arg.event._def.extendedProps.type; //Type 개인일정/프로젝트
+								
+								$("#calUpNm").val(title);
+								$("#calUpCntn").val(cntn);
+								$("#calUpSdt").val(start);
+								$("#calUpEdt").val(end);
+								
+								if(type != '개인일정') {
+									$("#calUpdateBtn").css("display", "none");
+									$("#calDeleteBtn").css("display", "none");
+								}
+								
+								$("#calSelectModal").modal("show");
+								
+								$("#calDeleteBtn").on("click", e=>{
+									$.ajax({
+										url : 'calendarDelete',
+										beforeSend : function(xhr) {
+											xhr.setRequestHeader(header, token);
+										},
+										type : 'post',
+										data : {'calNo' : calNo},
+										dataType : 'json',
+										success : function(res) {
+											//db에 삭제가 되면 res값이 true가 나오도록 함
+											if (res) {
+												Toast.fire({
+									  				  icon: 'success',
+									  				  title: '일정이 삭제되었습니다!'
+									  				}).then(function(){
+									  					$("#calSelectModal").modal("hide");
+														arg.event.remove();
+									   				});
+												
+											}
 										}
-									}
-
-								})
-							});
-							
-							//수정
-							$("#calUpdateBtn").on("click", e=>{
-								let calNo = arg.event._def.publicId;
-								$.ajax({
-									url : 'calendarUpdate',
-									beforeSend : function(xhr) {
-										xhr.setRequestHeader(header, token);
-									},
-									type : 'post',
-									data : {'calNo':calNo, 'nm':$("#calUpNm").val(), 'cntn':$("#calUpCntn").val()},
-									dataType : 'json',
-									success : function(res) {
-										//db에 삭제가 되면 res값이 true가 나오도록 함
-										if (res) {
-											Toast.fire({
-								  				  icon: 'success',
-								  				  title: '일정이 수정되었습니다!'
-								  				}).then(function(){
-								  					$("#calSelectModal").modal("hide");
-								  					location.reload();
-								   				});
+	
+									})
+								});
+								
+								//수정
+								$("#calUpdateBtn").on("click", e=>{
+									let calNo = arg.event._def.publicId;
+									$.ajax({
+										url : 'calendarUpdate',
+										beforeSend : function(xhr) {
+											xhr.setRequestHeader(header, token);
+										},
+										type : 'post',
+										data : {'calNo':calNo, 'nm':$("#calUpNm").val(), 'cntn':$("#calUpCntn").val()},
+										dataType : 'json',
+										success : function(res) {
+											//db에 삭제가 되면 res값이 true가 나오도록 함
+											if (res) {
+												Toast.fire({
+									  				  icon: 'success',
+									  				  title: '일정이 수정되었습니다!'
+									  				}).then(function(){
+									  					$("#calSelectModal").modal("hide");
+									  					location.reload();
+									   				});
+											}
 										}
-									}
-
-								})
-							})
+	
+									})
+								  })
+							}else {
+								Toast.fire({
+					  				  icon: 'warning',
+					  				  title: '프로젝트 일정은 변경할 수 없습니다!'
+					  				})
+							}
 						},
 						editable : true,
 						dayMaxEvents : true, // allow "more" link when too many events

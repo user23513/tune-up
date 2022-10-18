@@ -594,8 +594,8 @@
 												</tr>
 											</thead>
 											<tbody id="tb">
-												<tr th:each="n : ${session.nList.getList()}"
-													th:attr="data-no=${n.postNo}">
+												<tr th:each="n,i : ${session.nList.getList()}"
+													th:attr="data-no=${n.postNo}" th:if="${i.index<6}">
 													<td>[[${n.ttl}]]</td>
 												</tr>
 											</tbody>

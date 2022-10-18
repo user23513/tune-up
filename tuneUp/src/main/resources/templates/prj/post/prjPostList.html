@@ -703,7 +703,7 @@ textarea.none {
 			         success:function(res){
 			        	 //수정완료되면
 			        	 if(res>0){
-			        		 let stList = $(".bSt");
+			        		 let stList = $(e.target).parent(".card-body").find(".bSt");
 			        		 $.each(stList, (idx, stSpan)=>{
 			        			 if($(stSpan).hasClass("select")){
 			        				 $(stSpan).removeClass("select");
